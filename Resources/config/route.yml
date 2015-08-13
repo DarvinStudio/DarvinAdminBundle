@@ -1,0 +1,30 @@
+parameters:
+    darvin_admin.route.loader.class: Darvin\AdminBundle\Route\RouteLoader
+
+    darvin_admin.route.router.class: Darvin\AdminBundle\Route\AdminRouter
+
+    darvin_admin.route.twig_extension.class: Darvin\AdminBundle\Twig\Extension\RouteExtension
+
+services:
+    darvin_admin.route.loader:
+        class: %darvin_admin.route.loader.class%
+        arguments:
+            - "@darvin_admin.metadata.manager"
+        tags:
+            - { name: routing.loader }
+
+    darvin_admin.route.router:
+        class: %darvin_admin.route.router.class%
+        arguments:
+            - "@darvin_admin.metadata.identifier_accessor"
+            - "@darvin_admin.metadata.manager"
+            - "@property_accessor"
+            - "@router"
+
+    darvin_admin.route.twig_extension:
+        class:  %darvin_admin.route.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.route.router"
+        tags:
+            - { name: twig.extension }

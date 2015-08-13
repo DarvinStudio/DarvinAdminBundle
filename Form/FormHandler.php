@@ -1,0 +1,104 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: igor
+ * Date: 11.08.15
+ * Time: 12:25
+ */
+
+namespace Darvin\AdminBundle\Form;
+
+use Darvin\AdminBundle\Flash\FlashNotifier;
+use Darvin\AdminBundle\Metadata\MetadataManager;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\FormInterface;
+
+/**
+ * Form handler
+ */
+class FormHandler
+{
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @var \Darvin\AdminBundle\Flash\FlashNotifier
+     */
+    private $flashNotifier;
+
+    /**
+     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     */
+    private $metadataManager;
+
+    /**
+     * @param \Doctrine\ORM\EntityManager                  $em              Entity manager
+     * @param \Darvin\AdminBundle\Flash\FlashNotifier      $flashNotifier   Flash notifier
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
+     */
+    public function __construct(EntityManager $em, FlashNotifier $flashNotifier, MetadataManager $metadataManager)
+    {
+        $this->em = $em;
+        $this->flashNotifier = $flashNotifier;
+        $this->metadataManager = $metadataManager;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form           Delete form
+     * @param object                                $entity         Entity
+     * @param string                                $successMessage Success message
+     *
+     * @return bool
+     */
+    public function handleDeleteForm(FormInterface $form, $entity, $successMessage = 'action.delete.success')
+    {
+        return $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) {
+            $em->remove($entity);
+            $em->flush();
+        });
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form           Entity form
+     * @param string                                $successMessage Success message
+     *
+     * @return bool
+     */
+    public function handleEntityForm(FormInterface $form, $successMessage)
+    {
+        return $this->handleForm($form, $form->getData(), $successMessage, function ($entity, EntityManager $em) {
+            $em->persist($entity);
+            $em->flush();
+        });
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form            Form
+     * @param object                                $entity          Entity
+     * @param string                                $successMessage  Success message
+     * @param callable                              $successCallback Success callback
+     *
+     * @return bool
+     */
+    private function handleForm(FormInterface $form, $entity, $successMessage, callable $successCallback)
+    {
+        if (!$form->isSubmitted()) {
+            return false;
+        }
+        if (!$form->isValid()) {
+            $this->flashNotifier->formError();
+
+            return false;
+        }
+
+        $successCallback($entity, $this->em);
+
+        $this->flashNotifier->success(
+            $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix().$successMessage
+        );
+
+        return true;
+    }
+}

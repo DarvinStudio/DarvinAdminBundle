@@ -1,0 +1,27 @@
+parameters:
+    darvin_admin.form.factory.class: Darvin\AdminBundle\Form\AdminFormFactory
+
+    darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
+
+    darvin_admin.form.info_type_extension.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
+
+services:
+    darvin_admin.form.factory:
+        class: %darvin_admin.form.factory.class%
+        arguments:
+            - "@darvin_admin.route.router"
+            - "@form.factory"
+            - "@darvin_admin.metadata.identifier_accessor"
+            - "@darvin_admin.metadata.manager"
+
+    darvin_admin.form.handler:
+        class: %darvin_admin.form.handler.class%
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@darvin_admin.flash.notifier"
+            - "@darvin_admin.metadata.manager"
+
+    darvin_admin.form.info_type_extension:
+        class: %darvin_admin.form.info_type_extension.class%
+        tags:
+            - { name: form.type_extension, alias: form }

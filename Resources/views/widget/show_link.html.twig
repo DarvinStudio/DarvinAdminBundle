@@ -1,0 +1,5 @@
+{% trans_default_domain 'admin' %}
+
+<a href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_SHOW')) }}">
+    {{ (translation_prefix ~ 'action.show.link') | trans }}
+</a>

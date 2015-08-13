@@ -1,0 +1,9 @@
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm') | trans }}');"
+        type="submit">
+    {{ (translation_prefix ~ 'action.delete.submit') | trans }}
+</button>
+{{ form_end(form) }}

@@ -1,0 +1,8 @@
+parameters:
+    darvin_admin.cache.filesystem.class: Doctrine\Common\Cache\FilesystemCache
+
+services:
+    darvin_admin.cache.filesystem:
+        class: %darvin_admin.cache.filesystem.class%
+        arguments:
+            - %kernel.cache_dir%

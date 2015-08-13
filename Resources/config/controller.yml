@@ -1,0 +1,11 @@
+parameters:
+    darvin_admin.controller.crud.class: Darvin\AdminBundle\Controller\CrudController
+
+services:
+    darvin_admin.controller.crud:
+        class:    %darvin_admin.controller.crud.class%
+        abstract: true
+        arguments:
+            - "@darvin_admin.metadata.manager"
+        calls:
+            - [ setContainer, [ "@service_container" ] ]

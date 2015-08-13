@@ -1,0 +1,56 @@
+parameters:
+    darvin_admin.metadata.configuration.configuration.class: Darvin\AdminBundle\Metadata\Configuration\Configuration
+
+    darvin_admin.metadata.configuration.loader.class: Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
+
+    darvin_admin.metadata.factory.class: Darvin\AdminBundle\Metadata\MetadataFactory
+
+    darvin_admin.metadata.identifier_accessor.class: Darvin\AdminBundle\Metadata\IdentifierAccessor
+
+    darvin_admin.metadata.manager.class: Darvin\AdminBundle\Metadata\MetadataManager
+
+    darvin_admin.metadata.pool.class: Darvin\AdminBundle\Metadata\MetadataPool
+
+    darvin_admin.metadata.sort_criteria_detector.class: Darvin\AdminBundle\Metadata\SortCriteriaDetector
+
+services:
+    darvin_admin.metadata.configuration.configuration:
+        class: %darvin_admin.metadata.configuration.configuration.class%
+        arguments:
+            - "@service_container"
+            - "@doctrine.orm.entity_manager"
+
+    darvin_admin.metadata.configuration.loader:
+        class: %darvin_admin.metadata.configuration.loader.class%
+        arguments:
+            - "@darvin_admin.metadata.configuration.configuration"
+
+    darvin_admin.metadata.factory:
+        class: %darvin_admin.metadata.factory.class%
+        arguments:
+            - "@darvin_admin.metadata.configuration.loader"
+            - "@doctrine.orm.entity_manager"
+
+    darvin_admin.metadata.identifier_accessor:
+        class: %darvin_admin.metadata.identifier_accessor.class%
+        arguments:
+            - "@darvin_admin.metadata.manager"
+            - "@property_accessor"
+
+    darvin_admin.metadata.manager:
+        class: %darvin_admin.metadata.manager.class%
+        arguments:
+            - "@darvin_admin.cache.filesystem"
+            - "@doctrine.orm.entity_manager"
+            - "@darvin_admin.metadata.pool"
+
+    darvin_admin.metadata.pool:
+        class: %darvin_admin.metadata.pool.class%
+        lazy:  true
+
+    darvin_admin.metadata.sort_criteria_detector:
+        class: %darvin_admin.metadata.sort_criteria_detector.class%
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@darvin_admin.metadata.manager"
+            - "@stof_doctrine_extensions.listener.sortable"

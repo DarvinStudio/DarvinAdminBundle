@@ -1,0 +1,12 @@
+parameters:
+    darvin_admin.breadcrumbs.twig_extension.class: Darvin\AdminBundle\Twig\Extension\BreadcrumbsExtension
+
+services:
+    darvin_admin.breadcrumbs.twig_extension:
+        class:  %darvin_admin.breadcrumbs.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.metadata.manager"
+            - "@property_accessor"
+        tags:
+            - { name: twig.extension }

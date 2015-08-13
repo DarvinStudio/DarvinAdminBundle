@@ -1,0 +1,16 @@
+parameters:
+    darvin_admin.menu.menu.class: Darvin\AdminBundle\Menu\Menu
+
+    darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
+
+services:
+    darvin_admin.menu.menu:
+        class: %darvin_admin.menu.menu.class%
+
+    darvin_admin.menu.twig_extension:
+        class:  %darvin_admin.menu.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.menu.menu"
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% set flashes = app.session.flashBag.all %}
+
+{% trans_default_domain 'admin' %}
+
+{% block stylesheets %}
+    <link href="{{ asset('bundles/darvinadmin/stylesheets/app.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <noscript>
+        {% for type, messages in flashes %}
+            <ul class="{{ type }}">
+                {% for message in messages %}
+                    <li>{{ message | trans }}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </noscript>
+
+    {{ admin_menu() }}
+
+    {% block breadcrumbs %}{% endblock %}
+
+    <h1>{% block heading %}{% endblock %}</h1>
+
+    {% block content %}{% endblock %}
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/noty.js') }}"></script>
+
+    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+    <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}"></script>
+
+    <script src="{{ asset('bundles/darvinadmin/scripts/globals.js') }}"></script>
+    <script src="{{ asset('bundles/darvinadmin/scripts/noty-init.js') }}"></script>
+    <script src="{{ asset('bundles/darvinadmin/scripts/property-forms.js') }}"></script>
+    <script>
+        Translator.locale = '{{ app.request.locale }}';
+    </script>
+    <script>
+        {% for type, messages in flashes %}
+            {% for message in messages %}
+                noty({
+                    text: '{{ message | trans }}',
+                    type: '{{ type }}'
+                });
+            {% endfor %}
+        {% endfor %}
+    </script>
+{% endblock %}

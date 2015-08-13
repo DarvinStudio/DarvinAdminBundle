@@ -1,0 +1,3 @@
+import_homepage:
+    resource: "@DarvinAdminBundle/Resources/config/routing/homepage.yml"
+    prefix:   /

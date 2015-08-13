@@ -1,0 +1,8 @@
+parameters:
+    darvin_admin.stringifier.stringifier.class: Darvin\AdminBundle\Stringifier\Stringifier
+
+services:
+    darvin_admin.stringifier.stringifier:
+        class: %darvin_admin.stringifier.stringifier.class%
+        arguments:
+            - "@translator"

@@ -1,0 +1,17 @@
+{% form_theme form 'DarvinAdminBundle:widget/index/property_form:fields.html.twig' %}
+
+{{ form_start(form, {
+    'action': admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_UPDATE_PROPERTY'), {
+        'property': property,
+    }),
+    'attr': {
+        'class': 'property_form',
+    },
+}) }}
+{{ form_errors(attribute(form, property)) }}
+{{ form_widget(attribute(form, property), { 'attr': {
+    'autocomplete':        'off',
+    'class':               'field',
+    'data-original-value': original_value,
+} }) }}
+{{ form_end(form) }}

@@ -1,0 +1,21 @@
+{% extends 'DarvinAdminBundle::layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block breadcrumbs %}{{ admin_breadcrumbs(entity, false) }}{% endblock %}
+
+{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.show.title') | trans({ '%entity%': entity }) }}{% endblock %}
+
+{% block content %}
+    {{ admin_widget_actions(entity, { 'view_type': 'show' }) }}
+    <table>
+        <tbody>
+            {% for item in view.items %}
+                <tr>
+                    <th>{{ item.label | raw }}</th>
+                    <td>{{ item.content | raw }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

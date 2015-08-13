@@ -1,0 +1,15 @@
+table {
+    border-collapse: collapse;
+}
+
+td, th {
+    border:  1px dashed gray;
+    padding: 5px;
+}
+
+.ajax_loader {
+    background-image: url('../images/ajax-loader.gif');
+    display:          inline-block;
+    width:            16px;
+    height:           16px;
+}

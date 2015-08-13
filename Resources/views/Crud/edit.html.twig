@@ -1,0 +1,14 @@
+{% extends 'DarvinAdminBundle::layout.html.twig' %}
+
+{% form_theme form 'DarvinAdminBundle:form:fields.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block breadcrumbs %}{{ admin_breadcrumbs(entity, false) }}{% endblock %}
+
+{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.edit.title') | trans({ '%entity%': entity }) }}{% endblock %}
+
+{% block content %}
+    {{ admin_widget_actions(entity, { 'view_type': 'edit' }) }}
+    {{ form(form) }}
+{% endblock %}

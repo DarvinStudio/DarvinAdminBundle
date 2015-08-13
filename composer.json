@@ -1,5 +1,5 @@
 {
-    "name":        "darvinstudio/admin-bundle",
+    "name":        "darvinstudio/darvin-admin-bundle",
     "description": "This bundle provides highly configurable admin panel for Symfony2-based applications.",
     "keywords":    ["admin"],
     "type":        "symfony-bundle",
@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "php":                              ">=5.3.9",
-        "symfony/symfony":                  "2.7.*",
+        "php":                              ">=5.4",
+        "symfony/symfony":                  ">=2.7",
         "doctrine/orm":                     "~2.2,>=2.2.3,<2.5",
         "doctrine/dbal":                    "<2.5",
         "doctrine/doctrine-bundle":         "~1.4",

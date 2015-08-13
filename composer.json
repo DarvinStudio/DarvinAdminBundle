@@ -20,9 +20,16 @@
         "knplabs/knp-paginator-bundle":     "2.4.*",
         "ocramius/proxy-manager":           "1.0.*",
         "stof/doctrine-extensions-bundle":  "1.1.*",
-        "willdurand/js-translation-bundle": "2.2.*"
+        "willdurand/js-translation-bundle": "2.2.*",
+        "darvinstudio/darvin-utils":        "dev-master@dev"
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/DarvinStudio/darvin-utils.git"
+        }
+    ]
 }

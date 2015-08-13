@@ -10,7 +10,7 @@
 namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader;
-use Darvin\AdminBundle\Util\StringsUtil;
+use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;

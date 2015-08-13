@@ -21,9 +21,10 @@
         "ocramius/proxy-manager":           "1.0.*",
         "stof/doctrine-extensions-bundle":  "1.1.*",
         "willdurand/js-translation-bundle": "2.2.*",
-        "darvinstudio/darvin-utils":        "dev-master"
+        "darvinstudio/darvin-utils":        "*"
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }
-    }
+    },
+    "minimum-stability": "dev"
 }

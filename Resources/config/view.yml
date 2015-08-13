@@ -31,7 +31,7 @@ services:
             - "@service_container"
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"
-            - "@darvin_admin.stringifier.stringifier"
+            - "@darvin_admin.stringifier"
             - "@translator"
             - "@darvin_admin.view.widget_generator.pool"
 

@@ -3,7 +3,7 @@ parameters:
 
     darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
 
-    darvin_admin.form.info_type_extension.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
+    darvin_admin.form.type_extension.info.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
 
 services:
     darvin_admin.form.factory:
@@ -21,7 +21,7 @@ services:
             - "@darvin_admin.flash.notifier"
             - "@darvin_admin.metadata.manager"
 
-    darvin_admin.form.info_type_extension:
-        class: %darvin_admin.form.info_type_extension.class%
+    darvin_admin.form.type_extension.info:
+        class: %darvin_admin.form.type_extension.info.class%
         tags:
             - { name: form.type_extension, alias: form }

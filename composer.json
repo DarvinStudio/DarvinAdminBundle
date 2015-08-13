@@ -25,6 +25,5 @@
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }
-    },
-    "minimum-stability": "dev"
+    }
 }

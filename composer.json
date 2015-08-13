@@ -25,11 +25,5 @@
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url":  "https://github.com/DarvinStudio/darvin-utils.git"
-        }
-    ]
+    }
 }

@@ -10,6 +10,7 @@ namespace Darvin\AdminBundle\Form\Type\Configuration;
 
 use Darvin\ConfigBundle\Configuration\ConfigurationInterface;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
+use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -62,7 +63,7 @@ class ConfigurationType extends AbstractType
     {
         foreach ($this->configuration->getModel() as $parameterModel) {
             $builder->add(
-                $parameterModel->getName(),
+                lcfirst(StringsUtil::toCamelCase($parameterModel->getName())),
                 $this->getFieldType($parameterModel),
                 $this->getFieldOptions($parameterModel)
             );

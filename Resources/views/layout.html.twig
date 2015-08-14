@@ -21,6 +21,12 @@
 
     {{ admin_menu() }}
 
+    {% if 'darvin_admin_configuration' != app.request.get('_route') %}
+        <a href="{{ path('darvin_admin_configuration') }}">{% trans %}configuration.action.edit.link{% endtrans %}</a>
+    {% else %}
+        <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
+    {% endif %}
+
     {% block breadcrumbs %}{% endblock %}
 
     <h1>{% block heading %}{% endblock %}</h1>

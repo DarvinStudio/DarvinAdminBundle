@@ -1,0 +1,10 @@
+{% extends 'DarvinAdminBundle::layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block content %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">{% trans %}configuration.action.edit.submit{% endtrans %}</button>
+    {{ form_end(form) }}
+{% endblock %}

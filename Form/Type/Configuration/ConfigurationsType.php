@@ -49,6 +49,7 @@ class ConfigurationsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'cascade_validation' => true,
             'data_class'         => get_class($this->configurationPool),
             'intention'          => md5(__FILE__),
             'translation_domain' => 'admin',

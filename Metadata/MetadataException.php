@@ -9,12 +9,12 @@
 
 namespace Darvin\AdminBundle\Metadata;
 
-use Darvin\AdminBundle\Exception\AdminException;
+use Darvin\AdminBundle\Exception\DarvinAdminException;
 
 /**
  * Metadata exception
  */
-class MetadataException extends AdminException
+class MetadataException extends DarvinAdminException
 {
 
 }

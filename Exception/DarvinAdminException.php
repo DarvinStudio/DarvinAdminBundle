@@ -10,9 +10,9 @@
 namespace Darvin\AdminBundle\Exception;
 
 /**
- * Admin exception
+ * Base exception
  */
-class AdminException extends \Exception
+class DarvinAdminException extends \Exception
 {
 
 }

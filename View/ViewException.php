@@ -8,12 +8,12 @@
 
 namespace Darvin\AdminBundle\View;
 
-use Darvin\AdminBundle\Exception\AdminException;
+use Darvin\AdminBundle\Exception\DarvinAdminException;
 
 /**
  * View exception
  */
-class ViewException extends AdminException
+class ViewException extends DarvinAdminException
 {
 
 }

@@ -9,12 +9,12 @@
 
 namespace Darvin\AdminBundle\Route;
 
-use Darvin\AdminBundle\Exception\AdminException;
+use Darvin\AdminBundle\Exception\DarvinAdminException;
 
 /**
  * Route exception
  */
-class RouteException extends AdminException
+class RouteException extends DarvinAdminException
 {
 
 }

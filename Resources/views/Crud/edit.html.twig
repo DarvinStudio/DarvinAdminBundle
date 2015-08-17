@@ -11,6 +11,8 @@
 {% block content %}
     {{ admin_widget_actions(entity, { 'view_type': 'edit' }) }}
 
-    {% include 'DarvinAdminBundle:Crud:form.html.twig' %}
+    {% include 'DarvinAdminBundle:Crud:form.html.twig' with {
+        'field_groups': meta.configuration.form.edit.field_groups,
+    } %}
 
 {% endblock %}

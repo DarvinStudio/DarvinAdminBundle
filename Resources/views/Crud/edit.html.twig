@@ -10,5 +10,7 @@
 
 {% block content %}
     {{ admin_widget_actions(entity, { 'view_type': 'edit' }) }}
-    {{ form(form) }}
+
+    {% include 'DarvinAdminBundle:Crud:form.html.twig' %}
+
 {% endblock %}

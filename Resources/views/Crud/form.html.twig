@@ -1,0 +1,12 @@
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form) }}
+{% for name, fields in meta.configuration.form.new.field_groups %}
+    <div>
+        <h2>{{ (meta.baseTranslationPrefix ~ 'field_group.' ~ name) | trans }}</h2>
+        {% for field, attr in fields %}
+            {{ form_row(attribute(form, field)) }}
+        {% endfor %}
+    </div>
+{% endfor %}
+{{ form_end(form) }}

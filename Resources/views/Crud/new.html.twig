@@ -8,4 +8,8 @@
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.new.title') | trans }}{% endblock %}
 
-{% block content %}{{ form(form) }}{% endblock %}
+{% block content %}
+
+    {% include 'DarvinAdminBundle:Crud:form.html.twig' %}
+
+{% endblock %}

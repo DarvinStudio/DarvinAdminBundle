@@ -53,7 +53,12 @@ class BaseType extends AbstractType
         $configuration = $this->meta->getConfiguration();
         $translationPrefix = $this->meta->getEntityTranslationPrefix();
 
-        foreach ($configuration['form'][$this->action]['fields'] as $field => $attr) {
+        $fields = $configuration['form'][$this->action]['fields'];
+
+        foreach ($configuration['form'][$this->action]['field_groups'] as $groupFields) {
+            $fields = array_merge($fields, $groupFields);
+        }
+        foreach ($fields as $field => $attr) {
             if (!empty($this->fieldFilter) && $field !== $this->fieldFilter) {
                 continue;
             }

@@ -13,6 +13,9 @@ exception:
 flash:
     error:
         form: При обработке формы были обнаружены ошибки. Исправьте их и повторите отправку
+form_collections:
+    add:    Добавить
+    delete: Удалить
 interface:
     actions: Действия
 property_forms:

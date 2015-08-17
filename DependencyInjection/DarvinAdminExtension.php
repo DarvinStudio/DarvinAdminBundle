@@ -25,7 +25,6 @@ class DarvinAdminExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('breadcrumbs.yml');
         $loader->load('cache.yml');
-        $loader->load('configuration.yml');
         $loader->load('controller.yml');
         $loader->load('flash.yml');
         $loader->load('form.yml');

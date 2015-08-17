@@ -27,8 +27,9 @@ class ConfigurationController extends Controller
 
         $url = $this->generateUrl('darvin_admin_configuration');
 
-        $form = $this->createForm('darvin_admin_configurations', $configurationPool, array(
-            'action' => $url,
+        $form = $this->createForm('darvin_config_configurations', $configurationPool, array(
+            'action'             => $url,
+            'translation_domain' => 'admin',
         ))->handleRequest($request);
 
         if ($form->isSubmitted()) {

@@ -26,20 +26,32 @@ class ConfigurationLoader
     private $configuration;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\Configuration $configuration Configuration
+     * @var array
      */
-    public function __construct(Configuration $configuration)
+    private $bundles;
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Configuration\Configuration $configuration Configuration
+     * @param array                                                    $bundles       List of bundles
+     */
+    public function __construct(Configuration $configuration, array $bundles)
     {
         $this->configuration = $configuration;
+        $this->bundles = $bundles;
     }
 
     /**
      * @param string $pathname Configuration file pathname
      *
      * @return array
+     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
      */
     public function load($pathname)
     {
+        if (empty($pathname)) {
+            throw new ConfigurationException('Configuration file pathname cannot be empty.');
+        }
+
         $config = $this->getConfig($pathname);
 
         return $this->processConfiguration($config, $pathname);
@@ -73,17 +85,50 @@ class ConfigurationLoader
      */
     private function getConfig($pathname)
     {
-        $content = @file_get_contents($pathname);
+        $realPathname = $this->resolveRealPathname($pathname);
+
+        $content = @file_get_contents($realPathname);
 
         if (false === $content) {
-            throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $pathname));
+            throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $realPathname));
         }
         try {
-            return Yaml::parse($content);
+            $config = Yaml::parse($content);
+
+            if (!is_array($config)) {
+                throw new ConfigurationException(
+                    sprintf('Configuration file "%s" must contain array, "%s" provided.', $realPathname, gettype($config))
+                );
+            }
+
+            return $config;
         } catch (ParseException $ex) {
             throw new ConfigurationException(
-                sprintf('Unable to parse configuration file "%s": "%s".', $pathname, $ex->getMessage())
+                sprintf('Unable to parse configuration file "%s": "%s".', $realPathname, $ex->getMessage())
             );
         }
+    }
+
+    /**
+     * @param string $pathname Configuration file pathname
+     *
+     * @return string
+     */
+    private function resolveRealPathname($pathname)
+    {
+        if (0 !== strpos($pathname, '@')) {
+            return $pathname;
+        }
+        foreach ($this->bundles as $name => $class) {
+            if (0 !== strpos($pathname, '@'.$name)) {
+                continue;
+            }
+
+            $reflectionClass = new \ReflectionClass($class);
+
+            return dirname($reflectionClass->getFileName()).str_replace('@'.$name, '', $pathname);
+        }
+
+        return $pathname;
     }
 }

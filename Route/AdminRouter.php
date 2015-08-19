@@ -94,8 +94,7 @@ class AdminRouter
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
         RouterInterface $router
-    )
-    {
+    ) {
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
@@ -118,8 +117,7 @@ class AdminRouter
         $routeType = self::TYPE_SHOW,
         array $parameters = array(),
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
-    )
-    {
+    ) {
         $this->init();
 
         $isObject = is_object($classOrObject);

@@ -54,25 +54,6 @@ class AdminFormFactory
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager    $metadataManager    Metadata manager
-     */
-    public function __construct(
-        AdminRouter $adminRouter,
-        FormFactoryInterface $formFactory,
-        IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager
-    )
-    {
-        $this->adminRouter = $adminRouter;
-        $this->formFactory = $formFactory;
-        $this->identifierAccessor = $identifierAccessor;
-        $this->metadataManager = $metadataManager;
-    }
-
-    /**
      * @param object $entity Entity
      *
      * @return \Symfony\Component\Form\FormInterface
@@ -95,6 +76,24 @@ class AdminFormFactory
         )->add('id', 'hidden');
 
         return $builder->getForm();
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
+     * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager    $metadataManager    Metadata manager
+     */
+    public function __construct(
+        AdminRouter $adminRouter,
+        FormFactoryInterface $formFactory,
+        IdentifierAccessor $identifierAccessor,
+        MetadataManager $metadataManager
+    ) {
+        $this->adminRouter = $adminRouter;
+        $this->formFactory = $formFactory;
+        $this->identifierAccessor = $identifierAccessor;
+        $this->metadataManager = $metadataManager;
     }
 
     /**

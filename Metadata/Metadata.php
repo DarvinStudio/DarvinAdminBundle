@@ -97,8 +97,7 @@ class Metadata
         $identifier,
         array $mappings,
         $routingPrefix
-    )
-    {
+    ) {
         $this->baseTranslationPrefix = $baseTranslationPrefix;
         $this->entityTranslationPrefix = $entityTranslationPrefix;
         $this->configuration = $configuration;

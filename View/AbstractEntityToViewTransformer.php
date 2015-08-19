@@ -66,8 +66,7 @@ abstract class AbstractEntityToViewTransformer
         Stringifier $stringifier,
         TranslatorInterface $translator,
         WidgetGeneratorPool $widgetGeneratorPool
-    )
-    {
+    ) {
         $this->container = $container;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;

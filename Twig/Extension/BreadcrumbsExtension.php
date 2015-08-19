@@ -70,8 +70,7 @@ class BreadcrumbsExtension extends \Twig_Extension
         $entity = null,
         $renderLast = true,
         $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
-    )
-    {
+    ) {
         if (empty($entity)) {
             return '';
         }

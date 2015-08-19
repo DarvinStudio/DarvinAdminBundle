@@ -132,7 +132,8 @@ class CrudController extends Controller implements MenuItemInterface
         $form = $this->getAdminFormFactory()->createEntityForm(
             $entity,
             'new',
-            $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_NEW)
+            $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_NEW),
+            $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
         return $this->getFormHandler()->handleEntityForm($form, 'action.new.success')
@@ -159,7 +160,8 @@ class CrudController extends Controller implements MenuItemInterface
         $form = $this->getAdminFormFactory()->createEntityForm(
             $entity,
             'edit',
-            $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_EDIT)
+            $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_EDIT),
+            $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
         return $this->getFormHandler()->handleEntityForm($form, 'action.edit.success')
@@ -336,6 +338,24 @@ class CrudController extends Controller implements MenuItemInterface
         }
 
         return $entity;
+    }
+
+    /**
+     * @return array
+     */
+    private function getEntityFormSubmitButtons()
+    {
+        $submitButtons = array();
+
+        $adminRouter = $this->getAdminRouter();
+
+        foreach (self::$submitButtonRedirects as $submitButton => $routeType) {
+            if ($adminRouter->isRouteExists($this->entityClass, $routeType)) {
+                $submitButtons[] = $submitButton;
+            }
+        }
+
+        return $submitButtons;
     }
 
     /**

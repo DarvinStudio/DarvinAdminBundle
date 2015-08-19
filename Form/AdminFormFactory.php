@@ -99,13 +99,14 @@ class AdminFormFactory
     }
 
     /**
-     * @param object $entity     Entity
-     * @param string $action     Action
-     * @param string $formAction Form action
+     * @param object $entity        Entity
+     * @param string $action        Action
+     * @param string $formAction    Form action
+     * @param array  $submitButtons Submit button names
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createEntityForm($entity, $action, $formAction)
+    public function createEntityForm($entity, $action, $formAction, array $submitButtons)
     {
         $meta = $this->metadataManager->getByEntity($entity);
         $configuration = $meta->getConfiguration();
@@ -124,9 +125,9 @@ class AdminFormFactory
             ),
         ));
 
-        foreach (self::$submitButtons as $name => $label) {
+        foreach ($submitButtons as $name) {
             $builder->add($name, 'submit', array(
-                'label' => $label,
+                'label' => self::$submitButtons[$name],
             ));
         }
 

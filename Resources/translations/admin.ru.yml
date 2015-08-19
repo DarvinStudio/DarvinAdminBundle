@@ -1,25 +1,44 @@
 boolean:
     - Нет
     - Да
+
 configuration:
     action:
         edit:
             link:    Основные настройки
             submit:  Сохранить изменения
             success: Настройки успешно сохранены
+
 exception:
     404: Не найдено
     500: Внутренняя ошибка сервера
+
 flash:
     error:
         form: При обработке формы были обнаружены ошибки. Исправьте их и повторите отправку
+
 form_collections:
     add:    Добавить
     delete: Удалить
+
+image:
+    action:
+        edit:
+            link:  Редактировать изображение
+            title: Изменить изображение «%entity%»
+        index:
+            link:  Менеджер изображений
+            title: Менеджер изображений
+    entity:
+        filename: Название
+        image:    Изображение
+
 interface:
     actions: Действия
+
 property_forms:
     submit: Сохранить
+
 submit:
     edit:  Сохранить и редактировать
     index: Сохранить и вернуться к списку

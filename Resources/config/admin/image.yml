@@ -1,0 +1,10 @@
+darvin_admin:
+    view:
+        index:
+            fields:
+                image:
+                    widget_generator:
+                        alias: image_link
+                        options:
+                            filter_parameters:
+                                size_name: big

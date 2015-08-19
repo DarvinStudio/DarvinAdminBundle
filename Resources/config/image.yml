@@ -1,0 +1,14 @@
+parameters:
+    darvin_admin.image.metadata.class:  Darvin\AdminBundle\Metadata\Metadata
+    darvin_admin.image.metadata.entity: Darvin\ImageBundle\Entity\Image\AbstractImage
+    darvin_admin.image.metadata.config: @@DarvinAdminBundle/Resources/config/admin/image.yml
+
+services:
+    darvin_admin.image.metadata:
+        class:   %darvin_admin.image.metadata.class%
+        factory: [ "@darvin_admin.metadata.factory", create ]
+        arguments:
+            - %darvin_admin.image.metadata.entity%
+            - %darvin_admin.image.metadata.config%
+        tags:
+            - { name: darvin_admin.metadata }

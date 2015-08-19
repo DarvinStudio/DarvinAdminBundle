@@ -28,6 +28,7 @@ class DarvinAdminExtension extends Extension
         $loader->load('crud.yml');
         $loader->load('flash.yml');
         $loader->load('form.yml');
+        $loader->load('image.yml');
         $loader->load('menu.yml');
         $loader->load('metadata.yml');
         $loader->load('route.yml');

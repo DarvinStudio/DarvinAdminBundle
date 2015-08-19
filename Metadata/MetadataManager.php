@@ -111,13 +111,15 @@ class MetadataManager
         $this->init();
 
         if (!isset($this->metadata[$entityClass])) {
-            do {
-                $parentClass = get_parent_class($entityClass);
+            $childClass = $entityClass;
 
+            while ($parentClass = get_parent_class($childClass)) {
                 if (isset($this->metadata[$parentClass])) {
                     return $this->metadata[$parentClass];
                 }
-            } while ($parentClass);
+
+                $childClass = $parentClass;
+            }
 
             throw new MetadataException(sprintf('Unable to find metadata for entity "%s" or it parents.', $entityClass));
         }

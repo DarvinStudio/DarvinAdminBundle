@@ -1,9 +1,9 @@
 parameters:
-    darvin_admin.controller.crud.class: Darvin\AdminBundle\Controller\CrudController
+    darvin_admin.crud.controller.class: Darvin\AdminBundle\Controller\CrudController
 
 services:
-    darvin_admin.controller.crud:
-        class:    %darvin_admin.controller.crud.class%
+    darvin_admin.crud.controller:
+        class:    %darvin_admin.crud.controller.class%
         abstract: true
         arguments:
             - "@darvin_admin.metadata.manager"

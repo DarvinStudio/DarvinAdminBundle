@@ -34,7 +34,7 @@ class ControllerPass implements CompilerPassInterface
         $controllers = array();
 
         foreach ($allMeta as $entityClass => $meta) {
-            $controller = new DefinitionDecorator('darvin_admin.controller.crud');
+            $controller = new DefinitionDecorator('darvin_admin.crud.controller');
             $controller->setArguments(array(
                 $entityClass,
             ));

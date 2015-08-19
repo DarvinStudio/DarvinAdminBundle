@@ -62,12 +62,16 @@ class MetadataFactory
             throw new MetadataException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
         }
 
+        $configuration = $this->configurationLoader->load($configPathname);
+
         $entityNamespace = $this->detectEntityNamespace(
             $doctrineMeta->getName(),
             $this->em->getConfiguration()->getEntityNamespaces()
         );
 
-        $entityName = $this->generateEntityName($doctrineMeta->getName(), $entityNamespace);
+        $entityName = isset($configuration['entity_name'])
+            ? $configuration['entity_name']
+            : $this->generateEntityName($doctrineMeta->getName(), $entityNamespace);
 
         $baseTranslationPrefix = $this->generateBaseTranslationPrefix($entityName);
 
@@ -76,7 +80,7 @@ class MetadataFactory
         return new Metadata(
             $baseTranslationPrefix,
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
-            $this->configurationLoader->load($configPathname),
+            $configuration,
             $this->generateControllerId($entityNamespace, $entityName),
             $entityClass,
             $entityName,

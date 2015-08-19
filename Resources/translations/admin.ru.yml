@@ -30,8 +30,9 @@ image:
             link:  Менеджер изображений
             title: Менеджер изображений
     entity:
-        filename: Название
-        image:    Изображение
+        extension: Формат
+        image:     Изображение
+        name:      Название
 
 interface:
     actions: Действия

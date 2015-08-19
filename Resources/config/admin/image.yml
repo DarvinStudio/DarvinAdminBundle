@@ -1,6 +1,21 @@
 darvin_admin:
-    view:
+    entity_name: image
+    disabled_routes:
+        - delete
+        - new
+        - show
+    form:
+        edit:
+            type: darvin_image_image_sizes
         index:
+            fields:
+                name: ~
+    view:
+        edit:
+            action_widgets: {}
+        index:
+            action_widgets:
+                - edit_link
             fields:
                 image:
                     widget_generator:
@@ -8,3 +23,5 @@ darvin_admin:
                         options:
                             filter_parameters:
                                 size_name: big
+                name:      ~
+                extension: ~

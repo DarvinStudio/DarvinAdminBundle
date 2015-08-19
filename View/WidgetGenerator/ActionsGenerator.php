@@ -33,7 +33,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
-        $this->validateOptions($options);
+        $this->validate($entity, $options);
 
         $actions = array();
 

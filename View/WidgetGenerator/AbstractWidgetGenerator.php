@@ -57,12 +57,24 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     }
 
     /**
-     * @param array $options Options
+     * @param object $entity  Entity
+     * @param array  $options Options
      *
      * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
      */
-    protected function validateOptions(array $options)
+    protected function validate($entity, array $options)
     {
+        $requiredEntityClass = $this->getRequiredEntityClass();
+
+        if (!empty($requiredEntityClass) && !$entity instanceof $requiredEntityClass) {
+            $message = sprintf(
+                'View widget generator "%s" requires entity to be instance of "%s".',
+                $this->getAlias(),
+                $requiredEntityClass
+            );
+
+            throw new WidgetGeneratorException($message);
+        }
         foreach ($this->getRequiredOptions() as $requiredOption) {
             if (!isset($options[$requiredOption])) {
                 throw new WidgetGeneratorException(
@@ -70,6 +82,14 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
                 );
             }
         }
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRequiredEntityClass()
+    {
+        return null;
     }
 
     /**

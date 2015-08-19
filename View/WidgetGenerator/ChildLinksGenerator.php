@@ -49,7 +49,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
-        $this->validateOptions($options);
+        $this->validate($entity, $options);
 
         $childClass = $options['child_entity'];
 

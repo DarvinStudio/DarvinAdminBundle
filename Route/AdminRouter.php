@@ -126,24 +126,9 @@ class AdminRouter
         $entityClass = $isObject ? ClassUtils::getClass($classOrObject) : $classOrObject;
 
         if (!isset($this->routeNames[$entityClass][$routeType])) {
-            $routeFound = false;
-            $childClass = $entityClass;
-
-            while ($parentClass = get_parent_class($childClass)) {
-                if (isset($this->routeNames[$parentClass][$routeType])) {
-                    $routeFound = true;
-                    $entityClass = $parentClass;
-
-                    break;
-                }
-
-                $childClass = $parentClass;
-            }
-            if (!$routeFound) {
-                throw new RouteException(
-                    sprintf('Route "%s" does not exist for entity "%s" or it parents.', $routeType, $entityClass)
-                );
-            }
+            throw new RouteException(
+                sprintf('Route "%s" does not exist for entity "%s".', $routeType, $entityClass)
+            );
         }
 
         $this->getAdditionalParameters($parameters, $entityClass, $routeType, $isObject ? $classOrObject : null);
@@ -163,16 +148,7 @@ class AdminRouter
 
         $entityClass = is_object($classOrObject) ? ClassUtils::getClass($classOrObject) : $classOrObject;
 
-        if (isset($this->routeNames[$entityClass][$routeType])) {
-            return true;
-        }
-        while ($parentClass = get_parent_class($entityClass)) {
-            if (isset($this->routeNames[$parentClass][$routeType])) {
-                return true;
-            }
-        }
-
-        return false;
+        return isset($this->routeNames[$entityClass][$routeType]);
     }
 
     /**

@@ -118,8 +118,9 @@ class AdminFormFactory
         }
 
         $builder = $this->formFactory->createBuilder($type, $entity, array(
-            'action'            => $formAction,
-            'validation_groups' => array(
+            'action'             => $formAction,
+            'translation_domain' => 'admin',
+            'validation_groups'  => array(
                 'Default',
                 ucfirst($action),
             ),

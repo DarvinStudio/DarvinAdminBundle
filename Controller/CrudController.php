@@ -267,7 +267,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function getIndexUrl()
     {
-        return !in_array(AdminRouter::TYPE_INDEX, $this->configuration['disabled_routes'])
+        return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_INDEX)
             ? $this->getAdminRouter()->generate($this->entityClass, AdminRouter::TYPE_INDEX)
             : null;
     }
@@ -277,7 +277,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function getNewUrl()
     {
-        return !in_array(AdminRouter::TYPE_NEW, $this->configuration['disabled_routes'])
+        return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_NEW)
             ? $this->getAdminRouter()->generate($this->entityClass, AdminRouter::TYPE_NEW)
             : null;
     }

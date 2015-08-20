@@ -24,6 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Admin implements \Serializable, AdvancedUserInterface
 {
+    const CLASS_NAME = 'Darvin\\AdminBundle\\Entity\\Admin';
+
     const ROLE_ADMIN      = 'ROLE_ADMIN';
     const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
 

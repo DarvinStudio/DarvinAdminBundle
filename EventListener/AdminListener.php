@@ -11,29 +11,19 @@
 namespace Darvin\AdminBundle\EventListener;
 
 use Darvin\AdminBundle\Entity\Admin;
-use Doctrine\Common\Util\ClassUtils;
+use Darvin\Utils\EventListener\AbstractOnFlushListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * Administrator event listener
  */
-class AdminListener
+class AdminListener extends AbstractOnFlushListener
 {
     /**
      * @var \Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface
      */
     private $encoderFactory;
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
-
-    /**
-     * @var \Doctrine\ORM\UnitOfWork
-     */
-    private $uow;
 
     /**
      * @param \Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface $encoderFactory Encoder factory
@@ -48,25 +38,19 @@ class AdminListener
      */
     public function onFlush(OnFlushEventArgs $args)
     {
-        $this->em = $em = $args->getEntityManager();
-        $this->uow = $uow = $em->getUnitOfWork();
+        parent::onFlush($args);
 
-        foreach ($uow->getScheduledEntityInsertions() as $entity) {
-            if ($entity instanceof Admin) {
-                $this->updatePassword($entity);
-            }
-        }
-        foreach ($uow->getScheduledEntityUpdates() as $entity) {
-            if ($entity instanceof Admin) {
-                $this->updatePassword($entity);
-            }
-        }
+        $updatePasswordCallback = array($this, 'updatePassword');
+
+        $this
+            ->onInsert(Admin::CLASS_NAME, $updatePasswordCallback)
+            ->onUpdate(Admin::CLASS_NAME, $updatePasswordCallback);
     }
 
     /**
      * @param \Darvin\AdminBundle\Entity\Admin $admin Administrator to update password
      */
-    private function updatePassword(Admin $admin)
+    protected function updatePassword(Admin $admin)
     {
         $plainPassword = $admin->getPlainPassword();
 
@@ -84,6 +68,6 @@ class AdminListener
             ->setPassword($password)
             ->eraseCredentials();
 
-        $this->uow->recomputeSingleEntityChangeSet($this->em->getClassMetadata(ClassUtils::getClass($admin)), $admin);
+        $this->recomputeChangeSet($admin);
     }
 }

@@ -104,6 +104,8 @@ class Admin implements \Serializable, AdvancedUserInterface
         $this->locked = $locked;
         $this->enabled = $enabled;
         $this->roles = $roles;
+
+        $this->updateSalt();
     }
 
     /**
@@ -112,6 +114,14 @@ class Admin implements \Serializable, AdvancedUserInterface
     public function __toString()
     {
         return $this->username;
+    }
+
+    /**
+     * Updates salt.
+     */
+    public function updateSalt()
+    {
+        $this->salt = hash('sha512', uniqid(mt_rand(), true));
     }
 
     /**

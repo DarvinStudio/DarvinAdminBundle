@@ -25,8 +25,8 @@ class ListWidgetGeneratorsCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setDescription('Displays list of aliases of existing view widget generators.')
-            ->setName('darvin:admin:list-widgets');
+            ->setName('darvin:admin:list-widgets')
+            ->setDescription('Displays list of aliases of existing view widget generators.');
     }
 
     /**

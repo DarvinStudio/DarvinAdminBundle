@@ -1,3 +1,9 @@
-security_login:
+darvin_admin_security_login:
     path:     /login
     defaults: { _controller: DarvinAdminBundle:Security:login }
+
+darvin_admin_security_login_check:
+    path: /login_check
+
+darvin_admin_security_logout:
+    path: /logout

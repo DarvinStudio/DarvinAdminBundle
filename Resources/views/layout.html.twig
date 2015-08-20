@@ -19,15 +19,21 @@
         {% endfor %}
     </noscript>
 
-    {{ admin_menu() }}
+    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
 
-    {% if 'darvin_admin_configuration' != app.request.get('_route') %}
-        <a href="{{ path('darvin_admin_configuration') }}">{% trans %}configuration.action.edit.link{% endtrans %}</a>
-    {% else %}
-        <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
+        {{ admin_menu() }}
+
+        {% if 'darvin_admin_configuration' != app.request.get('_route') %}
+            <a href="{{ path('darvin_admin_configuration') }}">{% trans %}configuration.action.edit.link{% endtrans %}</a>
+        {% else %}
+            <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
+        {% endif %}
+
+        <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
+
+        {% block breadcrumbs %}{% endblock %}
+
     {% endif %}
-
-    {% block breadcrumbs %}{% endblock %}
 
     <h1>{% block heading %}{% endblock %}</h1>
 

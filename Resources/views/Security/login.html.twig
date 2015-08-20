@@ -1,5 +1,12 @@
 {% extends 'DarvinAdminBundle::layout.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {% block content %}
-    <h1>Hello, login!</h1>
+    {% if error %}<span>{{ error | trans({}, 'security') }}</span>{% endif %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>
+    {{ form_end(form) }}
 {% endblock %}

@@ -1,0 +1,36 @@
+security:
+    encoders:
+        Darvin\AdminBundle\Entity\Admin:
+            algorithm:      pbkdf2
+            hash_algorithm: sha512
+
+    providers:
+        admin:
+            entity:
+                class:    DarvinAdminBundle:Admin
+                property: username
+
+    firewalls:
+        admin_area:
+            pattern:  ^/admin/
+            provider: admin
+            form_login:
+                check_path:          darvin_admin_security_login_check
+                login_path:          darvin_admin_security_login
+                default_target_path: darvin_admin_homepage
+                use_referer:         true
+                intention:           %secret%
+                csrf_provider:       security.csrf.token_manager
+                remember_me:         true
+            remember_me:
+                key:      %secret%
+                name:     REMEMBERMEADMIN
+                lifetime: 31536000 # 1 year
+            logout:
+                path:   darvin_admin_security_logout
+                target: darvin_admin_security_login
+            anonymous: ~
+
+    access_control:
+        - { path: ^/admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/admin/,      roles: [ IS_AUTHENTICATED_REMEMBERED ] }

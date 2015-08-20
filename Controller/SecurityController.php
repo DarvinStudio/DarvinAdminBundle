@@ -10,7 +10,9 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Form\Type\Security\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 /**
  * Security controller
@@ -22,6 +24,36 @@ class SecurityController extends Controller
      */
     public function loginAction()
     {
-        return $this->render('DarvinAdminBundle:Security:login.html.twig');
+        if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)) {
+            return $this->redirectToRoute('darvin_admin_homepage');
+        }
+
+        $authenticationUtils = $this->getAuthenticationUtils();
+
+        $form = $this->createForm(
+            new LoginType($this->container->getParameter('secret')),
+            array(
+                '_remember_me' => true,
+                '_username'    => $authenticationUtils->getLastUsername(),
+            ),
+            array(
+                'action' => $this->generateUrl('darvin_admin_security_login_check'),
+            )
+        );
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        return $this->render('DarvinAdminBundle:Security:login.html.twig', array(
+            'error' => !empty($error) ? $error->getMessage() : null,
+            'form'  => $form->createView(),
+        ));
+    }
+
+    /**
+     * @return \Symfony\Component\Security\Http\Authentication\AuthenticationUtils
+     */
+    private function getAuthenticationUtils()
+    {
+        return $this->container->get('security.authentication_utils');
     }
 }

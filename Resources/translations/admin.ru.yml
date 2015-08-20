@@ -47,6 +47,17 @@ interface:
 property_forms:
     submit: Сохранить
 
+security:
+    action:
+        login:
+            submit: Войти
+        logout:
+            link: Выйти
+    model:
+        password:    Пароль
+        remember_me: Запомнить браузер
+        username:    Логин
+
 submit:
     edit:  Сохранить и редактировать
     index: Сохранить и вернуться к списку

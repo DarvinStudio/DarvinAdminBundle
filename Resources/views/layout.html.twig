@@ -39,6 +39,9 @@
 
     {% block content %}{% endblock %}
 
+    <span>
+        {% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}interface.version{% endtrans %}
+    </span>
 {% endblock %}
 
 {% block javascripts %}

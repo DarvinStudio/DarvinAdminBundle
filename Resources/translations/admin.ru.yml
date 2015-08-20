@@ -43,6 +43,7 @@ image:
 
 interface:
     actions: Действия
+    version: Версия %number%
 
 property_forms:
     submit: Сохранить

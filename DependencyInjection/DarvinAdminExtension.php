@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection;
 
+use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
@@ -27,8 +28,10 @@ class DarvinAdminExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-//        $configuration = new Configuration();
-//        $config = $this->processConfiguration($configuration, $configs);
+        $configuration = new Configuration();
+        $config = $this->processConfiguration($configuration, $configs);
+
+        ConfigInjector::inject($config, $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('admin.yml');
@@ -43,6 +46,7 @@ class DarvinAdminExtension extends Extension
         $loader->load('metadata.yml');
         $loader->load('route.yml');
         $loader->load('stringifier.yml');
+        $loader->load('twig.yml');
         $loader->load('view.yml');
     }
 }

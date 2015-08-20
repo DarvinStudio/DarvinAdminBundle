@@ -42,6 +42,7 @@
     <span>
         {% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}interface.version{% endtrans %}
     </span>
+    <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
 {% endblock %}
 
 {% block javascripts %}

@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints as Doctrine;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Admin
  *
  * @ORM\Entity
+ * @Doctrine\UniqueEntity(fields={"email"})
+ * @Doctrine\UniqueEntity(fields={"username"})
  */
 class Admin implements \Serializable, AdvancedUserInterface
 {
@@ -71,7 +74,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank
      */
     private $username;
@@ -79,7 +82,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, unique=true)
      * @Assert\Email
      */
     private $email;

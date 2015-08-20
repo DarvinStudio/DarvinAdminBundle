@@ -1,0 +1,3 @@
+security_login:
+    path:     /login
+    defaults: { _controller: DarvinAdminBundle:Security:login }

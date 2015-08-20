@@ -34,7 +34,7 @@ class AdminListener extends AbstractOnFlushListener
     }
 
     /**
-     * @param \Doctrine\ORM\Event\OnFlushEventArgs $args Event arguments
+     * {@inheritdoc}
      */
     public function onFlush(OnFlushEventArgs $args)
     {

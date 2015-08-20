@@ -88,6 +88,13 @@ class Admin implements \Serializable, AdvancedUserInterface
     private $email;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+    /**
      * @var string
      *
      * @Assert\NotBlank(groups={"New"})
@@ -334,12 +341,34 @@ class Admin implements \Serializable, AdvancedUserInterface
     }
 
     /**
+     * @param \DateTime $updatedAt updatedAt
+     *
+     * @return Admin
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * @param string $plainPassword plainPassword
      *
      * @return Admin
      */
     public function setPlainPassword($plainPassword)
     {
+        $this->updatedAt = new \DateTime();
+
         $this->plainPassword = $plainPassword;
 
         return $this;

@@ -8,6 +8,10 @@ configuration:
             link:    Основные настройки
             submit:  Сохранить изменения
             success: Настройки успешно сохранены
+    darvin_admin:
+        parameter:
+            image_sizes: Размеры изображений
+        title: Панель администрирования
 
 exception:
     404: Не найдено
@@ -33,6 +37,8 @@ image:
         extension: Формат
         image:     Изображение
         name:      Название
+    size:
+        admin: Стандартный
 
 interface:
     actions: Действия

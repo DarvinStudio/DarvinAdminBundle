@@ -1,0 +1,9 @@
+parameters:
+    darvin_admin.configuration.class: Darvin\AdminBundle\Configuration\Configuration
+
+services:
+    darvin_admin.configuration:
+        class: %darvin_admin.configuration.class%
+        tags:
+            - { name: darvin_config.configuration }
+            - { name: darvin_image.configuration }

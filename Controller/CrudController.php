@@ -190,7 +190,12 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $form = $this->createForm(new BaseType('index', $this->meta, $property), $entity);
+        $form = $this->createForm(new BaseType('index', $this->meta, $property), $entity, array(
+            'validation_groups' => array(
+                'Default',
+                'UpdateProperty',
+            ),
+        ));
 
         $originalValue = $form->createView()->children[$property]->vars['value'];
 

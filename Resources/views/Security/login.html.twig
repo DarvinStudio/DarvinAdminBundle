@@ -9,4 +9,6 @@
     {{ form_widget(form) }}
     <button type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>
     {{ form_end(form) }}
+
+    <a href="{{ path('hwi_oauth_service_redirect', { 'service': 'darvin_auth' }) }}">Darvin Auth</a>
 {% endblock %}

@@ -104,15 +104,15 @@ class Administrator implements \Serializable, AdvancedUserInterface
     private $plainPassword;
 
     /**
+     * @param array $roles   Roles
      * @param bool  $locked  Is locked
      * @param bool  $enabled Is enabled
-     * @param array $roles   Roles
      */
-    public function __construct($locked = false, $enabled = true, array $roles = array())
+    public function __construct(array $roles = array(), $locked = false, $enabled = true)
     {
+        $this->roles = $roles;
         $this->locked = $locked;
         $this->enabled = $enabled;
-        $this->roles = $roles;
 
         $this->updateSalt();
     }

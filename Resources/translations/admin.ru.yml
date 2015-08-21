@@ -57,7 +57,7 @@ security:
     model:
         password:    Пароль
         remember_me: Запомнить браузер
-        username:    Логин
+        username:    Логин или e-mail
 
 submit:
     edit:  Сохранить и редактировать

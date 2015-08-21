@@ -6,9 +6,7 @@ security:
 
     providers:
         admin:
-            entity:
-                class:    DarvinAdminBundle:Admin
-                property: username
+            id: darvin_admin.security.user_provider.admin
 
     firewalls:
         admin_area:

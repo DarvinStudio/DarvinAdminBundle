@@ -1,0 +1,8 @@
+parameters:
+    darvin_admin.security.user_provider.admin.class: Darvin\AdminBundle\Security\User\AdminUserProvider
+
+services:
+    darvin_admin.security.user_provider.admin:
+        class: %darvin_admin.security.user_provider.admin.class%
+        arguments:
+            - "@doctrine.orm.entity_manager"

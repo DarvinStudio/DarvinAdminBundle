@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Admin
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Darvin\AdminBundle\Repository\AdminRepository")
  * @Doctrine\UniqueEntity(fields={"email"})
  * @Doctrine\UniqueEntity(fields={"username"})
  */

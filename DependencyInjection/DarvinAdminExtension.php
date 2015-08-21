@@ -45,6 +45,7 @@ class DarvinAdminExtension extends Extension
         $loader->load('menu.yml');
         $loader->load('metadata.yml');
         $loader->load('route.yml');
+        $loader->load('security.yml');
         $loader->load('stringifier.yml');
         $loader->load('twig.yml');
         $loader->load('view.yml');

@@ -48,7 +48,11 @@ darvin_admin:
                 - delete_form
             fields:
                 username: ~
-                email:    ~
+                email:
+                    widget_generator:
+                        alias: email_link
+                        options:
+                            email_property: email
                 locked:   ~
                 enabled:  ~
                 roles:    ~

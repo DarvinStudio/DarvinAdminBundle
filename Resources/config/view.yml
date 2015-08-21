@@ -15,6 +15,8 @@ parameters:
 
     darvin_admin.view.widget_generator.edit_link.class: Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator
 
+    darvin_admin.view.widget_generator.email_link.class: Darvin\AdminBundle\View\WidgetGenerator\EmailLinkGenerator
+
     darvin_admin.view.widget_generator.image_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageLinkGenerator
 
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
@@ -83,6 +85,14 @@ services:
     darvin_admin.view.widget_generator.edit_link:
         class:  %darvin_admin.view.widget_generator.edit_link.class%
         parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.email_link:
+        class:  %darvin_admin.view.widget_generator.email_link.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

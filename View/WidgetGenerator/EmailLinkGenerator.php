@@ -48,8 +48,14 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
             throw new WidgetGeneratorException($message);
         }
 
+        $email = $this->propertyAccessor->getValue($entity, $options['email_property']);
+
+        if (empty($email)) {
+            return '';
+        }
+
         return $this->render($options, array(
-            'email' => $this->propertyAccessor->getValue($entity, $options['email_property']),
+            'email' => $email,
         ));
     }
 

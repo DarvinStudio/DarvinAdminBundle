@@ -1,0 +1,54 @@
+darvin_admin:
+    disabled_routes:
+        - show
+    form:
+        edit:
+            fields:
+                locked:
+                    options:
+                        required: false
+                enabled:
+                    options:
+                        required: false
+                username: ~
+                email:    ~
+                plainPassword:
+                    options:
+                        required: false
+                roles:
+                    type: choice
+                    options:
+                        choices:  [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]
+                        multiple: true
+                        expanded: true
+        new:
+            fields:
+                locked:
+                    options:
+                        required: false
+                enabled:
+                    options:
+                        required: false
+                username:      ~
+                email:         ~
+                plainPassword: ~
+                roles:
+                    type: choice
+                    options:
+                        choices:  [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]
+                        multiple: true
+                        expanded: true
+    view:
+        edit:
+            action_widgets:
+                - delete_form
+        index:
+            action_widgets:
+                - edit_link
+                - delete_form
+            fields:
+                username: ~
+                email:    ~
+                locked:   ~
+                enabled:  ~
+                roles:    ~

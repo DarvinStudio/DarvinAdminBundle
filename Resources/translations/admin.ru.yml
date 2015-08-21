@@ -1,3 +1,30 @@
+administrator:
+    action:
+        delete:
+            confirm: Подтвердите удаление администратора
+            submit:  Удалить администратора
+            success: Администратор успешно удален
+        edit:
+            link:    Редактировать администратора
+            success: Администратор успешно изменен
+            title:   Изменить администратора «%entity%»
+        index:
+            link:  Администраторы
+            title: Администраторы
+        new:
+            success: Администратор успешно добавлен
+            title:   Новый администратор
+    entity:
+        email:         E-mail
+        enabled:       Активен
+        locked:        Заблокирован
+        plainPassword: Пароль
+        role:
+            guest:      Гость
+            superadmin: Суперадминистратор
+        roles:    Роли
+        username: Логин
+
 boolean:
     - Нет
     - Да

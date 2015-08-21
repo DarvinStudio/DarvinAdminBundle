@@ -27,7 +27,16 @@ class Administrator implements \Serializable, AdvancedUserInterface
     const CLASS_NAME = 'Darvin\\AdminBundle\\Entity\\Administrator';
 
     const ROLE_ADMIN      = 'ROLE_ADMIN';
+    const ROLE_GUEST      = 'ROLE_GUEST';
     const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+
+    /**
+     * @var array
+     */
+    private static $availableExtraRoles = array(
+        self::ROLE_GUEST      => 'administrator.entity.role.guest',
+        self::ROLE_SUPERADMIN => 'administrator.entity.role.superadmin',
+    );
 
     /**
      * @var int
@@ -123,6 +132,14 @@ class Administrator implements \Serializable, AdvancedUserInterface
     public function __toString()
     {
         return $this->username;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAvailableExtraRoles()
+    {
+        return self::$availableExtraRoles;
     }
 
     /**

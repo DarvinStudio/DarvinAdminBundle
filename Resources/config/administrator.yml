@@ -1,0 +1,10 @@
+parameters:
+    darvin_admin.administrator.listener.class: Darvin\AdminBundle\EventListener\AdministratorListener
+
+services:
+    darvin_admin.administrator.listener:
+        class: %darvin_admin.administrator.listener.class%
+        arguments:
+            - "@security.encoder_factory"
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Darvin\AdminBundle\Entity\Admin;
+use Darvin\AdminBundle\Entity\Administrator;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Create administrator command
  */
-class CreateAdminCommand extends ContainerAwareCommand
+class CreateAdministratorCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -42,12 +42,12 @@ class CreateAdminCommand extends ContainerAwareCommand
     {
         list(, $username, $plainPassword) = array_values($input->getArguments());
 
-        $admin = new Admin();
-        $admin
+        $administrator = new Administrator();
+        $administrator
             ->setUsername($username)
             ->setPlainPassword($plainPassword);
 
-        $violations = $this->getValidator()->validate($admin, array('Default', 'New'));
+        $violations = $this->getValidator()->validate($administrator, array('Default', 'New'));
 
         if ($violations->count() > 0) {
             /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
@@ -59,7 +59,7 @@ class CreateAdminCommand extends ContainerAwareCommand
         }
 
         $em = $this->getEntityManager();
-        $em->persist($admin);
+        $em->persist($administrator);
         $em->flush();
 
         $output->writeln(

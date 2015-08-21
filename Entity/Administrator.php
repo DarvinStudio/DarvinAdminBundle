@@ -16,15 +16,15 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Admin
+ * Administrator
  *
- * @ORM\Entity(repositoryClass="Darvin\AdminBundle\Repository\AdminRepository")
+ * @ORM\Entity(repositoryClass="Darvin\AdminBundle\Repository\AdministratorRepository")
  * @Doctrine\UniqueEntity(fields={"email"})
  * @Doctrine\UniqueEntity(fields={"username"})
  */
-class Admin implements \Serializable, AdvancedUserInterface
+class Administrator implements \Serializable, AdvancedUserInterface
 {
-    const CLASS_NAME = 'Darvin\\AdminBundle\\Entity\\Admin';
+    const CLASS_NAME = 'Darvin\\AdminBundle\\Entity\\Administrator';
 
     const ROLE_ADMIN      = 'ROLE_ADMIN';
     const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
@@ -186,7 +186,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param boolean $enabled enabled
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setEnabled($enabled)
     {
@@ -206,7 +206,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param array $roles roles
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setRoles(array $roles)
     {
@@ -229,7 +229,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param string $password password
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setPassword($password)
     {
@@ -249,7 +249,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param string $salt salt
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setSalt($salt)
     {
@@ -269,7 +269,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param string $username username
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setUsername($username)
     {
@@ -305,7 +305,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param boolean $locked locked
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setLocked($locked)
     {
@@ -325,7 +325,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param string $email email
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setEmail($email)
     {
@@ -345,7 +345,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param \DateTime $updatedAt updatedAt
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setUpdatedAt(\DateTime $updatedAt)
     {
@@ -365,7 +365,7 @@ class Admin implements \Serializable, AdvancedUserInterface
     /**
      * @param string $plainPassword plainPassword
      *
-     * @return Admin
+     * @return Administrator
      */
     public function setPlainPassword($plainPassword)
     {

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Security\User;
 
-use Darvin\AdminBundle\Entity\Admin;
+use Darvin\AdminBundle\Entity\Administrator;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -21,7 +21,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 /**
  * Administrator user provider
  */
-class AdminUserProvider implements UserProviderInterface
+class AdministratorUserProvider implements UserProviderInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -43,7 +43,7 @@ class AdminUserProvider implements UserProviderInterface
     {
         $emailOrUsername = $username;
 
-        $administrator = $this->getAdminRepository()->getByEmailOrUsername($emailOrUsername);
+        $administrator = $this->getAdministratorRepository()->getByEmailOrUsername($emailOrUsername);
 
         if (empty($administrator)) {
             throw new UsernameNotFoundException(
@@ -59,7 +59,7 @@ class AdminUserProvider implements UserProviderInterface
      */
     public function refreshUser(UserInterface $user)
     {
-        if (!$user instanceof Admin) {
+        if (!$user instanceof Administrator) {
             throw new UnsupportedUserException(sprintf('User class "%s" is not supported.', ClassUtils::getClass($user)));
         }
 
@@ -71,14 +71,14 @@ class AdminUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return Admin::CLASS_NAME === $class;
+        return Administrator::CLASS_NAME === $class;
     }
 
     /**
-     * @return \Darvin\AdminBundle\Repository\AdminRepository
+     * @return \Darvin\AdminBundle\Repository\AdministratorRepository
      */
-    private function getAdminRepository()
+    private function getAdministratorRepository()
     {
-        return $this->em->getRepository('DarvinAdminBundle:Admin');
+        return $this->em->getRepository('DarvinAdminBundle:Administrator');
     }
 }

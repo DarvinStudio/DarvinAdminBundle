@@ -15,12 +15,12 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Administrator entity repository
  */
-class AdminRepository extends EntityRepository
+class AdministratorRepository extends EntityRepository
 {
     /**
      * @param string $emailOrUsername Email or username
      *
-     * @return \Darvin\AdminBundle\Entity\Admin
+     * @return \Darvin\AdminBundle\Entity\Administrator
      */
     public function getByEmailOrUsername($emailOrUsername)
     {

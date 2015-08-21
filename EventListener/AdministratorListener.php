@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\EventListener;
 
-use Darvin\AdminBundle\Entity\Admin;
+use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\Utils\EventListener\AbstractOnFlushListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 /**
  * Administrator event listener
  */
-class AdminListener extends AbstractOnFlushListener
+class AdministratorListener extends AbstractOnFlushListener
 {
     /**
      * @var \Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface
@@ -43,31 +43,31 @@ class AdminListener extends AbstractOnFlushListener
         $updatePasswordCallback = array($this, 'updatePassword');
 
         $this
-            ->onInsert(Admin::CLASS_NAME, $updatePasswordCallback)
-            ->onUpdate(Admin::CLASS_NAME, $updatePasswordCallback);
+            ->onInsert(Administrator::CLASS_NAME, $updatePasswordCallback)
+            ->onUpdate(Administrator::CLASS_NAME, $updatePasswordCallback);
     }
 
     /**
-     * @param \Darvin\AdminBundle\Entity\Admin $admin Administrator to update password
+     * @param \Darvin\AdminBundle\Entity\Administrator $administrator Administrator to update password
      */
-    protected function updatePassword(Admin $admin)
+    protected function updatePassword(Administrator $administrator)
     {
-        $plainPassword = $admin->getPlainPassword();
+        $plainPassword = $administrator->getPlainPassword();
 
         if (empty($plainPassword)) {
             return;
         }
 
-        $encoder = $this->encoderFactory->getEncoder($admin);
+        $encoder = $this->encoderFactory->getEncoder($administrator);
 
-        $admin->updateSalt();
+        $administrator->updateSalt();
 
-        $password = $encoder->encodePassword($plainPassword, $admin->getSalt());
+        $password = $encoder->encodePassword($plainPassword, $administrator->getSalt());
 
-        $admin
+        $administrator
             ->setPassword($password)
             ->eraseCredentials();
 
-        $this->recomputeChangeSet($admin);
+        $this->recomputeChangeSet($administrator);
     }
 }

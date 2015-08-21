@@ -1,17 +1,17 @@
 security:
     encoders:
-        Darvin\AdminBundle\Entity\Admin:
+        Darvin\AdminBundle\Entity\Administrator:
             algorithm:      pbkdf2
             hash_algorithm: sha512
 
     providers:
-        admin:
-            id: darvin_admin.security.user_provider.admin
+        administrator:
+            id: darvin_admin.security.user_provider.administrator
 
     firewalls:
         admin_area:
             pattern:  ^/admin/
-            provider: admin
+            provider: administrator
             form_login:
                 check_path:          darvin_admin_security_login_check
                 login_path:          darvin_admin_security_login

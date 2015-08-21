@@ -90,6 +90,9 @@ class ListGenerator extends AbstractWidgetGenerator
         if (empty($list)) {
             return '';
         }
+        if (!isset($options['sort']) || $options['sort']) {
+            sort($list);
+        }
 
         return $this->render($options, array(
             'list' => $list,

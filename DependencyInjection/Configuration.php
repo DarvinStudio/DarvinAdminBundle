@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode
             ->children()
+                ->scalarNode('debug')->defaultFalse()->end()
                 ->arrayNode('project')
                     ->isRequired()
                     ->children()

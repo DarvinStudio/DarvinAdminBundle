@@ -39,6 +39,11 @@ class MetadataManager
     /**
      * @var bool
      */
+    private $cacheDisabled;
+
+    /**
+     * @var bool
+     */
     private $initialized;
 
     /**
@@ -47,15 +52,17 @@ class MetadataManager
     private $metadata;
 
     /**
-     * @param \Doctrine\Common\Cache\Cache              $cache        Cache
-     * @param \Doctrine\ORM\EntityManager               $em           Entity manager
-     * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool Metadata pool
+     * @param \Doctrine\Common\Cache\Cache              $cache         Cache
+     * @param \Doctrine\ORM\EntityManager               $em            Entity manager
+     * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool  Metadata pool
+     * @param bool                                      $cacheDisabled Is cache disabled
      */
-    public function __construct(Cache $cache, EntityManager $em, MetadataPool $metadataPool)
+    public function __construct(Cache $cache, EntityManager $em, MetadataPool $metadataPool, $cacheDisabled)
     {
         $this->cache = $cache;
         $this->em = $em;
         $this->metadataPool = $metadataPool;
+        $this->cacheDisabled = $cacheDisabled;
         $this->initialized = false;
         $this->metadata = array();
     }
@@ -145,6 +152,10 @@ class MetadataManager
     {
         $this->metadata = $this->metadataPool->getAll();
 
+        if ($this->cacheDisabled) {
+            return;
+        }
+
         $serialized = serialize($this->metadata);
 
         if (!$this->cache->save(self::CACHE_ID, $serialized)) {
@@ -157,6 +168,10 @@ class MetadataManager
      */
     private function initFromCache()
     {
+        if ($this->cacheDisabled) {
+            return false;
+        }
+
         $cached = $this->cache->fetch(self::CACHE_ID);
 
         if (false === $cached) {

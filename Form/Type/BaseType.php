@@ -65,7 +65,7 @@ class BaseType extends AbstractType
                 continue;
             }
 
-            $fieldOptions = $attr['options'];
+            $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
 
             if (!array_key_exists('label', $fieldOptions)) {
                 $fieldOptions['label'] = $translationPrefix.$field;
@@ -93,5 +93,30 @@ class BaseType extends AbstractType
     public function getName()
     {
         return $this->meta->getFormTypeName();
+    }
+
+    /**
+     * @param array $options Field options
+     *
+     * @return array
+     */
+    private function resolveFieldOptionValues(array $options)
+    {
+        foreach ($options as &$value) {
+            if (!is_array($value)) {
+                continue;
+            }
+            if (is_callable($value)) {
+                $value = $value();
+
+                continue;
+            }
+
+            $value = $this->resolveFieldOptionValues($value);
+        }
+
+        unset($value);
+
+        return $options;
     }
 }

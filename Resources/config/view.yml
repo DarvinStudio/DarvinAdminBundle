@@ -19,6 +19,8 @@ parameters:
 
     darvin_admin.view.widget_generator.image_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageLinkGenerator
 
+    darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
+
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
 
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
@@ -101,6 +103,14 @@ services:
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.list:
+        class:  %darvin_admin.view.widget_generator.list.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

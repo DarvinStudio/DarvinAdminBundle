@@ -53,6 +53,11 @@ darvin_admin:
                         alias: email_link
                         options:
                             email_property: email
-                locked:   ~
-                enabled:  ~
-                roles:    ~
+                locked:  ~
+                enabled: ~
+                roles:
+                    widget_generator:
+                        alias: list
+                        options:
+                            keys_property:   roles
+                            values_callback: [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]

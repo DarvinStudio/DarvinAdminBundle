@@ -1,0 +1,7 @@
+{% trans_default_domain 'admin' %}
+
+{% for key, value in list %}
+    <ul>
+        <li>{{ value | trans }}</li>
+    </ul>
+{% endfor %}

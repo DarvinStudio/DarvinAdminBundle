@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Configuration;
 
+use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
 use Darvin\ImageBundle\Configuration\ImageConfigurationInterface;
@@ -65,6 +66,16 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
     public function getImageSizeGroupName()
     {
         return 'admin';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllowedRoles()
+    {
+        return array(
+            Administrator::ROLE_SUPERADMIN,
+        );
     }
 
     /**

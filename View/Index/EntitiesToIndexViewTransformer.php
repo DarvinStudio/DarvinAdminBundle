@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Index;
 
 use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
 use Darvin\AdminBundle\View\Index\Body\Body;
 use Darvin\AdminBundle\View\Index\Body\BodyRow;
@@ -20,6 +21,7 @@ use Darvin\AdminBundle\View\Index\Head\Head;
 use Darvin\AdminBundle\View\Index\Head\HeadItem;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -27,6 +29,11 @@ use Symfony\Component\Templating\EngineInterface;
  */
 class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
     /**
      * @var \Symfony\Component\Form\FormFactoryInterface
      */
@@ -36,6 +43,14 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
      * @var \Symfony\Component\Templating\EngineInterface
      */
     private $templating;
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
 
     /**
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory Form factory
@@ -165,10 +180,11 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 $bodyRow->addItem($field, new BodyRowItem($content));
             }
             foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
-                $bodyRow->addItem(
-                    $widgetGeneratorAlias,
-                    new BodyRowItem($this->widgetGeneratorPool->get($widgetGeneratorAlias)->generate($entity))
-                );
+                $actionWidget = $this->widgetGeneratorPool->get($widgetGeneratorAlias)->generate($entity);
+
+                if (!empty($actionWidget)) {
+                    $bodyRow->addItem($widgetGeneratorAlias, new BodyRowItem($actionWidget));
+                }
             }
 
             $body->addRow($bodyRow);
@@ -185,6 +201,10 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     private function getPropertyForms(Metadata $meta)
     {
         $forms = array();
+
+        if (!$this->authorizationChecker->isGranted(Permission::EDIT, $meta->getEntityClass())) {
+            return $forms;
+        }
 
         $configuration = $meta->getConfiguration();
 

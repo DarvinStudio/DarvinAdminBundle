@@ -14,7 +14,7 @@
     <table class="property_forms">
         <thead>
             <tr>
-                {% for field, item in view.head.items %}
+                {% for field, item in view.head.items if item.width %}
                     <th colspan="{{ item.width }}">
                         {% if item.sortable %}
                             {{ knp_pagination_sortable(pagination, item.content | raw, 'o.' ~ field) }}

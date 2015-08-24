@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -53,6 +54,13 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
 
         $childClass = $options['child_entity'];
 
+        $viewPermissionGranted = $this->isGranted(Permission::VIEW, $childClass);
+        $createDeletePermissionGranted = $this->isGranted(Permission::CREATE_DELETE, $childClass);
+
+        if (!$viewPermissionGranted && !$createDeletePermissionGranted) {
+            return '';
+        }
+
         $parentMeta = $this->metadataManager->getByEntity($entity);
 
         if (!$parentMeta->hasChild($childClass)) {
@@ -74,9 +82,11 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             ->getSingleScalarResult();
 
         return $this->render($options, array(
+            'association'        => $association,
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
-            'association'        => $association,
+            'index_link'         => $viewPermissionGranted,
+            'new_link'           => $createDeletePermissionGranted,
             'parent_id'          => $parentId,
             'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
         ));

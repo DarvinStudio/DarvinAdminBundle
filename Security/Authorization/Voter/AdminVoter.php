@@ -14,12 +14,13 @@ use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
-use Symfony\Component\Security\Core\Authorization\Voter\AbstractVoter;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
  * Admin authorization voter
  */
-class AdminVoter extends AbstractVoter
+class AdminVoter implements VoterInterface
 {
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
@@ -55,37 +56,80 @@ class AdminVoter extends AbstractVoter
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedClasses()
+    public function vote(TokenInterface $token, $object, array $attributes)
+    {
+        $user = $token->getUser();
+
+        if (!$user instanceof Administrator || empty($object)) {
+            return self::ACCESS_ABSTAIN;
+        }
+
+        $class = is_object($object) ? ClassUtils::getClass($object) : $object;
+
+        if (!$this->supportsClass($class)) {
+            return self::ACCESS_ABSTAIN;
+        }
+
+        $vote = self::ACCESS_ABSTAIN;
+
+        foreach ($attributes as $attribute) {
+            if (!$this->supportsAttribute($attribute)) {
+                continue;
+            }
+
+            $vote = self::ACCESS_DENIED;
+
+            if ($this->isGranted($attribute, $class, $user)) {
+                return self::ACCESS_GRANTED;
+            }
+        }
+
+        return $vote;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsAttribute($attribute)
+    {
+        return in_array($attribute, Permission::getAll());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class)
     {
         $this->init();
 
-        return $this->supportedClasses;
+        if (in_array($class, $this->supportedClasses)) {
+            return true;
+        }
+        foreach ($this->supportedClasses as $supportedClass) {
+            if (is_subclass_of($class, $supportedClass)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
-     * {@inheritdoc}
+     * @param string                                   $attribute     Attribute
+     * @param string                                   $class         Object class
+     * @param \Darvin\AdminBundle\Entity\Administrator $administrator Administrator
+     *
+     * @return bool
      */
-    protected function getSupportedAttributes()
+    private function isGranted($attribute, $class, Administrator $administrator)
     {
-        return Permission::getAll();
-    }
+        $this->init();
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function isGranted($attribute, $object, $user = null)
-    {
-        if (!$user instanceof Administrator) {
-            return false;
+        if (isset($this->permissions[$class][$administrator->getId()][$attribute])) {
+            return $this->permissions[$class][$administrator->getId()][$attribute];
         }
 
-        $class = ClassUtils::getClass($object);
-
-        if (isset($this->permissions[$class][$user->getId()][$attribute])) {
-            return $this->permissions[$class][$user->getId()][$attribute];
-        }
-
-        $defaultPermissions = $user->getDefaultPermissions();
+        $defaultPermissions = $administrator->getDefaultPermissions();
 
         return isset($defaultPermissions[$attribute]) ? $defaultPermissions[$attribute] : false;
     }

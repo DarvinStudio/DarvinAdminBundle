@@ -29,6 +29,8 @@
             <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
         {% endif %}
 
+        <span>{{ app.user.username }}</span>
+
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 
         {% block breadcrumbs %}{% endblock %}

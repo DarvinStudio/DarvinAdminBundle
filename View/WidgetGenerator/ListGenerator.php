@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -38,6 +39,9 @@ class ListGenerator extends AbstractWidgetGenerator
     {
         $this->validate($entity, $options);
 
+        if (!$this->isGranted(Permission::VIEW, $entity)) {
+            return '';
+        }
         if (!$this->propertyAccessor->isReadable($entity, $options['keys_property'])) {
             $message = sprintf(
                 'Property "%s::$%s" is not readable. Make sure it has public access.',

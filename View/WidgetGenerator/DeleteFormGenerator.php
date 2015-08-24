@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 
 /**
  * Delete form view widget generator
@@ -37,6 +38,10 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
+        if (!$this->isGranted(Permission::CREATE_DELETE, $entity)) {
+            return '';
+        }
+
         return $this->render($options, array(
             'form'               => $this->adminFormFactory->createDeleteForm($entity)->createView(),
             'translation_prefix' => $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix(),

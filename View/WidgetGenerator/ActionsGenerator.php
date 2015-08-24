@@ -40,7 +40,11 @@ class ActionsGenerator extends AbstractWidgetGenerator
         $configuration = $this->metadataManager->getConfigurationByEntity($entity);
 
         foreach ($configuration['view'][$options['view_type']]['action_widgets'] as $widgetGeneratorAlias) {
-            $actions[] = $this->widgetGeneratorPool->get($widgetGeneratorAlias)->generate($entity);
+            $action = $this->widgetGeneratorPool->get($widgetGeneratorAlias)->generate($entity);
+
+            if (!empty($action)) {
+                $actions[] = $action;
+            }
         }
 
         return $this->render($options, array(

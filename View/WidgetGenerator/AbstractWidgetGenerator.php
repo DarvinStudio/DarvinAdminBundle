@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -18,6 +19,11 @@ use Symfony\Component\Templating\EngineInterface;
  */
 abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
@@ -29,11 +35,16 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     private $templating;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager  $metadataManager Metadata manager
-     * @param \Symfony\Component\Templating\EngineInterface $templating      Templating
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
      */
-    public function __construct(MetadataManager $metadataManager, EngineInterface $templating)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        MetadataManager $metadataManager,
+        EngineInterface $templating
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->metadataManager = $metadataManager;
         $this->templating = $templating;
     }
@@ -42,6 +53,17 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      * @return string
      */
     abstract protected function getDefaultTemplate();
+
+    /**
+     * @param string $permission Permission
+     * @param object $entity     Entity
+     *
+     * @return bool
+     */
+    protected function isGranted($permission, $entity)
+    {
+        return $this->authorizationChecker->isGranted($permission, $entity);
+    }
 
     /**
      * @param array $options        Options

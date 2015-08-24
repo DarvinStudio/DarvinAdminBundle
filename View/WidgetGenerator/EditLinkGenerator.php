@@ -10,6 +10,8 @@
 
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
+
 /**
  * Edit link view widget generator
  */
@@ -22,6 +24,10 @@ class EditLinkGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
+        if (!$this->isGranted(Permission::EDIT, $entity)) {
+            return '';
+        }
+
         return $this->render($options, array(
             'entity'             => $entity,
             'translation_prefix' => $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix(),

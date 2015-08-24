@@ -160,11 +160,23 @@ class Administrator implements \Serializable, AdvancedUserInterface
     }
 
     /**
-     * Updates salt.
+     * @return Administrator
+     */
+    public function setRandomPlainPassword()
+    {
+        $this->plainPassword = hash('sha512', uniqid(mt_rand(), true));
+
+        return $this;
+    }
+
+    /**
+     * @return Administrator
      */
     public function updateSalt()
     {
         $this->salt = hash('sha512', uniqid(mt_rand(), true));
+
+        return $this;
     }
 
     /**

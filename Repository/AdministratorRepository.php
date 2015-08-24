@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Repository;
 
+use Darvin\AdminBundle\Entity\Administrator;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -31,5 +32,25 @@ class AdministratorRepository extends EntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function getNotSuperadminsBuilder()
+    {
+        $qb = $this->createDefaultQueryBuilder();
+
+        return $qb
+            ->where($qb->expr()->notLike('o.roles', ':role_superadmin'))
+            ->setParameter('role_superadmin', '%'.Administrator::ROLE_SUPERADMIN.'%');
+    }
+
+    /**
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function createDefaultQueryBuilder()
+    {
+        return $this->createQueryBuilder('o')->orderBy('o.username');
     }
 }

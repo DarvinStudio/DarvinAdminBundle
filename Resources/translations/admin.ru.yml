@@ -85,6 +85,10 @@ security:
         password:    Пароль
         remember_me: Запомнить браузер
         username:    Логин или e-mail
+    permission:
+        create_delete: Создание и удаление
+        edit:          Редактирование
+        view:          Просмотр
 
 submit:
     edit:  Сохранить и редактировать

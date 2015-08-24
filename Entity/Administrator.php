@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Entity;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints as Doctrine;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
@@ -137,9 +138,17 @@ class Administrator implements \Serializable, AdvancedUserInterface
     /**
      * @return array
      */
-    public static function getAvailableExtraRoles()
+    public function getDefaultPermissions()
     {
-        return self::$availableExtraRoles;
+        return array_fill_keys(Permission::all(), !$this->isGuest());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGuest()
+    {
+        return in_array(self::ROLE_GUEST, $this->roles);
     }
 
     /**
@@ -148,6 +157,14 @@ class Administrator implements \Serializable, AdvancedUserInterface
     public function updateSalt()
     {
         $this->salt = hash('sha512', uniqid(mt_rand(), true));
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAvailableExtraRoles()
+    {
+        return self::$availableExtraRoles;
     }
 
     /**

@@ -2,23 +2,25 @@
 
 <ul>
     {% for item in items %}
-        <li>
 
-            {% set index_url = item.indexUrl %}
-            {% set new_url = item.newUrl %}
+        {% set index_url = item.indexUrl %}
+        {% set new_url = item.newUrl %}
 
-            {% if index_url and index_url != app.request.requestUri %}
-                <a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>
-            {% else %}
-                <span>{{ item.menuTitle | trans }}</span>
-            {% endif %}
-            {% if new_url %}
-                {% if new_url != app.request.requestUri %}
-                    <a href="{{ new_url }}">+</a>
+        {% if index_url or new_url %}
+            <li>
+                {% if index_url and index_url != app.request.requestUri %}
+                    <a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>
                 {% else %}
-                    <span>+</span>
+                    <span>{{ item.menuTitle | trans }}</span>
                 {% endif %}
-            {% endif %}
-        </li>
+                {% if new_url %}
+                    {% if new_url != app.request.requestUri %}
+                        <a href="{{ new_url }}">+</a>
+                    {% else %}
+                        <span>+</span>
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% endif %}
     {% endfor %}
 </ul>

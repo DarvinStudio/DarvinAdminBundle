@@ -16,6 +16,7 @@ use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
@@ -71,6 +72,8 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function indexAction(Request $request)
     {
+        $this->checkIfUserHasPermission(Permission::VIEW);
+
         list($parentEntity, $association, $parentEntityId) = $this->getParentEntityDefinition($request);
 
         $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
@@ -120,6 +123,8 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function newAction(Request $request)
     {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
         $entityClass = $this->entityClass;
@@ -153,6 +158,8 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function editAction(Request $request, $id)
     {
+        $this->checkIfUserHasPermission(Permission::EDIT);
+
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
@@ -187,6 +194,8 @@ class CrudController extends Controller implements MenuItemInterface
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException('Only XMLHttpRequests are allowed.');
         }
+
+        $this->checkIfUserHasPermission(Permission::EDIT);
 
         $entity = $this->getEntity($id);
 
@@ -231,6 +240,8 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function showAction(Request $request, $id)
     {
+        $this->checkIfUserHasPermission(Permission::VIEW);
+
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
@@ -253,6 +264,8 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function deleteAction(Request $request, $id)
     {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
         $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
@@ -274,6 +287,10 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function getIndexUrl()
     {
+        if (!$this->isGranted(Permission::VIEW, $this->entityClass)) {
+            return null;
+        }
+
         return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_INDEX)
             ? $this->getAdminRouter()->generate($this->entityClass, AdminRouter::TYPE_INDEX)
             : null;
@@ -284,6 +301,10 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function getNewUrl()
     {
+        if (!$this->isGranted(Permission::CREATE_DELETE, $this->entityClass)) {
+            return null;
+        }
+
         return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_NEW)
             ? $this->getAdminRouter()->generate($this->entityClass, AdminRouter::TYPE_NEW)
             : null;
@@ -295,6 +316,18 @@ class CrudController extends Controller implements MenuItemInterface
     public function getMenuTitle()
     {
         return $this->meta->getBaseTranslationPrefix().'action.index.link';
+    }
+
+    /**
+     * @param string $permission Permission
+     */
+    private function checkIfUserHasPermission($permission)
+    {
+        if (!$this->isGranted($permission, $this->entityClass)) {
+            throw $this->createAccessDeniedException(
+                sprintf('You do not have "%s" permission on "%s" class objects.', $permission, $this->entityClass)
+            );
+        }
     }
 
     /**

@@ -140,7 +140,7 @@ class Administrator implements \Serializable, AdvancedUserInterface
      */
     public function getDefaultPermissions()
     {
-        return array_fill_keys(Permission::all(), !$this->isGuest());
+        return array_fill_keys(Permission::getAll(), !$this->isGuest());
     }
 
     /**
@@ -149,6 +149,14 @@ class Administrator implements \Serializable, AdvancedUserInterface
     public function isGuest()
     {
         return in_array(self::ROLE_GUEST, $this->roles);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuperadmin()
+    {
+        return in_array(self::ROLE_SUPERADMIN, $this->roles);
     }
 
     /**

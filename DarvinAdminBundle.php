@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ControllerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\MenuPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\MetadataPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\SecurityConfigurationPoolPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ViewWidgetGeneratorPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
@@ -38,6 +39,7 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new MenuPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new MetadataPass())
             ->addCompilerPass(new ResolveDefinitionTemplatesPass(), PassConfig::TYPE_BEFORE_REMOVING)
+            ->addCompilerPass(new SecurityConfigurationPoolPass())
             ->addCompilerPass(new ViewWidgetGeneratorPass());
     }
 }

@@ -1,4 +1,8 @@
 parameters:
+    darvin_admin.security.authorization_voter.class: Darvin\AdminBundle\Security\Authorization\Voter\AdminVoter
+
+    darvin_admin.security.configuration_pool.class: Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
+
     darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
 
     darvin_admin.security.user_provider.administrator.class: Darvin\AdminBundle\Security\User\AdministratorUserProvider
@@ -6,6 +10,16 @@ parameters:
     darvin_admin.security.user_provider.oauth.class: Darvin\AdminBundle\Security\User\OAuth\OAuthUserProvider
 
 services:
+    darvin_admin.security.authorization_voter:
+        class: %darvin_admin.security.authorization_voter.class%
+        arguments:
+            - "@darvin_admin.security.configuration_pool"
+        tags:
+            - { name: security.voter }
+
+    darvin_admin.security.configuration_pool:
+        class: %darvin_admin.security.configuration_pool.class%
+
     darvin_admin.security.form_type.object_permissions:
         class: %darvin_admin.security.form_type.object_permissions.class%
         arguments:

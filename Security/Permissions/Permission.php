@@ -31,7 +31,7 @@ final class Permission
     /**
      * @return array
      */
-    public static function all()
+    public static function getAll()
     {
         return self::$permissions;
     }

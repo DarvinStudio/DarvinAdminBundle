@@ -76,7 +76,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         ),
         AdminRouter::TYPE_INDEX => array(
             '%s',
-            '%s',
+            '%s/',
             '%s:indexAction',
             array(),
             array(

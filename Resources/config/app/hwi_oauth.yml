@@ -8,8 +8,12 @@ hwi_oauth:
             access_token_url:    %darvin_auth_access_token_url%
             authorization_url:   %darvin_auth_authorization_url%
             infos_url:           %darvin_auth_infos_url%
-            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            user_response_class: Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse
             paths:
-                identifier: id
+                identifier: username
                 nickname:   username
                 realname:   fullname
+                roles: roles
+                profilepicture: picture
+                phone: phone
+                error: error

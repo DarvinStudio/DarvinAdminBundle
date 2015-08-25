@@ -11,13 +11,17 @@
 namespace Darvin\AdminBundle\Security\User;
 
 use Darvin\AdminBundle\Entity\Administrator;
+use Darvin\AdminBundle\Security\OAuth\Exception\BadResponseException;
+use Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * OAuth administrator user provider
@@ -30,11 +34,25 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
     private $em;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     * @var SessionInterface
      */
-    public function __construct(EntityManager $em)
+    private $session;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $token;
+
+    /**
+     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     * @param SessionInterface $session
+     * @param TokenStorageInterface $token
+     */
+    public function __construct(EntityManager $em, SessionInterface $session, TokenStorageInterface $token)
     {
         $this->em = $em;
+        $this->session = $session;
+        $this->token = $token;
     }
 
     /**
@@ -42,6 +60,17 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
+        // hack to error invalid_grant
+        if (!$response instanceof DarvinAuthResponse) {
+            throw new BadResponseException($response);
+        }
+
+        if ($response->getError()){
+            $this->session->invalidate();
+            $this->token->setToken(null);
+            return null;
+        }
+
         return $this->loadUserByUsername($response->getNickname());
     }
 

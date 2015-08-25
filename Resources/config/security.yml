@@ -34,5 +34,4 @@ services:
 
     darvin_admin.security.user_provider.oauth_administrator:
         class: %darvin_admin.security.user_provider.oauth_administrator.class%
-        arguments:
-            - "@doctrine.orm.entity_manager"
+        arguments: [ @doctrine.orm.entity_manager, @session, @security.token_storage ]

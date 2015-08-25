@@ -10,36 +10,22 @@
 
 namespace Darvin\AdminBundle\Security\Configuration;
 
-use Darvin\ConfigBundle\Security\Authorization\ConfigurationAuthorizationChecker;
-
 /**
  * Security configuration pool
  */
 class SecurityConfigurationPool
 {
     /**
-     * @var \Darvin\ConfigBundle\Security\Authorization\ConfigurationAuthorizationChecker
-     */
-    private $configurationAuthorizationChecker;
-
-    /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
      */
     private $configurations;
 
     /**
-     * @var bool
+     * Constructor
      */
-    private $initialized;
-
-    /**
-     * @param \Darvin\ConfigBundle\Security\Authorization\ConfigurationAuthorizationChecker $configurationAuthorizationChecker Configuration authorization checker
-     */
-    public function __construct(ConfigurationAuthorizationChecker $configurationAuthorizationChecker)
+    public function __construct()
     {
-        $this->configurationAuthorizationChecker = $configurationAuthorizationChecker;
         $this->configurations = array();
-        $this->initialized = false;
     }
 
     /**
@@ -61,22 +47,6 @@ class SecurityConfigurationPool
      */
     public function getAll()
     {
-        $this->init();
-
         return $this->configurations;
-    }
-
-    private function init()
-    {
-        if ($this->initialized) {
-            return;
-        }
-        foreach ($this->configurations as $name => $configuration) {
-            if (!$this->configurationAuthorizationChecker->isAccessible($configuration)) {
-                unset($this->configurations[$name]);
-            }
-        }
-
-        $this->initialized = true;
     }
 }

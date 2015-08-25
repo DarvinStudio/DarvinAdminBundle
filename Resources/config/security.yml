@@ -20,8 +20,6 @@ services:
 
     darvin_admin.security.configuration_pool:
         class: %darvin_admin.security.configuration_pool.class%
-        arguments:
-            - "@darvin_config.security.configuration_authorization_checker"
 
     darvin_admin.security.form_type.object_permissions:
         class: %darvin_admin.security.form_type.object_permissions.class%

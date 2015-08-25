@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('child_entities')->prototype('scalar')->end()->end()
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->scalarNode('entity_name')->defaultNull()->end()
+                ->scalarNode('skip_menu')->defaultFalse()->end()
                 ->arrayNode('order_by')
                     ->useAttributeAsKey('property')
                     ->prototype('enum')->values(array('asc', 'desc'))->end()

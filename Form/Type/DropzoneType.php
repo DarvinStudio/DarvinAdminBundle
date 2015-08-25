@@ -38,13 +38,24 @@ class DropzoneType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('dropzone', 'form', array(
-            'label' => false,
-            'attr'  => array(
-                'class'  => 'dropzone',
-                'action' => $this->uploaderHelper->endpoint($options['oneup_uploader_mapping']),
-            ),
-        ));
+        $builder
+            ->add('dropzone', 'form', array(
+                'label' => false,
+                'attr'  => array(
+                    'class'          => 'dropzone',
+                    'data-filenames' => '.filenames',
+                    'data-url'       => $this->uploaderHelper->endpoint($options['oneup_uploader_mapping']),
+                ),
+            ))
+            ->add('filenames', 'collection', array(
+                'label'     => false,
+                'type'      => 'hidden',
+                'allow_add' => true,
+                'attr'      => array(
+                    'class'         => 'filenames',
+                    'data-autoinit' => 0,
+                ),
+            ));
     }
 
     /**

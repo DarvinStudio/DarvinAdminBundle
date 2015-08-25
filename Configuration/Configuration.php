@@ -10,15 +10,17 @@
 
 namespace Darvin\AdminBundle\Configuration;
 
+use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
 use Darvin\ImageBundle\Configuration\ImageConfigurationInterface;
 use Darvin\ImageBundle\Size\Size;
+use Darvin\Utils\Security\SecurableInterface;
 
 /**
  * Configuration
  */
-class Configuration extends AbstractConfiguration implements ImageConfigurationInterface
+class Configuration extends AbstractConfiguration implements ImageConfigurationInterface, SecurableInterface
 {
     /**
      * {@inheritdoc}
@@ -73,5 +75,15 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
     public function getName()
     {
         return 'darvin_admin';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllowedRoles()
+    {
+        return array(
+            Administrator::ROLE_SUPERADMIN,
+        );
     }
 }

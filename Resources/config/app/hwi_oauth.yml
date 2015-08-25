@@ -1,0 +1,15 @@
+hwi_oauth:
+    firewall_name: admin_area
+    resource_owners:
+        darvin_auth:
+            type:                oauth2
+            client_id:           %darvin_auth_client_id%
+            client_secret:       %darvin_auth_client_secret%
+            access_token_url:    %darvin_auth_access_token_url%
+            authorization_url:   %darvin_auth_authorization_url%
+            infos_url:           %darvin_auth_infos_url%
+            user_response_class: HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse
+            paths:
+                identifier: id
+                nickname:   username
+                realname:   fullname

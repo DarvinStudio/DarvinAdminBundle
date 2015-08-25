@@ -11,8 +11,7 @@ parameters:
 
 services:
     darvin_admin.security.authorization_voter:
-        class:  %darvin_admin.security.authorization_voter.class%
-        public: false
+        class: %darvin_admin.security.authorization_voter.class%
         arguments:
             - "@darvin_admin.security.configuration_pool"
         tags:

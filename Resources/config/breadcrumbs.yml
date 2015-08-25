@@ -3,8 +3,7 @@ parameters:
 
 services:
     darvin_admin.breadcrumbs.twig_extension:
-        class:  %darvin_admin.breadcrumbs.twig_extension.class%
-        public: false
+        class: %darvin_admin.breadcrumbs.twig_extension.class%
         arguments:
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"

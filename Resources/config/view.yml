@@ -131,8 +131,7 @@ services:
             - "@service_container"
 
     darvin_admin.view.widget_generator.twig_extension:
-        class:  %darvin_admin.view.widget_generator.twig_extension.class%
-        public: false
+        class: %darvin_admin.view.widget_generator.twig_extension.class%
         arguments:
             - "@darvin_admin.view.widget_generator.pool_provider"
         tags:

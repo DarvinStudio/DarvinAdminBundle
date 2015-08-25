@@ -26,7 +26,7 @@ class MenuPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $menu = $container->getDefinition('darvin_admin.menu.menu');
+        $menu = $container->getDefinition('darvin_admin.menu');
 
         foreach ($container->findTaggedServiceIds(self::TAG_MENU_ITEM) as $id => $attr) {
             $menu->addMethodCall('addItem', array(

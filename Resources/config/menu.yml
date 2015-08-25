@@ -1,16 +1,15 @@
 parameters:
-    darvin_admin.menu.menu.class: Darvin\AdminBundle\Menu\Menu
+    darvin_admin.menu.class: Darvin\AdminBundle\Menu\Menu
 
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
 services:
-    darvin_admin.menu.menu:
-        class: %darvin_admin.menu.menu.class%
+    darvin_admin.menu:
+        class: %darvin_admin.menu.class%
 
     darvin_admin.menu.twig_extension:
-        class:  %darvin_admin.menu.twig_extension.class%
-        public: false
+        class: %darvin_admin.menu.twig_extension.class%
         arguments:
-            - "@darvin_admin.menu.menu"
+            - "@darvin_admin.menu"
         tags:
             - { name: twig.extension }

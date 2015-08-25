@@ -11,11 +11,12 @@
 namespace Darvin\AdminBundle\Security\Configuration;
 
 use Darvin\ConfigBundle\Configuration\ConfigurationInterface;
+use Darvin\Utils\Security\SecurableInterface;
 
 /**
  * Security configuration
  */
-interface SecurityConfigurationInterface extends ConfigurationInterface
+interface SecurityConfigurationInterface extends ConfigurationInterface, SecurableInterface
 {
     /**
      * @return \Darvin\AdminBundle\Security\Permissions\ObjectPermissions[]

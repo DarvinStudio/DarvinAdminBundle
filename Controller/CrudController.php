@@ -320,6 +320,8 @@ class CrudController extends Controller implements MenuItemInterface
 
     /**
      * @param string $permission Permission
+     *
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
     private function checkIfUserHasPermission($permission)
     {

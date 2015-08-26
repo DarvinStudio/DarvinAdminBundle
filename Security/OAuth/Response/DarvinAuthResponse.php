@@ -12,6 +12,9 @@ namespace Darvin\AdminBundle\Security\OAuth\Response;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse;
 
+/**
+ * Darvin auth response
+ */
 class DarvinAuthResponse extends PathUserResponse
 {
     const CLASS_NAME = __CLASS__;

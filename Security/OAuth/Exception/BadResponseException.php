@@ -10,9 +10,11 @@
 
 namespace Darvin\AdminBundle\Security\OAuth\Exception;
 
-
 use Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse;
 
+/**
+ * Bad response exception
+ */
 class BadResponseException extends \LogicException
 {
     private $needClass;
@@ -20,15 +22,16 @@ class BadResponseException extends \LogicException
 
     /**
      * BadResponseException constructor.
-     * @param object $object
-     * @param $needClass
+     *
+     * @param object $object    Object
+     * @param string $needClass Need class
      */
-    public function __construct($object, $needClass=null)
+    public function __construct($object, $needClass = null)
     {
         $this->needClass = $needClass;
         $this->getClass = is_object($object) ? get_class($object) : 'not object';
 
-        if ($needClass==null){
+        if ($needClass == null) {
             $this->needClass = DarvinAuthResponse::CLASS_NAME;
         }
 

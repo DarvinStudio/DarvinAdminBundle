@@ -18,10 +18,10 @@ use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * OAuth administrator user provider
@@ -44,9 +44,9 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
     private $token;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
-     * @param SessionInterface $session
-     * @param TokenStorageInterface $token
+     * @param \Doctrine\ORM\EntityManager                                                         $em      Entity manager
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session Session
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $token   Authentication token
      */
     public function __construct(EntityManager $em, SessionInterface $session, TokenStorageInterface $token)
     {
@@ -65,9 +65,10 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
             throw new BadResponseException($response);
         }
 
-        if ($response->getError()){
+        if ($response->getError()) {
             $this->session->invalidate();
             $this->token->setToken(null);
+
             return null;
         }
 

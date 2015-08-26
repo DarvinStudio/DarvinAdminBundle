@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
-use Darvin\AdminBundle\Dropzone\DropzoneFile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -46,8 +45,7 @@ class FileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => DropzoneFile::CLASS_NAME,
-            'intention'  => md5(__FILE__.$this->getName().DropzoneFile::CLASS_NAME),
+            'intention' => md5(__FILE__.$this->getName()),
         ));
     }
 

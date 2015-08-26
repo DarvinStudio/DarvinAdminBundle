@@ -10,11 +10,14 @@
 
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
-use Darvin\AdminBundle\Form\DataTransformer\DropzoneToUploadablesTransformer;
 use Darvin\AdminBundle\Form\FormException;
+use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
@@ -73,10 +76,17 @@ class DropzoneType extends AbstractType
     {
         $this->validateOptions($options);
 
+        $propertyAccessor = $this->propertyAccessor;
+        $tmpDir = $this->oneupUploaderConfig['mappings'][$options['oneup_uploader_mapping']]['storage']['directory'];
+        $uploadableClass = $options['uploadable_class'];
+        $uploadableField = $this->getUploadableField($options);
+        $uploadablesField = $builder->getName();
+
         $builder
             ->add('dropzone', 'form', array(
-                'label' => false,
-                'attr'  => array(
+                'label'  => false,
+                'mapped' => false,
+                'attr'   => array(
                     'class'      => 'dropzone',
                     'data-files' => '.files',
                     'data-url'   => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
@@ -84,24 +94,52 @@ class DropzoneType extends AbstractType
             ))
             ->add('files', 'collection', array(
                 'label'     => false,
+                'mapped'    => false,
                 'type'      => new FileType(),
                 'allow_add' => true,
                 'options'   => array(
                     'label' => false,
                 ),
-                'attr'      => array(
+                'attr' => array(
                     'class'         => 'files',
                     'data-autoinit' => 0,
                 ),
             ))
-            ->addModelTransformer(
-                new DropzoneToUploadablesTransformer(
-                    $this->propertyAccessor,
-                    $this->oneupUploaderConfig['mappings'][$options['oneup_uploader_mapping']]['storage']['directory'],
-                    $options['uploadable_class'],
-                    $this->getUploadableField($options)
-                )
-            );
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($propertyAccessor, $uploadablesField) {
+                $event->setData($propertyAccessor->getValue($event->getForm()->getParent()->getData(), $uploadablesField));
+            })
+            ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) use (
+                $propertyAccessor,
+                $tmpDir,
+                $uploadableClass,
+                $uploadableField,
+                $uploadablesField
+            ) {
+                $data = $event->getData();
+
+                if (empty($data['files'])) {
+                    return;
+                }
+
+                $object = $event->getForm()->getParent()->getData();
+
+                $uploadables = $propertyAccessor->getValue($object, $uploadablesField);
+
+                foreach ($data['files'] as $fileInfo) {
+                    $tmpPathname = $tmpDir.DIRECTORY_SEPARATOR.$fileInfo['filename'];
+
+                    $file = new UploadedFile($tmpPathname, $fileInfo['originalFilename'], null, null, null, true);
+
+                    $uploadable = new $uploadableClass();
+                    $propertyAccessor->setValue($uploadable, $uploadableField, $file);
+
+                    $uploadables->add($uploadable);
+                }
+
+                $setter = 'set'.StringsUtil::toCamelCase($uploadablesField);
+
+                $object->$setter($uploadables);
+            });
     }
 
     /**
@@ -112,6 +150,7 @@ class DropzoneType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'intention'              => md5(__FILE__.$this->getName()),
+                'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
             ))
             ->setDefined(array(

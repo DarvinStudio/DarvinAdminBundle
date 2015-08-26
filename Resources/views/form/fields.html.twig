@@ -18,6 +18,22 @@
     {{- block('form_widget') -}}
 {%- endblock collection_widget -%}
 
+{% block darvin_admin_dropzone_widget %}
+    {% if form.vars.data %}
+        {% for image in form.vars.data %}
+            <a href="{{ image | image_original }}"><img src="{{ image | image_crop('admin') }}"></a>
+        {% endfor %}
+    {% endif %}
+    {{ form_widget(form) }}
+{% endblock %}
+
+{% block darvin_image_image_widget %}
+    {% if form.vars.data and form.vars.data.id %}
+        <a href="{{ form.vars.data | image_original }}"><img src="{{ form.vars.data | image_crop('admin') }}"></a>
+    {% endif %}
+    {{ form_widget(form) }}
+{% endblock %}
+
 {%- block form_label -%}
     {% if label is not sameas(false) -%}
         {% if not compound -%}

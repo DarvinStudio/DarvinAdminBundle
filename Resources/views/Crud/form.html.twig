@@ -1,5 +1,6 @@
 {% trans_default_domain 'admin' %}
 
+{{ form_errors(form) }}
 {{ form_start(form) }}
 {% for name, fields in field_groups %}
     <div>

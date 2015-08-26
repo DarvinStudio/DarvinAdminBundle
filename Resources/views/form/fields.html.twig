@@ -20,7 +20,7 @@
 
 {% block darvin_admin_dropzone_widget %}
     {% if form.vars.data %}
-        {% for image in form.vars.data %}
+        {% for image in form.vars.data if image.id %}
             <a href="{{ image | image_original }}"><img src="{{ image | image_crop('admin') }}"></a>
         {% endfor %}
     {% endif %}

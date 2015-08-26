@@ -1,0 +1,6 @@
+oneup_uploader:
+    mappings:
+        darvin:
+            frontend: dropzone
+            storage:
+                directory: %kernel.cache_dir%/files

@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\AdminBundle\Flash\FlashNotifier;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Menu\MenuItemInterface;

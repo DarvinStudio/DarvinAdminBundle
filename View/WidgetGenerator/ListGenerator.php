@@ -68,29 +68,8 @@ class ListGenerator extends AbstractWidgetGenerator
             throw new WidgetGeneratorException($message);
         }
 
-        $valuesCallback = $options['values_callback'];
+        $list = $this->createList($keys, $this->getValues($options));
 
-        if (!is_callable($valuesCallback)) {
-            throw new WidgetGeneratorException('Values callback is not callable.');
-        }
-
-        $values = $valuesCallback();
-
-        if (!is_array($values) && !$values instanceof \Traversable) {
-            throw new WidgetGeneratorException(
-                sprintf('Values callback must return array or instance of \Traversable, "%s" provided.', gettype($values))
-            );
-        }
-
-        $list = array();
-
-        foreach ($keys as $key) {
-            if (!array_key_exists($key, $values)) {
-                continue;
-            }
-
-            $list[$key] = $values[$key];
-        }
         if (empty($list)) {
             return '';
         }
@@ -128,5 +107,49 @@ class ListGenerator extends AbstractWidgetGenerator
             'keys_property',
             'values_callback',
         );
+    }
+
+    /**
+     * @param array $keys   Keys
+     * @param array $values Values
+     *
+     * @return array
+     */
+    private function createList(array $keys, array $values)
+    {
+        $list = array();
+
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $values)) {
+                $list[$key] = $values[$key];
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @param array $options Options
+     *
+     * @return array
+     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     */
+    private function getValues(array $options)
+    {
+        $valuesCallback = $options['values_callback'];
+
+        if (!is_callable($valuesCallback)) {
+            throw new WidgetGeneratorException('Values callback is not callable.');
+        }
+
+        $values = $valuesCallback();
+
+        if (!is_array($values) && !$values instanceof \Traversable) {
+            throw new WidgetGeneratorException(
+                sprintf('Values callback must return array or instance of \Traversable, "%s" provided.', gettype($values))
+            );
+        }
+
+        return $values;
     }
 }

@@ -1,11 +1,11 @@
-import_configuration:
+darvin_admin_import_configuration:
     resource: "@DarvinAdminBundle/Resources/config/routing/configuration.yml"
     prefix:   /configuration
 
-import_security:
+darvin_admin_import_security:
     resource: "@DarvinAdminBundle/Resources/config/routing/security.yml"
     prefix:   /
 
-import_homepage:
+darvin_admin_import_homepage:
     resource: "@DarvinAdminBundle/Resources/config/routing/homepage.yml"
     prefix:   /

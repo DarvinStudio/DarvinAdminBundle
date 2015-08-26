@@ -25,10 +25,6 @@ administrator:
         roles:    Роли
         username: Логин
 
-boolean:
-    - Нет
-    - Да
-
 configuration:
     action:
         edit:

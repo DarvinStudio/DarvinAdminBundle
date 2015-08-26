@@ -12,8 +12,8 @@ namespace Darvin\AdminBundle\View;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
-use Darvin\AdminBundle\Stringifier\Stringifier;
 use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool;
+use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -39,7 +39,7 @@ abstract class AbstractEntityToViewTransformer
     protected $propertyAccessor;
 
     /**
-     * @var \Darvin\AdminBundle\Stringifier\Stringifier
+     * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
      */
     protected $stringifier;
 
@@ -57,7 +57,7 @@ abstract class AbstractEntityToViewTransformer
      * @param \Symfony\Component\DependencyInjection\ContainerInterface    $container           DI container
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                 $metadataManager     Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface  $propertyAccessor    Property accessor
-     * @param \Darvin\AdminBundle\Stringifier\Stringifier                  $stringifier         Stringifier
+     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface       $stringifier         Stringifier
      * @param \Symfony\Component\Translation\TranslatorInterface           $translator          Translator
      * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
      */
@@ -65,7 +65,7 @@ abstract class AbstractEntityToViewTransformer
         ContainerInterface $container,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
-        Stringifier $stringifier,
+        StringifierInterface $stringifier,
         TranslatorInterface $translator,
         WidgetGeneratorPool $widgetGeneratorPool
     ) {

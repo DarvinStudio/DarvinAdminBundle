@@ -69,7 +69,7 @@ class ConfigurationsType extends AbstractType
         $resolver->setDefaults(array(
             'cascade_validation' => true,
             'data_class'         => get_class($this->configurationPool),
-            'intention'          => md5(__FILE__),
+            'intention'          => md5(__FILE__.$this->getName()),
         ));
     }
 

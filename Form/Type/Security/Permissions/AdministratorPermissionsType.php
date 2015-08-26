@@ -60,7 +60,7 @@ class AdministratorPermissionsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => AdministratorPermissions::CLASS_NAME,
-            'intention'  => md5(__CLASS__),
+            'intention'  => md5(__FILE__.$this->getName()),
         ));
     }
 

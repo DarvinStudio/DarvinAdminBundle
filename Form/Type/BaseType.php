@@ -82,7 +82,7 @@ class BaseType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'         => $this->meta->getEntityClass(),
-            'intention'          => md5(__FILE__.$this->meta->getEntityClass()),
+            'intention'          => md5(__FILE__.$this->getName().$this->meta->getEntityClass()),
             'translation_domain' => 'admin',
         ));
     }

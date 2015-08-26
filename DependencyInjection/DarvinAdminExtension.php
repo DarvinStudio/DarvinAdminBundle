@@ -31,7 +31,8 @@ class DarvinAdminExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        ConfigInjector::inject($config, $container, $this->getAlias());
+        $configInjector = new ConfigInjector();
+        $configInjector->inject($config, $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('administrator.yml');

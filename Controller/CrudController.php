@@ -16,6 +16,7 @@ use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\Utils\Flash\FlashNotifierInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
@@ -225,7 +226,7 @@ class CrudController extends Controller implements MenuItemInterface
             )),
             'message' => $formIsValid
                 ? $this->meta->getBaseTranslationPrefix().'action.update_property.success'
-                : FlashNotifier::MESSAGE_FORM_ERROR
+                : FlashNotifierInterface::MESSAGE_FORM_ERROR
             ,
             'success' => $formIsValid,
         ));

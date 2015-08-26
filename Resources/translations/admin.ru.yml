@@ -68,6 +68,7 @@ image:
         name:      Название
     size:
         admin: Стандартный
+    sizes: Размеры
 
 interface:
     actions: Действия
@@ -90,6 +91,10 @@ security:
         create_delete: Создание и удаление
         edit:          Редактирование
         view:          Просмотр
+
+size:
+    height: Высота
+    width:  Ширина
 
 submit:
     edit:  Сохранить и редактировать

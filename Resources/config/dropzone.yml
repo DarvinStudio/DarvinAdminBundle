@@ -6,5 +6,8 @@ services:
         class: %darvin_admin.dropzone.form_type.class%
         arguments:
             - "@oneup_uploader.templating.uploader_helper"
+            - "@property_accessor"
+            - "@vich_uploader.metadata_reader"
+            - %oneup_uploader.config%
         tags:
             - { name: form.type, alias: darvin_admin_dropzone }

@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('debug')->defaultFalse()->end()
+                ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
                 ->arrayNode('project')
                     ->isRequired()
                     ->children()

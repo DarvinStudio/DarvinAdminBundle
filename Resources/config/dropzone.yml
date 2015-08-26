@@ -9,5 +9,6 @@ services:
             - "@property_accessor"
             - "@vich_uploader.metadata_reader"
             - %oneup_uploader.config%
+            - %darvin_admin.upload_max_size_mb%
         tags:
             - { name: form.type, alias: darvin_admin_dropzone }

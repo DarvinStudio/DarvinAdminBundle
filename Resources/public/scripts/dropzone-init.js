@@ -8,6 +8,7 @@ $(document).ready(function () {
         var filePrototype = $files.data('prototype');
 
         $dropzone.dropzone({
+            url:     $dropzone.data('url'),
             success: function (file, response) {
                 var $file = $(filePrototype.replace(/__name__/g, $files.children().length));
 
@@ -16,7 +17,11 @@ $(document).ready(function () {
 
                 $files.append($file);
             },
-            url: $dropzone.data('url')
+            acceptedFiles:      $dropzone.data('accepted-files'),
+            dictDefaultMessage: Translator.trans('dropzone.default_message'),
+            dictFileTooBig:     Translator.trans('dropzone.file_too_big'),
+            filesizeBase:       1024,
+            maxFilesize:        $dropzone.data('max-filesize')
         });
     });
 });

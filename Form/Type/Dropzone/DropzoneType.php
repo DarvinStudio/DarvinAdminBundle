@@ -27,6 +27,7 @@ use Vich\UploaderBundle\Metadata\MetadataReader;
  */
 class DropzoneType extends AbstractType
 {
+    const DEFAULT_ACCEPTED_FILES         = 'image/*';
     const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin';
 
     const OPTION_UPLOADABLE_FIELD = 'uploadable_field';
@@ -52,21 +53,29 @@ class DropzoneType extends AbstractType
     private $oneupUploaderConfig;
 
     /**
+     * @var int
+     */
+    private $uploadMaxSizeMB;
+
+    /**
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
+     * @param int                                                         $uploadMaxSizeMB            Max upload file size in MB
      */
     public function __construct(
         UploaderHelper $oneupUploaderHelper,
         PropertyAccessorInterface $propertyAccessor,
         MetadataReader $vichUploaderMetadataReader,
-        array $oneupUploaderConfig
+        array $oneupUploaderConfig,
+        $uploadMaxSizeMB
     ) {
         $this->oneupUploaderHelper = $oneupUploaderHelper;
         $this->propertyAccessor = $propertyAccessor;
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
+        $this->uploadMaxSizeMB = $uploadMaxSizeMB;
     }
 
     /**
@@ -87,9 +96,11 @@ class DropzoneType extends AbstractType
                 'label'  => false,
                 'mapped' => false,
                 'attr'   => array(
-                    'class'      => 'dropzone',
-                    'data-files' => '.files',
-                    'data-url'   => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
+                    'class'               => 'dropzone',
+                    'data-accepted-files' => $options['accepted_files'],
+                    'data-files'          => '.files',
+                    'data-max-filesize'   => $this->uploadMaxSizeMB,
+                    'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
                 ),
             ))
             ->add('files', 'collection', array(
@@ -149,11 +160,13 @@ class DropzoneType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
+                'accepted_files'         => self::DEFAULT_ACCEPTED_FILES,
                 'intention'              => md5(__FILE__.$this->getName()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
             ))
             ->setDefined(array(
+                'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
             ))
             ->setRequired(array(

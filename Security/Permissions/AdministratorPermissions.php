@@ -15,7 +15,7 @@ namespace Darvin\AdminBundle\Security\Permissions;
  */
 class AdministratorPermissions
 {
-    const CLASS_NAME = 'Darvin\\AdminBundle\\Security\\Permissions\\AdministratorPermissions';
+    const CLASS_NAME = __CLASS__;
 
     /**
      * @var int

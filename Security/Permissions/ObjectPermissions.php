@@ -15,7 +15,7 @@ namespace Darvin\AdminBundle\Security\Permissions;
  */
 class ObjectPermissions
 {
-    const CLASS_NAME = 'Darvin\\AdminBundle\\Security\\Permissions\\ObjectPermissions';
+    const CLASS_NAME = __CLASS__;
 
     /**
      * @var string

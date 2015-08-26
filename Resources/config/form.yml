@@ -18,7 +18,7 @@ services:
         class: %darvin_admin.form.handler.class%
         arguments:
             - "@doctrine.orm.entity_manager"
-            - "@darvin_admin.flash.notifier"
+            - "@darvin_utils.flash.notifier"
             - "@darvin_admin.metadata.manager"
 
     darvin_admin.form.type_extension.info:

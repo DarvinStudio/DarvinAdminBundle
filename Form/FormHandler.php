@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\AdminBundle\Flash\FlashNotifier;
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\Utils\Flash\FlashNotifierInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
 
@@ -26,7 +26,7 @@ class FormHandler
     private $em;
 
     /**
-     * @var \Darvin\AdminBundle\Flash\FlashNotifier
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
      */
     private $flashNotifier;
 
@@ -37,10 +37,10 @@ class FormHandler
 
     /**
      * @param \Doctrine\ORM\EntityManager                  $em              Entity manager
-     * @param \Darvin\AdminBundle\Flash\FlashNotifier      $flashNotifier   Flash notifier
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface   $flashNotifier   Flash notifier
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
      */
-    public function __construct(EntityManager $em, FlashNotifier $flashNotifier, MetadataManager $metadataManager)
+    public function __construct(EntityManager $em, FlashNotifierInterface $flashNotifier, MetadataManager $metadataManager)
     {
         $this->em = $em;
         $this->flashNotifier = $flashNotifier;

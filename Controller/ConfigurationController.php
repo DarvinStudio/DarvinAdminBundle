@@ -60,10 +60,10 @@ class ConfigurationController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Flash\FlashNotifier
+     * @return \Darvin\Utils\Flash\FlashNotifierInterface
      */
     private function getFlashNotifier()
     {
-        return $this->container->get('darvin_admin.flash.notifier');
+        return $this->container->get('darvin_utils.flash.notifier');
     }
 }

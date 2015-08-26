@@ -1,8 +1,0 @@
-parameters:
-    darvin_admin.flash.notifier.class: Darvin\AdminBundle\Flash\FlashNotifier
-
-services:
-    darvin_admin.flash.notifier:
-        class: %darvin_admin.flash.notifier.class%
-        arguments:
-            - "@session.flash_bag"

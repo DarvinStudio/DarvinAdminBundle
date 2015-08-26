@@ -58,6 +58,8 @@ class AdminVoter implements VoterInterface
      */
     public function vote(TokenInterface $token, $object, array $attributes)
     {
+        $objectOrClass = $object;
+
         $user = $token->getUser();
 
         if (!$user instanceof Administrator) {
@@ -66,11 +68,11 @@ class AdminVoter implements VoterInterface
         if ($user->isSuperadmin()) {
             return self::ACCESS_GRANTED;
         }
-        if (empty($object)) {
+        if (empty($objectOrClass)) {
             return self::ACCESS_ABSTAIN;
         }
 
-        $class = is_object($object) ? ClassUtils::getClass($object) : $object;
+        $class = $this->getClass($objectOrClass);
 
         if (!$this->supportsClass($class)) {
             return self::ACCESS_ABSTAIN;
@@ -161,5 +163,15 @@ class AdminVoter implements VoterInterface
         }
 
         $this->initialized = true;
+    }
+
+    /**
+     * @param mixed $objectOrClass Object or class
+     *
+     * @return string
+     */
+    private function getClass($objectOrClass)
+    {
+        return is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
     }
 }

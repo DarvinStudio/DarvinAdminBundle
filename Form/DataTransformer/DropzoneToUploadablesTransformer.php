@@ -76,16 +76,18 @@ class DropzoneToUploadablesTransformer implements DataTransformerInterface
 
         $uploadables = array();
 
-        $filenames = $value['filenames'];
+        $dropzoneFiles = $value['files'];
 
-        if (empty($filenames)) {
+        if (empty($dropzoneFiles)) {
             return array();
         }
 
         $uploadableClass = $this->uploadableClass;
 
-        foreach ($filenames as $filename) {
-            $file = new UploadedFile($this->tmpFilesDir.DIRECTORY_SEPARATOR.$filename, $filename, null, null, null, true);
+        /** @var \Darvin\AdminBundle\Dropzone\DropzoneFile $dropzoneFile */
+        foreach ($dropzoneFiles as $dropzoneFile) {
+            $pathname = $this->tmpFilesDir.DIRECTORY_SEPARATOR.$dropzoneFile->getFilename();
+            $file = new UploadedFile($pathname, $dropzoneFile->getOriginalFilename(), null, null, null, true);
 
             $uploadable = new $uploadableClass();
             $this->propertyAccessor->setValue($uploadable, $this->uploadableField, $file);

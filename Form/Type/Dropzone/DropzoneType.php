@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Type;
+namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
 use Darvin\AdminBundle\Form\DataTransformer\DropzoneToUploadablesTransformer;
 use Darvin\AdminBundle\Form\FormException;
@@ -77,17 +77,20 @@ class DropzoneType extends AbstractType
             ->add('dropzone', 'form', array(
                 'label' => false,
                 'attr'  => array(
-                    'class'          => 'dropzone',
-                    'data-filenames' => '.filenames',
-                    'data-url'       => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
+                    'class'      => 'dropzone',
+                    'data-files' => '.files',
+                    'data-url'   => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
                 ),
             ))
-            ->add('filenames', 'collection', array(
+            ->add('files', 'collection', array(
                 'label'     => false,
-                'type'      => 'hidden',
+                'type'      => new FileType(),
                 'allow_add' => true,
+                'options'   => array(
+                    'label' => false,
+                ),
                 'attr'      => array(
-                    'class'         => 'filenames',
+                    'class'         => 'files',
                     'data-autoinit' => 0,
                 ),
             ))
@@ -108,6 +111,7 @@ class DropzoneType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
+                'intention'              => md5(__FILE__.$this->getName()),
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
             ))
             ->setDefined(array(

@@ -1,15 +1,20 @@
 $(document).ready(function () {
     Dropzone.autoDiscover = false;
 
-    $('.dropzone[data-filenames][data-url]').each(function () {
+    $('.dropzone[data-files][data-url]').each(function () {
         var $dropzone = $(this);
 
-        var $filenames = $dropzone.parents('form').first().find($dropzone.data('filenames') + '[data-prototype]');
-        var filenamePrototype = $filenames.data('prototype');
+        var $files = $dropzone.parents('form').first().find($dropzone.data('files') + '[data-prototype]');
+        var filePrototype = $files.data('prototype');
 
         $dropzone.dropzone({
             success: function (file, response) {
-                $filenames.append($(filenamePrototype.replace(/__name__/g, $filenames.children().length)).val(response[0]));
+                var $file = $(filePrototype.replace(/__name__/g, $files.children().length));
+
+                $file.find('.filename').val(response[0]);
+                $file.find('.original_filename').val(file.name);
+
+                $files.append($file);
             },
             url: $dropzone.data('url')
         });

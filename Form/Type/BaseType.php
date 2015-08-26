@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -68,7 +69,7 @@ class BaseType extends AbstractType
             $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
 
             if (!array_key_exists('label', $fieldOptions)) {
-                $fieldOptions['label'] = $translationPrefix.$field;
+                $fieldOptions['label'] = $translationPrefix.StringsUtil::toUnderscore($field);
             }
 
             $builder->add($field, $attr['type'], $fieldOptions);

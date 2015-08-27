@@ -8,6 +8,7 @@ $(document).ready(function () {
 
     $collections.each(function () {
         var $collection = $(this);
+        $collection.data('index', $collection.children().length);
 
         if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
             $collection.children().each(function () {
@@ -23,7 +24,7 @@ $(document).ready(function () {
         .on('click', 'form .collection[data-prototype] .collection_add', function () {
             var $addButton = $(this);
             var $collection = $addButton.parent('.collection[data-prototype]');
-            var newElement = $collection.data('prototype').replace(/__name__label__|__name__/g, $collection.children().length);
+            var newElement = $collection.data('prototype').replace(/__name__label__|__name__/g, $collection.data('index'));
             var $newElement = $(newElement);
 
             if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
@@ -31,6 +32,8 @@ $(document).ready(function () {
             }
 
             $addButton.before($newElement);
+
+            $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {
             $(this).parents('.row:first').remove();

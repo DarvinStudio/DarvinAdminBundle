@@ -134,13 +134,7 @@ abstract class AbstractEntityToViewTransformer
                 );
             }
             if (!$this->propertyAccessor->isReadable($entity, $field)) {
-                $message = sprintf(
-                    'Property "%s::$%s" is not readable. Make sure it has public access.',
-                    $meta->getEntityClass(),
-                    $field
-                );
-
-                throw new ViewException($message);
+                throw new ViewException(sprintf('Property "%s::$%s" is not readable.', $meta->getEntityClass(), $field));
             }
         }
     }

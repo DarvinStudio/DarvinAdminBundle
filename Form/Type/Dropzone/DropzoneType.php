@@ -230,13 +230,9 @@ class DropzoneType extends AbstractType
         $uploadable = new $uploadableClass();
 
         if (!$this->propertyAccessor->isWritable($uploadable, $uploadableField)) {
-            $message = sprintf(
-                'Uploadable field "%s::$%s" is not writable. Make sure it has public access.',
-                $uploadableClass,
-                $uploadableField
+            throw new FormException(
+                sprintf('Uploadable field "%s::$%s" is not writable.', $uploadableClass, $uploadableField)
             );
-
-            throw new FormException($message);
         }
 
         return $uploadableField;

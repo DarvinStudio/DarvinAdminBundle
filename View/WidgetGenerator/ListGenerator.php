@@ -43,13 +43,9 @@ class ListGenerator extends AbstractWidgetGenerator
             return '';
         }
         if (!$this->propertyAccessor->isReadable($entity, $options['keys_property'])) {
-            $message = sprintf(
-                'Property "%s::$%s" is not readable. Make sure it has public access.',
-                ClassUtils::getClass($entity),
-                $options['keys_property']
+            throw new WidgetGeneratorException(
+                sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['keys_property'])
             );
-
-            throw new WidgetGeneratorException($message);
         }
 
         $keys = $this->propertyAccessor->getValue($entity, $options['keys_property']);

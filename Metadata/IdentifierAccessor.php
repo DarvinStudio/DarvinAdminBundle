@@ -50,13 +50,9 @@ class IdentifierAccessor
         $identifier = $meta->getIdentifier();
 
         if (!$this->propertyAccessor->isReadable($entity, $identifier)) {
-            $message = sprintf(
-                'Identifier "%s::$%s" is not readable. Make sure it has public access.',
-                ClassUtils::getClass($entity),
-                $identifier
+            throw new MetadataException(
+                sprintf('Identifier "%s::$%s" is not readable.', ClassUtils::getClass($entity), $identifier)
             );
-
-            throw new MetadataException($message);
         }
 
         return $this->propertyAccessor->getValue($entity, $identifier);

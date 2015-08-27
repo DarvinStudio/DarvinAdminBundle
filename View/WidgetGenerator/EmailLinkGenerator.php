@@ -43,13 +43,9 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
             return '';
         }
         if (!$this->propertyAccessor->isReadable($entity, $options['email_property'])) {
-            $message = sprintf(
-                'Property "%s::$%s" is not readable. Make sure it has public access.',
-                ClassUtils::getClass($entity),
-                $options['email_property']
+            throw new WidgetGeneratorException(
+                sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['email_property'])
             );
-
-            throw new WidgetGeneratorException($message);
         }
 
         $email = $this->propertyAccessor->getValue($entity, $options['email_property']);

@@ -4,7 +4,7 @@ $(document).ready(function () {
 
         var $deleteLink = $(this);
 
-        if ($deleteLink.data('submitted')) {
+        if ($deleteLink.data('submitted') || !confirm(Translator.trans('image.action.delete.confirm'))) {
             return;
         }
 

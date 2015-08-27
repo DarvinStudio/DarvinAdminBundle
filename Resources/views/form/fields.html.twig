@@ -21,7 +21,9 @@
 {% block darvin_admin_dropzone_widget %}
     {% if form.vars.data %}
         {% for image in form.vars.data if image.id and image_exists(image) %}
-            <a href="{{ image | image_original }}"><img src="{{ image | image_crop('admin') }}"></a>
+
+            {% include 'DarvinAdminBundle:form:image.html.twig' %}
+
         {% endfor %}
     {% endif %}
     {{ form_widget(form) }}
@@ -29,7 +31,11 @@
 
 {% block darvin_image_image_widget %}
     {% if form.vars.data and image_exists(form.vars.data) %}
-        <a href="{{ form.vars.data | image_original }}"><img src="{{ form.vars.data | image_crop('admin') }}"></a>
+
+        {% include 'DarvinAdminBundle:form:image.html.twig' with {
+            'image': form.vars.data,
+        } %}
+
     {% endif %}
     {{ form_widget(form) }}
 {% endblock %}

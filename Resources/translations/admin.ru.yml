@@ -55,6 +55,9 @@ form_collections:
 
 image:
     action:
+        delete:
+            submit:  Удалить
+            success: Изображение успешно удалено
         edit:
             link:    Редактировать изображение
             success: Изображение успешно изменено

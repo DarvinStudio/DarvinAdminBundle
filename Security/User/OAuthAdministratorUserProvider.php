@@ -124,6 +124,6 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository('DarvinAdminBundle:Administrator');
+        return $this->em->getRepository(Administrator::CLASS_NAME);
     }
 }

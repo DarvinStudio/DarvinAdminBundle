@@ -1,0 +1,8 @@
+{% trans_default_domain 'admin' %}
+
+<span class="image">
+    <a href="{{ image | image_original }}"><img src="{{ image | image_crop('admin') }}"></a>
+    <a class="image_delete" data-url="{{ path('darvin_image_image_delete', { 'id': image.id }) }}" href="#">
+        {% trans %}image.action.delete.submit{% endtrans %}
+    </a>
+</span>

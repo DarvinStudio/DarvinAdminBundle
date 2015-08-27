@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
+use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Security\Permissions\AdministratorPermissions;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Doctrine\ORM\EntityManager;
@@ -121,6 +122,6 @@ class ObjectPermissionsType extends AbstractType
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository('DarvinAdminBundle:Administrator');
+        return $this->em->getRepository(Administrator::CLASS_NAME);
     }
 }

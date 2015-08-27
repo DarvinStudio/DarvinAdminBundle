@@ -79,6 +79,6 @@ class AdministratorUserProvider implements UserProviderInterface
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository('DarvinAdminBundle:Administrator');
+        return $this->em->getRepository(Administrator::CLASS_NAME);
     }
 }

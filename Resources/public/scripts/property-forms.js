@@ -37,19 +37,7 @@ $(document).ready(function () {
             setTimeout(function () {
                 document.location.href = '';
             }, $.noty.defaults.timeout);
-        }).error(function (jqXHR) {
-            var message = 'exception.' + jqXHR.status;
-            var translated = Translator.trans(message);
-
-            if (translated === message) {
-                translated = Translator.trans('exception.500');
-            }
-
-            noty({
-                text: translated,
-                type: 'error'
-            });
-        });
+        }).error(onAjaxError);
     };
 
     var toggleButtons = function ($field) {

@@ -172,10 +172,8 @@ class DropzoneType extends AbstractType
             ->setRequired(array(
                 'uploadable_class',
             ))
-            ->setAllowedTypes(array(
-                'oneup_uploader_mapping' => 'string',
-                'uploadable_class'       => 'string',
-            ));
+            ->setAllowedTypes('oneup_uploader_mapping', 'string')
+            ->setAllowedTypes('uploadable_class', 'string');
     }
 
     /**

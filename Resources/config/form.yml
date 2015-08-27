@@ -17,9 +17,11 @@ services:
     darvin_admin.form.handler:
         class: %darvin_admin.form.handler.class%
         arguments:
+            - "@darvin_utils.cloner"
             - "@doctrine.orm.entity_manager"
             - "@darvin_utils.flash.notifier"
             - "@darvin_admin.metadata.manager"
+            - "@validator"
 
     darvin_admin.form.type_extension.info:
         class: %darvin_admin.form.type_extension.info.class%

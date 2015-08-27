@@ -56,31 +56,6 @@ class AdminFormFactory
     private $metadataManager;
 
     /**
-     * @param object $entity Entity
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createDeleteForm($entity)
-    {
-        $id = $this->identifierAccessor->getValue($entity);
-
-        $builder = $this->formFactory->createNamedBuilder(
-            sprintf('delete_%d', $id),
-            'form',
-            array(
-                'id' => $id,
-            ),
-            array(
-                'action'             => $this->adminRouter->generate($entity, AdminRouter::TYPE_DELETE),
-                'intention'          => md5(__FILE__.ClassUtils::getClass($entity).$id),
-                'translation_domain' => 'admin',
-            )
-        )->add('id', 'hidden');
-
-        return $builder->getForm();
-    }
-
-    /**
      * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
      * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
@@ -96,6 +71,26 @@ class AdminFormFactory
         $this->formFactory = $formFactory;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
+    }
+
+    /**
+     * @param object $entity Entity
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createCopyForm($entity)
+    {
+        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, AdminRouter::TYPE_COPY));
+    }
+
+    /**
+     * @param object $entity Entity
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createDeleteForm($entity)
+    {
+        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, AdminRouter::TYPE_DELETE));
     }
 
     /**
@@ -131,6 +126,33 @@ class AdminFormFactory
                 'label' => self::$submitButtons[$name],
             ));
         }
+
+        return $builder->getForm();
+    }
+
+    /**
+     * @param object $entity     Entity
+     * @param string $namePrefix Form name prefix
+     * @param string $action     Form action
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function createIdForm($entity, $namePrefix, $action)
+    {
+        $id = $this->identifierAccessor->getValue($entity);
+
+        $builder = $this->formFactory->createNamedBuilder(
+            $namePrefix.$id,
+            'form',
+            array(
+                'id' => $id,
+            ),
+            array(
+                'action'             => $action,
+                'intention'          => md5(__FILE__.ClassUtils::getClass($entity).$id),
+                'translation_domain' => 'admin',
+            )
+        )->add('id', 'hidden');
 
         return $builder->getForm();
     }

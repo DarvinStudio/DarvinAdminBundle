@@ -36,6 +36,17 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'post',
             ),
         ),
+        AdminRouter::TYPE_COPY => array(
+            '%s_copy',
+            '%s/{id}/copy',
+            '%s:copyAction',
+            array(
+                'id' => '\d+',
+            ),
+            array(
+                'post',
+            ),
+        ),
         AdminRouter::TYPE_DELETE => array(
             '%s_delete',
             '%s/{id}/delete',

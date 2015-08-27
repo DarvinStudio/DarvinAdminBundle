@@ -21,6 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -148,6 +149,27 @@ class CrudController extends Controller implements MenuItemInterface
                 'meta'          => $this->meta,
                 'parent_entity' => $parentEntity,
             ));
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param int                                       $id      Entity ID
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function copyAction(Request $request, $id)
+    {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
+        $entity = $this->getEntity($id);
+
+        $form = $this->getAdminFormFactory()->createCopyForm($entity)->handleRequest($request);
+
+        $this->getFormHandler()->handleCopyForm($form, $entity);
+
+        $url = $request->headers->get('referer', $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_INDEX));
+
+        return new RedirectResponse($url);
     }
 
     /**

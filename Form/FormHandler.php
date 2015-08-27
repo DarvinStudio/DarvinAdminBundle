@@ -11,15 +11,22 @@
 namespace Darvin\AdminBundle\Form;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\Utils\Cloner\ClonerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Form handler
  */
 class FormHandler
 {
+    /**
+     * @var \Darvin\Utils\Cloner\ClonerInterface
+     */
+    private $cloner;
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -36,15 +43,66 @@ class FormHandler
     private $metadataManager;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                  $em              Entity manager
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface   $flashNotifier   Flash notifier
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
+     * @var \Symfony\Component\Validator\Validator\ValidatorInterface
      */
-    public function __construct(EntityManager $em, FlashNotifierInterface $flashNotifier, MetadataManager $metadataManager)
-    {
+    private $validator;
+
+    /**
+     * @param \Darvin\Utils\Cloner\ClonerInterface                      $cloner          Cloner
+     * @param \Doctrine\ORM\EntityManager                               $em              Entity manager
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                $flashNotifier   Flash notifier
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager              $metadataManager Metadata manager
+     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator       Validator
+     */
+    public function __construct(
+        ClonerInterface $cloner,
+        EntityManager $em,
+        FlashNotifierInterface $flashNotifier,
+        MetadataManager $metadataManager,
+        ValidatorInterface $validator
+    ) {
+        $this->cloner = $cloner;
         $this->em = $em;
         $this->flashNotifier = $flashNotifier;
         $this->metadataManager = $metadataManager;
+        $this->validator = $validator;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form           Copy form
+     * @param object                                $entity         Entity
+     * @param string                                $successMessage Success message
+     *
+     * @return bool
+     */
+    public function handleCopyForm(FormInterface $form, $entity, $successMessage = 'action.copy.success')
+    {
+        $cloner = $this->cloner;
+        $flashNotifier = $this->flashNotifier;
+        $validator = $this->validator;
+
+        return $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) use (
+            $cloner,
+            $flashNotifier,
+            $validator
+        ) {
+            $copy = $cloner->createClone($entity);
+
+            $violations = $validator->validate($copy);
+
+            if (0 === $violations->count()) {
+                $em->persist($copy);
+                $em->flush();
+
+                return true;
+            }
+            /** @var \Symfony\Component\Validator\ConstraintViolation $violation */
+            foreach ($violations as $violation) {
+                $flashNotifier->error($violation->getInvalidValue().': '.$violation->getMessage());
+            }
+
+            return false;
+        });
     }
 
     /**
@@ -59,6 +117,8 @@ class FormHandler
         return $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) {
             $em->remove($entity);
             $em->flush();
+
+            return true;
         });
     }
 
@@ -73,18 +133,20 @@ class FormHandler
         return $this->handleForm($form, $form->getData(), $successMessage, function ($entity, EntityManager $em) {
             $em->persist($entity);
             $em->flush();
+
+            return true;
         });
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form            Form
-     * @param object                                $entity          Entity
-     * @param string                                $successMessage  Success message
-     * @param callable                              $successCallback Success callback
+     * @param \Symfony\Component\Form\FormInterface $form                  Form
+     * @param object                                $entity                Entity
+     * @param string                                $successMessage        Success message
+     * @param callable                              $entityProcessCallback Entity process callback
      *
      * @return bool
      */
-    private function handleForm(FormInterface $form, $entity, $successMessage, callable $successCallback)
+    private function handleForm(FormInterface $form, $entity, $successMessage, callable $entityProcessCallback)
     {
         if (!$form->isSubmitted()) {
             return false;
@@ -94,8 +156,9 @@ class FormHandler
 
             return false;
         }
-
-        $successCallback($entity, $this->em);
+        if (!$entityProcessCallback($entity, $this->em)) {
+            return false;
+        }
 
         $this->flashNotifier->success(
             $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix().$successMessage

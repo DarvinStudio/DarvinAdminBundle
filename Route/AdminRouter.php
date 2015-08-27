@@ -26,6 +26,7 @@ class AdminRouter
     const OPTION_ENTITY_CLASS = 'admin_entity_class';
     const OPTION_ROUTE_TYPE   = 'admin_route_type';
 
+    const TYPE_COPY            = 'copy';
     const TYPE_DELETE          = 'delete';
     const TYPE_EDIT            = 'edit';
     const TYPE_INDEX           = 'index';
@@ -37,6 +38,7 @@ class AdminRouter
      * @var array
      */
     private static $typesRequiringId = array(
+        self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
         self::TYPE_SHOW,

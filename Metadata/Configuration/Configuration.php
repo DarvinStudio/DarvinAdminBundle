@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
 use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\View\WidgetGenerator\CopyFormGenerator;
 use Darvin\AdminBundle\View\WidgetGenerator\DeleteFormGenerator;
 use Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator;
 use Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator;
@@ -67,7 +68,12 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('view')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->append($this->addViewNode('index', array(ShowLinkGenerator::ALIAS, EditLinkGenerator::ALIAS, DeleteFormGenerator::ALIAS)))
+                        ->append(
+                            $this->addViewNode(
+                                'index',
+                                array(ShowLinkGenerator::ALIAS, EditLinkGenerator::ALIAS, CopyFormGenerator::ALIAS, DeleteFormGenerator::ALIAS)
+                            )
+                        )
                         ->append($this->addViewNode('new'))
                         ->append($this->addViewNode('edit', array(ShowLinkGenerator::ALIAS, DeleteFormGenerator::ALIAS)))
                         ->append($this->addViewNode('show', array(EditLinkGenerator::ALIAS, DeleteFormGenerator::ALIAS)))

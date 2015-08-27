@@ -33,6 +33,6 @@ $(document).ready(function () {
             $addButton.before($newElement);
         })
         .on('click', 'form .collection .collection_delete', function () {
-            $(this).parent().remove();
+            $(this).parents('.row:first').remove();
         });
 });

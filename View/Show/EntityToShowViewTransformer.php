@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Show;
 
 use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
+use Darvin\Utils\Strings\StringsUtil;
 
 /**
  * Entity to show view transformer
@@ -34,7 +35,7 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($configuration['view']['show']['fields'] as $field => $attr) {
-            $label = $this->translator->trans($translationPrefix.$field, array(), 'admin');
+            $label = $this->translator->trans($translationPrefix.StringsUtil::toUnderscore($field), array(), 'admin');
 
             $content = $this->getFieldContent($entity, $field, $attr, $meta->getMappings());
 

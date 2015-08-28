@@ -53,7 +53,7 @@ class HeadItem
     /**
      * @return boolean
      */
-    public function getSortable()
+    public function isSortable()
     {
         return $this->sortable;
     }

@@ -371,7 +371,7 @@ class Administrator implements \Serializable, AdvancedUserInterface
     /**
      * @return boolean
      */
-    public function getLocked()
+    public function isLocked()
     {
         return $this->locked;
     }

@@ -90,7 +90,9 @@ abstract class AbstractEntityToViewTransformer
         if (empty($fieldAttr)) {
             $content = $this->propertyAccessor->getValue($entity, $fieldName);
 
-            return $this->stringifier->stringify($content, $mappings[$fieldName]['type']);
+            return isset($mappings[$fieldName]['type'])
+                ? $this->stringifier->stringify($content, $mappings[$fieldName]['type'])
+                : $content;
         }
         if (isset($fieldAttr['callback'])) {
             $class = $fieldAttr['callback']['class'];
@@ -122,16 +124,10 @@ abstract class AbstractEntityToViewTransformer
     protected function validateConfiguration(Metadata $meta, $entity, $viewType)
     {
         $configuration = $meta->getConfiguration();
-        $mappings = $meta->getMappings();
 
         foreach ($configuration['view'][$viewType]['fields'] as $field => $attr) {
             if (!empty($attr)) {
                 continue;
-            }
-            if (!isset($mappings[$field])) {
-                throw new ViewException(
-                    sprintf('Property "%s::$%s" does not exist or is not mapped.', $meta->getEntityClass(), $field)
-                );
             }
             if (!$this->propertyAccessor->isReadable($entity, $field)) {
                 throw new ViewException(sprintf('Property "%s::$%s" is not readable.', $meta->getEntityClass(), $field));

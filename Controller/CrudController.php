@@ -77,7 +77,11 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
+        $em = $this->getEntityManager();
+
+        $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o')
+            ->andWhere('o INSTANCE OF :doctrine_meta')
+            ->setParameter('doctrine_meta', $em->getClassMetadata($this->entityClass));
 
         if ($this->meta->hasParent()) {
             $qb->where(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);

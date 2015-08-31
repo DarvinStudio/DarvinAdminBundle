@@ -91,18 +91,21 @@ class BaseType extends AbstractType
                     continue;
                 }
 
+                /** @var \Doctrine\ORM\EntityManager $em */
+                $em = $fieldOptions['em'];
+                $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
+
+                if (empty($doctrineMeta->discriminatorValue)) {
+                    continue;
+                }
+
                 unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
 
-                $fieldOptions = array_merge($fieldOptions, array(
-                    'query_builder' => function (EntityRepository $er) use ($fieldOptions) {
-                        /** @var \Doctrine\ORM\EntityManager $em */
-                        $em = $fieldOptions['em'];
-
-                        return $er->createQueryBuilder('o')
-                            ->andWhere('o INSTANCE OF :doctrine_meta')
-                            ->setParameter('doctrine_meta', $em->getClassMetadata($fieldOptions['class']));
-                    },
-                ));
+                $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $em) {
+                    return $er->createQueryBuilder('o')
+                        ->andWhere('o INSTANCE OF :doctrine_meta')
+                        ->setParameter('doctrine_meta', $doctrineMeta);
+                };
 
                 $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);
             }

@@ -82,6 +82,7 @@ class MetadataFactory
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
             $configuration,
             $this->generateControllerId($entityNamespace, $entityName),
+            $doctrineMeta->discriminatorValue,
             $entityClass,
             $entityName,
             $this->generateFormTypeName($entityName),

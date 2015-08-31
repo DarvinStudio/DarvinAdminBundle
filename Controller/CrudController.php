@@ -79,10 +79,13 @@ class CrudController extends Controller implements MenuItemInterface
 
         $em = $this->getEntityManager();
 
-        $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o')
-            ->andWhere('o INSTANCE OF :doctrine_meta')
-            ->setParameter('doctrine_meta', $em->getClassMetadata($this->entityClass));
+        $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o');
 
+        if ($this->meta->hasDiscriminator()) {
+            $qb
+                ->andWhere('o INSTANCE OF :doctrine_meta')
+                ->setParameter('doctrine_meta', $em->getClassMetadata($this->entityClass));
+        }
         if ($this->meta->hasParent()) {
             $qb->where(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }

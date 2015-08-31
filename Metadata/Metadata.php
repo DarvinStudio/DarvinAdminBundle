@@ -46,6 +46,11 @@ class Metadata
     private $controllerId;
 
     /**
+     * @var mixed
+     */
+    private $discriminator;
+
+    /**
      * @var string
      */
     private $entityClass;
@@ -80,6 +85,7 @@ class Metadata
      * @param string $entityTranslationPrefix Entity translation prefix
      * @param array  $configuration           Configuration
      * @param string $controllerId            Controller service ID
+     * @param mixed  $discriminator           Discriminator
      * @param string $entityClass             Entity class
      * @param string $entityName              Entity name
      * @param string $formTypeName            Form type name
@@ -92,6 +98,7 @@ class Metadata
         $entityTranslationPrefix,
         array $configuration,
         $controllerId,
+        $discriminator,
         $entityClass,
         $entityName,
         $formTypeName,
@@ -103,6 +110,7 @@ class Metadata
         $this->entityTranslationPrefix = $entityTranslationPrefix;
         $this->configuration = $configuration;
         $this->controllerId = $controllerId;
+        $this->discriminator = $discriminator;
         $this->entityClass = $entityClass;
         $this->entityName = $entityName;
         $this->formTypeName = $formTypeName;
@@ -269,5 +277,13 @@ class Metadata
     public function getRoutingPrefix()
     {
         return $this->routingPrefix;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDiscriminator()
+    {
+        return !empty($this->discriminator);
     }
 }

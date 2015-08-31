@@ -12,8 +12,12 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\Utils\Strings\StringsUtil;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -74,6 +78,35 @@ class BaseType extends AbstractType
 
             $builder->add($field, $attr['type'], $fieldOptions);
         }
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            foreach ($event->getForm()->all() as $name => $field) {
+                if (!$field->getConfig()->getType()->getInnerType() instanceof EntityType) {
+                    continue;
+                }
+
+                $fieldOptions = $field->getConfig()->getOptions();
+
+                if (!empty($fieldOptions['query_builder'])) {
+                    continue;
+                }
+
+                unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
+
+                $fieldOptions = array_merge($fieldOptions, array(
+                    'query_builder' => function (EntityRepository $er) use ($fieldOptions) {
+                        /** @var \Doctrine\ORM\EntityManager $em */
+                        $em = $fieldOptions['em'];
+
+                        return $er->createQueryBuilder('o')
+                            ->andWhere('o INSTANCE OF :doctrine_meta')
+                            ->setParameter('doctrine_meta', $em->getClassMetadata($fieldOptions['class']));
+                    },
+                ));
+
+                $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);
+            }
+        });
     }
 
     /**

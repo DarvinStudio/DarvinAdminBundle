@@ -79,37 +79,43 @@ class BaseType extends AbstractType
             $builder->add($field, $attr['type'], $fieldOptions);
         }
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            foreach ($event->getForm()->all() as $name => $field) {
-                if (!$field->getConfig()->getType()->getInnerType() instanceof EntityType) {
-                    continue;
-                }
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'filterEntityFields'));
+    }
 
-                $fieldOptions = $field->getConfig()->getOptions();
-
-                if (!empty($fieldOptions['query_builder'])) {
-                    continue;
-                }
-
-                /** @var \Doctrine\ORM\EntityManager $em */
-                $em = $fieldOptions['em'];
-                $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
-
-                if (empty($doctrineMeta->discriminatorValue)) {
-                    continue;
-                }
-
-                unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
-
-                $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $em) {
-                    return $er->createQueryBuilder('o')
-                        ->andWhere('o INSTANCE OF :doctrine_meta')
-                        ->setParameter('doctrine_meta', $doctrineMeta);
-                };
-
-                $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);
+    /**
+     * @param \Symfony\Component\Form\FormEvent $event Form event
+     */
+    public function filterEntityFields(FormEvent $event)
+    {
+        foreach ($event->getForm()->all() as $name => $field) {
+            if (!$field->getConfig()->getType()->getInnerType() instanceof EntityType) {
+                continue;
             }
-        });
+
+            $fieldOptions = $field->getConfig()->getOptions();
+
+            if (!empty($fieldOptions['query_builder'])) {
+                continue;
+            }
+
+            /** @var \Doctrine\ORM\EntityManager $em */
+            $em = $fieldOptions['em'];
+            $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
+
+            if (empty($doctrineMeta->discriminatorValue)) {
+                continue;
+            }
+
+            unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
+
+            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $em) {
+                return $er->createQueryBuilder('o')
+                    ->andWhere('o INSTANCE OF :doctrine_meta')
+                    ->setParameter('doctrine_meta', $doctrineMeta);
+            };
+
+            $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);
+        }
     }
 
     /**

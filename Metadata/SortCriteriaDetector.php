@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Metadata;
 
 use Doctrine\ORM\EntityManager;
-use Gedmo\Sortable\SortableListener;
+use Gedmo\Mapping\MappedEventSubscriber;
 
 /**
  * Sort criteria detector
@@ -36,9 +36,9 @@ class SortCriteriaDetector
     /**
      * @param \Doctrine\ORM\EntityManager                  $em               Entity manager
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager  Metadata manager
-     * @param \Gedmo\Sortable\SortableListener             $sortableListener Sortable event listener
+     * @param \Gedmo\Mapping\MappedEventSubscriber         $sortableListener Sortable event listener
      */
-    public function __construct(EntityManager $em, MetadataManager $metadataManager, SortableListener $sortableListener)
+    public function __construct(EntityManager $em, MetadataManager $metadataManager, MappedEventSubscriber $sortableListener)
     {
         $this->em = $em;
         $this->metadataManager = $metadataManager;

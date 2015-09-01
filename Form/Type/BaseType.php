@@ -118,7 +118,10 @@ class BaseType extends AbstractType
                     ->andWhere('o INSTANCE OF :doctrine_meta')
                     ->setParameter('doctrine_meta', $doctrineMeta);
 
-                if ($entity instanceof $fieldOptions['class']) {
+                $ids = $doctrineMeta->getIdentifierValues($entity);
+                $id = reset($ids);
+
+                if ($entity instanceof $fieldOptions['class'] && !empty($id)) {
                     $qb->andWhere('o != :entity')->setParameter('entity', $entity);
                 }
 

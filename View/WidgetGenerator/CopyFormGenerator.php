@@ -13,6 +13,8 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
+use Doctrine\Common\Util\ClassUtils;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Copy form view widget generator
@@ -27,6 +29,11 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     private $adminFormFactory;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @var \Darvin\Utils\Mapping\MetadataFactoryInterface
      */
     private $mappingMetadataFactory;
@@ -37,6 +44,14 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
     {
         $this->adminFormFactory = $adminFormFactory;
+    }
+
+    /**
+     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     */
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
     }
 
     /**
@@ -56,7 +71,7 @@ class CopyFormGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        $mappingMeta = $this->mappingMetadataFactory->getMetadataByObject($entity);
+        $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
 
         if (!isset($mappingMeta['clonable'])) {
             return '';

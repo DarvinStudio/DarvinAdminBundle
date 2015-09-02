@@ -1,18 +1,11 @@
 parameters:
-    darvin_admin.administrator.listener.class: Darvin\AdminBundle\EventListener\AdministratorListener
-
     darvin_admin.administrator.metadata.class:  Darvin\AdminBundle\Metadata\Metadata
     darvin_admin.administrator.metadata.entity: Darvin\AdminBundle\Entity\Administrator
     darvin_admin.administrator.metadata.config: @@DarvinAdminBundle/Resources/config/admin/administrator.yml
 
-services:
-    darvin_admin.administrator.listener:
-        class: %darvin_admin.administrator.listener.class%
-        arguments:
-            - "@security.encoder_factory"
-        tags:
-            - { name: doctrine.event_listener, event: onFlush }
+    darvin_admin.administrator.subscriber.class: Darvin\AdminBundle\EventListener\AdministratorSubscriber
 
+services:
     darvin_admin.administrator.metadata:
         class:   %darvin_admin.administrator.metadata.class%
         factory: [ "@darvin_admin.metadata.factory", create ]
@@ -21,3 +14,10 @@ services:
             - %darvin_admin.administrator.metadata.config%
         tags:
             - { name: darvin_admin.metadata }
+
+    darvin_admin.administrator.subscriber:
+        class: %darvin_admin.administrator.subscriber.class%
+        arguments:
+            - "@security.encoder_factory"
+        tags:
+            - { name: doctrine.event_subscriber }

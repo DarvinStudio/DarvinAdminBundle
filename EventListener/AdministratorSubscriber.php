@@ -12,13 +12,15 @@ namespace Darvin\AdminBundle\EventListener;
 
 use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\Utils\EventListener\AbstractOnFlushListener;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
- * Administrator event listener
+ * Administrator event subscriber
  */
-class AdministratorListener extends AbstractOnFlushListener
+class AdministratorSubscriber extends AbstractOnFlushListener implements EventSubscriber
 {
     /**
      * @var \Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface
@@ -31,6 +33,16 @@ class AdministratorListener extends AbstractOnFlushListener
     public function __construct(EncoderFactoryInterface $encoderFactory)
     {
         $this->encoderFactory = $encoderFactory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubscribedEvents()
+    {
+        return array(
+            Events::onFlush,
+        );
     }
 
     /**

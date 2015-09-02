@@ -55,8 +55,8 @@ class AdministratorSubscriber extends AbstractOnFlushListener implements EventSu
         $updatePasswordCallback = array($this, 'updatePassword');
 
         $this
-            ->onInsert(Administrator::CLASS_NAME, $updatePasswordCallback)
-            ->onUpdate(Administrator::CLASS_NAME, $updatePasswordCallback);
+            ->onInsert($updatePasswordCallback, Administrator::CLASS_NAME)
+            ->onUpdate($updatePasswordCallback, Administrator::CLASS_NAME);
     }
 
     /**

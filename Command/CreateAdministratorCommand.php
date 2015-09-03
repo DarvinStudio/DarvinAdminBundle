@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Command;
 
 use Darvin\AdminBundle\Entity\Administrator;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Darvin\Utils\Command\AbstractContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * Create administrator command
  */
-class CreateAdministratorCommand extends ContainerAwareCommand
+class CreateAdministratorCommand extends AbstractContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -40,6 +40,8 @@ class CreateAdministratorCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        parent::execute($input, $output);
+
         list(, $username, $plainPassword) = array_values($input->getArguments());
 
         $administrator = new Administrator();
@@ -52,7 +54,7 @@ class CreateAdministratorCommand extends ContainerAwareCommand
         if ($violations->count() > 0) {
             /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
             foreach ($violations as $violation) {
-                $output->writeln(sprintf('<error>%s: %s</error>', $violation->getInvalidValue(), $violation->getMessage()));
+                $this->error($violation->getInvalidValue().': '.$violation->getMessage());
             }
 
             return;
@@ -62,9 +64,7 @@ class CreateAdministratorCommand extends ContainerAwareCommand
         $em->persist($administrator);
         $em->flush();
 
-        $output->writeln(
-            sprintf('<info>Administrator "%s" with password "%s" successfully created.</info>', $username, $plainPassword)
-        );
+        $this->info(sprintf('Administrator "%s" with password "%s" successfully created.', $username, $plainPassword));
     }
 
     /**

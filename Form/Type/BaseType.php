@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\Utils\Strings\StringsUtil;
-use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -103,31 +102,21 @@ class BaseType extends AbstractType
 
             /** @var \Doctrine\ORM\EntityManager $em */
             $em = $fieldOptions['em'];
-            $doctrineMeta = $em->getClassMetadata(
-                $entity instanceof $fieldOptions['class'] ? ClassUtils::getClass($entity) : $fieldOptions['class']
-            );
-
-            if (empty($doctrineMeta->discriminatorValue)) {
-                continue;
-            }
+            $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
 
             unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
 
             $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity, $fieldOptions) {
-                $qb = $er->createQueryBuilder('o')
-                    ->andWhere('o INSTANCE OF :doctrine_meta')
-                    ->setParameter('doctrine_meta', $doctrineMeta);
+                $qb = $er->createQueryBuilder('o');
 
-                if (!empty($entity)) {
-                    $ids = $doctrineMeta->getIdentifierValues($entity);
-                    $id = reset($ids);
-
-                    if ($entity instanceof $fieldOptions['class'] && !empty($id)) {
-                        $qb->andWhere('o != :entity')->setParameter('entity', $entity);
-                    }
+                if (empty($entity)) {
+                    return $qb;
                 }
 
-                return $qb;
+                $ids = $doctrineMeta->getIdentifierValues($entity);
+                $id = reset($ids);
+
+                return !empty($id) ? $qb->andWhere('o != :entity')->setParameter('entity', $entity) : $qb;
             };
 
             $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);

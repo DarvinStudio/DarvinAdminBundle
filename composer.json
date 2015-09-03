@@ -26,7 +26,6 @@
         "willdurand/js-translation-bundle":  "2.2.*",
         "darvinstudio/darvin-config-bundle": "*",
         "darvinstudio/darvin-image-bundle":  "*",
-        "darvinstudio/darvin-utils":         "*",
         "darvinstudio/darvin-utils-bundle":  "*"
     },
     "require-dev": {

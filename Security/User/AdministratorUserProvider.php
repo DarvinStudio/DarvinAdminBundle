@@ -71,7 +71,7 @@ class AdministratorUserProvider implements UserProviderInterface
      */
     public function supportsClass($class)
     {
-        return Administrator::CLASS_NAME === $class;
+        return Administrator::ADMINISTRATOR_CLASS === $class;
     }
 
     /**
@@ -79,6 +79,6 @@ class AdministratorUserProvider implements UserProviderInterface
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository(Administrator::CLASS_NAME);
+        return $this->em->getRepository(Administrator::ADMINISTRATOR_CLASS);
     }
 }

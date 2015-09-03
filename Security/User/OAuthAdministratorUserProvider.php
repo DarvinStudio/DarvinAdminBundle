@@ -116,7 +116,7 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
      */
     public function supportsClass($class)
     {
-        return Administrator::CLASS_NAME === $class;
+        return Administrator::ADMINISTRATOR_CLASS === $class;
     }
 
     /**
@@ -124,6 +124,6 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository(Administrator::CLASS_NAME);
+        return $this->em->getRepository(Administrator::ADMINISTRATOR_CLASS);
     }
 }

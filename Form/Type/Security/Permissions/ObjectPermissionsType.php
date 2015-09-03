@@ -104,7 +104,7 @@ class ObjectPermissionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => ObjectPermissions::CLASS_NAME,
+            'data_class' => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
             'intention'  => md5(__FILE__.$this->getName()),
         ));
     }
@@ -122,6 +122,6 @@ class ObjectPermissionsType extends AbstractType
      */
     private function getAdministratorRepository()
     {
-        return $this->em->getRepository(Administrator::CLASS_NAME);
+        return $this->em->getRepository(Administrator::ADMINISTRATOR_CLASS);
     }
 }

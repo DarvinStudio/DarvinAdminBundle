@@ -59,7 +59,7 @@ class AdministratorPermissionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => AdministratorPermissions::CLASS_NAME,
+            'data_class' => AdministratorPermissions::ADMINISTRATOR_PERMISSIONS_CLASS,
             'intention'  => md5(__FILE__.$this->getName()),
         ));
     }

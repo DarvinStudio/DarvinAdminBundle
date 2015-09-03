@@ -17,7 +17,7 @@ use HWI\Bundle\OAuthBundle\OAuth\Response\PathUserResponse;
  */
 class DarvinAuthResponse extends PathUserResponse
 {
-    const CLASS_NAME = __CLASS__;
+    const DARVIN_AUTH_RESPONSE_CLASS = __CLASS__;
 
     /**
      * @return null|array

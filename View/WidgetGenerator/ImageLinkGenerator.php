@@ -75,7 +75,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredEntityClass()
     {
-        return AbstractImage::CLASS_NAME;
+        return AbstractImage::ABSTRACT_IMAGE_CLASS;
     }
 
     /**

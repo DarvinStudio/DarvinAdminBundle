@@ -3,8 +3,8 @@ $(document).ready(function () {
         return $tab.attr('class').replace(/(a2lix_translationsFields-|tab-pane|active)/g, '').trim();
     };
 
-    $('form')
-        .on('change', '.a2lix_translationsFields .tab-pane.active input[type="text"][required="required"]', function () {
+    $('body')
+        .on('change', 'form .a2lix_translationsFields .tab-pane.active input[type="text"][required="required"]', function () {
             var $sourceInput = $(this);
 
             $sourceInput.removeData('synced');
@@ -31,7 +31,7 @@ $(document).ready(function () {
                 $targetInput.val(translated).data('synced', true);
             });
         })
-        .on('click', '.a2lix_translationsLocales.nav.nav-tabs a', function () {
+        .on('click', 'form .a2lix_translationsLocales.nav.nav-tabs a', function () {
             $(this).parents('.a2lix_translations').first().find('input[type="text"][required="required"]').removeData('synced');
         });
 });

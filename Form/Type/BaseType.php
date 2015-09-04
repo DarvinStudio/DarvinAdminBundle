@@ -18,6 +18,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -58,7 +60,6 @@ class BaseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $configuration = $this->meta->getConfiguration();
-        $translationPrefix = $this->meta->getEntityTranslationPrefix();
 
         $fields = $configuration['form'][$this->action]['fields'];
 
@@ -70,16 +71,18 @@ class BaseType extends AbstractType
                 continue;
             }
 
-            $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
-
-            if (!array_key_exists('label', $fieldOptions)) {
-                $fieldOptions['label'] = $translationPrefix.StringsUtil::toUnderscore($field);
-            }
-
-            $builder->add($field, $attr['type'], $fieldOptions);
+            $builder->add($field, $attr['type'], $this->resolveFieldOptionValues($attr['options']));
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'filterEntityFields'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $this->setLabels($view->children);
     }
 
     /**
@@ -130,6 +133,7 @@ class BaseType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class'         => $this->meta->getEntityClass(),
+            'cascade_validation' => true,
             'intention'          => md5(__FILE__.$this->getName().$this->meta->getEntityClass()),
             'translation_domain' => 'admin',
         ));
@@ -166,5 +170,22 @@ class BaseType extends AbstractType
         unset($value);
 
         return $options;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView[] $fields Form view fields
+     */
+    private function setLabels(array $fields)
+    {
+        $translationPrefix = $this->meta->getEntityTranslationPrefix();
+
+        foreach ($fields as $name => $field) {
+            if (null === $field->vars['label']) {
+                $field->vars['label'] = $translationPrefix.StringsUtil::toUnderscore($name);
+            }
+            if (!empty($field->children)) {
+                $this->setLabels($field->children);
+            }
+        }
     }
 }

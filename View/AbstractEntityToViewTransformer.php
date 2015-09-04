@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\PropertyAccess\PropertyAccess;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -34,6 +34,11 @@ abstract class AbstractEntityToViewTransformer
     protected $metadataManager;
 
     /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     */
+    protected $propertyAccessor;
+
+    /**
      * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
      */
     protected $stringifier;
@@ -49,13 +54,9 @@ abstract class AbstractEntityToViewTransformer
     protected $widgetGeneratorPool;
 
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
-     */
-    protected $propertyAccessor;
-
-    /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface    $container           DI container
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                 $metadataManager     Metadata manager
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface  $propertyAccessor    Property accessor
      * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface       $stringifier         Stringifier
      * @param \Symfony\Component\Translation\TranslatorInterface           $translator          Translator
      * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
@@ -63,16 +64,17 @@ abstract class AbstractEntityToViewTransformer
     public function __construct(
         ContainerInterface $container,
         MetadataManager $metadataManager,
+        PropertyAccessorInterface $propertyAccessor,
         StringifierInterface $stringifier,
         TranslatorInterface $translator,
         WidgetGeneratorPool $widgetGeneratorPool
     ) {
         $this->container = $container;
         $this->metadataManager = $metadataManager;
+        $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
         $this->translator = $translator;
         $this->widgetGeneratorPool = $widgetGeneratorPool;
-        $this->propertyAccessor = PropertyAccess::createPropertyAccessorBuilder()->enableMagicCall()->getPropertyAccessor();
     }
 
     /**

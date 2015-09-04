@@ -29,8 +29,11 @@ services:
     darvin_admin.metadata.factory:
         class: %darvin_admin.metadata.factory.class%
         arguments:
+            - "@knp.doctrine_behaviors.reflection.class_analyzer"
             - "@darvin_admin.metadata.configuration.loader"
             - "@doctrine.orm.entity_manager"
+            - %knp.doctrine_behaviors.reflection.is_recursive%
+            - %knp.doctrine_behaviors.translatable_subscriber.translatable_trait%
 
     darvin_admin.metadata.identifier_accessor:
         class: %darvin_admin.metadata.identifier_accessor.class%

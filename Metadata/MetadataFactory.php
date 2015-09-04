@@ -15,6 +15,7 @@ use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
 
 /**
  * Metadata factory
@@ -28,6 +29,11 @@ class MetadataFactory
     const ROUTE_NAME_PREFIX = 'admin_';
 
     /**
+     * @var \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer
+     */
+    private $classAnalyzer;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
      */
     private $configurationLoader;
@@ -38,13 +44,34 @@ class MetadataFactory
     private $em;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader $configurationLoader Configuration loader
-     * @param \Doctrine\ORM\EntityManager                                    $em                  Entity manager
+     * @var bool
      */
-    public function __construct(ConfigurationLoader $configurationLoader, EntityManager $em)
-    {
+    private $isReflectionRecursive;
+
+    /**
+     * @var string
+     */
+    private $translatableTrait;
+
+    /**
+     * @param \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer                $classAnalyzer         Class analyzer
+     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader $configurationLoader   Configuration loader
+     * @param \Doctrine\ORM\EntityManager                                    $em                    Entity manager
+     * @param bool                                                           $isReflectionRecursive Is reflection recursive
+     * @param string                                                         $translatableTrait     Translatable trait
+     */
+    public function __construct(
+        ClassAnalyzer $classAnalyzer,
+        ConfigurationLoader $configurationLoader,
+        EntityManager $em,
+        $isReflectionRecursive,
+        $translatableTrait
+    ) {
+        $this->classAnalyzer = $classAnalyzer;
         $this->configurationLoader = $configurationLoader;
         $this->em = $em;
+        $this->isReflectionRecursive = $isReflectionRecursive;
+        $this->translatableTrait = $translatableTrait;
     }
 
     /**
@@ -59,7 +86,7 @@ class MetadataFactory
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);
         } catch (MappingException $ex) {
-            throw new MetadataException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
+            throw $this->createUnableToGetDoctrineMetadataException($entityClass);
         }
 
         $configuration = $this->configurationLoader->load($configPathname);
@@ -192,9 +219,34 @@ class MetadataFactory
      * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $doctrineMeta Doctrine metadata
      *
      * @return array
+     * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
     private function getMappings(ClassMetadataInfo $doctrineMeta)
     {
-        return array_merge($doctrineMeta->associationMappings, $doctrineMeta->fieldMappings);
+        $mappings = array_merge($doctrineMeta->associationMappings, $doctrineMeta->fieldMappings);
+
+        if (!$this->classAnalyzer->hasTrait($doctrineMeta->getReflectionClass(), $this->translatableTrait, $this->isReflectionRecursive)) {
+            return $mappings;
+        }
+
+        $translationClass = call_user_func(array($doctrineMeta->getName(), 'getTranslationEntityClass'));
+
+        try {
+            $translationDoctrineMeta = $this->em->getClassMetadata($translationClass);
+        } catch (MappingException $ex) {
+            throw $this->createUnableToGetDoctrineMetadataException($translationClass);
+        }
+
+        return array_merge($mappings, $translationDoctrineMeta->associationMappings, $translationDoctrineMeta->fieldMappings);
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return \Darvin\AdminBundle\Metadata\MetadataException
+     */
+    private function createUnableToGetDoctrineMetadataException($entityClass)
+    {
+        return new MetadataException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
     }
 }

@@ -7,5 +7,6 @@ services:
         arguments:
             - %darvin_admin.project.title%
             - %darvin_admin.project.url%
+            - %darvin_admin.yandex_translate_api_key%
         tags:
             - { name: twig.extension }

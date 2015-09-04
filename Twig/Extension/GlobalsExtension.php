@@ -28,6 +28,11 @@ class GlobalsExtension extends \Twig_Extension
     private $projectUrl;
 
     /**
+     * @var string
+     */
+    private $yandexTranslateApiKey;
+
+    /**
      * @var array
      */
     private $globals;
@@ -38,13 +43,15 @@ class GlobalsExtension extends \Twig_Extension
     private $initialized;
 
     /**
-     * @param string $projectTitle Project title
-     * @param string $projectUrl   Project URL
+     * @param string $projectTitle          Project title
+     * @param string $projectUrl            Project URL
+     * @param string $yandexTranslateApiKey Yandex.Translate API key
      */
-    public function __construct($projectTitle, $projectUrl)
+    public function __construct($projectTitle, $projectUrl, $yandexTranslateApiKey)
     {
         $this->projectTitle = $projectTitle;
         $this->projectUrl = $projectUrl;
+        $this->yandexTranslateApiKey = $yandexTranslateApiKey;
         $this->globals = array();
         $this->initialized = false;
     }

@@ -33,8 +33,9 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
         $rootNode
             ->children()
-                ->scalarNode('debug')->defaultFalse()->end()
+                ->booleanNode('debug')->defaultFalse()->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
+                ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('project')
                     ->isRequired()
                     ->children()

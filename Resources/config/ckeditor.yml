@@ -1,0 +1,12 @@
+parameters:
+    darvin_admin.ckeditor.form_type.class: Darvin\AdminBundle\Form\Type\CKEditorType
+
+services:
+    darvin_admin.ckeditor.form_type:
+        class: %darvin_admin.ckeditor.form_type.class%
+        arguments:
+            - "@darvin_content.widget.pool"
+            - %darvin_admin.ckeditor.plugin_filename%
+            - %darvin_admin.ckeditor.plugins_dir%
+        tags:
+            - { name: form.type, alias: darvin_admin_ckeditor }

@@ -38,6 +38,7 @@ class DarvinAdminExtension extends Extension
         $loader->load('administrator.yml');
         $loader->load('breadcrumbs.yml');
         $loader->load('cache.yml');
+        $loader->load('ckeditor.yml');
         $loader->load('configuration.yml');
         $loader->load('crud.yml');
         $loader->load('dropzone.yml');

@@ -32,18 +32,25 @@ class CKEditorType extends AbstractType
     /**
      * @var string
      */
-    private $pluginsDir;
+    private $pluginsPath;
+
+    /**
+     * @var string
+     */
+    private $webDir;
 
     /**
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface $widgetPool     Widget pool
      * @param string                                           $pluginFilename Plugin filename
-     * @param string                                           $pluginsDir     Plugins directory
+     * @param string                                           $pluginsPath    Plugins path
+     * @param string                                           $webDir         Web directory
      */
-    public function __construct(WidgetPoolInterface $widgetPool, $pluginFilename, $pluginsDir)
+    public function __construct(WidgetPoolInterface $widgetPool, $pluginFilename, $pluginsPath, $webDir)
     {
         $this->widgetPool = $widgetPool;
         $this->pluginFilename = $pluginFilename;
-        $this->pluginsDir = $pluginsDir;
+        $this->pluginsPath = $pluginsPath;
+        $this->webDir = $webDir;
     }
 
     /**
@@ -51,14 +58,28 @@ class CKEditorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $plugins = $extraPlugins = array();
+        $plugins = array(
+            'lineutils' => array(
+                'path'     => $this->pluginsPath.'/lineutils/',
+                'filename' => 'plugin.js',
+            ),
+            'widget' => array(
+                'path'     => $this->pluginsPath.'/widget/',
+                'filename' => 'plugin.js',
+            ),
+        );
+
+        $extraPlugins = array(
+            'lineutils',
+            'widget',
+        );
 
         foreach ($this->widgetPool->getAll() as $widget) {
             $widgetName = $widget->getName();
 
-            $path = sprintf('%s/%s/', $this->pluginsDir, $widgetName);
+            $path = sprintf('%s/%s/', $this->pluginsPath, $widgetName);
 
-            if (!file_exists($path.$this->pluginFilename)) {
+            if (!file_exists($this->webDir.'/'.$path)) {
                 continue;
             }
 

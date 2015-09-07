@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addCKEditorNode())
                 ->booleanNode('debug')->defaultFalse()->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
+                ->scalarNode('web_dir')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('project')
                     ->isRequired()
@@ -60,7 +61,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
-                ->scalarNode('plugins_dir')->defaultValue('%kernel.root_dir%/../web/bundles/darvinadmin/scripts/ckeditor/plugins')->end()
+                ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->end()
             ->end();
 
         return $rootNode;

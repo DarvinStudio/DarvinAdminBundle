@@ -7,6 +7,7 @@ services:
         arguments:
             - "@darvin_content.widget.pool"
             - %darvin_admin.ckeditor.plugin_filename%
-            - %darvin_admin.ckeditor.plugins_dir%
+            - %darvin_admin.ckeditor.plugins_path%
+            - %darvin_admin.web_dir%
         tags:
             - { name: form.type, alias: darvin_admin_ckeditor }

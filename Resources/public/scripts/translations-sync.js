@@ -26,9 +26,9 @@ $(document).ready(function () {
                     return;
                 }
 
-                var translated = YandexTranslator.translate(sourceText, sourceLocale, getLocale($targetTab));
-
-                $targetInput.val(translated).data('synced', true);
+                YandexTranslator.translate(sourceText, sourceLocale, getLocale($targetTab), function (translated) {
+                    $targetInput.val(translated).data('synced', true);
+                });
             });
         })
         .on('click', 'form .a2lix_translationsLocales.nav.nav-tabs a', function () {

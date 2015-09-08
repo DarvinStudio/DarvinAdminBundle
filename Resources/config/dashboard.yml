@@ -1,6 +1,15 @@
 parameters:
-    darvin_admin.dashboard.class: Darvin\AdminBundle\Dashboard\Dashboard
+    darvin_admin.dashboard.dashboard.class: Darvin\AdminBundle\Dashboard\Dashboard
+
+    darvin_admin.dashboard.widget.abstract.class: Darvin\AdminBundle\Dashboard\AbstractDashboardWidget
 
 services:
-    darvin_admin.dashboard:
-        class: %darvin_admin.dashboard.class%
+    darvin_admin.dashboard.dashboard:
+        class: %darvin_admin.dashboard.dashboard.class%
+
+    darvin_admin.dashboard.widget.abstract:
+        class:    %darvin_admin.dashboard.widget.abstract.class%
+        abstract: true
+        arguments:
+            - "@darvin_admin.route.router"
+            - "@templating"

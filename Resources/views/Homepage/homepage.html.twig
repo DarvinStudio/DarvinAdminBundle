@@ -1,7 +1,23 @@
 {% extends 'DarvinAdminBundle::layout.html.twig' %}
 
-{% block content %}
-    <h1>Hello, world!</h1>
-    {{ dump(dashboard) }}
-{% endblock %}
+{% trans_default_domain 'admin' %}
 
+{% block content %}
+    <ul>
+        {% for name, widget in dashboard.widgets %}
+            <li>
+                <div>
+                    <span class="{{ name }}"></span>
+                    <span>
+                        {{ ('dashboard.widget.' ~ name ~ '.title') | trans }}<br>
+                        {{ ('dashboard.widget.' ~ name ~ '.description') | trans }}
+                    </span>
+                    {% if widget.moduleUrl %}
+                        <a href="{{ widget.moduleUrl }}">{% trans %}dashboard.widget.module_link{% endtrans %}</a>
+                    {% endif %}
+                </div>
+                <div>{{ widget.content | raw }}</div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -26,7 +26,7 @@ class DashboardWidgetPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $dashboard = $container->getDefinition('darvin_admin.dashboard');
+        $dashboard = $container->getDefinition('darvin_admin.dashboard.dashboard');
 
         foreach ($container->findTaggedServiceIds(self::TAG_DASHBOARD_WIDGET) as $id => $attr) {
             $dashboard->addMethodCall('addWidget', array(

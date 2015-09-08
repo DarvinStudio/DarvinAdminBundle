@@ -32,6 +32,6 @@ class HomepageController extends Controller
      */
     private function getDashboard()
     {
-        return $this->get('darvin_admin.dashboard');
+        return $this->get('darvin_admin.dashboard.dashboard');
     }
 }

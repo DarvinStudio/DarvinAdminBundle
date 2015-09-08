@@ -45,7 +45,7 @@ class Dashboard implements DashboardInterface
     /**
      * {@inheritdoc}
      */
-    public function getAllWidgets()
+    public function getWidgets()
     {
         return $this->widgets;
     }

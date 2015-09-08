@@ -23,5 +23,5 @@ interface DashboardInterface
     /**
      * @return \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
      */
-    public function getAllWidgets();
+    public function getWidgets();
 }

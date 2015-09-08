@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block content %}
+{% block body %}
     {% if error %}<span>{{ error | trans({}, 'security') }}</span>{% endif %}
 
     {{ form_start(form) }}
@@ -10,5 +10,9 @@
     <button type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>
     {{ form_end(form) }}
 
+    <div><a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a></div>
+
     <a href="{{ path('hwi_oauth_service_redirect', { 'service': 'darvin_auth' }) }}">Darvin Auth</a>
+
+    <span>{% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}interface.version{% endtrans %}</span>
 {% endblock %}

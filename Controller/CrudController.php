@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * CRUD controller
@@ -395,7 +394,7 @@ class CrudController extends Controller implements MenuItemInterface
         $id = (int) $request->query->get($association);
 
         if (empty($id)) {
-            throw new NotFoundHttpException(sprintf('Value of query parameter "%s" must be provided.', $association));
+            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $association));
         }
 
         return array($this->getEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()), $association, $id);
@@ -483,54 +482,54 @@ class CrudController extends Controller implements MenuItemInterface
     /** @return \Darvin\AdminBundle\Form\AdminFormFactory */
     private function getAdminFormFactory()
     {
-        return $this->container->get('darvin_admin.form.factory');
+        return $this->get('darvin_admin.form.factory');
     }
 
     /** @return \Darvin\AdminBundle\Route\AdminRouter */
     private function getAdminRouter()
     {
-        return $this->container->get('darvin_admin.route.router');
+        return $this->get('darvin_admin.route.router');
     }
 
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */
     private function getEntitiesToIndexViewTransformer()
     {
-        return $this->container->get('darvin_admin.view.entity_transformer.index');
+        return $this->get('darvin_admin.view.entity_transformer.index');
     }
 
     /** @return \Darvin\AdminBundle\View\Show\EntityToShowViewTransformer */
     private function getEntityToShowViewTransformer()
     {
-        return $this->container->get('darvin_admin.view.entity_transformer.show');
+        return $this->get('darvin_admin.view.entity_transformer.show');
     }
 
     /** @return \Doctrine\ORM\EntityManager */
     private function getEntityManager()
     {
-        return $this->container->get('doctrine.orm.entity_manager');
+        return $this->get('doctrine.orm.entity_manager');
     }
 
     /** @return \Darvin\AdminBundle\Form\FormHandler */
     private function getFormHandler()
     {
-        return $this->container->get('darvin_admin.form.handler');
+        return $this->get('darvin_admin.form.handler');
     }
 
     /** @return \Knp\Component\Pager\Paginator */
     private function getPaginator()
     {
-        return $this->container->get('knp_paginator');
+        return $this->get('knp_paginator');
     }
 
     /** @return \Symfony\Component\PropertyAccess\PropertyAccessorInterface */
     private function getPropertyAccessor()
     {
-        return $this->container->get('property_accessor');
+        return $this->get('property_accessor');
     }
 
     /** @return \Darvin\AdminBundle\Metadata\SortCriteriaDetector */
     private function getSortCriteriaDetector()
     {
-        return $this->container->get('darvin_admin.metadata.sort_criteria_detector');
+        return $this->get('darvin_admin.metadata.sort_criteria_detector');
     }
 }

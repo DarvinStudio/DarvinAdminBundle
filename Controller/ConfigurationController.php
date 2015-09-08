@@ -56,7 +56,7 @@ class ConfigurationController extends Controller
      */
     private function getConfigurationPool()
     {
-        return $this->container->get('darvin_config.configuration.pool');
+        return $this->get('darvin_config.configuration.pool');
     }
 
     /**
@@ -64,6 +64,6 @@ class ConfigurationController extends Controller
      */
     private function getFlashNotifier()
     {
-        return $this->container->get('darvin_utils.flash.notifier');
+        return $this->get('darvin_utils.flash.notifier');
     }
 }

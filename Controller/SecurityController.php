@@ -54,6 +54,6 @@ class SecurityController extends Controller
      */
     private function getAuthenticationUtils()
     {
-        return $this->container->get('security.authentication_utils');
+        return $this->get('security.authentication_utils');
     }
 }

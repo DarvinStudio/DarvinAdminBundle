@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addMenuNode())
                 ->scalarNode('breadcrumbs_entity_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
                 ->arrayNode('child_entities')->prototype('scalar')->end()->end()
+                ->booleanNode('create_form_on_index_page')->defaultFalse()->end()
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->scalarNode('entity_name')->defaultNull()->end()
                 ->arrayNode('order_by')

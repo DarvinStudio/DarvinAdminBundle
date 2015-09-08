@@ -10,8 +10,6 @@
 
 {% block content %}
 
-    {% include 'DarvinAdminBundle:Crud:form.html.twig' with {
-        'field_groups': meta.configuration.form.new.field_groups,
-    } %}
+    {% include 'DarvinAdminBundle:Crud/widget:new.html.twig' %}
 
 {% endblock %}

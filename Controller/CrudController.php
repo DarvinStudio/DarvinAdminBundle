@@ -121,14 +121,19 @@ class CrudController extends Controller implements MenuItemInterface
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param bool                                      $widget  Whether to render widget
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $widget = false)
     {
         $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
+
+        if ($request->isXmlHttpRequest()) {
+            $widget = true;
+        }
 
         $entityClass = $this->entityClass;
         $entity = new $entityClass();
@@ -150,7 +155,7 @@ class CrudController extends Controller implements MenuItemInterface
                 'form'          => $form->createView(),
                 'meta'          => $this->meta,
                 'parent_entity' => $parentEntity,
-            ));
+            ), $widget);
     }
 
     /**

@@ -36,4 +36,9 @@
         </tbody>
     </table>
     {{ pagination_html | raw }}
+    {% if meta.configuration['create_form_on_index_page'] %}
+
+        {{ render(controller(meta.controllerId ~ ':newAction', { 'widget': true })) }}
+
+    {% endif %}
 {% endblock %}

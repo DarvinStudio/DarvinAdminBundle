@@ -1,0 +1,5 @@
+{% form_theme form 'DarvinAdminBundle:form:fields.html.twig' %}
+
+{% include 'DarvinAdminBundle:Crud:form.html.twig' with {
+    'field_groups': meta.configuration.form.new.field_groups,
+} %}

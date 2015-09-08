@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -19,6 +20,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CKEditorType extends AbstractType
 {
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
+
     /**
      * @var \Darvin\ContentBundle\Widget\WidgetPoolInterface
      */
@@ -40,13 +46,20 @@ class CKEditorType extends AbstractType
     private $webDir;
 
     /**
+     * @param \Symfony\Component\HttpFoundation\RequestStack   $requestStack   Request stack
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface $widgetPool     Widget pool
      * @param string                                           $pluginFilename Plugin filename
      * @param string                                           $pluginsPath    Plugins path
      * @param string                                           $webDir         Web directory
      */
-    public function __construct(WidgetPoolInterface $widgetPool, $pluginFilename, $pluginsPath, $webDir)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        WidgetPoolInterface $widgetPool,
+        $pluginFilename,
+        $pluginsPath,
+        $webDir
+    ) {
+        $this->requestStack = $requestStack;
         $this->widgetPool = $widgetPool;
         $this->pluginFilename = $pluginFilename;
         $this->pluginsPath = $pluginsPath;
@@ -90,10 +103,18 @@ class CKEditorType extends AbstractType
             $extraPlugins[] = $widgetName;
         }
 
+        $config = array(
+            'extraPlugins' => implode(',', $extraPlugins),
+        );
+
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (!empty($request)) {
+            $config['language'] = $request->getLocale();
+        }
+
         $resolver->setDefaults(array(
-            'config'  => array(
-                'extraPlugins' => implode(',', $extraPlugins),
-            ),
+            'config'  => $config,
             'plugins' => $plugins,
         ));
     }

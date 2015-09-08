@@ -74,6 +74,7 @@
     <script src="{{ asset('bundles/darvinadmin/scripts/property-forms.js') }}"></script>
     <script src="{{ asset('bundles/darvinadmin/scripts/translations-sync.js') }}"></script>
     <script>
+        $.fancybox.defaults.locale = '{{ app.request.locale }}';
         Translator.locale = '{{ app.request.locale }}';
     </script>
     <script>

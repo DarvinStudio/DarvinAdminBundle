@@ -34,4 +34,9 @@ interface MenuItemInterface
      * @return string
      */
     public function getMenuTitle();
+
+    /**
+     * @return string
+     */
+    public function getMenuDescription();
 }

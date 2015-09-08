@@ -351,6 +351,14 @@ class CrudController extends Controller implements MenuItemInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getMenuDescription()
+    {
+        return null;
+    }
+
+    /**
      * @param string $permission Permission
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException

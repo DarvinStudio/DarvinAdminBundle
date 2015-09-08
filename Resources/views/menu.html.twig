@@ -11,6 +11,10 @@
                 <a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>
             {% else %}
                 <span>{{ item.menuTitle | trans }}</span>
+                {% if item.menuDescription %}
+                    <br>
+                    <span>{{ item.menuDescription | trans | raw }}</span>
+                {% endif %}
             {% endif %}
             {% if new_url %}
                 {% if new_url != app.request.requestUri %}

@@ -99,6 +99,10 @@ interface:
     actions: Действия
     version: Версия %number%
 
+layout:
+    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Версия %version%
+    stats:     Статистика сайта
+
 property_forms:
     submit: Сохранить
 

@@ -25,7 +25,9 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
 
-        {{ admin_menu() }}
+        <a href="#">{% trans %}layout.stats{% endtrans %}</a>
+
+        <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
 
         {% if 'darvin_admin_configuration' != app.request.get('_route') %}
             <a href="{{ path('darvin_admin_configuration') }}">{% trans %}configuration.action.edit.link{% endtrans %}</a>
@@ -54,6 +56,8 @@
 
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 
+        {{ admin_menu() }}
+
         {% block breadcrumbs %}{% endblock %}
 
     {% endif %}
@@ -63,9 +67,13 @@
     {% block content %}{% endblock %}
 
     <span>
-        {% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}interface.version{% endtrans %}
+        {% trans with {
+            '%current_year%': 'now' | date('Y'),
+            '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
+        } %}
+            layout.copyright
+        {% endtrans %}
     </span>
-    <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
 {% endblock %}
 
 {% block javascripts %}

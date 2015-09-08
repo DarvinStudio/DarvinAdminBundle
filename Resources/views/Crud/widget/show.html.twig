@@ -1,0 +1,13 @@
+{% trans_default_domain 'admin' %}
+
+{{ admin_widget_actions(entity, { 'view_type': 'show' }) }}
+<table>
+    <tbody>
+        {% for item in view.items %}
+            <tr>
+                <th>{{ item.label | raw }}</th>
+                <td>{{ item.content | raw }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

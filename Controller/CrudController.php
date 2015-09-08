@@ -277,7 +277,7 @@ class CrudController extends Controller implements MenuItemInterface
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,
             'view'          => $view,
-        ));
+        ), $request->isXmlHttpRequest());
     }
 
     /**
@@ -425,14 +425,15 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * @param string $viewType       View type
      * @param array  $templateParams Template parameters
+     * @param bool   $widget         Whether to render widget
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse($viewType, array $templateParams = array())
+    private function renderResponse($viewType, array $templateParams = array(), $widget = false)
     {
         $template = !empty($this->configuration['view'][$viewType]['template'])
             ? $this->configuration['view'][$viewType]['template']
-            : sprintf('DarvinAdminBundle:Crud:%s.html.twig', $viewType);
+            : sprintf('DarvinAdminBundle:Crud%s:%s.html.twig', $widget ? '/widget' : '', $viewType);
 
         return $this->render($template, $templateParams);
     }

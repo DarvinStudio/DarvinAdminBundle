@@ -32,7 +32,24 @@
             <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
         {% endif %}
 
-        <span>{{ app.user.username }}</span>
+        {% set administrator_index_url = admin_path(
+            'Darvin\\AdminBundle\\Entity\\Administrator',
+            constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
+        ) %}
+
+        {% if administrator_index_url != app.request.requestUri %}
+            <a href="{{ administrator_index_url }}">{% trans %}administrator.action.index.link{% endtrans %}</a>
+        {% else %}
+            <span>{% trans %}administrator.action.index.link{% endtrans %}</span>
+        {% endif %}
+
+        {% set administrator_edit_url = admin_path(app.user, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) %}
+
+        {% if administrator_edit_url != app.request.requestUri %}
+            <a href="{{ administrator_edit_url }}">{{ app.user.username }}</a>
+        {% else %}
+            <span>{{ app.user.username }}</span>
+        {% endif %}
 
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 

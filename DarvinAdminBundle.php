@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle;
 
 use Darvin\AdminBundle\DependencyInjection\Compiler\ControllerPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\DashboardWidgetPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\MenuPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\MetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\SecurityConfigurationPoolPass;
@@ -36,6 +37,7 @@ class DarvinAdminBundle extends Bundle
 
         $container
             ->addCompilerPass(new ControllerPass(), PassConfig::TYPE_BEFORE_REMOVING)
+            ->addCompilerPass(new DashboardWidgetPass())
             ->addCompilerPass(new MenuPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new MetadataPass())
             ->addCompilerPass(new ResolveDefinitionTemplatesPass(), PassConfig::TYPE_BEFORE_REMOVING)

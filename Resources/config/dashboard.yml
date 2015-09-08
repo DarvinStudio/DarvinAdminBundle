@@ -1,0 +1,6 @@
+parameters:
+    darvin_admin.dashboard.class: Darvin\AdminBundle\Dashboard\Dashboard
+
+services:
+    darvin_admin.dashboard:
+        class: %darvin_admin.dashboard.class%

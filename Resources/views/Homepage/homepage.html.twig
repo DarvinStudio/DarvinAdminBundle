@@ -3,6 +3,9 @@
 {% trans_default_domain 'admin' %}
 
 {% block content %}
+
+    {{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}
+
     <ul>
         {% for name, widget in dashboard.widgets %}
             <li>

@@ -1,0 +1,13 @@
+{% extends 'DarvinAdminBundle::menu.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block item %}
+
+    {{ parent() }}
+
+    {% if item.menuDescription %}
+        <br>
+        <span>{{ item.menuDescription | trans | raw }}</span>
+    {% endif %}
+{% endblock %}

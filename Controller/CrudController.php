@@ -309,6 +309,14 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
+    public function getChildren()
+    {
+        return array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getIndexUrl()
     {
         if (!$this->isGranted(Permission::VIEW, $this->entityClass)) {

@@ -28,8 +28,18 @@ class MenuPass implements CompilerPassInterface
     {
         $menu = $container->getDefinition('darvin_admin.menu');
 
-        foreach ($container->findTaggedServiceIds(self::TAG_MENU_ITEM) as $id => $attr) {
+        $menuItems = $container->findTaggedServiceIds(self::TAG_MENU_ITEM);
+        uasort($menuItems, function (array $a, array $b) {
+            if ($a[0]['position'] === $b[0]['position']) {
+                return 0;
+            }
+
+            return $a[0]['position'] > $b[0]['position'] ? 1 : -1;
+        });
+
+        foreach ($menuItems as $id => $attr) {
             $menu->addMethodCall('addItem', array(
+                $attr[0]['group'],
                 new Reference($id),
             ));
         }

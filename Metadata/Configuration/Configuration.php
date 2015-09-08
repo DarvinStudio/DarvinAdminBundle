@@ -47,11 +47,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->append($this->addMenuNode())
                 ->scalarNode('breadcrumbs_entity_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
                 ->arrayNode('child_entities')->prototype('scalar')->end()->end()
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->scalarNode('entity_name')->defaultNull()->end()
-                ->scalarNode('skip_menu')->defaultFalse()->end()
                 ->arrayNode('order_by')
                     ->useAttributeAsKey('property')
                     ->prototype('enum')->values(array('asc', 'desc'))->end()
@@ -82,6 +82,25 @@ class Configuration implements ConfigurationInterface
             ->end();
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addMenuNode()
+    {
+        $treeBuilder = new TreeBuilder();
+        $rootNode = $treeBuilder->root('menu');
+
+        $rootNode
+            ->addDefaultsIfNotSet()
+            ->children()
+                ->scalarNode('group')->defaultNull()->end()
+                ->scalarNode('position')->defaultNull()->end()
+                ->booleanNode('skip')->defaultFalse()->end()
+            ->end();
+
+        return $rootNode;
     }
 
     /**

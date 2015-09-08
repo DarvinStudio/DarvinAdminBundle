@@ -16,6 +16,11 @@ namespace Darvin\AdminBundle\Menu;
 interface MenuItemInterface
 {
     /**
+     * @return MenuItemInterface[]
+     */
+    public function getChildren();
+
+    /**
      * @return string
      */
     public function getIndexUrl();

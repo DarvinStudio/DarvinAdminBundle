@@ -6,21 +6,24 @@
         {% set index_url = item.indexUrl %}
         {% set new_url = item.newUrl %}
 
-        {% if index_url or new_url %}
-            <li>
-                {% if index_url and index_url != app.request.requestUri %}
-                    <a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>
+        <li>
+            {% if index_url and index_url != app.request.requestUri %}
+                <a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>
+            {% else %}
+                <span>{{ item.menuTitle | trans }}</span>
+            {% endif %}
+            {% if new_url %}
+                {% if new_url != app.request.requestUri %}
+                    <a href="{{ new_url }}">+</a>
                 {% else %}
-                    <span>{{ item.menuTitle | trans }}</span>
+                    <span>+</span>
                 {% endif %}
-                {% if new_url %}
-                    {% if new_url != app.request.requestUri %}
-                        <a href="{{ new_url }}">+</a>
-                    {% else %}
-                        <span>+</span>
-                    {% endif %}
-                {% endif %}
-            </li>
-        {% endif %}
+            {% endif %}
+            {% if item.children is not empty %}
+
+                {% include _self with { 'items': item.children } %}
+
+            {% endif %}
+        </li>
     {% endfor %}
 </ul>

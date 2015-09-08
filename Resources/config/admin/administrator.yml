@@ -1,7 +1,8 @@
 darvin_admin:
     disabled_routes:
         - show
-    skip_menu: true
+    menu:
+        skip: true
     form:
         edit:
             fields:

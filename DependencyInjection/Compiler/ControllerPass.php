@@ -41,8 +41,11 @@ class ControllerPass implements CompilerPassInterface
 
             $configuration = $meta->getConfiguration();
 
-            if (!$meta->hasParent() && !$configuration['skip_menu']) {
-                $controller->addTag(MenuPass::TAG_MENU_ITEM);
+            if (!$meta->hasParent() && !$configuration['menu']['skip']) {
+                $controller->addTag(MenuPass::TAG_MENU_ITEM, array(
+                    'group'    => $configuration['menu']['group'],
+                    'position' => $configuration['menu']['position'],
+                ));
             }
 
             $controllers[$meta->getControllerId()] = $controller;

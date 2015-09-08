@@ -21,19 +21,38 @@ class Menu
     private $items;
 
     /**
+     * @var \Darvin\AdminBundle\Menu\MenuItemGroup[]
+     */
+    private $groups;
+
+    /**
      * Constructor
      */
     public function __construct()
     {
         $this->items = array();
+        $this->groups = array();
     }
 
     /**
-     * @param \Darvin\AdminBundle\Menu\MenuItemInterface $item Menu item
+     * @param string                                     $groupName Menu item group name
+     * @param \Darvin\AdminBundle\Menu\MenuItemInterface $item      Menu item
      */
-    public function addItem(MenuItemInterface $item)
+    public function addItem($groupName, MenuItemInterface $item)
     {
-        $this->items[] = $item;
+        if (empty($groupName)) {
+            $this->items[] = $item;
+
+            return;
+        }
+        if (!isset($this->groups[$groupName])) {
+            $group = new MenuItemGroup($groupName);
+            $this->items[] = $group;
+            $this->groups[$groupName] = $group;
+        }
+
+        $group = $this->groups[$groupName];
+        $group->addItem($item);
     }
 
     /**

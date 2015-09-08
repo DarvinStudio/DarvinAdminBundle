@@ -68,6 +68,12 @@ form_collections:
     add:    Добавить
     delete: Удалить
 
+homepage:
+    action:
+        homepage:
+            link:  На главную
+            title: Главная страница
+
 image:
     action:
         delete:

@@ -23,6 +23,7 @@
     </noscript>
 
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+        <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
 
         {{ admin_menu() }}
 

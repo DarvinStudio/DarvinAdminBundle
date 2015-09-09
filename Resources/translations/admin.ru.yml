@@ -103,7 +103,7 @@ layout:
     copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Версия %version%
     stats:     Статистика сайта
 
-log_entry:
+log:
     action:
         index:
             link:  Журнал действий
@@ -116,6 +116,8 @@ log_entry:
         action_translation: Действие
         actions:
             create: Создание
+            delete: Удаление
+            update: Изменение
         data:         Данные
         logged_at:    Время
         object_class: Класс объекта

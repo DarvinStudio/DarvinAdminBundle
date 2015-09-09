@@ -39,6 +39,6 @@ class LogEntry extends AbstractLogEntry
      */
     public function getActionTranslation()
     {
-        return 'log_entry.entity.actions.'.$this->action;
+        return 'log.entity.actions.'.$this->action;
     }
 }

@@ -5,6 +5,7 @@ Darvin\AdminBundle\Entity\LogEntry:
         - edit
         - new
         - update-property
+    entity_name: log
     view:
         index:
             action_widgets:

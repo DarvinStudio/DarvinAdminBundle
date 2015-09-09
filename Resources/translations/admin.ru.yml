@@ -116,7 +116,7 @@ log:
         action_translation: Действие
         actions:
             create: Создание
-            delete: Удаление
+            remove: Удаление
             update: Изменение
         data:         Данные
         logged_at:    Время

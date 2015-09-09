@@ -115,20 +115,50 @@ class MetadataManager
      */
     public function getByEntityClass($entityClass)
     {
+        if (!$this->hasMetadata($entityClass)) {
+            throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $entityClass));
+        }
+
+        return $this->getMetadata($entityClass);
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return bool
+     */
+    public function hasMetadata($entityClass)
+    {
+        $metadata = $this->getMetadata($entityClass);
+
+        return !empty($metadata);
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    private function getMetadata($entityClass)
+    {
         $this->init();
 
-        if (!isset($this->metadata[$entityClass])) {
+        if (!array_key_exists($entityClass, $this->metadata)) {
             $childClass = $entityClass;
 
             while ($parentClass = get_parent_class($childClass)) {
                 if (isset($this->metadata[$parentClass])) {
+                    $this->metadata[$entityClass] = $this->metadata[$parentClass];
+
                     return $this->metadata[$parentClass];
                 }
 
                 $childClass = $parentClass;
             }
 
-            throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $entityClass));
+            $this->metadata[$entityClass] = null;
+
+            return null;
         }
 
         return $this->metadata[$entityClass];

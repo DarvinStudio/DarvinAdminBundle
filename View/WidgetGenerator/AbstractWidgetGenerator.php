@@ -52,7 +52,10 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * @return string
      */
-    abstract protected function getDefaultTemplate();
+    protected function getDefaultTemplate()
+    {
+        return sprintf('DarvinAdminBundle:widget:%s.html.twig', $this->getAlias());
+    }
 
     /**
      * @param string $permission Permission

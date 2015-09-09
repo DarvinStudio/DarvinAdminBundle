@@ -112,8 +112,8 @@ log:
             link:  Просмотреть запись
             title: Запись в журнале действий от %entity%
     entity:
-        action:             Действие
-        action_translation: Действие
+        action:      Действие
+        action_name: Действие
         actions:
             create: Создание
             remove: Удаление

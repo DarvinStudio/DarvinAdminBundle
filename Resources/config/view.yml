@@ -23,6 +23,8 @@ parameters:
 
     darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
 
+    darvin_admin.view.widget_generator.log_entry_data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntryDataGenerator
+
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
 
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
@@ -125,6 +127,14 @@ services:
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setPropertyAccessor, [ "@property_accessor" ] ]
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.log_entry_data:
+        class:  %darvin_admin.view.widget_generator.log_entry_data.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setStringifier, [ "@darvin_utils.stringifier.doctrine" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

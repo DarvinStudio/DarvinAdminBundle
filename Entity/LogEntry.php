@@ -26,6 +26,8 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  */
 class LogEntry extends AbstractLogEntry
 {
+    const LOG_ENTRY_CLASS = __CLASS__;
+
     /**
      * @return string
      */
@@ -37,7 +39,7 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return string
      */
-    public function getActionTranslation()
+    public function getActionName()
     {
         return 'log.entity.actions.'.$this->action;
     }

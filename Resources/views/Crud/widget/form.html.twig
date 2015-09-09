@@ -1,7 +1,7 @@
 {% trans_default_domain 'admin' %}
 
 {{ form_errors(form) }}
-{{ form_start(form, { 'attr': ajax_form ? { 'class': 'ajax' } : {} }) }}
+{{ form_start(form, { 'attr': ajax_form is defined and ajax_form ? { 'class': 'ajax' } : {} }) }}
 {% for name, fields in field_groups %}
     <div>
         <h2>{{ (meta.baseTranslationPrefix ~ 'field_group.' ~ name) | trans }}</h2>

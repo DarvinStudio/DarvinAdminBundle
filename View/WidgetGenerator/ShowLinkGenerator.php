@@ -41,12 +41,4 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     {
         return self::ALIAS;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:show_link.html.twig';
-    }
 }

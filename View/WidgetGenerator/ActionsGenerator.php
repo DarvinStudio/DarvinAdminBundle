@@ -63,14 +63,6 @@ class ActionsGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:actions.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRequiredOptions()
     {
         return array(

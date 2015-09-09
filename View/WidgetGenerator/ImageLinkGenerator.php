@@ -65,14 +65,6 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:image_link.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRequiredEntityClass()
     {
         return AbstractImage::ABSTRACT_IMAGE_CLASS;

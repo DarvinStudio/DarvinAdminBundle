@@ -89,14 +89,6 @@ class ListGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:list.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRequiredOptions()
     {
         return array(

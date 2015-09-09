@@ -90,12 +90,4 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     {
         return self::ALIAS;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:copy_form.html.twig';
-    }
 }

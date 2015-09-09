@@ -70,14 +70,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:email_link.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRequiredOptions()
     {
         return array(

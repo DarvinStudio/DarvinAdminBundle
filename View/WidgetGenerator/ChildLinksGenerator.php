@@ -103,14 +103,6 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:child_links.html.twig';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function getRequiredOptions()
     {
         return array(

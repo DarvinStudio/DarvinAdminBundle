@@ -41,12 +41,4 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     {
         return self::ALIAS;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:edit_link.html.twig';
-    }
 }

@@ -55,12 +55,4 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     {
         return self::ALIAS;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:widget:delete_form.html.twig';
-    }
 }

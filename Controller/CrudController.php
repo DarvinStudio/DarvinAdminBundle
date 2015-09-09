@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
@@ -150,43 +151,35 @@ class CrudController extends Controller implements MenuItemInterface
             $widget ? array(AdminFormFactory::SUBMIT_INDEX) : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
-        $response = $this->renderResponse('new', array(
-            'ajax_form'     => $widget,
-            'form'          => $form->createView(),
-            'meta'          => $this->meta,
-            'parent_entity' => $parentEntity,
-        ), $widget);
-
         if (!$form->isSubmitted()) {
-            return $response;
+            return new Response($this->renderNewTemplate($widget, $form, $parentEntity));
         }
-
-        $formIsValid = $form->isValid();
-
-        if ($formIsValid) {
+        if ($form->isValid()) {
             $em = $this->getEntityManager();
             $em->persist($entity);
             $em->flush();
+
+            $data = array(
+                'html'    => null,
+                'message' => $this->meta->getBaseTranslationPrefix().'action.new.success',
+                'success' => true,
+            );
+        } else {
+            $data = array(
+                'html'    => $this->renderNewTemplate($widget, $form, $parentEntity),
+                'message' => FlashNotifierInterface::MESSAGE_FORM_ERROR,
+                'success' => false,
+            );
         }
         if ($isXmlHttpRequest) {
-            return new JsonResponse(array(
-                'html'    => $formIsValid ? null : $response->getContent(),
-                'message' => $formIsValid
-                    ? $this->meta->getBaseTranslationPrefix().'action.new.success'
-                    : FlashNotifierInterface::MESSAGE_FORM_ERROR
-                ,
-                'success' => $formIsValid,
-            ));
-        }
-        if ($formIsValid) {
-            $this->getFlashNotifier()->success($this->meta->getBaseTranslationPrefix().'action.new.success');
-
-            return $this->successRedirect($form, $entity);
+            return new JsonResponse($data);
         }
 
-        $this->getFlashNotifier()->formError();
+        $this->getFlashNotifier()->done($data['success'], $data['message']);
 
-        return $response;
+        return $data['success']
+            ? $this->successRedirect($form, $entity)
+            : new Response($this->renderNewTemplate($widget, $form, $parentEntity));
     }
 
     /**
@@ -475,6 +468,23 @@ class CrudController extends Controller implements MenuItemInterface
     }
 
     /**
+     * @param bool                                  $widget       Whether to render widget
+     * @param \Symfony\Component\Form\FormInterface $form         Entity form
+     * @param object                                $parentEntity Parent entity
+     *
+     * @return string
+     */
+    private function renderNewTemplate($widget, FormInterface $form, $parentEntity)
+    {
+        return $this->renderTemplate('new', array(
+            'ajax_form'     => $widget,
+            'form'          => $form->createView(),
+            'meta'          => $this->meta,
+            'parent_entity' => $parentEntity,
+        ), $widget);
+    }
+
+    /**
      * @param string $viewType       View type
      * @param array  $templateParams Template parameters
      * @param bool   $widget         Whether to render widget
@@ -483,11 +493,23 @@ class CrudController extends Controller implements MenuItemInterface
      */
     private function renderResponse($viewType, array $templateParams = array(), $widget = false)
     {
+        return new Response($this->renderTemplate($viewType, $templateParams, $widget));
+    }
+
+    /**
+     * @param string $viewType       View type
+     * @param array  $templateParams Template parameters
+     * @param bool   $widget         Whether to render widget
+     *
+     * @return string
+     */
+    private function renderTemplate($viewType, array $templateParams = array(), $widget = false)
+    {
         $template = !empty($this->configuration['view'][$viewType]['template'])
             ? $this->configuration['view'][$viewType]['template']
             : sprintf('DarvinAdminBundle:Crud%s:%s.html.twig', $widget ? '/widget' : '', $viewType);
 
-        return $this->render($template, $templateParams);
+        return $this->renderView($template, $templateParams);
     }
 
     /**

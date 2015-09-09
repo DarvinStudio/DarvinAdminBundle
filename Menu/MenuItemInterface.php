@@ -39,4 +39,9 @@ interface MenuItemInterface
      * @return string
      */
     public function getMenuDescription();
+
+    /**
+     * @return string
+     */
+    public function getAssociatedObjectClass();
 }

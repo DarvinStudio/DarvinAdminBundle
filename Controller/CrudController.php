@@ -388,6 +388,14 @@ class CrudController extends Controller implements MenuItemInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getAssociatedObjectClass()
+    {
+        return $this->entityClass;
+    }
+
+    /**
      * @param string $permission Permission
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException

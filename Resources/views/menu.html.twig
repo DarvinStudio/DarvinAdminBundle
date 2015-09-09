@@ -14,6 +14,9 @@
                 {% else %}
                     <span>{{ item.menuTitle | trans }}</span>
                 {% endif %}
+                {% if item.associatedObjectClass and utils_new_objects_countable(item.associatedObjectClass) %}
+                    <span>{{ utils_count_new_objects(item.associatedObjectClass) }}</span>
+                {% endif %}
                 {% if new_url %}
                     {% if new_url != app.request.requestUri %}
                         <a href="{{ new_url }}">+</a>

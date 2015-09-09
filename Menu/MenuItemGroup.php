@@ -82,4 +82,12 @@ class MenuItemGroup implements MenuItemInterface
     {
         return sprintf('menu.group.%s.description', $this->name);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAssociatedObjectClass()
+    {
+        return null;
+    }
 }

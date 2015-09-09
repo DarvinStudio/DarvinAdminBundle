@@ -130,7 +130,9 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
-        if ($request->isXmlHttpRequest()) {
+        $isXmlHttpRequest = $request->isXmlHttpRequest();
+
+        if ($isXmlHttpRequest) {
             $widget = true;
         }
 
@@ -145,16 +147,46 @@ class CrudController extends Controller implements MenuItemInterface
             $entity,
             'new',
             $this->getAdminRouter()->generate($entity, AdminRouter::TYPE_NEW),
-            $this->getEntityFormSubmitButtons()
+            $widget ? array(AdminFormFactory::SUBMIT_INDEX) : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
-        return $this->getFormHandler()->handleEntityForm($form, 'action.new.success')
-            ? $this->successRedirect($form, $entity)
-            : $this->renderResponse('new', array(
-                'form'          => $form->createView(),
-                'meta'          => $this->meta,
-                'parent_entity' => $parentEntity,
-            ), $widget);
+        $response = $this->renderResponse('new', array(
+            'ajax_form'     => $widget,
+            'form'          => $form->createView(),
+            'meta'          => $this->meta,
+            'parent_entity' => $parentEntity,
+        ), $widget);
+
+        if (!$form->isSubmitted()) {
+            return $response;
+        }
+
+        $formIsValid = $form->isValid();
+
+        if ($formIsValid) {
+            $em = $this->getEntityManager();
+            $em->persist($entity);
+            $em->flush();
+        }
+        if ($isXmlHttpRequest) {
+            return new JsonResponse(array(
+                'html'    => $formIsValid ? null : $response->getContent(),
+                'message' => $formIsValid
+                    ? $this->meta->getBaseTranslationPrefix().'action.new.success'
+                    : FlashNotifierInterface::MESSAGE_FORM_ERROR
+                ,
+                'success' => $formIsValid,
+            ));
+        }
+        if ($formIsValid) {
+            $this->getFlashNotifier()->success($this->meta->getBaseTranslationPrefix().'action.new.success');
+
+            return $this->successRedirect($form, $entity);
+        }
+
+        $this->getFlashNotifier()->formError();
+
+        return $response;
     }
 
     /**
@@ -507,6 +539,12 @@ class CrudController extends Controller implements MenuItemInterface
     private function getEntityManager()
     {
         return $this->get('doctrine.orm.entity_manager');
+    }
+
+    /** @return \Darvin\Utils\Flash\FlashNotifierInterface */
+    private function getFlashNotifier()
+    {
+        return $this->get('darvin_utils.flash.notifier');
     }
 
     /** @return \Darvin\AdminBundle\Form\FormHandler */

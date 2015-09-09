@@ -106,11 +106,11 @@ layout:
 log:
     action:
         index:
-            link:  Журнал действий
-            title: Журнал действий
+            link:  Журнал
+            title: Журнал
         show:
             link:  Просмотреть запись
-            title: Запись в журнале действий от %entity%
+            title: Запись в журнале от %entity%
     entity:
         action:      Действие
         action_name: Действие

@@ -10,19 +10,19 @@ Darvin\AdminBundle\Entity\LogEntry:
             action_widgets:
                 - show_link
             fields:
-                action:      ~
-                loggedAt:    ~
-                objectClass: ~
-                objectId:    ~
-                version:     ~
-                username:    ~
+                actionTranslation: ~
+                loggedAt:          ~
+                objectClass:       ~
+                objectId:          ~
+                version:           ~
+                username:          ~
         show:
             action_widgets: ~
             fields:
-                action:      ~
-                loggedAt:    ~
-                objectClass: ~
-                objectId:    ~
-                version:     ~
-                username:    ~
-                data:        ~
+                actionTranslation: ~
+                loggedAt:          ~
+                objectClass:       ~
+                objectId:          ~
+                version:           ~
+                username:          ~
+                data:              ~

@@ -112,7 +112,10 @@ log_entry:
             link:  Просмотреть запись
             title: Запись в журнале действий от %entity%
     entity:
-        action:       Действие
+        action:             Действие
+        action_translation: Действие
+        actions:
+            create: Создание
         data:         Данные
         logged_at:    Время
         object_class: Класс объекта

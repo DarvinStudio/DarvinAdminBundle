@@ -33,4 +33,12 @@ class LogEntry extends AbstractLogEntry
     {
         return $this->loggedAt instanceof \DateTime ? $this->loggedAt->format('d.m.Y H:i:s') : '';
     }
+
+    /**
+     * @return string
+     */
+    public function getActionTranslation()
+    {
+        return 'log_entry.entity.actions.'.$this->action;
+    }
 }

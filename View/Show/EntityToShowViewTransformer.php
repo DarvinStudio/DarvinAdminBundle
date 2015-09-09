@@ -39,7 +39,7 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
 
             $content = $this->getFieldContent($entity, $field, $attr, $meta->getMappings());
 
-            $view->addItem(new Item($label, $content));
+            $view->addItem(new Item($label, $this->translator->trans($content, array(), 'admin')));
         }
 
         return $view;

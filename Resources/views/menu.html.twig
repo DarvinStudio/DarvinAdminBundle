@@ -15,7 +15,9 @@
                     <span>{{ item.menuTitle | trans }}</span>
                 {% endif %}
                 {% if item.associatedObjectClass and utils_new_objects_countable(item.associatedObjectClass) %}
-                    <span>{{ utils_count_new_objects(item.associatedObjectClass) }}</span>
+                    {% if utils_count_new_objects(item.associatedObjectClass) %}
+                        <span>{{ utils_count_new_objects(item.associatedObjectClass) }}</span>
+                    {% endif %}
                 {% endif %}
                 {% if new_url %}
                     {% if new_url != app.request.requestUri %}

@@ -5,8 +5,8 @@
     <tbody>
         {% for item in view.items %}
             <tr>
-                <th>{{ item.label | raw }}</th>
-                <td>{{ item.content | raw }}</td>
+                <th>{{ item.label | trans }}</th>
+                <td>{{ item.content | trans | raw }}</td>
             </tr>
         {% endfor %}
     </tbody>

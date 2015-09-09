@@ -35,11 +35,11 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($configuration['view']['show']['fields'] as $field => $attr) {
-            $label = $this->translator->trans($translationPrefix.StringsUtil::toUnderscore($field), array(), 'admin');
+            $label = $translationPrefix.StringsUtil::toUnderscore($field);
 
             $content = $this->getFieldContent($entity, $field, $attr, $meta->getMappings());
 
-            $view->addItem(new Item($label, $this->translator->trans($content, array(), 'admin')));
+            $view->addItem(new Item($label, $content));
         }
 
         return $view;

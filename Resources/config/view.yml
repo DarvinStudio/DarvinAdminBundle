@@ -42,7 +42,6 @@ services:
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"
             - "@darvin_utils.stringifier.doctrine"
-            - "@translator"
             - "@darvin_admin.view.widget_generator.pool"
 
     darvin_admin.view.entity_transformer.index:

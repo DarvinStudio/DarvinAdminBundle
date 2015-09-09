@@ -133,18 +133,14 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
-            $content = $this->translator->trans($translationPrefix.StringsUtil::toUnderscore($field), array(), 'admin');
+            $content = $translationPrefix.StringsUtil::toUnderscore($field);
 
             $head->addItem($field, new HeadItem($content, empty($attr) && $meta->isMapped($field) && !$meta->isAssociation($field)));
         }
 
         $head->addItem(
             'action_widgets',
-            new HeadItem(
-                $this->translator->trans('interface.actions', array(), 'admin'),
-                false,
-                count($configuration['view']['index']['action_widgets'])
-            )
+            new HeadItem('interface.actions', false, count($configuration['view']['index']['action_widgets']))
         );
 
         return $head;
@@ -178,7 +174,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                     $content = $this->getFieldContent($entity, $field, $attr, $mappings);
                 }
 
-                $bodyRow->addItem($field, new BodyRowItem($this->translator->trans($content, array(), 'admin')));
+                $bodyRow->addItem($field, new BodyRowItem($content));
             }
             foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
                 $actionWidget = $this->widgetGeneratorPool->get($widgetGeneratorAlias)->generate($entity);

@@ -17,9 +17,9 @@
                 {% for field, item in view.head.items if item.width %}
                     <th colspan="{{ item.width }}">
                         {% if item.sortable %}
-                            {{ knp_pagination_sortable(pagination, item.content | raw, 'o.' ~ field) }}
+                            {{ knp_pagination_sortable(pagination, item.content | trans, 'o.' ~ field) }}
                         {% else %}
-                            {{ item.content | raw }}
+                            {{ item.content | trans }}
                         {% endif %}
                     </th>
                 {% endfor %}
@@ -29,7 +29,7 @@
             {% for row in view.body.rows %}
                 <tr>
                     {% for item in row.items %}
-                        <td>{{ item.content | raw }}</td>
+                        <td>{{ item.content | trans | raw }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}

@@ -11,21 +11,25 @@ Darvin\AdminBundle\Entity\LogEntry:
             action_widgets:
                 - show_link
             fields:
-                actionName:  ~
-                loggedAt:    ~
-                objectClass: ~
-                objectId:    ~
-                version:     ~
-                username:    ~
+                actionName: ~
+                loggedAt:   ~
+                objectName:
+                    widget_generator:
+                        alias: log_entry_entity_name
+                objectId: ~
+                version:  ~
+                username: ~
         show:
             action_widgets: ~
             fields:
-                actionName:  ~
-                loggedAt:    ~
-                objectClass: ~
-                objectId:    ~
-                version:     ~
-                username:    ~
+                actionName: ~
+                loggedAt:   ~
+                objectName:
+                    widget_generator:
+                        alias: log_entry_entity_name
+                objectId: ~
+                version:  ~
+                username: ~
                 data:
                     widget_generator:
                         alias: log_entry_data

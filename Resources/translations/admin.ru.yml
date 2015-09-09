@@ -112,18 +112,19 @@ log:
             link:  Просмотреть запись
             title: Запись в журнале от %entity%
     entity:
-        action:      Действие
         action_name: Действие
         actions:
             create: Создание
             remove: Удаление
             update: Изменение
-        data:         Данные
-        logged_at:    Время
-        object_class: Класс объекта
-        object_id:    ID объекта
-        username:     Пользователь
-        version:      Версия
+        data:        Данные
+        logged_at:   Время
+        object_id:   ID объекта
+        object_name: Объект
+        object_names:
+            feedback: Отзыв
+        username: Пользователь
+        version:  Версия
 
 property_forms:
     submit: Сохранить

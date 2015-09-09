@@ -23,7 +23,9 @@ parameters:
 
     darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
 
-    darvin_admin.view.widget_generator.log_entry_data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntryDataGenerator
+    darvin_admin.view.widget_generator.log_entry.data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\DataGenerator
+
+    darvin_admin.view.widget_generator.log_entry.entity_name.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\EntityNameGenerator
 
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
 
@@ -129,11 +131,17 @@ services:
         tags:
             - { name: darvin_admin.view.widget_generator }
 
-    darvin_admin.view.widget_generator.log_entry_data:
-        class:  %darvin_admin.view.widget_generator.log_entry_data.class%
+    darvin_admin.view.widget_generator.log_entry.data:
+        class:  %darvin_admin.view.widget_generator.log_entry.data.class%
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setStringifier, [ "@darvin_utils.stringifier.doctrine" ] ]
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.log_entry.entity_name:
+        class:  %darvin_admin.view.widget_generator.log_entry.entity_name.class%
+        parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 

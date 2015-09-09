@@ -8,16 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
+use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
 
 /**
  * Log entry data view widget generator
  */
-class LogEntryDataGenerator extends AbstractWidgetGenerator
+class DataGenerator extends AbstractWidgetGenerator
 {
     /**
      * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
@@ -37,6 +39,7 @@ class LogEntryDataGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
+        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $this->validate($entity, $options);
 
         $data = $entity->getData();

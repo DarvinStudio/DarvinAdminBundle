@@ -103,6 +103,23 @@ layout:
     copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Версия %version%
     stats:     Статистика сайта
 
+log_entry:
+    action:
+        index:
+            link:  Журнал действий
+            title: Журнал действий
+        show:
+            link:  Просмотреть запись
+            title: Запись в журнале действий от %entity%
+    entity:
+        action:       Действие
+        data:         Данные
+        logged_at:    Время
+        object_class: Класс объекта
+        object_id:    ID объекта
+        username:     Пользователь
+        version:      Версия
+
 property_forms:
     submit: Сохранить
 

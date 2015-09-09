@@ -1,0 +1,25 @@
+Darvin\AdminBundle\Entity\LogEntry:
+    disabled_routes:
+        - delete
+        - edit
+    view:
+        index:
+            action_widgets:
+                - show_link
+            fields:
+                action:      ~
+                loggedAt:    ~
+                objectClass: ~
+                objectId:    ~
+                version:     ~
+                username:    ~
+        show:
+            action_widgets: ~
+            fields:
+                action:      ~
+                loggedAt:    ~
+                objectClass: ~
+                objectId:    ~
+                version:     ~
+                username:    ~
+                data:        ~

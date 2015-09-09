@@ -45,6 +45,7 @@ class DarvinAdminExtension extends Extension
         $loader->load('dropzone.yml');
         $loader->load('form.yml');
         $loader->load('image.yml');
+        $loader->load('log.yml');
         $loader->load('menu.yml');
         $loader->load('metadata.yml');
         $loader->load('route.yml');

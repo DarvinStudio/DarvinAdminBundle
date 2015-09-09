@@ -1,0 +1,14 @@
+parameters:
+    darvin_admin.log.metadata.class:  Darvin\AdminBundle\Metadata\Metadata
+    darvin_admin.log.metadata.entity: Darvin\AdminBundle\Entity\LogEntry
+    darvin_admin.log.metadata.config: @@DarvinAdminBundle/Resources/config/admin/log.yml
+
+services:
+    darvin_admin.log.metadata:
+        class:   %darvin_admin.log.metadata.class%
+        factory: [ "@darvin_admin.metadata.factory", create ]
+        arguments:
+            - %darvin_admin.log.metadata.entity%
+            - %darvin_admin.log.metadata.config%
+        tags:
+            - { name: darvin_admin.metadata }

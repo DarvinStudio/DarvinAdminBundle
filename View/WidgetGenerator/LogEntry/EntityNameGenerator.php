@@ -27,7 +27,11 @@ class EntityNameGenerator extends AbstractWidgetGenerator
         $this->validate($entity, $options);
 
         return $this->metadataManager->hasMetadata($entity->getObjectClass())
-            ? 'log.entity.object_names.'.$this->metadataManager->getByEntityClass($entity->getObjectClass())->getEntityName()
+            ? $this->render($options, array(
+                'entity_class' => $entity->getObjectClass(),
+                'entity_id'    => $entity->getObjectId(),
+                'entity_name'  => $this->metadataManager->getByEntityClass($entity->getObjectClass())->getEntityName(),
+            ))
             : $entity->getObjectClass();
     }
 

@@ -124,6 +124,16 @@ class Metadata
     }
 
     /**
+     * @param string $property Property name
+     *
+     * @return bool
+     */
+    public function isMapped($property)
+    {
+        return isset($this->mappings[$property]);
+    }
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\AssociatedMetadata $parent parent
      *
      * @return Metadata

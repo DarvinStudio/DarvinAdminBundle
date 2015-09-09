@@ -135,7 +135,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
             $content = $this->translator->trans($translationPrefix.StringsUtil::toUnderscore($field), array(), 'admin');
 
-            $head->addItem($field, new HeadItem($content, empty($attr) && !$meta->isAssociation($field)));
+            $head->addItem($field, new HeadItem($content, empty($attr) && $meta->isMapped($field) && !$meta->isAssociation($field)));
         }
 
         $head->addItem(

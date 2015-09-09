@@ -1,7 +1,10 @@
 Darvin\AdminBundle\Entity\LogEntry:
     disabled_routes:
+        - copy
         - delete
         - edit
+        - new
+        - update-property
     view:
         index:
             action_widgets:

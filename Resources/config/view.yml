@@ -148,6 +148,8 @@ services:
     darvin_admin.view.widget_generator.show_link:
         class:  %darvin_admin.view.widget_generator.show_link.class%
         parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

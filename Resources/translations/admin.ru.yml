@@ -14,6 +14,9 @@ administrator:
         new:
             success: Администратор успешно добавлен
             title:   Новый администратор
+        show:
+            link:  Просмотреть администратора
+            title: Администратор «%entity%»
     entity:
         email:         E-mail
         enabled:       Активен
@@ -112,13 +115,15 @@ log:
             link:  Просмотреть запись
             title: Запись в журнале от %entity%
     entity:
-        action_name: Действие
+        administrator: Администратор
+        action_name:   Действие
         actions:
             create: Создание
             remove: Удаление
             update: Изменение
         data:        Данные
         logged_at:   Время
+        object:      Объект
         object_id:   ID объекта
         object_name: Объект
         object_names:

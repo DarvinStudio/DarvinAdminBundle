@@ -115,7 +115,7 @@ class MetadataManager
      */
     public function getByEntityClass($entityClass)
     {
-        if (!$this->hasMetadata($entityClass)) {
+        if (!$this->hasMetadataForEntityClass($entityClass)) {
             throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $entityClass));
         }
 
@@ -123,11 +123,21 @@ class MetadataManager
     }
 
     /**
+     * @param object $entity Entity
+     *
+     * @return bool
+     */
+    public function hasMetadataForEntity($entity)
+    {
+        return $this->hasMetadataForEntityClass(ClassUtils::getClass($entity));
+    }
+
+    /**
      * @param string $entityClass Entity class
      *
      * @return bool
      */
-    public function hasMetadata($entityClass)
+    public function hasMetadataForEntityClass($entityClass)
     {
         $metadata = $this->getMetadata($entityClass);
 

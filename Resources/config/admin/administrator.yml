@@ -1,6 +1,4 @@
 darvin_admin:
-    disabled_routes:
-        - show
     menu:
         skip: true
     form:
@@ -41,13 +39,23 @@ darvin_admin:
                         multiple: true
                         expanded: true
     view:
-        edit:
-            action_widgets:
-                - delete_form
         index:
-            action_widgets:
-                - edit_link
-                - delete_form
+            fields:
+                username: ~
+                email:
+                    widget_generator:
+                        alias: email_link
+                        options:
+                            email_property: email
+                locked:  ~
+                enabled: ~
+                roles:
+                    widget_generator:
+                        alias: list
+                        options:
+                            keys_property:   roles
+                            values_callback: [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]
+        show:
             fields:
                 username: ~
                 email:

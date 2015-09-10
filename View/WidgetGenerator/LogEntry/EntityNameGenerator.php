@@ -26,7 +26,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $this->validate($entity, $options);
 
-        return $this->metadataManager->hasMetadata($entity->getObjectClass())
+        return $this->metadataManager->hasMetadataForEntityClass($entity->getObjectClass())
             ? 'log.entity.object_names.'.$this->metadataManager->getByEntityClass($entity->getObjectClass())->getEntityName()
             : $entity->getObjectClass();
     }

@@ -47,7 +47,7 @@ class DataGenerator extends AbstractWidgetGenerator
         if (empty($data)) {
             return '';
         }
-        if (!$this->metadataManager->hasMetadata($entity->getObjectClass())) {
+        if (!$this->metadataManager->hasMetadataForEntityClass($entity->getObjectClass())) {
             $json = json_encode($data, JSON_UNESCAPED_UNICODE);
 
             if (false === $json) {

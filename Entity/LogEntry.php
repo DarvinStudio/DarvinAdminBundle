@@ -32,14 +32,14 @@ class LogEntry extends AbstractLogEntry
     /**
      * @var object
      *
-     * @Darvin\CustomObject(classPropertyPath="objectClass", initByPropertyName="id", initByPropertyValuePath="objectId")
+     * @Darvin\CustomObject(classPropertyPath="objectClass", initProperty="id", initPropertyValuePath="objectId")
      */
     private $object;
 
     /**
      * @var \Darvin\AdminBundle\Entity\Administrator
      *
-     * @Darvin\CustomObject(class="Darvin\AdminBundle\Entity\Administrator", initByPropertyName="username", initByPropertyValuePath="username")
+     * @Darvin\CustomObject(class="Darvin\AdminBundle\Entity\Administrator", initProperty="username", initPropertyValuePath="username")
      */
     private $administrator;
 

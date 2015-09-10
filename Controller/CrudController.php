@@ -109,6 +109,8 @@ class CrudController extends Controller implements MenuItemInterface
             $paginatorOptions
         );
 
+        $this->getCustomObjectLoader()->loadForObjects($pagination->getItems(), false);
+
         $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
 
         return $this->renderResponse('index', array(
@@ -298,6 +300,8 @@ class CrudController extends Controller implements MenuItemInterface
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
+
+        $this->getCustomObjectLoader()->loadForObject($entity, false);
 
         $view = $this->getEntityToShowViewTransformer()->transform($entity);
 
@@ -551,6 +555,12 @@ class CrudController extends Controller implements MenuItemInterface
     private function getAdminRouter()
     {
         return $this->get('darvin_admin.route.router');
+    }
+
+    /** @return \Darvin\Utils\CustomObject\CustomObjectLoaderInterface */
+    private function getCustomObjectLoader()
+    {
+        return $this->get('darvin_utils.custom_object.loader.entity');
     }
 
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */

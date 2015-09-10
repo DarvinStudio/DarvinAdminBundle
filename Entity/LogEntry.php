@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Entity;
 
+use Darvin\Utils\Mapping\Annotation as Darvin;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 
@@ -29,6 +30,20 @@ class LogEntry extends AbstractLogEntry
     const LOG_ENTRY_CLASS = __CLASS__;
 
     /**
+     * @var object
+     *
+     * @Darvin\CustomObject(classPropertyPath="objectClass", initByPropertyName="id", initByPropertyValuePath="objectId")
+     */
+    private $object;
+
+    /**
+     * @var \Darvin\AdminBundle\Entity\Administrator
+     *
+     * @Darvin\CustomObject(class="Darvin\AdminBundle\Entity\Administrator", initByPropertyName="username", initByPropertyValuePath="username")
+     */
+    private $administrator;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -42,5 +57,45 @@ class LogEntry extends AbstractLogEntry
     public function getActionName()
     {
         return 'log.entity.actions.'.$this->action;
+    }
+
+    /**
+     * @param object $object object
+     *
+     * @return LogEntry
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+
+        return $this;
+    }
+
+    /**
+     * @return object
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Entity\Administrator $administrator administrator
+     *
+     * @return LogEntry
+     */
+    public function setAdministrator(Administrator $administrator = null)
+    {
+        $this->administrator = $administrator;
+
+        return $this;
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Entity\Administrator
+     */
+    public function getAdministrator()
+    {
+        return $this->administrator;
     }
 }

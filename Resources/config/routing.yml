@@ -2,6 +2,10 @@ darvin_admin_import_configuration:
     resource: "@DarvinAdminBundle/Resources/config/routing/configuration.yml"
     prefix:   /configuration
 
+darvin_admin_import_log:
+    resource: "@DarvinAdminBundle/Resources/config/routing/log.yml"
+    prefix:   /log
+
 darvin_admin_import_security:
     resource: "@DarvinAdminBundle/Resources/config/routing/security.yml"
     prefix:   /

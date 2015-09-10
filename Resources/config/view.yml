@@ -27,6 +27,8 @@ parameters:
 
     darvin_admin.view.widget_generator.log_entry.entity_name.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\EntityNameGenerator
 
+    darvin_admin.view.widget_generator.log_entry.revert_form.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\RevertFormGenerator
+
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
 
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
@@ -142,6 +144,15 @@ services:
     darvin_admin.view.widget_generator.log_entry.entity_name:
         class:  %darvin_admin.view.widget_generator.log_entry.entity_name.class%
         parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.log_entry.revert_form:
+        class:  %darvin_admin.view.widget_generator.log_entry.revert_form.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
+            - [ setRouter,           [ "@router" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

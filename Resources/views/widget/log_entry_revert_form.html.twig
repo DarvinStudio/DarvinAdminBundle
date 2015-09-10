@@ -1,0 +1,8 @@
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button onclick="return confirm('{% trans %}log.action.revert.confirm{% endtrans %}');" type="submit">
+    {% trans %}log.action.revert.submit{% endtrans %}
+</button>
+{{ form_end(form) }}

@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
 use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
@@ -41,6 +42,10 @@ class DataGenerator extends AbstractWidgetGenerator
     {
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $this->validate($entity, $options);
+
+        if (!$this->isGranted(Permission::VIEW, $entity)) {
+            return '';
+        }
 
         $data = $entity->getData();
 

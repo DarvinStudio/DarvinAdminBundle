@@ -137,7 +137,7 @@ class AdminFormFactory
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function createIdForm($entity, $namePrefix, $action)
+    public function createIdForm($entity, $namePrefix, $action)
     {
         $id = $this->identifierAccessor->getValue($entity);
 

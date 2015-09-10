@@ -1,0 +1,5 @@
+darvin_admin_log_revert:
+    path:         /{id}/revert
+    defaults:     { _controller: DarvinAdminBundle:Log:revert }
+    requirements: { id: \d+ }
+    methods:      [ post ]

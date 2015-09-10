@@ -10,6 +10,7 @@ Darvin\AdminBundle\Entity\LogEntry:
         index:
             action_widgets:
                 - show_link
+                - log_entry_revert_form
             fields:
                 actionName: ~
                 loggedAt:   ~
@@ -30,7 +31,8 @@ Darvin\AdminBundle\Entity\LogEntry:
                         options:
                             entity_property: administrator
         show:
-            action_widgets: ~
+            action_widgets:
+                - log_entry_revert_form
             fields:
                 actionName: ~
                 loggedAt:   ~

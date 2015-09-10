@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
 
 /**
@@ -25,6 +26,10 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     {
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $this->validate($entity, $options);
+
+        if (!$this->isGranted(Permission::VIEW, $entity)) {
+            return '';
+        }
 
         return $this->metadataManager->hasMetadataForEntityClass($entity->getObjectClass())
             ? 'log.entity.object_names.'.$this->metadataManager->getByEntityClass($entity->getObjectClass())->getEntityName()

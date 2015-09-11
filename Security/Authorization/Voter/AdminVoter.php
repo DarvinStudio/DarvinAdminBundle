@@ -85,10 +85,10 @@ class AdminVoter implements VoterInterface
                 continue;
             }
 
-            $vote = self::ACCESS_DENIED;
+            $vote = self::ACCESS_GRANTED;
 
-            if ($this->isGranted($attribute, $class, $user)) {
-                return self::ACCESS_GRANTED;
+            if (!$this->isGranted($attribute, $class, $user)) {
+                return self::ACCESS_DENIED;
             }
         }
 

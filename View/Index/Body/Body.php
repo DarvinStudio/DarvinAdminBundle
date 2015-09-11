@@ -47,4 +47,12 @@ class Body
     {
         return $this->rows;
     }
+
+    /**
+     * @return int
+     */
+    public function getLength()
+    {
+        return count($this->rows);
+    }
 }

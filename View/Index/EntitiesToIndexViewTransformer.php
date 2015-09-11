@@ -197,7 +197,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
      */
     private function normalizeBody(Body $body)
     {
-        if (empty($body)) {
+        if (empty($body) || 1 === $body->getLength()) {
             return;
         }
 

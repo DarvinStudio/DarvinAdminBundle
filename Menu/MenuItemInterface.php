@@ -16,6 +16,11 @@ namespace Darvin\AdminBundle\Menu;
 interface MenuItemInterface
 {
     /**
+     * @param MenuItemInterface[] $children Child menu items
+     */
+    public function setChildren(array $children);
+
+    /**
      * @return MenuItemInterface[]
      */
     public function getChildren();

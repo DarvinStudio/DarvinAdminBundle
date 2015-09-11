@@ -10,11 +10,19 @@
 
 namespace Darvin\AdminBundle\Menu;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 /**
  * Menu
  */
 class Menu
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
     /**
      * @var \Darvin\AdminBundle\Menu\MenuItemInterface[]
      */
@@ -26,12 +34,19 @@ class Menu
     private $groups;
 
     /**
-     * Constructor
+     * @var bool
      */
-    public function __construct()
+    private $itemsFiltered;
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     */
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
+        $this->authorizationChecker = $authorizationChecker;
         $this->items = array();
         $this->groups = array();
+        $this->itemsFiltered = false;
     }
 
     /**
@@ -60,6 +75,49 @@ class Menu
      */
     public function getItems()
     {
+        $this->filterItems();
+
         return $this->items;
+    }
+
+    private function filterItems()
+    {
+        if ($this->itemsFiltered) {
+            return;
+        }
+
+        $this->items = $this->removeNeedlessItems($this->items);
+
+        $this->itemsFiltered = true;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items Menu items
+     *
+     * @return \Darvin\AdminBundle\Menu\MenuItemInterface[]
+     */
+    private function removeNeedlessItems(array $items)
+    {
+        foreach ($items as $key => $item) {
+            $children = $this->removeNeedlessItems($item->getChildren());
+            $item->setChildren($children);
+
+            $objectClass = $item->getAssociatedObjectClass();
+
+            if (empty($objectClass) && empty($children)) {
+                unset($items[$key]);
+
+                continue;
+            }
+            if (!empty($objectClass)
+                && empty($children)
+                && !$this->authorizationChecker->isGranted(Permission::VIEW, $objectClass)
+                && !$this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $objectClass)
+            ) {
+                unset($items[$key]);
+            }
+        }
+
+        return $items;
     }
 }

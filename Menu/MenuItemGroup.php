@@ -46,6 +46,14 @@ class MenuItemGroup implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
+    public function setChildren(array $children)
+    {
+        $this->items = $children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getChildren()
     {
         return $this->items;

@@ -6,6 +6,8 @@ parameters:
 services:
     darvin_admin.menu:
         class: %darvin_admin.menu.class%
+        arguments:
+            - "@security.authorization_checker"
 
     darvin_admin.menu.twig_extension:
         class: %darvin_admin.menu.twig_extension.class%

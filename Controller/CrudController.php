@@ -342,6 +342,13 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
+    public function setChildren(array $children)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getChildren()
     {
         return array();

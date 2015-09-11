@@ -23,7 +23,7 @@ class BodyRowItem
     /**
      * @param string $content Content
      */
-    public function __construct($content)
+    public function __construct($content = null)
     {
         $this->content = $content;
     }

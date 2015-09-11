@@ -48,4 +48,12 @@ class BodyRow
     {
         return $this->items;
     }
+
+    /**
+     * @return int
+     */
+    public function getLength()
+    {
+        return count($this->items);
+    }
 }

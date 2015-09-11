@@ -187,7 +187,52 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             $body->addRow($bodyRow);
         }
 
+        $this->normalizeBody($body);
+
         return $body;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\View\Index\Body\Body $body Body to normalize
+     */
+    private function normalizeBody(Body $body)
+    {
+        if (empty($body)) {
+            return;
+        }
+
+        $rows = $body->getRows();
+
+        $firstRow = $rows[0];
+        $maxRowLength = $firstRow->getLength();
+
+        $normalizationNeeded = false;
+
+        $rowLengths = array();
+
+        foreach ($rows as $key => $row) {
+            $rowLength = $row->getLength();
+            $rowLengths[$key] = $rowLength;
+
+            if ($rowLength !== $maxRowLength) {
+                $normalizationNeeded = true;
+            }
+            if ($rowLength > $maxRowLength) {
+                $maxRowLength = $rowLength;
+            }
+        }
+        if (!$normalizationNeeded) {
+            return;
+        }
+        foreach ($rowLengths as $key => $rowLength) {
+            if ($rowLength === $maxRowLength) {
+                continue;
+            }
+            for ($i = 0; $i < $maxRowLength - $rowLength; $i++) {
+                $row = $rows[$key];
+                $row->addItem(null, new BodyRowItem());
+            }
+        }
     }
 
     /**

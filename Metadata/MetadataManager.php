@@ -175,7 +175,7 @@ class MetadataManager
                 $childClass = $parentClass;
             }
 
-            // Set null as metadata for next time check speed up
+            // Set null as metadata to speed up next time check
             $this->metadata[$entityClass] = null;
 
             return null;

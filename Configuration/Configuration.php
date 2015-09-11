@@ -72,18 +72,18 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
     /**
      * {@inheritdoc}
      */
-    public function getName()
-    {
-        return 'darvin_admin';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getAllowedRoles()
     {
         return array(
             Administrator::ROLE_SUPERADMIN,
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'darvin_admin';
     }
 }

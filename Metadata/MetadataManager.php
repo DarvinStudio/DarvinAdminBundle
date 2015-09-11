@@ -74,7 +74,16 @@ class MetadataManager
     {
         $this->init();
 
-        return $this->metadata;
+        $all = array();
+
+        // Skip nulls that have been set for speed up of checking whether metadata exists for class
+        foreach ($this->metadata as $entityClass => $metadata) {
+            if (!empty($metadata)) {
+                $all[$entityClass] = $metadata;
+            }
+        }
+
+        return $all;
     }
 
     /**
@@ -166,6 +175,7 @@ class MetadataManager
                 $childClass = $parentClass;
             }
 
+            // Set null as metadata for next time check speed up
             $this->metadata[$entityClass] = null;
 
             return null;

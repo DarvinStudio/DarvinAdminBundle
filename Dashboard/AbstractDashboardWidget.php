@@ -37,4 +37,12 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
         $this->adminRouter = $adminRouter;
         $this->templating = $templating;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRequiredPermissions()
+    {
+        return array();
+    }
 }

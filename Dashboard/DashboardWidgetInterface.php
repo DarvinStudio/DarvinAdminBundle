@@ -29,4 +29,9 @@ interface DashboardWidgetInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * @return array Key - object class, value - permissions
+     */
+    public function getRequiredPermissions();
 }

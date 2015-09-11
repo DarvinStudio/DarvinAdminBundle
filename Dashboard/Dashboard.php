@@ -10,22 +10,36 @@
 
 namespace Darvin\AdminBundle\Dashboard;
 
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 /**
  * Dashboard
  */
 class Dashboard implements DashboardInterface
 {
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
      */
     private $widgets;
 
     /**
-     * Constructor
+     * @var bool
      */
-    public function __construct()
+    private $widgetsFiltered;
+
+    /**
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     */
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
+        $this->authorizationChecker = $authorizationChecker;
         $this->widgets = array();
+        $this->widgetsFiltered = false;
     }
 
     /**
@@ -47,6 +61,29 @@ class Dashboard implements DashboardInterface
      */
     public function getWidgets()
     {
+        $this->filterWidgets();
+
         return $this->widgets;
+    }
+
+    private function filterWidgets()
+    {
+        if ($this->widgetsFiltered) {
+            return;
+        }
+        foreach ($this->widgets as $name => $widget) {
+            $requiredPermissions = $widget->getRequiredPermissions();
+
+            if (empty($requiredPermissions)) {
+                continue;
+            }
+            foreach ($requiredPermissions as $objectClass => $permissions) {
+                if (!$this->authorizationChecker->isGranted($permissions, $objectClass)) {
+                    unset($this->widgets[$name]);
+                }
+            }
+        }
+
+        $this->widgetsFiltered = true;
     }
 }

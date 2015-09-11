@@ -13,13 +13,12 @@ namespace Darvin\AdminBundle\Security\Configuration;
 use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
-use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
 
 /**
  * Security configuration
  */
-class SecurityConfiguration extends AbstractConfiguration implements SecurityConfigurationInterface
+class SecurityConfiguration extends AbstractSecurityConfiguration
 {
     /**
      * {@inheritdoc}
@@ -42,24 +41,6 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
                     ),
                 )
             ),
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPermissions()
-    {
-        return $this->__call(__FUNCTION__);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAllowedRoles()
-    {
-        return array(
-            Administrator::ROLE_SUPERADMIN,
         );
     }
 

@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
+use Darvin\ImageBundle\Entity\Image\AbstractImage;
 
 /**
  * Security configuration
@@ -30,8 +31,9 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
                 'permissions',
                 ParameterModel::TYPE_ARRAY,
                 array(
-                    'administrator' => new ObjectPermissions(Administrator::ADMINISTRATOR_CLASS),
-                    'log_entry'     => new ObjectPermissions(LogEntry::LOG_ENTRY_CLASS),
+                    'abstract_image' => new ObjectPermissions(AbstractImage::ABSTRACT_IMAGE_CLASS),
+                    'administrator'  => new ObjectPermissions(Administrator::ADMINISTRATOR_CLASS),
+                    'log_entry'      => new ObjectPermissions(LogEntry::LOG_ENTRY_CLASS),
                 ),
                 array(
                     'form' => array(

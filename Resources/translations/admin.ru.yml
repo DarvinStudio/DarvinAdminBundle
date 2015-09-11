@@ -151,8 +151,9 @@ security:
         remember_me: Запомнить браузер
         username:    Логин или e-mail
     object:
-        administrator: Администраторы
-        log_entry:     Журнал
+        abstract_image: Менеджер изображений
+        administrator:  Администраторы
+        log_entry:      Журнал
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование

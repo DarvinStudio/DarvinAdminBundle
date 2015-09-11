@@ -1,5 +1,7 @@
 {% trans_default_domain 'admin' %}
 
-<a class="fancybox_ajax" href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_SHOW')) }}">
+<a class="fancybox_ajax"
+   href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_SHOW')) }}"
+   title="{{ (translation_prefix ~ 'action.show.title') | trans({ '%entity%': entity }) }}">
     {{ (translation_prefix ~ 'action.show.link') | trans }}
 </a>

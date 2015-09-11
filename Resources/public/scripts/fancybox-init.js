@@ -15,12 +15,18 @@ $(document).ready(function () {
     $('body').on('click', 'a.fancybox_ajax', function (e) {
         e.preventDefault();
 
+        var $link = $(this);
+
         $.ajax({
             type: 'get',
-            url:  $(this).attr('href')
+            url:  $link.attr('href')
         }).done(function (html) {
             $.fancybox({
-                content: html
+                caption: {
+                    type: 'inside'
+                },
+                content: html,
+                title:   $link.attr('title')
             });
         }).error(onAjaxError);
     });

@@ -130,8 +130,8 @@ log:
         object:      Объект
         object_id:   ID объекта
         object_name: Объект
-        username: Пользователь
-        version:  Версия
+        username:    Пользователь
+        version:     Версия
 
 property_forms:
     submit: Сохранить

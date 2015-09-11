@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
+use Darvin\Utils\Strings\StringsUtil;
 
 /**
  * Log entry entity name view widget generator
@@ -31,9 +32,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        return $this->metadataManager->hasMetadataForEntityClass($entity->getObjectClass())
-            ? 'log.entity.object_names.'.$this->metadataManager->getByEntityClass($entity->getObjectClass())->getEntityName()
-            : $entity->getObjectClass();
+        return 'log.entity.object_names.'.$this->getEntityName($entity->getObjectClass());
     }
 
     /**
@@ -50,5 +49,26 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     protected function getRequiredEntityClass()
     {
         return LogEntry::LOG_ENTRY_CLASS;
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return string
+     */
+    private function getEntityName($entityClass)
+    {
+        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
+            return $this->metadataManager->getByEntityClass($entityClass)->getEntityName();
+        }
+
+        $parts = explode('\\', $entityClass);
+        $offset = array_search('Entity', $parts);
+
+        if ($offset) {
+            $parts = array_slice($parts, $offset + 1);
+        }
+
+        return StringsUtil::toUnderscore(implode('_', $parts));
     }
 }

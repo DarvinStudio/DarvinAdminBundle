@@ -32,7 +32,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        return 'log.entity.object_names.'.$this->getEntityName($entity->getObjectClass());
+        return 'log.object.'.$this->getEntityName($entity->getObjectClass());
     }
 
     /**

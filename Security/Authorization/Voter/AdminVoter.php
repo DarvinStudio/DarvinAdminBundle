@@ -61,35 +61,35 @@ class AdminVoter implements VoterInterface
         $objectOrClass = $object;
 
         if (empty($objectOrClass)) {
-            return self::ACCESS_ABSTAIN;
+            return VoterInterface::ACCESS_ABSTAIN;
         }
 
         $class = $this->getClass($objectOrClass);
 
         if (!$this->supportsClass($class)) {
-            return self::ACCESS_ABSTAIN;
+            return VoterInterface::ACCESS_ABSTAIN;
         }
 
         $user = $token->getUser();
 
         if (!$user instanceof Administrator) {
-            return self::ACCESS_ABSTAIN;
+            return VoterInterface::ACCESS_ABSTAIN;
         }
         if ($user->isSuperadmin()) {
-            return self::ACCESS_GRANTED;
+            return VoterInterface::ACCESS_GRANTED;
         }
 
-        $vote = self::ACCESS_ABSTAIN;
+        $vote = VoterInterface::ACCESS_ABSTAIN;
 
         foreach ($attributes as $attribute) {
             if (!$this->supportsAttribute($attribute)) {
                 continue;
             }
 
-            $vote = self::ACCESS_GRANTED;
+            $vote = VoterInterface::ACCESS_GRANTED;
 
             if (!$this->isGranted($attribute, $class, $user)) {
-                return self::ACCESS_DENIED;
+                return VoterInterface::ACCESS_DENIED;
             }
         }
 

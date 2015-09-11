@@ -37,7 +37,11 @@ configuration:
     darvin_admin:
         parameter:
             image_sizes: Размеры изображений
-        title: Панель администрирования
+        title: Настройки модуля «Панель администрирования»
+    darvin_admin_security:
+        parameter:
+            permissions: Права
+        title: Настройки безопасности модуля «Панель администрирования»
 
 dashboard:
     widget:
@@ -146,6 +150,9 @@ security:
         password:    Пароль
         remember_me: Запомнить браузер
         username:    Логин или e-mail
+    object:
+        administrator: Администраторы
+        log_entry:     Журнал
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование

@@ -26,7 +26,7 @@ class SecurityConfigurationPoolPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $pool = $container->getDefinition('darvin_admin.security.configuration_pool');
+        $pool = $container->getDefinition('darvin_admin.security.configuration.pool');
 
         foreach ($container->findTaggedServiceIds(self::TAG_SECURITY_CONFIGURATION) as $id => $attr) {
             $pool->addMethodCall('add', array(

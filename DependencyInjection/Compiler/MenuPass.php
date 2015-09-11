@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\Utils\DependencyInjection\TaggedServiceIdsSorter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -29,13 +30,13 @@ class MenuPass implements CompilerPassInterface
         $menu = $container->getDefinition('darvin_admin.menu');
 
         $menuItems = $container->findTaggedServiceIds(self::TAG_MENU_ITEM);
-        uasort($menuItems, function (array $a, array $b) {
-            if ($a[0]['position'] === $b[0]['position']) {
-                return 0;
-            }
 
-            return $a[0]['position'] > $b[0]['position'] ? 1 : -1;
-        });
+        if (empty($menuItems)) {
+            return;
+        }
+
+        $sorter = new TaggedServiceIdsSorter();
+        $sorter->sort($menuItems);
 
         foreach ($menuItems as $id => $attr) {
             $menu->addMethodCall('addItem', array(

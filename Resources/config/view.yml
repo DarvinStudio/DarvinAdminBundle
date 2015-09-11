@@ -137,13 +137,17 @@ services:
         class:  %darvin_admin.view.widget_generator.log_entry.data.class%
         parent: darvin_admin.view.widget_generator.abstract
         calls:
-            - [ setStringifier, [ "@darvin_utils.stringifier.doctrine" ] ]
+            - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]
+            - [ setObjectNamer,   [ "@darvin_utils.object_namer" ] ]
+            - [ setStringifier,   [ "@darvin_utils.stringifier.doctrine" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.log_entry.entity_name:
         class:  %darvin_admin.view.widget_generator.log_entry.entity_name.class%
         parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setObjectNamer, [ "@darvin_utils.object_namer" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

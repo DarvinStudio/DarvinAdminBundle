@@ -29,8 +29,6 @@ class LogEntry extends AbstractLogEntry
 {
     const LOG_ENTRY_CLASS = __CLASS__;
 
-    const OBJECT_NAME_PREFIX = 'log.object.';
-
     /**
      * @var object
      *

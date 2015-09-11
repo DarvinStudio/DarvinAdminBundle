@@ -14,8 +14,11 @@ use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
 use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException;
+use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
+use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Log entry data view widget generator
@@ -23,9 +26,35 @@ use Darvin\Utils\Strings\StringsUtil;
 class DataGenerator extends AbstractWidgetGenerator
 {
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
+     * @var \Darvin\Utils\ObjectNamer\ObjectNamerInterface
+     */
+    private $objectNamer;
+
+    /**
      * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
      */
     private $stringifier;
+
+    /**
+     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     */
+    public function setEntityManager(EntityManager $em)
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
+     */
+    public function setObjectNamer(ObjectNamerInterface $objectNamer)
+    {
+        $this->objectNamer = $objectNamer;
+    }
 
     /**
      * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface $stringifier Stringifier
@@ -52,21 +81,10 @@ class DataGenerator extends AbstractWidgetGenerator
         if (empty($data)) {
             return '';
         }
-        if (!$this->metadataManager->hasMetadataForEntityClass($entity->getObjectClass())) {
-            $json = json_encode($data, JSON_UNESCAPED_UNICODE);
 
-            if (false === $json) {
-                throw new WidgetGeneratorException(
-                    sprintf('Unable to encode data of log entry with ID "%d" to JSON.', $entity->getId())
-                );
-            }
+        $mappings = $this->getMappings($entity->getObjectClass());
 
-            return $json;
-        }
-
-        $meta = $this->metadataManager->getByEntityClass($entity->getObjectClass());
-        $mappings = $meta->getMappings();
-        $translationPrefix = $meta->getEntityTranslationPrefix();
+        $translationPrefix = $this->getTranslationPrefix($entity->getObjectClass());
 
         $viewData = array();
 
@@ -97,5 +115,41 @@ class DataGenerator extends AbstractWidgetGenerator
     protected function getRequiredEntityClass()
     {
         return LogEntry::LOG_ENTRY_CLASS;
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return array
+     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     */
+    private function getMappings($entityClass)
+    {
+        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
+            return $this->metadataManager->getByEntityClass($entityClass)->getMappings();
+        }
+        try {
+            return $this->em->getClassMetadata($entityClass)->fieldMappings;
+        } catch (MappingException $ex) {
+            throw new WidgetGeneratorException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
+        }
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return string
+     */
+    private function getTranslationPrefix($entityClass)
+    {
+        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
+            return $this->metadataManager->getByEntityClass($entityClass)->getEntityTranslationPrefix();
+        }
+
+        $entityName = $this->objectNamer->name($entityClass);
+
+        return preg_match('/_translation$/', $entityName)
+            ? preg_replace('/_translation$/', '.entity.', $entityName)
+            : 'log.object.'.$this->objectNamer->name($entityClass).'.property.';
     }
 }

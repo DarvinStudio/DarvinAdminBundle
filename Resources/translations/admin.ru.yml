@@ -130,8 +130,6 @@ log:
         object:      Объект
         object_id:   ID объекта
         object_name: Объект
-        object_names:
-            feedback: Отзыв
         username: Пользователь
         version:  Версия
 

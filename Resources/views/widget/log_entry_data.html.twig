@@ -5,7 +5,7 @@
         {% for key, value in data %}
             <tr>
                 <th>{{ key | trans }}</th>
-                <td>{{ value }}</td>
+                <td>{{ value | raw }}</td>
             </tr>
         {% endfor %}
     </tbody>

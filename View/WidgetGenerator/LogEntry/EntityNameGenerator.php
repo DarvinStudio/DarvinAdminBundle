@@ -21,10 +21,19 @@ use Darvin\Utils\Strings\StringsUtil;
 class EntityNameGenerator extends AbstractWidgetGenerator
 {
     /**
+     * @var array
+     */
+    private $entityNames;
+
+    /**
      * {@inheritdoc}
      */
     public function generate($entity, array $options = array())
     {
+        if (null === $this->entityNames) {
+            $this->entityNames = array();
+        }
+
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $this->validate($entity, $options);
 
@@ -61,14 +70,25 @@ class EntityNameGenerator extends AbstractWidgetGenerator
         if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
             return $this->metadataManager->getByEntityClass($entityClass)->getEntityName();
         }
+        if (!isset($this->entityNames[$entityClass])) {
+            $parts = explode('_', str_replace('\\', '_', StringsUtil::toUnderscore($entityClass)));
+            $offset = array_search('entity', $parts);
 
-        $parts = explode('\\', $entityClass);
-        $offset = array_search('Entity', $parts);
+            if ($offset) {
+                $parts = array_slice($parts, $offset + 1);
+            }
 
-        if ($offset) {
-            $parts = array_slice($parts, $offset + 1);
+            $partsCount = count($parts);
+
+            for ($i = 0; $i < $partsCount - 1; $i++) {
+                if ($parts[$i + 1] === $parts[$i]) {
+                    unset($parts[$i]);
+                }
+            }
+
+            $this->entityNames[$entityClass] = implode('_', $parts);
         }
 
-        return StringsUtil::toUnderscore(implode('_', $parts));
+        return $this->entityNames[$entityClass];
     }
 }

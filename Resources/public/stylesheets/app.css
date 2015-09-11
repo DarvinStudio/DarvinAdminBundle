@@ -1,3 +1,9 @@
+form .row {
+    border-left:  2px dotted #d3d3d3;
+    margin-left:  32px;
+    padding-left: 8px;
+}
+
 table {
     border-collapse: collapse;
 }

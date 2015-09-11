@@ -18,10 +18,10 @@ administrator:
             link:  Просмотреть администратора
             title: Администратор «%entity%»
     entity:
-        email:         E-mail
-        enabled:       Активен
-        locked:        Заблокирован
-        plainPassword: Пароль
+        email:          E-mail
+        enabled:        Активен
+        locked:         Заблокирован
+        plain_password: Пароль
         role:
             guest:      Гость
             superadmin: Суперадминистратор

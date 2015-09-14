@@ -16,7 +16,8 @@ services:
             - { name: darvin_admin.metadata }
 
     darvin_admin.administrator.subscriber:
-        class: %darvin_admin.administrator.subscriber.class%
+        class:  %darvin_admin.administrator.subscriber.class%
+        public: false
         arguments:
             - "@security.encoder_factory"
         tags:

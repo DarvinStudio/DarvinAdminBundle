@@ -3,7 +3,8 @@ parameters:
 
 services:
     darvin_admin.twig.globals_extension:
-        class: %darvin_admin.twig.globals_extension.class%
+        class:  %darvin_admin.twig.globals_extension.class%
+        public: false
         arguments:
             - %darvin_admin.project.title%
             - %darvin_admin.project.url%

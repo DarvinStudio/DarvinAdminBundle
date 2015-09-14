@@ -22,7 +22,8 @@ services:
             - "@router"
 
     darvin_admin.route.twig_extension:
-        class: %darvin_admin.route.twig_extension.class%
+        class:  %darvin_admin.route.twig_extension.class%
+        public: false
         arguments:
             - "@darvin_admin.route.router"
         tags:

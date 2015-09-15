@@ -26,16 +26,20 @@ darvin_admin:
                     some_field_name:
                         type:    ~
                         options: {}
-
-            fields:
+            fields: {}
 
                 # Prototype
                 some_field_name:
                     type:    ~
                     options: {}
-
-        new:  # Same as "index" node
-        edit: # Same as "index" node
+        new:
+            type:         ~
+            field_groups: {}
+            fields:       {}
+        edit:
+            type:         ~
+            field_groups: {}
+            fields:       {}
     view:
         index:
             action_widgets:
@@ -63,21 +67,20 @@ darvin_admin:
                         id:      # Required
                         method:  # Required
                         options: {}
-
         new:
             action_widgets: {}
-
-            # Other nodes are same as for "index" node
+            template:       ~
+            fields:         {}
         edit:
             action_widgets:
                 - show_link
                 - delete_form
-
-            # Other nodes are same as for "index" node
+            template: ~
+            fields:   {}
         show:
             action_widgets:
                 - edit_link
                 - delete_form
-
-            # Other nodes are same as for "index" node
+            template: ~
+            fields:   {}
 ```

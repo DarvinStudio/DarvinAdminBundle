@@ -4,9 +4,6 @@
 - **darvin_admin.administrator.admin.controller** - ;
 
 
-- **darvin_admin.administrator.metadata** - ;
-
-
 - **darvin_admin.cache.filesystem** - ;
 
 
@@ -34,13 +31,7 @@
 - **darvin_admin.form.type_extension.info** - ;
 
 
-- **darvin_admin.image.metadata** - ;
-
-
 - **darvin_admin.log.admin.controller** - ;
-
-
-- **darvin_admin.log.metadata** - ;
 
 
 - **darvin_admin.menu** - ;

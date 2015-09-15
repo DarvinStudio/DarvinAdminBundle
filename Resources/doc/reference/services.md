@@ -85,10 +85,10 @@
 - **darvin_admin.uploader.listener** - listener события завершения загрузки файла, добавляющий имя файла в ответ сервера;
 
 
-- **darvin_admin.view.entity_transformer.index** - трансформер сущностей в модель представления индексной страницы;
+- **darvin_admin.view.entity_transformer.index** - трансформер сущностей в модель индексной страницы;
 
 
-- **darvin_admin.view.entity_transformer.show** - трансформер сущности в модель представления страницы ее просмотра;
+- **darvin_admin.view.entity_transformer.show** - трансформер сущности в модель страницы ее просмотра;
 
 
 - **darvin_admin.view.widget_generator.pool** - пул виджетов моделей представления;

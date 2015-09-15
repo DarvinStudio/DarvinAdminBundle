@@ -27,7 +27,7 @@ AppBundle\Entity\Foo: # Класс сущности
             field_groups: {} # Группы полей
 
                 # Прототип
-                some_group_name: # Название группы полей
+                some_group_name: {} # Название группы полей
 
                     # Прототип
                     some_field_name: # Название поля
@@ -51,7 +51,7 @@ AppBundle\Entity\Foo: # Класс сущности
             fields:   {} # Поля
 
                 # Прототип
-                some_field_name: # Имя поля
+                some_field_name: {} # Имя поля
 
                     # Прототип
                     callback: # Callback

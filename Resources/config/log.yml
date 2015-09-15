@@ -7,6 +7,7 @@ services:
     darvin_admin.log.metadata:
         class:   %darvin_admin.log.metadata.class%
         factory: [ "@darvin_admin.metadata.factory", create ]
+        public:  false
         arguments:
             - %darvin_admin.log.metadata.entity%
             - %darvin_admin.log.metadata.config%

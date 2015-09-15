@@ -2,7 +2,7 @@
 =====================================
 
 ```yaml
-darvin_admin:
+AppBundle\Entity\Foo: # Класс сущности
     menu: # Конфигурация меню
         group:    ~     # Название группы элементов меню
         position: ~     # Позиция в меню (позицией группы является позиция первого в ней элемента)
@@ -69,6 +69,8 @@ darvin_admin:
                         options: {} # Опции
         new:
             action_widgets: []
+
+            # Остальное как в секции "index" выше
         edit:
             action_widgets:
                 - show_link

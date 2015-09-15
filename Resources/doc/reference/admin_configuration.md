@@ -3,38 +3,36 @@
 
 ```yaml
 darvin_admin:
-    menu:
-        group:    ~
-        position: ~
-        skip:     false
-    breadcrumbs_entity_route: edit
-    child_entities:           []
-    disabled_routes:          []
-    entity_name:              ~
-    index_view_new_form:      false
-    order_by:                 {}    # Key: property, value: direction, "asc" or "desc"
-    pagination_items:         10    # Min: 1
-    form:
-        index:
-            type:         ~
-            field_groups: {}
+    menu:               # Конфигурация меню
+        group:    ~     # Название группы элементов меню
+        position: ~     # Позиция в меню (позицией группы элементов меню является позиция первого в ней элемента)
+        skip:     false # Не показывать в меню
+    breadcrumbs_entity_route: edit  # Роут для ссылки на сущность в хлебных крошках
+    child_entities:           []    # Массив классов сущностей-потомков
+    disabled_routes:          []    # Отключенные роуты
+    entity_name:              ~     # Название сущности (если не указано, будет сгенерировано автоматически)
+    index_view_new_form:      false # Показывать форму добавления на индексной странице
+    order_by:                 {}    # Ключ - свойство сущности, значение - направление сортировки ("asc" или "desc")
+    pagination_items:         10    # Количество элементов на индексной странице
+    form: # Конфигурация форм
+        index: # Конфигурация экспресс-форм на индексной странице
+            fields: {} Поля сущности, для которых нужно выводить экспресс-формы
+
+                # Прототип
+                some_field_name: Название поля
+                    type:    ~  Тип поля
+                    options: {} Опции поля
+        new: # Конфигурация формы создания
+            type:         ~  Тип формы
+            field_groups: {} Группы полей
 
                 # Prototype
-                some_group_name:
+                some_group_name: Название группы полей
 
                     # Prototype
-                    some_field_name:
-                        type:    ~
-                        options: {}
-            fields: {}
-
-                # Prototype
-                some_field_name:
-                    type:    ~
-                    options: {}
-        new:
-            type:         ~
-            field_groups: {}
+                    some_field_name: Название поля
+                        type:    ~  Тип поля
+                        options: {} Опции поля
             fields:       {}
         edit:
             type:         ~
@@ -68,7 +66,7 @@ darvin_admin:
                         method:  # Required
                         options: {}
         new:
-            action_widgets: {}
+            action_widgets: []
             template:       ~
             fields:         {}
         edit:

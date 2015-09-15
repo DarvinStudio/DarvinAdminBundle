@@ -3,7 +3,7 @@
 
 ```yaml
 darvin_admin:
-    menu:               # Конфигурация меню
+    menu: # Конфигурация меню
         group:    ~     # Название группы элементов меню
         position: ~     # Позиция в меню (позицией группы является позиция первого в ней элемента)
         skip:     false # Не показывать в меню
@@ -16,69 +16,64 @@ darvin_admin:
     pagination_items:         10    # Количество элементов на индексной странице
     form: # Конфигурация форм
         index: # Конфигурация экспресс-форм на индексной странице
-            fields: {} Поля сущности, для которых нужно выводить экспресс-формы
+            fields: {} # Поля сущности, для которых нужно выводить экспресс-формы
 
                 # Прототип
-                some_field_name: Название поля
-                    type:    ~  Тип поля
-                    options: {} Опции поля
+                some_field_name: # Название поля
+                    type:    ~  # Тип поля
+                    options: {} # Опции поля
         new: # Конфигурация формы создания
-            type:         ~  Тип формы
-            field_groups: {} Группы полей
+            type:         ~  # Тип формы
+            field_groups: {} # Группы полей
 
-                # Prototype
-                some_group_name: Название группы полей
+                # Прототип
+                some_group_name: # Название группы полей
 
-                    # Prototype
-                    some_field_name: Название поля
-                        type:    ~  Тип поля
-                        options: {} Опции поля
+                    # Прототип
+                    some_field_name: # Название поля
+                        type:    ~  # Тип поля
+                        options: {} # Опции поля
             fields:       {}
-        edit:
-            type:         ~
-            field_groups: {}
-            fields:       {}
-    view:
-        index:
-            action_widgets:
+        edit: # Конфигурация формы редактирования, см. секцию "new" выше
+    view: # Конфигурация уровня представления
+        index: # Конфигурация индексной страницы
+            action_widgets: # Список алиасов виджетов действий
                 - show_link
                 - edit_link
                 - copy_form
                 - delete_form
-            template: ~
-            fields:   {}
+            template: ~  # Шаблон
+            fields:   {} # Поля
 
-                # Prototype
-                some_field_name: ~
+                # Прототип
+                some_field_name: ~ # Имя поля
 
-                    # Prototype
-                    callback:
-                        class:   # Required
-                        method:  # Required
-                        options: {}
-                    # Or
-                    widget_generator:
-                        alias:   # Required
-                        options: {}
-                    # Or
-                    service:
-                        id:      # Required
-                        method:  # Required
-                        options: {}
+                    # Прототип
+                    callback: # Callback
+                        class:      # **Требуется**, класс
+                        method:     # **Требуется**, статический метод
+                        options: {} # Опции
+                    # Или
+                    widget_generator: # Виджет
+                        alias:      # **Требуется**, алиас виджета
+                        options: {} # Опции
+                    # Или
+                    service: # Сервис
+                        id:         # **Требуется**, идентификатор сервиса
+                        method:     # **Требуется**, метод сервиса
+                        options: {} # Опции
         new:
             action_widgets: []
-            template:       ~
-            fields:         {}
         edit:
             action_widgets:
                 - show_link
                 - delete_form
-            template: ~
-            fields:   {}
+
+            # Остальное как в секции "index" выше
         show:
             action_widgets:
                 - edit_link
                 - delete_form
-            template: ~
-            fields:   {}
+
+            # Остальное как в секции "index" выше
 ```

@@ -67,17 +67,17 @@ AppBundle\Entity\Foo: # Класс сущности
                         id:         # Требуется, идентификатор сервиса
                         method:     # Требуется, метод сервиса
                         options: {} # Опции
-        new:
+        new: # Конфигурация индексной страницы
             action_widgets: []
 
             # Остальное как в секции "index" выше
-        edit:
+        edit: # Конфигурация страницы редактирования
             action_widgets:
                 - show_link
                 - delete_form
 
             # Остальное как в секции "index" выше
-        show:
+        show: # Конфигурация страницы просмотра
             action_widgets:
                 - edit_link
                 - delete_form

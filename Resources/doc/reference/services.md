@@ -13,7 +13,7 @@
 - **darvin_admin.ckeditor.form_type** - ;
 
 
-- **darvin_admin.configuration** - ;
+- **darvin_admin.configuration.configuration** - ;
 
 
 - **darvin_admin.configuration.configurations_form_type** - ;
@@ -46,7 +46,7 @@
 - **darvin_admin.menu** - ;
 
 
-- **darvin_admin.metadata.configuration** - ;
+- **darvin_admin.metadata.configuration.configuration** - ;
 
 
 - **darvin_admin.metadata.configuration.loader** - ;

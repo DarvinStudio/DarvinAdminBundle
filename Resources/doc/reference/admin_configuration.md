@@ -51,7 +51,7 @@ darvin_admin:
             fields:   {} # Поля
 
                 # Прототип
-                some_field_name: ~ # Имя поля
+                some_field_name: # Имя поля
 
                     # Прототип
                     callback: # Callback

@@ -16,24 +16,24 @@ AppBundle\Entity\Foo: # Класс сущности
     pagination_items:         10    # Количество элементов на индексной странице, минимум - 1
     form: # Конфигурация форм
         index: # Конфигурация экспресс-форм на индексной странице
-            fields: {} # Поля сущности, для которых нужно выводить экспресс-формы
+            fields: # Поля сущности, для которых нужно выводить экспресс-формы
 
                 # Прототип
                 some_field_name: # Название поля
                     type:    ~  # Тип поля
                     options: {} # Опции поля
         new: # Конфигурация формы создания
-            type:         ~  # Тип формы
-            field_groups: {} # Группы полей
+            type:         ~ # Тип формы
+            field_groups:   # Группы полей
 
                 # Прототип
-                some_group_name: {} # Группа полей
+                some_group_name: # Группа полей
 
                     # Прототип
                     some_field_name: # Название поля
                         type:    ~  # Тип поля
                         options: {} # Опции поля
-            fields: {} # Поля, не входящие в группы
+            fields: # Поля, не входящие в группы
 
                 # Прототип
                 some_field_name: # Название поля
@@ -47,11 +47,11 @@ AppBundle\Entity\Foo: # Класс сущности
                 - edit_link
                 - copy_form
                 - delete_form
-            template: ~  # Шаблон
-            fields:   {} # Поля
+            template: ~ # Шаблон
+            fields:     # Поля
 
                 # Прототип
-                some_field_name: {} # Поле
+                some_field_name: # Поле
 
                     # Прототип
                     callback: # Callback

@@ -37,7 +37,7 @@
 - **darvin_admin.menu** - меню панели администрирования;
 
 
-- **darvin_admin.metadata.configuration.configuration** - дерево конфигураций разделов администрирования;
+- **darvin_admin.metadata.configuration.configuration** - дерево конфигурации раздела администрирования;
 
 
 - **darvin_admin.metadata.configuration.loader** - загрузчик конфигураций разделов администрирования;

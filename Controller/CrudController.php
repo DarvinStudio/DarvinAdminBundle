@@ -113,11 +113,14 @@ class CrudController extends Controller implements MenuItemInterface
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
 
+        $configuration = $this->meta->getConfiguration();
+
         return $this->renderResponse('index', array(
-            'meta'          => $this->meta,
-            'pagination'    => $pagination,
-            'parent_entity' => $parentEntity,
-            'view'          => $view,
+            'meta'            => $this->meta,
+            'new_form_widget' => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
+            'pagination'      => $pagination,
+            'parent_entity'   => $parentEntity,
+            'view'            => $view,
         ));
     }
 

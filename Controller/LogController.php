@@ -136,6 +136,14 @@ class LogController extends Controller
      */
     private function getLogEntryRevertFormWidgetGenerator()
     {
-        return $this->get('darvin_admin.view.widget_generator.log_entry.revert_form');
+        return $this->getViewWidgetGeneratorPool()->get('log_entry_revert_form');
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     */
+    private function getViewWidgetGeneratorPool()
+    {
+        return $this->get('darvin_admin.view.widget_generator.pool');
     }
 }

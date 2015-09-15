@@ -100,43 +100,7 @@
 - **darvin_admin.view.entity_transformer.show** - ;
 
 
-- **darvin_admin.view.widget_generator.actions** - ;
-
-
-- **darvin_admin.view.widget_generator.child_links** - ;
-
-
-- **darvin_admin.view.widget_generator.copy_form** - ;
-
-
-- **darvin_admin.view.widget_generator.delete_form** - ;
-
-
-- **darvin_admin.view.widget_generator.edit_link** - ;
-
-
-- **darvin_admin.view.widget_generator.email_link** - ;
-
-
-- **darvin_admin.view.widget_generator.image_link** - ;
-
-
-- **darvin_admin.view.widget_generator.list** - ;
-
-
-- **darvin_admin.view.widget_generator.log_entry.data** - ;
-
-
-- **darvin_admin.view.widget_generator.log_entry.entity_name** - ;
-
-
-- **darvin_admin.view.widget_generator.log_entry.revert_form** - ;
-
-
 - **darvin_admin.view.widget_generator.pool** - ;
 
 
-- **darvin_admin.view.widget_generator.pool_provider** - ;
-
-
-- **darvin_admin.view.widget_generator.show_link** - .
+- **darvin_admin.view.widget_generator.pool_provider** - .

@@ -63,6 +63,7 @@ services:
     darvin_admin.view.widget_generator.abstract:
         class:    %darvin_admin.view.widget_generator.abstract.class%
         abstract: true
+        public:   false
         arguments:
             - "@security.authorization_checker"
             - "@darvin_admin.metadata.manager"

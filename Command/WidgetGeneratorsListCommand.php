@@ -15,9 +15,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * List view widget generator aliases command
+ * View widget generator aliases list command
  */
-class ListWidgetGeneratorsCommand extends AbstractContainerAwareCommand
+class WidgetGeneratorsListCommand extends AbstractContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -25,7 +25,7 @@ class ListWidgetGeneratorsCommand extends AbstractContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('darvin:admin:list-widgets')
+            ->setName('darvin:admin:widget:list')
             ->setDescription('Displays list of aliases of existing view widget generators.');
     }
 

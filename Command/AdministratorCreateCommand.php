@@ -17,9 +17,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Create administrator command
+ * Administrator create command
  */
-class CreateAdministratorCommand extends AbstractContainerAwareCommand
+class AdministratorCreateCommand extends AbstractContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class CreateAdministratorCommand extends AbstractContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('darvin:admin:create-admin')
+            ->setName('darvin:admin:administrator:create')
             ->setDescription('Creates administrator.')
             ->setDefinition(array(
                 new InputArgument('username', InputArgument::REQUIRED, 'Administrator username'),

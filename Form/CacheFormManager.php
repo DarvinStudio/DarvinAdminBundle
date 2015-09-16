@@ -11,12 +11,14 @@
 namespace Darvin\AdminBundle\Form;
 
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Cache form factory
+ * Cache form manager
  */
-class CacheFormFactory
+class CacheFormManager
 {
     /**
      * @var \Symfony\Component\Form\FormFactoryInterface
@@ -46,6 +48,29 @@ class CacheFormFactory
         return $this->formFactory->createNamed('cache_clear', 'form', null, array(
             'action'    => $this->router->generate('darvin_admin_cache_clear'),
             'intention' => md5(__FILE__),
+        ));
+    }
+
+    /**
+     * @param \Symfony\Component\Templating\EngineInterface|\Twig_Environment $templating Templating
+     * @param \Symfony\Component\Form\FormInterface                           $form       Cache clear form
+     *
+     * @return string
+     * @throws \Darvin\AdminBundle\Form\FormException
+     */
+    public function renderClearForm($templating, FormInterface $form = null)
+    {
+        if (!$templating instanceof \Twig_Environment && !$templating instanceof EngineInterface) {
+            throw new FormException(
+                'Templating must be instance of \Twig_Environment or Symfony\Component\Templating\EngineInterface.'
+            );
+        }
+        if (empty($form)) {
+            $form = $this->createClearForm();
+        }
+
+        return $templating->render('DarvinAdminBundle:cache/widget:clear_form.html.twig', array(
+            'form' => $form->createView(),
         ));
     }
 }

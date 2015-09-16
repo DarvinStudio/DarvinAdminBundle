@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Form\CacheFormFactory;
+use Darvin\AdminBundle\Form\CacheFormManager;
 
 /**
  * Cache Twig extension
@@ -18,9 +18,9 @@ use Darvin\AdminBundle\Form\CacheFormFactory;
 class CacheExtension extends \Twig_Extension
 {
     /**
-     * @var \Darvin\AdminBundle\Form\CacheFormFactory
+     * @var \Darvin\AdminBundle\Form\CacheFormManager
      */
-    private $cacheFormFactory;
+    private $cacheFormManager;
 
     /**
      * @var \Twig_Environment
@@ -28,11 +28,11 @@ class CacheExtension extends \Twig_Extension
     private $environment;
 
     /**
-     * @param \Darvin\AdminBundle\Form\CacheFormFactory $cacheFormFactory Cache form factory
+     * @param \Darvin\AdminBundle\Form\CacheFormManager $cacheFormManager Cache form manager
      */
-    public function __construct(CacheFormFactory $cacheFormFactory)
+    public function __construct(CacheFormManager $cacheFormManager)
     {
-        $this->cacheFormFactory = $cacheFormFactory;
+        $this->cacheFormManager = $cacheFormManager;
     }
 
     /**
@@ -54,15 +54,11 @@ class CacheExtension extends \Twig_Extension
     }
 
     /**
-     * @param string $template Template
-     *
      * @return string
      */
-    public function renderCacheClearForm($template = 'DarvinAdminBundle:cache/widget:clear_form.html.twig')
+    public function renderCacheClearForm()
     {
-        return $this->environment->render($template, array(
-            'form' => $this->cacheFormFactory->createClearForm()->createView(),
-        ));
+        return $this->cacheFormManager->renderClearForm($this->environment);
     }
 
     /**

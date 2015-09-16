@@ -32,7 +32,7 @@ class CacheController extends Controller
         $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         $success = false;
 
-        $form = $this->getCacheFormFactory()->createClearForm();
+        $form = $this->getCacheFormManager()->createClearForm();
         $formIsValid = $form->handleRequest($request)->isValid();
 
         if ($formIsValid) {
@@ -52,7 +52,7 @@ class CacheController extends Controller
         }
 
         return new JsonResponse(array(
-            'html'     => '',
+            'html'     => $success ? '' : $this->getCacheFormManager()->renderClearForm($this->getTemplating(), $form),
             'message'  => $message,
             'redirect' => false,
             'success'  => $success,
@@ -60,11 +60,11 @@ class CacheController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Form\CacheFormFactory
+     * @return \Darvin\AdminBundle\Form\CacheFormManager
      */
-    private function getCacheFormFactory()
+    private function getCacheFormManager()
     {
-        return $this->get('darvin_admin.cache.form_factory');
+        return $this->get('darvin_admin.cache.form_manager');
     }
 
     /**
@@ -81,5 +81,13 @@ class CacheController extends Controller
     private function getFlashNotifier()
     {
         return $this->get('darvin_utils.flash.notifier');
+    }
+
+    /**
+     * @return \Symfony\Component\Templating\EngineInterface
+     */
+    private function getTemplating()
+    {
+        return $this->get('templating');
     }
 }

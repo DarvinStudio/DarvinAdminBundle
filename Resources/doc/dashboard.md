@@ -7,10 +7,12 @@ Dashboard - набор виджетов на главной странице п�
 
 ## Добавление виджета
 
-1. Создаем класс, реализующий "Darvin\AdminBundle\Dashboard\DashboardWidgetInterface" или наследующийся от
- "Darvin\AdminBundle\Dashboard\AbstractDashboardWidget".
+**1. Создаем класс, реализующий "Darvin\AdminBundle\Dashboard\DashboardWidgetInterface" или наследующийся от
+ "Darvin\AdminBundle\Dashboard\AbstractDashboardWidget".**
 
-2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.dashboard_widget". Если класс виджета наследуется от
+**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.dashboard_widget".**
+
+Если класс виджета наследуется от
  "Darvin\AdminBundle\Dashboard\AbstractDashboardWidget", сервис может быть потомком сервиса
  "darvin_admin.dashboard.widget.abstract".
 

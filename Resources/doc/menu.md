@@ -20,7 +20,7 @@
 
 ```yaml
 parameters:
-    app.admin.menu.item.class: AppBundle\Menu\MenuItem
+    app.admin.menu.item.class: AppBundle\Admin\Menu\MenuItem
 
 services:
     app.admin.menu.item:

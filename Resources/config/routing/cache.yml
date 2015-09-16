@@ -1,0 +1,3 @@
+darvin_admin_cache_clear:
+    path:     /clear
+    defaults: { _controller: DarvinAdminBundle:Cache:clear }

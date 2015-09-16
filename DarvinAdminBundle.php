@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle;
 
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddCacheClearCommandPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ControllerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\DashboardWidgetPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\MenuPass;
@@ -36,6 +37,7 @@ class DarvinAdminBundle extends Bundle
         parent::build($container);
 
         $container
+            ->addCompilerPass(new AddCacheClearCommandPass())
             ->addCompilerPass(new ControllerPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new DashboardWidgetPass())
             ->addCompilerPass(new MenuPass(), PassConfig::TYPE_BEFORE_REMOVING)

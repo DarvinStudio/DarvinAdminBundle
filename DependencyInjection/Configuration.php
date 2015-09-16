@@ -34,6 +34,13 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->append($this->addCKEditorNode())
+                ->arrayNode('cache_clear_command_classes')
+                    ->prototype('scalar')->end()
+                    ->defaultValue(array(
+                        'Liip\ImagineBundle\Command\RemoveCacheCommand',
+                        'Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand',
+                    ))
+                ->end()
                 ->booleanNode('debug')->defaultFalse()->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
                 ->scalarNode('web_dir')->defaultValue('%kernel.root_dir%/../web')->end()

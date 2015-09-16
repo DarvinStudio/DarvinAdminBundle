@@ -20,11 +20,11 @@
 
 ```yaml
 parameters:
-    app.menu.item.class: AppBundle\Menu\MenuItem
+    app.admin.menu.item.class: AppBundle\Menu\MenuItem
 
 services:
-    app.menu.item:
-        class: %app.menu.item.class%
+    app.admin.menu.item:
+        class: %app.admin.menu.item.class%
         tags:
             - { name: darvin_admin.menu_item }
 ```

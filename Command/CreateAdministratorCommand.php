@@ -57,7 +57,7 @@ class CreateAdministratorCommand extends AbstractContainerAwareCommand
                 $this->error($violation->getInvalidValue().': '.$violation->getMessage());
             }
 
-            return;
+            return 1;
         }
 
         $em = $this->getEntityManager();
@@ -65,6 +65,8 @@ class CreateAdministratorCommand extends AbstractContainerAwareCommand
         $em->flush();
 
         $this->info(sprintf('Administrator "%s" with password "%s" successfully created.', $username, $plainPassword));
+
+        return 0;
     }
 
     /**

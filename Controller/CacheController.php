@@ -11,10 +11,10 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\Utils\Flash\FlashNotifierInterface;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -51,12 +51,11 @@ class CacheController extends Controller
             return $this->redirect($request->headers->get('referer', $this->generateUrl('darvin_admin_homepage')));
         }
 
-        return new JsonResponse(array(
-            'html'     => $success ? '' : $this->getCacheFormManager()->renderClearForm($this->getTemplating(), $form),
-            'message'  => $message,
-            'redirect' => false,
-            'success'  => $success,
-        ));
+        return new AjaxResponse(
+            $success,
+            $message,
+            $success ? '' : $this->getCacheFormManager()->renderClearForm($this->getTemplating(), $form)
+        );
     }
 
     /**

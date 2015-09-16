@@ -17,6 +17,7 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Flash\FlashNotifierInterface;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
@@ -159,32 +160,27 @@ class CrudController extends Controller implements MenuItemInterface
         if (!$form->isSubmitted()) {
             return new Response($this->renderNewTemplate($widget, $form, $parentEntity));
         }
-        if ($form->isValid()) {
+
+        $success = $reloadPage = $form->isValid();
+
+        if ($success) {
             $em = $this->getEntityManager();
             $em->persist($entity);
             $em->flush();
 
-            $data = array(
-                'html'     => null,
-                'message'  => $this->meta->getBaseTranslationPrefix().'action.new.success',
-                'redirect' => true,
-                'success'  => true,
-            );
+            $html = '';
+            $message = $this->meta->getBaseTranslationPrefix().'action.new.success';
         } else {
-            $data = array(
-                'html'     => $this->renderNewTemplate($widget, $form, $parentEntity),
-                'message'  => FlashNotifierInterface::MESSAGE_FORM_ERROR,
-                'redirect' => false,
-                'success'  => false,
-            );
+            $html = $this->renderNewTemplate($widget, $form, $parentEntity);
+            $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($isXmlHttpRequest) {
-            return new JsonResponse($data);
+            return new AjaxResponse($success, $message, $html, $reloadPage);
         }
 
-        $this->getFlashNotifier()->done($data['success'], $data['message']);
+        $this->getFlashNotifier()->done($success, $message);
 
-        return $data['success']
+        return $success
             ? $this->successRedirect($form, $entity)
             : new Response($this->renderNewTemplate($widget, $form, $parentEntity));
     }

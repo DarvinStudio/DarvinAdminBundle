@@ -22,7 +22,7 @@ $(document).ready(function () {
                 type: data.success ? 'success' : 'error'
             });
 
-            if (!data.redirect) {
+            if (!data.reloadPage) {
                 $form.replaceWith(data.html);
 
                 return;

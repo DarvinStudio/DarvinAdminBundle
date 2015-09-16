@@ -165,15 +165,17 @@ class CrudController extends Controller implements MenuItemInterface
             $em->flush();
 
             $data = array(
-                'html'    => null,
-                'message' => $this->meta->getBaseTranslationPrefix().'action.new.success',
-                'success' => true,
+                'html'     => null,
+                'message'  => $this->meta->getBaseTranslationPrefix().'action.new.success',
+                'redirect' => true,
+                'success'  => true,
             );
         } else {
             $data = array(
-                'html'    => $this->renderNewTemplate($widget, $form, $parentEntity),
-                'message' => FlashNotifierInterface::MESSAGE_FORM_ERROR,
-                'success' => false,
+                'html'     => $this->renderNewTemplate($widget, $form, $parentEntity),
+                'message'  => FlashNotifierInterface::MESSAGE_FORM_ERROR,
+                'redirect' => false,
+                'success'  => false,
             );
         }
         if ($isXmlHttpRequest) {

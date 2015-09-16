@@ -28,6 +28,14 @@ administrator:
         roles:    Роли
         username: Логин
 
+cache:
+    action:
+        clear:
+            confirm: Подтвердите очистку кэша
+            error:   При очистке кэша возникла ошибка. Повторите попытку позднее
+            submit:  Очистить кэш
+            success: Кэш успешно очищен
+
 configuration:
     action:
         edit:

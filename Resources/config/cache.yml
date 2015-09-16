@@ -4,6 +4,10 @@ parameters:
 
     darvin_admin.cache.filesystem.class: Doctrine\Common\Cache\FilesystemCache
 
+    darvin_admin.cache.form_factory.class: Darvin\AdminBundle\Form\CacheFormFactory
+
+    darvin_admin.cache.twig_extension.class: Darvin\AdminBundle\Twig\Extension\CacheExtension
+
 services:
     darvin_admin.cache.clear_command:
         class: %darvin_admin.cache.clear_command.class%
@@ -16,3 +20,17 @@ services:
         class: %darvin_admin.cache.filesystem.class%
         arguments:
             - %kernel.cache_dir%
+
+    darvin_admin.cache.form_factory:
+        class: %darvin_admin.cache.form_factory.class%
+        arguments:
+            - "@form.factory"
+            - "@router"
+
+    darvin_admin.cache.twig_extension:
+        class:  %darvin_admin.cache.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.cache.form_factory"
+        tags:
+            - { name: twig.extension }

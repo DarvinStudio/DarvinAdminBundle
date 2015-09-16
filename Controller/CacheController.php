@@ -10,10 +10,12 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\Utils\Flash\FlashNotifierInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Cache controller
@@ -21,14 +23,48 @@ use Symfony\Component\HttpFoundation\Response;
 class CacheController extends Controller
 {
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function clearAction()
+    public function clearAction(Request $request)
     {
-        $input = new ArrayInput(array());
-        $output = new NullOutput();
+        $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
+        $success = false;
 
-        return new Response($this->getCachesClearCommand()->run($input, $output));
+        $form = $this->getCacheFormFactory()->createClearForm();
+        $formIsValid = $form->handleRequest($request)->isValid();
+
+        if ($formIsValid) {
+            set_time_limit(0);
+
+            if ($this->getCachesClearCommand()->run(new ArrayInput(array()), new NullOutput()) > 0) {
+                $message = 'cache.action.clear.error';
+            } else {
+                $message = 'cache.action.clear.success';
+                $success = true;
+            }
+        }
+        if (!$request->isXmlHttpRequest()) {
+            $this->getFlashNotifier()->done($success, $message);
+
+            return $this->redirect($request->headers->get('referer', $this->generateUrl('darvin_admin_homepage')));
+        }
+
+        return new JsonResponse(array(
+            'html'     => '',
+            'message'  => $message,
+            'redirect' => false,
+            'success'  => $success,
+        ));
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Form\CacheFormFactory
+     */
+    private function getCacheFormFactory()
+    {
+        return $this->get('darvin_admin.cache.form_factory');
     }
 
     /**
@@ -37,5 +73,13 @@ class CacheController extends Controller
     private function getCachesClearCommand()
     {
         return $this->get('darvin_admin.cache.clear_command');
+    }
+
+    /**
+     * @return \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    private function getFlashNotifier()
+    {
+        return $this->get('darvin_utils.flash.notifier');
     }
 }

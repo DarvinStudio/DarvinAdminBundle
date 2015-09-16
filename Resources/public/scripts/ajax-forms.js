@@ -4,6 +4,14 @@ $(document).ready(function () {
 
         var $form = $(this);
 
+        if ($form.data('submitted')) {
+            return;
+        }
+
+        $form
+            .data('submitted', true)
+            .find('[type="submit"]').append(AJAX_LOADER);
+
         $.ajax({
             data: $form.serialize(),
             type: $form.attr('method'),
@@ -14,7 +22,7 @@ $(document).ready(function () {
                 type: data.success ? 'success' : 'error'
             });
 
-            if (!data.success) {
+            if (!data.redirect) {
                 $form.replaceWith(data.html);
 
                 return;

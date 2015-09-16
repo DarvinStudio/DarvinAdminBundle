@@ -58,6 +58,8 @@
             {% endif %}
         {% endif %}
 
+        {{ admin_cache_clear_form() }}
+
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 
         {{ admin_menu() }}

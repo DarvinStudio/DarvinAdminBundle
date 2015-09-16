@@ -102,16 +102,23 @@ class Menu
             $children = $this->removeNeedlessItems($item->getChildren());
             $item->setChildren($children);
 
+            if (!empty($children)) {
+                continue;
+            }
+
             $objectClass = $item->getAssociatedObjectClass();
 
-            if (empty($objectClass) && empty($children)) {
-                unset($items[$key]);
+            if (empty($objectClass)) {
+                $indexUrl = $item->getIndexUrl();
+                $newUrl = $item->getNewUrl();
+
+                if (empty($indexUrl) && empty($newUrl)) {
+                    unset($items[$key]);
+                }
 
                 continue;
             }
-            if (!empty($objectClass)
-                && empty($children)
-                && !$this->authorizationChecker->isGranted(Permission::VIEW, $objectClass)
+            if (!$this->authorizationChecker->isGranted(Permission::VIEW, $objectClass)
                 && !$this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $objectClass)
             ) {
                 unset($items[$key]);

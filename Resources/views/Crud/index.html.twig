@@ -17,7 +17,7 @@
                 {% for field, item in view.head.items if item.width %}
                     <th colspan="{{ item.width }}">
                         {% if item.sortable %}
-                            {{ knp_pagination_sortable(pagination, item.content | trans, 'o.' ~ field) }}
+                            {{ knp_pagination_sortable(pagination, item.content | trans, item.sortablePropertyPath) }}
                         {% else %}
                             {{ item.content | trans }}
                         {% endif %}

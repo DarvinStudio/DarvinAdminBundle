@@ -26,19 +26,26 @@ class HeadItem
     private $sortable;
 
     /**
+     * @var string
+     */
+    private $sortablePropertyPath;
+
+    /**
      * @var int
      */
     private $width;
 
     /**
-     * @param string $content  Content
-     * @param bool   $sortable Is sortable
-     * @param int    $width    Width
+     * @param string $content              Content
+     * @param bool   $sortable             Is sortable
+     * @param string $sortablePropertyPath Sortable property path
+     * @param int    $width                Width
      */
-    public function __construct($content, $sortable = false, $width = 1)
+    public function __construct($content, $sortable = false, $sortablePropertyPath = null, $width = 1)
     {
         $this->content = $content;
         $this->sortable = $sortable;
+        $this->setSortablePropertyPath($sortablePropertyPath);
         $this->width = $width;
     }
 
@@ -51,11 +58,47 @@ class HeadItem
     }
 
     /**
+     * @param boolean $sortable sortable
+     *
+     * @return HeadItem
+     */
+    public function setSortable($sortable)
+    {
+        $this->sortable = $sortable;
+
+        return $this;
+    }
+
+    /**
      * @return boolean
      */
     public function isSortable()
     {
         return $this->sortable;
+    }
+
+    /**
+     * @param string $sortablePropertyPath sortablePropertyPath
+     *
+     * @return HeadItem
+     */
+    public function setSortablePropertyPath($sortablePropertyPath)
+    {
+        if (!empty($sortablePropertyPath) && false === strpos($sortablePropertyPath, '.')) {
+            $sortablePropertyPath = 'o.'.$sortablePropertyPath;
+        }
+
+        $this->sortablePropertyPath = $sortablePropertyPath;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSortablePropertyPath()
+    {
+        return $this->sortablePropertyPath;
     }
 
     /**

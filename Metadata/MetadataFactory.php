@@ -11,11 +11,11 @@
 namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader;
+use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
 
 /**
  * Metadata factory
@@ -29,11 +29,6 @@ class MetadataFactory
     const ROUTE_NAME_PREFIX = 'admin_';
 
     /**
-     * @var \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer
-     */
-    private $classAnalyzer;
-
-    /**
      * @var \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
      */
     private $configurationLoader;
@@ -44,34 +39,23 @@ class MetadataFactory
     private $em;
 
     /**
-     * @var bool
+     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
      */
-    private $isReflectionRecursive;
+    private $translatableManager;
 
     /**
-     * @var string
-     */
-    private $translatableTrait;
-
-    /**
-     * @param \Knp\DoctrineBehaviors\Reflection\ClassAnalyzer                $classAnalyzer         Class analyzer
-     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader $configurationLoader   Configuration loader
-     * @param \Doctrine\ORM\EntityManager                                    $em                    Entity manager
-     * @param bool                                                           $isReflectionRecursive Is reflection recursive
-     * @param string                                                         $translatableTrait     Translatable trait
+     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader  $configurationLoader Configuration loader
+     * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
      */
     public function __construct(
-        ClassAnalyzer $classAnalyzer,
         ConfigurationLoader $configurationLoader,
         EntityManager $em,
-        $isReflectionRecursive,
-        $translatableTrait
+        TranslatableManagerInterface $translatableManager
     ) {
-        $this->classAnalyzer = $classAnalyzer;
         $this->configurationLoader = $configurationLoader;
         $this->em = $em;
-        $this->isReflectionRecursive = $isReflectionRecursive;
-        $this->translatableTrait = $translatableTrait;
+        $this->translatableManager = $translatableManager;
     }
 
     /**
@@ -225,11 +209,11 @@ class MetadataFactory
     {
         $mappings = array_merge($doctrineMeta->associationMappings, $doctrineMeta->fieldMappings);
 
-        if (!$this->classAnalyzer->hasTrait($doctrineMeta->getReflectionClass(), $this->translatableTrait, $this->isReflectionRecursive)) {
+        if (!$this->translatableManager->isTranslatable($doctrineMeta->getName())) {
             return $mappings;
         }
 
-        $translationClass = call_user_func(array($doctrineMeta->getName(), 'getTranslationEntityClass'));
+        $translationClass = $this->translatableManager->getTranslationClass($doctrineMeta->getName());
 
         try {
             $translationDoctrineMeta = $this->em->getClassMetadata($translationClass);

@@ -135,12 +135,20 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
             $content = $translationPrefix.StringsUtil::toUnderscore($field);
 
-            $head->addItem($field, new HeadItem($content, empty($attr) && $meta->isMapped($field) && !$meta->isAssociation($field)));
+            $headItem = new HeadItem($content);
+
+            if (isset($configuration['sortable_fields'][$field])) {
+                $headItem
+                    ->setSortable(true)
+                    ->setSortablePropertyPath($configuration['sortable_fields'][$field]);
+            }
+
+            $head->addItem($field, $headItem);
         }
 
         $head->addItem(
             'action_widgets',
-            new HeadItem('interface.actions', false, count($configuration['view']['index']['action_widgets']))
+            new HeadItem('interface.actions', false, null, count($configuration['view']['index']['action_widgets']))
         );
 
         return $head;

@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\Utils\DependencyInjection\TaggedServiceIdsSorter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -32,9 +31,6 @@ class AddSecurityConfigurationsPass implements CompilerPassInterface
         if (empty($configurationIds)) {
             return;
         }
-
-        $taggedServiceIdsSorter = new TaggedServiceIdsSorter();
-        $taggedServiceIdsSorter->sort($configurationIds);
 
         $poolDefinition = $container->getDefinition('darvin_admin.security.configuration.pool');
 

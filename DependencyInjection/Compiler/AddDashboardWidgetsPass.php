@@ -20,6 +20,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddDashboardWidgetsPass implements CompilerPassInterface
 {
+    const DASHBOARD_ID = 'darvin_admin.dashboard.dashboard';
+
     const TAG_DASHBOARD_WIDGET = 'darvin_admin.dashboard_widget';
 
     /**
@@ -27,6 +29,10 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::DASHBOARD_ID)) {
+            return;
+        }
+
         $widgetIds = $container->findTaggedServiceIds(self::TAG_DASHBOARD_WIDGET);
 
         if (empty($widgetIds)) {
@@ -36,7 +42,7 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
         $taggedServiceIdsSorter = new TaggedServiceIdsSorter();
         $taggedServiceIdsSorter->sort($widgetIds);
 
-        $dashboardDefinition = $container->getDefinition('darvin_admin.dashboard.dashboard');
+        $dashboardDefinition = $container->getDefinition(self::DASHBOARD_ID);
 
         foreach ($widgetIds as $id => $attr) {
             $dashboardDefinition->addMethodCall('addWidget', array(

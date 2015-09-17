@@ -21,18 +21,24 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddCacheClearCommandPass implements CompilerPassInterface
 {
+    const CACHES_CLEAR_COMMAND_ID = 'darvin_admin.cache.clear_command';
+
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::CACHES_CLEAR_COMMAND_ID)) {
+            return;
+        }
+
         $cacheClearCommandClasses = $container->getParameter('darvin_admin.cache_clear_command_classes');
 
         if (empty($cacheClearCommandClasses)) {
             return;
         }
 
-        $cachesClearCommandDefinition = $container->getDefinition('darvin_admin.cache.clear_command');
+        $cachesClearCommandDefinition = $container->getDefinition(self::CACHES_CLEAR_COMMAND_ID);
 
         $definitions = array();
 

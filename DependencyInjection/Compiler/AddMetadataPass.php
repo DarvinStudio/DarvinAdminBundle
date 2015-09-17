@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddMetadataPass implements CompilerPassInterface
 {
+    const POOL_ID = 'darvin_admin.metadata.pool';
+
     const TAG_METADATA = 'darvin_admin.metadata';
 
     /**
@@ -26,13 +28,17 @@ class AddMetadataPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::POOL_ID)) {
+            return;
+        }
+
         $metadataIds = $container->findTaggedServiceIds(self::TAG_METADATA);
 
         if (empty($metadataIds)) {
             return;
         }
 
-        $poolDefinition = $container->getDefinition('darvin_admin.metadata.pool');
+        $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($metadataIds as $id => $attr) {
             $poolDefinition->addMethodCall('add', array(

@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddSecurityConfigurationsPass implements CompilerPassInterface
 {
+    const POOL_ID = 'darvin_admin.security.configuration.pool';
+
     const TAG_SECURITY_CONFIGURATION = 'darvin_admin.security_configuration';
 
     /**
@@ -26,13 +28,17 @@ class AddSecurityConfigurationsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::POOL_ID)) {
+            return;
+        }
+
         $configurationIds = $container->findTaggedServiceIds(self::TAG_SECURITY_CONFIGURATION);
 
         if (empty($configurationIds)) {
             return;
         }
 
-        $poolDefinition = $container->getDefinition('darvin_admin.security.configuration.pool');
+        $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($configurationIds as $id => $attr) {
             $poolDefinition->addMethodCall('add', array(

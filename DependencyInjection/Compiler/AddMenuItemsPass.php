@@ -20,6 +20,8 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddMenuItemsPass implements CompilerPassInterface
 {
+    const MENU_ID = 'darvin_admin.menu';
+
     const TAG_MENU_ITEM = 'darvin_admin.menu_item';
 
     /**
@@ -27,6 +29,10 @@ class AddMenuItemsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::MENU_ID)) {
+            return;
+        }
+
         $items = $container->findTaggedServiceIds(self::TAG_MENU_ITEM);
 
         if (empty($items)) {
@@ -36,7 +42,7 @@ class AddMenuItemsPass implements CompilerPassInterface
         $sorter = new TaggedServiceIdsSorter();
         $sorter->sort($items);
 
-        $menuDefinition = $container->getDefinition('darvin_admin.menu');
+        $menuDefinition = $container->getDefinition(self::MENU_ID);
 
         foreach ($items as $id => $attr) {
             $menuDefinition->addMethodCall('addItem', array(

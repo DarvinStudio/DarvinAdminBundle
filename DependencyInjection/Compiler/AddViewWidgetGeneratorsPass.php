@@ -19,20 +19,26 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddViewWidgetGeneratorsPass implements CompilerPassInterface
 {
-    const TAG_GENERATOR = 'darvin_admin.view.widget_generator';
+    const POOL_ID = 'darvin_admin.view.widget_generator.pool';
+
+    const TAG_VIEW_WIDGET_GENERATOR = 'darvin_admin.view.widget_generator';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $generatorIds = $container->findTaggedServiceIds(self::TAG_GENERATOR);
+        if (!$container->hasDefinition(self::POOL_ID)) {
+            return;
+        }
+
+        $generatorIds = $container->findTaggedServiceIds(self::TAG_VIEW_WIDGET_GENERATOR);
 
         if (empty($generatorIds)) {
             return;
         }
 
-        $poolDefinition = $container->getDefinition('darvin_admin.view.widget_generator.pool');
+        $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($generatorIds as $id => $attr) {
             $poolDefinition->addMethodCall('add', array(

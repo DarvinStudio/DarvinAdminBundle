@@ -17,9 +17,9 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Add cache clear command compiler pass
+ * Add cache clear commands compiler pass
  */
-class AddCacheClearCommandPass implements CompilerPassInterface
+class AddCacheClearCommandsPass implements CompilerPassInterface
 {
     const CACHES_CLEAR_COMMAND_ID = 'darvin_admin.cache.clear_command';
 

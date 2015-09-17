@@ -15,21 +15,27 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Dashboard widget compiler pass
+ * Add metadata compiler pass
  */
-class DashboardWidgetPass implements CompilerPassInterface
+class AddMetadataPass implements CompilerPassInterface
 {
-    const TAG_DASHBOARD_WIDGET = 'darvin_admin.dashboard_widget';
+    const TAG_METADATA = 'darvin_admin.metadata';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $dashboard = $container->getDefinition('darvin_admin.dashboard.dashboard');
+        $metadataIds = $container->findTaggedServiceIds(self::TAG_METADATA);
 
-        foreach ($container->findTaggedServiceIds(self::TAG_DASHBOARD_WIDGET) as $id => $attr) {
-            $dashboard->addMethodCall('addWidget', array(
+        if (empty($metadataIds)) {
+            return;
+        }
+
+        $poolDefinition = $container->getDefinition('darvin_admin.metadata.pool');
+
+        foreach ($metadataIds as $id => $attr) {
+            $poolDefinition->addMethodCall('add', array(
                 new Reference($id),
             ));
         }

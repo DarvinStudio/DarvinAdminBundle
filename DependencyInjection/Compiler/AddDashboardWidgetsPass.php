@@ -10,26 +10,36 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\Utils\DependencyInjection\TaggedServiceIdsSorter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Security configuration pool compiler pass
+ * Add dashboard widgets compiler pass
  */
-class SecurityConfigurationPoolPass implements CompilerPassInterface
+class AddDashboardWidgetsPass implements CompilerPassInterface
 {
-    const TAG_SECURITY_CONFIGURATION = 'darvin_admin.security_configuration';
+    const TAG_DASHBOARD_WIDGET = 'darvin_admin.dashboard_widget';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $pool = $container->getDefinition('darvin_admin.security.configuration.pool');
+        $widgetIds = $container->findTaggedServiceIds(self::TAG_DASHBOARD_WIDGET);
 
-        foreach ($container->findTaggedServiceIds(self::TAG_SECURITY_CONFIGURATION) as $id => $attr) {
-            $pool->addMethodCall('add', array(
+        if (empty($widgetIds)) {
+            return;
+        }
+
+        $taggedServiceIdsSorter = new TaggedServiceIdsSorter();
+        $taggedServiceIdsSorter->sort($widgetIds);
+
+        $dashboardDefinition = $container->getDefinition('darvin_admin.dashboard.dashboard');
+
+        foreach ($widgetIds as $id => $attr) {
+            $dashboardDefinition->addMethodCall('addWidget', array(
                 new Reference($id),
             ));
         }

@@ -16,9 +16,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 /**
- * Controller compiler pass
+ * Create controllers compiler pass
  */
-class ControllerPass implements CompilerPassInterface
+class CreateControllersPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
@@ -31,27 +31,27 @@ class ControllerPass implements CompilerPassInterface
             return;
         }
 
-        $controllers = array();
+        $definitions = array();
 
         foreach ($allMeta as $entityClass => $meta) {
-            $controller = new DefinitionDecorator('darvin_admin.crud.controller');
-            $controller->setArguments(array(
+            $definition = new DefinitionDecorator('darvin_admin.crud.controller');
+            $definition->setArguments(array(
                 $entityClass,
             ));
 
             $configuration = $meta->getConfiguration();
 
             if (!$meta->hasParent() && !$configuration['menu']['skip']) {
-                $controller->addTag(MenuPass::TAG_MENU_ITEM, array(
+                $definition->addTag(AddMenuItemsPass::TAG_MENU_ITEM, array(
                     'group'    => $configuration['menu']['group'],
                     'position' => $configuration['menu']['position'],
                 ));
             }
 
-            $controllers[$meta->getControllerId()] = $controller;
+            $definitions[$meta->getControllerId()] = $definition;
         }
 
-        $container->addDefinitions($controllers);
+        $container->addDefinitions($definitions);
     }
 
     /**

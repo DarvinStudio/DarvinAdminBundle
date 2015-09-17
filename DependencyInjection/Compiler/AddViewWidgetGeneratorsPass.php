@@ -10,37 +10,32 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\Utils\DependencyInjection\TaggedServiceIdsSorter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Menu compiler pass
+ * Add view widget generators compiler pass
  */
-class MenuPass implements CompilerPassInterface
+class AddViewWidgetGeneratorsPass implements CompilerPassInterface
 {
-    const TAG_MENU_ITEM = 'darvin_admin.menu_item';
+    const TAG_GENERATOR = 'darvin_admin.view.widget_generator';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $menu = $container->getDefinition('darvin_admin.menu');
+        $generatorIds = $container->findTaggedServiceIds(self::TAG_GENERATOR);
 
-        $menuItems = $container->findTaggedServiceIds(self::TAG_MENU_ITEM);
-
-        if (empty($menuItems)) {
+        if (empty($generatorIds)) {
             return;
         }
 
-        $sorter = new TaggedServiceIdsSorter();
-        $sorter->sort($menuItems);
+        $poolDefinition = $container->getDefinition('darvin_admin.view.widget_generator.pool');
 
-        foreach ($menuItems as $id => $attr) {
-            $menu->addMethodCall('addItem', array(
-                isset($attr[0]['group']) ? $attr[0]['group'] : null,
+        foreach ($generatorIds as $id => $attr) {
+            $poolDefinition->addMethodCall('add', array(
                 new Reference($id),
             ));
         }

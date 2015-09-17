@@ -11,12 +11,12 @@
 namespace Darvin\AdminBundle;
 
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddCacheClearCommandPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\ControllerPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\DashboardWidgetPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\MenuPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\MetadataPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\SecurityConfigurationPoolPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\ViewWidgetGeneratorPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddMetadataPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddSecurityConfigurationsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetGeneratorsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,12 +38,12 @@ class DarvinAdminBundle extends Bundle
 
         $container
             ->addCompilerPass(new AddCacheClearCommandPass())
-            ->addCompilerPass(new ControllerPass(), PassConfig::TYPE_BEFORE_REMOVING)
-            ->addCompilerPass(new DashboardWidgetPass())
-            ->addCompilerPass(new MenuPass(), PassConfig::TYPE_BEFORE_REMOVING)
-            ->addCompilerPass(new MetadataPass())
+            ->addCompilerPass(new CreateControllersPass(), PassConfig::TYPE_BEFORE_REMOVING)
+            ->addCompilerPass(new AddDashboardWidgetsPass())
+            ->addCompilerPass(new AddMenuItemsPass(), PassConfig::TYPE_BEFORE_REMOVING)
+            ->addCompilerPass(new AddMetadataPass())
             ->addCompilerPass(new ResolveDefinitionTemplatesPass(), PassConfig::TYPE_BEFORE_REMOVING)
-            ->addCompilerPass(new SecurityConfigurationPoolPass())
-            ->addCompilerPass(new ViewWidgetGeneratorPass());
+            ->addCompilerPass(new AddSecurityConfigurationsPass())
+            ->addCompilerPass(new AddViewWidgetGeneratorsPass());
     }
 }

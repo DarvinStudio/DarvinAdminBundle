@@ -137,10 +137,14 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 
             $headItem = new HeadItem($content);
 
-            if (isset($configuration['sortable_fields'][$field])) {
+            if (array_key_exists($field, $configuration['sortable_fields'])) {
+                $sortablePropertyPath = !empty($configuration['sortable_fields'][$field])
+                    ? $configuration['sortable_fields'][$field]
+                    : $field;
+
                 $headItem
                     ->setSortable(true)
-                    ->setSortablePropertyPath($configuration['sortable_fields'][$field]);
+                    ->setSortablePropertyPath($sortablePropertyPath);
             }
 
             $head->addItem($field, $headItem);

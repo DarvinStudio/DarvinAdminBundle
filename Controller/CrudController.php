@@ -102,7 +102,7 @@ class CrudController extends Controller implements MenuItemInterface
             }
         }
 
-        $this->getTranslationJoiner()->joinTranslation($qb, $request->getLocale());
+        $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
         /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
         $pagination = $this->getPaginator()->paginate(
@@ -621,9 +621,9 @@ class CrudController extends Controller implements MenuItemInterface
         return $this->get('darvin_admin.metadata.sort_criteria_detector');
     }
 
-    /** @return \Darvin\ContentBundle\Translatable\TranslationJoinerInterface */
-    private function getTranslationJoiner()
+    /** @return \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface */
+    private function getSortedByEntityJoiner()
     {
-        return $this->get('darvin_content.translatable.translation_joiner');
+        return $this->get('darvin_content.sorting.sorted_by_entity_joiner');
     }
 }

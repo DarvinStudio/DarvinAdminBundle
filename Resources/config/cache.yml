@@ -1,6 +1,8 @@
 parameters:
     darvin_admin.cache.clear_command.class: Darvin\AdminBundle\Command\CachesClearCommand
-    darvin_admin.cache.clear_command.name:  darvin:admin:cache:clear
+    darvin_admin.cache.clear_command.name:  darvin:admin:caches:clear
+    darvin_admin.cache.clear_command.description: >
+        Runs cache clear commands specified in "darvin_admin.cache_clear_command_classes" parameter.
 
     darvin_admin.cache.filesystem.class: Doctrine\Common\Cache\FilesystemCache
 
@@ -13,6 +15,7 @@ services:
         class: %darvin_admin.cache.clear_command.class%
         arguments:
             - %darvin_admin.cache.clear_command.name%
+            - %darvin_admin.cache.clear_command.description%
         tags:
             - { name: console.command }
 

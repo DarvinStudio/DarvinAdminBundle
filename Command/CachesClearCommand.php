@@ -29,10 +29,11 @@ class CachesClearCommand extends AbstractCommand
     /**
      * {@inheritdoc}
      */
-    public function __construct($name = null)
+    public function __construct($name = null, $description = null)
     {
         parent::__construct($name);
 
+        $this->setDescription($description);
         $this->cacheClearCommands = array();
     }
 

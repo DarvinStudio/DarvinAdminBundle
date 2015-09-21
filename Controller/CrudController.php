@@ -78,6 +78,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association, $parentEntityId) = $this->getParentEntityDefinition($request);
 
+        $configuration = $this->meta->getConfiguration();
+
         $em = $this->getEntityManager();
 
         $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o');
@@ -86,9 +88,18 @@ class CrudController extends Controller implements MenuItemInterface
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
-        $filterForm = $this->meta->isFilterFormEnabled()
-            ? $this->getAdminFormFactory()->createFilterForm($this->entityClass)
-            : null;
+        $filterForm = null;
+
+        if ($this->meta->isFilterFormEnabled()) {
+            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->entityClass)->handleRequest($request);
+            $filtererOptions = $configuration['form']['filter']['fields'];
+
+            foreach ($configuration['form']['filter']['field_groups'] as $fields) {
+                $filtererOptions = array_merge($filtererOptions, $fields);
+            }
+
+            $this->getFilterer()->filter($qb, $filterForm->getData(), $filtererOptions);
+        }
 
         $paginatorOptions = array();
 
@@ -119,8 +130,6 @@ class CrudController extends Controller implements MenuItemInterface
         $this->getCustomObjectLoader()->loadForObjects($pagination->getItems(), false);
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
-
-        $configuration = $this->meta->getConfiguration();
 
         return $this->renderResponse('index', array(
             'filter_form'     => !empty($filterForm) ? $filterForm->createView() : null,
@@ -594,6 +603,12 @@ class CrudController extends Controller implements MenuItemInterface
     private function getEntityManager()
     {
         return $this->get('doctrine.orm.entity_manager');
+    }
+
+    /** @return \Darvin\ContentBundle\Filterer\FiltererInterface */
+    private function getFilterer()
+    {
+        return $this->get('darvin_content.filterer');
     }
 
     /** @return \Darvin\Utils\Flash\FlashNotifierInterface */

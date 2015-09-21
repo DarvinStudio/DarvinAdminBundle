@@ -111,9 +111,27 @@ class FilterType extends AbstractType
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
                 ? $this->formTypeGuesser->guessType($this->meta->getTranslationClass(), $property)
                 : $this->formTypeGuesser->guessType($this->meta->getEntityClass(), $property);
-            $options = array_merge($typeGuess->getOptions(), $options);
+            $options = array_merge(array(
+                'required' => false,
+            ), $typeGuess->getOptions(), $options);
 
-            $builder->add($field, !empty($attr['type']) ? $attr['type'] : $typeGuess->getType(), $options);
+            if (!empty($attr['type'])) {
+                $type = $attr['type'];
+            } else {
+                $type = $typeGuess->getType();
+
+                if ('checkbox' === $type) {
+                    $options = array_merge(array(
+                        'choices' => array(
+                            true  => 'boolean.1',
+                            false => 'boolean.0',
+                        ),
+                    ), $options);
+                    $type = 'choice';
+                }
+            }
+
+            $builder->add($field, $type, $options);
         }
     }
 }

@@ -28,6 +28,10 @@ administrator:
         roles:    Роли
         username: Логин
 
+boolean:
+    - Нет
+    - Да
+
 cache:
     action:
         clear:

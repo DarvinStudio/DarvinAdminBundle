@@ -36,16 +36,16 @@ class CacheExtension extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('admin_cache_clear_form', array($this, 'renderCacheClearForm'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction(
+                'admin_cache_clear_form',
+                array($this->cacheFormManager, 'renderClearForm'),
+                array(
+                    'is_safe' => array(
+                        'html',
+                    ),
+                )
+            ),
         );
-    }
-
-    /**
-     * @return string
-     */
-    public function renderCacheClearForm()
-    {
-        return $this->cacheFormManager->renderClearForm();
     }
 
     /**

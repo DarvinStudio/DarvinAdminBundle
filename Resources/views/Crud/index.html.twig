@@ -7,6 +7,14 @@
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title') | trans }}{% endblock %}
 
 {% block content %}
+    {% if filter_form %}
+
+        {% include 'DarvinAdminBundle:Crud/widget:filter_form.html.twig' with {
+            'field_groups': meta.configuration.form.filter.field_groups,
+            'form':         filter_form,
+        } %}
+
+    {% endif %}
 
     {% set pagination_html = knp_pagination_render(pagination) %}
 

@@ -58,6 +58,11 @@ class Metadata
     /**
      * @var string
      */
+    private $filterFormTypeName;
+
+    /**
+     * @var string
+     */
     private $formTypeName;
 
     /**
@@ -76,16 +81,23 @@ class Metadata
     private $routingPrefix;
 
     /**
+     * @var string
+     */
+    private $translationClass;
+
+    /**
      * @param string $baseTranslationPrefix   Base translation prefix
      * @param string $entityTranslationPrefix Entity translation prefix
      * @param array  $configuration           Configuration
      * @param string $controllerId            Controller service ID
      * @param string $entityClass             Entity class
      * @param string $entityName              Entity name
+     * @param string $filterFormTypeName      Filter form type name
      * @param string $formTypeName            Form type name
      * @param string $identifier              Identifier
      * @param array  $mappings                Mappings
      * @param string $routingPrefix           Routing prefix
+     * @param string $translationClass        Translation class
      */
     public function __construct(
         $baseTranslationPrefix,
@@ -94,10 +106,12 @@ class Metadata
         $controllerId,
         $entityClass,
         $entityName,
+        $filterFormTypeName,
         $formTypeName,
         $identifier,
         array $mappings,
-        $routingPrefix
+        $routingPrefix,
+        $translationClass
     ) {
         $this->baseTranslationPrefix = $baseTranslationPrefix;
         $this->entityTranslationPrefix = $entityTranslationPrefix;
@@ -105,10 +119,12 @@ class Metadata
         $this->controllerId = $controllerId;
         $this->entityClass = $entityClass;
         $this->entityName = $entityName;
+        $this->filterFormTypeName = $filterFormTypeName;
         $this->formTypeName = $formTypeName;
         $this->identifier = $identifier;
         $this->mappings = $mappings;
         $this->routingPrefix = $routingPrefix;
+        $this->translationClass = $translationClass;
 
         $this->children = array();
     }
@@ -121,6 +137,16 @@ class Metadata
     public function isAssociation($property)
     {
         return isset($this->mappings[$property]['targetEntity']);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFilterFormEnabled()
+    {
+        return !empty($this->configuration['form']['filter']['type'])
+            || !empty($this->configuration['form']['filter']['field_groups'])
+            || !empty($this->configuration['form']['filter']['fields']);
     }
 
     /**
@@ -242,6 +268,14 @@ class Metadata
     /**
      * @return string
      */
+    public function getFilterFormTypeName()
+    {
+        return $this->filterFormTypeName;
+    }
+
+    /**
+     * @return string
+     */
     public function getFormTypeName()
     {
         return $this->formTypeName;
@@ -269,5 +303,13 @@ class Metadata
     public function getRoutingPrefix()
     {
         return $this->routingPrefix;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTranslationClass()
+    {
+        return $this->translationClass;
     }
 }

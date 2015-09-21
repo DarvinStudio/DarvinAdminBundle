@@ -1,0 +1,119 @@
+<?php
+/**
+ * @author    Igor Nikolaev <igor.sv.n@gmail.com>
+ * @copyright Copyright (c) 2015, Darvin Studio
+ * @link      https://www.darvin-studio.ru
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Darvin\AdminBundle\Form\Type;
+
+use Darvin\AdminBundle\Form\FormException;
+use Darvin\AdminBundle\Metadata\Metadata;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormTypeGuesserInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * Filter form type
+ */
+class FilterType extends AbstractType
+{
+    /**
+     * @var \Symfony\Component\Form\FormTypeGuesserInterface
+     */
+    private $formTypeGuesser;
+
+    /**
+     * @var \Darvin\AdminBundle\Metadata\Metadata
+     */
+    private $meta;
+
+    /**
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface $formTypeGuesser Form type guesser
+     * @param \Darvin\AdminBundle\Metadata\Metadata            $meta            Metadata
+     */
+    public function __construct(FormTypeGuesserInterface $formTypeGuesser, Metadata $meta)
+    {
+        $this->formTypeGuesser = $formTypeGuesser;
+        $this->meta = $meta;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $configuration = $this->meta->getConfiguration();
+
+        foreach ($configuration['form']['filter']['field_groups'] as $fields) {
+            $this->addFields($builder, $fields);
+        }
+
+        $this->addFields($builder, $configuration['form']['filter']['fields']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'csrf_protection'    => false,
+            'method'             => 'get',
+            'required'           => false,
+            'translation_domain' => 'admin',
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->meta->getFilterFormTypeName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getMetadata()
+    {
+        return $this->meta;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormBuilderInterface $builder Form builder
+     * @param array                                        $fields  Fields
+     *
+     * @throws \Darvin\AdminBundle\Form\FormException
+     */
+    private function addFields(FormBuilderInterface $builder, array $fields)
+    {
+        $mappings = $this->meta->getMappings();
+
+        foreach ($fields as $field => $attr) {
+            $property = preg_replace('/(From|To)$/', '', $field);
+
+            if (!isset($mappings[$property])) {
+                $message = sprintf(
+                    'Property "%s::$%s" is not mapped field or association.',
+                    $this->meta->getEntityClass(),
+                    $property
+                );
+
+                throw new FormException($message);
+            }
+
+            $options = $this->resolveFieldOptionValues($attr['options']);
+            $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
+                ? $this->formTypeGuesser->guessType($this->meta->getTranslationClass(), $property)
+                : $this->formTypeGuesser->guessType($this->meta->getEntityClass(), $property);
+            $options = array_merge($typeGuess->getOptions(), $options);
+
+            $builder->add($field, !empty($attr['type']) ? $attr['type'] : $typeGuess->getType(), $options);
+        }
+    }
+}

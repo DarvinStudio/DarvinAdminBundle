@@ -24,6 +24,8 @@ class MetadataFactory
 {
     const CONTROLLER_ID_SUFFIX = '.admin.controller';
 
+    const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
+
     const FORM_TYPE_NAME_PREFIX = 'admin_';
 
     const ROUTE_NAME_PREFIX = 'admin_';
@@ -88,6 +90,8 @@ class MetadataFactory
 
         $identifiers = $doctrineMeta->getIdentifier();
 
+        $formTypeName = $this->generateFormTypeName($entityName);
+
         return new Metadata(
             $baseTranslationPrefix,
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
@@ -95,10 +99,12 @@ class MetadataFactory
             $this->generateControllerId($entityNamespace, $entityName),
             $entityClass,
             $entityName,
-            $this->generateFormTypeName($entityName),
+            $formTypeName.self::FILTER_FORM_TYPE_NAME_SUFFIX,
+            $formTypeName,
             $identifiers[0],
             $this->getMappings($doctrineMeta),
-            $this->generateRoutingPrefix($entityName)
+            $this->generateRoutingPrefix($entityName),
+            $this->translatableManager->isTranslatable($entityClass) ? $this->translatableManager->getTranslationClass($entityClass) : null
         );
     }
 
@@ -221,7 +227,15 @@ class MetadataFactory
             throw $this->createUnableToGetDoctrineMetadataException($translationClass);
         }
 
-        return array_merge($mappings, $translationDoctrineMeta->associationMappings, $translationDoctrineMeta->fieldMappings);
+        $translationMappings = array_merge($translationDoctrineMeta->associationMappings, $translationDoctrineMeta->fieldMappings);
+
+        foreach ($translationMappings as &$attr) {
+            $attr['translation'] = true;
+        }
+
+        unset($attr);
+
+        return array_merge($mappings, $translationMappings);
     }
 
     /**

@@ -86,6 +86,10 @@ class CrudController extends Controller implements MenuItemInterface
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
+        $filterForm = $this->meta->isFilterFormEnabled()
+            ? $this->getAdminFormFactory()->createFilterForm($this->entityClass)
+            : null;
+
         $paginatorOptions = array();
 
         $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
@@ -119,6 +123,7 @@ class CrudController extends Controller implements MenuItemInterface
         $configuration = $this->meta->getConfiguration();
 
         return $this->renderResponse('index', array(
+            'filter_form'     => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'            => $this->meta,
             'new_form_widget' => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
             'pagination'      => $pagination,

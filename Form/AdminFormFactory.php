@@ -11,11 +11,13 @@
 namespace Darvin\AdminBundle\Form;
 
 use Darvin\AdminBundle\Form\Type\BaseType;
+use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormTypeGuesserInterface;
 
 /**
  * Admin form factory
@@ -46,6 +48,11 @@ class AdminFormFactory
     private $formFactory;
 
     /**
+     * @var \Symfony\Component\Form\FormTypeGuesserInterface
+     */
+    private $formTypeGuesser;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
     private $identifierAccessor;
@@ -56,19 +63,22 @@ class AdminFormFactory
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager    $metadataManager    Metadata manager
+     * @param \Darvin\AdminBundle\Route\AdminRouter            $adminRouter        Admin router
+     * @param \Symfony\Component\Form\FormFactoryInterface     $formFactory        Form factory
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface $formTypeGuesser    Form type guesser
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor  $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager     $metadataManager    Metadata manager
      */
     public function __construct(
         AdminRouter $adminRouter,
         FormFactoryInterface $formFactory,
+        FormTypeGuesserInterface $formTypeGuesser,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager
     ) {
         $this->adminRouter = $adminRouter;
         $this->formFactory = $formFactory;
+        $this->formTypeGuesser = $formTypeGuesser;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
     }
@@ -128,6 +138,32 @@ class AdminFormFactory
         }
 
         return $builder->getForm();
+    }
+
+    /**
+     * @param string $entityClass Entity class
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createFilterForm($entityClass)
+    {
+        $meta = $this->metadataManager->getByEntityClass($entityClass);
+
+        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)) {
+            return null;
+        }
+
+        $configuration = $meta->getConfiguration();
+
+        $type = $configuration['form']['filter']['type'];
+
+        if (empty($type)) {
+            $type = new FilterType($this->formTypeGuesser, $meta);
+        }
+
+        return $this->formFactory->create($type, null, array(
+            'action' => $this->adminRouter->generate($entityClass, AdminRouter::TYPE_INDEX),
+        ));
     }
 
     /**

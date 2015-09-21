@@ -11,6 +11,7 @@ services:
         arguments:
             - "@darvin_admin.route.router"
             - "@form.factory"
+            - "@form.type_guesser.doctrine"
             - "@darvin_admin.metadata.identifier_accessor"
             - "@darvin_admin.metadata.manager"
 

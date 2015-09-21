@@ -65,6 +65,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addFormNode('index'))
                         ->append($this->addFormNode('new'))
                         ->append($this->addFormNode('edit'))
+                        ->append($this->addFormNode('filter'))
                     ->end()
                 ->end()
                 ->arrayNode('view')

@@ -92,11 +92,17 @@ class CrudController extends Controller implements MenuItemInterface
 
         if ($this->meta->isFilterFormEnabled()) {
             $filterForm = $this->getAdminFormFactory()->createFilterForm($this->entityClass)->handleRequest($request);
-            $filtererOptions = $configuration['form']['filter']['fields'];
 
-            foreach ($configuration['form']['filter']['field_groups'] as $fields) {
-                $filtererOptions = array_merge($filtererOptions, $fields);
-            }
+            $filtererOptions = array('non_strict_comparison_fields' => array());
+            $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
+                foreach ($fields as $field => $attr) {
+                    if (!$attr['strict_comparison']) {
+                        $filtererOptions['non_strict_comparison_fields'][] = $field;
+                    }
+                }
+            };
+            $getNonStrictComparisonFields($configuration['form']['filter']['fields']);
+            array_map($getNonStrictComparisonFields, $configuration['form']['filter']['field_groups']);
 
             $this->getFilterer()->filter($qb, $filterForm->getData(), $filtererOptions);
         }

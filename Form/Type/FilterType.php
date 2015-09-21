@@ -13,7 +13,9 @@ namespace Darvin\AdminBundle\Form\Type;
 use Darvin\AdminBundle\Form\FormException;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -81,6 +83,30 @@ class FilterType extends AbstractType
         }
 
         $this->addFields($builder, $configuration['form']['filter']['fields']);
+
+        if (!empty($options['parent_entity_association'])) {
+            $builder->add($options['parent_entity_association'], 'hidden', array(
+                'label' => false,
+            ));
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        parent::finishView($view, $form, $options);
+
+        $parentEntityAssociation = $options['parent_entity_association'];
+
+        if (empty($parentEntityAssociation)) {
+            return;
+        }
+
+        $field = $view->children[$parentEntityAssociation];
+        $field->vars['full_name'] = $parentEntityAssociation;
+        $field->vars['value'] = $options['parent_entity_id'];
     }
 
     /**
@@ -89,10 +115,12 @@ class FilterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection'    => false,
-            'method'             => 'get',
-            'required'           => false,
-            'translation_domain' => 'admin',
+            'csrf_protection'           => false,
+            'method'                    => 'get',
+            'parent_entity_association' => null,
+            'parent_entity_id'          => null,
+            'required'                  => false,
+            'translation_domain'        => 'admin',
         ));
     }
 

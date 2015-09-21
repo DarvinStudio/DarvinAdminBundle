@@ -83,7 +83,7 @@ class CrudController extends Controller implements MenuItemInterface
         $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o');
 
         if ($this->meta->hasParent()) {
-            $qb->where(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
+            $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
         $paginatorOptions = array();

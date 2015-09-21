@@ -25,7 +25,7 @@ class AdministratorRepository extends EntityRepository
      */
     public function getByEmailOrUsername($emailOrUsername)
     {
-        return $this->createQueryBuilder('o')
+        return $this->createDefaultQueryBuilder()
             ->where('o.email = :email_or_username')
             ->orWhere('o.username = :email_or_username')
             ->setParameter('email_or_username', $emailOrUsername)
@@ -42,7 +42,7 @@ class AdministratorRepository extends EntityRepository
         $qb = $this->createDefaultQueryBuilder();
 
         return $qb
-            ->where($qb->expr()->notLike('o.roles', ':role_superadmin'))
+            ->andWhere($qb->expr()->notLike('o.roles', ':role_superadmin'))
             ->setParameter('role_superadmin', '%'.Administrator::ROLE_SUPERADMIN.'%');
     }
 

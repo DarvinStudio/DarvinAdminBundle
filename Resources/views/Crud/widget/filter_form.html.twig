@@ -7,7 +7,7 @@
         {{ form_row(form[field]) }}
     {% endfor %}
     <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit') | trans }}</button>
-    <a href="{{ admin_path(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')) }}">
+    <a href="{{ form.vars.action }}">
         {{ (meta.baseTranslationPrefix ~ 'action.filter.reset') | trans }}
     </a>
 {% endblock %}

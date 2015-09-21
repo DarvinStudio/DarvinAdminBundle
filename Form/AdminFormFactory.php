@@ -142,10 +142,11 @@ class AdminFormFactory
 
     /**
      * @param string $entityClass Entity class
+     * @param string $actionUrl   Form action URL
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createFilterForm($entityClass)
+    public function createFilterForm($entityClass, $actionUrl)
     {
         $meta = $this->metadataManager->getByEntityClass($entityClass);
 
@@ -162,7 +163,7 @@ class AdminFormFactory
         }
 
         return $this->formFactory->create($type, null, array(
-            'action' => $this->adminRouter->generate($entityClass, AdminRouter::TYPE_INDEX),
+            'action' => $actionUrl,
         ));
     }
 

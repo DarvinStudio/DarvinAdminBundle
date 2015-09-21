@@ -91,7 +91,13 @@ class CrudController extends Controller implements MenuItemInterface
         $filterForm = null;
 
         if ($this->meta->isFilterFormEnabled()) {
-            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->entityClass)->handleRequest($request);
+            $actionRouteParams = $this->meta->hasParent()
+                ? array(
+                    $association => $parentEntityId,
+                )
+                : array();
+            $action = $this->getAdminRouter()->generate($this->entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);
+            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->entityClass, $action)->handleRequest($request);
 
             $filtererOptions = array('non_strict_comparison_fields' => array());
             $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {

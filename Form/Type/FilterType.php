@@ -26,6 +26,7 @@ class FilterType extends AbstractType
      */
     private static $fieldTypeChangeMap = array(
         'checkbox' => 'choice',
+        'textarea' => 'text',
     );
 
     /**

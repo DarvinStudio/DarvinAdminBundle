@@ -22,6 +22,33 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FilterType extends AbstractType
 {
     /**
+     * @var array
+     */
+    private static $fieldTypeChangeMap = array(
+        'checkbox' => 'choice',
+    );
+
+    /**
+     * @var array
+     */
+    private static $defaultFieldOptions = array(
+        'checkbox' => array(
+            'choices' => array(
+                'boolean.0',
+                'boolean.1',
+            ),
+        ),
+        'date' => array(
+            'widget' => 'single_text',
+            'format' => 'dd.MM.yyyy',
+        ),
+        'datetime' => array(
+            'widget' => 'single_text',
+            'format' => 'dd.MM.yyyy HH:mm',
+        ),
+    );
+
+    /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
      */
     private $formTypeGuesser;
@@ -120,14 +147,11 @@ class FilterType extends AbstractType
             } else {
                 $type = $typeGuess->getType();
 
-                if ('checkbox' === $type) {
-                    $options = array_merge(array(
-                        'choices' => array(
-                            true  => 'boolean.1',
-                            false => 'boolean.0',
-                        ),
-                    ), $options);
-                    $type = 'choice';
+                if (isset(self::$defaultFieldOptions[$type])) {
+                    $options = array_merge(self::$defaultFieldOptions[$type], $options);
+                }
+                if (isset(self::$fieldTypeChangeMap[$type])) {
+                    $type = self::$fieldTypeChangeMap[$type];
                 }
             }
 

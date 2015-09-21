@@ -54,7 +54,7 @@ class CacheController extends Controller
         return new AjaxResponse(
             $success,
             $message,
-            $success ? '' : $this->getCacheFormManager()->renderClearForm($this->getTemplating(), $form)
+            $success ? '' : $this->getCacheFormManager()->renderClearForm($form)
         );
     }
 
@@ -80,13 +80,5 @@ class CacheController extends Controller
     private function getFlashNotifier()
     {
         return $this->get('darvin_utils.flash.notifier');
-    }
-
-    /**
-     * @return \Symfony\Component\Templating\EngineInterface
-     */
-    private function getTemplating()
-    {
-        return $this->get('templating');
     }
 }

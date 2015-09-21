@@ -29,6 +29,7 @@ services:
         arguments:
             - "@form.factory"
             - "@router"
+            - "@darvin_utils.templating.provider"
 
     darvin_admin.cache.twig_extension:
         class:  %darvin_admin.cache.twig_extension.class%

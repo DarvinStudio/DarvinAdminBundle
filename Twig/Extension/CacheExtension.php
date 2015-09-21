@@ -23,24 +23,11 @@ class CacheExtension extends \Twig_Extension
     private $cacheFormManager;
 
     /**
-     * @var \Twig_Environment
-     */
-    private $environment;
-
-    /**
      * @param \Darvin\AdminBundle\Form\CacheFormManager $cacheFormManager Cache form manager
      */
     public function __construct(CacheFormManager $cacheFormManager)
     {
         $this->cacheFormManager = $cacheFormManager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     /**
@@ -58,7 +45,7 @@ class CacheExtension extends \Twig_Extension
      */
     public function renderCacheClearForm()
     {
-        return $this->cacheFormManager->renderClearForm($this->environment);
+        return $this->cacheFormManager->renderClearForm();
     }
 
     /**

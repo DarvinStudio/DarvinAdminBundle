@@ -10,10 +10,10 @@
 
 namespace Darvin\AdminBundle\Form;
 
+use Darvin\UtilsBundle\Templating\TemplatingProviderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Cache form manager
@@ -31,13 +31,23 @@ class CacheFormManager
     private $router;
 
     /**
-     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory Form factory
-     * @param \Symfony\Component\Routing\RouterInterface   $router      Router
+     * @var \Darvin\UtilsBundle\Templating\TemplatingProviderInterface
      */
-    public function __construct(FormFactoryInterface $formFactory, RouterInterface $router)
-    {
+    private $templatingProvider;
+
+    /**
+     * @param \Symfony\Component\Form\FormFactoryInterface               $formFactory        Form factory
+     * @param \Symfony\Component\Routing\RouterInterface                 $router             Router
+     * @param \Darvin\UtilsBundle\Templating\TemplatingProviderInterface $templatingProvider Templating provider
+     */
+    public function __construct(
+        FormFactoryInterface $formFactory,
+        RouterInterface $router,
+        TemplatingProviderInterface $templatingProvider
+    ) {
         $this->formFactory = $formFactory;
         $this->router = $router;
+        $this->templatingProvider = $templatingProvider;
     }
 
     /**
@@ -52,24 +62,17 @@ class CacheFormManager
     }
 
     /**
-     * @param \Symfony\Component\Templating\EngineInterface|\Twig_Environment $templating Templating
-     * @param \Symfony\Component\Form\FormInterface                           $form       Cache clear form
+     * @param \Symfony\Component\Form\FormInterface $form Cache clear form
      *
      * @return string
-     * @throws \Darvin\AdminBundle\Form\FormException
      */
-    public function renderClearForm($templating, FormInterface $form = null)
+    public function renderClearForm(FormInterface $form = null)
     {
-        if (!$templating instanceof \Twig_Environment && !$templating instanceof EngineInterface) {
-            throw new FormException(
-                'Templating must be instance of \Twig_Environment or Symfony\Component\Templating\EngineInterface.'
-            );
-        }
         if (empty($form)) {
             $form = $this->createClearForm();
         }
 
-        return $templating->render('DarvinAdminBundle:cache/widget:clear_form.html.twig', array(
+        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:cache/widget:clear_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }

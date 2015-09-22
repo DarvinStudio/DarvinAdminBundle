@@ -62,11 +62,21 @@
 
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 
-        <ul>
-            {% for locale in darvin_admin_locales %}
-                <li><a href="#{{ locale }}">{{ ('locale.' ~ locale) | trans }}</a></li>
-            {% endfor %}
-        </ul>
+        {% if darvin_admin_locales | length > 1 %}
+            <ul>
+                {% for locale in darvin_admin_locales %}
+                    <li>
+                        {% if locale == app.request.locale %}
+                            <span>{{ ('locale.' ~ locale) | trans }}</span>
+                        {% else %}
+                            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({ '_locale': locale })) }}">
+                                {{ ('locale.' ~ locale) | trans }}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
         {{ admin_menu() }}
 

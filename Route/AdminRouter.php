@@ -107,7 +107,7 @@ class AdminRouter
     }
 
     /**
-     * @param mixed  $classOrObject Entity class or object
+     * @param mixed  $objectOrClass Entity object or class
      * @param string $routeType     Route type
      * @param array  $parameters    Parameters
      * @param mixed  $referenceType Reference type
@@ -116,16 +116,16 @@ class AdminRouter
      * @throws \Darvin\AdminBundle\Route\RouteException
      */
     public function generate(
-        $classOrObject,
+        $objectOrClass,
         $routeType = self::TYPE_SHOW,
         array $parameters = array(),
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ) {
         $this->init();
 
-        $isObject = is_object($classOrObject);
+        $isObject = is_object($objectOrClass);
 
-        $entityClass = $isObject ? ClassUtils::getClass($classOrObject) : $classOrObject;
+        $entityClass = $isObject ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
 
         if (!isset($this->routeNames[$entityClass][$routeType])) {
             $routeExists = false;
@@ -148,22 +148,22 @@ class AdminRouter
             }
         }
 
-        $this->getAdditionalParameters($parameters, $entityClass, $routeType, $isObject ? $classOrObject : null);
+        $this->getAdditionalParameters($parameters, $entityClass, $routeType, $isObject ? $objectOrClass : null);
 
         return $this->router->generate($this->routeNames[$entityClass][$routeType], $parameters, $referenceType);
     }
 
     /**
-     * @param mixed  $classOrObject Entity class or object
+     * @param mixed  $objectOrClass Entity object or class
      * @param string $routeType     Route type
      *
      * @return bool
      */
-    public function isRouteExists($classOrObject, $routeType)
+    public function isRouteExists($objectOrClass, $routeType)
     {
         $this->init();
 
-        $entityClass = is_object($classOrObject) ? ClassUtils::getClass($classOrObject) : $classOrObject;
+        $entityClass = is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
 
         if (isset($this->routeNames[$entityClass][$routeType])) {
             return true;

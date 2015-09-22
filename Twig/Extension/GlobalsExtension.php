@@ -18,6 +18,11 @@ use Darvin\Utils\Strings\StringsUtil;
 class GlobalsExtension extends \Twig_Extension
 {
     /**
+     * @var array
+     */
+    private $locales;
+
+    /**
      * @var string
      */
     private $projectTitle;
@@ -43,12 +48,14 @@ class GlobalsExtension extends \Twig_Extension
     private $initialized;
 
     /**
+     * @param array  $locales               Available locales
      * @param string $projectTitle          Project title
      * @param string $projectUrl            Project URL
      * @param string $yandexTranslateApiKey Yandex.Translate API key
      */
-    public function __construct($projectTitle, $projectUrl, $yandexTranslateApiKey)
+    public function __construct(array $locales, $projectTitle, $projectUrl, $yandexTranslateApiKey)
     {
+        $this->locales = $locales;
         $this->projectTitle = $projectTitle;
         $this->projectUrl = $projectUrl;
         $this->yandexTranslateApiKey = $yandexTranslateApiKey;

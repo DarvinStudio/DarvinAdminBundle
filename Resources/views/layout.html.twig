@@ -62,6 +62,12 @@
 
         <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
 
+        <ul>
+            {% for locale in darvin_admin_locales %}
+                <li><a href="#{{ locale }}">{{ ('locale.' ~ locale) | trans }}</a></li>
+            {% endfor %}
+        </ul>
+
         {{ admin_menu() }}
 
         {% block breadcrumbs %}{% endblock %}

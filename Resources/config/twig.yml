@@ -6,6 +6,7 @@ services:
         class:  %darvin_admin.twig.globals_extension.class%
         public: false
         arguments:
+            - %darvin_admin.locales%
             - %darvin_admin.project.title%
             - %darvin_admin.project.url%
             - %darvin_admin.yandex_translate_api_key%

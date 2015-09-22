@@ -11,6 +11,8 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -35,6 +37,11 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     private $templating;
 
     /**
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     */
+    private $optionsResolver;
+
+    /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
      * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
@@ -47,6 +54,16 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
         $this->authorizationChecker = $authorizationChecker;
         $this->metadataManager = $metadataManager;
         $this->templating = $templating;
+        $this->optionsResolver = new OptionsResolver();
+
+        $this->configureOptions($this->optionsResolver);
+    }
+
+    /**
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
+     */
+    protected function configureOptions(OptionsResolver $resolver)
+    {
     }
 
     /**
@@ -87,7 +104,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      *
      * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
      */
-    protected function validate($entity, array $options)
+    protected function validate($entity, array &$options)
     {
         $requiredEntityClass = $this->getRequiredEntityClass();
 
@@ -100,12 +117,12 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
 
             throw new WidgetGeneratorException($message);
         }
-        foreach ($this->getRequiredOptions() as $requiredOption) {
-            if (!isset($options[$requiredOption])) {
-                throw new WidgetGeneratorException(
-                    sprintf('View widget generator "%s" requires option "%s".', $this->getAlias(), $requiredOption)
-                );
-            }
+        try {
+            $options = $this->optionsResolver->resolve($options);
+        } catch (ExceptionInterface $ex) {
+            throw new WidgetGeneratorException(
+                sprintf('View widget generator "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
+            );
         }
     }
 
@@ -115,13 +132,5 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     protected function getRequiredEntityClass()
     {
         return null;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRequiredOptions()
-    {
-        return array();
     }
 }

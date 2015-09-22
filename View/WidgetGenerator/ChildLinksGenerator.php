@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Child links view widget generator
@@ -103,10 +104,14 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    protected function configureOptions(OptionsResolver $resolver)
     {
-        return array(
-            'child_entity',
-        );
+        $resolver
+            ->setRequired(array(
+                'child_entity',
+            ))
+            ->setAllowedTypes(array(
+                'child_entity' => 'string',
+            ));
     }
 }

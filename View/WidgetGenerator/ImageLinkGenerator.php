@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\Filter\ResizeFilter;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Image link view widget generator
@@ -65,18 +66,22 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredEntityClass()
+    protected function configureOptions(OptionsResolver $resolver)
     {
-        return AbstractImage::ABSTRACT_IMAGE_CLASS;
+        $resolver
+            ->setRequired(array(
+                'filter_parameters',
+            ))
+            ->setAllowedTypes(array(
+                'filter_parameters' => 'array',
+            ));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    protected function getRequiredEntityClass()
     {
-        return array(
-            'filter_parameters',
-        );
+        return AbstractImage::ABSTRACT_IMAGE_CLASS;
     }
 }

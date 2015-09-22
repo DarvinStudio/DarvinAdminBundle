@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -89,12 +90,17 @@ class ListGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    protected function configureOptions(OptionsResolver $resolver)
     {
-        return array(
-            'keys_property',
-            'values_callback',
-        );
+        $resolver
+            ->setRequired(array(
+                'keys_property',
+                'values_callback',
+            ))
+            ->setAllowedTypes(array(
+                'keys_property'   => 'string',
+                'values_callback' => 'callable',
+            ));
     }
 
     /**
@@ -125,11 +131,6 @@ class ListGenerator extends AbstractWidgetGenerator
     private function getValues(array $options)
     {
         $valuesCallback = $options['values_callback'];
-
-        if (!is_callable($valuesCallback)) {
-            throw new WidgetGeneratorException('Values callback is not callable.');
-        }
-
         $values = $valuesCallback();
 
         if (!is_array($values) && !$values instanceof \Traversable) {

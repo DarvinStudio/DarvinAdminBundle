@@ -10,6 +10,8 @@
 
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 /**
  * Actions view widget generator
  */
@@ -63,10 +65,14 @@ class ActionsGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    protected function configureOptions(OptionsResolver $resolver)
     {
-        return array(
-            'view_type',
-        );
+        $resolver
+            ->setRequired(array(
+                'view_type',
+            ))
+            ->setAllowedTypes(array(
+                'view_type' => 'string',
+            ));
     }
 }

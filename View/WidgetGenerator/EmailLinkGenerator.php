@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -70,10 +71,14 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    protected function configureOptions(OptionsResolver $resolver)
     {
-        return array(
-            'email_property',
-        );
+        $resolver
+            ->setRequired(array(
+                'email_property',
+            ))
+            ->setAllowedTypes(array(
+                'email_property' => 'string',
+            ));
     }
 }

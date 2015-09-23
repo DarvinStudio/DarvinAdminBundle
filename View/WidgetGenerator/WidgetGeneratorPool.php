@@ -45,6 +45,14 @@ class WidgetGeneratorPool
     }
 
     /**
+     * @return array
+     */
+    public function getAllWidgetGeneratorAliases()
+    {
+        return array_keys($this->generators);
+    }
+
+    /**
      * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorInterface[]
      */
     public function getAllWidgetGenerators()

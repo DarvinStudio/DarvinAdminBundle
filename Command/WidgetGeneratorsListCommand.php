@@ -36,7 +36,7 @@ class WidgetGeneratorsListCommand extends AbstractContainerAwareCommand
     {
         parent::execute($input, $output);
 
-        $this->writeln(array_keys($this->getViewWidgetGeneratorPool()->getAllWidgetGenerators()));
+        $this->writeln($this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases());
     }
 
     /**

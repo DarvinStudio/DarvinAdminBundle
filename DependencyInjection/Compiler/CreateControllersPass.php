@@ -25,7 +25,7 @@ class CreateControllersPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $allMeta = $this->getMetadataManager($container)->getAll();
+        $allMeta = $this->getMetadataManager($container)->getAllMetadata();
 
         if (empty($allMeta)) {
             return;

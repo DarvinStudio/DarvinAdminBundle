@@ -79,7 +79,7 @@ class BreadcrumbsExtension extends \Twig_Extension
 
         $crumbs = array();
 
-        $meta = $this->metadataManager->getByEntity($entity);
+        $meta = $this->metadataManager->getMetadata($entity);
 
         /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parentMeta */
         while ($parentMeta = $meta->getParent()) {

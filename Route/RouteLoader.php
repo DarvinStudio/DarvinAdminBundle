@@ -54,7 +54,7 @@ class RouteLoader extends Loader
 
         $routeGenerator = new CrudRouteGenerator();
 
-        foreach ($this->metadataManager->getAll() as $entityClass => $meta) {
+        foreach ($this->metadataManager->getAllMetadata() as $entityClass => $meta) {
             $routes->addCollection($routeGenerator->generate($entityClass, $meta));
         }
 

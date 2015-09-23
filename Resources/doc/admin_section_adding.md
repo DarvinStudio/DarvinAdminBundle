@@ -50,7 +50,7 @@ services:
 Пример получения метаданных из менеджера метаданных:
 
 ```php
-$metadata = $this->getContainer()->get('darvin_admin.metadata.manager')->getByEntityClass('Darvin\\AdminBundle\\Entity\\Administrator');
+$metadata = $this->getContainer()->get('darvin_admin.metadata.manager')->getMetadata('Darvin\\AdminBundle\\Entity\\Administrator');
 ```
 
 *В менеджере метаданных присутствует также ряд других методов, с которыми полезно ознакомиться.*

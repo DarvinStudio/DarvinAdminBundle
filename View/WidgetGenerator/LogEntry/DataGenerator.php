@@ -125,8 +125,8 @@ class DataGenerator extends AbstractWidgetGenerator
      */
     private function getMappings($entityClass)
     {
-        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
-            return $this->metadataManager->getByEntityClass($entityClass)->getMappings();
+        if ($this->metadataManager->hasMetadata($entityClass)) {
+            return $this->metadataManager->getMetadata($entityClass)->getMappings();
         }
         try {
             return $this->em->getClassMetadata($entityClass)->fieldMappings;
@@ -142,8 +142,8 @@ class DataGenerator extends AbstractWidgetGenerator
      */
     private function getTranslationPrefix($entityClass)
     {
-        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
-            return $this->metadataManager->getByEntityClass($entityClass)->getEntityTranslationPrefix();
+        if ($this->metadataManager->hasMetadata($entityClass)) {
+            return $this->metadataManager->getMetadata($entityClass)->getEntityTranslationPrefix();
         }
 
         $entityName = $this->objectNamer->name($entityClass);

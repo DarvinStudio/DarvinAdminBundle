@@ -87,7 +87,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 
         $firstEntity = reset($entities);
 
-        $meta = $this->metadataManager->getByEntity($firstEntity);
+        $meta = $this->metadataManager->getMetadata($firstEntity);
 
         $this->validateConfiguration($meta, $firstEntity, 'index');
 

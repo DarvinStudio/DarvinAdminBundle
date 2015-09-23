@@ -199,7 +199,7 @@ class AdminRouter
             }
         }
 
-        $meta = $this->metadataManager->getByEntityClass($entityClass);
+        $meta = $this->metadataManager->getMetadata($entityClass);
 
         if (!$meta->hasParent() || !in_array($routeType, self::$typesRequiringParentId)) {
             return;

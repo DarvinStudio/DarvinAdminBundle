@@ -79,7 +79,7 @@ class CopyFormGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, array(
             'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
-            'translation_prefix' => $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix(),
+            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
     }
 

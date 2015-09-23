@@ -62,7 +62,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        $parentMeta = $this->metadataManager->getByEntity($entity);
+        $parentMeta = $this->metadataManager->getMetadata($entity);
 
         if (!$parentMeta->hasChild($childClass)) {
             throw new WidgetGeneratorException(

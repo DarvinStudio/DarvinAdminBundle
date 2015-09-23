@@ -113,7 +113,7 @@ class AdminFormFactory
      */
     public function createEntityForm($entity, $action, $formAction, array $submitButtons)
     {
-        $meta = $this->metadataManager->getByEntity($entity);
+        $meta = $this->metadataManager->getMetadata($entity);
         $configuration = $meta->getConfiguration();
 
         $type = $configuration['form'][$action]['type'];
@@ -149,7 +149,7 @@ class AdminFormFactory
      */
     public function createFilterForm($entityClass, $parentEntityAssociation = null, $parentEntityId = null)
     {
-        $meta = $this->metadataManager->getByEntityClass($entityClass);
+        $meta = $this->metadataManager->getMetadata($entityClass);
 
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)) {
             return null;

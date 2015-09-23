@@ -42,6 +42,11 @@ class MetadataManager
     private $cacheDisabled;
 
     /**
+     * @var array
+     */
+    private $checkedIfHasMetadataClasses;
+
+    /**
      * @var bool
      */
     private $initialized;
@@ -63,106 +68,56 @@ class MetadataManager
         $this->em = $em;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
+        $this->checkedIfHasMetadataClasses = array();
         $this->initialized = false;
         $this->metadata = array();
     }
 
     /**
-     * @return \Darvin\AdminBundle\Metadata\Metadata[]
+     * @param mixed $entityOrClass Entity or class
+     *
+     * @return bool
      */
-    public function getAll()
+    public function hasMetadata($entityOrClass)
     {
-        $this->init();
+        $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
 
-        $all = array();
+        if (!isset($this->checkedIfHasMetadataClasses[$entityClass])) {
+            $this->checkedIfHasMetadataClasses[$entityClass] = true;
 
-        // Skip nulls that have been set for speed up of checking whether metadata exists for class
-        foreach ($this->metadata as $entityClass => $metadata) {
-            if (!empty($metadata)) {
-                $all[$entityClass] = $metadata;
+            try {
+                $this->getMetadata($entityClass);
+            } catch (MetadataException $ex) {
+                $this->checkedIfHasMetadataClasses[$entityClass] = false;
             }
         }
 
-        return $all;
+        return $this->checkedIfHasMetadataClasses[$entityClass];
     }
 
     /**
-     * @param object $entity Entity
+     * @param mixed $entityOrClass Entity or class
      *
      * @return array
      */
-    public function getConfigurationByEntity($entity)
+    public function getConfiguration($entityOrClass)
     {
-        return $this->getByEntity($entity)->getConfiguration();
+        return $this->getMetadata($entityOrClass)->getConfiguration();
     }
 
     /**
-     * @param string $entityClass Entity class
-     *
-     * @return array
-     */
-    public function getConfigurationByEntityClass($entityClass)
-    {
-        return $this->getByEntityClass($entityClass)->getConfiguration();
-    }
-
-    /**
-     * @param object $entity Entity
-     *
-     * @return \Darvin\AdminBundle\Metadata\Metadata
-     */
-    public function getByEntity($entity)
-    {
-        return $this->getByEntityClass(ClassUtils::getClass($entity));
-    }
-
-    /**
-     * @param string $entityClass Entity class
+     * @param mixed $entityOrClass Entity or class
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function getByEntityClass($entityClass)
-    {
-        if (!$this->hasMetadataForEntityClass($entityClass)) {
-            throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $entityClass));
-        }
-
-        return $this->getMetadata($entityClass);
-    }
-
-    /**
-     * @param object $entity Entity
-     *
-     * @return bool
-     */
-    public function hasMetadataForEntity($entity)
-    {
-        return $this->hasMetadataForEntityClass(ClassUtils::getClass($entity));
-    }
-
-    /**
-     * @param string $entityClass Entity class
-     *
-     * @return bool
-     */
-    public function hasMetadataForEntityClass($entityClass)
-    {
-        $metadata = $this->getMetadata($entityClass);
-
-        return !empty($metadata);
-    }
-
-    /**
-     * @param string $entityClass Entity class
-     *
-     * @return \Darvin\AdminBundle\Metadata\Metadata
-     */
-    private function getMetadata($entityClass)
+    public function getMetadata($entityOrClass)
     {
         $this->init();
 
-        if (!array_key_exists($entityClass, $this->metadata)) {
+        $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
+
+        if (!isset($this->metadata[$entityClass])) {
             $childClass = $entityClass;
 
             while ($parentClass = get_parent_class($childClass)) {
@@ -175,13 +130,20 @@ class MetadataManager
                 $childClass = $parentClass;
             }
 
-            // Set null as metadata to speed up next time check
-            $this->metadata[$entityClass] = null;
-
-            return null;
+            throw new MetadataException(sprintf('Unable to get metadata for class "%s".', $entityClass));
         }
 
         return $this->metadata[$entityClass];
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Metadata\Metadata[]
+     */
+    public function getAllMetadata()
+    {
+        $this->init();
+
+        return $this->metadata;
     }
 
     private function init()

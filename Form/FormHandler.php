@@ -161,7 +161,7 @@ class FormHandler
         }
 
         $this->flashNotifier->success(
-            $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix().$successMessage
+            $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix().$successMessage
         );
 
         return true;

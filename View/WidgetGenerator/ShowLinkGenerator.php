@@ -50,7 +50,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
 
             $entity = $this->propertyAccessor->getValue($entity, $entityProperty);
 
-            if (empty($entity) || !$this->metadataManager->hasMetadataForEntity($entity)) {
+            if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
                 return '';
             }
         }
@@ -60,7 +60,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, array(
             'entity'             => $entity,
-            'translation_prefix' => $this->metadataManager->getByEntity($entity)->getBaseTranslationPrefix(),
+            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
     }
 

@@ -46,7 +46,7 @@ class IdentifierAccessor
      */
     public function getValue($entity)
     {
-        $meta = $this->metadataManager->getByEntity($entity);
+        $meta = $this->metadataManager->getMetadata($entity);
         $identifier = $meta->getIdentifier();
 
         if (!$this->propertyAccessor->isReadable($entity, $identifier)) {

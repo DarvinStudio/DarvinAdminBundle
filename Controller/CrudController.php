@@ -62,7 +62,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function __construct(MetadataManager $metadataManager, $entityClass)
     {
-        $this->meta = $metadataManager->getByEntityClass($entityClass);
+        $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
         $this->entityClass = $entityClass;
     }

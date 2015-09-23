@@ -71,8 +71,8 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      */
     private function getEntityName($entityClass)
     {
-        if ($this->metadataManager->hasMetadataForEntityClass($entityClass)) {
-            return $this->metadataManager->getByEntityClass($entityClass)->getEntityName();
+        if ($this->metadataManager->hasMetadata($entityClass)) {
+            return $this->metadataManager->getMetadata($entityClass)->getEntityName();
         }
 
         return $this->objectNamer->name($entityClass);

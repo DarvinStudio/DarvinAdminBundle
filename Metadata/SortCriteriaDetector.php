@@ -52,7 +52,7 @@ class SortCriteriaDetector
      */
     public function detect($entityClass)
     {
-        $meta = $this->metadataManager->getByEntityClass($entityClass);
+        $meta = $this->metadataManager->getMetadata($entityClass);
         $configuration = $meta->getConfiguration();
 
         if (!empty($configuration['order_by'])) {

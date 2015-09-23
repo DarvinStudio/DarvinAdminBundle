@@ -25,7 +25,7 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
      */
     public function transform($entity)
     {
-        $meta = $this->metadataManager->getByEntity($entity);
+        $meta = $this->metadataManager->getMetadata($entity);
 
         $this->validateConfiguration($meta, $entity, 'show');
 

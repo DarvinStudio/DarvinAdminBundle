@@ -33,7 +33,7 @@ class SecurityConfigurationPool
      *
      * @throws \Darvin\AdminBundle\Security\Configuration\ConfigurationException
      */
-    public function add(SecurityConfigurationInterface $configuration)
+    public function addConfiguration(SecurityConfigurationInterface $configuration)
     {
         if (isset($this->configurations[$configuration->getName()])) {
             throw new ConfigurationException(sprintf('Configuration "%s" already added.', $configuration->getName()));
@@ -45,7 +45,7 @@ class SecurityConfigurationPool
     /**
      * @return \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
      */
-    public function getAll()
+    public function getAllConfigurations()
     {
         return $this->configurations;
     }

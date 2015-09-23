@@ -148,7 +148,7 @@ class AdminVoter implements VoterInterface
         if ($this->initialized) {
             return;
         }
-        foreach ($this->securityConfigurationPool->getAll() as $configuration) {
+        foreach ($this->securityConfigurationPool->getAllConfigurations() as $configuration) {
             foreach ($configuration->getPermissions() as $objectPermissions) {
                 $objectClass = $objectPermissions->getObjectClass();
 

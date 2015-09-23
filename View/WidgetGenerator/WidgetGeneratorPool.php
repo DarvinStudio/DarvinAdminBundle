@@ -33,7 +33,7 @@ class WidgetGeneratorPool
      *
      * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
      */
-    public function add(WidgetGeneratorInterface $generator)
+    public function addWidgetGenerator(WidgetGeneratorInterface $generator)
     {
         $alias = $generator->getAlias();
 
@@ -47,7 +47,7 @@ class WidgetGeneratorPool
     /**
      * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorInterface[]
      */
-    public function getAll()
+    public function getAllWidgetGenerators()
     {
         return $this->generators;
     }
@@ -58,7 +58,7 @@ class WidgetGeneratorPool
      * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorInterface
      * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
      */
-    public function get($alias)
+    public function getWidgetGenerator($alias)
     {
         if (!isset($this->generators[$alias])) {
             throw new WidgetGeneratorException(sprintf('Unable to find view widget generator by alias "%s".', $alias));

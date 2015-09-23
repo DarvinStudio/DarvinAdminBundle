@@ -37,7 +37,7 @@ class ViewWidgetGeneratorExtension extends \Twig_Extension
     {
         $functions = array();
 
-        foreach ($this->widgetGeneratorPoolProvider->getPool()->getAll() as $alias => $generator) {
+        foreach ($this->widgetGeneratorPoolProvider->getPool()->getAllWidgetGenerators() as $alias => $generator) {
             $functions[] = new \Twig_SimpleFunction('admin_widget_'.$alias, array($generator, 'generate'), array('is_safe' => array('html')));
         }
 

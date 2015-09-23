@@ -136,7 +136,7 @@ class LogController extends Controller
      */
     private function getLogEntryRevertFormWidgetGenerator()
     {
-        return $this->getViewWidgetGeneratorPool()->get('log_entry_revert_form');
+        return $this->getViewWidgetGeneratorPool()->getWidgetGenerator('log_entry_revert_form');
     }
 
     /**

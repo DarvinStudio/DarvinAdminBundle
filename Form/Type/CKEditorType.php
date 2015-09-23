@@ -87,7 +87,7 @@ class CKEditorType extends AbstractType
             'widget',
         );
 
-        foreach ($this->widgetPool->getAll() as $widget) {
+        foreach ($this->widgetPool->getAllWidgets() as $widget) {
             $widgetName = $widget->getName();
 
             $path = sprintf('%s/%s/', $this->pluginsPath, $widgetName);

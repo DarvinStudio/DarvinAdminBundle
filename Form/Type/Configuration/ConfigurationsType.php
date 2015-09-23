@@ -48,7 +48,7 @@ class ConfigurationsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($this->configurationPool->getAll() as $configuration) {
+        foreach ($this->configurationPool->getAllConfiguration() as $configuration) {
             if ($configuration instanceof SecurableInterface
                 && !$this->accessibilityChecker->isAccessible($configuration)
             ) {

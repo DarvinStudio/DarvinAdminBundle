@@ -140,7 +140,7 @@ class Administrator implements \Serializable, AdvancedUserInterface
      */
     public function getDefaultPermissions()
     {
-        return array_fill_keys(Permission::getAll(), !$this->isGuest());
+        return array_fill_keys(Permission::getAllPermissions(), !$this->isGuest());
     }
 
     /**

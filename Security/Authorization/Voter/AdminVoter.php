@@ -101,7 +101,7 @@ class AdminVoter implements VoterInterface
      */
     public function supportsAttribute($attribute)
     {
-        return in_array($attribute, Permission::getAll());
+        return in_array($attribute, Permission::getAllPermissions());
     }
 
     /**

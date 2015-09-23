@@ -44,8 +44,7 @@ class Menu
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->items = array();
-        $this->groups = array();
+        $this->items = $this->groups = array();
         $this->itemsFiltered = false;
     }
 

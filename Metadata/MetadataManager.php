@@ -68,9 +68,8 @@ class MetadataManager
         $this->em = $em;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
-        $this->checkedIfHasMetadataClasses = array();
+        $this->checkedIfHasMetadataClasses = $this->metadata = array();
         $this->initialized = false;
-        $this->metadata = array();
     }
 
     /**

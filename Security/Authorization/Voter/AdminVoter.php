@@ -48,8 +48,7 @@ class AdminVoter implements VoterInterface
     public function __construct(SecurityConfigurationPool $securityConfigurationPool)
     {
         $this->securityConfigurationPool = $securityConfigurationPool;
-        $this->supportedClasses = array();
-        $this->permissions = array();
+        $this->supportedClasses = $this->permissions = array();
         $this->initialized = false;
     }
 

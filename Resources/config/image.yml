@@ -6,7 +6,7 @@ parameters:
 services:
     darvin_admin.image.metadata:
         class:   %darvin_admin.image.metadata.class%
-        factory: [ "@darvin_admin.metadata.factory", create ]
+        factory: [ "@darvin_admin.metadata.factory", createMetadata ]
         public:  false
         arguments:
             - %darvin_admin.image.metadata.entity%

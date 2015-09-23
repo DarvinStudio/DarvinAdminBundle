@@ -33,7 +33,7 @@ parameters:
 services:
     darvin_admin.administrator.metadata:
         class:   %darvin_admin.administrator.metadata.class%
-        factory: [ "@darvin_admin.metadata.factory", create ]
+        factory: [ "@darvin_admin.metadata.factory", createMetadata ]
         public:  false
         arguments:
             - %darvin_admin.administrator.metadata.entity%

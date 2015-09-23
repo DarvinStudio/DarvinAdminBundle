@@ -67,7 +67,7 @@ class MetadataFactory
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function create($entityClass, $configPathname)
+    public function createMetadata($entityClass, $configPathname)
     {
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);

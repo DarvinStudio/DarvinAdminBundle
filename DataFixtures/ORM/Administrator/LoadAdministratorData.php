@@ -36,7 +36,7 @@ class LoadAdministratorData implements FixtureInterface
         $administrator = new Administrator(array(Administrator::ROLE_SUPERADMIN));
 
         return $administrator
-            ->setPlainPassword('123')
+            ->setPlainPassword('admin')
             ->setUsername('admin');
     }
 }

@@ -162,7 +162,7 @@ class MetadataManager
 
     private function initAndCache()
     {
-        $this->metadata = $this->metadataPool->getAll();
+        $this->metadata = $this->metadataPool->getAllMetadata();
 
         if ($this->cacheDisabled) {
             return;

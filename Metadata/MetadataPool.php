@@ -33,7 +33,7 @@ class MetadataPool
      *
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function add(Metadata $metadata)
+    public function addMetadata(Metadata $metadata)
     {
         if (isset($this->metadata[$metadata->getEntityClass()])) {
             throw new MetadataException(sprintf('Metadata for entity "%s" is already added.'));
@@ -45,7 +45,7 @@ class MetadataPool
     /**
      * @return \Darvin\AdminBundle\Metadata\Metadata[]
      */
-    public function getAll()
+    public function getAllMetadata()
     {
         return $this->metadata;
     }

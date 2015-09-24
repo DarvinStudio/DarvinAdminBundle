@@ -17,6 +17,14 @@ $(document).ready(function () {
 
         var $link = $(this);
 
+        if ($link.data('submitted')) {
+            return;
+        }
+
+        $link
+            .append(AJAX_LOADER)
+            .data('submitted', true);
+
         $.ajax({
             type: 'get',
             url:  $link.attr('href')

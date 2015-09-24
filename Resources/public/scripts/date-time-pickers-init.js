@@ -6,9 +6,9 @@ $(document).ready(function () {
 
     var init;
     (init = function () {
-        $('input.date').datepicker(options);
-        $('input.datetime').datetimepicker(options);
-        $('input.time').timepicker(options);
+        ['date', 'datetime', 'time'].map(function (type) {
+            $('input.' + type)[type + 'picker'](options);
+        });
     })();
 
     $(document).bind('ajaxSuccess', init);

@@ -1,0 +1,3 @@
+a2lix_translation_form:
+    default_locale: %locale%
+    locales:        %locales%

@@ -5,7 +5,9 @@ $(document).ready(function () {
     (init = function () {
         $('input[type="text"].datetime').each(function () {
             var $input = $(this);
-            $input.datetimepicker($.extend({}, $.datepicker.regional[locale], $.timepicker.regional[locale]));
+            $input.datetimepicker($.extend({}, $.datepicker.regional[locale], $.timepicker.regional[locale], {
+                dateFormat: 'dd.mm.yy'
+            }));
         });
     })();
 

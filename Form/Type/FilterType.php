@@ -49,6 +49,9 @@ class FilterType extends AbstractType
             'widget' => 'single_text',
             'format' => 'dd.MM.yyyy HH:mm',
         ),
+        'time' => array(
+            'widget' => 'single_text',
+        ),
     );
 
     /**

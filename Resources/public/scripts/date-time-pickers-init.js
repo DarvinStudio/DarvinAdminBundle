@@ -1,14 +1,14 @@
 $(document).ready(function () {
     var locale = 'en' !== LOCALE ? LOCALE : '';
+    var options = $.extend({}, $.datepicker.regional[locale], $.timepicker.regional[locale], {
+        dateFormat: 'dd.mm.yy'
+    });
 
     var init;
     (init = function () {
-        $('input[type="text"].datetime').each(function () {
-            var $input = $(this);
-            $input.datetimepicker($.extend({}, $.datepicker.regional[locale], $.timepicker.regional[locale], {
-                dateFormat: 'dd.mm.yy'
-            }));
-        });
+        $('input.date').datepicker(options);
+        $('input.datetime').datetimepicker(options);
+        $('input.time').timepicker(options);
     })();
 
     $(document).bind('ajaxSuccess', init);

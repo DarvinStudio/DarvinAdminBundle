@@ -55,14 +55,14 @@ AppBundle\Entity\Foo: # Класс сущности
                     some_field_name: # Название поля
                         type:              ~    # Тип поля
                         options:           {}   # Опции поля
-                        strict_comparison: true # Использовать строгое сравнение ("=", а не "LIKE")
+                        strict_comparison: true # Использовать строгое сравнение ("=", а не "LIKE '%foo%'")
             fields: # Поля, не входящие в группы
 
                 # Прототип
                 some_field_name: # Название поля
                     type:              ~    # Тип поля
                     options:           {}   # Опции поля
-                    strict_comparison: true # Использовать строгое сравнение ("=", а не "LIKE")
+                    strict_comparison: true # Использовать строгое сравнение ("=", а не "LIKE '%foo%'")
     view: # Конфигурация уровня представления
         index: # Конфигурация индексной страницы
             action_widgets: # Список алиасов виджетов действий

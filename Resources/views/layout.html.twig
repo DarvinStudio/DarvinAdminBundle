@@ -117,7 +117,7 @@
 
     <script src="{{ asset('bundles/a2lixtranslationform/js/a2lix_translation_default.js') }}"></script>
     <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-    <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}"></script>
+    <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales={{ app.request.locale }}"></script>
 
     <script src="{{ asset('bundles/darvinadmin/scripts/globals.js') }}"></script>
     <script src="{{ asset('bundles/darvinadmin/scripts/yandex-translator.js') }}"></script>

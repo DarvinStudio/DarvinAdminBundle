@@ -14,7 +14,9 @@
  Если предполагается редактирование конфигурации в панели администрирования, можно воспользоваться существующей формой
  "darvin_admin_security_object_permissions", указав ее в опциях модели параметра. В случае наследования от класса
  "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration" параметр должен называться "permissions" (см.
- реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()").
+ реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()"). Так как
+ интерфейс конфигурации расширяет интерфейс "Darvin\Utils\Security\SecurableInterface", с помощью метода "getAllowedRoles()"
+ можно разрешить редактирование конфигурации только пользователям с определенными ролями.
 
 Пример реализации класса конфигурации безопасности:
 
@@ -80,7 +82,7 @@ services:
 
 Проверка доступности объекта для текущего пользователя осуществляется стандартным способом - с помощью метода
  "isGranted()" сервиса "security.authorization_checker". Первым аргументом необходимо передать одну из констант класса
- "Darvin\AdminBundle\Security\Permissions\Permission", в качестве второго аргумента - объект или класс:
+ "Darvin\AdminBundle\Security\Permissions\Permission" или их массив, в качестве второго аргумента - объект или класс:
 
 ```php
 $creatingGranted = $this->container->get('security.authorization_checker')->isGranted(
@@ -89,4 +91,11 @@ $creatingGranted = $this->container->get('security.authorization_checker')->isGr
 );
 $administrator = $this->container->get('doctrine.orm.entity_manager')->find('DarvinAdminBundle:Administrator', 5);
 $editingGranted = $this->container->get('security.authorization_checker')->isGranted(Permission::EDIT, $administrator);
+$editingAndViewingGranted = $this->container->get('security.authorization_checker')->isGranted(
+    array(Permission::EDIT, Permission::VIEW),
+    $administrator
+);
 ```
+
+В последнем примере метод вернет значение true только в том случае, если пользователь обладает и правом редактирования, и
+ правом просмотра.

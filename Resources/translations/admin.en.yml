@@ -168,3 +168,8 @@ submit:
     edit:  Submit and edit
     index: Submit and go to index page
     new:   Submit and create
+
+translation:
+    action:
+        index:
+            link: Translation manager

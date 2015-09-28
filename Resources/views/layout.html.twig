@@ -29,11 +29,18 @@
 
         <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
 
-        {% if 'darvin_admin_configuration' != app.request.get('_route') %}
-            <a href="{{ path('darvin_admin_configuration') }}">{% trans %}configuration.action.edit.link{% endtrans %}</a>
-        {% else %}
-            <span>{% trans %}configuration.action.edit.link{% endtrans %}</span>
-        {% endif %}
+        {% set menu = {
+            'configuration.action.edit.link': 'darvin_admin_configuration',
+            'translation.action.index.link':  'lexik_translation_grid',
+        } %}
+
+        {% for title, route in menu %}
+            {% if route == app.request.attributes.get('_route') %}
+                <span>{{ title | trans }}</span>
+            {% else %}
+                <a href="{{ path(route) }}">{{ title | trans }}</a>
+            {% endif %}
+        {% endfor %}
 
         {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
             {% set administrator_index_url = admin_path(
@@ -69,7 +76,7 @@
                         {% if locale == app.request.locale %}
                             <span>{{ ('locale.' ~ locale) | trans }}</span>
                         {% else %}
-                            <a href="{{ path(app.request.get('_route'), app.request.get('_route_params') | merge({ '_locale': locale })) }}">
+                            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({ '_locale': locale })) }}">
                                 {{ ('locale.' ~ locale) | trans }}
                             </a>
                         {% endif %}

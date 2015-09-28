@@ -117,9 +117,9 @@ log:
             link:  Log
             title: Log
         revert:
-            confirm: Confirm object version restoring
-            submit:  Restore version
-            success: Object version successfully restored
+            confirm: Confirm object reverting
+            submit:  Revert to version
+            success: Object successfully reverted
         show:
             link:  View entry
             title: Log entry for %entity%

@@ -55,10 +55,8 @@ class AdminVoter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $objectOrClass, array $attributes)
     {
-        $objectOrClass = $object;
-
         if (empty($objectOrClass)) {
             return VoterInterface::ACCESS_ABSTAIN;
         }

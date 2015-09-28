@@ -16,7 +16,9 @@
  "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration" параметр должен называться "permissions" (см.
  реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()"). С
  помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с определенными
- ролями.
+ ролями. В случае наследования от вышеупомянутого абстрактного класса, редактировать конфигурацию смогут только
+ суперадминистраторы (см. реализацию метода
+ "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getAllowedRoles()").
 
 Пример реализации класса конфигурации безопасности:
 

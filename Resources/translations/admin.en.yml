@@ -106,10 +106,10 @@ image:
 
 interface:
     actions: Actions
-    version: Version %number%
+    version: Release %number%
 
 layout:
-    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Version %version%
+    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Release %version%
     stats:     Website statistics
 
 log:

@@ -97,10 +97,8 @@ class ListGenerator extends AbstractWidgetGenerator
                 'keys_property',
                 'values_callback',
             ))
-            ->setAllowedTypes(array(
-                'keys_property'   => 'string',
-                'values_callback' => 'callable',
-            ));
+            ->setAllowedTypes('keys_property', 'string')
+            ->setAllowedTypes('values_callback', 'callable');
     }
 
     /**

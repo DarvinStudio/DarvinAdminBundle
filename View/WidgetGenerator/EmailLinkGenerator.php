@@ -77,8 +77,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
             ->setRequired(array(
                 'email_property',
             ))
-            ->setAllowedTypes(array(
-                'email_property' => 'string',
-            ));
+            ->setAllowedTypes('email_property', 'string');
     }
 }

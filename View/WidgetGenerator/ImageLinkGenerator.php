@@ -72,9 +72,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             ->setRequired(array(
                 'filter_parameters',
             ))
-            ->setAllowedTypes(array(
-                'filter_parameters' => 'array',
-            ));
+            ->setAllowedTypes('filter_parameters', 'array');
     }
 
     /**

@@ -110,8 +110,6 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             ->setRequired(array(
                 'child_entity',
             ))
-            ->setAllowedTypes(array(
-                'child_entity' => 'string',
-            ));
+            ->setAllowedTypes('child_entity', 'string');
     }
 }

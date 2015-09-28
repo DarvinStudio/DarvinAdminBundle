@@ -71,8 +71,6 @@ class ActionsGenerator extends AbstractWidgetGenerator
             ->setRequired(array(
                 'view_type',
             ))
-            ->setAllowedTypes(array(
-                'view_type' => 'string',
-            ));
+            ->setAllowedTypes('view_type', 'string');
     }
 }

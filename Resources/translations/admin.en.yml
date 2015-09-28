@@ -49,11 +49,11 @@ configuration:
     darvin_admin:
         parameter:
             image_sizes: Image sizes
-        title: Configuration of module "Administration panel"
+        title: The "Administration panel" module configuration
     darvin_admin_security:
         parameter:
             permissions: Permissions
-        title: Security configuration of module "Administration panel"
+        title: The "Administration panel" module security configuration
 
 dashboard:
     widget:

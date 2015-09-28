@@ -1,0 +1,171 @@
+administrator:
+    action:
+        delete:
+            confirm: Confirm administrator removal
+            submit:  Remove administrator
+            success: Administrator successfully removed
+        edit:
+            link:    Edit administrator
+            success: Administrator successfully updated
+            title:   Edit administrator "%entity%"
+        index:
+            link:  Administrators
+            title: Administrators
+        new:
+            success: Administrator successfully created
+            title:   New administrator
+        show:
+            link:  View administrator
+            title: Administrator "%entity%"
+    entity:
+        email:          E-mail
+        enabled:        Enabled
+        locked:         Locked
+        plain_password: Password
+        role:
+            guest:      Guest
+            superadmin: Superadministrator
+        roles:    Roles
+        username: Username
+
+boolean:
+    - Yes
+    - No
+
+cache:
+    action:
+        clear:
+            confirm: Confirm cache removal
+            error:   Error occurred during cache removal. Try again later
+            submit:  Remove cache
+            success: Cache successfully removed
+
+configuration:
+    action:
+        edit:
+            link:    Configuration
+            submit:  Submit changes
+            success: Configuration successfully updated
+    darvin_admin:
+        parameter:
+            image_sizes: Image sizes
+        title: Configuration of module "Administration panel"
+    darvin_admin_security:
+        parameter:
+            permissions: Permissions
+        title: Security configuration of module "Administration panel"
+
+dashboard:
+    widget:
+        module_link: To module
+
+dropzone:
+    default_message: Drop here files to upload
+    file_too_big:    File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB.
+    remove_file:     Remove file
+
+exception:
+    403: Forbidden
+    404: Not found
+    500: Internal server error
+
+flash:
+    error:
+        form: Form errors detected. Fix them and resubmit form
+
+form_collections:
+    add:    Add
+    delete: Remove
+
+homepage:
+    action:
+        homepage:
+            link:  To homepage
+            title: Homepage
+
+image:
+    action:
+        delete:
+            confirm: Confirm image removal
+            submit:  Remove
+            success: Image successfully removed
+        edit:
+            link:    Edit image
+            success: Image successfully updated
+            title:   Edit image "%entity%"
+        index:
+            link:  Image manager
+            title: Image manager
+    entity:
+        extension: Extension
+        image:     Image
+        name:      Name
+    size:
+        admin: Standard
+    sizes: Sizes
+
+interface:
+    actions: Actions
+    version: Version %number%
+
+layout:
+    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Version %version%
+    stats:     Website statistics
+
+log:
+    action:
+        index:
+            link:  Log
+            title: Log
+        revert:
+            confirm: Confirm object version restoring
+            submit:  Restore version
+            success: Object version successfully restored
+        show:
+            link:  View entry
+            title: Log entry for %entity%
+    entity:
+        administrator: Administrator
+        action_name:   Action
+        actions:
+            create: Creating
+            remove: Removal
+            update: Updating
+        data:        Data
+        logged_at:   Logged at
+        object:      Object
+        object_id:   Object ID
+        object_name: Object name
+        username:    User
+        version:     Version
+
+property_forms:
+    submit: Submit changes
+
+security:
+    action:
+        login:
+            submit: Sign in
+        logout:
+            link: Logout
+    model:
+        password:    Password
+        remember_me: Remember me
+        username:    Username or e-mail
+    object:
+        abstract_image: Image manager
+        administrator:  Administrators
+        log_entry:      Log
+    permission:
+        create_delete: Create and remove
+        edit:          Edit
+        view:          View
+
+size:
+    height: Height
+    width:  Width
+
+submit:
+    edit:  Submit and edit
+    index: Submit and go to index page
+    new:   Submit and create

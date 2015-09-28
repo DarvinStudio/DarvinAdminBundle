@@ -11,7 +11,7 @@
  наследующийся от "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration".**
 
 Параметр конфигурации представляет собой массив объектов "Darvin\AdminBundle\Security\Permissions\ObjectPermissions".
- Если предполагается редактирования конфигурации в панели администрирования, можно воспользоваться существующей формой
+ Если предполагается редактирование конфигурации в панели администрирования, можно воспользоваться существующей формой
  "darvin_admin_security_object_permissions", указав ее в опциях модели параметра. В случае наследования от класса
  "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration" параметр должен называться "permissions" (см.
  реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()").
@@ -19,8 +19,6 @@
 Пример реализации класса конфигурации безопасности:
 
 ```php
-use Darvin\AdminBundle\Entity\Administrator;
-use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
@@ -34,8 +32,8 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
                 'permissions',
                 ParameterModel::TYPE_ARRAY,
                 array(
-                    'administrator' => new ObjectPermissions(Administrator::ADMINISTRATOR_CLASS),
-                    'log_entry'     => new ObjectPermissions(LogEntry::LOG_ENTRY_CLASS),
+                    'administrator' => new ObjectPermissions('Darvin\\AdminBundle\\Entity\\Administrator'),
+                    'log_entry'     => new ObjectPermissions('Darvin\\AdminBundle\\Entity\\LogEntry'),
                 ),
                 array(
                     'form' => array(
@@ -54,6 +52,8 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
     }
 }
 ```
+
+Данная конфигурация позволяет ограничивать доступ к администраторам и записям лога.
 
 **2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.security_configuration" и тегом
  "darvin_config.configuration", если предполагается редактирование конфигурации в панели администрирования.**

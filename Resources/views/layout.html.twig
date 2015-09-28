@@ -27,8 +27,6 @@
     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
         <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
 
-        <a href="#">{% trans %}layout.stats{% endtrans %}</a>
-
         <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
 
         {% if 'darvin_admin_configuration' != app.request.get('_route') %}

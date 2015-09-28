@@ -120,7 +120,6 @@ interface:
 
 layout:
     copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Версия %version%
-    stats:     Статистика сайта
 
 log:
     action:

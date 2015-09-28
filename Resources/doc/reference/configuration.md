@@ -6,7 +6,7 @@ darvin_admin:
     ckeditor # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина
         plugins_path:    /bundles/darvinadmin/scripts/ckeditor/plugins # Путь до каталога с плагинами
-    cache_clear_command_classes: # Классы команд очистки кэша для [команды](commands.md) "darvin:admin:caches:clear"
+    cache_clear_command_classes: # Классы команд очистки кэша для команды "darvin:admin:caches:clear"
         - Liip\ImagineBundle\Command\RemoveCacheCommand
         - Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand
     debug:                    false                    # Включен ли режим отладки

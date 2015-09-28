@@ -15,7 +15,7 @@ AppBundle\Entity\Foo: # Класс сущности
     sortable_fields: # Сортируемые поля
 
         # Прототип
-        some_field_name: some.property.path # Property path поля (если не указан, используется название поля)
+        some_field_name: some.property.path # Property path поля (если не указан - название поля)
     order_by:         {} # Сортировка по умолчанию: ключ - свойство, значение - направление ("asc" / "desc")
     pagination_items: 10 # Количество элементов на индексной странице, минимум - 1
     form: # Конфигурация форм

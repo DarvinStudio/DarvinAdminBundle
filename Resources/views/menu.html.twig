@@ -1,5 +1,7 @@
 {% trans_default_domain 'admin' %}
 
+{% import _self as menu %}
+
 <ul>
     {% for item in items %}
 
@@ -30,7 +32,7 @@
 
             {% if item.children is not empty %}
 
-                {% include _self with { 'items': item.children } %}
+                {% include menu with { 'items': item.children } %}
 
             {% endif %}
         </li>

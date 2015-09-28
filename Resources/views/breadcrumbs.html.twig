@@ -1,16 +1,18 @@
 {% trans_default_domain 'admin' %}
 
+{% import _self as breadcrumbs %}
+
 {% macro render_crumb(crumb, route_type, title) %}
     <a href="{{ admin_path(crumb.entity, route_type) }}">{{ title | trans }}</a><span>&nbsp;></span>
 {% endmacro %}
 
 {% for crumb in crumbs %}
-    {{ _self.render_crumb(
+    {{ breadcrumbs.render_crumb(
         crumb,
         constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'),
         crumb.meta.baseTranslationPrefix ~ 'action.index.link'
     ) }}
     {% if not loop.last or render_last %}
-        {{ _self.render_crumb(crumb, entity_route, crumb.entity) }}
+        {{ breadcrumbs.render_crumb(crumb, entity_route, crumb.entity) }}
     {% endif %}
 {% endfor %}

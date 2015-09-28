@@ -35,10 +35,10 @@ boolean:
 cache:
     action:
         clear:
-            confirm: Confirm cache removal
-            error:   Error occurred during cache removal. Try again later
-            submit:  Remove cache
-            success: Cache successfully removed
+            confirm: Confirm cache clearing
+            error:   Error occurred during cache clearing. Try again later
+            submit:  Clear cache
+            success: Cache successfully cleared
 
 configuration:
     action:

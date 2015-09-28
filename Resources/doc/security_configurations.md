@@ -14,9 +14,9 @@
  Если предполагается редактирование конфигурации в панели администрирования, можно воспользоваться существующей формой
  "darvin_admin_security_object_permissions", указав ее в опциях модели параметра. В случае наследования от класса
  "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration" параметр должен называться "permissions" (см.
- реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()"). Так как
- интерфейс конфигурации расширяет интерфейс "Darvin\Utils\Security\SecurableInterface", с помощью метода "getAllowedRoles()"
- можно разрешить редактирование конфигурации только пользователям с определенными ролями.
+ реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()"). С
+ помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с определенными
+ ролями.
 
 Пример реализации класса конфигурации безопасности:
 

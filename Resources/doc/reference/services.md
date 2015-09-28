@@ -4,7 +4,13 @@
 - **darvin_admin.administrator.admin.controller** - контроллер раздела администрирования сущности "Администратор";
 
 
+- **darvin_admin.cache.clear_command** - команда очистки кэша Symfony и Imagine;
+
+
 - **darvin_admin.cache.filesystem** - кэш файловой системы;
+
+
+- **darvin_admin.cache.form_manager** - менеджер форм для работы с кэшем;
 
 
 - **darvin_admin.ckeditor.form_type** - поле формы для CKEditor;

@@ -40,5 +40,5 @@ security:
                 check_path: darvin_admin_security_login_check_oauth
 
     access_control:
-        - { path: ^/admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: ^/admin/,      roles: [ IS_AUTHENTICATED_REMEMBERED ] }
+        - { path: ^/%admin_path_prefix%admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/%admin_path_prefix%admin/,      roles: [ IS_AUTHENTICATED_REMEMBERED ] }

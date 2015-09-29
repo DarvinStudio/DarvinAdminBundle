@@ -49,15 +49,17 @@ class AppKernel extends Kernel
 
 **4. Настраиваем бандл и его зависимости:**
 
-- импортируем настройки бандлов "a2lix/translation-form-bundle", "hwi/oauth-bundle", "oneup/uploader-bundle" и
- "willdurand/js-translation-bundle" в главный конфигурационный файл приложения (обычно это "app/config/config.yml"):
+- импортируем настройки сторонних бандлов в главный конфигурационный файл приложения (обычно это "app/config/config.yml"):
 
 ```yaml
 imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/a2lix_translation_form.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/bazinga_js_translation.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
+    - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" }
+    - { resource: "@DarvinImageBundle/Resources/config/app/liip_imagine.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }
+    - { resource: "@DarvinImageBundle/Resources/config/app/vich_uploader.yml" }
 ```
 
 - в этом же конфигурационном файле включаем необходимые расширения Doctrine:
@@ -79,38 +81,69 @@ imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/security.yml" }
 ```
 
+- настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
+
+```yaml
+parameters:
+    locale: ru
+    locales:
+        - ru
+        - en
+        - de
+    locale_pattern:    |de|en|ru
+    admin_path_prefix: %locale_pattern%
+```
+
 - добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yml.dist"
  и "app/config/parameters.yml");
 
-- если проект многоязычный, добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"),
- указав нужные локали (в данном примере их три: "de", "en" и "ru"):
+- добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"):
 
 ```yaml
+# Third party bundles
+bazinga_js_translation:
+    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+lexik_translation:
+    resource:     "@LexikTranslationBundle/Resources/config/routing.yml"
+    prefix:       /admin/{_locale}/translation
+    requirements: { _locale: %locale_pattern% }
+
+liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+oneup_uploader:
+    resource: .
+    type:     uploader
+
+# Darvin bundles
 darvin_admin:
     resource:     "@DarvinAdminBundle/Resources/config/routing.yml"
     prefix:       /admin/{_locale}
-    requirements: { _locale: |de|en|ru }
+    requirements: { _locale: %locale_pattern% }
 
 darvin_admin_loader:
     resource:     .
     type:         darvin_admin
     prefix:       /admin/{_locale}
-    requirements: { _locale: |de|en|ru }
+    requirements: { _locale: %locale_pattern% }
+
+hwi_oauth:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
 ```
 
-, в противном случае добавляем
+если проект не многоязычный, удаляем из роутинга все упоминания параметра "_locale";
 
-```yaml
-darvin_admin:
-    resource: "@DarvinAdminBundle/Resources/config/routing.yml"
-    prefix:   /admin
+- настраиваем непосредственно бандл в соответствии с [описанием](reference/configuration.md) его конфигурации;
 
-darvin_admin_loader:
-    resource: .
-    type:     darvin_admin
-    prefix:   /admin
-```
+- обновляем схему базы данных, выполнив команду
 
-- настраиваем непосредственно бандл в соответствии с [описанием](reference/configuration.md) его конфигурации.
+    $ php app/console doctrine:schema:update --force
 
-*Если импортируемые настройки необходимо изменить, вместо импортирования их нужно скопировать.*
+- создаем администратора, загрузив фикстуру с помощью
+
+    $ php app/console doctrine:fixtures:load --append
+
+тогда будет создан администратор "admin" с паролем "admin", либо воспользовавшись командой
+
+    $ php app/console darvin:admin:administrator:create <логин> <пароль>

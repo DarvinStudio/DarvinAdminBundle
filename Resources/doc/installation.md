@@ -63,6 +63,8 @@ imports:
     - { resource: "@DarvinImageBundle/Resources/config/app/vich_uploader.yml" }
 ```
 
+либо копируем настройки из указанных выше файлов в случае необходимости их изменения;
+
 - в этом же конфигурационном файле включаем необходимые расширения Doctrine:
 
 ```yaml

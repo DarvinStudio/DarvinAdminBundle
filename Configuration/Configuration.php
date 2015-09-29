@@ -32,7 +32,7 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
                 'image_sizes',
                 ParameterModel::TYPE_ARRAY,
                 array(
-                    'admin' => new Size('admin', 128, 128),
+                    'darvin_admin' => new Size('darvin_admin', 128, 128),
                 ),
                 array(
                     'form' => array(
@@ -66,7 +66,7 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
      */
     public function getImageSizeGroupName()
     {
-        return 'admin';
+        return 'darvin_admin';
     }
 
     /**

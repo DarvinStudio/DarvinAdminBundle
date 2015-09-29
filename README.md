@@ -22,3 +22,5 @@ This bundle provides highly configurable admin panel for Symfony2-based applicat
 - [**Конфигурация**](Resources/doc/reference/configuration.md);
 - [**Конфигурация раздела администрирования**](Resources/doc/reference/admin_section_configuration.md);
 - [**Публичные сервисы**](Resources/doc/reference/services.md).
+
+### [Рекомендации по стилю кода](Resources/doc/coding_standards.md)

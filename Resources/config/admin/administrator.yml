@@ -1,4 +1,4 @@
-darvin_admin:
+Darvin\AdminBundle\Entity\Administrator:
     menu:
         skip: true
     form:

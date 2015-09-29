@@ -1,4 +1,4 @@
-darvin_admin:
+Darvin\ImageBundle\Entity\Image\AbstractImage:
     entity_name: image
     disabled_routes:
         - delete

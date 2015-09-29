@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $.fancybox.defaults = $.extend({}, $.fancybox.defaults, {
+        caption: {
+            type: 'inside'
+        }
+    });
     $.fancybox.defaults.locales = $.extend({}, $.fancybox.defaults.locales, {
         ru: {
             CLOSE:      Translator.trans('fancybox.close'),
@@ -11,6 +16,8 @@ $(document).ready(function () {
             PLAY_STOP:  Translator.trans('fancybox.play_stop')
         }
     });
+
+    $('.fancybox').fancybox();
 
     $('body').on('click', 'a.fancybox_ajax', function (e) {
         e.preventDefault();
@@ -30,9 +37,6 @@ $(document).ready(function () {
             url:  $link.attr('href')
         }).done(function (html) {
             $.fancybox({
-                caption: {
-                    type: 'inside'
-                },
                 content: html,
                 title:   $link.attr('title')
             });

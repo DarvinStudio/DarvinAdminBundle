@@ -84,6 +84,8 @@ imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/security.yml" }
 ```
 
+либо копируем настройки в случае необходимости их изменения;
+
 - настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
 
 ```yaml

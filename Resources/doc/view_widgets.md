@@ -44,6 +44,23 @@ class EditLinkGenerator extends AbstractWidgetGenerator
 
 **Базовый класс содержит и другие методы, с которыми полезно ознакомиться.**
 
+**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.view.widget_generator":**
+
+```yaml
+parameters:
+    darvin_admin.view.widget_generator.edit_link.class: Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator
+
+services:
+    darvin_admin.view.widget_generator.edit_link:
+        class:  %darvin_admin.view.widget_generator.edit_link.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+```
+
+Если используется базовый класс, сервис может наследоваться от базового сервиса "darvin_admin.view.widget_generator.abstract"
+ как в приведенном примере.
+
 ## Список виджетов
 
 Список алиасов зарегистрированных виджетов можно получить с помощью команды

@@ -101,7 +101,7 @@ image:
         image:     Image
         name:      Name
     size:
-        admin: Standard
+        darvin_admin: Common
     sizes: Sizes
 
 interface:

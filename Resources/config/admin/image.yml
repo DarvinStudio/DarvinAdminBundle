@@ -22,7 +22,7 @@ darvin_admin:
                         alias: image_link
                         options:
                             filter_parameters:
-                                size_name: admin
+                                size_name: darvin_admin
                                 outbound:  true
                 name:      ~
                 extension: ~

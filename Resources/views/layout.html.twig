@@ -76,9 +76,13 @@
                         {% if locale == app.request.locale %}
                             <span>{{ ('locale.' ~ locale) | trans }}</span>
                         {% else %}
-                            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params') | merge({ '_locale': locale })) }}">
-                                {{ ('locale.' ~ locale) | trans }}
-                            </a>
+
+                            {% set url = path(
+                                app.request.attributes.get('_route'),
+                                app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
+                            ) %}
+
+                            <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
                         {% endif %}
                     </li>
                 {% endfor %}

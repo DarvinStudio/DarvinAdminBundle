@@ -145,7 +145,9 @@ hwi_oauth:
 
 - обновляем схему базы данных, выполнив команду
 
-    $ php app/console doctrine:schema:update --force
+```shell
+$ php app/console doctrine:schema:update --force
+```
 
 - создаем администратора, загрузив фикстуру с помощью
 

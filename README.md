@@ -8,7 +8,9 @@ This bundle provides highly configurable admin panel for Symfony2-based applicat
 
 ### Дополнительный функционал:
 
+- [**CKEditor**](Resources/doc/ckeditor.md);
 - [**Dashboard**](Resources/doc/dashboard.md);
+- [**Dropzone**](Resources/doc/dropzone.md);
 - [**Виджеты моделей представления**](Resources/doc/view_widgets.md);
 - [**Конфигурации безопасности**](Resources/doc/security_configurations.md);
 - [**Меню**](Resources/doc/menu.md).

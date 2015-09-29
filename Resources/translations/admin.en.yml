@@ -57,7 +57,7 @@ configuration:
 
 dashboard:
     widget:
-        module_link: To module
+        module_link: Go to module page
 
 dropzone:
     default_message: Drop here files to upload

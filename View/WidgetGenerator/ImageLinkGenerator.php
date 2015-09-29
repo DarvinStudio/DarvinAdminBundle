@@ -51,6 +51,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
                 ResizeFilter::NAME,
                 $options['filter_parameters']
             ),
+            'name'         => $entity->getName(),
             'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($entity),
         ));
     }

@@ -13,7 +13,9 @@
 
 **2. Устанавливаем бандл с помощью Composer, выполнив в консоли команду**
 
-    $ php composer.phar update darvinstudio/darvin-admin-bundle
+```shell
+$ php composer.phar update darvinstudio/darvin-admin-bundle
+```
 
 **3. Добавляем бандл и его зависимости в ядро приложения (обычно это файл "app/AppKernel.php"):**
 
@@ -148,9 +150,11 @@ hwi_oauth:
 - создаем администратора, загрузив фикстуру с помощью
 
 ```shell
-    $ php app/console doctrine:fixtures:load --append
+$ php app/console doctrine:fixtures:load --append
 ```
 
 тогда будет создан администратор "admin" с паролем "admin", либо воспользовавшись командой
 
-    $ php app/console darvin:admin:administrator:create <логин> <пароль>
+```shell
+$ php app/console darvin:admin:administrator:create <логин> <пароль>
+```

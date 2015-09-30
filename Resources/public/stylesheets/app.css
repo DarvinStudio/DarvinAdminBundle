@@ -356,16 +356,16 @@ h1{
 	text-shadow: 0 1px 0 #2e2e2e;
 	text-decoration: none;
 }
-.left_menu ul li.left_menu_banners{ background: url(../images/left_menu_banners.png) left top no-repeat;}
+.left_menu ul li.left_menu_banners{ background: url(../images/left_menu_bg_banners.png) left top no-repeat;}
 .left_menu ul li.left_menu_banners > a{ color: #bfbbf3;}
-.left_menu ul li.left_menu_orders{ background: url(../images/left_menu_orders.png) left top no-repeat; }
+.left_menu ul li.left_menu_orders{ background: url(../images/left_menu_bg_orders.png) left top no-repeat; }
 .left_menu ul li.left_menu_orders > a{ color: #d8e88f; }
-.left_menu ul li.left_menu_sections{ background: url(../images/left_menu_sections.png) left top no-repeat;}
-.left_menu ul li.left_menu_sections > a{ color: #b8f0e1;}
-.left_menu ul li.left_menu_publications{ background: url(../images/left_menu_publications.png) left top no-repeat;}
+.left_menu ul li.left_menu_pages{ background: url(../images/left_menu_bg_pages.png) left top no-repeat;}
+.left_menu ul li.left_menu_pages > a{ color: #b8f0e1;}
+.left_menu ul li.left_menu_publications{ background: url(../images/left_menu_bg_publications.png) left top no-repeat;}
 .left_menu ul li.left_menu_publications > a{ color: #eca7a8; }
-.left_menu ul li.left_menu_moduls{ background: url(../images/left_menu_moduls.png) left top no-repeat;}
-.left_menu ul li.left_menu_moduls > a{ color: #f7d39e;}
+.left_menu ul li.left_menu_modules{ background: url(../images/left_menu_bg_modules.png) left top no-repeat;}
+.left_menu ul li.left_menu_modules > a{ color: #f7d39e;}
 
 
 .left_menu ul ul li{

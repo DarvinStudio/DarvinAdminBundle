@@ -72,7 +72,7 @@ class MenuItemGroup implements MenuItemInterface
      */
     public function getIndexUrl()
     {
-        return null;
+        return '#';
     }
 
     /**
@@ -80,7 +80,7 @@ class MenuItemGroup implements MenuItemInterface
      */
     public function getNewUrl()
     {
-        return null;
+        return '#';
     }
 
     /**

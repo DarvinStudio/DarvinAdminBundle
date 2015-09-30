@@ -1,114 +1,40 @@
 {% trans_default_domain 'admin' %}
 
-{#{% import _self as menu %}#}
-{##}
-{#<ul>#}
-    {#{% for item in items %}#}
-{##}
-        {#{% set index_url = item.indexUrl %}#}
-        {#{% set new_url = item.newUrl %}#}
-{##}
-        {#<li>#}
-{##}
-            {#{% block item %}#}
-                {#{% if index_url and index_url != app.request.requestUri %}#}
-                    {#<a href="{{ index_url }}">{{ item.menuTitle | trans }}</a>#}
-                {#{% else %}#}
-                    {#<span>{{ item.menuTitle | trans }}</span>#}
-                {#{% endif %}#}
-                {#{% if item.associatedObjectClass and utils_new_objects_countable(item.associatedObjectClass) %}#}
-                    {#{% if utils_count_new_objects(item.associatedObjectClass) %}#}
-                        {#<span>{{ utils_count_new_objects(item.associatedObjectClass) }}</span>#}
-                    {#{% endif %}#}
-                {#{% endif %}#}
-                {#{% if new_url %}#}
-                    {#{% if new_url != app.request.requestUri %}#}
-                        {#<a href="{{ new_url }}">+</a>#}
-                    {#{% else %}#}
-                        {#<span>+</span>#}
-                    {#{% endif %}#}
-                {#{% endif %}#}
-            {#{% endblock %}#}
-{##}
-            {#{% if item.children is not empty %}#}
-{##}
-                {#{% include menu with { 'items': item.children } %}#}
-{##}
-            {#{% endif %}#}
-        {#</li>#}
-    {#{% endfor %}#}
-{#</ul>#}
-{##}
+{% import _self as menu %}
+
+{% macro render(items) %}
+
+    {% import _self as menu %}
+
+    <ul>
+        {% for item in items %}
+
+            {% set index_url = item.indexUrl %}
+            {% set attr = item.menuItemAttributes %}
+
+            <li class="left_menu_{{ attr.name }}">
+                <a href="{{ index_url }}" class="img">
+                    <img src="{{ asset('bundles/darvinadmin/images/left_menu_' ~ attr.name ~ '.png') }}" alt="" />
+                </a>
+                <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
+                {% if attr.associated_object_class
+                    and utils_new_objects_countable(attr.associated_object_class)
+                    and utils_count_new_objects(attr.associated_object_class)
+                %}
+                    <a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>
+                {% endif %}
+                {% if item.childMenuItems is not empty %}
+
+                    {{ menu.render(item.childMenuItems) }}
+
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endmacro %}
 
 <div class="left_menu">
-    <ul>
-        <li class="left_menu_banners left_menu_curr">
-            <a href="" class="img"><img src="images/left_menu_1.png" alt="" /></a>
-            <a href="">Баннеры</a>
-        </li>
-        <li class="left_menu_orders">
-            <a href="" class="img"><img src="images/left_menu_2.png" alt="" /></a>
-            <a href="">Заказы</a>
-            <a href="" class="count">2</a>
-        </li>
-        <li class="left_menu_sections">
-            <a href="" class="img"><img src="images/left_menu_3.png" alt="" /></a>
-            <a href="">Структурные разделы</a>
-            <ul>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_31.png" alt="" /></a>
-                    <a href="">Категории</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_32.png" alt="" /></a>
-                    <a href="">Каталоги</a>
-                </li>
-            </ul>
-        </li>
-        <li class="left_menu_publications">
-            <a href="" class="img"><img src="images/left_menu_4.png" alt="" /></a>
-            <a href="">Публикации</a>
-            <ul>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_41.png" alt="" /></a>
-                    <a href="">Новости</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_42.png" alt="" /></a>
-                    <a href="">Статьи</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_43.png" alt="" /></a>
-                    <a href="">Акции</a>
-                </li>
-            </ul>
-        </li>
-        <li class="left_menu_moduls">
-            <a href="" class="img"><img src="images/left_menu_5.png" alt="" /></a>
-            <a href="">Модули</a>
-            <ul>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_51.png" alt="" /></a>
-                    <a href="">Отзывы</a>
-                    <a href="" class="count">12</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_52.png" alt="" /></a>
-                    <a href="">Вопрос/ответ</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_53.png" alt="" /></a>
-                    <a href="">Слайдер</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_54.png" alt="" /></a>
-                    <a href="">Свойства</a>
-                </li>
-                <li>
-                    <a href="" class="img"><img src="images/left_menu_55.png" alt="" /></a>
-                    <a href="">Отзывы к продуктам</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+
+    {{ menu.render(items) }}
+
 </div>

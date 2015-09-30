@@ -26,6 +26,11 @@ class Menu
     private $authorizationChecker;
 
     /**
+     * @var array
+     */
+    private $groupColors;
+
+    /**
      * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $optionsResolver;
@@ -47,10 +52,12 @@ class Menu
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param array                                                                        $groupColors          Menu item group colors
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupColors)
     {
         $this->authorizationChecker = $authorizationChecker;
+        $this->groupColors = $groupColors;
         $this->optionsResolver = new OptionsResolver();
         $this->items = $this->groups = array();
         $this->itemsFiltered = false;
@@ -59,10 +66,10 @@ class Menu
     }
 
     /**
-     * @param string                                     $groupName Menu item group name
      * @param \Darvin\AdminBundle\Menu\MenuItemInterface $item      Menu item
+     * @param string                                     $groupName Menu item group name
      */
-    public function addItem($groupName, MenuItemInterface $item)
+    public function addItem(MenuItemInterface $item, $groupName = null)
     {
         $this->resolveItemAttributes($item);
 
@@ -72,7 +79,10 @@ class Menu
             return;
         }
         if (!isset($this->groups[$groupName])) {
-            $group = new MenuItemGroup($groupName);
+            $attributes = array(
+                'color' => isset($this->groupColors[$groupName]) ? $this->groupColors[$groupName] : '',
+            );
+            $group = new MenuItemGroup($groupName, $attributes);
             $this->resolveItemAttributes($group);
             $this->items[] = $group;
             $this->groups[$groupName] = $group;

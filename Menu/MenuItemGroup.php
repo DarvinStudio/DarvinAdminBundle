@@ -28,17 +28,19 @@ class MenuItemGroup implements MenuItemInterface
     /**
      * @var array
      */
-    private $itemAttributes;
+    private $attributes;
 
     /**
-     * @param string                                       $name  Group name
-     * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items Menu items
+     * @param string                                       $name       Group name
+     * @param array                                        $attributes Group attributes
+     * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items      Menu items
      */
-    public function __construct($name, array $items = array())
+    public function __construct($name, array $attributes = array(), array $items = array())
     {
         $this->name = $name;
+        $this->attributes = $attributes;
         $this->items = $items;
-        $this->itemAttributes = $this->generateItemAttributes();
+        $this->updateAttributes();
     }
 
     /**
@@ -86,7 +88,7 @@ class MenuItemGroup implements MenuItemInterface
      */
     public function setMenuItemAttributes(array $menuItemAttributes)
     {
-        $this->itemAttributes = $menuItemAttributes;
+        $this->attributes = $menuItemAttributes;
     }
 
     /**
@@ -94,18 +96,15 @@ class MenuItemGroup implements MenuItemInterface
      */
     public function getMenuItemAttributes()
     {
-        return $this->itemAttributes;
+        return $this->attributes;
     }
 
-    /**
-     * @return array
-     */
-    private function generateItemAttributes()
+    private function updateAttributes()
     {
-        return array(
+        $this->attributes = array_merge(array(
             'description' => sprintf('menu.group.%s.description', $this->name),
             'index_title' => sprintf('menu.group.%s.title', $this->name),
             'name'        => $this->name,
-        );
+        ), $this->attributes);
     }
 }

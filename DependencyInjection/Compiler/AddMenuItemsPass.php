@@ -46,8 +46,8 @@ class AddMenuItemsPass implements CompilerPassInterface
 
         foreach ($items as $id => $attr) {
             $menuDefinition->addMethodCall('addItem', array(
-                isset($attr[0]['group']) ? $attr[0]['group'] : null,
                 new Reference($id),
+                isset($attr[0]['group']) ? $attr[0]['group'] : null,
             ));
         }
     }

@@ -31,16 +31,14 @@ class MenuItemGroup implements MenuItemInterface
     private $attributes;
 
     /**
-     * @param string                                       $name       Group name
-     * @param array                                        $attributes Group attributes
-     * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items      Menu items
+     * @param string                                       $name  Group name
+     * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items Menu items
      */
-    public function __construct($name, array $attributes = array(), array $items = array())
+    public function __construct($name, array $items = array())
     {
         $this->name = $name;
-        $this->attributes = $attributes;
         $this->items = $items;
-        $this->updateAttributes();
+        $this->attributes = $this->generateAttributes();
     }
 
     /**
@@ -99,12 +97,15 @@ class MenuItemGroup implements MenuItemInterface
         return $this->attributes;
     }
 
-    private function updateAttributes()
+    /**
+     * @return array
+     */
+    private function generateAttributes()
     {
-        $this->attributes = array_merge(array(
+        return array(
             'description' => sprintf('menu.group.%s.description', $this->name),
             'index_title' => sprintf('menu.group.%s.title', $this->name),
             'name'        => $this->name,
-        ), $this->attributes);
+        );
     }
 }

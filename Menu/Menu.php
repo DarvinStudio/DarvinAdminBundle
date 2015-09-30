@@ -26,11 +26,6 @@ class Menu
     private $authorizationChecker;
 
     /**
-     * @var array
-     */
-    private $groupColors;
-
-    /**
      * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $optionsResolver;
@@ -52,12 +47,10 @@ class Menu
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param array                                                                        $groupColors          Menu item group colors
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupColors)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->groupColors = $groupColors;
         $this->optionsResolver = new OptionsResolver();
         $this->items = $this->groups = array();
         $this->itemsFiltered = false;
@@ -79,10 +72,7 @@ class Menu
             return;
         }
         if (!isset($this->groups[$groupName])) {
-            $attributes = array(
-                'color' => isset($this->groupColors[$groupName]) ? $this->groupColors[$groupName] : '',
-            );
-            $group = new MenuItemGroup($groupName, $attributes);
+            $group = new MenuItemGroup($groupName);
             $this->resolveItemAttributes($group);
             $this->items[] = $group;
             $this->groups[$groupName] = $group;
@@ -124,7 +114,6 @@ class Menu
         $resolver
             ->setDefaults(array(
                 'associated_object_class' => '',
-                'color'                   => '',
                 'description'             => '',
                 'new_title'               => '',
             ))
@@ -133,7 +122,6 @@ class Menu
                 'name',
             ))
             ->setAllowedTypes('associated_object_class', 'string')
-            ->setAllowedTypes('color', 'string')
             ->setAllowedTypes('description', 'string')
             ->setAllowedTypes('new_title', 'string')
             ->setAllowedTypes('index_title', 'string')

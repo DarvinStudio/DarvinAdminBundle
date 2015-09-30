@@ -634,6 +634,15 @@ h1{
 	-webkit-animation-duration: 0.3s;
 			animation-duration: 0.3s;
 	}
+.main_menu .item.image .name a {
+    color: #0a9771;
+}
+.main_menu .item.modules .name a {
+    color: #ff992c;
+}
+.main_menu .item.pages .name a {
+    color: #649ea6;
+}
 /**/
 .main_menu .img{
 	display: table;

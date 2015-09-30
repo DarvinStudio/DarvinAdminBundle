@@ -6,16 +6,14 @@
         {% set index_url = item.indexUrl %}
         {% set attr = item.menuItemAttributes %}
 
-        <div class="item{% if item.childMenuItems is not empty %} parent{% endif %}">
+        <div class="item {{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">
             <div class="img">
                 <a href="{{ index_url }}">
                     <img src="{{ asset('bundles/darvinadmin/images/main_menu_' ~ attr.name ~ '.png') }}" alt="" />
                 </a>
             </div>
             <div class="name">
-                <a href="{{ index_url }}"{% if attr.color %} style="color: {{ attr.color }};"{% endif %}>
-                    {{ attr.index_title | trans }}
-                </a>
+                <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
             </div>
             {% if attr.description %}
                 <div class="description">

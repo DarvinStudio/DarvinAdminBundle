@@ -38,12 +38,27 @@ interface MenuItemInterface
     /**
      * @return string
      */
-    public function getMenuTitle();
+    public function getIndexTitle();
+
+    /**
+     * @return string
+     */
+    public function getNewTitle();
+
+    /**
+     * @return string
+     */
+    public function getMenuName();
 
     /**
      * @return string
      */
     public function getMenuDescription();
+
+    /**
+     * @return string
+     */
+    public function getMenuColor();
 
     /**
      * @return string

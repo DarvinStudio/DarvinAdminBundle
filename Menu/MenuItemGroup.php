@@ -78,9 +78,25 @@ class MenuItemGroup implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getMenuTitle()
+    public function getIndexTitle()
     {
         return sprintf('menu.group.%s.title', $this->name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewTitle()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenuName()
+    {
+        return $this->name;
     }
 
     /**
@@ -89,6 +105,14 @@ class MenuItemGroup implements MenuItemInterface
     public function getMenuDescription()
     {
         return sprintf('menu.group.%s.description', $this->name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenuColor()
+    {
+
     }
 
     /**

@@ -409,7 +409,7 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getMenuTitle()
+    public function getIndexTitle()
     {
         return $this->meta->getBaseTranslationPrefix().'action.index.link';
     }
@@ -417,7 +417,31 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
+    public function getNewTitle()
+    {
+        return $this->meta->getBaseTranslationPrefix().'action.new.link';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenuName()
+    {
+        return $this->meta->getEntityName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getMenuDescription()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenuColor()
     {
         return null;
     }

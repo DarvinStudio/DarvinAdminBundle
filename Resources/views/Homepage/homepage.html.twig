@@ -2,6 +2,8 @@
 
 {% trans_default_domain 'admin' %}
 
+{% block heading %}Главная страница{% endblock %}
+
 {% block content %}
     {#<h1>{% trans %}homepage.action.homepage.title{% endtrans %}</h1>#}
 {##}
@@ -25,7 +27,6 @@
         {#{% endfor %}#}
     {#</ul>#}
 
-    <h1>Главная страница</h1>
     <div class="main_menu_wrap">
 
         {{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}

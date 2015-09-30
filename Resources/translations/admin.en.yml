@@ -80,7 +80,7 @@ form_collections:
 homepage:
     action:
         homepage:
-            link:  To homepage
+            link:  Go to homepage
             title: Homepage
 
 image:
@@ -109,7 +109,7 @@ interface:
     version: Release %number%
 
 layout:
-    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Release %version%
+    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Release %version%
     title:     Darvin Studio CMS Release %version%
 
 log:

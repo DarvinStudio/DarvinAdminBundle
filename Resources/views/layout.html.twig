@@ -33,160 +33,148 @@
 
     </head>
     <body>
-        <div class="container-fluid">
-            <div class="container">
-                <div class="row header">
-                    <div class="col-lg-7 header_left">
-                        <a href="" class="logo"><img src="images/logo_cms.png" alt="" title=""/></a>
-                        <a href="" class="link_site_stat">Статистика сайта</a>
-                        <a href="" class="link_site">www.online-orion.ru</a>
-                    </div>
-                    <div class="col-lg-5 header_right">
-                        <a href="" class="link_main_option">Основные настройки</a>
-                        <a href="" class="link_users">Пользователи</a>
-                        <a href="" class="logout">Выйти</a>
-                    </div>
-                </div>
-            </div>
-            <div class="main_wrap">
-                <div class="main">
-                    <div class="sidebar_wrap">
-                        <span id="sidebar_switcher">Показать меню</span>
-                        <div class="sidebar_wrap_fix">
-                            <div class="sidebar">
-                                <!-- Левое меню -->
-                                {{ admin_menu() }}
-                                <!--/ Левое меню -->
-                            </div>
+        <!-- Flash messages -->
+        {#<noscript>#}
+            {#{% for type, messages in flashes %}#}
+                {#<ul class="{{ type }}">#}
+                    {#{% for message in messages %}#}
+                        {#<li>{{ message | trans }}</li>#}
+                    {#{% endfor %}#}
+                {#</ul>#}
+            {#{% endfor %}#}
+        {#</noscript>#}
+        <!--/ Flash messages -->
+
+        {% block body %}
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="row header">
+                        <div class="col-lg-7 header_left">
+                            <a href="{{ path('darvin_admin_homepage') }}" class="logo">
+                                <img src="{{ asset('bundles/darvinadmin/images/logo_cms.png') }}"
+                                     alt="{% trans %}homepage.action.homepage.link{% endtrans %}"
+                                     title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
+                            </a>
+                            {#<a href="" class="link_site_stat">Статистика сайта</a>#}
+                            <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
                         </div>
-                    </div>
-                    <div class="content_wrap">
+                        <div class="col-lg-5 header_right">
 
-                        {% block content %}{% endblock %}
+                            {% set menu = {
+                                'configuration.action.edit.link': {
+                                    'accessible': true,
+                                    'class':      'link_main_option',
+                                    'url':        path('darvin_admin_configuration'),
+                                },
+                                'translation.action.index.link': {
+                                    'accessible': false,
+                                    'class':      '',
+                                    'url':        path('lexik_translation_grid'),
+                                },
+                                'administrator.action.index.link': {
+                                    'accessible': is_granted(
+                                        constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'),
+                                        constant('Darvin\\AdminBundle\\Entity\\Administrator::ADMINISTRATOR_CLASS')
+                                    ),
+                                    'class': 'link_users',
+                                    'url':   admin_path(
+                                        constant('Darvin\\AdminBundle\\Entity\\Administrator::ADMINISTRATOR_CLASS'),
+                                        constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
+                                    ),
+                                },
+                                'security.action.logout.link': {
+                                    'accessible': true,
+                                    'class':      'logout',
+                                    'url':        path('darvin_admin_security_logout'),
+                                },
+                            } %}
 
-                    </div>
+                            {% for title, attr in menu if attr.accessible %}
+                                <a href="{{ attr.url }}" class="{{ attr.class }}">{{ title | trans }}</a>
+                            {% endfor %}
+                            <!-- Cache clear form -->
+                            {#{{ admin_cache_clear_form() }}#}
+                            <!--/ Cache clear form -->
+                            <!-- Locale switch links -->
+                            {#
+                            {% if darvin_admin_locales | length > 1 %}
+                                <ul>
+                                    {% for locale in darvin_admin_locales %}
+                                        <li>
+                                            {% if locale == app.request.locale %}
+                                                <span>{{ ('locale.' ~ locale) | trans }}</span>
+                                            {% else %}
 
-                </div>
-            </div>
-            <div class="footer container-fluid">
-                <div class="row">
-                    <div class="col-md-5 col-lg-4">
-                        <p class="copywrite">© 2009-2015, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Версия 5.0</p>
-                    </div>
-                    <div class="col-md-7 col-lg-8">
-                        <div class="footer_contacts">
-                            <div class="mail">
-                                <span>Техническая поддержка</span>
-                                <a href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
-                            </div>
-                            <div class="phone">
-                                <span>г. Ковров</span>
-                                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-                            </div>
-                            <div class="phone">
-                                <span>г. Владимир</span>
-                                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {#
-        <noscript>
-            {% for type, messages in flashes %}
-                <ul class="{{ type }}">
-                    {% for message in messages %}
-                        <li>{{ message | trans }}</li>
-                    {% endfor %}
-                </ul>
-            {% endfor %}
-        </noscript>
+                                                {% set url = path(
+                                                    app.request.attributes.get('_route'),
+                                                    app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
+                                                ) %}
 
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
-
-            <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
-
-            {% set menu = {
-                'configuration.action.edit.link': 'darvin_admin_configuration',
-                'translation.action.index.link':  'lexik_translation_grid',
-            } %}
-
-            {% for title, route in menu %}
-                {% if route == app.request.attributes.get('_route') %}
-                    <span>{{ title | trans }}</span>
-                {% else %}
-                    <a href="{{ path(route) }}">{{ title | trans }}</a>
-                {% endif %}
-            {% endfor %}
-
-            {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
-                {% set administrator_index_url = admin_path(
-                    'Darvin\\AdminBundle\\Entity\\Administrator',
-                    constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
-                ) %}
-
-                {% if administrator_index_url != app.request.requestUri %}
-                    <a href="{{ administrator_index_url }}">{% trans %}administrator.action.index.link{% endtrans %}</a>
-                {% else %}
-                    <span>{% trans %}administrator.action.index.link{% endtrans %}</span>
-                {% endif %}
-            {% endif %}
-
-            {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::EDIT'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
-                {% set administrator_edit_url = admin_path(app.user, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) %}
-
-                {% if administrator_edit_url != app.request.requestUri %}
-                    <a href="{{ administrator_edit_url }}">{{ app.user.username }}</a>
-                {% else %}
-                    <span>{{ app.user.username }}</span>
-                {% endif %}
-            {% endif %}
-
-            {{ admin_cache_clear_form() }}
-
-            <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
-
-            {% if darvin_admin_locales | length > 1 %}
-                <ul>
-                    {% for locale in darvin_admin_locales %}
-                        <li>
-                            {% if locale == app.request.locale %}
-                                <span>{{ ('locale.' ~ locale) | trans }}</span>
-                            {% else %}
-
-                                {% set url = path(
-                                    app.request.attributes.get('_route'),
-                                    app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
-                                ) %}
-
-                                <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
+                                                <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
                             {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                            #}
+                            <!--/ Locale switch links -->
+                        </div>
+                    </div>
+                </div>
+                <div class="main_wrap">
+                    <div class="main">
+                        <div class="sidebar_wrap">
+                            <span id="sidebar_switcher">Показать меню</span>
+                            <div class="sidebar_wrap_fix">
+                                <div class="sidebar">
+                                    <!-- Левое меню -->
+                                    {{ admin_menu() }}
+                                    <!--/ Левое меню -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content_wrap">
+                            {% block breadcrumbs %}{% endblock %}
 
-            {{ admin_menu() }}
+                            <h1>{% block heading %}{% endblock %}</h1>
 
-            {% block breadcrumbs %}{% endblock %}
+                            {% block content %}{% endblock %}
 
-        {% endif %}
-
-        <h1>{% block heading %}{% endblock %}</h1>
-
-        {% block content %}{% endblock %}
-
-        <span>
-            {% trans with {
-                '%current_year%': 'now' | date('Y'),
-                '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
-            } %}
-                layout.copyright
-            {% endtrans %}
-        </span>
-        #}
+                        </div>
+                    </div>
+                </div>
+                <div class="footer container-fluid">
+                    <div class="row">
+                        <div class="col-md-5 col-lg-4">
+                            <p class="copywrite">
+                                {% trans with {
+                                    '%current_year%': 'now' | date('Y'),
+                                    '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
+                                } %}
+                                    layout.copyright
+                                {% endtrans %}
+                            </p>
+                        </div>
+                        <div class="col-md-7 col-lg-8">
+                            <div class="footer_contacts">
+                                <div class="mail">
+                                    <span>Техническая поддержка</span>
+                                    <a href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
+                                </div>
+                                <div class="phone">
+                                    <span>г. Ковров</span>
+                                    <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+                                </div>
+                                <div class="phone">
+                                    <span>г. Владимир</span>
+                                    <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
 
         {% block javascripts %}
             <script>

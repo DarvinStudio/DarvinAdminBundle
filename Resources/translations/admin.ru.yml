@@ -119,7 +119,7 @@ interface:
     version: Версия %number%
 
 layout:
-    copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Версия %version%
+    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Версия %version%
     title:     Darvin Studio CMS Версия %version%
 
 log:

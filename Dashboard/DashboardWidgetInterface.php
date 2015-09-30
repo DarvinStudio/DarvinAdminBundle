@@ -26,12 +26,12 @@ interface DashboardWidgetInterface
     public function getModuleUrl();
 
     /**
-     * @return string
-     */
-    public function getName();
-
-    /**
      * @return array Key - object class, value - permissions
      */
     public function getRequiredPermissions();
+
+    /**
+     * @return string
+     */
+    public function getName();
 }

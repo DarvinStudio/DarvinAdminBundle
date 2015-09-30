@@ -26,6 +26,11 @@ class MenuItemGroup implements MenuItemInterface
     private $items;
 
     /**
+     * @var array
+     */
+    private $itemAttributes;
+
+    /**
      * @param string                                       $name  Group name
      * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items Menu items
      */
@@ -33,6 +38,7 @@ class MenuItemGroup implements MenuItemInterface
     {
         $this->name = $name;
         $this->items = $items;
+        $this->itemAttributes = $this->generateItemAttributes();
     }
 
     /**
@@ -46,15 +52,15 @@ class MenuItemGroup implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren(array $children)
+    public function setChildMenuItems(array $childMenuItems)
     {
-        $this->items = $children;
+        $this->items = $childMenuItems;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getChildren()
+    public function getChildMenuItems()
     {
         return $this->items;
     }
@@ -78,48 +84,28 @@ class MenuItemGroup implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getIndexTitle()
+    public function setMenuItemAttributes(array $menuItemAttributes)
     {
-        return sprintf('menu.group.%s.title', $this->name);
+        $this->itemAttributes = $menuItemAttributes;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getNewTitle()
+    public function getMenuItemAttributes()
     {
-        return null;
+        return $this->itemAttributes;
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
-    public function getMenuName()
+    private function generateItemAttributes()
     {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuDescription()
-    {
-        return sprintf('menu.group.%s.description', $this->name);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuColor()
-    {
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAssociatedObjectClass()
-    {
-        return null;
+        return array(
+            'description' => sprintf('menu.group.%s.description', $this->name),
+            'index_title' => sprintf('menu.group.%s.title', $this->name),
+            'name'        => $this->name,
+        );
     }
 }

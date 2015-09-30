@@ -4,49 +4,47 @@
     {% for item in items %}
 
         {% set index_url = item.indexUrl %}
+        {% set attr = item.menuItemAttributes %}
 
-        {% if not index_url %}
-            {% set index_url = '#' %}
-        {% endif %}
-
-        <div class="item{% if item.children is not empty %} parent{% endif %}">
+        <div class="item{% if item.childMenuItems is not empty %} parent{% endif %}">
             <div class="img">
                 <a href="{{ index_url }}">
-                    <img src="{{ asset('bundles/darvinadmin/images/main_menu_' ~ item.menuName ~ '.png') }}" alt="" />
+                    <img src="{{ asset('bundles/darvinadmin/images/main_menu_' ~ attr.name ~ '.png') }}" alt="" />
                 </a>
             </div>
             <div class="name">
-                <a href="{{ index_url }}"{% if item.menuColor %} style="color: {{ item.menuColor }};"{% endif %}>
-                    {{ item.indexTitle | trans }}
+                <a href="{{ index_url }}"{% if attr.color %} style="color: {{ attr.color }};"{% endif %}>
+                    {{ attr.index_title | trans }}
                 </a>
             </div>
-            {% if item.menuDescription %}
+            {% if attr.description %}
                 <div class="description">
-                    <p>{{ item.menuDescription | trans | raw }}</p>
+                    <p>{{ attr.description | trans | raw }}</p>
                 </div>
             {% endif %}
-            {% if item.children is not empty %}
+            {% if item.childMenuItems is not empty %}
                 <div class="main_dropdown_menu_wrap">
                     <div class="top_sep"></div>
                     <div class="main_dropdown_menu">
                         <div class="main_dropdown_menu_inner">
-                            {% for child in item.children %}
+                            {% for child in item.childMenuItems %}
 
                                 {% set index_url = child.indexUrl %}
                                 {% set new_url = child.newUrl %}
+                                {% set attr = child.menuItemAttributes %}
 
                                 <div class="sub_item">
                                     <div class="img">
                                         <a href="{{ index_url }}">
-                                            <img src="{{ asset('bundles/darvinadmin/images/sub_item_' ~ child.menuName ~ '.png') }}">
+                                            <img src="{{ asset('bundles/darvinadmin/images/sub_item_' ~ attr.name ~ '.png') }}">
                                         </a>
                                     </div>
                                     <div class="name">
-                                        <a href="{{ index_url }}">{{ child.indexTitle | trans }}</a>
+                                        <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
                                     </div>
-                                    {% if new_url and child.newTitle %}
+                                    {% if new_url and attr.new_title %}
                                         <div class="sep"></div>
-                                        <a href="{{ new_url }}" class="btn">{{ child.newTitle | trans }}</a>
+                                        <a href="{{ new_url }}" class="btn">{{ attr.new_title | trans }}</a>
                                     {% endif %}
                                 </div>
                             {% endfor %}

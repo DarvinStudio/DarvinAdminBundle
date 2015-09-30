@@ -57,6 +57,11 @@ class CrudController extends Controller implements MenuItemInterface
     private $entityClass;
 
     /**
+     * @var array
+     */
+    private $menuItemAttributes;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
      * @param string                                       $entityClass     Entity class
      */
@@ -65,6 +70,12 @@ class CrudController extends Controller implements MenuItemInterface
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
         $this->entityClass = $entityClass;
+        $this->menuItemAttributes = array(
+            'associated_object_class' => $this->entityClass,
+            'index_title'             => $this->meta->getBaseTranslationPrefix().'action.index.link',
+            'name'                    => $this->meta->getEntityName(),
+            'new_title'               => $this->meta->getBaseTranslationPrefix().'action.new.link',
+        );
     }
 
     /**
@@ -366,14 +377,14 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function setChildren(array $children)
+    public function setChildMenuItems(array $childMenuItems)
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getChildren()
+    public function getChildMenuItems()
     {
         return array();
     }
@@ -409,49 +420,17 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * {@inheritdoc}
      */
-    public function getIndexTitle()
+    public function setMenuItemAttributes(array $menuItemAttributes)
     {
-        return $this->meta->getBaseTranslationPrefix().'action.index.link';
+        $this->menuItemAttributes = $menuItemAttributes;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getNewTitle()
+    public function getMenuItemAttributes()
     {
-        return $this->meta->getBaseTranslationPrefix().'action.new.link';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuName()
-    {
-        return $this->meta->getEntityName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuDescription()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuColor()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAssociatedObjectClass()
-    {
-        return $this->entityClass;
+        return $this->menuItemAttributes;
     }
 
     /**

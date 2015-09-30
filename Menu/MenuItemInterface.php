@@ -16,14 +16,14 @@ namespace Darvin\AdminBundle\Menu;
 interface MenuItemInterface
 {
     /**
-     * @param MenuItemInterface[] $children Child menu items
+     * @param MenuItemInterface[] $childMenuItems Child menu items
      */
-    public function setChildren(array $children);
+    public function setChildMenuItems(array $childMenuItems);
 
     /**
      * @return MenuItemInterface[]
      */
-    public function getChildren();
+    public function getChildMenuItems();
 
     /**
      * @return string
@@ -36,32 +36,12 @@ interface MenuItemInterface
     public function getNewUrl();
 
     /**
-     * @return string
+     * @param array $menuItemAttributes Menu item attributes
      */
-    public function getIndexTitle();
+    public function setMenuItemAttributes(array $menuItemAttributes);
 
     /**
-     * @return string
+     * @return array
      */
-    public function getNewTitle();
-
-    /**
-     * @return string
-     */
-    public function getMenuName();
-
-    /**
-     * @return string
-     */
-    public function getMenuDescription();
-
-    /**
-     * @return string
-     */
-    public function getMenuColor();
-
-    /**
-     * @return string
-     */
-    public function getAssociatedObjectClass();
+    public function getMenuItemAttributes();
 }

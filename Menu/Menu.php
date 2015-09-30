@@ -11,6 +11,8 @@
 namespace Darvin\AdminBundle\Menu;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -22,6 +24,11 @@ class Menu
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     private $authorizationChecker;
+
+    /**
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     */
+    private $optionsResolver;
 
     /**
      * @var \Darvin\AdminBundle\Menu\MenuItemInterface[]
@@ -44,8 +51,11 @@ class Menu
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
+        $this->optionsResolver = new OptionsResolver();
         $this->items = $this->groups = array();
         $this->itemsFiltered = false;
+
+        $this->configureItemAttributes($this->optionsResolver);
     }
 
     /**
@@ -54,6 +64,8 @@ class Menu
      */
     public function addItem($groupName, MenuItemInterface $item)
     {
+        $this->resolveItemAttributes($item);
+
         if (empty($groupName)) {
             $this->items[] = $item;
 
@@ -61,6 +73,7 @@ class Menu
         }
         if (!isset($this->groups[$groupName])) {
             $group = new MenuItemGroup($groupName);
+            $this->resolveItemAttributes($group);
             $this->items[] = $group;
             $this->groups[$groupName] = $group;
         }
@@ -77,6 +90,44 @@ class Menu
         $this->filterItems();
 
         return $this->items;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Menu\MenuItemInterface $item Menu item
+     *
+     * @throws \Darvin\AdminBundle\Menu\MenuException
+     */
+    private function resolveItemAttributes(MenuItemInterface $item)
+    {
+        try {
+            $item->setMenuItemAttributes($this->optionsResolver->resolve($item->getMenuItemAttributes()));
+        } catch (ExceptionInterface $ex) {
+            throw new MenuException(sprintf('Menu item attributes are invalid: "%s".', $ex->getMessage()));
+        }
+    }
+
+    /**
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
+     */
+    private function configureItemAttributes(OptionsResolver $resolver)
+    {
+        $resolver
+            ->setDefaults(array(
+                'associated_object_class' => '',
+                'color'                   => '',
+                'description'             => '',
+                'new_title'               => '',
+            ))
+            ->setRequired(array(
+                'index_title',
+                'name',
+            ))
+            ->setAllowedTypes('associated_object_class', 'string')
+            ->setAllowedTypes('color', 'string')
+            ->setAllowedTypes('description', 'string')
+            ->setAllowedTypes('new_title', 'string')
+            ->setAllowedTypes('index_title', 'string')
+            ->setAllowedTypes('name', 'string');
     }
 
     private function filterItems()
@@ -98,14 +149,15 @@ class Menu
     private function removeNeedlessItems(array $items)
     {
         foreach ($items as $key => $item) {
-            $children = $this->removeNeedlessItems($item->getChildren());
-            $item->setChildren($children);
+            $children = $this->removeNeedlessItems($item->getChildMenuItems());
+            $item->setChildMenuItems($children);
 
             if (!empty($children)) {
                 continue;
             }
 
-            $objectClass = $item->getAssociatedObjectClass();
+            $attributes = $item->getMenuItemAttributes();
+            $objectClass = $attributes['associated_object_class'];
 
             if (empty($objectClass)) {
                 $indexUrl = $item->getIndexUrl();

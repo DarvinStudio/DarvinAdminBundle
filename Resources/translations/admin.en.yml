@@ -110,6 +110,7 @@ interface:
 
 layout:
     copyright: © 2009-%current_year%, <span>Darvin Studio CMS</span> Release %version%
+    title:     Darvin Studio CMS Release %version%
 
 log:
     action:

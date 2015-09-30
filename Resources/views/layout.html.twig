@@ -1,156 +1,181 @@
-{% extends '::base.html.twig' %}
-
 {% set flashes = app.session.flashBag.all %}
 
 {% trans_default_domain 'admin' %}
 
-{% block stylesheets %}
-    <link href="{{ asset('bundles/darvinadmin/stylesheets/jquery-ui.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/darvinadmin/stylesheets/jquery-ui-timepicker-addon.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/a2lixtranslationform/css/a2lix_translation_default.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/darvinadmin/stylesheets/dropzone.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/darvinadmin/stylesheets/fancybox.css') }}" rel="stylesheet">
-    <link href="{{ asset('bundles/darvinadmin/stylesheets/app.css') }}" rel="stylesheet">
-{% endblock %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>
 
-{% block body %}
-    <noscript>
-        {% for type, messages in flashes %}
-            <ul class="{{ type }}">
-                {% for message in messages %}
-                    <li>{{ message | trans }}</li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </noscript>
+            {% block title %}
+                {% trans with { '%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}layout.title{% endtrans %}
+            {% endblock %}
 
-    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-        <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
+        </title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
+        {% block stylesheets %}
+            {# Core #}
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/bootstrap.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/jquery-ui.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/jquery-ui-timepicker-addon.css') }}" rel="stylesheet">
+            {# Vendor #}
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/dropzone.css') }}" rel="stylesheet">
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/fancybox.css') }}" rel="stylesheet">
+            {# Third party bundles #}
+            <link href="{{ asset('bundles/a2lixtranslationform/css/a2lix_translation_default.css') }}" rel="stylesheet">
+            {# App #}
+            <link href="{{ asset('bundles/darvinadmin/stylesheets/app.css') }}" rel="stylesheet" media="screen, projection">
+        {% endblock %}
 
-        {% set menu = {
-            'configuration.action.edit.link': 'darvin_admin_configuration',
-            'translation.action.index.link':  'lexik_translation_grid',
-        } %}
-
-        {% for title, route in menu %}
-            {% if route == app.request.attributes.get('_route') %}
-                <span>{{ title | trans }}</span>
-            {% else %}
-                <a href="{{ path(route) }}">{{ title | trans }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
-            {% set administrator_index_url = admin_path(
-                'Darvin\\AdminBundle\\Entity\\Administrator',
-                constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
-            ) %}
-
-            {% if administrator_index_url != app.request.requestUri %}
-                <a href="{{ administrator_index_url }}">{% trans %}administrator.action.index.link{% endtrans %}</a>
-            {% else %}
-                <span>{% trans %}administrator.action.index.link{% endtrans %}</span>
-            {% endif %}
-        {% endif %}
-
-        {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::EDIT'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
-            {% set administrator_edit_url = admin_path(app.user, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) %}
-
-            {% if administrator_edit_url != app.request.requestUri %}
-                <a href="{{ administrator_edit_url }}">{{ app.user.username }}</a>
-            {% else %}
-                <span>{{ app.user.username }}</span>
-            {% endif %}
-        {% endif %}
-
-        {{ admin_cache_clear_form() }}
-
-        <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
-
-        {% if darvin_admin_locales | length > 1 %}
-            <ul>
-                {% for locale in darvin_admin_locales %}
-                    <li>
-                        {% if locale == app.request.locale %}
-                            <span>{{ ('locale.' ~ locale) | trans }}</span>
-                        {% else %}
-
-                            {% set url = path(
-                                app.request.attributes.get('_route'),
-                                app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
-                            ) %}
-
-                            <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        {{ admin_menu() }}
-
-        {% block breadcrumbs %}{% endblock %}
-
-    {% endif %}
-
-    <h1>{% block heading %}{% endblock %}</h1>
-
-    {% block content %}{% endblock %}
-
-    <span>
-        {% trans with {
-            '%current_year%': 'now' | date('Y'),
-            '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
-        } %}
-            layout.copyright
-        {% endtrans %}
-    </span>
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        var LOCALE                   = '{{ app.request.locale }}';
-        var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
-    </script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/jquery.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/ui.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-ru.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/noty.js') }}"></script>
-
-    <script src="{{ asset('bundles/darvinadmin/scripts/dropzone.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/jquery/fancybox.js') }}"></script>
-
-    <script src="{{ asset('bundles/a2lixtranslationform/js/a2lix_translation_default.js') }}"></script>
-    <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-    <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales=en,{{ app.request.locale }}"></script>
-
-    <script src="{{ asset('bundles/darvinadmin/scripts/globals.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/yandex-translator.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/ajax-forms.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/date-time-pickers-init.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/dropzone-init.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/fancybox-init.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/images.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/noty-init.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/form-collections.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/property-forms.js') }}"></script>
-    <script src="{{ asset('bundles/darvinadmin/scripts/translations-sync.js') }}"></script>
-    <script>
-        $.fancybox.defaults.locale = '{{ app.request.locale }}';
-        Translator.locale = '{{ app.request.locale }}';
-    </script>
-    <script>
-        {% for type, messages in flashes %}
-            {% for message in messages %}
-                noty({
-                    text: '{{ message | trans }}',
-                    type: '{{ type }}'
-                });
+    </head>
+    <body>
+        <noscript>
+            {% for type, messages in flashes %}
+                <ul class="{{ type }}">
+                    {% for message in messages %}
+                        <li>{{ message | trans }}</li>
+                    {% endfor %}
+                </ul>
             {% endfor %}
-        {% endfor %}
-    </script>
-{% endblock %}
+        </noscript>
+
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <a href="{{ path('darvin_admin_homepage') }}"><h2>{% trans %}homepage.action.homepage.link{% endtrans %}</h2></a>
+
+            <a href="{{ darvin_admin_project_url }}">{{ darvin_admin_project_title }}</a>
+
+            {% set menu = {
+                'configuration.action.edit.link': 'darvin_admin_configuration',
+                'translation.action.index.link':  'lexik_translation_grid',
+            } %}
+
+            {% for title, route in menu %}
+                {% if route == app.request.attributes.get('_route') %}
+                    <span>{{ title | trans }}</span>
+                {% else %}
+                    <a href="{{ path(route) }}">{{ title | trans }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
+                {% set administrator_index_url = admin_path(
+                    'Darvin\\AdminBundle\\Entity\\Administrator',
+                    constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
+                ) %}
+
+                {% if administrator_index_url != app.request.requestUri %}
+                    <a href="{{ administrator_index_url }}">{% trans %}administrator.action.index.link{% endtrans %}</a>
+                {% else %}
+                    <span>{% trans %}administrator.action.index.link{% endtrans %}</span>
+                {% endif %}
+            {% endif %}
+
+            {% if is_granted(constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::EDIT'), 'Darvin\\AdminBundle\\Entity\\Administrator') %}
+                {% set administrator_edit_url = admin_path(app.user, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) %}
+
+                {% if administrator_edit_url != app.request.requestUri %}
+                    <a href="{{ administrator_edit_url }}">{{ app.user.username }}</a>
+                {% else %}
+                    <span>{{ app.user.username }}</span>
+                {% endif %}
+            {% endif %}
+
+            {{ admin_cache_clear_form() }}
+
+            <a href="{{ path('darvin_admin_security_logout') }}">{% trans %}security.action.logout.link{% endtrans %}</a>
+
+            {% if darvin_admin_locales | length > 1 %}
+                <ul>
+                    {% for locale in darvin_admin_locales %}
+                        <li>
+                            {% if locale == app.request.locale %}
+                                <span>{{ ('locale.' ~ locale) | trans }}</span>
+                            {% else %}
+
+                                {% set url = path(
+                                    app.request.attributes.get('_route'),
+                                    app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
+                                ) %}
+
+                                <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {{ admin_menu() }}
+
+            {% block breadcrumbs %}{% endblock %}
+
+        {% endif %}
+
+        <h1>{% block heading %}{% endblock %}</h1>
+
+        {% block content %}{% endblock %}
+
+        <span>
+            {% trans with {
+                '%current_year%': 'now' | date('Y'),
+                '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
+            } %}
+                layout.copyright
+            {% endtrans %}
+        </span>
+
+        {% block javascripts %}
+            <script>
+                var LOCALE                   = '{{ app.request.locale }}';
+                var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
+            </script>
+            {# Core #}
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/jquery.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/ui.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-ru.js') }}"></script>
+            {# Vendor #}
+            <script src="{{ asset('bundles/darvinadmin/scripts/bootstrap.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/dropzone.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/fancybox.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/noty.js') }}"></script>
+            {# Third party bundles #}
+            <script src="{{ asset('bundles/a2lixtranslationform/js/a2lix_translation_default.js') }}"></script>
+            <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+            <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales=en,{{ app.request.locale }}"></script>
+            {# App modules #}
+            <script src="{{ asset('bundles/darvinadmin/scripts/globals.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/yandex-translator.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/ajax-forms.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/date-time-pickers-init.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/dropzone-init.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/fancybox-init.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/images.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/noty-init.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/form-collections.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/property-forms.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/translations-sync.js') }}"></script>
+            {# App #}
+            <script src="{{ asset('bundles/darvinadmin/scripts/app.js') }}"></script>
+            <script>
+                $.fancybox.defaults.locale = '{{ app.request.locale }}';
+                Translator.locale = '{{ app.request.locale }}';
+            </script>
+            <script>
+                {% for type, messages in flashes %}
+                    {% for message in messages %}
+                        noty({
+                            text: '{{ message | trans }}',
+                            type: '{{ type }}'
+                        });
+                    {% endfor %}
+                {% endfor %}
+            </script>
+        {% endblock %}
+
+    </body>
+</html>

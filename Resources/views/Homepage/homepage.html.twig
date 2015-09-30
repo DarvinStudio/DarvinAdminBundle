@@ -3,25 +3,170 @@
 {% trans_default_domain 'admin' %}
 
 {% block content %}
-    <h1>{% trans %}homepage.action.homepage.title{% endtrans %}</h1>
+    {#<h1>{% trans %}homepage.action.homepage.title{% endtrans %}</h1>#}
+{##}
+    {#{{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}#}
+{##}
+    {#<ul>#}
+        {#{% for name, widget in dashboard.widgets %}#}
+            {#<li>#}
+                {#<div>#}
+                    {#<span class="{{ name }}"></span>#}
+                    {#<span>#}
+                        {#{{ ('dashboard.widget.' ~ name ~ '.title') | trans }}<br>#}
+                        {#{{ ('dashboard.widget.' ~ name ~ '.description') | trans }}#}
+                    {#</span>#}
+                    {#{% if widget.moduleUrl %}#}
+                        {#<a href="{{ widget.moduleUrl }}">{% trans %}dashboard.widget.module_link{% endtrans %}</a>#}
+                    {#{% endif %}#}
+                {#</div>#}
+                {#<div>{{ widget.content | raw }}</div>#}
+            {#</li>#}
+        {#{% endfor %}#}
+    {#</ul>#}
 
-    {{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}
+    <h1>Главная страница</h1>
+    <div class="main_menu_wrap">
 
-    <ul>
-        {% for name, widget in dashboard.widgets %}
-            <li>
-                <div>
-                    <span class="{{ name }}"></span>
-                    <span>
-                        {{ ('dashboard.widget.' ~ name ~ '.title') | trans }}<br>
-                        {{ ('dashboard.widget.' ~ name ~ '.description') | trans }}
-                    </span>
-                    {% if widget.moduleUrl %}
-                        <a href="{{ widget.moduleUrl }}">{% trans %}dashboard.widget.module_link{% endtrans %}</a>
-                    {% endif %}
+        {{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}
+
+    </div>
+    <!-- Последние добавленные отзывы -->
+    <div class="index_modul spoiler_container">
+        <div class="index_modul_header">
+            <div class="index_modul_header_content spoiler_links">
+                <div class="spoiler_arrow"><img src="images/spoiler_arrow.png" alt="" /></div>
+                <div class="index_modul_icon"><img src="images/index_modul_icon_1.png" alt="" /></div>
+                <div class="index_modul_name">
+                    <p class="tit">Последние добавленные отзывы</p>
+                    <p>Одобрите те отзывы, которые вам хочется увидеть в разделе «Отзывы»</p>
                 </div>
-                <div>{{ widget.content | raw }}</div>
-            </li>
-        {% endfor %}
-    </ul>
+            </div>
+            <div class="to_modul"><a href="">Перейти в модуль</a></div>
+        </div>
+        <div class="index_modul_content spoiler_body">
+            <!-- содержание спойлера -->
+            <div class="index_modul_item">
+                <div class="index_modul_item_tit">
+                    <div class="edit_elements">
+                        <a href="" class="edit_element edit"><img src="images/edit_element_edit.png" alt="" /></a>
+                        <a href="" class="edit_element delete"><img src="images/edit_element_delete.png" alt="" /></a>
+                        <!-- обратное состояние -->
+                        <a href="" class="edit_element visible"><img src="images/edit_element_visible_active.png" alt="" /></a>
+                    </div>
+                    <span>Денис Сергеевич</span>
+                    <span>08.10.2013</span>
+                    <span>damagevs@gmai</span>
+                </div>
+                <div class="index_modul_item_text">
+                    <p>Отличный магазин, вежливые менеджеры, всё обьяснили, помогли. Покупал книгу, а вернее «Анти-бук» как помыться в московском метро, отличное качество книг, буду рекомендовать этот магазин всем своим друзьям, спасибо! </p>
+                </div>
+            </div>
+            <div class="index_modul_item">
+                <div class="index_modul_item_tit">
+                    <div class="edit_elements">
+                        <a href="" class="edit_element edit"><img src="images/edit_element_edit.png" alt="" /></a>
+                        <a href="" class="edit_element delete"><img src="images/edit_element_delete.png" alt="" /></a>
+                        <a href="" class="edit_element visible"><img src="images/edit_element_visible.png" alt="" /></a>
+                    </div>
+                    <span>Денис Сергеевич</span>
+                    <span>08.10.2013</span>
+                    <span>dtest@test.ru</span>
+                </div>
+                <div class="index_modul_item_text">
+                    <p>Впечатления о сайте и магазине очень хорошее: на сайте представлена подробная информация о товаре. Порадовал также широкий выбор и умеренные цены. По всем вопросам приобретения и доставки мне довелось общаться с менеджером. Понравилось внимательное и качественное обслуживание</p>
+                </div>
+            </div>
+            <div class="index_modul_item">
+                <div class="index_modul_item_tit">
+                    <div class="edit_elements">
+                        <a href="" class="edit_element edit"><img src="images/edit_element_edit.png" alt="" /></a>
+                        <a href="" class="edit_element delete"><img src="images/edit_element_delete.png" alt="" /></a>
+                        <a href="" class="edit_element visible"><img src="images/edit_element_visible.png" alt="" /></a>
+                    </div>
+                    <span>Денис Сергеевич</span>
+                    <span>08.10.2013</span>
+                    <span>test@test.ru</span>
+                </div>
+                <div class="index_modul_item_text">
+                    <p>Несколько раз обращалась сюда. Очень быстро реагируют на заказ, менеджеры связываются практически мгновенно. Очень понравилась консультация специалиста - долго выбирала сама, никак не могла решить Менеджер магазина все очень грамотно и доступно объяснил. Также порадовала доставка через 2 дня.</p>
+                </div>
+            </div>
+            <!--/ содержание спойлера -->
+        </div>
+    </div>
+    <!--/ Последние добавленные отзывы -->
+    <!-- Помощь по сайту -->
+    <div class="index_modul spoiler_container">
+        <div class="index_modul_header">
+            <div class="index_modul_header_content spoiler_links">
+                <div class="spoiler_arrow"><img src="images/spoiler_arrow.png" alt="" /></div>
+                <div class="index_modul_icon"><img src="images/index_modul_icon_4.png" alt="" /></div>
+                <div class="index_modul_name">
+                    <p class="tit">Помощь по сайту</p>
+                    <p>Начните изучать DarvinCMS с этого раздела</p>
+                </div>
+            </div>
+            <div class="to_modul"><a href="">Перейти в модуль</a></div>
+        </div>
+        <div class="index_modul_content spoiler_body">
+            <!-- содержание спойлера -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-5">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6 help_list">
+                                    <p>Базовые возможности</p>
+                                    <ul>
+                                        <li><a href="">Добавление разделов</a></li>
+                                        <li><a href="">Удаление и редактирование</a></li>
+                                        <li><a href="">Настройка количества материалов</a></li>
+                                        <li><a href="">Регистрация пользователей</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-6 help_list">
+                                    <p>Для продвинутых пользователей</p>
+                                    <ul>
+                                        <li><a href="">Редактирование html кода</a></li>
+                                        <li><a href="">Редактирование CSS стилей</a></li>
+                                        <li><a href="">Просмотр базы данных</a></li>
+                                        <li><a href="">Где купить бубны для танцев</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <!-- видео рандомные для проверки, заменены картинками чтобы лишнего не подгружалось -->
+                        <div class="help_videos">
+                            <div class="item">
+                                <div class="video">
+                                    <img src="images/help_video_1.jpg" alt="" />
+                                    <!--<iframe width="179" height="101" src="https://www.youtube.com/embed/58oMb-Sq2QU" frameborder="0" allowfullscreen></iframe>-->
+                                </div>
+                                <a href="">Как все начиналось...</a>
+                            </div>
+                            <div class="item">
+                                <div class="video">
+                                    <img src="images/help_video_2.jpg" alt="" />-->
+                                    <!--<iframe width="179" height="101" src="https://www.youtube.com/embed/58oMb-Sq2QU" frameborder="0" allowfullscreen></iframe>-->
+                                </div>
+                                <a href="">Продвижение сайта</a>
+                            </div>
+                            <div class="item">
+                                <div class="video">
+                                    <img src="images/help_video_3.jpg" alt="" />-->
+                                    <!--<iframe width="179" height="101" src="https://www.youtube.com/embed/58oMb-Sq2QU" frameborder="0" allowfullscreen></iframe>-->
+                                </div>
+                                <a href="">Оптимизация сайта</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ содержание спойлера -->
+        </div>
+    </div>
+    <!--/ Помощь по сайту -->
 {% endblock %}

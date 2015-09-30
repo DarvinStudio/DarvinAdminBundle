@@ -1,15 +1,15 @@
-{% set flashes = app.session.flashBag.all %}
+{%- set flashes = app.session.flashBag.all -%}
 
-{% trans_default_domain 'admin' %}
+{%- trans_default_domain 'admin' -%}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>
 
-            {% block title %}
+            {%- block title -%}
                 {% trans with { '%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}layout.title{% endtrans %}
-            {% endblock %}
+            {%- endblock -%}
 
         </title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -33,6 +33,65 @@
 
     </head>
     <body>
+        <div class="container-fluid">
+            <div class="container">
+                <div class="row header">
+                    <div class="col-lg-7 header_left">
+                        <a href="" class="logo"><img src="images/logo_cms.png" alt="" title=""/></a>
+                        <a href="" class="link_site_stat">Статистика сайта</a>
+                        <a href="" class="link_site">www.online-orion.ru</a>
+                    </div>
+                    <div class="col-lg-5 header_right">
+                        <a href="" class="link_main_option">Основные настройки</a>
+                        <a href="" class="link_users">Пользователи</a>
+                        <a href="" class="logout">Выйти</a>
+                    </div>
+                </div>
+            </div>
+            <div class="main_wrap">
+                <div class="main">
+                    <div class="sidebar_wrap">
+                        <span id="sidebar_switcher">Показать меню</span>
+                        <div class="sidebar_wrap_fix">
+                            <div class="sidebar">
+                                <!-- Левое меню -->
+                                {{ admin_menu() }}
+                                <!--/ Левое меню -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content_wrap">
+
+                        {% block content %}{% endblock %}
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="footer container-fluid">
+                <div class="row">
+                    <div class="col-md-5 col-lg-4">
+                        <p class="copywrite">© 2009-2015, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Версия 5.0</p>
+                    </div>
+                    <div class="col-md-7 col-lg-8">
+                        <div class="footer_contacts">
+                            <div class="mail">
+                                <span>Техническая поддержка</span>
+                                <a href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
+                            </div>
+                            <div class="phone">
+                                <span>г. Ковров</span>
+                                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+                            </div>
+                            <div class="phone">
+                                <span>г. Владимир</span>
+                                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         {#
         <noscript>
             {% for type, messages in flashes %}

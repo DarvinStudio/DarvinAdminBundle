@@ -72,6 +72,7 @@ class CrudController extends Controller implements MenuItemInterface
         $this->entityClass = $entityClass;
         $this->menuItemAttributes = array(
             'associated_object_class' => $this->entityClass,
+            'description'             => $this->meta->getBaseTranslationPrefix().'menu.description',
             'index_title'             => $this->meta->getBaseTranslationPrefix().'action.index.link',
             'name'                    => $this->meta->getEntityName(),
             'new_title'               => $this->meta->getBaseTranslationPrefix().'action.new.link',

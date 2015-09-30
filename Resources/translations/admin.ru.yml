@@ -110,6 +110,8 @@ image:
         extension: Формат
         image:     Изображение
         name:      Название
+    menu:
+        description: Загружайте и управляйте изображениями, которые размещены на сайте.
     size:
         darvin_admin: Стандартный
     sizes: Размеры
@@ -148,6 +150,8 @@ log:
         object_name: Объект
         username:    Пользователь
         version:     Версия
+    menu:
+        description: ""
 
 property_forms:
     submit: Сохранить

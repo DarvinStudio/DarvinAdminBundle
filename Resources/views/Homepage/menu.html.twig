@@ -5,6 +5,10 @@
 
         {% set index_url = item.indexUrl %}
 
+        {% if not index_url %}
+            {% set index_url = '#' %}
+        {% endif %}
+
         <div class="item{% if item.children is not empty %} parent{% endif %}">
             <div class="img">
                 <a href="{{ index_url }}">

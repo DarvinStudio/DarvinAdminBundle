@@ -33,6 +33,7 @@
 
     </head>
     <body>
+        {#
         <noscript>
             {% for type, messages in flashes %}
                 <ul class="{{ type }}">
@@ -126,6 +127,7 @@
                 layout.copyright
             {% endtrans %}
         </span>
+        #}
 
         {% block javascripts %}
             <script>

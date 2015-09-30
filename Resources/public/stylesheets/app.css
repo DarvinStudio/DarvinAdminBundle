@@ -10,7 +10,7 @@ body {
     padding: 0;
 	height: 100%;
 	width: 100%;
-	background: #eaeaec url(images/bg.jpg) center top no-repeat;
+	background: #eaeaec url(../images/bg.jpg) center top no-repeat;
 	background-size: 100% 100%;
 	font-family: 'Open Sans', sans-serif;
 }
@@ -65,7 +65,7 @@ h1{
 	color: #5a6a8b;
 	font: 600 13px/25px 'Open Sans';
 	text-decoration: none;
-	background: url(images/link_site_stat.png) left center no-repeat;
+	background: url(../images/link_site_stat.png) left center no-repeat;
 	margin: 33px 30px 0 0;
 	float: left;
 }
@@ -87,14 +87,14 @@ h1{
 	color: #5a6a8b;
 	text-decoration: none;
 	padding: 0 12px 0 35px;
-	background: url(images/link_main_option.png) 10px center no-repeat;
+	background: url(../images/link_main_option.png) 10px center no-repeat;
 	border: 2px solid transparent;
 	border-radius: 4px;
 	float: left;
 	margin: 27px 8px 0 0;
 }
 .header .link_main_option:hover{
-	background: #fff url(images/link_main_option.png) 10px center no-repeat;
+	background: #fff url(../images/link_main_option.png) 10px center no-repeat;
 	border: 2px solid #b4bfd5;
 }
 
@@ -104,14 +104,14 @@ h1{
 	color: #5a6a8b;
 	text-decoration: none;
 	padding: 0 12px 0 35px;
-	background: url(images/link_users.png) 10px center no-repeat;
+	background: url(../images/link_users.png) 10px center no-repeat;
 	border: 2px solid transparent;
 	border-radius: 4px;
 	float: left;
 	margin: 27px 8px 0 0;
 }
 .header .link_users:hover{
-	background: #fff url(images/link_users.png) 10px center no-repeat;
+	background: #fff url(../images/link_users.png) 10px center no-repeat;
 	border: 2px solid #b4bfd5;
 }
 .header .logout{
@@ -120,7 +120,7 @@ h1{
 	color: #898989;
 	text-decoration: none;
 	padding: 0 22px 0 35px;
-	background: url(images/logout.png) 10px center no-repeat;
+	background: url(../images/logout.png) 10px center no-repeat;
 	border: 2px solid transparent;
 	float: left;
 	margin: 27px 8px 0 0;
@@ -131,7 +131,7 @@ h1{
 /************************************************************************************************************/
 .footer{
 	padding-top: 20px;
-	background: url(images/footer_shadow.png) center top no-repeat;
+	background: url(../images/footer_shadow.png) center top no-repeat;
 	background-size: 100% 40px;
 	height: 80px;
 }
@@ -155,11 +155,11 @@ h1{
 }
 .footer_contacts div.phone{
 	padding: 0 0 0 40px;
-	background: url(images/footer_contacts_phone.png) left center no-repeat;
+	background: url(../images/footer_contacts_phone.png) left center no-repeat;
 }
 .footer_contacts div.mail{
 	padding: 0 0 0 25px;
-	background: url(images/footer_contacts_mail.png) left center no-repeat;
+	background: url(../images/footer_contacts_mail.png) left center no-repeat;
 }
 .footer .copywrite{
 	font: 14px/36px 'Open Sans';
@@ -297,7 +297,7 @@ h1{
 	right: auto;
 	/*left: 256px;*/
 	top: -30px;
-	background: url(images/sidebar_switcher.png) left top no-repeat;
+	background: url(../images/sidebar_switcher.png) left top no-repeat;
 	padding: 0 28px 0 20px;
 	font: 12px/30px 'Open Sans';
 	color: #ffffff;
@@ -316,7 +316,7 @@ h1{
 	top: 11px;
 	right: 7px;
 	font-size: 0px;
-	background: url(images/sidebar_switcher_arrow.png) center center no-repeat;
+	background: url(../images/sidebar_switcher_arrow.png) center center no-repeat;
 }
 
 #sidebar_switcher.active{
@@ -334,7 +334,7 @@ h1{
 	top: 11px;
 	left: 16px;
 	font-size: 0px;
-	background: url(images/sidebar_switcher_arrow_active.png) center center no-repeat;
+	background: url(../images/sidebar_switcher_arrow_active.png) center center no-repeat;
 }
 /************************************************************************************************************/
 /**                                              LEFT MENU                                                 **/
@@ -356,15 +356,15 @@ h1{
 	text-shadow: 0 1px 0 #2e2e2e;
 	text-decoration: none;
 }
-.left_menu ul li.left_menu_banners{ background: url(images/left_menu_banners.png) left top no-repeat;}
+.left_menu ul li.left_menu_banners{ background: url(../images/left_menu_banners.png) left top no-repeat;}
 .left_menu ul li.left_menu_banners > a{ color: #bfbbf3;}
-.left_menu ul li.left_menu_orders{ background: url(images/left_menu_orders.png) left top no-repeat; }
+.left_menu ul li.left_menu_orders{ background: url(../images/left_menu_orders.png) left top no-repeat; }
 .left_menu ul li.left_menu_orders > a{ color: #d8e88f; }
-.left_menu ul li.left_menu_sections{ background: url(images/left_menu_sections.png) left top no-repeat;}
+.left_menu ul li.left_menu_sections{ background: url(../images/left_menu_sections.png) left top no-repeat;}
 .left_menu ul li.left_menu_sections > a{ color: #b8f0e1;}
-.left_menu ul li.left_menu_publications{ background: url(images/left_menu_publications.png) left top no-repeat;}
+.left_menu ul li.left_menu_publications{ background: url(../images/left_menu_publications.png) left top no-repeat;}
 .left_menu ul li.left_menu_publications > a{ color: #eca7a8; }
-.left_menu ul li.left_menu_moduls{ background: url(images/left_menu_moduls.png) left top no-repeat;}
+.left_menu ul li.left_menu_moduls{ background: url(../images/left_menu_moduls.png) left top no-repeat;}
 .left_menu ul li.left_menu_moduls > a{ color: #f7d39e;}
 
 
@@ -434,7 +434,7 @@ h1{
 	margin: 0 0 40px;
 }
 .index_modul_header{
-	background: #f5f5f5 url(images/index_modul_header.png) no-repeat;
+	background: #f5f5f5 url(../images/index_modul_header.png) no-repeat;
 	background-size: 100% 100%;
 	border-bottom: 1px solid #b6d2dd;
 	display: table;
@@ -457,7 +457,7 @@ h1{
 	color: #4f5964;
 	padding: 0 17px 0 0;
 	text-decoration: none;
-	background: url(images/to_modul.png) right center no-repeat;
+	background: url(../images/to_modul.png) right center no-repeat;
 }
 .spoiler_arrow{
 	float: left;
@@ -558,7 +558,7 @@ h1{
 .help_list ul{
 	padding: 0px 20px 10px 17px;
 	margin: 0 0 0 -1px;
-	list-style-image: url(images/help_list_li.png);
+	list-style-image: url(../images/help_list_li.png);
 	list-style-position:outside ;
 }
 .help_list  li{ 
@@ -664,7 +664,7 @@ h1{
 	display: inline-block;
 	width: 20px;
 	color: #fff;
-	background: url(images/spoiler_arrow.png) center center no-repeat;
+	background: url(../images/spoiler_arrow.png) center center no-repeat;
 }
 .main_menu .description{
 	padding: 0 0 10px;
@@ -689,7 +689,7 @@ h1{
 	display: block;
 	height: auto;
 	max-height: 0;
-	background: #e9f1ed url(images/main_dropdown_menu_bg.jpg) no-repeat;
+	background: #e9f1ed url(../images/main_dropdown_menu_bg.jpg) no-repeat;
 	background-size: 100% 100%;
 	position: absolute;
 	width: 100%;
@@ -699,7 +699,7 @@ h1{
 .main_menu .top_sep{
 	display: block;
 	height: 10px;
-	background: #e9f1ed url(images/sub_item_top.png) center center no-repeat;
+	background: #e9f1ed url(../images/sub_item_top.png) center center no-repeat;
 	position: relative;
 	width: auto;
 	margin: 0 -2000px;

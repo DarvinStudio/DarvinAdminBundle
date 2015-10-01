@@ -45,4 +45,12 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     {
         return array();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIcon()
+    {
+        return null;
+    }
 }

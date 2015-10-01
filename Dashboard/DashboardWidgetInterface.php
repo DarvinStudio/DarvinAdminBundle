@@ -34,4 +34,9 @@ interface DashboardWidgetInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * @return string
+     */
+    public function getIcon();
 }

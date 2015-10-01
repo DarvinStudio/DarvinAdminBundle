@@ -115,6 +115,8 @@ class Menu
             ->setDefaults(array(
                 'associated_object_class' => '',
                 'description'             => '',
+                'homepage_menu_icon'      => '',
+                'left_menu_icon'          => '',
                 'new_title'               => '',
             ))
             ->setRequired(array(

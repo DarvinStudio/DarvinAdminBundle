@@ -54,6 +54,8 @@ configuration:
         parameter:
             permissions: Permissions
         title: The "Administration panel" module security configuration
+    menu:
+        description: Script configuration and common settings, per page items count managing.
 
 dashboard:
     widget:

@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.configuration.configurations_form_type.class: Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType
 
+    darvin_admin.configuration.controller.class: Darvin\AdminBundle\Controller\ConfigurationController
+
 services:
     darvin_admin.configuration.configuration:
         class: %darvin_admin.configuration.configuration.class%
@@ -17,3 +19,10 @@ services:
             - "@darvin_config.configuration.pool"
         tags:
             - { name: form.type, alias: darvin_admin_configurations }
+
+    darvin_admin.configuration.controller:
+        class: %darvin_admin.configuration.controller.class%
+        calls:
+            - [ setContainer, [ "@service_container" ] ]
+        tags:
+            - { name: darvin_admin.menu_item }

@@ -54,6 +54,8 @@ configuration:
         parameter:
             permissions: Права
         title: Настройки безопасности модуля «Панель администрирования»
+    menu:
+        description: Настройка и общие параметры скрипта, изменение количества записей на странице.
 
 dashboard:
     widget:

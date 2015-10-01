@@ -10,14 +10,28 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Configuration controller
  */
-class ConfigurationController extends Controller
+class ConfigurationController extends Controller implements MenuItemInterface
 {
+    /**
+     * @var array
+     */
+    private $menuItemAttributes;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->menuItemAttributes = $this->generateMenuItemAttributes();
+    }
+
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
@@ -49,6 +63,66 @@ class ConfigurationController extends Controller
         return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setChildMenuItems(array $childMenuItems)
+    {
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildMenuItems()
+    {
+        return array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIndexUrl()
+    {
+        return $this->generateUrl('darvin_admin_configuration');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getNewUrl()
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMenuItemAttributes(array $menuItemAttributes)
+    {
+        $this->menuItemAttributes = $menuItemAttributes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getMenuItemAttributes()
+    {
+        return $this->menuItemAttributes;
+    }
+
+    /**
+     * @return array
+     */
+    private function generateMenuItemAttributes()
+    {
+        return array(
+            'description'        => 'configuration.menu.description',
+            'homepage_menu_icon' => 'bundles/darvinadmin/images/icons/homepage/configuration.png',
+            'index_title'        => 'configuration.action.edit.link',
+            'name'               => 'configuration',
+        );
     }
 
     /**

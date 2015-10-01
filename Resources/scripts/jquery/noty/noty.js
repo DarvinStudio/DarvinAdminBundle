@@ -510,7 +510,7 @@
             close : {height: 'toggle'},
             easing: 'swing',
             speed : 500,
-            fadeSpeed: 'fast',
+            fadeSpeed: 'fast'
         },
         timeout     : false,
         force       : false,

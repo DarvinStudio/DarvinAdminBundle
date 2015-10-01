@@ -1,4 +1,8 @@
+{%- set cookie_names = {
+    sidebar: 'DARVINADMINSIDEBAR',
+} -%}
 {%- set flashes = app.session.flashBag.all -%}
+{%- set sidebar_active = app.request.cookies.get(cookie_names.sidebar) -%}
 
 {%- trans_default_domain 'admin' -%}
 
@@ -113,10 +117,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="main_wrap">
+                <div class="main_wrap{% if sidebar_active %} active{% endif %}">
                     <div class="main">
-                        <div class="sidebar_wrap">
-                            <span id="sidebar_switcher">{% trans %}layout.menu.expand{% endtrans %}</span>
+                        <div class="sidebar_wrap{% if sidebar_active %} active{% endif %}">
+                            <span id="sidebar_switcher"{% if sidebar_active %} class="active"{% endif %}>
+                                {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand') | trans }}
+                            </span>
                             <div class="sidebar_wrap_fix">
                                 <div class="sidebar">
 
@@ -125,7 +131,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="content_wrap">
+                        <div class="content_wrap{% if app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
                             {% block breadcrumbs %}{% endblock %}
 
                             <h1>{% block heading %}{% endblock %}</h1>
@@ -165,6 +171,7 @@
 
         {% block javascripts %}
             <script>
+                var COOKIE_SIDEBAR           = '{{ cookie_names.sidebar }}';
                 var LOCALE                   = '{{ app.request.locale }}';
                 var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
             </script>
@@ -177,6 +184,7 @@
             {# Vendor #}
             <script src="{{ asset('bundles/darvinadmin/scripts/bootstrap.js') }}"></script>
             <script src="{{ asset('bundles/darvinadmin/scripts/dropzone.js') }}"></script>
+            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/cookie.js') }}"></script>
             <script src="{{ asset('bundles/darvinadmin/scripts/jquery/fancybox.js') }}"></script>
             <script src="{{ asset('bundles/darvinadmin/scripts/jquery/noty.js') }}"></script>
             {# Third party bundles #}

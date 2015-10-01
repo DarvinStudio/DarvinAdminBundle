@@ -22,17 +22,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block stylesheets %}
-            {# Core #}
-            <link href="{{ asset('bundles/darvinadmin/styles/bootstrap.css') }}" rel="stylesheet">
-            <link href="{{ asset('bundles/darvinadmin/styles/jquery-ui.css') }}" rel="stylesheet">
-            <link href="{{ asset('bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css') }}" rel="stylesheet">
-            {# Vendor #}
-            <link href="{{ asset('bundles/darvinadmin/styles/dropzone.css') }}" rel="stylesheet">
-            <link href="{{ asset('bundles/darvinadmin/styles/fancybox.css') }}" rel="stylesheet">
-            {# Third party bundles #}
-            <link href="{{ asset('bundles/a2lixtranslationform/css/a2lix_translation_default.css') }}" rel="stylesheet">
-            {# App #}
-            <link href="{{ asset('bundles/darvinadminfrontend/styles/app.css') }}" rel="stylesheet" media="screen, projection">
+            {% stylesheets
+                'bundles/darvinadmin/styles/bootstrap.css'
+                'bundles/darvinadmin/styles/jquery-ui.css'
+                'bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css'
+
+                'bundles/darvinadmin/styles/dropzone.css'
+                'bundles/darvinadmin/styles/fancybox.css'
+
+                'bundles/a2lixtranslationform/css/a2lix_translation_default.css'
+
+                'bundles/darvinadminfrontend/styles/app.css'
+                filter='cssrewrite'
+                filter='?yui_css'
+                output='assets/admin/styles/app.css'
+            %}
+                <link href="{{ asset_url }}" rel="stylesheet">
+            {% endstylesheets %}
         {% endblock %}
 
     </head>
@@ -175,41 +181,45 @@
                 var LOCALE                   = '{{ app.request.locale }}';
                 var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
             </script>
-            {# Core #}
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/jquery.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/ui.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/ui/timepicker-ru.js') }}"></script>
-            {# Vendor #}
-            <script src="{{ asset('bundles/darvinadmin/scripts/bootstrap.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/dropzone.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/cookie.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/fancybox.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/jquery/noty.js') }}"></script>
-            {# Third party bundles #}
-            <script src="{{ asset('bundles/a2lixtranslationform/js/a2lix_translation_default.js') }}"></script>
-            <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+            {% javascripts
+                'bundles/darvinadmin/scripts/jquery/jquery.js'
+                'bundles/darvinadmin/scripts/jquery/ui/ui.js'
+                'bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js'
+                'bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js'
+                'bundles/darvinadmin/scripts/jquery/ui/timepicker-ru.js'
+
+                'bundles/darvinadmin/scripts/bootstrap.js'
+                'bundles/darvinadmin/scripts/dropzone.js'
+                'bundles/darvinadmin/scripts/jquery/cookie.js'
+                'bundles/darvinadmin/scripts/jquery/fancybox.js'
+                'bundles/darvinadmin/scripts/jquery/noty.js'
+
+                'bundles/a2lixtranslationform/js/a2lix_translation_default.js'
+                'bundles/bazingajstranslation/js/translator.min.js'
+
+                'bundles/darvinadmin/scripts/globals.js'
+                'bundles/darvinadmin/scripts/yandex-translator.js'
+                'bundles/darvinadmin/scripts/ajax-forms.js'
+                'bundles/darvinadmin/scripts/date-time-pickers-init.js'
+                'bundles/darvinadmin/scripts/dropzone-init.js'
+                'bundles/darvinadmin/scripts/fancybox-init.js'
+                'bundles/darvinadmin/scripts/images.js'
+                'bundles/darvinadmin/scripts/noty-init.js'
+                'bundles/darvinadmin/scripts/form-collections.js'
+                'bundles/darvinadmin/scripts/property-forms.js'
+                'bundles/darvinadmin/scripts/translations-sync.js'
+
+                'bundles/darvinadmin/scripts/app.js'
+                filter='?closure'
+                output='assets/admin/scripts/app.js'
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
             <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales=en,{{ app.request.locale }}"></script>
-            {# App modules #}
-            <script src="{{ asset('bundles/darvinadmin/scripts/globals.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/yandex-translator.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/ajax-forms.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/date-time-pickers-init.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/dropzone-init.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/fancybox-init.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/images.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/noty-init.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/form-collections.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/property-forms.js') }}"></script>
-            <script src="{{ asset('bundles/darvinadmin/scripts/translations-sync.js') }}"></script>
-            {# App #}
-            <script src="{{ asset('bundles/darvinadmin/scripts/app.js') }}"></script>
             <script>
                 $.fancybox.defaults.locale = '{{ app.request.locale }}';
                 Translator.locale = '{{ app.request.locale }}';
-            </script>
-            <script>
+
                 {% for type, messages in flashes %}
                     {% for message in messages %}
                         noty({

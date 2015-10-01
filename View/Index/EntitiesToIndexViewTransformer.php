@@ -233,9 +233,18 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 $maxRowLength = $rowLength;
             }
         }
-        if (!$normalizationNeeded) {
-            return;
+        if ($normalizationNeeded) {
+            $this->normalizeBodyRows($rows, $rowLengths, $maxRowLength);
         }
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\View\Index\Body\BodyRow[] $rows         Body rows
+     * @param array                                         $rowLengths   Body row lengths
+     * @param int                                           $maxRowLength Max body row length
+     */
+    private function normalizeBodyRows(array $rows, array $rowLengths, $maxRowLength)
+    {
         foreach ($rowLengths as $key => $rowLength) {
             if ($rowLength === $maxRowLength) {
                 continue;

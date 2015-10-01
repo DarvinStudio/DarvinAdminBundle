@@ -4,6 +4,8 @@ Darvin\ImageBundle\Entity\Image\AbstractImage:
         - delete
         - new
         - show
+    images:
+        homepage_menu_icon: bundles/darvinadmin/images/icons/homepage/image.png
     form:
         edit:
             type: darvin_image_image_sizes

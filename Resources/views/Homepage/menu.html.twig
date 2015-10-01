@@ -5,13 +5,16 @@
 
         {% set index_url = item.indexUrl %}
         {% set attr = item.menuItemAttributes %}
+        {% set icon = attr.homepage_menu_icon
+            ?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: 'bundles/darvinadminfrontend/images/main_menu_' ~ attr.name ~ '.png' : null)
+        %}
 
         <div class="item {{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">
-            <div class="img">
-                <a href="{{ index_url }}">
-                    <img src="{{ asset('bundles/darvinadminfrontend/images/main_menu_' ~ attr.name ~ '.png') }}" alt="" />
-                </a>
-            </div>
+            {% if icon %}
+                <div class="img">
+                    <a href="{{ index_url }}"><img src="{{ asset(icon) }}" alt="" /></a>
+                </div>
+            {% endif %}
             <div class="name">
                 <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
             </div>
@@ -32,11 +35,11 @@
                                 {% set attr = child.menuItemAttributes %}
 
                                 <div class="sub_item">
-                                    <div class="img">
-                                        <a href="{{ index_url }}">
-                                            <img src="{{ asset('bundles/darvinadminfrontend/images/sub_item_' ~ attr.name ~ '.png') }}">
-                                        </a>
-                                    </div>
+                                    {% if attr.homepage_menu_icon %}
+                                        <div class="img">
+                                            <a href="{{ index_url }}"><img src="{{ asset(attr.homepage_menu_icon) }}"></a>
+                                        </div>
+                                    {% endif %}
                                     <div class="name">
                                         <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
                                     </div>

@@ -11,11 +11,14 @@
 
             {% set index_url = item.indexUrl %}
             {% set attr = item.menuItemAttributes %}
+            {% set icon = attr.left_menu_icon
+                ?: (item.childMenuItems is not empty ? 'bundles/darvinadminfrontend/images/left_menu_' ~ attr.name ~ '.png' : null)
+            %}
 
             <li class="left_menu_{{ attr.name }}">
-                <a href="{{ index_url }}" class="img">
-                    <img src="{{ asset('bundles/darvinadminfrontend/images/left_menu_' ~ attr.name ~ '.png') }}" alt="" />
-                </a>
+                {% if icon %}
+                    <a href="{{ index_url }}" class="img"><img src="{{ asset(icon) }}" alt="" /></a>
+                {% endif %}
                 <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
                 {% if attr.associated_object_class
                     and utils_new_objects_countable(attr.associated_object_class)

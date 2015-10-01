@@ -139,6 +139,7 @@
                             </div>
                         </div>
                         <div class="content_wrap{% if app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
+
                             {% block breadcrumbs %}{% endblock %}
 
                             <h1>{% block heading %}{% endblock %}</h1>

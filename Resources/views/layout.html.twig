@@ -28,7 +28,7 @@
             {# Third party bundles #}
             <link href="{{ asset('bundles/a2lixtranslationform/css/a2lix_translation_default.css') }}" rel="stylesheet">
             {# App #}
-            <link href="{{ asset('bundles/darvinadmin/stylesheets/app.css') }}" rel="stylesheet" media="screen, projection">
+            <link href="{{ asset('bundles/darvinadminfrontend/styles/app.css') }}" rel="stylesheet" media="screen, projection">
         {% endblock %}
 
     </head>
@@ -51,7 +51,7 @@
                     <div class="row header">
                         <div class="col-lg-7 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
-                                <img src="{{ asset('bundles/darvinadmin/images/logo_cms.png') }}"
+                                <img src="{{ asset('bundles/darvinadminfrontend/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
                             </a>
                             {#<a href="" class="link_site_stat">Статистика сайта</a>#}

@@ -116,7 +116,7 @@
                 <div class="main_wrap">
                     <div class="main">
                         <div class="sidebar_wrap">
-                            <span id="sidebar_switcher">Показать меню</span>
+                            <span id="sidebar_switcher">{% trans %}layout.menu.expand{% endtrans %}</span>
                             <div class="sidebar_wrap_fix">
                                 <div class="sidebar">
 
@@ -150,17 +150,12 @@
                         <div class="col-md-7 col-lg-8">
                             <div class="footer_contacts">
                                 <div class="mail">
-                                    <span>Техническая поддержка</span>
-                                    <a href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
+                                    <span>{% trans %}layout.footer.support.label{% endtrans %}</span>
+                                    <a href="mailto:{% trans %}layout.footer.support.email{% endtrans %}">
+                                        {% trans %}layout.footer.support.email{% endtrans %}
+                                    </a>
                                 </div>
-                                <div class="phone">
-                                    <span>г. Ковров</span>
-                                    <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-                                </div>
-                                <div class="phone">
-                                    <span>г. Владимир</span>
-                                    <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
-                                </div>
+                                {% trans %}layout.footer.phone_numbers{% endtrans %}
                             </div>
                         </div>
                     </div>

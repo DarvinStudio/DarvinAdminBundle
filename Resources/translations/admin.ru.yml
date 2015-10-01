@@ -124,7 +124,23 @@ interface:
 
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Версия %version%
-    title:     Darvin Studio CMS Версия %version%
+    footer:
+        phone_numbers: >
+            <div class="phone">
+                <span>г. Ковров</span>
+                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+            </div>
+            <div class="phone">
+                <span>г. Владимир</span>
+                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+            </div>
+        support:
+            label: Техническая поддержка
+            email: support@darvin-studio.ru
+    menu:
+        collapse: Свернуть меню
+        expand:   Показать меню
+    title: Darvin Studio CMS Версия %version%
 
 log:
     action:

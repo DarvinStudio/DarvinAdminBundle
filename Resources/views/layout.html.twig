@@ -33,17 +33,15 @@
 
     </head>
     <body>
-        <!-- Flash messages -->
-        {#<noscript>#}
-            {#{% for type, messages in flashes %}#}
-                {#<ul class="{{ type }}">#}
-                    {#{% for message in messages %}#}
-                        {#<li>{{ message | trans }}</li>#}
-                    {#{% endfor %}#}
-                {#</ul>#}
-            {#{% endfor %}#}
-        {#</noscript>#}
-        <!--/ Flash messages -->
+        <noscript>
+            {% for type, messages in flashes %}
+                <ul class="{{ type }}">
+                    {% for message in messages %}
+                        <li>{{ message | trans }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </noscript>
 
         {% block body %}
             <div class="container-fluid">
@@ -54,7 +52,7 @@
                                 <img src="{{ asset('bundles/darvinadminfrontend/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
                             </a>
-                            {#<a href="" class="link_site_stat">Статистика сайта</a>#}
+                            <a href="#" class="link_site_stat">Статистика сайта</a>
                             <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
                         </div>
                         <div class="col-lg-5 header_right">
@@ -66,7 +64,7 @@
                                     'url':        path('darvin_admin_configuration'),
                                 },
                                 'translation.action.index.link': {
-                                    'accessible': false,
+                                    'accessible': true,
                                     'class':      '',
                                     'url':        path('lexik_translation_grid'),
                                 },
@@ -91,11 +89,9 @@
                             {% for title, attr in menu if attr.accessible %}
                                 <a href="{{ attr.url }}" class="{{ attr.class }}">{{ title | trans }}</a>
                             {% endfor %}
-                            <!-- Cache clear form -->
-                            {#{{ admin_cache_clear_form() }}#}
-                            <!--/ Cache clear form -->
-                            <!-- Locale switch links -->
-                            {#
+
+                            {{ admin_cache_clear_form() }}
+
                             {% if darvin_admin_locales | length > 1 %}
                                 <ul>
                                     {% for locale in darvin_admin_locales %}
@@ -115,8 +111,6 @@
                                     {% endfor %}
                                 </ul>
                             {% endif %}
-                            #}
-                            <!--/ Locale switch links -->
                         </div>
                     </div>
                 </div>
@@ -126,9 +120,9 @@
                             <span id="sidebar_switcher">Показать меню</span>
                             <div class="sidebar_wrap_fix">
                                 <div class="sidebar">
-                                    <!-- Левое меню -->
+
                                     {{ admin_menu() }}
-                                    <!--/ Левое меню -->
+
                                 </div>
                             </div>
                         </div>

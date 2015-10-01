@@ -49,7 +49,6 @@ $(document).ready(function () {
 
             return;
         }
-
         if (!$form.find('[type="submit"]').length) {
             $form.append('<button type="submit">o</button>');
         }

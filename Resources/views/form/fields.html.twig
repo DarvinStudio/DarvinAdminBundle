@@ -1,4 +1,4 @@
-{% extends 'form_div_layout.html.twig' %}
+{% extends 'bootstrap_3_layout.html.twig' %}
 
 {%- block collection_widget -%}
     {% if attr.class is defined and attr.class %}
@@ -41,6 +41,7 @@
 {% endblock %}
 
 {%- block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
     {% if label is not same as(false) -%}
         {% if not compound -%}
             {% set label_attr = label_attr|merge({'for': id}) %}
@@ -65,13 +66,13 @@
     {%- endif -%}
 {%- endblock form_label -%}
 
-{%- block form_row -%}
-    <div class="row">
+{% block form_row -%}
+    <div class="row form-group{% if (not compound or force_error|default(false)) and not valid %} has-error{% endif %}">
         {{- form_label(form) -}}
-        {{- form_errors(form) -}}
         {{- form_widget(form) -}}
+        {{- form_errors(form) -}}
     </div>
-{%- endblock form_row -%}
+{%- endblock form_row %}
 
 {%- block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}"

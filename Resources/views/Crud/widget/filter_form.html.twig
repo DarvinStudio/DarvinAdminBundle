@@ -4,7 +4,7 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block before_end %}
+{% block pre_end %}
     {% for field, attr in meta.configuration.form.filter.fields %}
         {{ form_row(form[field]) }}
     {% endfor %}

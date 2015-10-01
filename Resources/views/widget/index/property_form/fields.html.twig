@@ -1,14 +1,16 @@
-{% extends 'form_div_layout.html.twig' %}
+{% extends 'bootstrap_3_layout.html.twig' %}
 
-{%- block form_errors -%}
-    {%- if errors|length > 0 -%}
-        <ul class="errors">
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+        <ul class="errors list-unstyled">
             {%- for error in errors -%}
-                <li>{{ error.message }}</li>
+                <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
             {%- endfor -%}
         </ul>
-    {%- endif -%}
-{%- endblock form_errors -%}
+        {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
 
 {% block form_label %}{% endblock %}
 

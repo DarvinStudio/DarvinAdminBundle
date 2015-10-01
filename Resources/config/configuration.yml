@@ -25,4 +25,4 @@ services:
         calls:
             - [ setContainer, [ "@service_container" ] ]
         tags:
-            - { name: darvin_admin.menu_item }
+            - { name: darvin_admin.menu_item, position: 10 }

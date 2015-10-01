@@ -7,7 +7,8 @@ Darvin\ImageBundle\Entity\Image\AbstractImage:
     images:
         homepage_menu_icon: bundles/darvinadmin/images/icons/homepage/image.png
     menu:
-        color: "#0a9771"
+        color:    "#0a9771"
+        position: 30
     form:
         edit:
             type: darvin_image_image_sizes

@@ -30,11 +30,20 @@ $(document).ready(function () {
     /* спойлер для модулей на главной*/
     $('.spoiler_links').on('mousedown', function () {
         var spoiler_container = $(this).parents('.spoiler_container');
-        if (spoiler_container.find('.spoiler_body').css("display") == "none") {
-            spoiler_container.find('.spoiler_body').hide('normal');
-            spoiler_container.find('.spoiler_body').toggle('normal');
+        var body = spoiler_container.find('.spoiler_body');
+        if (body.css("display") == "none") {
+            body
+                .hide('normal')
+                .toggle('normal');
+            $.cookie(body.data('cookie'), 1, {
+                path: '/'
+            });
+        } else {
+            body.hide('normal');
+            $.cookie(body.data('cookie'), 0, {
+                path: '/'
+            });
         }
-        else spoiler_container.find('.spoiler_body').hide('normal');
         return false;
     });
 

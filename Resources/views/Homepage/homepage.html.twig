@@ -11,6 +11,9 @@
 
     </div>
     {% for name, widget in dashboard.widgets %}
+
+        {% set cookie_name = 'DARVINADMIN' ~ (widget.name | upper | replace({ '_': '' })) %}
+
         <div class="index_modul spoiler_container">
             <div class="index_modul_header">
                 <div class="index_modul_header_content spoiler_links">
@@ -33,7 +36,11 @@
                     </div>
                 {% endif %}
             </div>
-            <div class="index_modul_content spoiler_body">{{ widget.content | raw }}</div>
+            <div class="index_modul_content spoiler_body"
+                 data-cookie="{{ cookie_name }}"
+                 {% if not app.request.cookies.get(cookie_name) %}style="display: none;"{% endif %}>
+                {{ widget.content | raw }}
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

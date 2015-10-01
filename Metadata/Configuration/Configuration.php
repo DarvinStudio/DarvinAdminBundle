@@ -105,6 +105,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
+                ->scalarNode('color')->defaultNull()->end()
                 ->scalarNode('group')->defaultNull()->end()
                 ->scalarNode('position')->defaultNull()->end()
                 ->booleanNode('skip')->defaultFalse()->end()

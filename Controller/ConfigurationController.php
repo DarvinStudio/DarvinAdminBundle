@@ -118,6 +118,7 @@ class ConfigurationController extends Controller implements MenuItemInterface
     private function generateMenuItemAttributes()
     {
         return array(
+            'color'              => '#5a4fb6',
             'description'        => 'configuration.menu.description',
             'homepage_menu_icon' => 'bundles/darvinadmin/images/icons/homepage/configuration.png',
             'index_title'        => 'configuration.action.edit.link',

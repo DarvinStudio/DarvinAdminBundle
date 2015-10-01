@@ -114,6 +114,7 @@ class Menu
         $resolver
             ->setDefaults(array(
                 'associated_object_class' => '',
+                'color'                   => '',
                 'description'             => '',
                 'homepage_menu_icon'      => '',
                 'left_menu_icon'          => '',

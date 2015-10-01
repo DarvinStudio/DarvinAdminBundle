@@ -16,7 +16,9 @@
                 </div>
             {% endif %}
             <div class="name">
-                <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
+                <a href="{{ index_url }}"{% if attr.color %} style="color: {{ attr.color }};"{% endif %}>
+                    {{ attr.index_title | trans }}
+                </a>
             </div>
             {% if attr.description %}
                 <div class="description">

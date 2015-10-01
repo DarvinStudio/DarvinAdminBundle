@@ -12,11 +12,15 @@ $(document).ready(function () {
         if (switch_btn.hasClass('active')) {
             switch_btn.text(Translator.trans('layout.menu.collapse'));
             sidebar_wrap.removeClass('noactive');
-            $.cookie(COOKIE_SIDEBAR, 1);
+            $.cookie(COOKIE_SIDEBAR, 1, {
+                path: '/'
+            });
         } else {
             switch_btn.text(Translator.trans('layout.menu.expand'));
             sidebar_wrap.addClass('noactive');
-            $.cookie(COOKIE_SIDEBAR, 0);
+            $.cookie(COOKIE_SIDEBAR, 0, {
+                path: '/'
+            });
         }
         setTimeout(function () {
             resize()

@@ -41,7 +41,7 @@ $(document).ready(function () {
     };
 
     var toggleButtons = function ($field) {
-        var $form = $field.parent('.property_form');
+        var $form = $field.parents('.property_form').first();
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
         if (1 != $form.attr('data-modified')) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
 
     $('body')
         .on('change', '.property_form input[type="checkbox"]', function () {
-            submitForm($(this).parent('form.property_form'), false);
+            submitForm($(this).parents('form.property_form').first(), false);
         })
         .on('change', '.property_form .field[type!="checkbox"]', function () {
             toggleButtons($(this));
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 .trigger('change');
         })
         .on('click', '.property_forms [type="submit"]', function () {
-            $(this).parent('.property_forms').find('form.property_form[data-modified="1"]').submit();
+            $(this).parents('.property_forms').first().find('form.property_form[data-modified="1"]').submit();
         })
         .on('submit', 'form.property_form', function (e) {
             e.preventDefault();

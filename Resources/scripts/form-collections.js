@@ -23,7 +23,7 @@ $(document).ready(function () {
     $('body')
         .on('click', 'form .collection[data-prototype] .collection_add', function () {
             var $addButton = $(this);
-            var $collection = $addButton.parent('.collection[data-prototype]');
+            var $collection = $addButton.parents('.collection[data-prototype]').first();
             var newElement = $collection.data('prototype').replace(/__name__label__|__name__/g, $collection.data('index'));
             var $newElement = $(newElement);
 

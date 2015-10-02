@@ -128,7 +128,7 @@ class LogController extends Controller
      */
     private function getLogEntryRepository()
     {
-        return $this->getDoctrine()->getRepository('DarvinAdminBundle:LogEntry');
+        return $this->getDoctrine()->getRepository(LogEntry::LOG_ENTRY_CLASS);
     }
 
     /**

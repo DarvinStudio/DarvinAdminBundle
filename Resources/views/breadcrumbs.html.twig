@@ -6,13 +6,15 @@
     <a href="{{ admin_path(crumb.entity, route_type) }}">{{ title | trans }}</a><span>&nbsp;></span>
 {% endmacro %}
 
-{% for crumb in crumbs %}
-    {{ breadcrumbs.render_crumb(
-        crumb,
-        constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'),
-        crumb.meta.baseTranslationPrefix ~ 'action.index.link'
-    ) }}
-    {% if not loop.last or render_last %}
-        {{ breadcrumbs.render_crumb(crumb, entity_route, crumb.entity) }}
-    {% endif %}
-{% endfor %}
+<div class="path">
+    {% for crumb in crumbs %}
+        {{ breadcrumbs.render_crumb(
+            crumb,
+            constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'),
+            crumb.meta.baseTranslationPrefix ~ 'action.index.link'
+        ) }}
+        {% if not loop.last or render_last %}
+            {{ breadcrumbs.render_crumb(crumb, entity_route, crumb.entity) }}
+        {% endif %}
+    {% endfor %}
+</div>

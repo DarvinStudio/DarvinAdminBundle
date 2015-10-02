@@ -9,7 +9,7 @@
             ?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: 'bundles/darvinadminfrontend/images/main_menu_' ~ attr.name ~ '.png' : null)
         %}
 
-        <div class="item {{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">
+        <div class="item color_{{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">
             {% if icon %}
                 <div class="img">
                     <a href="{{ index_url }}"><img src="{{ asset(icon) }}" alt="" /></a>

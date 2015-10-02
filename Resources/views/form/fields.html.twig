@@ -15,7 +15,7 @@
     {{ parent() }}
 {%- endblock collection_widget -%}
 
-{% block darvin_admin_dropzone_widget %}
+{%- block darvin_admin_dropzone_widget -%}
     {% if form.vars.data %}
         {% for image in form.vars.data if image.id and image_exists(image) %}
 
@@ -24,9 +24,9 @@
         {% endfor %}
     {% endif %}
     {{ form_widget(form) }}
-{% endblock %}
+{%- endblock -%}
 
-{% block darvin_image_image_widget %}
+{%- block darvin_image_image_widget -%}
     {% if form.vars.data and image_exists(form.vars.data) %}
 
         {% include 'DarvinAdminBundle:form:image.html.twig' with {
@@ -35,7 +35,7 @@
 
     {% endif %}
     {{ form_widget(form) }}
-{% endblock %}
+{%- endblock -%}
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}

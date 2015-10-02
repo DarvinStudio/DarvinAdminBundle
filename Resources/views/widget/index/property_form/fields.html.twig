@@ -1,5 +1,14 @@
 {% extends 'form_div_layout.html.twig' %}
 
+{%- block checkbox_widget -%}
+    <span class="checkbox">
+        <label>
+            {{ parent() }}
+            <span></span>
+        </label>
+    </span>
+{%- endblock checkbox_widget -%}
+
 {%- block form_errors -%}
     {% if errors|length > 0 %}
         <ul class="errors">

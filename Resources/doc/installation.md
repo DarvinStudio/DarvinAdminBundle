@@ -98,7 +98,7 @@ parameters:
         - en
         - de
     locale_pattern:    |de|en|ru
-    admin_path_prefix: %locale_pattern%
+    admin_path_suffix: (%locale_pattern%)/
 ```
 
 - добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yml.dist"

@@ -42,9 +42,7 @@
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
-        {%- endif %}
+        {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' name')|trim}) %}
         {% if required -%}
             {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
         {%- endif %}
@@ -59,19 +57,25 @@
             {%- endif -%}
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}
-        {% if darvin_admin_info %}<span>{{ darvin_admin_info|trans({}, translation_domain) }}</span>{% endif %}
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}:
+            {% if darvin_admin_info %}<span>{{ darvin_admin_info|trans({}, translation_domain) }}</span>{% endif %}
         </label>
     {%- endif -%}
 {%- endblock form_label -%}
 
 {%- block form_row -%}
-    <div class="row">
+    <div class="table_row">
         {{- form_label(form) -}}
         {{- form_errors(form) -}}
         {{- form_widget(form) -}}
     </div>
 {%- endblock form_row -%}
+
+{%- block form_widget -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock form_widget -%}
 
 {%- block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}"

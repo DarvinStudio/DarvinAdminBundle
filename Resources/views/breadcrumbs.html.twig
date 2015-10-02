@@ -3,7 +3,7 @@
 {% import _self as breadcrumbs %}
 
 {% macro render_crumb(crumb, route_type, title) %}
-    <a href="{{ admin_path(crumb.entity, route_type) }}">{{ title | trans }}</a><span>&nbsp;></span>
+    <a href="{{ admin_path(crumb.entity, route_type) }}">{{ title | trans }}</a>
 {% endmacro %}
 
 <div class="path">

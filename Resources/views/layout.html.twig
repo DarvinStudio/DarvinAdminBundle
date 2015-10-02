@@ -140,13 +140,15 @@
                             </div>
                         </div>
                         <div class="content_wrap{% if app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
+                            <div class="content">
 
-                            {% block breadcrumbs %}{% endblock %}
+                                {% block breadcrumbs %}{% endblock %}
 
-                            <h1>{% block heading %}{% endblock %}</h1>
+                                <h1>{% block heading %}{% endblock %}</h1>
 
-                            {% block content %}{% endblock %}
+                                {% block content %}{% endblock %}
 
+                            </div>
                         </div>
                     </div>
                 </div>

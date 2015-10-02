@@ -9,7 +9,7 @@
 {% block content %}
     {% if filter_form %}
 
-        {% include 'DarvinAdminBundle:Crud/widget:filter_form.html.twig' with {
+        {% include 'DarvinAdminBundle:Crud/widget/filter:form.html.twig' with {
             'field_groups': meta.configuration.form.filter.field_groups,
             'form':         filter_form,
         } %}

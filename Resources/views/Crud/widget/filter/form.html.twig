@@ -1,0 +1,33 @@
+{% form_theme form 'DarvinAdminBundle:Crud/widget/filter:fields.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+<div class="index_modul filter spoiler_container">
+    <div class="index_modul_header">
+        <div class="index_modul_header_content spoiler_links">
+            <div class="spoiler_arrow">
+                <img src="{{ asset('bundles/darvinadminfrontend/images/spoiler_arrow.png') }}" alt="" />
+            </div>
+            <div class="index_modul_icon">
+                <img src="{{ asset('bundles/darvinadminfrontend/images/index_modul_icon_6.png') }}" alt="" />
+            </div>
+            <div class="index_modul_name">
+                <p class="tit">Фильтр таблицы</p>
+                <p>Отсортируйте нужные параметры с помощью фильтра</p>
+            </div>
+        </div>
+    </div>
+    <div class="index_modul_content spoiler_body">
+        <div class="filter_table">
+            {{ form_start(form) }}
+            {% for field, attr in meta.configuration.form.filter.fields %}
+                {{ form_row(form[field]) }}
+            {% endfor %}
+            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit') | trans }}</button>
+            <a href="{{ form.vars.action }}">
+                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset') | trans }}
+            </a>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

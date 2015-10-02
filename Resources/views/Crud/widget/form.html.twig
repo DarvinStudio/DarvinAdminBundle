@@ -1,3 +1,5 @@
+{% form_theme form 'DarvinAdminBundle:form:fields.html.twig' %}
+
 {% trans_default_domain 'admin' %}
 
 <div class="edit_container">
@@ -19,9 +21,6 @@
             </div>
         </div>
     {% endfor %}
-
-    {% block pre_end %}{% endblock %}
-
     <div class="table_view_content">
         {{ form_end(form) }}
     </div>

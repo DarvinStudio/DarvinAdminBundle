@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Filter form type
  */
-class FilterType extends AbstractType
+class FilterType extends AbstractFormType
 {
     /**
      * @var array

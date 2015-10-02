@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Base form type
  */
-class BaseType extends AbstractType
+class BaseType extends AbstractFormType
 {
     /**
      * @var string

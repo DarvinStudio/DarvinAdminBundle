@@ -11,14 +11,14 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\Utils\Strings\StringsUtil;
-use Symfony\Component\Form\AbstractType as BaseAbstractType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
 /**
  * Form type abstract implementation
  */
-abstract class AbstractType extends BaseAbstractType
+abstract class AbstractFormType extends AbstractType
 {
     /**
      * {@inheritdoc}

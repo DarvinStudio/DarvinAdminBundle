@@ -4,6 +4,8 @@ var YandexTranslator = (function () {
             if ('undefined' === typeof YANDEX_TRANSLATE_API_KEY || '' === YANDEX_TRANSLATE_API_KEY) {
                 console.log('Non empty "YANDEX_TRANSLATE_API_KEY" variable must be defined, skip translating.');
 
+                successCallback(text);
+
                 return;
             }
 

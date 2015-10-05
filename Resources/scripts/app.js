@@ -34,14 +34,18 @@ $(document).ready(function () {
         {
             body.hide('normal');
             body.toggle('normal');
-            $.cookie(body.data('cookie'), 1, {
-                path: '/'
-            });
+            if ('undefined' !== typeof body.data('cookie')) {
+                $.cookie(body.data('cookie'), 1, {
+                    path: '/'
+                });
+            }
         } else {
             body.hide('normal');
-            $.cookie(body.data('cookie'), 0, {
-                path: '/'
-            });
+            if ('undefined' !== typeof body.data('cookie')) {
+                $.cookie(body.data('cookie'), 0, {
+                    path: '/'
+                });
+            }
         }
         spoiler_container.toggleClass('noactive');
         return false;

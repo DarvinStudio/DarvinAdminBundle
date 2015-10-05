@@ -17,7 +17,9 @@
             </div>
         </div>
     </div>
-    <div class="index_modul_content spoiler_body">
+    <div class="index_modul_content spoiler_body"
+         data-cookie="DARVINADMINFILTER"
+         {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
         <div class="filter_table">
             {{ form_start(form) }}
             {% for field, attr in meta.configuration.form.filter.fields %}

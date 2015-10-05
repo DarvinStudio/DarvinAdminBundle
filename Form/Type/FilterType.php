@@ -12,6 +12,8 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Form\FormException;
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
@@ -32,32 +34,14 @@ class FilterType extends AbstractFormType
     );
 
     /**
-     * @var array
-     */
-    private static $defaultFieldOptions = array(
-        'checkbox' => array(
-            'choices' => array(
-                'boolean.0',
-                'boolean.1',
-            ),
-        ),
-        'date' => array(
-            'widget' => 'single_text',
-            'format' => 'dd.MM.yyyy',
-        ),
-        'datetime' => array(
-            'widget' => 'single_text',
-            'format' => 'dd.MM.yyyy HH:mm',
-        ),
-        'time' => array(
-            'widget' => 'single_text',
-        ),
-    );
-
-    /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
      */
     private $formTypeGuesser;
+
+    /**
+     * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
+     */
+    private $translationJoiner;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata
@@ -65,12 +49,17 @@ class FilterType extends AbstractFormType
     private $meta;
 
     /**
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface $formTypeGuesser Form type guesser
-     * @param \Darvin\AdminBundle\Metadata\Metadata            $meta            Metadata
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser   Form type guesser
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner Translation joiner
+     * @param \Darvin\AdminBundle\Metadata\Metadata                         $meta              Metadata
      */
-    public function __construct(FormTypeGuesserInterface $formTypeGuesser, Metadata $meta)
-    {
+    public function __construct(
+        FormTypeGuesserInterface $formTypeGuesser,
+        TranslationJoinerInterface $translationJoiner,
+        Metadata $meta
+    ) {
         $this->formTypeGuesser = $formTypeGuesser;
+        $this->translationJoiner = $translationJoiner;
         $this->meta = $meta;
     }
 
@@ -179,15 +168,63 @@ class FilterType extends AbstractFormType
             } else {
                 $type = $typeGuess->getType();
 
-                if (isset(self::$defaultFieldOptions[$type])) {
-                    $options = array_merge(self::$defaultFieldOptions[$type], $options);
-                }
                 if (isset(self::$fieldTypeChangeMap[$type])) {
                     $type = self::$fieldTypeChangeMap[$type];
                 }
+
+                $options = array_merge($this->getDefaultFieldOptions($type), $options);
             }
 
             $builder->add($field, $type, $options);
+        }
+    }
+
+    /**
+     * @param string $fieldType Field type
+     *
+     * @return array
+     */
+    private function getDefaultFieldOptions($fieldType)
+    {
+        $translationJoiner = $this->translationJoiner;
+
+        switch ($fieldType) {
+            case 'choice':
+                return array(
+                    'choices' => array(
+                        'boolean.0',
+                        'boolean.1',
+                    ),
+                );
+            case 'date':
+                return array(
+                    'widget' => 'single_text',
+                    'format' => 'dd.MM.yyyy',
+                );
+            case 'datetime':
+                return array(
+                    'widget' => 'single_text',
+                    'format' => 'dd.MM.yyyy HH:mm',
+                );
+            case 'entity':
+                return array(
+                    'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
+                        $qb = $er->createQueryBuilder('o');
+
+                        if ($translationJoiner->isTranslatable($er->getClassName())) {
+                            $translationJoiner->joinTranslation($qb, null, 'translations');
+                            $qb->addSelect('translations');
+                        }
+
+                        return $qb;
+                    },
+                );
+            case 'time':
+                return array(
+                    'widget' => 'single_text',
+                );
+            default:
+                return array();
         }
     }
 }

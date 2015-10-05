@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
@@ -63,24 +64,32 @@ class AdminFormFactory
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter            $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface     $formFactory        Form factory
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface $formTypeGuesser    Form type guesser
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor  $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager     $metadataManager    Metadata manager
+     * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
+     */
+    private $translationJoiner;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter                         $adminRouter        Admin router
+     * @param \Symfony\Component\Form\FormFactoryInterface                  $formFactory        Form factory
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser    Form type guesser
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor               $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                  $metadataManager    Metadata manager
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner  Translation joiner
      */
     public function __construct(
         AdminRouter $adminRouter,
         FormFactoryInterface $formFactory,
         FormTypeGuesserInterface $formTypeGuesser,
         IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager
+        MetadataManager $metadataManager,
+        TranslationJoinerInterface $translationJoiner
     ) {
         $this->adminRouter = $adminRouter;
         $this->formFactory = $formFactory;
         $this->formTypeGuesser = $formTypeGuesser;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
+        $this->translationJoiner = $translationJoiner;
     }
 
     /**
@@ -160,7 +169,7 @@ class AdminFormFactory
         $type = $configuration['form']['filter']['type'];
 
         if (empty($type)) {
-            $type = new FilterType($this->formTypeGuesser, $meta);
+            $type = new FilterType($this->formTypeGuesser, $this->translationJoiner, $meta);
         }
 
         $actionRouteParams = !empty($parentEntityAssociation)

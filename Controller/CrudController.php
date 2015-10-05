@@ -99,6 +99,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o');
 
+        if ($this->getTranslatableManager()->isTranslatable($this->entityClass)) {
+            $this->getTranslationJoiner()->joinTranslation($qb, $request->getLocale(), 'translations');
+            $qb->addSelect('translations');
+        }
         if ($this->meta->hasParent()) {
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
@@ -659,5 +663,17 @@ class CrudController extends Controller implements MenuItemInterface
     private function getSortedByEntityJoiner()
     {
         return $this->get('darvin_content.sorting.sorted_by_entity_joiner');
+    }
+
+    /** @return \Darvin\ContentBundle\Translatable\TranslatableManagerInterface */
+    private function getTranslatableManager()
+    {
+        return $this->get('darvin_content.translatable.manager');
+    }
+
+    /** @return \Darvin\ContentBundle\Translatable\TranslationJoinerInterface */
+    private function getTranslationJoiner()
+    {
+        return $this->get('darvin_content.translatable.translation_joiner');
     }
 }

@@ -219,7 +219,7 @@ class CrudController extends Controller implements MenuItemInterface
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($isXmlHttpRequest) {
-            return new AjaxResponse($success, $message, $html, $reloadPage);
+            return new AjaxResponse($html, $success, $message, $reloadPage);
         }
 
         $this->getFlashNotifier()->done($success, $message);

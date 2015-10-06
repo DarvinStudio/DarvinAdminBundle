@@ -52,9 +52,9 @@ class CacheController extends Controller
         }
 
         return new AjaxResponse(
+            $success ? '' : $this->getCacheFormManager()->renderClearForm($form),
             $success,
-            $message,
-            $success ? '' : $this->getCacheFormManager()->renderClearForm($form)
+            $message
         );
     }
 

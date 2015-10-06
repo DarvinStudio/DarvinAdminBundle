@@ -17,11 +17,12 @@ $(document).ready(function () {
             type: $form.attr('method'),
             url:  $form.attr('action')
         }).done(function (data) {
-            noty({
-                text: Translator.trans(data.message),
-                type: data.success ? 'success' : 'error'
-            });
-
+            if (data.message) {
+                noty({
+                    text: Translator.trans(data.message),
+                    type: data.success ? 'success' : 'error'
+                });
+            }
             if (!data.reloadPage) {
                 $form.replaceWith(data.html);
 

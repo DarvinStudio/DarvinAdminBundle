@@ -155,7 +155,7 @@ class CrudController extends Controller implements MenuItemInterface
             $paginatorOptions
         );
 
-        $this->getCustomObjectLoader()->loadForObjects($pagination->getItems(), false);
+        $this->getCustomObjectLoader()->loadCustomObjects($pagination->getItems(), false);
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
 
@@ -346,7 +346,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getCustomObjectLoader()->loadForObject($entity, false);
+        $this->getCustomObjectLoader()->loadCustomObjects($entity, false);
 
         $view = $this->getEntityToShowViewTransformer()->transform($entity);
 

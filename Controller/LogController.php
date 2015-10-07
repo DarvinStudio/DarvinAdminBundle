@@ -34,7 +34,7 @@ class LogController extends Controller
 
         $this->checkIfUserHasPermission(Permission::VIEW, LogEntry::LOG_ENTRY_CLASS);
 
-        $this->getCustomObjectLoader()->loadForObject($logEntry);
+        $this->getCustomObjectLoader()->loadCustomObjects($logEntry);
         $logged = $logEntry->getObject();
 
         if (empty($logged)) {

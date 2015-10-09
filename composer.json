@@ -33,9 +33,6 @@
         "darvinstudio/darvin-image-bundle":   "*",
         "darvinstudio/darvin-utils-bundle":   "*"
     },
-    "require-dev": {
-        "doctrine/doctrine-fixtures-bundle": "2.2.*"
-    },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }
     }

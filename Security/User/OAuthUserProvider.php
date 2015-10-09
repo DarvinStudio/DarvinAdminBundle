@@ -10,9 +10,9 @@
 
 namespace Darvin\AdminBundle\Security\User;
 
-use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Security\OAuth\Exception\BadResponseException;
 use Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse;
+use Darvin\UserBundle\Entity\User;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
@@ -24,9 +24,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 /**
- * OAuth administrator user provider
+ * OAuth user provider
  */
-class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface, UserProviderInterface
+class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProviderInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -34,25 +34,25 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
     private $em;
 
     /**
-     * @var SessionInterface
+     * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
      */
     private $session;
 
     /**
-     * @var TokenStorageInterface
+     * @var \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface
      */
-    private $token;
+    private $tokenStorage;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                                                         $em      Entity manager
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session Session
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $token   Authentication token
+     * @param \Doctrine\ORM\EntityManager                                                         $em           Entity manager
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session      Session
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage Authentication token storage
      */
-    public function __construct(EntityManager $em, SessionInterface $session, TokenStorageInterface $token)
+    public function __construct(EntityManager $em, SessionInterface $session, TokenStorageInterface $tokenStorage)
     {
         $this->em = $em;
         $this->session = $session;
-        $this->token = $token;
+        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -64,10 +64,9 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
         if (!$response instanceof DarvinAuthResponse) {
             throw new BadResponseException($response);
         }
-
         if ($response->getError()) {
             $this->session->invalidate();
-            $this->token->setToken(null);
+            $this->tokenStorage->setToken(null);
 
             return null;
         }
@@ -78,25 +77,28 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($email)
     {
-        $administrator = $this->getAdministratorRepository()->findOneBy(array(
-            'username' => $username,
+        $user = $this->getUserRepository()->findOneBy(array(
+            'email' => $email,
         ));
 
-        if (!empty($administrator)) {
-            return $administrator;
+        if (!empty($user)) {
+            return $user;
         }
 
-        $administrator = new Administrator(array(Administrator::ROLE_SUPERADMIN));
-        $administrator
-            ->setUsername($username)
-            ->setRandomPlainPassword();
+        $user = new User();
+        $user
+            ->setEmail($email)
+            ->setRoles(array(
+                User::ROLE_ADMIN,
+            ))
+            ->generateRandomPlainPassword();
 
-        $this->em->persist($administrator);
+        $this->em->persist($user);
         $this->em->flush();
 
-        return $administrator;
+        return $user;
     }
 
     /**
@@ -116,14 +118,14 @@ class OAuthAdministratorUserProvider implements OAuthAwareUserProviderInterface,
      */
     public function supportsClass($class)
     {
-        return Administrator::ADMINISTRATOR_CLASS === $class;
+        return User::USER_CLASS === $class;
     }
 
     /**
-     * @return \Darvin\AdminBundle\Repository\AdministratorRepository
+     * @return \Darvin\UserBundle\Repository\UserRepository
      */
-    private function getAdministratorRepository()
+    private function getUserRepository()
     {
-        return $this->em->getRepository(Administrator::ADMINISTRATOR_CLASS);
+        return $this->em->getRepository(User::USER_CLASS);
     }
 }

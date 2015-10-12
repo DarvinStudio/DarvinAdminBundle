@@ -79,14 +79,14 @@
                                     'class':      '',
                                     'url':        path('lexik_translation_grid'),
                                 },
-                                'administrator.action.index.link': {
+                                'user.action.index.link': {
                                     'accessible': is_granted(
                                         constant('Darvin\\AdminBundle\\Security\\Permissions\\Permission::VIEW'),
-                                        constant('Darvin\\AdminBundle\\Entity\\Administrator::ADMINISTRATOR_CLASS')
+                                        constant('Darvin\\UserBundle\\Entity\\User::USER_CLASS')
                                     ),
                                     'class': 'link_users',
                                     'url':   admin_path(
-                                        constant('Darvin\\AdminBundle\\Entity\\Administrator::ADMINISTRATOR_CLASS'),
+                                        constant('Darvin\\UserBundle\\Entity\\User::USER_CLASS'),
                                         constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
                                     ),
                                 },

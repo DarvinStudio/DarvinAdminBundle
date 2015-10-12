@@ -10,9 +10,9 @@
 
 namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
-use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\AdminBundle\Security\Permissions\AdministratorPermissions;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
+use Darvin\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -33,11 +33,23 @@ class ObjectPermissionsType extends AbstractType
     private $em;
 
     /**
+     * @var \Darvin\UserBundle\Entity\User[]
+     */
+    private $users;
+
+    /**
+     * @var bool
+     */
+    private $usersLoaded;
+
+    /**
      * @param \Doctrine\ORM\EntityManager $em Entity manager
      */
     public function __construct(EntityManager $em)
     {
         $this->em = $em;
+        $this->users = array();
+        $this->usersLoaded = false;
     }
 
     /**
@@ -45,7 +57,7 @@ class ObjectPermissionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $administratorRepository = $this->getAdministratorRepository();
+        $userRepository = $this->getUserRepository();
 
         $builder
             ->add('objectClass', 'hidden', array(
@@ -55,29 +67,25 @@ class ObjectPermissionsType extends AbstractType
                 'label' => false,
                 'type'  => new AdministratorPermissionsType(),
             ))
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($administratorRepository) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($userRepository) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */
                 $objectPermissions = $event->getData();
 
-                $administrators = array();
+                $users = $this->getUsers();
 
-                /** @var \Darvin\AdminBundle\Entity\Administrator $administrator */
-                foreach ($administratorRepository->getNotSuperadminsBuilder()->getQuery()->getResult() as $administrator) {
-                    $administrators[$administrator->getUsername()] = $administrator;
-                }
-                foreach ($administrators as $username => $administrator) {
-                    if ($objectPermissions->hasAdministratorPermissions($username)) {
+                foreach ($users as $id => $user) {
+                    if ($objectPermissions->hasAdministratorPermissions($id)) {
                         continue;
                     }
 
                     $objectPermissions->addAdministratorPermissions(
-                        $username,
-                        new AdministratorPermissions($administrator->getId(), $administrator->getDefaultPermissions())
+                        $id,
+                        new AdministratorPermissions($user->getId(), $user->getDefaultPermissions())
                     );
                 }
-                foreach ($objectPermissions->getAdministratorPermissionsSet() as $username => $permissions) {
-                    if (!isset($administrators[$username])) {
-                        $objectPermissions->removeAdministratorPermissions($username);
+                foreach ($objectPermissions->getAdministratorPermissionsSet() as $userId => $permissions) {
+                    if (!isset($users[$userId])) {
+                        $objectPermissions->removeAdministratorPermissions($userId);
                     }
                 }
             });
@@ -90,11 +98,12 @@ class ObjectPermissionsType extends AbstractType
     {
         $view->vars['label'] = 'security.object.'.$view->vars['name'];
 
-        $administratorPermissionsSetField = $view->children['administratorPermissionsSet'];
+        $users = $this->getUsers();
 
         /** @var \Symfony\Component\Form\FormView $child */
-        foreach ($administratorPermissionsSetField as $name => $child) {
-            $child->vars['label'] = $name;
+        foreach ($view->children['administratorPermissionsSet'] as $userId => $child) {
+            $user = $users[$userId];
+            $child->vars['label'] = $user->getEmail();
         }
     }
 
@@ -118,10 +127,27 @@ class ObjectPermissionsType extends AbstractType
     }
 
     /**
-     * @return \Darvin\AdminBundle\Repository\AdministratorRepository
+     * @return \Darvin\UserBundle\Entity\User[]
      */
-    private function getAdministratorRepository()
+    private function getUsers()
     {
-        return $this->em->getRepository(Administrator::ADMINISTRATOR_CLASS);
+        if (!$this->usersLoaded) {
+            /** @var \Darvin\UserBundle\Entity\User $user */
+            foreach ($this->getUserRepository()->getNotSuperadminsBuilder()->getQuery()->getResult() as $user) {
+                $this->users[$user->getId()] = $user;
+            }
+        }
+
+        $this->usersLoaded = true;
+
+        return $this->users;
+    }
+
+    /**
+     * @return \Darvin\UserBundle\Repository\UserRepository
+     */
+    private function getUserRepository()
+    {
+        return $this->em->getRepository(User::USER_CLASS);
     }
 }

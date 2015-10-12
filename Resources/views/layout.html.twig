@@ -57,18 +57,23 @@
 
         {% block body %}
             <div class="container-fluid">
-                <div class="container">
+                <div class="container-fluid header_wrap">
                     <div class="row header">
-                        <div class="col-lg-7 header_left">
+                        <div class="col-md-5 col-lg-5 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
                                 <img src="{{ asset('bundles/darvinadminfrontend/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
                             </a>
                             <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
                         </div>
-                        <div class="col-lg-5 header_right">
+                        <div class="col-md-7 col-lg-7  header_right">
 
                             {% set menu = {
+								'security.action.logout.link': {
+                                    'accessible': true,
+                                    'class':      'logout',
+                                    'url':        path('darvin_admin_security_logout'),
+                                },
                                 'configuration.action.edit.link': {
                                     'accessible': true,
                                     'class':      'link_main_option',
@@ -89,11 +94,6 @@
                                         constant('Darvin\\AdminBundle\\Entity\\Administrator::ADMINISTRATOR_CLASS'),
                                         constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
                                     ),
-                                },
-                                'security.action.logout.link': {
-                                    'accessible': true,
-                                    'class':      'logout',
-                                    'url':        path('darvin_admin_security_logout'),
                                 },
                             } %}
 

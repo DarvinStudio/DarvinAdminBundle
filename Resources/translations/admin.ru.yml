@@ -1,33 +1,3 @@
-administrator:
-    action:
-        delete:
-            confirm: Подтвердите удаление администратора
-            submit:  Удалить администратора
-            success: Администратор успешно удален
-        edit:
-            link:    Редактировать администратора
-            success: Администратор успешно изменен
-            title:   Изменить администратора «%entity%»
-        index:
-            link:  Администраторы
-            title: Администраторы
-        new:
-            success: Администратор успешно добавлен
-            title:   Новый администратор
-        show:
-            link:  Просмотреть администратора
-            title: Администратор «%entity%»
-    entity:
-        email:          E-mail
-        enabled:        Активен
-        locked:         Заблокирован
-        plain_password: Пароль
-        role:
-            guest:      Гость
-            superadmin: Суперадминистратор
-        roles:    Роли
-        username: Логин
-
 boolean:
     - Нет
     - Да
@@ -186,7 +156,6 @@ security:
         username:    Логин или e-mail
     object:
         abstract_image: Менеджер изображений
-        administrator:  Администраторы
         log_entry:      Журнал
     permission:
         create_delete: Создание и удаление

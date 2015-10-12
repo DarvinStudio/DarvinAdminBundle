@@ -1,33 +1,3 @@
-administrator:
-    action:
-        delete:
-            confirm: Confirm administrator removal
-            submit:  Remove administrator
-            success: Administrator successfully removed
-        edit:
-            link:    Edit administrator
-            success: Administrator successfully updated
-            title:   Edit administrator "%entity%"
-        index:
-            link:  Administrators
-            title: Administrators
-        new:
-            success: Administrator successfully created
-            title:   New administrator
-        show:
-            link:  View administrator
-            title: Administrator "%entity%"
-    entity:
-        email:          E-mail
-        enabled:        Enabled
-        locked:         Locked
-        plain_password: Password
-        role:
-            guest:      Guest
-            superadmin: Superadministrator
-        roles:    Roles
-        username: Username
-
 boolean:
     - Yes
     - No
@@ -176,7 +146,6 @@ security:
         username:    Username or e-mail
     object:
         abstract_image: Image manager
-        administrator:  Administrators
         log_entry:      Log
     permission:
         create_delete: Create and remove

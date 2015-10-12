@@ -7,9 +7,7 @@ parameters:
 
     darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
 
-    darvin_admin.security.user_provider.administrator.class: Darvin\AdminBundle\Security\User\AdministratorUserProvider
-
-    darvin_admin.security.user_provider.oauth_administrator.class: Darvin\AdminBundle\Security\User\OAuthAdministratorUserProvider
+    darvin_admin.security.user_provider.oauth.class: Darvin\AdminBundle\Security\User\OAuthUserProvider
 
 services:
     darvin_admin.security.authorization_voter:
@@ -36,11 +34,9 @@ services:
         tags:
             - { name: form.type, alias: darvin_admin_security_object_permissions }
 
-    darvin_admin.security.user_provider.administrator:
-        class: %darvin_admin.security.user_provider.administrator.class%
+    darvin_admin.security.user_provider.oauth:
+        class: %darvin_admin.security.user_provider.oauth.class%
         arguments:
             - "@doctrine.orm.entity_manager"
-
-    darvin_admin.security.user_provider.oauth_administrator:
-        class: %darvin_admin.security.user_provider.oauth_administrator.class%
-        arguments: [ @doctrine.orm.entity_manager, @session, @security.token_storage ]
+            - "@session"
+            - "@security.token_storage"

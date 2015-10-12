@@ -1,9 +1,6 @@
 Публичные сервисы
 =================
 
-- **darvin_admin.administrator.admin.controller** - контроллер раздела администрирования сущности "Администратор";
-
-
 - **darvin_admin.cache.clear_command** - команда очистки кэша Symfony и Imagine;
 
 

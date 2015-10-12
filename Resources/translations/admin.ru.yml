@@ -125,7 +125,6 @@ log:
             link:  Просмотреть запись
             title: Запись в журнале от %entity%
     entity:
-        administrator: Администратор
         action_name:   Действие
         actions:
             create: Создание
@@ -136,6 +135,7 @@ log:
         object:      Объект
         object_id:   ID объекта
         object_name: Объект
+        user:        Пользователь
         username:    Пользователь
         version:     Версия
     menu:

@@ -115,7 +115,6 @@ log:
             link:  View entry
             title: Log entry for %entity%
     entity:
-        administrator: Administrator
         action_name:   Action
         actions:
             create: Creating
@@ -126,6 +125,7 @@ log:
         object:      Object
         object_id:   Object ID
         object_name: Object name
+        user:        User
         username:    User
         version:     Version
     menu:

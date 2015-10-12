@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\AdminBundle\Form\Type\Security\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
@@ -30,16 +29,7 @@ class SecurityController extends Controller
 
         $authenticationUtils = $this->getAuthenticationUtils();
 
-        $form = $this->createForm(
-            new LoginType($this->container->getParameter('secret')),
-            array(
-                '_remember_me' => true,
-                '_username'    => $authenticationUtils->getLastUsername(),
-            ),
-            array(
-                'action' => $this->generateUrl('darvin_admin_security_login_check'),
-            )
-        );
+        $form = $this->getSecurityFormFactory()->createLoginForm('darvin_admin_security_login_check');
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -55,5 +45,13 @@ class SecurityController extends Controller
     private function getAuthenticationUtils()
     {
         return $this->get('security.authentication_utils');
+    }
+
+    /**
+     * @return \Darvin\UserBundle\Form\Factory\Security\SecurityFormFactoryInterface
+     */
+    private function getSecurityFormFactory()
+    {
+        return $this->get('darvin_user.security.form_factory');
     }
 }

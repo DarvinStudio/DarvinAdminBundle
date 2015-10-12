@@ -140,10 +140,6 @@ security:
             submit: Sign in
         logout:
             link: Logout
-    model:
-        password:    Password
-        remember_me: Remember me
-        username:    Username or e-mail
     object:
         abstract_image: Image manager
         log_entry:      Log

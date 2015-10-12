@@ -6,6 +6,25 @@
     <div class="authorization_page">
         <div class="wrap">
             <div class="container">
+                {% if darvin_admin_locales | length > 1 %}
+                    <ul>
+                        {% for locale in darvin_admin_locales %}
+                            <li>
+                                {% if locale == app.request.locale %}
+                                    <span>{{ ('locale.' ~ locale) | trans }}</span>
+                                {% else %}
+
+                                    {% set url = path(
+                                    app.request.attributes.get('_route'),
+                                    app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
+                                    ) %}
+
+                                    <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <div class="block">
                     <a href="" class="logo">
                         <img src="{{ asset('bundles/darvinadminfrontend/images/logo_auth.png') }}" alt="">

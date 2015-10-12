@@ -1,11 +1,6 @@
 Консольные команды
 ==================
 
-## darvin:admin:administrator:create:
-
-- **что делает**: создает администратора;
-- **как использовать**: darvin:admin:administrator:create <логин> <пароль>.
-
 ## darvin:admin:caches:clear:
 
 - **что делает**: выполняет команды очистки кэша Symfony и Imagine;

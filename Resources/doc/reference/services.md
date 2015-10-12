@@ -79,10 +79,7 @@
 - **darvin_admin.security.form_type.object_permissions** - форма прав на объект;
 
 
-- **darvin_admin.security.user_provider.administrator** - провайдер администратора;
-
-
-- **darvin_admin.security.user_provider.oauth_administrator** - провайдер администратора для OAuth;
+- **darvin_admin.security.user_provider.oauth** - провайдер пользователя для OAuth;
 
 
 - **darvin_admin.uploader.listener** - listener события завершения загрузки файла, добавляющий имя файла в ответ сервера;

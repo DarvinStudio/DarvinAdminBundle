@@ -78,16 +78,6 @@ stof_doctrine_extensions:
             tree:     true
 ```
 
-- импортируем настройки безопасности в файл конфигурации безопасности приложения (обычно "app/config/security.yml"),
- предварительно закомментировав его содержимое:
-
-```yaml
-imports:
-    - { resource: "@DarvinAdminBundle/Resources/config/app/security.yml" }
-```
-
-либо копируем настройки в случае необходимости их изменения;
-
 - настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
 
 ```yaml
@@ -147,16 +137,4 @@ hwi_oauth:
 
 ```shell
 $ php app/console doctrine:schema:update --force
-```
-
-- создаем администратора, загрузив фикстуру с помощью
-
-```shell
-$ php app/console doctrine:fixtures:load --append
-```
-
-тогда будет создан администратор "admin" с паролем "admin", либо воспользовавшись командой
-
-```shell
-$ php app/console darvin:admin:administrator:create <логин> <пароль>
 ```

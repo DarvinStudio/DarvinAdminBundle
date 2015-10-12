@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
-use Darvin\AdminBundle\Security\Permissions\AdministratorPermissions;
+use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
@@ -18,9 +18,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Administrator permissions form type
+ * User permissions form type
  */
-class AdministratorPermissionsType extends AbstractType
+class UserPermissionsType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ class AdministratorPermissionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('administratorId', 'hidden', array(
+            ->add('userId', 'hidden', array(
                 'label' => false,
             ))
             ->add('permissions', 'collection', array(
@@ -59,7 +59,7 @@ class AdministratorPermissionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => AdministratorPermissions::ADMINISTRATOR_PERMISSIONS_CLASS,
+            'data_class' => UserPermissions::USER_PERMISSIONS_CLASS,
             'intention'  => md5(__FILE__.$this->getName()),
         ));
     }
@@ -69,6 +69,6 @@ class AdministratorPermissionsType extends AbstractType
      */
     public function getName()
     {
-        return 'darvin_admin_security_administrator_permissions';
+        return 'darvin_admin_security_user_permissions';
     }
 }

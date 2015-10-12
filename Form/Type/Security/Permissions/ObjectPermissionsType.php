@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
-use Darvin\AdminBundle\Security\Permissions\AdministratorPermissions;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
+use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Darvin\UserBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
@@ -63,9 +63,9 @@ class ObjectPermissionsType extends AbstractType
             ->add('objectClass', 'hidden', array(
                 'label' => false,
             ))
-            ->add('administratorPermissionsSet', 'collection', array(
+            ->add('userPermissionsSet', 'collection', array(
                 'label' => false,
-                'type'  => new AdministratorPermissionsType(),
+                'type'  => new UserPermissionsType(),
             ))
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($userRepository) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */
@@ -74,18 +74,18 @@ class ObjectPermissionsType extends AbstractType
                 $users = $this->getUsers();
 
                 foreach ($users as $id => $user) {
-                    if ($objectPermissions->hasAdministratorPermissions($id)) {
+                    if ($objectPermissions->hasUserPermissions($id)) {
                         continue;
                     }
 
-                    $objectPermissions->addAdministratorPermissions(
+                    $objectPermissions->addUserPermissions(
                         $id,
-                        new AdministratorPermissions($user->getId(), $user->getDefaultPermissions())
+                        new UserPermissions($user->getId(), $user->getDefaultPermissions())
                     );
                 }
-                foreach ($objectPermissions->getAdministratorPermissionsSet() as $userId => $permissions) {
+                foreach ($objectPermissions->getUserPermissionsSet() as $userId => $permissions) {
                     if (!isset($users[$userId])) {
-                        $objectPermissions->removeAdministratorPermissions($userId);
+                        $objectPermissions->removeUserPermissions($userId);
                     }
                 }
             });
@@ -101,7 +101,7 @@ class ObjectPermissionsType extends AbstractType
         $users = $this->getUsers();
 
         /** @var \Symfony\Component\Form\FormView $child */
-        foreach ($view->children['administratorPermissionsSet'] as $userId => $child) {
+        foreach ($view->children['userPermissionsSet'] as $userId => $child) {
             $user = $users[$userId];
             $child->vars['label'] = $user->getEmail();
         }

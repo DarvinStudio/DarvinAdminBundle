@@ -23,9 +23,9 @@ class ObjectPermissions
     private $objectClass;
 
     /**
-     * @var \Darvin\AdminBundle\Security\Permissions\AdministratorPermissions[]
+     * @var \Darvin\AdminBundle\Security\Permissions\UserPermissions[]
      */
-    private $administratorPermissionsSet;
+    private $userPermissionsSet;
 
     /**
      * @param string $objectClass Object class
@@ -33,7 +33,7 @@ class ObjectPermissions
     public function __construct($objectClass)
     {
         $this->objectClass = $objectClass;
-        $this->administratorPermissionsSet = array();
+        $this->userPermissionsSet = array();
     }
 
     /**
@@ -57,57 +57,57 @@ class ObjectPermissions
     }
 
     /**
-     * @param \Darvin\AdminBundle\Security\Permissions\AdministratorPermissions[] $administratorPermissionsSet administratorPermissionsSet
+     * @param \Darvin\AdminBundle\Security\Permissions\UserPermissions[] $userPermissionsSet userPermissionsSet
      *
      * @return ObjectPermissions
      */
-    public function setAdministratorPermissionsSet(array $administratorPermissionsSet)
+    public function setUserPermissionsSet(array $userPermissionsSet)
     {
-        $this->administratorPermissionsSet = $administratorPermissionsSet;
+        $this->userPermissionsSet = $userPermissionsSet;
 
         return $this;
     }
 
     /**
-     * @return \Darvin\AdminBundle\Security\Permissions\AdministratorPermissions[]
+     * @return \Darvin\AdminBundle\Security\Permissions\UserPermissions[]
      */
-    public function getAdministratorPermissionsSet()
+    public function getUserPermissionsSet()
     {
-        return $this->administratorPermissionsSet;
+        return $this->userPermissionsSet;
     }
 
     /**
-     * @param string                                                            $administratorUsername    Administrator username
-     * @param \Darvin\AdminBundle\Security\Permissions\AdministratorPermissions $administratorPermissions Administrator permissions
+     * @param int                                                      $userId          User ID
+     * @param \Darvin\AdminBundle\Security\Permissions\UserPermissions $userPermissions User permissions
      *
      * @return ObjectPermissions
      */
-    public function addAdministratorPermissions($administratorUsername, AdministratorPermissions $administratorPermissions)
+    public function addUserPermissions($userId, UserPermissions $userPermissions)
     {
-        $this->administratorPermissionsSet[$administratorUsername] = $administratorPermissions;
+        $this->userPermissionsSet[$userId] = $userPermissions;
 
         return $this;
     }
 
     /**
-     * @param string $administratorUsername Administrator username
+     * @param int $userId User ID
      *
      * @return ObjectPermissions
      */
-    public function removeAdministratorPermissions($administratorUsername)
+    public function removeUserPermissions($userId)
     {
-        unset($this->administratorPermissionsSet[$administratorUsername]);
+        unset($this->userPermissionsSet[$userId]);
 
         return $this;
     }
 
     /**
-     * @param string $administratorUsername Administrator username
+     * @param int $userId User ID
      *
      * @return bool
      */
-    public function hasAdministratorPermissions($administratorUsername)
+    public function hasUserPermissions($userId)
     {
-        return isset($this->administratorPermissionsSet[$administratorUsername]);
+        return isset($this->userPermissionsSet[$userId]);
     }
 }

@@ -153,9 +153,8 @@ class AdminVoter implements VoterInterface
 
                 $this->permissions[$objectClass] = array();
 
-                foreach ($objectPermissions->getAdministratorPermissionsSet() as $administratorPermissions) {
-                    $this->permissions[$objectClass][$administratorPermissions->getAdministratorId()]
-                        = $administratorPermissions->getPermissions();
+                foreach ($objectPermissions->getUserPermissionsSet() as $userPermissions) {
+                    $this->permissions[$objectClass][$userPermissions->getUserId()] = $userPermissions->getPermissions();
                 }
             }
         }

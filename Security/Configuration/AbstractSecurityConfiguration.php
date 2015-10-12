@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Security\Configuration;
 
-use Darvin\AdminBundle\Entity\Administrator;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
+use Darvin\UserBundle\Entity\User;
 
 /**
  * Security configuration abstract implementation
@@ -32,7 +32,7 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
     public function getAllowedRoles()
     {
         return array(
-            Administrator::ROLE_SUPERADMIN,
+            User::ROLE_SUPERADMIN,
         );
     }
 }

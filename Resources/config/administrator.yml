@@ -3,8 +3,6 @@ parameters:
     darvin_admin.administrator.metadata.entity: Darvin\AdminBundle\Entity\Administrator
     darvin_admin.administrator.metadata.config: @@DarvinAdminBundle/Resources/config/admin/administrator.yml
 
-    darvin_admin.administrator.subscriber.class: Darvin\AdminBundle\EventListener\AdministratorSubscriber
-
 services:
     darvin_admin.administrator.metadata:
         class:   %darvin_admin.administrator.metadata.class%
@@ -15,11 +13,3 @@ services:
             - %darvin_admin.administrator.metadata.config%
         tags:
             - { name: darvin_admin.metadata }
-
-    darvin_admin.administrator.subscriber:
-        class:  %darvin_admin.administrator.subscriber.class%
-        public: false
-        arguments:
-            - "@security.encoder_factory"
-        tags:
-            - { name: doctrine.event_subscriber }

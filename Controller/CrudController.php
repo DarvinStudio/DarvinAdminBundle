@@ -205,7 +205,7 @@ class CrudController extends Controller implements MenuItemInterface
             return new Response($this->renderNewTemplate($widget, $form, $parentEntity));
         }
 
-        $success = $reloadPage = $form->isValid();
+        $success = $form->isValid();
 
         if ($success) {
             $em = $this->getEntityManager();
@@ -219,7 +219,7 @@ class CrudController extends Controller implements MenuItemInterface
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($isXmlHttpRequest) {
-            return new AjaxResponse($html, $success, $message, array(), $reloadPage);
+            return new AjaxResponse($html, $success, $message, array(), $success ? '' : null);
         }
 
         $this->getFlashNotifier()->done($success, $message);

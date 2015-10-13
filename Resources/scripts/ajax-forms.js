@@ -23,14 +23,14 @@ $(document).ready(function () {
                     type: data.success ? 'success' : 'error'
                 });
             }
-            if (!data.reloadPage) {
+            if (null === data.redirectUrl) {
                 $form.replaceWith(data.html);
 
                 return;
             }
 
             setTimeout(function () {
-                document.location.href = '';
+                document.location.href = data.redirectUrl;
             }, $.noty.defaults.timeout);
         }).error(onAjaxError);
     });

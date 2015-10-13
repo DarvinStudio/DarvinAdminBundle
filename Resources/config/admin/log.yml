@@ -6,6 +6,8 @@ Darvin\AdminBundle\Entity\LogEntry:
         - new
         - update-property
     entity_name: log
+    menu:
+        color: "#cf3cc5"
     view:
         index:
             action_widgets:

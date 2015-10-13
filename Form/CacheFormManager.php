@@ -72,7 +72,7 @@ class CacheFormManager
             $form = $this->createClearForm();
         }
 
-        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:cache/widget:clear_form.html.twig', array(
+        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:Cache/widget:clear_form.html.twig', array(
             'form' => $form->createView(),
         ));
     }

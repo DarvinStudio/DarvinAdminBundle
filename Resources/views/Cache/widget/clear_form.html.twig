@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, { 'attr': { 'class': 'ajax' } }) }}
+{{ form_start(form, { 'attr': { 'class': 'ajax cache_clear' } }) }}
 {{ form_widget(form) }}
 <button onclick="return confirm('{% trans %}cache.action.clear.confirm{% endtrans %}');" type="submit">
     {% trans %}cache.action.clear.submit{% endtrans %}

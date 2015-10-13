@@ -107,6 +107,8 @@ layout:
         support:
             label: Техническая поддержка
             email: support@darvin-studio.ru
+    locale_switcher:
+        title: Язык:
     menu:
         collapse: Свернуть меню
         expand:   Показать меню

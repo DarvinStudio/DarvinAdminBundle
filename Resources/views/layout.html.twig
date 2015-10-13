@@ -64,25 +64,14 @@
                                 <img src="{{ asset('bundles/darvinadminfrontend/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
                             </a>
-                            <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
                         </div>
-                        <div class="col-md-7 col-lg-7  header_right">
+                        <div class="col-md-7 col-lg-7 header_right">
 
                             {% set menu = {
-								'security.action.logout.link': {
+                                'security.action.logout.link': {
                                     'accessible': true,
                                     'class':      'logout',
                                     'url':        path('darvin_admin_security_logout'),
-                                },
-                                'configuration.action.edit.link': {
-                                    'accessible': true,
-                                    'class':      'link_main_option',
-                                    'url':        path('darvin_admin_configuration'),
-                                },
-                                'translation.action.index.link': {
-                                    'accessible': true,
-                                    'class':      '',
-                                    'url':        path('lexik_translation_grid'),
                                 },
                                 'user.action.index.link': {
                                     'accessible': is_granted(
@@ -95,6 +84,16 @@
                                         constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX')
                                     ),
                                 },
+                                'configuration.action.edit.link': {
+                                    'accessible': true,
+                                    'class':      'link_main_option',
+                                    'url':        path('darvin_admin_configuration'),
+                                },
+                                'translation.action.index.link': {
+                                    'accessible': true,
+                                    'class':      'link_translete_manager',
+                                    'url':        path('lexik_translation_grid'),
+                                },
                             } %}
 
                             {% for title, attr in menu if attr.accessible %}
@@ -103,24 +102,33 @@
 
                             {{ admin_cache_clear_form() }}
 
+                            <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
+
                             {% if darvin_admin_locales | length > 1 %}
-                                <ul>
-                                    {% for locale in darvin_admin_locales %}
-                                        <li>
-                                            {% if locale == app.request.locale %}
-                                                <span>{{ ('locale.' ~ locale) | trans }}</span>
-                                            {% else %}
+                                <div class="lang_switcher">
+                                    <span>{% trans %}layout.locale_switcher.title{% endtrans %}</span>
+                                    <ul>
+                                        {% for locale in darvin_admin_locales %}
+                                            <li>
+                                                {% if locale == app.request.locale %}
+                                                    <span title="{{ ('locale.' ~ locale) | trans }}">
+                                                        {{ locale | capitalize }}
+                                                    </span>
+                                                {% else %}
 
-                                                {% set url = path(
-                                                    app.request.attributes.get('_route'),
-                                                    app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
-                                                ) %}
+                                                    {% set url = path(
+                                                        app.request.attributes.get('_route'),
+                                                        app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
+                                                    ) %}
 
-                                                <a href="{{ url }}">{{ ('locale.' ~ locale) | trans }}</a>
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
+                                                    <a href="{{ url }}" title="{{ ('locale.' ~ locale) | trans }}">
+                                                        {{ locale | capitalize }}
+                                                    </a>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

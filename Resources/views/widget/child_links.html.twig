@@ -2,19 +2,13 @@
 
 {% set route_params = { (association ~ ''): parent_id } %}
 
-<ul>
-    {% if index_link and children_count > 0 %}
-        <li>
-            <a href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'), route_params) }}">
-                {{ (translation_prefix ~ 'action.index.link') | trans }}&nbsp;({{ children_count }})
-            </a>
-        </li>
-    {% endif %}
-    {% if new_link %}
-        <li>
-            <a href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'), route_params) }}">
-                {{ (translation_prefix ~ 'action.new.link') | trans }}
-            </a>
-        </li>
-    {% endif %}
-</ul>
+{% if index_link and children_count > 0 %}
+    <a class="items" href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'), route_params) }}">
+        {{ (translation_prefix ~ 'action.index.link') | trans }}&nbsp;({{ children_count }})
+    </a>
+{% endif %}
+{% if new_link and not children_count %}
+    <a class="items none" href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'), route_params) }}">
+        {{ (translation_prefix ~ 'action.new.link') | trans }}
+    </a>
+{% endif %}

@@ -11,9 +11,15 @@ $('#sidebar_switcher').on('mousedown', function(){
 	if(switch_btn.hasClass('active')){
 		switch_btn.text('Свернуть меню');
 		sidebar_wrap.removeClass('noactive');
+        $.cookie(COOKIE_SIDEBAR, 1, {
+            path: '/'
+        });
 	} else {
 		switch_btn.text('Показать меню');
 		sidebar_wrap.addClass('noactive');
+        $.cookie(COOKIE_SIDEBAR, 0, {
+            path: '/'
+        });
 	}
 	/*setTimeout( function(){ resize()}, 300);*/
 	setTimeout( function(){ $(window).resize();}, 300);
@@ -24,12 +30,24 @@ $('.selectpicker').selectpicker();
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');
-    if (spoiler_container.find('.spoiler_body').css("display")=="none") 
+    var body = spoiler_container.find('.spoiler_body');
+    if (body.css("display")=="none")
 	{
-		spoiler_container.find('.spoiler_body').hide('normal');
-		spoiler_container.find('.spoiler_body').toggle('normal');
-	}
-	else spoiler_container.find('.spoiler_body').hide('normal');
+		body.hide('normal');
+		body.toggle('normal');
+        if ('undefined' !== typeof body.data('cookie')) {
+            $.cookie(body.data('cookie'), 1, {
+                path: '/'
+            });
+        }
+	} else {
+        body.hide('normal');
+        if ('undefined' !== typeof body.data('cookie')) {
+            $.cookie(body.data('cookie'), 0, {
+                path: '/'
+            });
+        }
+    }
 	spoiler_container.toggleClass('noactive');
 	return false;
  });

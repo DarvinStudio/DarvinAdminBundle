@@ -16,6 +16,9 @@ $(document).ready(function () {
             PLAY_STOP:  Translator.trans('fancybox.play_stop')
         }
     });
+    $.fancybox.defaults.tpl = $.extend({}, $.fancybox.defaults.tpl, {
+        closeBtn: '<a title="{{CLOSE}}" class="overlay_close" href="javascript:;"><img src="../../../../bundles/darvinadminfrontend/images/overlay_close.png" alt="" /></a>'
+    });
 
     $('.fancybox').fancybox();
 

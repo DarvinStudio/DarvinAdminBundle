@@ -33,7 +33,7 @@ class LogEntry extends AbstractLogEntry
     /**
      * @var object
      *
-     * @Darvin\CustomObject(classPropertyPath="objectClass", initProperty="id", initPropertyValuePath="objectId")
+     * @Darvin\CustomObject(classPropertyPath="objectClass", initPropertyValuePath="objectId")
      */
     private $object;
 

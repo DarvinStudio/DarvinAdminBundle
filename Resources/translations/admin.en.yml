@@ -80,7 +80,6 @@ image:
 
 interface:
     actions: Actions
-    version: Release %number%
 
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Release %version%
@@ -97,6 +96,8 @@ layout:
         support:
             label: Technical support
             email: support@darvin-studio.ru
+    locale_switcher:
+        title: Language:
     menu:
         collapse: Collapse menu
         expand:   Expand menu
@@ -137,7 +138,8 @@ property_forms:
 security:
     action:
         login:
-            submit: Sign in
+            submit:  Sign in
+            version: Release %number%
         logout:
             link: Logout
     object:

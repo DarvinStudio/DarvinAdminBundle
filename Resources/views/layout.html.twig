@@ -104,32 +104,8 @@
 
                             <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
 
-                            {% if darvin_admin_locales | length > 1 %}
-                                <div class="lang_switcher">
-                                    <span>{% trans %}layout.locale_switcher.title{% endtrans %}</span>
-                                    <ul>
-                                        {% for locale in darvin_admin_locales %}
-                                            <li>
-                                                {% if locale == app.request.locale %}
-                                                    <span title="{{ ('locale.' ~ locale) | trans }}">
-                                                        {{ locale | capitalize }}
-                                                    </span>
-                                                {% else %}
+                            {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
 
-                                                    {% set url = path(
-                                                        app.request.attributes.get('_route'),
-                                                        app.request.attributes.get('_route_params') | merge({ '_locale': locale }) | merge(app.request.query.all)
-                                                    ) %}
-
-                                                    <a href="{{ url }}" title="{{ ('locale.' ~ locale) | trans }}">
-                                                        {{ locale | capitalize }}
-                                                    </a>
-                                                {% endif %}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                 </div>

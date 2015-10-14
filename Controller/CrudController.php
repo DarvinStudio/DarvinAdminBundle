@@ -604,7 +604,7 @@ class CrudController extends Controller implements MenuItemInterface
     /** @return \Darvin\Utils\CustomObject\CustomObjectLoaderInterface */
     private function getCustomObjectLoader()
     {
-        return $this->get('darvin_utils.custom_object.loader.entity');
+        return $this->get('darvin_utils.custom_object.loader');
     }
 
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */

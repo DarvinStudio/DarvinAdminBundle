@@ -104,7 +104,7 @@ class LogController extends Controller
      */
     private function getCustomObjectLoader()
     {
-        return $this->get('darvin_utils.custom_object.loader.entity');
+        return $this->get('darvin_utils.custom_object.loader');
     }
 
     /**

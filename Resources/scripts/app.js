@@ -24,9 +24,9 @@ $('#sidebar_switcher').on('mousedown', function(){
 	/*setTimeout( function(){ resize()}, 300);*/
 	setTimeout( function(){ $(window).resize();}, 300);
 });
-
-$('.selectpicker').selectpicker();
-
+/*
+$('select').selectpicker();
+*/
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');
@@ -53,7 +53,7 @@ $('.spoiler_links').on('mousedown', function(){
  });
  
  /* клик на пункте меню главной */
- $('.main_menu .item.parent a').on('click', function(){
+ $('.main_menu .item.parent > .name a, .main_menu .item.parent > .img a').on('click', function(){
 	var item = $(this).parents('.parent');
 	if(item.hasClass('active')){
 		item.removeClass('active');

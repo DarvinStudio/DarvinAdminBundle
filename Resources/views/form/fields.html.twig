@@ -45,7 +45,7 @@
 {%- endblock form_label -%}
 
 {%- block form_row -%}
-    <div class="table_row">
+    <div class="table_row{% if form.children is empty %} childless{% endif %}">
         {{ form_label(form) }}
         {{ form_errors(form) }}
         {{ form_widget(form) }}

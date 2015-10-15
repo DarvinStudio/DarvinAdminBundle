@@ -7,3 +7,8 @@
         {{ form_widget(form) }}
     </div>
 {%- endblock form_row -%}
+
+{%- block widget_attributes -%}
+    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ form.vars.block_prefixes[1]) | trim }) %}
+    {{ parent() }}
+{%- endblock widget_attributes -%}

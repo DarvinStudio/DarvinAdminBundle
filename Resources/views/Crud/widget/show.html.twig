@@ -1,16 +1,20 @@
 {% trans_default_domain 'admin' %}
 
-{{ admin_widget_actions(entity, { 'view_type': 'show' }) }}
+{% block widget_content %}
+    {{ admin_widget_actions(entity, { 'view_type': 'show' }) }}
 
-<div class="overlay_response">
-    <table>
-        <tbody>
-            {% for item in view.items %}
-                <tr>
-                    <th>{{ item.label | trans }}:</th>
-                    <td>{{ item.content ? item.content | trans | raw : '-' }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+    <div class="overlay_response">
+        <div class="overlay_order_table">
+            <table>
+                <tbody>
+                    {% for item in view.items %}
+                        <tr>
+                            <th>{{ item.label | trans }}:</th>
+                            <td>{{ item.content ? item.content | trans | raw : '-' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

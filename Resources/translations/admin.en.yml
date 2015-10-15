@@ -127,7 +127,7 @@ log:
         object_id:   Object ID
         object_name: Object name
         user:        User
-        username:    User
+        username:    Username
         version:     Version
     menu:
         description: ""

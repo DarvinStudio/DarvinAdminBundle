@@ -135,9 +135,9 @@ log:
         logged_at:   Время
         object:      Объект
         object_id:   ID объекта
-        object_name: Объект
+        object_name: Название объекта
         user:        Пользователь
-        username:    Пользователь
+        username:    Имя пользователя
         version:     Версия
     menu:
         description: ""

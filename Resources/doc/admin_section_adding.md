@@ -62,3 +62,5 @@ $metadata = $this->getContainer()->get('darvin_admin.metadata.manager')->getMeta
  раздела администрирования;
 - **darvin_admin.metadata.sort_criteria_detector** - сервис определения критерия сортировки для сущности на основе
  метаданных ее раздела администрирования.
+
+**3. Создаем [конфигурацию безопасности](security_configurations.md) для сущности, иначе она будет недоступна для всех пользователей.**

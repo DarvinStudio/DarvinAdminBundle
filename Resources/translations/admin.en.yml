@@ -69,6 +69,9 @@ image:
             link:    Edit image
             success: Image successfully updated
             title:   Edit image "%entity%"
+        filter:
+            reset:  Reset filter
+            submit: Submit filter
         index:
             link:  Image manager
             title: Image manager

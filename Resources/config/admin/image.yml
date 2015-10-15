@@ -12,6 +12,12 @@ Darvin\ImageBundle\Entity\Image\AbstractImage:
     form:
         edit:
             type: darvin_image_image_sizes
+        filter:
+            fields:
+                name:
+                    strict_comparison: false
+                extension:
+                    strict_comparison: false
         index:
             fields:
                 name: ~

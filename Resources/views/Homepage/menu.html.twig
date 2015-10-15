@@ -13,6 +13,12 @@
             {% if icon %}
                 <div class="img">
                     <a href="{{ index_url }}"><img src="{{ asset(icon) }}" alt="" /></a>
+                    {% if attr.associated_object_class
+                        and utils_new_objects_countable(attr.associated_object_class)
+                        and utils_count_new_objects(attr.associated_object_class)
+                    %}
+                        <a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>
+                    {% endif %}
                 </div>
             {% endif %}
             <div class="name">

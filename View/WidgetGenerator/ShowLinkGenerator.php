@@ -63,7 +63,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, array(
             'entity'             => $entity,
-            'image_link'         => $options['image_link'],
+            'text_link'          => $options['text_link'],
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
     }
@@ -83,7 +83,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     {
         $resolver
             ->setDefaults(array(
-                'image_link' => true,
+                'text_link' => false,
             ))
             ->setDefined('entity_property')
             ->setAllowedTypes('entity_property', 'string');

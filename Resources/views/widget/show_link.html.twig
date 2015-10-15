@@ -3,9 +3,9 @@
 <a class="edit_element_visible fancybox_ajax"
    href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_SHOW')) }}"
    title="{{ (translation_prefix ~ 'action.show.title') | trans({ '%entity%': entity }) }}">
-    {% if image_link %}
-        <img src="{{ asset('bundles/darvinadminfrontend/images/edit_element_visible_active.png') }}" alt="">
-    {% else %}
+    {% if text_link %}
         {{ entity }}
+    {% else %}
+        <img src="{{ asset('bundles/darvinadminfrontend/images/edit_element_visible_active.png') }}" alt="">
     {% endif %}
 </a>

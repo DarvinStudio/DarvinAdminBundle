@@ -1,6 +1,6 @@
 boolean:
-    - Yes
     - No
+    - Yes
 
 cache:
     action:

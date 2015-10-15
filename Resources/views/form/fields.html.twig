@@ -1,16 +1,17 @@
 {% extends 'form_div_layout.html.twig' %}
 
+{%- block button_attributes -%}
+    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ name) | trim }) %}
+    {{ parent() }}
+{%- endblock button_attributes -%}
+
 {%- block collection_widget -%}
-    {% if attr.class is defined and attr.class %}
-        {% set attr = attr|merge({'class': attr.class ~ ' collection'}) %}
-    {% else %}
-        {% set attr = attr|merge({'class': 'collection'}) %}
-    {% endif %}
+    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' collection') | trim }) %}
     {% if allow_add %}
-        {% set attr = attr|merge({'data-allow-add': 1}) %}
+        {% set attr = attr | merge({ 'data-allow-add': 1 }) %}
     {% endif %}
     {% if allow_delete %}
-        {% set attr = attr|merge({'data-allow-delete': 1}) %}
+        {% set attr = attr | merge({ 'data-allow-delete': 1 }) %}
     {% endif %}
     {{ parent() }}
 {%- endblock collection_widget -%}

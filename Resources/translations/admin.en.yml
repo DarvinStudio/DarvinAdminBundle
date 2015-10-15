@@ -41,6 +41,10 @@ exception:
     404: Not found
     500: Internal server error
 
+filter:
+    title:       Table filter
+    description: Filter parameters using filter
+
 flash:
     error:
         form: Form errors detected. Fix them and resubmit form

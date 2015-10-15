@@ -59,6 +59,8 @@ services:
     darvin_admin.view.entity_transformer.show:
         class:  %darvin_admin.view.entity_transformer.show.class%
         parent: darvin_admin.view.entity_transformer.abstract
+        calls:
+            - [ setEventDispatcher, [ "@event_dispatcher" ] ]
 
     darvin_admin.view.widget_generator.abstract:
         class:    %darvin_admin.view.widget_generator.abstract.class%

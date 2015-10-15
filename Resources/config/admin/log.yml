@@ -8,6 +8,21 @@ Darvin\AdminBundle\Entity\LogEntry:
     entity_name: log
     menu:
         color: "#cf3cc5"
+    form:
+        filter:
+            fields:
+                action:
+                    type: choice
+                    options:
+                        choices: [ Darvin\AdminBundle\Entity\LogEntry, getActions ]
+                loggedAtFrom: ~
+                loggedAtTo:   ~
+                objectClass:
+                    strict_comparison: false
+                version:
+                    strict_comparison: false
+                username:
+                    strict_comparison: false
     view:
         index:
             action_widgets:

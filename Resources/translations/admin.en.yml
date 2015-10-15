@@ -109,6 +109,9 @@ layout:
 
 log:
     action:
+        filter:
+            reset:  Reset filter
+            submit: Apply filter
         index:
             link:  Log
             title: Log
@@ -120,19 +123,23 @@ log:
             link:  View entry
             title: Log entry for %entity%
     entity:
-        action_name:   Action
+        action:      Action
+        action_name: Action
         actions:
             create: Creating
             remove: Removal
             update: Updating
-        data:        Data
-        logged_at:   Logged at
-        object:      Object
-        object_id:   Object ID
-        object_name: Object name
-        user:        User
-        username:    Username
-        version:     Version
+        data:           Data
+        logged_at:      Logged at
+        logged_at_from: Logged at (from)
+        logged_at_to:   Logged at (to)
+        object:         Object
+        object_class:   Object
+        object_id:      Object ID
+        object_name:    Object name
+        user:           User
+        username:       Username
+        version:        Version
     menu:
         description: ""
 

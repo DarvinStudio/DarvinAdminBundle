@@ -119,6 +119,9 @@ layout:
 
 log:
     action:
+        filter:
+            reset:  Сбросить фильтр
+            submit: Применить фильтр
         index:
             link:  Журнал
             title: Журнал
@@ -130,19 +133,23 @@ log:
             link:  Просмотреть запись
             title: Запись в журнале от %entity%
     entity:
-        action_name:   Действие
+        action:      Действие
+        action_name: Действие
         actions:
             create: Создание
             remove: Удаление
             update: Изменение
-        data:        Данные
-        logged_at:   Время
-        object:      Объект
-        object_id:   ID объекта
-        object_name: Название объекта
-        user:        Пользователь
-        username:    Имя пользователя
-        version:     Версия
+        data:           Данные
+        logged_at:      Время
+        logged_at_from: Время (с)
+        logged_at_to:   Время (по)
+        object:         Объект
+        object_class:   Объект
+        object_id:      ID объекта
+        object_name:    Название объекта
+        user:           Пользователь
+        username:       Имя пользователя
+        version:        Версия
     menu:
         description: ""
 

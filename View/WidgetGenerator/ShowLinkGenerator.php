@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -39,6 +40,8 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
      */
     public function generate($entity, array $options = array())
     {
+        $this->validate($entity, $options);
+
         if (isset($options['entity_property'])) {
             $entityProperty = $options['entity_property'];
 
@@ -60,6 +63,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, array(
             'entity'             => $entity,
+            'image_link'         => $options['image_link'],
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
     }
@@ -70,5 +74,18 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     public function getAlias()
     {
         return self::ALIAS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver
+            ->setDefaults(array(
+                'image_link' => true,
+            ))
+            ->setDefined('entity_property')
+            ->setAllowedTypes('entity_property', 'string');
     }
 }

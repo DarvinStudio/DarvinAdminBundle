@@ -3,10 +3,14 @@
 {{ admin_widget_actions(entity, { 'view_type': 'show' }) }}
 
 <div class="overlay_response">
-    {% for item in view.items %}
-        <p>
-            <span>{{ item.label | trans }}:</span>
-            {{ item.content ? item.content | trans | raw : '-' }}
-        </p>
-    {% endfor %}
+    <table>
+        <tbody>
+            {% for item in view.items %}
+                <tr>
+                    <th>{{ item.label | trans }}:</th>
+                    <td>{{ item.content ? item.content | trans | raw : '-' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>

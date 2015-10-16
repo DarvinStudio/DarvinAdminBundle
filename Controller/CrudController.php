@@ -193,6 +193,17 @@ class CrudController extends Controller implements MenuItemInterface
         if ($this->meta->hasParent()) {
             $this->getPropertyAccessor()->setValue($entity, $association, $parentEntity);
         }
+        if ($this->getTranslationJoiner()->isTranslatable($entityClass)) {
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
+            $translationClass = $entity->getTranslationEntityClass();
+
+            foreach ($this->getParameter('darvin_admin.locales') as $locale) {
+                /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
+                $translation = new $translationClass();
+                $translation->setLocale($locale);
+                $entity->addTranslation($translation);
+            }
+        }
 
         $form = $this->getAdminFormFactory()->createEntityForm(
             $entity,

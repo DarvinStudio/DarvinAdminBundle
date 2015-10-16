@@ -66,13 +66,17 @@
 {%- endblock form_row -%}
 
 {%- block form_widget -%}
-    <div class="form_widget">
-        {{ parent() }}
-    </div>
+    {{ parent() }}
     {% if darvin_admin_info %}
         <div class="description">{{ darvin_admin_info | trans({}, translation_domain) }}</div>
     {% endif %}
 {%- endblock form_widget -%}
+
+{%- block form_widget_compound -%}
+    <div class="compound">
+        {{ parent() }}
+    </div>
+{%- endblock form_widget_compound -%}
 
 {%- block form_widget_simple -%}
     <div class="input_value">

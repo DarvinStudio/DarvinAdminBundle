@@ -11,8 +11,6 @@
 namespace Darvin\AdminBundle\Security\Configuration;
 
 use Darvin\AdminBundle\Entity\LogEntry;
-use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
-use Darvin\ConfigBundle\Parameter\ParameterModel;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 
 /**
@@ -23,32 +21,19 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
     /**
      * {@inheritdoc}
      */
-    public function getModel()
+    public function getName()
     {
-        return array(
-            new ParameterModel(
-                'permissions',
-                ParameterModel::TYPE_ARRAY,
-                array(
-                    'abstract_image' => new ObjectPermissions(AbstractImage::ABSTRACT_IMAGE_CLASS),
-                    'log_entry'      => new ObjectPermissions(LogEntry::LOG_ENTRY_CLASS),
-                ),
-                array(
-                    'form' => array(
-                        'options' => array(
-                            'type' => 'darvin_admin_security_object_permissions',
-                        ),
-                    ),
-                )
-            ),
-        );
+        return 'darvin_admin_security';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    protected function getSecurableObjectClasses()
     {
-        return 'darvin_admin_security';
+        return array(
+            'abstract_image' => AbstractImage::ABSTRACT_IMAGE_CLASS,
+            'log_entry'      => LogEntry::LOG_ENTRY_CLASS,
+        );
     }
 }

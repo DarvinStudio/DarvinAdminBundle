@@ -11,10 +11,6 @@
  наследующийся от "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration".**
 
 Параметр конфигурации представляет собой массив объектов "Darvin\AdminBundle\Security\Permissions\ObjectPermissions".
- Если предполагается редактирование конфигурации в панели администрирования, можно воспользоваться существующей формой
- "darvin_admin_security_object_permissions", указав ее в опциях модели параметра. В случае наследования от класса
- "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration" по умолчанию параметр должен называться
- "permissions" (см. реализацию метода "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getPermissions()").
  С помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с определенными
  ролями. В случае наследования от вышеупомянутого абстрактного класса, по умолчанию редактировать конфигурацию смогут
  только суперадминистраторы (см. реализацию метода

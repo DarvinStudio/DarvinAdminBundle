@@ -10,7 +10,9 @@
 
 namespace Darvin\AdminBundle\Security\Configuration;
 
+use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
+use Darvin\ConfigBundle\Parameter\ParameterModel;
 use Darvin\UserBundle\Entity\User;
 
 /**
@@ -18,6 +20,26 @@ use Darvin\UserBundle\Entity\User;
  */
 abstract class AbstractSecurityConfiguration extends AbstractConfiguration implements SecurityConfigurationInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getModel()
+    {
+        $defaultValue = array();
+
+        foreach ($this->getSecurableObjectClasses() as $name => $class) {
+            $defaultValue[$name] = new ObjectPermissions($class);
+        }
+
+        return new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
+            'form' => array(
+                'options' => array(
+                    'type' => 'darvin_admin_security_object_permissions',
+                ),
+            ),
+        ));
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -35,4 +57,9 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
             User::ROLE_SUPERADMIN,
         );
     }
+
+    /**
+     * @return array
+     */
+    abstract protected function getSecurableObjectClasses();
 }

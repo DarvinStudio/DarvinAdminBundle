@@ -7,48 +7,31 @@
 
 ## Добавление конфигурации
 
-**1. Создаем класс, реализующий "Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface" или
- наследующийся от "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration".**
+**1. Создаем класс, наследующийся от "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration".**
 
-Параметр конфигурации представляет собой массив объектов "Darvin\AdminBundle\Security\Permissions\ObjectPermissions".
- С помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с определенными
- ролями. В случае наследования от вышеупомянутого абстрактного класса, по умолчанию редактировать конфигурацию смогут
- только суперадминистраторы (см. реализацию метода
+Метод "getSecurableObjectClasses()" должен возвращать массив, ключами которого являются названия объектов, а значениями
+ - их классы. С помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с
+ определенными ролями. По умолчанию редактировать конфигурацию смогут только суперадминистраторы (см. реализацию метода
  "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getAllowedRoles()").
 
 Пример реализации класса конфигурации безопасности:
 
 ```php
 use Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration;
-use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
-use Darvin\ConfigBundle\Parameter\ParameterModel;
 
 class SecurityConfiguration extends AbstractSecurityConfiguration
 {
-    public function getModel()
-    {
-        return array(
-            new ParameterModel(
-                'permissions',
-                ParameterModel::TYPE_ARRAY,
-                array(
-                    'administrator' => new ObjectPermissions('Darvin\\AdminBundle\\Entity\\Administrator'),
-                    'log_entry'     => new ObjectPermissions('Darvin\\AdminBundle\\Entity\\LogEntry'),
-                ),
-                array(
-                    'form' => array(
-                        'options' => array(
-                            'type' => 'darvin_admin_security_object_permissions',
-                        ),
-                    ),
-                )
-            ),
-        );
-    }
-
     public function getName()
     {
         return 'darvin_admin_security';
+    }
+
+    protected function getSecurableObjectClasses()
+    {
+        return array(
+            'abstract_image' => 'Darvin\\ImageBundle\\Entity\\Image\\AbstractImage,
+            'log_entry'      => 'Darvin\\AdminBundle\\Entity\\LogEntry',
+        );
     }
 }
 ```

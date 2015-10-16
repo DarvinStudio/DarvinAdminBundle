@@ -29,7 +29,7 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
     protected function getSecurableObjectClasses()
     {
         return array(
-            'abstract_image' => 'Darvin\\ImageBundle\\Entity\\Image\\AbstractImage,
+            'abstract_image' => 'Darvin\\ImageBundle\\Entity\\Image\\AbstractImage',
             'log_entry'      => 'Darvin\\AdminBundle\\Entity\\LogEntry',
         );
     }

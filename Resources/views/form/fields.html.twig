@@ -5,6 +5,18 @@
     {{ parent() }}
 {%- endblock button_attributes -%}
 
+{%- block checkbox_widget -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock checkbox_widget -%}
+
+{%- block choice_widget_collapsed -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock choice_widget_collapsed -%}
+
 {%- block collection_widget -%}
     {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' collection') | trim }) %}
     {% if allow_add %}
@@ -46,7 +58,7 @@
 {%- endblock form_label -%}
 
 {%- block form_row -%}
-    <div class="table_row{% if form.children is empty %} childless input_value{% endif %}">
+    <div class="table_row{% if form.children is empty %} childless{% endif %}">
         {{ form_label(form) }}
         {{ form_errors(form) }}
         {{ form_widget(form) }}
@@ -54,13 +66,31 @@
 {%- endblock form_row -%}
 
 {%- block form_widget -%}
-    <div class="input_value">
+    <div class="form_widget">
         {{ parent() }}
     </div>
     {% if darvin_admin_info %}
         <div class="description">{{ darvin_admin_info | trans({}, translation_domain) }}</div>
     {% endif %}
 {%- endblock form_widget -%}
+
+{%- block form_widget_simple -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock form_widget_simple -%}
+
+{%- block radio_widget -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock radio_widget -%}
+
+{%- block textarea_widget -%}
+    <div class="input_value">
+        {{ parent() }}
+    </div>
+{%- endblock textarea_widget -%}
 
 {%- block widget_attributes -%}
     {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ form.vars.block_prefixes[1]) | trim }) %}

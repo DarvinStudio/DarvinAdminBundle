@@ -31,13 +31,15 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
             $defaultValue[$name] = new ObjectPermissions($class);
         }
 
-        return new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
-            'form' => array(
-                'options' => array(
-                    'type' => 'darvin_admin_security_object_permissions',
+        return array(
+            new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
+                'form' => array(
+                    'options' => array(
+                        'type' => 'darvin_admin_security_object_permissions',
+                    ),
                 ),
-            ),
-        ));
+            )),
+        );
     }
 
     /**

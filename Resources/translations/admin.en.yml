@@ -124,7 +124,7 @@ log:
             success: Object successfully reverted
         show:
             link:  View entry
-            title: Log entry for %entity%
+            title: Log entry from %entity%
     entity:
         action:      Action
         action_name: Action

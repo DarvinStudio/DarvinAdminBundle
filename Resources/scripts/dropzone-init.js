@@ -28,7 +28,7 @@ $(document).ready(function () {
                 $files.append($file);
             })
             .on('removedfile', function (file) {
-                $files.find('.original_filename[value="' + file.name + '"]').parents('.row:first').remove();
+                $files.find('.original_filename[value="' + file.name + '"]').parents('.table_row:first').remove();
             });
     });
 });

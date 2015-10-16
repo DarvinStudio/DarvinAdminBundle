@@ -36,6 +36,6 @@ $(document).ready(function () {
             $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {
-            $(this).parents('.row:first').remove();
+            $(this).parents('.table_row:first').remove();
         });
 });

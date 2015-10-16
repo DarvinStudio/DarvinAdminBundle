@@ -9,7 +9,7 @@ $(document).ready(function () {
 
             $sourceInput.removeData('synced');
 
-            var $row = $sourceInput.parents('.row').first();
+            var $row = $sourceInput.parents('.table_row').first();
             var $sourceTab = $row.parents('.tab-pane').first();
 
             var rowIndex = $row.index();
@@ -20,9 +20,14 @@ $(document).ready(function () {
             $sourceTab.siblings('.tab-pane').each(function () {
                 var $targetTab = $(this);
 
-                var $targetInput = $targetTab.find('.row').eq(rowIndex).find('input[type="text"]');
+                var $targetInput = $targetTab.find('.table_row').eq(rowIndex).find('input[type="text"]');
 
                 if ('' !== $targetInput.val() && !$targetInput.data('synced')) {
+                    return;
+                }
+                if ('' === sourceText) {
+                    $targetInput.val(sourceText);
+
                     return;
                 }
 

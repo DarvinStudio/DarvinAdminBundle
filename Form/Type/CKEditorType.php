@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
+use Darvin\ContentBundle\Widget\WidgetInterface;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -88,17 +89,17 @@ class CKEditorType extends AbstractType
         );
 
         foreach ($this->widgetPool->getAllWidgets() as $widget) {
-            $widgetName = $widget->getName();
+            $path = $this->getWidgetPluginPath($widget);
 
-            $path = sprintf('%s/%s/', $this->pluginsPath, $widgetName);
-
-            if (!file_exists($this->webDir.'/'.$path)) {
+            if (empty($path)) {
                 continue;
             }
 
+            $widgetName = $widget->getName();
+
             $plugins[$widgetName] = array(
                 'path'     => $path,
-                'filename' => $this->pluginFilename,
+                'filename' => $this->getWidgetPluginFilename($widget),
             );
             $extraPlugins[] = $widgetName;
         }
@@ -133,5 +134,35 @@ class CKEditorType extends AbstractType
     public function getParent()
     {
         return 'ckeditor';
+    }
+
+    /**
+     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
+     *
+     * @return string
+     */
+    private function getWidgetPluginPath(WidgetInterface $widget)
+    {
+        $options = $widget->getOptions();
+
+        if (isset($options['ckeditor_plugin_path'])) {
+            return $options['ckeditor_plugin_path'];
+        }
+
+        $path = sprintf('%s/%s/', $this->pluginsPath, $widget->getName());
+
+        return file_exists($this->webDir.$path) ? $path : null;
+    }
+
+    /**
+     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
+     *
+     * @return string
+     */
+    private function getWidgetPluginFilename(WidgetInterface $widget)
+    {
+        $options = $widget->getOptions();
+
+        return isset($options['ckeditor_plugin_filename']) ? $options['ckeditor_plugin_filename'] : $this->pluginFilename;
     }
 }

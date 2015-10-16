@@ -36,7 +36,7 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
 }
 ```
 
-Данная конфигурация позволяет ограничивать доступ к администраторам и записям лога.
+Данная конфигурация позволяет ограничивать доступ к изображениям и записям лога.
 
 **2. Объявляем класс сервисом и помечаем его тегами "darvin_admin.security_configuration" и "darvin_config.configuration".**
 

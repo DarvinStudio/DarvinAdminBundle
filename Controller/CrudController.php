@@ -160,12 +160,14 @@ class CrudController extends Controller implements MenuItemInterface
         $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
 
         return $this->renderResponse('index', array(
-            'filter_form'     => !empty($filterForm) ? $filterForm->createView() : null,
-            'meta'            => $this->meta,
-            'new_form_widget' => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
-            'pagination'      => $pagination,
-            'parent_entity'   => $parentEntity,
-            'view'            => $view,
+            'association'      => $association,
+            'filter_form'      => !empty($filterForm) ? $filterForm->createView() : null,
+            'meta'             => $this->meta,
+            'new_form_widget'  => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
+            'pagination'       => $pagination,
+            'parent_entity'    => $parentEntity,
+            'parent_entity_id' => $parentEntityId,
+            'view'             => $view,
         ));
     }
 

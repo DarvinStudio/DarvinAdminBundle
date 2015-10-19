@@ -7,6 +7,8 @@
 {% endmacro %}
 
 {% macro render_crumb(crumb, route_type, title) %}
+    {% import _self as breadcrumbs %}
+
     {{ breadcrumbs.render_crumb_link(admin_path(crumb.entity, route_type), title) }}
 {% endmacro %}
 

@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block breadcrumbs %}{{ admin_breadcrumbs(parent_entity) }}{% endblock %}
+{% block breadcrumbs %}{{ admin_breadcrumbs(parent_entity, null, true) }}{% endblock %}
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title') | trans }}{% endblock %}
 

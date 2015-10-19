@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -62,19 +63,22 @@ class BreadcrumbsExtension extends \Twig_Extension
     }
 
     /**
-     * @param object $entity     Entity
-     * @param bool   $renderLast Whether to render last crumb
-     * @param string $template   Template
+     * @param object                                $entity            Entity
+     * @param \Darvin\AdminBundle\Metadata\Metadata $currentEntityMeta Current entity metadata
+     * @param bool                                  $renderLast        Whether to render last crumb
+     * @param string                                $template          Template
      *
      * @return string
      */
     public function renderBreadcrumbs(
         $entity = null,
-        $renderLast = true,
+        Metadata $currentEntityMeta = null,
+        $renderLast = false,
         $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
     ) {
         $crumbs = array();
         $entityRoute = null;
+        $meta = null;
 
         if (!empty($entity)) {
             $meta = $this->metadataManager->getMetadata($entity);
@@ -90,6 +94,14 @@ class BreadcrumbsExtension extends \Twig_Extension
                 $meta = $parentMeta->getMetadata();
             }
 
+        }
+        if (!empty($currentEntityMeta)) {
+            $crumbs[] = array(
+                'entity' => $currentEntityMeta->getEntityClass(),
+                'meta'   => $currentEntityMeta,
+            );
+        }
+        if (!empty($entity)) {
             $crumbs[] = array(
                 'entity' => $entity,
                 'meta'   => $meta,

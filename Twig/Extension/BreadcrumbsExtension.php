@@ -73,35 +73,35 @@ class BreadcrumbsExtension extends \Twig_Extension
         $renderLast = true,
         $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
     ) {
-        if (empty($entity)) {
-            return '';
-        }
-
         $crumbs = array();
+        $entityRoute = null;
 
-        $meta = $this->metadataManager->getMetadata($entity);
+        if (!empty($entity)) {
+            $meta = $this->metadataManager->getMetadata($entity);
 
-        /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parentMeta */
-        while ($parentMeta = $meta->getParent()) {
+            /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parentMeta */
+            while ($parentMeta = $meta->getParent()) {
+                $crumbs[] = array(
+                    'entity' => $entity,
+                    'meta'   => $meta,
+                );
+
+                $entity = $this->propertyAccessor->getValue($entity, $parentMeta->getAssociation());
+                $meta = $parentMeta->getMetadata();
+            }
+
             $crumbs[] = array(
                 'entity' => $entity,
                 'meta'   => $meta,
             );
 
-            $entity = $this->propertyAccessor->getValue($entity, $parentMeta->getAssociation());
-            $meta = $parentMeta->getMetadata();
+            $configuration = $meta->getConfiguration();
+            $entityRoute = $configuration['breadcrumbs_entity_route'];
         }
-
-        $crumbs[] = array(
-            'entity' => $entity,
-            'meta'   => $meta,
-        );
-
-        $configuration = $meta->getConfiguration();
 
         return $this->environment->render($template, array(
             'crumbs'       => array_reverse($crumbs),
-            'entity_route' => $configuration['breadcrumbs_entity_route'],
+            'entity_route' => $entityRoute,
             'render_last'  => $renderLast,
         ));
     }

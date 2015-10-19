@@ -2,11 +2,16 @@
 
 {% import _self as breadcrumbs %}
 
+{% macro render_crumb_link(url, title) %}
+    <a href="{{ url }}">{{ title | trans }}</a>
+{% endmacro %}
+
 {% macro render_crumb(crumb, route_type, title) %}
-    <a href="{{ admin_path(crumb.entity, route_type) }}">{{ title | trans }}</a>
+    {{ breadcrumbs.render_crumb_link(admin_path(crumb.entity, route_type), title) }}
 {% endmacro %}
 
 <div class="path">
+    {{ breadcrumbs.render_crumb_link('darvin_admin_homepage', 'homepage.action.homepage.link') }}
     {% for crumb in crumbs %}
         {{ breadcrumbs.render_crumb(
             crumb,

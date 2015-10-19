@@ -2,7 +2,17 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block breadcrumbs %}{{ admin_breadcrumbs(parent_entity) }}{% endblock %}
+{% block breadcrumbs %}
+    {{ admin_breadcrumbs(parent_entity) }}
+    {% if admin_route_exists(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW')) %}
+        <div class="post_item_btn">
+            <a href="{{ admin_path(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW')) }}"
+               class="add_section">
+                {{ (meta.baseTranslationPrefix ~ 'action.new.link') | trans }}
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title') | trans }}{% endblock %}
 

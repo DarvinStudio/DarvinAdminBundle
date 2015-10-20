@@ -17,7 +17,7 @@ $(document).ready(function () {
         }
     });
     $.fancybox.defaults.tpl = $.extend({}, $.fancybox.defaults.tpl, {
-        closeBtn: '<a title="{{CLOSE}}" class="overlay_close" href="javascript:;"><img src="../../../../bundles/darvinadminfrontend/images/overlay_close.png" alt="" /></a>'
+        closeBtn: '<a title="{{CLOSE}}" class="overlay_close" href="javascript:;"></a>'
     });
 
     $('.fancybox').fancybox();

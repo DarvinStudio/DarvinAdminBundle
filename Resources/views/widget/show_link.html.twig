@@ -1,11 +1,7 @@
 {% trans_default_domain 'admin' %}
 
-<a class="edit_element_visible fancybox_ajax"
+<a class="fancybox_ajax{% if not text_link %} edit_element show{% endif %}"
    href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_SHOW')) }}"
    title="{{ (translation_prefix ~ 'action.show.title') | trans({ '%entity%': entity }) }}">
-    {% if text_link %}
-        {{ entity }}
-    {% else %}
-        <img src="{{ asset('bundles/darvinadminfrontend/images/edit_element_visible_active.png') }}" alt="">
-    {% endif %}
+    {% if text_link %}{{ entity }}{% endif %}
 </a>

@@ -8,8 +8,11 @@
         'class': 'property_form',
     },
 }) }}
-{{ form_errors(attribute(form, property)) }}
-{{ form_widget(attribute(form, property), { 'attr': {
+
+{% set property_form = attribute(form, property) %}
+
+{{ form_errors(property_form) }}
+{{ form_widget(property_form, { 'attr': {
     'autocomplete':        'off',
     'class':               'field',
     'data-original-value': original_value,

@@ -145,13 +145,17 @@ class CKEditorType extends AbstractType
     {
         $options = $widget->getOptions();
 
-        if (isset($options['ckeditor_plugin_path'])) {
-            return $options['ckeditor_plugin_path'];
+        if (!isset($options['ckeditor_plugin_path'])) {
+            return null;
         }
 
-        $path = sprintf('%s/%s/', $this->pluginsPath, $widget->getName());
+        $path = $options['ckeditor_plugin_path'];
 
-        return file_exists($this->webDir.$path) ? $path : null;
+        if ('/' !== substr($path, -1)) {
+            $path .= '/';
+        }
+
+        return $path;
     }
 
     /**

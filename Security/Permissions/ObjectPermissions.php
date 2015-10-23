@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Security\Permissions;
 /**
  * Object permissions
  */
-class ObjectPermissions
+class ObjectPermissions implements \Serializable
 {
     const OBJECT_PERMISSIONS_CLASS = __CLASS__;
 
@@ -34,6 +34,28 @@ class ObjectPermissions
     {
         $this->objectClass = $objectClass;
         $this->userPermissionsSet = array();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->objectClass,
+            $this->userPermissionsSet,
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->objectClass,
+            $this->userPermissionsSet
+        ) = unserialize($serialized);
     }
 
     /**

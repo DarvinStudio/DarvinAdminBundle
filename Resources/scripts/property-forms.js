@@ -70,7 +70,7 @@ $(document).ready(function () {
         .on('change', '.property_form .field[type!="checkbox"]', function () {
             toggleButtons($(this));
         })
-        .on('keyup', '.property_form input[type="text"]', function () {
+        .on('keyup', '.property_form input', function () {
             toggleButtons($(this));
         })
         .on('click', '.property_form [type="reset"]', function (e) {

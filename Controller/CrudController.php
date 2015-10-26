@@ -574,7 +574,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     private function renderTemplate($viewType, array $templateParams = array(), $widget = false)
     {
-        $template = !empty($this->configuration['view'][$viewType]['template'])
+        $template = $widget && !empty($this->configuration['view'][$viewType]['template'])
             ? $this->configuration['view'][$viewType]['template']
             : sprintf('DarvinAdminBundle:Crud%s:%s.html.twig', $widget ? '/widget' : '', $viewType);
 

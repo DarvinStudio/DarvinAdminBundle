@@ -8,6 +8,6 @@
 
 {% block content %}
 
-    {% include 'DarvinAdminBundle:Crud/widget:show.html.twig' %}
+    {% include meta.configuration.view.show.template ?: 'DarvinAdminBundle:Crud/widget:show.html.twig' %}
 
 {% endblock %}

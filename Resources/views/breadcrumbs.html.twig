@@ -20,7 +20,7 @@
 {% endmacro %}
 
 <div class="path">
-    {{ breadcrumbs.render_crumb_link('darvin_admin_homepage', 'homepage.action.homepage.link') }}
+    {{ breadcrumbs.render_crumb_link(path('darvin_admin_homepage'), 'homepage.action.homepage.link') }}
     {% for crumb in crumbs %}
         {{ breadcrumbs.render_crumb(
             crumb,

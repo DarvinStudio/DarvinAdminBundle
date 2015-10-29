@@ -21,12 +21,11 @@ $('#sidebar_switcher').on('mousedown', function(){
             path: '/'
         });
 	}
-	/*setTimeout( function(){ resize()}, 300);*/
 	setTimeout( function(){ $(window).resize();}, 300);
 });
-/*
+
 $('select').selectpicker();
-*/
+
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');

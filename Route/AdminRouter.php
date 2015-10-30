@@ -110,6 +110,19 @@ class AdminRouter
      * @param mixed  $objectOrClass Entity object or class
      * @param string $routeType     Route type
      * @param array  $parameters    Parameters
+     *
+     * @return string
+     * @throws \Darvin\AdminBundle\Route\RouteException
+     */
+    public function generateAbsolute($objectOrClass, $routeType = self::TYPE_SHOW, array $parameters = array())
+    {
+        return $this->generate($objectOrClass, $routeType, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
+    }
+
+    /**
+     * @param mixed  $objectOrClass Entity object or class
+     * @param string $routeType     Route type
+     * @param array  $parameters    Parameters
      * @param mixed  $referenceType Reference type
      *
      * @return string

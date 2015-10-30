@@ -29,7 +29,7 @@ class SecurityController extends Controller
 
         $authenticationUtils = $this->getAuthenticationUtils();
 
-        $form = $this->getSecurityFormFactory()->createLoginForm('darvin_admin_security_login_check');
+        $form = $this->getLoginFormFactory()->createLoginForm('darvin_admin_security_login_check');
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -48,10 +48,10 @@ class SecurityController extends Controller
     }
 
     /**
-     * @return \Darvin\UserBundle\Form\Factory\Security\SecurityFormFactoryInterface
+     * @return \Darvin\UserBundle\Form\Factory\Security\LoginFormFactoryInterface
      */
-    private function getSecurityFormFactory()
+    private function getLoginFormFactory()
     {
-        return $this->get('darvin_user.security.form_factory');
+        return $this->get('darvin_user.security.form_factory.login');
     }
 }

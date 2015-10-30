@@ -24,15 +24,26 @@ $('#sidebar_switcher').on('mousedown', function(){
 	setTimeout( function(){ $(window).resize();}, 300);
 });
 
-$('select').each(function () {
-    var $select = $(this);
+(function selectpickerInit () {
+    var locales = [ 'ru' ];
 
-    if ($select.children('option').length > 3) {
-        $select.attr('data-live-search', 'true');
-    }
+    var init;
+    init = function () {
+        $('select').each(function () {
+            var $select = $(this);
 
-    $select.selectpicker();
-});
+            if ($select.children('option').length > 3) {
+                $select.attr('data-live-search', 'true');
+            }
+
+            $select.selectpicker();
+        });
+    };
+
+    -1 !== locales.indexOf(LOCALE)
+        ? $.getScript('/bundles/darvinadmin/scripts/bootstrap/bootstrap-select-' + LOCALE + '.js').done(init)
+        : init();
+})();
 
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){

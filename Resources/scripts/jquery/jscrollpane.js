@@ -134,7 +134,7 @@
 					container = $('<div class="jspContainer" />')
 						.css({
 							'width': paneWidth + 'px',
-							'height': paneHeight + 20 + 'px'
+							'height': paneHeight + 40 + 'px'
 						}
 					).append(pane).appendTo(elem);
 
@@ -365,6 +365,18 @@
 			{
 				if (isScrollableH) {
 
+					container.append(
+						$('<div class="jspHorizontalBar firstHorizontalBar" />').append(
+							$('<div class="jspCap jspCapLeft" />'),
+							$('<div class="jspTrack" />').append(
+								$('<div class="jspDrag" />').append(
+									$('<div class="jspDragLeft" />'),
+									$('<div class="jspDragRight" />')
+								)
+							),
+							$('<div class="jspCap jspCapRight" />')
+						)
+					);
 					container.append(
 						$('<div class="jspHorizontalBar" />').append(
 							$('<div class="jspCap jspCapLeft" />'),

@@ -52,6 +52,6 @@ class SecurityController extends Controller
      */
     private function getLoginFormFactory()
     {
-        return $this->get('darvin_user.security.form_factory.login');
+        return $this->get('darvin_user.security.form.factory.login');
     }
 }

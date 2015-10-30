@@ -136,7 +136,7 @@ class AdminFormFactory
             'translation_domain' => 'admin',
             'validation_groups'  => array(
                 'Default',
-                ucfirst($action),
+                'Admin'.ucfirst($action),
             ),
         ));
 

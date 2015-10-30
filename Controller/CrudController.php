@@ -315,7 +315,7 @@ class CrudController extends Controller implements MenuItemInterface
         $form = $this->createForm(new BaseType('index', $this->meta, $property), $entity, array(
             'validation_groups' => array(
                 'Default',
-                'UpdateProperty',
+                'AdminUpdateProperty',
             ),
         ));
 

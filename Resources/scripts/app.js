@@ -24,7 +24,9 @@ $('#sidebar_switcher').on('mousedown', function(){
 	setTimeout( function(){ $(window).resize();}, 300);
 });
 
-$('select').selectpicker();
+$('select').each(function () {
+    $(this).attr('data-live-search', 'true').selectpicker();
+});
 
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){

@@ -25,7 +25,13 @@ $('#sidebar_switcher').on('mousedown', function(){
 });
 
 $('select').each(function () {
-    $(this).attr('data-live-search', 'true').selectpicker();
+    var $select = $(this);
+
+    if ($select.children('option').length > 3) {
+        $select.attr('data-live-search', 'true');
+    }
+
+    $select.selectpicker();
 });
 
 /* спойлер */

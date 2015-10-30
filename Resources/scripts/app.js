@@ -36,7 +36,7 @@ $('#sidebar_switcher').on('mousedown', function(){
                 $select.attr('data-live-search', 'true');
             }
 
-            $select.selectpicker();
+            $select.selectpicker({size: 10});
         });
     };
 

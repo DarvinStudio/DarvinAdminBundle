@@ -34,6 +34,7 @@ $('#sidebar_switcher').on('mousedown', function(){
 
             if ($select.children('option').length > 3) {
                 $select.attr('data-live-search', 'true');
+                $select.attr('data-width', 'auto');
             }
 
             $select.selectpicker({size: 10});

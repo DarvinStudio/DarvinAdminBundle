@@ -76,10 +76,12 @@ $('.spoiler_links').on('mousedown', function(){
 	var item = $(this).parents('.parent');
 	if(item.hasClass('active')){
 		item.removeClass('active');
+		/*item.fadeOut(300);*/
 	} else {
 		$('.main_menu .item.parent.active').removeClass('active');
 		resize();
 		item.addClass('active');
+		/*item.fadeIn(300);*/
 	}
 	resize();
 	setTimeout( resize(), 500);

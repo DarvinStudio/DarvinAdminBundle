@@ -76,17 +76,21 @@ $('.spoiler_links').on('mousedown', function(){
 	var item = $(this).parents('.parent');
 	if(item.hasClass('active')){
 		item.removeClass('active');
-		/*item.fadeOut(300);*/
 	} else {
 		$('.main_menu .item.parent.active').removeClass('active');
 		resize();
 		item.addClass('active');
-		/*item.fadeIn(300);*/
 	}
 	resize();
 	setTimeout( resize(), 500);
 	return false;
 });
+
+/* фикс чекбоксов без нужной вёртски*/
+ $('.input_value input[type="checkbox"]').each(function(){
+	$(this).wrap("<label></label>").wrap("<span class='checkbox'></span>");
+	$(this).after("<span></span>")
+ });
 
  
  jQuery(document).ready(function(){

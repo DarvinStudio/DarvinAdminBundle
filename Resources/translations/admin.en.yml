@@ -105,6 +105,7 @@ layout:
             email: support@darvin-studio.ru
     locale_switcher:
         title: Language:
+    logo: Content management system
     menu:
         collapse: Collapse menu
         expand:   Expand menu

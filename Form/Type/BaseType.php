@@ -39,15 +39,22 @@ class BaseType extends AbstractFormType
     private $fieldFilter;
 
     /**
+     * @var string
+     */
+    private $nameSuffix;
+
+    /**
      * @param string                                $action      Action
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta        Metadata
      * @param string                                $fieldFilter Field filter
+     * @param string                                $nameSuffix  Name suffix
      */
-    public function __construct($action, Metadata $meta, $fieldFilter = null)
+    public function __construct($action, Metadata $meta, $fieldFilter = null, $nameSuffix = null)
     {
         $this->action = $action;
         $this->meta = $meta;
         $this->fieldFilter = $fieldFilter;
+        $this->nameSuffix = $nameSuffix;
     }
 
     /**
@@ -132,7 +139,7 @@ class BaseType extends AbstractFormType
      */
     public function getName()
     {
-        return $this->meta->getFormTypeName();
+        return $this->meta->getFormTypeName().$this->nameSuffix;
     }
 
     /**

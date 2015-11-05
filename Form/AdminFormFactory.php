@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Form;
 use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
@@ -211,5 +212,22 @@ class AdminFormFactory
         )->add('id', 'hidden');
 
         return $builder->getForm();
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
+     * @param string                                $property Property
+     * @param object                                $entity   Entity
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createPropertyForm(Metadata $meta, $property, $entity = null)
+    {
+        return $this->formFactory->create(new BaseType('index', $meta, $property, '_property'), $entity, array(
+            'validation_groups' => array(
+                'Default',
+                'AdminUpdateProperty',
+            ),
+        ));
     }
 }

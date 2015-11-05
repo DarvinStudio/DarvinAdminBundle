@@ -52,8 +52,8 @@ services:
         class:  %darvin_admin.view.entity_transformer.index.class%
         parent: darvin_admin.view.entity_transformer.abstract
         calls:
+            - [ setAdminFormFactory,     [ "@darvin_admin.form.factory" ] ]
             - [ setAuthorizationChecker, [ "@security.authorization_checker" ] ]
-            - [ setFormFactory,          [ "@form.factory" ] ]
             - [ setTemplating,           [ "@templating" ] ]
 
     darvin_admin.view.entity_transformer.show:

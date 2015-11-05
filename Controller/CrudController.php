@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
@@ -312,12 +311,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $form = $this->createForm(new BaseType('index', $this->meta, $property), $entity, array(
-            'validation_groups' => array(
-                'Default',
-                'AdminUpdateProperty',
-            ),
-        ));
+        $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
 
         $originalValue = $form->createView()->children[$property]->vars['value'];
 

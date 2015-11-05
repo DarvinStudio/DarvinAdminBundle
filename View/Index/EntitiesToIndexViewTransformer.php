@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Index;
 
-use Darvin\AdminBundle\Form\Type\BaseType;
+use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
@@ -20,7 +20,6 @@ use Darvin\AdminBundle\View\Index\Body\BodyRowItem;
 use Darvin\AdminBundle\View\Index\Head\Head;
 use Darvin\AdminBundle\View\Index\Head\HeadItem;
 use Darvin\Utils\Strings\StringsUtil;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -31,14 +30,14 @@ use Symfony\Component\Templating\EngineInterface;
 class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 {
     /**
+     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     */
+    private $adminFormFactory;
+
+    /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     private $authorizationChecker;
-
-    /**
-     * @var \Symfony\Component\Form\FormFactoryInterface
-     */
-    private $formFactory;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
@@ -46,19 +45,19 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     private $templating;
 
     /**
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     */
+    public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
+    {
+        $this->adminFormFactory = $adminFormFactory;
+    }
+
+    /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      */
     public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory Form factory
-     */
-    public function setFormFactory(FormFactoryInterface $formFactory)
-    {
-        $this->formFactory = $formFactory;
     }
 
     /**
@@ -276,7 +275,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 continue;
             }
 
-            $forms[$field] = $this->formFactory->create(new BaseType('index', $meta, $field));
+            $forms[$field] = $this->adminFormFactory->createPropertyForm($meta, $field);
         }
 
         return $forms;

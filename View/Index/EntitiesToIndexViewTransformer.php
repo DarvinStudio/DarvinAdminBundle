@@ -150,10 +150,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             $head->addItem($field, $headItem);
         }
 
-        $head->addItem(
-            'action_widgets',
-            new HeadItem('interface.actions', false, null, count($configuration['view']['index']['action_widgets']))
-        );
+        $head->addItem('action_widgets', new HeadItem('interface.actions'));
 
         return $head;
     }
@@ -188,13 +185,14 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 
                 $bodyRow->addItem($field, new BodyRowItem($content));
             }
-            foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
-                $actionWidget = $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate($entity);
 
-                if (!empty($actionWidget)) {
-                    $bodyRow->addItem($widgetGeneratorAlias, new BodyRowItem($actionWidget));
-                }
+            $actionWidgets = '';
+
+            foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
+                $actionWidgets .= $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate($entity);
             }
+
+            $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
 
             $body->addRow($bodyRow);
         }

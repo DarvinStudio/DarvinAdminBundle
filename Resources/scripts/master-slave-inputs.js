@@ -9,6 +9,6 @@ $(document).ready(function () {
             .on('change', masterSelector, function () {
                 $(this).val().toString() === showOn ? $slaveContainer.show() : $slaveContainer.hide();
             })
-            .find(masterSelector).trigger('change');
+            .find(masterSelector).trigger('click');
     });
 });

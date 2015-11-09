@@ -86,7 +86,9 @@ image:
     sizes: Sizes
 
 interface:
-    actions: Actions
+    actions:          Actions
+    empty_list:       List is empty
+    total_item_count: Total items: %count%
 
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Release %version%

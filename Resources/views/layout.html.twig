@@ -33,8 +33,6 @@
                 'bundles/darvinadmin/styles/fancybox.css'
 
                 'bundles/a2lixtranslationform/css/a2lix_translation_default.css'
-
-                'bundles/darvinadminfrontend/styles/app.css'
                 filter='?cssembed'
                 filter='cssrewrite'
                 filter='?yui_css'
@@ -42,6 +40,7 @@
             %}
                 <link href="{{ asset_url }}" rel="stylesheet">
             {% endstylesheets %}
+            <link href="{{ asset(darvin_admin_visual_assets_path ~ '/styles/app.css') }}" rel="stylesheet">
         {% endblock %}
 
     </head>
@@ -62,7 +61,7 @@
                     <div class="row header">
                         <div class="col-md-5 col-lg-5 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
-                                <img src="{{ asset('bundles/darvinadminfrontend/images/logo_cms.png') }}"
+                                <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
 								<span>{% trans %}layout.logo{% endtrans %}</span>
                             </a>

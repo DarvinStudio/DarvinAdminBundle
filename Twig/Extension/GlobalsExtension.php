@@ -35,6 +35,11 @@ class GlobalsExtension extends \Twig_Extension
     /**
      * @var string
      */
+    private $visualAssetsPath;
+
+    /**
+     * @var string
+     */
     private $yandexTranslateApiKey;
 
     /**
@@ -51,13 +56,15 @@ class GlobalsExtension extends \Twig_Extension
      * @param array  $locales               Available locales
      * @param string $projectTitle          Project title
      * @param string $projectUrl            Project URL
+     * @param string $visualAssetsPath      Visual assets path
      * @param string $yandexTranslateApiKey Yandex.Translate API key
      */
-    public function __construct(array $locales, $projectTitle, $projectUrl, $yandexTranslateApiKey)
+    public function __construct(array $locales, $projectTitle, $projectUrl, $visualAssetsPath, $yandexTranslateApiKey)
     {
         $this->locales = $locales;
         $this->projectTitle = $projectTitle;
         $this->projectUrl = $projectUrl;
+        $this->visualAssetsPath = $visualAssetsPath;
         $this->yandexTranslateApiKey = $yandexTranslateApiKey;
         $this->globals = array();
         $this->initialized = false;

@@ -12,7 +12,7 @@
             {% set index_url = item.indexUrl %}
             {% set attr = item.menuItemAttributes %}
             {% set icon = attr.left_menu_icon
-                ?: (item.childMenuItems is not empty ? 'bundles/darvinadminfrontend/images/left_menu_' ~ attr.name ~ '.png' : null)
+                ?: (item.childMenuItems is not empty ? darvin_admin_visual_assets_path ~ '/images/left_menu_' ~ attr.name ~ '.png' : null)
             %}
 
             <li class="left_menu_{{ attr.name }}">

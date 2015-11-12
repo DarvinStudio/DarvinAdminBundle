@@ -6,7 +6,7 @@
         {% set index_url = item.indexUrl %}
         {% set attr = item.menuItemAttributes %}
         {% set icon = attr.homepage_menu_icon
-            ?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: 'bundles/darvinadminfrontend/images/main_menu_' ~ attr.name ~ '.png' : null)
+            ?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: darvin_admin_visual_assets_path ~ '/images/main_menu_' ~ attr.name ~ '.png' : null)
         %}
 
         <div class="item color_{{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">

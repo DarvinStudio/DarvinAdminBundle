@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('debug')->defaultFalse()->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
+                ->scalarNode('visual_assets_path')->defaultValue('bundles/darvinadmin')->end()
                 ->scalarNode('web_dir')->defaultValue('%kernel.root_dir%/../web')->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('project')
@@ -67,6 +68,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->root('ckeditor');
         $rootNode
+            ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
                 ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->end()

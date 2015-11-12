@@ -9,6 +9,7 @@ services:
             - %darvin_admin.locales%
             - %darvin_admin.project.title%
             - %darvin_admin.project.url%
+            - %darvin_admin.visual_assets_path%
             - %darvin_admin.yandex_translate_api_key%
         tags:
             - { name: twig.extension }

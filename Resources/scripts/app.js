@@ -80,6 +80,7 @@ $('.spoiler_links').on('mousedown', function(){
 		$('.main_menu .item.parent.active').removeClass('active');
 		resize();
 		item.addClass('active');
+		item.find('.main_dropdown_menu').css({'maxHeight' : item.find('.main_dropdown_menu_inner').height()+50});
 	}
 	resize();
 	setTimeout( resize(), 500);

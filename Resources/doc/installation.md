@@ -81,7 +81,25 @@ stof_doctrine_extensions:
             tree:     true
 ```
 
-и настраиваем остальные бандлы:
+настраиваем Assetic:
+
+```yaml
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ DarvinAdminBundle ]
+    java: /usr/bin/java
+    filters:
+        closure:
+            jar: "%kernel.root_dir%/Resources/java/compiler.jar"
+        cssembed:
+            jar: "%kernel.root_dir%/Resources/java/cssembed-0.4.5.jar"
+        cssrewrite: ~
+        yui_css:
+            jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar"
+```
+
+и остальные бандлы:
 
 ```yaml
 darvin_admin:

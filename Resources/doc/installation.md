@@ -152,24 +152,6 @@ security:
                 oauth_user_provider:
                     service: darvin_admin.security.user_provider.oauth
                 check_path: darvin_admin_security_login_check_oauth
-        public_area:
-            provider: user
-            form_login:
-                check_path:          darvin_user_security_login_check
-                login_path:          darvin_user_security_login
-                default_target_path: darvin_page_homepage
-                use_referer:         true
-                intention:           %secret%
-                csrf_provider:       security.csrf.token_manager
-                remember_me:         true
-            remember_me:
-                key:      %secret%
-                lifetime: 31536000 # 1 year
-            logout:
-                intention: %secret%
-                path:      darvin_user_security_logout
-                target:    darvin_user_security_login
-            anonymous: ~
 
     role_hierarchy:
         ROLE_GUESTADMIN: [ ROLE_ADMIN ]

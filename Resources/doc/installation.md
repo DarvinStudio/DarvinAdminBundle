@@ -43,7 +43,9 @@ class AppKernel extends Kernel
             new Darvin\ConfigBundle\DarvinConfigBundle(),
             new Darvin\ContentBundle\DarvinContentBundle(),
             new Darvin\ImageBundle\DarvinImageBundle(),
+            new Darvin\UserBundle\DarvinUserBundle(),
             new Darvin\UtilsBundle\DarvinUtilsBundle(),
+            new Darvin\WebmailLinkerBundle\DarvinWebmailLinkerBundle(),
             // Admin bundle
             new Darvin\AdminBundle\DarvinAdminBundle(),
         );
@@ -91,6 +93,10 @@ darvin_admin:
 darvin_image:
     imagine_filter: %image_imagine_filter%
     upload_path:    %image_upload_path%
+    
+darvin_utils:
+    mailer:
+        from: %mailer_from%
 ```
 
 - настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
@@ -174,6 +180,8 @@ darvin_auth_infos_url:         http://example.com/api/user
 
 image_imagine_filter: darvin_thumb
 image_upload_path:    files/images
+
+mailer_from: noreply@example.com
 
 project_title: Example
 project_url:   example.com

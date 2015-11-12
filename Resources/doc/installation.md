@@ -79,6 +79,20 @@ stof_doctrine_extensions:
             tree:     true
 ```
 
+и настраиваем остальные бандлы:
+
+```yaml
+darvin_admin:
+    locales: %locales%
+    project:
+        title: %project_title%
+        url:   %project_url%
+
+darvin_image:
+    imagine_filter: %image_imagine_filter%
+    upload_path:    %image_upload_path%
+```
+
 - настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
 
 ```yaml
@@ -93,7 +107,21 @@ parameters:
 ```
 
 - добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yml.dist"
- и "app/config/parameters.yml");
+ и "app/config/parameters.yml"):
+ 
+```yaml
+darvin_auth_client_id:         secret
+darvin_auth_client_secret:     secret
+darvin_auth_access_token_url:  http://example.com/oauth/v2/token
+darvin_auth_authorization_url: http://example.com/oauth/v2/auth
+darvin_auth_infos_url:         http://example.com/api/user
+
+image_imagine_filter: darvin_thumb
+image_upload_path:    files/images
+
+project_title: Example
+project_url:   example.com
+```
 
 - добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"):
 

@@ -12,7 +12,9 @@ namespace Darvin\AdminBundle\Security\User;
 
 use Darvin\AdminBundle\Security\OAuth\Exception\BadResponseException;
 use Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse;
-use Darvin\UserBundle\Entity\User;
+use Darvin\UserBundle\Entity\BaseUser;
+use Darvin\UserBundle\Repository\UserRepository;
+use Darvin\UserBundle\User\UserFactory;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
@@ -44,15 +46,34 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProvider
     private $tokenStorage;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                                                         $em           Entity manager
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session      Session
-     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage Authentication token storage
+     * @var \Darvin\UserBundle\User\UserFactory
      */
-    public function __construct(EntityManager $em, SessionInterface $session, TokenStorageInterface $tokenStorage)
-    {
+    private $userFactory;
+
+    /**
+     * @var \Darvin\UserBundle\Repository\UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @param \Doctrine\ORM\EntityManager                                                         $em             Entity manager
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface                          $session        Session
+     * @param \Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage   Authentication token storage
+     * @param \Darvin\UserBundle\User\UserFactory                                                 $userFactory    User factory
+     * @param \Darvin\UserBundle\Repository\UserRepository                                        $userRepository User entity repository
+     */
+    public function __construct(
+        EntityManager $em,
+        SessionInterface $session,
+        TokenStorageInterface $tokenStorage,
+        UserFactory $userFactory,
+        UserRepository $userRepository
+    ) {
         $this->em = $em;
         $this->session = $session;
         $this->tokenStorage = $tokenStorage;
+        $this->userFactory = $userFactory;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -79,7 +100,7 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProvider
      */
     public function loadUserByUsername($email)
     {
-        $user = $this->getUserRepository()->findOneBy(array(
+        $user = $this->userRepository->findOneBy(array(
             'email' => $email,
         ));
 
@@ -87,11 +108,10 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProvider
             return $user;
         }
 
-        $user = new User();
-        $user
+        $user = $this->userFactory->createUser()
             ->setEmail($email)
             ->setRoles(array(
-                User::ROLE_ADMIN,
+                BaseUser::ROLE_ADMIN,
             ))
             ->generateRandomPlainPassword();
 
@@ -118,14 +138,6 @@ class OAuthUserProvider implements OAuthAwareUserProviderInterface, UserProvider
      */
     public function supportsClass($class)
     {
-        return User::USER_CLASS === $class;
-    }
-
-    /**
-     * @return \Darvin\UserBundle\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->em->getRepository(User::USER_CLASS);
+        return BaseUser::BASE_USER_CLASS === $class || is_subclass_of($class, BaseUser::BASE_USER_CLASS);
     }
 }

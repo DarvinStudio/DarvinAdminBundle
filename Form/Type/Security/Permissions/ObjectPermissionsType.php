@@ -12,8 +12,7 @@ namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\AdminBundle\Security\Permissions\UserPermissions;
-use Darvin\UserBundle\Entity\User;
-use Doctrine\ORM\EntityManager;
+use Darvin\UserBundle\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -28,12 +27,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ObjectPermissionsType extends AbstractType
 {
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var \Darvin\UserBundle\Repository\UserRepository
      */
-    private $em;
+    private $userRepository;
 
     /**
-     * @var \Darvin\UserBundle\Entity\User[]
+     * @var \Darvin\UserBundle\Entity\BaseUser[]
      */
     private $users;
 
@@ -43,11 +42,11 @@ class ObjectPermissionsType extends AbstractType
     private $usersLoaded;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     * @param \Darvin\UserBundle\Repository\UserRepository $userRepository User entity repository
      */
-    public function __construct(EntityManager $em)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->em = $em;
+        $this->userRepository = $userRepository;
         $this->users = array();
         $this->usersLoaded = false;
     }
@@ -57,7 +56,7 @@ class ObjectPermissionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $userRepository = $this->getUserRepository();
+        $userRepository = $this->userRepository;
 
         $builder
             ->add('objectClass', 'hidden', array(
@@ -127,13 +126,13 @@ class ObjectPermissionsType extends AbstractType
     }
 
     /**
-     * @return \Darvin\UserBundle\Entity\User[]
+     * @return \Darvin\UserBundle\Entity\BaseUser[]
      */
     private function getUsers()
     {
         if (!$this->usersLoaded) {
-            /** @var \Darvin\UserBundle\Entity\User $user */
-            foreach ($this->getUserRepository()->getNotSuperadminsBuilder()->getQuery()->getResult() as $user) {
+            /** @var \Darvin\UserBundle\Entity\BaseUser $user */
+            foreach ($this->userRepository->getNotSuperadminsBuilder()->getQuery()->getResult() as $user) {
                 $this->users[$user->getId()] = $user;
             }
         }
@@ -141,13 +140,5 @@ class ObjectPermissionsType extends AbstractType
         $this->usersLoaded = true;
 
         return $this->users;
-    }
-
-    /**
-     * @return \Darvin\UserBundle\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->em->getRepository(User::USER_CLASS);
     }
 }

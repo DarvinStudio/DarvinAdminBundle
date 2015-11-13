@@ -30,7 +30,7 @@ services:
     darvin_admin.security.form_type.object_permissions:
         class: %darvin_admin.security.form_type.object_permissions.class%
         arguments:
-            - "@doctrine.orm.entity_manager"
+            - "@darvin_user.user.repository"
         tags:
             - { name: form.type, alias: darvin_admin_security_object_permissions }
 
@@ -40,3 +40,5 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@session"
             - "@security.token_storage"
+            - "@darvin_user.user.factory"
+            - "@darvin_user.user.repository"

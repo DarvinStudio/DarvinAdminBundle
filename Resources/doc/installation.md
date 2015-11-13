@@ -135,7 +135,7 @@ parameters:
 ```yaml
 security:
     encoders:
-        Darvin\UserBundle\Entity\User:
+        Darvin\UserBundle\Entity\BaseUser:
             algorithm:      pbkdf2
             hash_algorithm: sha512
 
@@ -144,7 +144,7 @@ security:
             id: darvin_admin.security.user_provider.oauth
         user:
             entity:
-                class:    Darvin\UserBundle\Entity\User
+                class:    Darvin\UserBundle\Entity\BaseUser
                 property: email
 
     firewalls:

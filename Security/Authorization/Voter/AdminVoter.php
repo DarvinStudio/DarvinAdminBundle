@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\UserBundle\Entity\User;
+use Darvin\UserBundle\Entity\BaseUser;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -69,7 +69,7 @@ class AdminVoter implements VoterInterface
 
         $user = $token->getUser();
 
-        if (!$user instanceof User) {
+        if (!$user instanceof BaseUser) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
         if ($user->isSuperadmin()) {
@@ -121,13 +121,13 @@ class AdminVoter implements VoterInterface
     }
 
     /**
-     * @param string                                   $attribute     Attribute
-     * @param string                                   $class         Object class
-     * @param \Darvin\UserBundle\Entity\User $user User
+     * @param string                             $attribute Attribute
+     * @param string                             $class     Object class
+     * @param \Darvin\UserBundle\Entity\BaseUser $user      User
      *
      * @return bool
      */
-    private function isGranted($attribute, $class, User $user)
+    private function isGranted($attribute, $class, BaseUser $user)
     {
         $this->init();
 

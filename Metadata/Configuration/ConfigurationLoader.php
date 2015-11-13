@@ -100,13 +100,7 @@ class ConfigurationLoader
             $hierarchy[] = $parent;
         }
 
-        $merged = array();
-
-        foreach (array_reverse($hierarchy) as $config) {
-            $merged = array_replace_recursive($merged, $config);
-        }
-
-        return $merged;
+        return call_user_func_array('array_replace_recursive', array_reverse($hierarchy));
     }
 
     /**

@@ -1,81 +1,80 @@
-Darvin\AdminBundle\Entity\LogEntry:
-    entity_name: log
-    menu:
-        color: "#cf3cc5"
-    disabled_routes:
-        - copy
-        - delete
-        - edit
-        - new
-        - update-property
-    sortable_fields:
-        actionName: action
-        loggedAt:   ~
-        objectName: objectClass
-        objectId:   ~
-        version:    ~
-        username:   ~
-    form:
-        filter:
-            fields:
-                action:
-                    type: choice
+entity_name: log
+menu:
+    color: "#cf3cc5"
+disabled_routes:
+    - copy
+    - delete
+    - edit
+    - new
+    - update-property
+sortable_fields:
+    actionName: action
+    loggedAt:   ~
+    objectName: objectClass
+    objectId:   ~
+    version:    ~
+    username:   ~
+form:
+    filter:
+        fields:
+            action:
+                type: choice
+                options:
+                    choices: [ Darvin\AdminBundle\Entity\LogEntry, getActions ]
+            loggedAtFrom: ~
+            loggedAtTo:   ~
+            objectClass:
+                strict_comparison: false
+            version:
+                strict_comparison: false
+            username:
+                strict_comparison: false
+view:
+    index:
+        action_widgets:
+            - show_link
+            - log_entry_revert_form
+        fields:
+            actionName: ~
+            loggedAt:   ~
+            objectName:
+                widget_generator:
+                    alias: log_entry_entity_name
+            objectId: ~
+            object:
+                widget_generator:
+                    alias: show_link
                     options:
-                        choices: [ Darvin\AdminBundle\Entity\LogEntry, getActions ]
-                loggedAtFrom: ~
-                loggedAtTo:   ~
-                objectClass:
-                    strict_comparison: false
-                version:
-                    strict_comparison: false
-                username:
-                    strict_comparison: false
-    view:
-        index:
-            action_widgets:
-                - show_link
-                - log_entry_revert_form
-            fields:
-                actionName: ~
-                loggedAt:   ~
-                objectName:
-                    widget_generator:
-                        alias: log_entry_entity_name
-                objectId: ~
-                object:
-                    widget_generator:
-                        alias: show_link
-                        options:
-                            entity_property: object
-                version:  ~
-                username: ~
-                user:
-                    widget_generator:
-                        alias: show_link
-                        options:
-                            entity_property: user
-        show:
-            action_widgets:
-                - log_entry_revert_form
-            fields:
-                actionName: ~
-                loggedAt:   ~
-                objectName:
-                    widget_generator:
-                        alias: log_entry_entity_name
-                objectId: ~
-                object:
-                    widget_generator:
-                        alias: show_link
-                        options:
-                            entity_property: object
-                version:  ~
-                username: ~
-                user:
-                    widget_generator:
-                        alias: show_link
-                        options:
-                            entity_property: user
-                data:
-                    widget_generator:
-                        alias: log_entry_data
+                        entity_property: object
+            version:  ~
+            username: ~
+            user:
+                widget_generator:
+                    alias: show_link
+                    options:
+                        entity_property: user
+    show:
+        action_widgets:
+            - log_entry_revert_form
+        fields:
+            actionName: ~
+            loggedAt:   ~
+            objectName:
+                widget_generator:
+                    alias: log_entry_entity_name
+            objectId: ~
+            object:
+                widget_generator:
+                    alias: show_link
+                    options:
+                        entity_property: object
+            version:  ~
+            username: ~
+            user:
+                widget_generator:
+                    alias: show_link
+                    options:
+                        entity_property: user
+            data:
+                widget_generator:
+                    alias: log_entry_data

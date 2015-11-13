@@ -1,39 +1,38 @@
-Darvin\ImageBundle\Entity\Image\AbstractImage:
-    entity_name: image
-    disabled_routes:
-        - delete
-        - new
-        - show
-    images:
-        homepage_menu_icon: bundles/darvinadmin/images/icons/homepage/image.png
-    menu:
-        color:    "#0a9771"
-        position: 30
-    form:
-        edit:
-            type: darvin_image_image_sizes
-        filter:
-            fields:
-                name:
-                    strict_comparison: false
-                extension:
-                    strict_comparison: false
-        index:
-            fields:
-                name: ~
-    view:
-        edit:
-            action_widgets: {}
-        index:
-            action_widgets:
-                - edit_link
-            fields:
-                image:
-                    widget_generator:
-                        alias: image_link
-                        options:
-                            filter_parameters:
-                                size_name: darvin_admin
-                                outbound:  true
-                name:      ~
-                extension: ~
+entity_name: image
+disabled_routes:
+    - delete
+    - new
+    - show
+images:
+    homepage_menu_icon: bundles/darvinadmin/images/icons/homepage/image.png
+menu:
+    color:    "#0a9771"
+    position: 30
+form:
+    edit:
+        type: darvin_image_image_sizes
+    filter:
+        fields:
+            name:
+                strict_comparison: false
+            extension:
+                strict_comparison: false
+    index:
+        fields:
+            name: ~
+view:
+    edit:
+        action_widgets: {}
+    index:
+        action_widgets:
+            - edit_link
+        fields:
+            image:
+                widget_generator:
+                    alias: image_link
+                    options:
+                        filter_parameters:
+                            size_name: darvin_admin
+                            outbound:  true
+            name:      ~
+            extension: ~

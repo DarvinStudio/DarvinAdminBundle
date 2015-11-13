@@ -54,11 +54,6 @@ class ConfigurationLoader
 
         $config = $this->getMergedConfig($pathname);
 
-        if (strpos($pathname, 'user')) {
-            dump($config);
-            die;
-        }
-
         return $this->processConfiguration($config, $pathname);
     }
 

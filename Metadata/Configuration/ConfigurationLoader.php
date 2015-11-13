@@ -54,6 +54,11 @@ class ConfigurationLoader
 
         $config = $this->getMergedConfig($pathname);
 
+        if (strpos($pathname, 'user')) {
+            dump($config);
+            die;
+        }
+
         return $this->processConfiguration($config, $pathname);
     }
 
@@ -90,17 +95,20 @@ class ConfigurationLoader
             return $config;
         }
 
+        $child = $config;
+        unset($config['extends']);
         $hierarchy = array($config);
 
-        while ($parent = $this->getParentConfig($config)) {
+        while ($parent = $this->getParentConfig($child)) {
+            $child = $parent;
+            unset($parent['extends']);
             $hierarchy[] = $parent;
-            $config = $parent;
         }
 
         $merged = array();
 
         foreach (array_reverse($hierarchy) as $config) {
-            $merged = array_merge_recursive($merged, $config);
+            $merged = array_replace_recursive($merged, $config);
         }
 
         return $merged;

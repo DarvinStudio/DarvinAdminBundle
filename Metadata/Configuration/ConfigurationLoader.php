@@ -52,7 +52,7 @@ class ConfigurationLoader
             throw new ConfigurationException('Configuration file pathname cannot be empty.');
         }
 
-        $config = $this->getConfig($pathname);
+        $config = $this->getMergedConfig($pathname);
 
         return $this->processConfiguration($config, $pathname);
     }
@@ -75,6 +75,45 @@ class ConfigurationLoader
                 sprintf('Configuration file "%s" is invalid: "%s".', $pathname, $ex->getMessage())
             );
         }
+    }
+
+    /**
+     * @param string $pathname Configuration file pathname
+     *
+     * @return array
+     */
+    private function getMergedConfig($pathname)
+    {
+        $config = $this->getConfig($pathname);
+
+        if (!isset($config['extends'])) {
+            return $config;
+        }
+
+        $hierarchy = array($config);
+
+        while ($parent = $this->getParentConfig($config)) {
+            $hierarchy[] = $parent;
+            $config = $parent;
+        }
+
+        $merged = array();
+
+        foreach (array_reverse($hierarchy) as $config) {
+            $merged = array_merge_recursive($merged, $config);
+        }
+
+        return $merged;
+    }
+
+    /**
+     * @param array $config Config
+     *
+     * @return array
+     */
+    private function getParentConfig(array $config)
+    {
+        return isset($config['extends']) ? $this->getConfig($config['extends']) : null;
     }
 
     /**

@@ -97,6 +97,7 @@ image:
 
 interface:
     actions:          Действия
+    characters_left:  символов осталось
     empty_list:       Список пуст
     total_item_count: Всего объектов: %count%
 

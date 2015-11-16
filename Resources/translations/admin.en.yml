@@ -87,6 +87,7 @@ image:
 
 interface:
     actions:          Actions
+    characters_left:  character(s) left
     empty_list:       List is empty
     total_item_count: Total items: %count%
 

@@ -1,7 +1,7 @@
 parameters:
     darvin_admin.log.metadata.class:  Darvin\AdminBundle\Metadata\Metadata
     darvin_admin.log.metadata.entity: Darvin\AdminBundle\Entity\LogEntry
-    darvin_admin.log.metadata.config: @@DarvinAdminBundle/Resources/config/admin/log.yml
+    darvin_admin.log.metadata.config: "@@DarvinAdminBundle/Resources/config/admin/log.yml"
 
 services:
     darvin_admin.log.metadata:

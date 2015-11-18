@@ -77,7 +77,7 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields']);
 
         if (!empty($options['parent_entity_association'])) {
-            $builder->add($options['parent_entity_association'], 'hidden', array(
+            $builder->add($options['parent_entity_association'], 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
                 'label' => false,
             ));
         }

@@ -59,10 +59,10 @@ class ObjectPermissionsType extends AbstractType
         $userRepository = $this->userRepository;
 
         $builder
-            ->add('objectClass', 'hidden', array(
+            ->add('objectClass', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
                 'label' => false,
             ))
-            ->add('userPermissionsSet', 'collection', array(
+            ->add('userPermissionsSet', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType', array(
                 'label' => false,
                 'type'  => new UserPermissionsType(),
             ))

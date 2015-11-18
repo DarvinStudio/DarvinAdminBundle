@@ -142,7 +142,7 @@ class AdminFormFactory
         ));
 
         foreach ($submitButtons as $name) {
-            $builder->add($name, 'submit', array(
+            $builder->add($name, 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType', array(
                 'label' => self::$submitButtons[$name],
             ));
         }
@@ -209,7 +209,7 @@ class AdminFormFactory
                 'intention'          => md5(__FILE__.ClassUtils::getClass($entity).$id),
                 'translation_domain' => 'admin',
             )
-        )->add('id', 'hidden');
+        )->add('id', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType');
 
         return $builder->getForm();
     }

@@ -25,13 +25,13 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('filename', 'hidden', array(
+            ->add('filename', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
                 'label' => false,
                 'attr'  => array(
                     'class' => 'filename',
                 ),
             ))
-            ->add('originalFilename', 'hidden', array(
+            ->add('originalFilename', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
                 'label' => false,
                 'attr'  => array(
                     'class' => 'original_filename',

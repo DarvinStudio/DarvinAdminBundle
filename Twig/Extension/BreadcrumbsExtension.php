@@ -17,7 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * Breadcrumbs Twig extension
  */
-class BreadcrumbsExtension extends \Twig_Extension
+class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager

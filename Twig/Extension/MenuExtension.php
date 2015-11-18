@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Menu\Menu;
 /**
  * Menu Twig extension
  */
-class MenuExtension extends \Twig_Extension
+class MenuExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
 {
     /**
      * @var \Darvin\AdminBundle\Menu\Menu

@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
 use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +44,7 @@ class ConfigurationController extends Controller implements MenuItemInterface
 
         $url = $this->generateUrl('darvin_admin_configuration');
 
-        $form = $this->createForm('darvin_admin_configurations', $configurationPool, array(
+        $form = $this->createForm(ConfigurationsType::CONFIGURATIONS_TYPE_CLASS, $configurationPool, array(
             'action'             => $url,
             'translation_domain' => 'admin',
         ))->handleRequest($request);

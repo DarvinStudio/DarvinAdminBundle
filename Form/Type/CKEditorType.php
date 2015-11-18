@@ -21,6 +21,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CKEditorType extends AbstractType
 {
+    const CKEDITOR_TYPE_CLASS = __CLASS__;
+
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
      */

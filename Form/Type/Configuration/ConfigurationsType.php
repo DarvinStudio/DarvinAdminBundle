@@ -24,6 +24,8 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class ConfigurationsType extends AbstractType
 {
+    const CONFIGURATIONS_TYPE_CLASS = __CLASS__;
+
     /**
      * @var \Darvin\Utils\Security\Authorization\AccessibilityChecker
      */

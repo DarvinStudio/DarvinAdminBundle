@@ -26,6 +26,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ObjectPermissionsType extends AbstractType
 {
+    const OBJECT_PERMISSIONS_TYPE_CLASS = __CLASS__;
+
     /**
      * @var \Darvin\UserBundle\Repository\UserRepository
      */

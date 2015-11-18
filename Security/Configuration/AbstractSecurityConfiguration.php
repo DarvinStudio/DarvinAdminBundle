@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Security\Configuration;
 
+use Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
@@ -35,7 +36,7 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
             new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
                 'form' => array(
                     'options' => array(
-                        'type' => 'darvin_admin_security_object_permissions',
+                        'type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
                     ),
                 ),
             )),

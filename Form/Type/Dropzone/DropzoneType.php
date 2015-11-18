@@ -92,7 +92,7 @@ class DropzoneType extends AbstractType
         $uploadablesField = $builder->getName();
 
         $builder
-            ->add('dropzone', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType', array(
+            ->add('dropzone', 'Symfony\Component\Form\Extension\Core\Type\FormType', array(
                 'label'  => false,
                 'mapped' => false,
                 'attr'   => array(
@@ -103,7 +103,7 @@ class DropzoneType extends AbstractType
                     'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
                 ),
             ))
-            ->add('files', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType', array(
+            ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
                 'label'     => false,
                 'mapped'    => false,
                 'type'      => FileType::FILE_TYPE_CLASS,

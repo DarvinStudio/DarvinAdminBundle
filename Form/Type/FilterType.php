@@ -29,8 +29,8 @@ class FilterType extends AbstractFormType
      * @var array
      */
     private static $fieldTypeChangeMap = array(
-        'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType',
-        'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType',
+        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => 'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
+        'Symfony\Component\Form\Extension\Core\Type\TextareaType' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
     );
 
     /**
@@ -77,7 +77,7 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields']);
 
         if (!empty($options['parent_entity_association'])) {
-            $builder->add($options['parent_entity_association'], 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
+            $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
                 'label' => false,
             ));
         }
@@ -189,24 +189,24 @@ class FilterType extends AbstractFormType
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {
-            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType':
+            case 'Symfony\Component\Form\Extension\Core\Type\ChoiceType':
                 return array(
                     'choices' => array(
                         'boolean.0',
                         'boolean.1',
                     ),
                 );
-            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType':
+            case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                 return array(
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy',
                 );
-            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType':
+            case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
                 return array(
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy HH:mm',
                 );
-            case "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType":
+            case 'Symfony\Bridge\Doctrine\Form\Type\EntityType':
                 return array(
                     'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
                         $qb = $er->createQueryBuilder('o');
@@ -219,7 +219,7 @@ class FilterType extends AbstractFormType
                         return $qb;
                     },
                 );
-            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimeType':
+            case 'Symfony\Component\Form\Extension\Core\Type\TimeType':
                 return array(
                     'widget' => 'single_text',
                 );

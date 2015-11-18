@@ -57,7 +57,7 @@ class CacheFormManager
     {
         return $this->formFactory->createNamed(
             'cache_clear',
-            'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType',
+            'Symfony\Component\Form\Extension\Core\Type\FormType',
             null,
             array(
                 'action'    => $this->router->generate('darvin_admin_cache_clear'),

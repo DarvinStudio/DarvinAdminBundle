@@ -48,7 +48,7 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
                 ->setPublic(false)
                 ->addTag('console.command');
 
-            if (is_subclass_of($class, 'Symfony\\Bundle\\FrameworkBundle\\Command\\ContainerAwareCommand')) {
+            if (is_subclass_of($class, 'Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand')) {
                 $definition->addMethodCall('setContainer', array(
                     new Reference('service_container'),
                 ));

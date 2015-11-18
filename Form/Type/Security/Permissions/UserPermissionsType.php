@@ -30,12 +30,12 @@ class UserPermissionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userId', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', array(
+            ->add('userId', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
                 'label' => false,
             ))
-            ->add('permissions', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType', array(
+            ->add('permissions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
                 'label'   => false,
-                'type'    => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType',
+                'type'    => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
                 'options' => array(
                     'required' => false,
                 ),

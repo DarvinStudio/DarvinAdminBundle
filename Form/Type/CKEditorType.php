@@ -135,7 +135,7 @@ class CKEditorType extends AbstractType
      */
     public function getParent()
     {
-        return 'ckeditor';
+        return 'Ivory\\CKEditorBundle\\Form\\Type\\CKEditorType';
     }
 
     /**

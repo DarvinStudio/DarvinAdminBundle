@@ -10,7 +10,7 @@ menu:
     position: 30
 form:
     edit:
-        type: "Darvin\ImageBundle\Form\Type\Image\Image\SizesType"
+        type: Darvin\ImageBundle\Form\Type\Image\Image\SizesType
     filter:
         fields:
             name:

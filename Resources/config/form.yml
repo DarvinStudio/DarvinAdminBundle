@@ -28,4 +28,4 @@ services:
     darvin_admin.form.type_extension.info:
         class: %darvin_admin.form.type_extension.info.class%
         tags:
-            - { name: form.type_extension, alias: form }
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }

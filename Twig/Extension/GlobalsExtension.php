@@ -15,7 +15,7 @@ use Darvin\Utils\Strings\StringsUtil;
 /**
  * Globals Twig extension
  */
-class GlobalsExtension extends \Twig_Extension
+class GlobalsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
      * @var array

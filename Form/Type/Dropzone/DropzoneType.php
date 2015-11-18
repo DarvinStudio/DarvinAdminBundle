@@ -161,7 +161,7 @@ class DropzoneType extends AbstractType
         $resolver
             ->setDefaults(array(
                 'accepted_files'         => self::DEFAULT_ACCEPTED_FILES,
-                'intention'              => md5(__FILE__.$this->getName()),
+                'intention'              => md5(__FILE__.$this->getBlockPrefix()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
             ))
@@ -179,7 +179,7 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'darvin_admin_dropzone';
     }

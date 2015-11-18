@@ -45,14 +45,14 @@ class FileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'intention' => md5(__FILE__.$this->getName()),
+            'intention' => md5(__FILE__.$this->getBlockPrefix()),
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'darvin_admin_dropzone_file';
     }

@@ -115,14 +115,14 @@ class ObjectPermissionsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
-            'intention'  => md5(__FILE__.$this->getName()),
+            'intention'  => md5(__FILE__.$this->getBlockPrefix()),
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'darvin_admin_security_object_permissions';
     }

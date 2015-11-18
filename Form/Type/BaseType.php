@@ -131,7 +131,7 @@ class BaseType extends AbstractFormType
     {
         $resolver->setDefaults(array(
             'data_class'         => $this->meta->getEntityClass(),
-            'intention'          => md5(__FILE__.$this->getName().$this->meta->getEntityClass()),
+            'intention'          => md5(__FILE__.$this->getBlockPrefix().$this->meta->getEntityClass()),
             'translation_domain' => 'admin',
         ));
     }
@@ -139,7 +139,7 @@ class BaseType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return $this->meta->getFormTypeName().$this->nameSuffix;
     }

@@ -125,7 +125,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'darvin_admin_ckeditor';
     }

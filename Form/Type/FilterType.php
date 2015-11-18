@@ -119,7 +119,7 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return $this->meta->getFilterFormTypeName();
     }

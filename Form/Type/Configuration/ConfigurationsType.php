@@ -72,14 +72,14 @@ class ConfigurationsType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => get_class($this->configurationPool),
-            'intention'  => md5(__FILE__.$this->getName()),
+            'intention'  => md5(__FILE__.$this->getBlockPrefix()),
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'darvin_admin_configurations';
     }

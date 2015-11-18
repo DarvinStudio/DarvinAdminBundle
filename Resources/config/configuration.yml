@@ -18,7 +18,7 @@ services:
             - "@darvin_utils.security.accessibility_checker"
             - "@darvin_config.configuration.pool"
         tags:
-            - { name: form.type, alias: darvin_admin_configurations }
+            - { name: form.type }
 
     darvin_admin.configuration.controller:
         class: %darvin_admin.configuration.controller.class%

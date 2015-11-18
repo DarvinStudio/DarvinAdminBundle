@@ -206,7 +206,7 @@ class FilterType extends AbstractFormType
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy HH:mm',
                 );
-            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EntityType':
+            case "Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType":
                 return array(
                     'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
                         $qb = $er->createQueryBuilder('o');

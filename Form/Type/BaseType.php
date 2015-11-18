@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * Base form type
@@ -74,7 +75,9 @@ class BaseType extends AbstractFormType
                 continue;
             }
 
-            $builder->add($field, $attr['type'], $this->resolveFieldOptionValues($attr['options']));
+            $options = $this->resolveFieldOptionValues($attr['options']);
+            $this->addValidConstraint($options);
+            $builder->add($field, $attr['type'], $options);
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'filterEntityFields'));
@@ -128,7 +131,6 @@ class BaseType extends AbstractFormType
     {
         $resolver->setDefaults(array(
             'data_class'         => $this->meta->getEntityClass(),
-            'cascade_validation' => true,
             'intention'          => md5(__FILE__.$this->getName().$this->meta->getEntityClass()),
             'translation_domain' => 'admin',
         ));
@@ -148,5 +150,27 @@ class BaseType extends AbstractFormType
     protected function getMetadata()
     {
         return $this->meta;
+    }
+
+    /**
+     * @param array $fieldOptions Field options
+     */
+    private function addValidConstraint(array &$fieldOptions)
+    {
+        if (!isset($fieldOptions['constraints'])) {
+            $fieldOptions['constraints'] = new Valid();
+
+            return;
+        }
+        if (is_array($fieldOptions['constraints'])) {
+            $fieldOptions['constraints'][] = new Valid();
+
+            return;
+        }
+
+        $fieldOptions['constraints'] = array(
+            $fieldOptions['constraints'],
+            new Valid(),
+        );
     }
 }

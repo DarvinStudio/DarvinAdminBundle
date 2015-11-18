@@ -17,6 +17,7 @@ use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * Configurations form type
@@ -56,7 +57,8 @@ class ConfigurationsType extends AbstractType
             }
 
             $builder->add($configuration->getName(), new ConfigurationType($configuration), array(
-                'label' => sprintf('configuration.%s.title', $configuration->getName()),
+                'label'       => sprintf('configuration.%s.title', $configuration->getName()),
+                'constraints' => new Valid(),
             ));
         }
     }
@@ -67,9 +69,8 @@ class ConfigurationsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'cascade_validation' => true,
-            'data_class'         => get_class($this->configurationPool),
-            'intention'          => md5(__FILE__.$this->getName()),
+            'data_class' => get_class($this->configurationPool),
+            'intention'  => md5(__FILE__.$this->getName()),
         ));
     }
 

@@ -29,8 +29,8 @@ class FilterType extends AbstractFormType
      * @var array
      */
     private static $fieldTypeChangeMap = array(
-        'checkbox' => 'choice',
-        'textarea' => 'text',
+        'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType',
+        'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType',
     );
 
     /**
@@ -189,24 +189,24 @@ class FilterType extends AbstractFormType
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {
-            case 'choice':
+            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType':
                 return array(
                     'choices' => array(
                         'boolean.0',
                         'boolean.1',
                     ),
                 );
-            case 'date':
+            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType':
                 return array(
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy',
                 );
-            case 'datetime':
+            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType':
                 return array(
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy HH:mm',
                 );
-            case 'entity':
+            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EntityType':
                 return array(
                     'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
                         $qb = $er->createQueryBuilder('o');
@@ -219,7 +219,7 @@ class FilterType extends AbstractFormType
                         return $qb;
                     },
                 );
-            case 'time':
+            case 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimeType':
                 return array(
                     'widget' => 'single_text',
                 );

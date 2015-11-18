@@ -22,6 +22,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class UserPermissionsType extends AbstractType
 {
+    const USER_PERMISSIONS_TYPE_CLASS = __CLASS__;
+
     /**
      * {@inheritdoc}
      */
@@ -33,7 +35,7 @@ class UserPermissionsType extends AbstractType
             ))
             ->add('permissions', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType', array(
                 'label'   => false,
-                'type'    => 'checkbox',
+                'type'    => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType',
                 'options' => array(
                     'required' => false,
                 ),

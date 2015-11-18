@@ -55,10 +55,15 @@ class CacheFormManager
      */
     public function createClearForm()
     {
-        return $this->formFactory->createNamed('cache_clear', 'form', null, array(
-            'action'    => $this->router->generate('darvin_admin_cache_clear'),
-            'intention' => md5(__FILE__),
-        ));
+        return $this->formFactory->createNamed(
+            'cache_clear',
+            'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType',
+            null,
+            array(
+                'action'    => $this->router->generate('darvin_admin_cache_clear'),
+                'intention' => md5(__FILE__),
+            )
+        );
     }
 
     /**

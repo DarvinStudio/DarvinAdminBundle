@@ -200,7 +200,7 @@ class AdminFormFactory
 
         $builder = $this->formFactory->createNamedBuilder(
             $namePrefix.$id,
-            'form',
+            'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType',
             array(
                 'id' => $id,
             ),

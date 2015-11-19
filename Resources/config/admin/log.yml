@@ -18,7 +18,7 @@ form:
     filter:
         fields:
             action:
-                type: choice
+                type: Symfony\Component\Form\Extension\Core\Type\ChoiceType
                 options:
                     choices: [ Darvin\AdminBundle\Entity\LogEntry, getActions ]
             loggedAtFrom: ~

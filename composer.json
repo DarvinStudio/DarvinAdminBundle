@@ -16,18 +16,18 @@
         "egeloen/ckeditor-bundle":            "3.0.*",
         "hwi/oauth-bundle":                   "0.3.*",
         "knplabs/knp-paginator-bundle":       "2.5.*",
-        "lexik/translation-bundle":           "dev-master",
+        "lexik/translation-bundle":           "dev-master@dev",
         "ocramius/proxy-manager":             "0.5.*",
-        "oneup/uploader-bundle":              "dev-master",
+        "oneup/uploader-bundle":              "dev-master@dev",
         "stof/doctrine-extensions-bundle":    "1.2.*",
         "vich/uploader-bundle":               "1.0.*",
         "willdurand/js-translation-bundle":   "2.2.*",
 
-        "darvinstudio/darvin-config-bundle":  "*",
-        "darvinstudio/darvin-content-bundle": "*",
-        "darvinstudio/darvin-image-bundle":   "*",
-        "darvinstudio/darvin-user-bundle":    "*",
-        "darvinstudio/darvin-utils-bundle":   "*"
+        "darvinstudio/darvin-config-bundle":  "*@dev",
+        "darvinstudio/darvin-content-bundle": "*@dev",
+        "darvinstudio/darvin-image-bundle":   "*@dev",
+        "darvinstudio/darvin-user-bundle":    "*@dev",
+        "darvinstudio/darvin-utils-bundle":   "*@dev"
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }

@@ -13,7 +13,7 @@
  с символа "@". Пример:
  
 ```yaml
-extends: @DarvinUserBundle/Resources/config/admin/user.yml
+extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 ```
 
 **2. Регистрируем сервис-метаданные раздела администрирования.**

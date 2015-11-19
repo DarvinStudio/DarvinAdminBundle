@@ -16,10 +16,8 @@ use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
-use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\Form\FormTypeGuesserInterface;
 
 /**
  * Admin form factory
@@ -50,11 +48,6 @@ class AdminFormFactory
     private $formFactory;
 
     /**
-     * @var \Symfony\Component\Form\FormTypeGuesserInterface
-     */
-    private $formTypeGuesser;
-
-    /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
     private $identifierAccessor;
@@ -65,32 +58,21 @@ class AdminFormFactory
     private $metadataManager;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
-     */
-    private $translationJoiner;
-
-    /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter                         $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface                  $formFactory        Form factory
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser    Form type guesser
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor               $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                  $metadataManager    Metadata manager
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner  Translation joiner
+     * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
+     * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager    $metadataManager    Metadata manager
      */
     public function __construct(
         AdminRouter $adminRouter,
         FormFactoryInterface $formFactory,
-        FormTypeGuesserInterface $formTypeGuesser,
         IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager,
-        TranslationJoinerInterface $translationJoiner
+        MetadataManager $metadataManager
     ) {
         $this->adminRouter = $adminRouter;
         $this->formFactory = $formFactory;
-        $this->formTypeGuesser = $formTypeGuesser;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
-        $this->translationJoiner = $translationJoiner;
     }
 
     /**

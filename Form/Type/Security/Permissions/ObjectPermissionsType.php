@@ -65,8 +65,8 @@ class ObjectPermissionsType extends AbstractType
                 'label' => false,
             ))
             ->add('userPermissionsSet', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                'label' => false,
-                'type'  => UserPermissionsType::USER_PERMISSIONS_TYPE_CLASS,
+                'label'      => false,
+                'entry_type' => UserPermissionsType::USER_PERMISSIONS_TYPE_CLASS,
             ))
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($userRepository) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */

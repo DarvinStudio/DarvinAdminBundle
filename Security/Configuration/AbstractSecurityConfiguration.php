@@ -36,7 +36,7 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
             new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
                 'form' => array(
                     'options' => array(
-                        'type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
+                        'entry_type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
                     ),
                 ),
             )),

@@ -104,11 +104,11 @@ class DropzoneType extends AbstractType
                 ),
             ))
             ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                'label'     => false,
-                'mapped'    => false,
-                'type'      => FileType::FILE_TYPE_CLASS,
-                'allow_add' => true,
-                'options'   => array(
+                'label'      => false,
+                'mapped'     => false,
+                'entry_type' => FileType::FILE_TYPE_CLASS,
+                'allow_add'  => true,
+                'options'    => array(
                     'label' => false,
                 ),
                 'attr' => array(

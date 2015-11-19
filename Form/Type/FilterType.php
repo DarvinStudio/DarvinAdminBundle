@@ -25,6 +25,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FilterType extends AbstractFormType
 {
+    const FILTER_TYPE_CLASS = __CLASS__;
+
     /**
      * @var array
      */
@@ -44,23 +46,13 @@ class FilterType extends AbstractFormType
     private $translationJoiner;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\Metadata
-     */
-    private $meta;
-
-    /**
      * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser   Form type guesser
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner Translation joiner
-     * @param \Darvin\AdminBundle\Metadata\Metadata                         $meta              Metadata
      */
-    public function __construct(
-        FormTypeGuesserInterface $formTypeGuesser,
-        TranslationJoinerInterface $translationJoiner,
-        Metadata $meta
-    ) {
+    public function __construct(FormTypeGuesserInterface $formTypeGuesser, TranslationJoinerInterface $translationJoiner)
+    {
         $this->formTypeGuesser = $formTypeGuesser;
         $this->translationJoiner = $translationJoiner;
-        $this->meta = $meta;
     }
 
     /**
@@ -68,13 +60,14 @@ class FilterType extends AbstractFormType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $configuration = $this->meta->getConfiguration();
+        $meta = $this->getMetadata($options);
+        $configuration = $meta->getConfiguration();
 
         foreach ($configuration['form']['filter']['field_groups'] as $fields) {
-            $this->addFields($builder, $fields);
+            $this->addFields($builder, $fields, $meta);
         }
 
-        $this->addFields($builder, $configuration['form']['filter']['fields']);
+        $this->addFields($builder, $configuration['form']['filter']['fields'], $meta);
 
         if (!empty($options['parent_entity_association'])) {
             $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
@@ -106,22 +99,17 @@ class FilterType extends AbstractFormType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'csrf_protection'           => false,
-            'method'                    => 'get',
-            'parent_entity_association' => null,
-            'parent_entity_id'          => null,
-            'required'                  => false,
-            'translation_domain'        => 'admin',
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return $this->meta->getFilterFormTypeName();
+        $resolver
+            ->setDefaults(array(
+                'csrf_protection'           => false,
+                'method'                    => 'get',
+                'parent_entity_association' => null,
+                'parent_entity_id'          => null,
+                'required'                  => false,
+                'translation_domain'        => 'admin',
+            ))
+            ->setRequired('metadata')
+            ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
     }
 
     /**
@@ -129,18 +117,19 @@ class FilterType extends AbstractFormType
      */
     protected function getEntityTranslationPrefix(array $options)
     {
-        return $this->meta->getEntityTranslationPrefix();
+        return $this->getMetadata($options)->getEntityTranslationPrefix();
     }
 
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder Form builder
      * @param array                                        $fields  Fields
+     * @param \Darvin\AdminBundle\Metadata\Metadata        $meta    Metadata
      *
      * @throws \Darvin\AdminBundle\Form\FormException
      */
-    private function addFields(FormBuilderInterface $builder, array $fields)
+    private function addFields(FormBuilderInterface $builder, array $fields, Metadata $meta)
     {
-        $mappings = $this->meta->getMappings();
+        $mappings = $meta->getMappings();
 
         foreach ($fields as $field => $attr) {
             $property = preg_replace('/(From|To)$/', '', $field);
@@ -148,7 +137,7 @@ class FilterType extends AbstractFormType
             if (!isset($mappings[$property])) {
                 $message = sprintf(
                     'Property "%s::$%s" is not mapped field or association.',
-                    $this->meta->getEntityClass(),
+                    $meta->getEntityClass(),
                     $property
                 );
 
@@ -157,8 +146,8 @@ class FilterType extends AbstractFormType
 
             $options = $this->resolveFieldOptionValues($attr['options']);
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
-                ? $this->formTypeGuesser->guessType($this->meta->getTranslationClass(), $property)
-                : $this->formTypeGuesser->guessType($this->meta->getEntityClass(), $property);
+                ? $this->formTypeGuesser->guessType($meta->getTranslationClass(), $property)
+                : $this->formTypeGuesser->guessType($meta->getEntityClass(), $property);
             $options = array_merge(array(
                 'required' => false,
             ), $typeGuess->getOptions(), $options);
@@ -226,5 +215,15 @@ class FilterType extends AbstractFormType
             default:
                 return array();
         }
+    }
+
+    /**
+     * @param array $options Form options
+     *
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    private function getMetadata(array $options)
+    {
+        return $options['metadata'];
     }
 }

@@ -173,14 +173,6 @@ class AdminFormFactory
             return null;
         }
 
-        $configuration = $meta->getConfiguration();
-
-        $type = $configuration['form']['filter']['type'];
-
-        if (empty($type)) {
-            $type = new FilterType($this->formTypeGuesser, $this->translationJoiner, $meta);
-        }
-
         $actionRouteParams = !empty($parentEntityAssociation)
             ? array(
                 $parentEntityAssociation => $parentEntityId,
@@ -188,11 +180,24 @@ class AdminFormFactory
             : array();
         $action = $this->adminRouter->generate($entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);
 
-        return $this->formFactory->create($type, null, array(
-            'action'                    => $action,
-            'parent_entity_association' => $parentEntityAssociation,
-            'parent_entity_id'          => $parentEntityId,
-        ));
+        $options = array(
+            'action' => $action,
+        );
+
+        $configuration = $meta->getConfiguration();
+        $type = $configuration['form']['filter']['type'];
+
+        if (empty($type)) {
+            $type = FilterType::FILTER_TYPE_CLASS;
+
+            $options = array_merge($options, array(
+                'metadata'                  => $meta,
+                'parent_entity_association' => $parentEntityAssociation,
+                'parent_entity_id'          => $parentEntityId,
+            ));
+        }
+
+        return $this->formFactory->createNamed($meta->getFilterFormTypeName(), $type, null, $options);
     }
 
     /**

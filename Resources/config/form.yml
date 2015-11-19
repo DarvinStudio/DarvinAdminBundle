@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
 
+    darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
+
     darvin_admin.form.type_extension.info.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
 
 services:
@@ -24,6 +26,14 @@ services:
             - "@darvin_utils.flash.notifier"
             - "@darvin_admin.metadata.manager"
             - "@validator"
+
+    darvin_admin.form.type.filter:
+        class: %darvin_admin.form.type.filter.class%
+        arguments:
+            - "@form.type_guesser.doctrine"
+            - "@darvin_content.translatable.translation_joiner"
+        tags:
+            - { name: form.type }
 
     darvin_admin.form.type_extension.info:
         class: %darvin_admin.form.type_extension.info.class%

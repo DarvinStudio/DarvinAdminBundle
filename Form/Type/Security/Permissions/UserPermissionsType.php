@@ -34,9 +34,9 @@ class UserPermissionsType extends AbstractType
                 'label' => false,
             ))
             ->add('permissions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                'label'      => false,
-                'entry_type' => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
-                'options'    => array(
+                'label'         => false,
+                'entry_type'    => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
+                'entry_options' => array(
                     'required' => false,
                 ),
             ));

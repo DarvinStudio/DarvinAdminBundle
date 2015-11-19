@@ -58,9 +58,11 @@ class ConfigurationsType extends AbstractType
                 continue;
             }
 
-            $builder->add($configuration->getName(), new ConfigurationType($configuration), array(
-                'label'       => sprintf('configuration.%s.title', $configuration->getName()),
-                'constraints' => new Valid(),
+            $builder->add($configuration->getName(), ConfigurationType::CONFIGURATION_TYPE_CLASS, array(
+                'label'         => sprintf('configuration.%s.title', $configuration->getName()),
+                'configuration' => $configuration,
+                'constraints'   => new Valid(),
+                'data_class'    => get_class($configuration),
             ));
         }
     }

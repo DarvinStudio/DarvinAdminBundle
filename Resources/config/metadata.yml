@@ -43,7 +43,6 @@ services:
         class: %darvin_admin.metadata.manager.class%
         arguments:
             - "@darvin_admin.cache.filesystem"
-            - "@doctrine.orm.entity_manager"
             - "@darvin_admin.metadata.pool"
             - %darvin_admin.debug%
 

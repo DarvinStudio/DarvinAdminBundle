@@ -58,7 +58,7 @@ class ObjectPermissionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $userRepository = $this->userRepository;
+        $users = $this->getUsers();
 
         $builder
             ->add('objectClass', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
@@ -68,11 +68,9 @@ class ObjectPermissionsType extends AbstractType
                 'label'      => false,
                 'entry_type' => UserPermissionsType::USER_PERMISSIONS_TYPE_CLASS,
             ))
-            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($userRepository) {
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($users) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */
                 $objectPermissions = $event->getData();
-
-                $users = $this->getUsers();
 
                 foreach ($users as $id => $user) {
                     if ($objectPermissions->hasUserPermissions($id)) {

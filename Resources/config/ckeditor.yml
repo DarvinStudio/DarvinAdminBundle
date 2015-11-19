@@ -9,6 +9,5 @@ services:
             - "@darvin_content.widget.pool"
             - %darvin_admin.ckeditor.plugin_filename%
             - %darvin_admin.ckeditor.plugins_path%
-            - %darvin_admin.web_dir%
         tags:
             - { name: form.type }

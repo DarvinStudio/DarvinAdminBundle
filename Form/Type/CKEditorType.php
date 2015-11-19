@@ -44,29 +44,17 @@ class CKEditorType extends AbstractType
     private $pluginsPath;
 
     /**
-     * @var string
-     */
-    private $webDir;
-
-    /**
      * @param \Symfony\Component\HttpFoundation\RequestStack   $requestStack   Request stack
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface $widgetPool     Widget pool
      * @param string                                           $pluginFilename Plugin filename
      * @param string                                           $pluginsPath    Plugins path
-     * @param string                                           $webDir         Web directory
      */
-    public function __construct(
-        RequestStack $requestStack,
-        WidgetPoolInterface $widgetPool,
-        $pluginFilename,
-        $pluginsPath,
-        $webDir
-    ) {
+    public function __construct(RequestStack $requestStack, WidgetPoolInterface $widgetPool, $pluginFilename, $pluginsPath)
+    {
         $this->requestStack = $requestStack;
         $this->widgetPool = $widgetPool;
         $this->pluginFilename = $pluginFilename;
         $this->pluginsPath = $pluginsPath;
-        $this->webDir = $webDir;
     }
 
     /**

@@ -78,7 +78,7 @@ class BaseType extends AbstractFormType
 
             unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
 
-            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity, $fieldOptions) {
+            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity) {
                 $qb = $er->createQueryBuilder('o');
 
                 if (empty($entity)) {

@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Metadata;
 
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManager;
 
 /**
  * Metadata manager
@@ -25,11 +24,6 @@ class MetadataManager
      * @var \Doctrine\Common\Cache\Cache
      */
     private $cache;
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataPool
@@ -58,14 +52,12 @@ class MetadataManager
 
     /**
      * @param \Doctrine\Common\Cache\Cache              $cache         Cache
-     * @param \Doctrine\ORM\EntityManager               $em            Entity manager
      * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool  Metadata pool
      * @param bool                                      $cacheDisabled Is cache disabled
      */
-    public function __construct(Cache $cache, EntityManager $em, MetadataPool $metadataPool, $cacheDisabled)
+    public function __construct(Cache $cache, MetadataPool $metadataPool, $cacheDisabled)
     {
         $this->cache = $cache;
-        $this->em = $em;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
         $this->checkedIfHasMetadataClasses = $this->metadata = array();

@@ -17,7 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * Breadcrumbs Twig extension
  */
-class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
+class BreadcrumbsExtension extends \Twig_Extension
 {
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
@@ -28,11 +28,6 @@ class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_In
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
     private $propertyAccessor;
-
-    /**
-     * @var \Twig_Environment
-     */
-    private $environment;
 
     /**
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager  Metadata manager
@@ -47,22 +42,22 @@ class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_In
     /**
      * {@inheritdoc}
      */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('admin_breadcrumbs', array($this, 'renderBreadcrumbs'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction(
+                'admin_breadcrumbs',
+                array($this, 'renderBreadcrumbs'),
+                array(
+                    'is_safe'           => array('html'),
+                    'needs_environment' => true,
+                )
+            ),
         );
     }
 
     /**
+     * @param \Twig_Environment                     $environment       Twig environment
      * @param object                                $entity            Entity
      * @param \Darvin\AdminBundle\Metadata\Metadata $currentEntityMeta Current entity metadata
      * @param bool                                  $renderLast        Whether to render last crumb
@@ -71,6 +66,7 @@ class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_In
      * @return string
      */
     public function renderBreadcrumbs(
+        \Twig_Environment $environment,
         $entity = null,
         Metadata $currentEntityMeta = null,
         $renderLast = false,
@@ -111,7 +107,7 @@ class BreadcrumbsExtension extends \Twig_Extension implements \Twig_Extension_In
             $entityRoute = $configuration['breadcrumbs_entity_route'];
         }
 
-        return $this->environment->render($template, array(
+        return $environment->render($template, array(
             'crumbs'       => array_reverse($crumbs),
             'entity_route' => $entityRoute,
             'render_last'  => $renderLast,

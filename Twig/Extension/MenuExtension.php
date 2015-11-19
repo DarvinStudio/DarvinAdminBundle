@@ -15,17 +15,12 @@ use Darvin\AdminBundle\Menu\Menu;
 /**
  * Menu Twig extension
  */
-class MenuExtension extends \Twig_Extension implements \Twig_Extension_InitRuntimeInterface
+class MenuExtension extends \Twig_Extension
 {
     /**
      * @var \Darvin\AdminBundle\Menu\Menu
      */
     private $menu;
-
-    /**
-     * @var \Twig_Environment
-     */
-    private $environment;
 
     /**
      * @param \Darvin\AdminBundle\Menu\Menu $menu Menu
@@ -38,29 +33,29 @@ class MenuExtension extends \Twig_Extension implements \Twig_Extension_InitRunti
     /**
      * {@inheritdoc}
      */
-    public function initRuntime(\Twig_Environment $environment)
-    {
-        $this->environment = $environment;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('admin_menu', array($this, 'renderMenu'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFunction(
+                'admin_menu',
+                array($this, 'renderMenu'),
+                array(
+                    'is_safe'           => array('html'),
+                    'needs_environment' => true,
+                )
+            ),
         );
     }
 
     /**
-     * @param string $template Template
+     * @param \Twig_Environment $environment Twig environment
+     * @param string            $template    Template
      *
      * @return string
      */
-    public function renderMenu($template = 'DarvinAdminBundle::menu.html.twig')
+    public function renderMenu(\Twig_Environment $environment, $template = 'DarvinAdminBundle::menu.html.twig')
     {
-        return $this->environment->render($template, array(
+        return $environment->render($template, array(
             'items' => $this->menu->getItems(),
         ));
     }

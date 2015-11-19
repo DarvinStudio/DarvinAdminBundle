@@ -26,10 +26,10 @@ extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 
 Путь до файла может быть
  относительным бандла, в таком случае он должен начинаться с "@@", например
- "@@DarvinAdminBundle/Resources/config/admin/administrator.yml" (обязательно нужно заключать такую строку в кавычки).
- Чтобы метаданные попали в пул "darvin_admin.metadata.pool", и раздел администрирования заработал, необходимо отметить
- сервис тегом "darvin_admin.metadata". Так как метаданные доступны через менеджер метаданных
- "darvin_admin.metadata.manager", имеет смысл сделать сервис приватным.
+ "@@DarvinAdminBundle/Resources/config/admin/administrator.yml". Чтобы метаданные попали в пул
+ "darvin_admin.metadata.pool", и раздел администрирования заработал, необходимо отметить сервис тегом
+ "darvin_admin.metadata". Так как метаданные доступны через менеджер метаданных "darvin_admin.metadata.manager", имеет
+ смысл сделать сервис приватным.
 
 Таким образом определение сервиса может выглядеть так:
 

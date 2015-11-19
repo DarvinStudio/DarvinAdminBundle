@@ -126,7 +126,7 @@ parameters:
         - ru
         - en
         - de
-    locale_pattern:    |de|en|ru
+    locale_pattern:    "|de|en|ru"
     admin_path_suffix: (%locale_pattern%)/
 ```
 
@@ -160,9 +160,9 @@ security:
                 csrf_provider:       security.csrf.token_manager
                 remember_me:         true
             remember_me:
-                key:      %secret%
                 name:     REMEMBERMEADMIN
                 lifetime: 31536000 # 1 year
+                secret:   %secret%
             logout:
                 intention: %secret%
                 path:      darvin_admin_security_logout

@@ -124,7 +124,6 @@ class AdminFormFactory
     public function createEntityForm($entity, $actionType, $formAction, array $submitButtons)
     {
         $meta = $this->metadataManager->getMetadata($entity);
-        $configuration = $meta->getConfiguration();
 
         $options = array(
             'action'             => $formAction,
@@ -136,6 +135,7 @@ class AdminFormFactory
             ),
         );
 
+        $configuration = $meta->getConfiguration();
         $type = $configuration['form'][$actionType]['type'];
 
         if (empty($type)) {

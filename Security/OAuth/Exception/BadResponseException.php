@@ -31,7 +31,7 @@ class BadResponseException extends \LogicException
         $this->needClass = $needClass;
         $this->getClass = is_object($object) ? get_class($object) : 'not object';
 
-        if ($needClass == null) {
+        if (empty($needClass)) {
             $this->needClass = DarvinAuthResponse::DARVIN_AUTH_RESPONSE_CLASS;
         }
 

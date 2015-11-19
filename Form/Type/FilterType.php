@@ -127,9 +127,9 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    protected function getMetadata()
+    protected function getEntityTranslationPrefix(array $options)
     {
-        return $this->meta;
+        return $this->meta->getEntityTranslationPrefix();
     }
 
     /**

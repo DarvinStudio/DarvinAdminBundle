@@ -24,60 +24,31 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class BaseType extends AbstractFormType
 {
-    /**
-     * @var string
-     */
-    private $action;
-
-    /**
-     * @var \Darvin\AdminBundle\Metadata\Metadata
-     */
-    private $meta;
-
-    /**
-     * @var string
-     */
-    private $fieldFilter;
-
-    /**
-     * @var string
-     */
-    private $nameSuffix;
-
-    /**
-     * @param string                                $action      Action
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta        Metadata
-     * @param string                                $fieldFilter Field filter
-     * @param string                                $nameSuffix  Name suffix
-     */
-    public function __construct($action, Metadata $meta, $fieldFilter = null, $nameSuffix = null)
-    {
-        $this->action = $action;
-        $this->meta = $meta;
-        $this->fieldFilter = $fieldFilter;
-        $this->nameSuffix = $nameSuffix;
-    }
+    const BASE_TYPE_CLASS = __CLASS__;
 
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $configuration = $this->meta->getConfiguration();
+        $configuration = $this->getMetadata($options)->getConfiguration();
 
-        $fields = $configuration['form'][$this->action]['fields'];
+        $fields = $configuration['form'][$options['action_type']]['fields'];
 
-        foreach ($configuration['form'][$this->action]['field_groups'] as $groupFields) {
+        foreach ($configuration['form'][$options['action_type']]['field_groups'] as $groupFields) {
             $fields = array_merge($fields, $groupFields);
         }
+
+        $fieldFilterProvided = isset($options['field_filter']);
+
         foreach ($fields as $field => $attr) {
-            if (!empty($this->fieldFilter) && $field !== $this->fieldFilter) {
+            if ($fieldFilterProvided && $field !== $options['field_filter']) {
                 continue;
             }
 
-            $options = $this->resolveFieldOptionValues($attr['options']);
-            $this->addValidConstraint($options);
-            $builder->add($field, $attr['type'], $options);
+            $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
+            $this->addValidConstraint($fieldOptions);
+            $builder->add($field, $attr['type'], $fieldOptions);
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'filterEntityFields'));
@@ -129,27 +100,30 @@ class BaseType extends AbstractFormType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class'         => $this->meta->getEntityClass(),
-            'intention'          => md5(__FILE__.$this->getBlockPrefix().$this->meta->getEntityClass()),
-            'translation_domain' => 'admin',
-        ));
+        $resolver
+            ->setDefaults(array(
+                'intention'          => md5(__FILE__),
+                'translation_domain' => 'admin',
+            ))
+            ->remove('data_class')
+            ->setRequired(array(
+                'action_type',
+                'data_class',
+                'metadata',
+            ))
+            ->setDefined('field_filter')
+            ->setAllowedTypes('action_type', 'string')
+            ->setAllowedTypes('data_class', 'string')
+            ->setAllowedTypes('field_filter', 'string')
+            ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    protected function getEntityTranslationPrefix(array $options)
     {
-        return $this->meta->getFormTypeName().$this->nameSuffix;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getMetadata()
-    {
-        return $this->meta;
+        return $this->getMetadata($options)->getEntityTranslationPrefix();
     }
 
     /**
@@ -172,5 +146,15 @@ class BaseType extends AbstractFormType
             $fieldOptions['constraints'],
             new Valid(),
         );
+    }
+
+    /**
+     * @param array $options Form options
+     *
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    private function getMetadata(array $options)
+    {
+        return $options['metadata'];
     }
 }

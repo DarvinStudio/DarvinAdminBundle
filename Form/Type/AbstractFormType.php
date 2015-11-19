@@ -25,13 +25,15 @@ abstract class AbstractFormType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $this->setLabels($view->children);
+        $this->setLabels($view->children, $this->getEntityTranslationPrefix($options));
     }
 
     /**
-     * @return \Darvin\AdminBundle\Metadata\Metadata
+     * @param array $options Form options
+     *
+     * @return string
      */
-    abstract protected function getMetadata();
+    abstract protected function getEntityTranslationPrefix(array $options);
 
     /**
      * @param array $options Field options
@@ -59,18 +61,17 @@ abstract class AbstractFormType extends AbstractType
     }
 
     /**
-     * @param \Symfony\Component\Form\FormView[] $fields Form view fields
+     * @param \Symfony\Component\Form\FormView[] $fields            Form view fields
+     * @param string                             $translationPrefix Translation prefix
      */
-    private function setLabels(array $fields)
+    private function setLabels(array $fields, $translationPrefix)
     {
-        $translationPrefix = $this->getMetadata()->getEntityTranslationPrefix();
-
         foreach ($fields as $name => $field) {
             if (null === $field->vars['label']) {
                 $field->vars['label'] = $translationPrefix.StringsUtil::toUnderscore($name);
             }
             if (!empty($field->children)) {
-                $this->setLabels($field->children);
+                $this->setLabels($field->children, $translationPrefix);
             }
         }
     }

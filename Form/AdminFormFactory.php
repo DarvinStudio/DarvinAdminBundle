@@ -115,31 +115,39 @@ class AdminFormFactory
 
     /**
      * @param object $entity        Entity
-     * @param string $action        Action
+     * @param string $actionType    Action type
      * @param string $formAction    Form action
      * @param array  $submitButtons Submit button names
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createEntityForm($entity, $action, $formAction, array $submitButtons)
+    public function createEntityForm($entity, $actionType, $formAction, array $submitButtons)
     {
         $meta = $this->metadataManager->getMetadata($entity);
         $configuration = $meta->getConfiguration();
 
-        $type = $configuration['form'][$action]['type'];
-
-        if (empty($type)) {
-            $type = new BaseType($action, $meta);
-        }
-
-        $builder = $this->formFactory->createBuilder($type, $entity, array(
+        $options = array(
             'action'             => $formAction,
+            'data_class'         => $meta->getEntityClass(),
             'translation_domain' => 'admin',
             'validation_groups'  => array(
                 'Default',
-                'Admin'.ucfirst($action),
+                'Admin'.ucfirst($actionType),
             ),
-        ));
+        );
+
+        $type = $configuration['form'][$actionType]['type'];
+
+        if (empty($type)) {
+            $type = BaseType::BASE_TYPE_CLASS;
+
+            $options = array_merge($options, array(
+                'action_type' => $actionType,
+                'metadata'    => $meta,
+            ));
+        }
+
+        $builder = $this->formFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {
             $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', array(
@@ -223,7 +231,11 @@ class AdminFormFactory
      */
     public function createPropertyForm(Metadata $meta, $property, $entity = null)
     {
-        return $this->formFactory->create(new BaseType('index', $meta, $property, '_property'), $entity, array(
+        return $this->formFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, array(
+            'action_type'       => 'index',
+            'data_class'        => $meta->getEntityClass(),
+            'field_filter'      => $property,
+            'metadata'          => $meta,
             'validation_groups' => array(
                 'Default',
                 'AdminUpdateProperty',

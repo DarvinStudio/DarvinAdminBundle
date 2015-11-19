@@ -15,6 +15,8 @@ namespace Darvin\AdminBundle\Metadata;
  */
 class Metadata
 {
+    const METADATA_CLASS = __CLASS__;
+
     /**
      * @var \Darvin\AdminBundle\Metadata\AssociatedMetadata
      */

@@ -15,7 +15,7 @@
         "a2lix/translation-form-bundle":      "2.0.*",
         "egeloen/ckeditor-bundle":            "3.0.*",
         "hwi/oauth-bundle":                   "0.3.*",
-        "knplabs/knp-paginator-bundle":       "2.5.*",
+        "knplabs/knp-paginator-bundle":       "dev-master@dev",
         "lexik/translation-bundle":           "dev-master@dev",
         "ocramius/proxy-manager":             "0.5.*",
         "oneup/uploader-bundle":              "dev-master@dev",

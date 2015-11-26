@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\UtilsBundle\Templating\TemplatingProviderInterface;
+use Darvin\Utils\Templating\TemplatingProviderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,14 +31,14 @@ class CacheFormManager
     private $router;
 
     /**
-     * @var \Darvin\UtilsBundle\Templating\TemplatingProviderInterface
+     * @var \Darvin\Utils\Templating\TemplatingProviderInterface
      */
     private $templatingProvider;
 
     /**
-     * @param \Symfony\Component\Form\FormFactoryInterface               $formFactory        Form factory
-     * @param \Symfony\Component\Routing\RouterInterface                 $router             Router
-     * @param \Darvin\UtilsBundle\Templating\TemplatingProviderInterface $templatingProvider Templating provider
+     * @param \Symfony\Component\Form\FormFactoryInterface         $formFactory        Form factory
+     * @param \Symfony\Component\Routing\RouterInterface           $router             Router
+     * @param \Darvin\Utils\Templating\TemplatingProviderInterface $templatingProvider Templating provider
      */
     public function __construct(
         FormFactoryInterface $formFactory,

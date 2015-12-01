@@ -156,7 +156,7 @@ security:
                 login_path:          darvin_admin_security_login
                 default_target_path: darvin_admin_homepage
                 use_referer:         true
-                intention:           %secret%
+                csrf_token_id:       %secret%
                 csrf_provider:       security.csrf.token_manager
                 remember_me:         true
             remember_me:
@@ -164,9 +164,9 @@ security:
                 lifetime: 31536000 # 1 year
                 secret:   %secret%
             logout:
-                intention: %secret%
-                path:      darvin_admin_security_logout
-                target:    darvin_admin_security_login
+                csrf_token_id: %secret%
+                path:          darvin_admin_security_logout
+                target:        darvin_admin_security_login
             anonymous: ~
             oauth:
                 resource_owners:

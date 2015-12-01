@@ -201,7 +201,7 @@ class AdminFormFactory
             ),
             array(
                 'action'             => $action,
-                'intention'          => md5(__FILE__.ClassUtils::getClass($entity).$id),
+                'csrf_token_id'      => md5(__FILE__.ClassUtils::getClass($entity).$id),
                 'translation_domain' => 'admin',
             )
         )->add('id', 'Symfony\Component\Form\Extension\Core\Type\HiddenType');

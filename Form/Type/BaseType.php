@@ -102,7 +102,7 @@ class BaseType extends AbstractFormType
     {
         $resolver
             ->setDefaults(array(
-                'intention'          => md5(__FILE__),
+                'csrf_token_id'      => md5(__FILE__),
                 'translation_domain' => 'admin',
             ))
             ->remove('data_class')

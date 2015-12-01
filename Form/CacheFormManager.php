@@ -60,8 +60,8 @@ class CacheFormManager
             'Symfony\Component\Form\Extension\Core\Type\FormType',
             null,
             array(
-                'action'    => $this->router->generate('darvin_admin_cache_clear'),
-                'intention' => md5(__FILE__),
+                'action'        => $this->router->generate('darvin_admin_cache_clear'),
+                'csrf_token_id' => md5(__FILE__),
             )
         );
     }

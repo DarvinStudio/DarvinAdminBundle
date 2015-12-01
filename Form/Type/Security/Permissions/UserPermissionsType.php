@@ -61,8 +61,8 @@ class UserPermissionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => UserPermissions::USER_PERMISSIONS_CLASS,
-            'intention'  => md5(__FILE__.$this->getBlockPrefix()),
+            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
+            'data_class'    => UserPermissions::USER_PERMISSIONS_CLASS,
         ));
     }
 

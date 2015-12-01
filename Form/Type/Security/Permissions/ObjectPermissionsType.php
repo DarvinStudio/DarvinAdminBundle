@@ -112,8 +112,8 @@ class ObjectPermissionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
-            'intention'  => md5(__FILE__.$this->getBlockPrefix()),
+            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
+            'data_class'    => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
         ));
     }
 

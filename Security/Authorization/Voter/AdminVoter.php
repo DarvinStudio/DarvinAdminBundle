@@ -15,12 +15,12 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 /**
  * Admin authorization voter
  */
-class AdminVoter implements VoterInterface
+class AdminVoter extends Voter
 {
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
@@ -55,58 +55,39 @@ class AdminVoter implements VoterInterface
     /**
      * {@inheritdoc}
      */
-    public function vote(TokenInterface $token, $objectOrClass, array $attributes)
+    protected function voteOnAttribute($attribute, $objectOrClass, TokenInterface $token)
     {
-        if (empty($objectOrClass)) {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
-
-        $class = $this->getClass($objectOrClass);
-
-        if (!$this->supportsClass($class)) {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
-
         $user = $token->getUser();
 
         if (!$user instanceof BaseUser) {
-            return VoterInterface::ACCESS_ABSTAIN;
-        }
-        if ($user->isSuperadmin()) {
-            return VoterInterface::ACCESS_GRANTED;
+            return false;
         }
 
-        $vote = VoterInterface::ACCESS_ABSTAIN;
-
-        foreach ($attributes as $attribute) {
-            if (!$this->supportsAttribute($attribute)) {
-                continue;
-            }
-
-            $vote = VoterInterface::ACCESS_GRANTED;
-
-            if (!$this->isGranted($attribute, $class, $user)) {
-                return VoterInterface::ACCESS_DENIED;
-            }
-        }
-
-        return $vote;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsAttribute($attribute)
-    {
-        return in_array($attribute, Permission::getAllPermissions());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsClass($class)
-    {
         $this->init();
+
+        $class = $this->getClass($objectOrClass);
+
+        if (isset($this->permissions[$class][$user->getId()][$attribute])) {
+            return $this->permissions[$class][$user->getId()][$attribute];
+        }
+
+        $defaultPermissions = $user->getDefaultPermissions();
+
+        return isset($defaultPermissions[$attribute]) ? $defaultPermissions[$attribute] : false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supports($attribute, $objectOrClass)
+    {
+        if (!in_array($attribute, Permission::getAllPermissions())) {
+            return false;
+        }
+
+        $this->init();
+
+        $class = $this->getClass($objectOrClass);
 
         if (in_array($class, $this->supportedClasses)) {
             return true;
@@ -118,26 +99,6 @@ class AdminVoter implements VoterInterface
         }
 
         return false;
-    }
-
-    /**
-     * @param string                             $attribute Attribute
-     * @param string                             $class     Object class
-     * @param \Darvin\UserBundle\Entity\BaseUser $user      User
-     *
-     * @return bool
-     */
-    private function isGranted($attribute, $class, BaseUser $user)
-    {
-        $this->init();
-
-        if (isset($this->permissions[$class][$user->getId()][$attribute])) {
-            return $this->permissions[$class][$user->getId()][$attribute];
-        }
-
-        $defaultPermissions = $user->getDefaultPermissions();
-
-        return isset($defaultPermissions[$attribute]) ? $defaultPermissions[$attribute] : false;
     }
 
     private function init()

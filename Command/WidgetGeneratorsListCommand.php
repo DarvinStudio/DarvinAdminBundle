@@ -10,14 +10,15 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Darvin\Utils\Command\AbstractContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * View widget generator aliases list command
  */
-class WidgetGeneratorsListCommand extends AbstractContainerAwareCommand
+class WidgetGeneratorsListCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -34,9 +35,11 @@ class WidgetGeneratorsListCommand extends AbstractContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::execute($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
-        $this->writeln($this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases());
+        $io->table(array('Alias'), array_map(function ($alias) {
+            return array($alias);
+        }, $this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases()));
     }
 
     /**

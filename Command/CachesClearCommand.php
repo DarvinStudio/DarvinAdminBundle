@@ -10,16 +10,16 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Darvin\Utils\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Caches clear command
  */
-class CachesClearCommand extends AbstractCommand
+class CachesClearCommand extends Command
 {
     /**
      * @var \Symfony\Component\Console\Command\Command[]
@@ -50,12 +50,12 @@ class CachesClearCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        parent::execute($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
         $commandInput = new ArrayInput(array());
 
         foreach ($this->cacheClearCommands as $command) {
-            $this->info(sprintf('Running "%s" command...', $command->getName()));
+            $io->comment(sprintf('Running "%s" command...', $command->getName()));
 
             $result = $command->run($commandInput, $output);
 

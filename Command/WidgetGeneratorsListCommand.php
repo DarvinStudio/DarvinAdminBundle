@@ -37,9 +37,7 @@ class WidgetGeneratorsListCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->table(array('Alias'), array_map(function ($alias) {
-            return array($alias);
-        }, $this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases()));
+        $io->listing($this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases());
     }
 
     /**

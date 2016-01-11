@@ -23,6 +23,8 @@ use Darvin\Utils\Security\SecurableInterface;
  */
 class Configuration extends AbstractConfiguration implements ImageConfigurationInterface, SecurableInterface
 {
+    const IMAGE_SIZE_ADMIN = 'darvin_admin';
+
     /**
      * {@inheritdoc}
      */
@@ -33,7 +35,7 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
                 'image_sizes',
                 ParameterModel::TYPE_ARRAY,
                 array(
-                    'darvin_admin' => new Size('darvin_admin', 128, 128),
+                    'darvin_admin' => new Size(self::IMAGE_SIZE_ADMIN, 128, 128),
                 ),
                 array(
                     'form' => array(

@@ -3,6 +3,8 @@ parameters:
     darvin_admin.image.metadata.entity: Darvin\ImageBundle\Entity\Image\AbstractImage
     darvin_admin.image.metadata.config: "@@DarvinAdminBundle/Resources/config/admin/image.yml"
 
+    darvin_admin.image.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ImageExtension
+
 services:
     darvin_admin.image.metadata:
         class:   %darvin_admin.image.metadata.class%
@@ -13,3 +15,12 @@ services:
             - %darvin_admin.image.metadata.config%
         tags:
             - { name: darvin_admin.metadata }
+
+    darvin_admin.image.twig_extension:
+        class:  %darvin_admin.image.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.configuration.configuration"
+            - "@darvin_image.url_builder.filter.resize"
+        tags:
+            - { name: twig.extension }

@@ -21,6 +21,8 @@ parameters:
 
     darvin_admin.view.widget_generator.image_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageLinkGenerator
 
+    darvin_admin.view.widget_generator.image_upload_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageUploadLinkGenerator
+
     darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
 
     darvin_admin.view.widget_generator.log_entry.data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\DataGenerator
@@ -125,6 +127,14 @@ services:
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.image_upload_link:
+        class:  %darvin_admin.view.widget_generator.image_upload_link.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

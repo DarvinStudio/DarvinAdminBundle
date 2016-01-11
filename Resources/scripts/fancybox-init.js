@@ -1,9 +1,9 @@
 $(document).ready(function () {
-    $.fancybox.defaults = $.extend({}, $.fancybox.defaults, {
-        caption: {
-            type: 'float'
-        }
-    });
+//    $.fancybox.defaults = $.extend({}, $.fancybox.defaults, {
+//        caption: {
+//            type: 'inside'
+//        }
+//    });
     $.fancybox.defaults.locales = $.extend({}, $.fancybox.defaults.locales, {
         ru: {
             CLOSE:      Translator.trans('fancybox.close'),

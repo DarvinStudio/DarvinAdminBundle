@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $.fancybox.defaults = $.extend({}, $.fancybox.defaults, {
         caption: {
-            type: 'inside'
+            type: 'float'
         }
     });
     $.fancybox.defaults.locales = $.extend({}, $.fancybox.defaults.locales, {

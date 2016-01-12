@@ -195,15 +195,7 @@ class CrudController extends Controller implements MenuItemInterface
             $this->getPropertyAccessor()->setValue($entity, $association, $parentEntity);
         }
         if ($this->getTranslationJoiner()->isTranslatable($entityClass)) {
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
-            $translationClass = $entity->getTranslationEntityClass();
-
-            foreach ($this->getParameter('darvin_admin.locales') as $locale) {
-                /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
-                $translation = new $translationClass();
-                $translation->setLocale($locale);
-                $entity->addTranslation($translation);
-            }
+            $this->getTranslationsInitializer()->initializeTranslations($entity, $this->getParameter('darvin_admin.locales'));
         }
 
         $form = $this->getAdminFormFactory()->createEntityForm(
@@ -678,5 +670,11 @@ class CrudController extends Controller implements MenuItemInterface
     private function getTranslationJoiner()
     {
         return $this->get('darvin_content.translatable.translation_joiner');
+    }
+
+    /** @return \Darvin\ContentBundle\Translatable\TranslationsInitializer */
+    private function getTranslationsInitializer()
+    {
+        return $this->get('darvin_content.translatable.translations_initializer');
     }
 }

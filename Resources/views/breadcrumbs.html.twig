@@ -13,7 +13,7 @@
         admin_path(
             crumb.entity,
             route_type,
-            crumb.meta.parent ? { (crumb.meta.parent.association ~ ''): app.request.query.get(crumb.meta.parent.association) } : {}
+            crumb.meta.parent ? { (crumb.meta.parent.association): app.request.query.get(crumb.meta.parent.association) } : {}
         ),
         title
     ) }}

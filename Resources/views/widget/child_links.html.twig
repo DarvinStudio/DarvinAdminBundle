@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{% set route_params = { (association ~ ''): parent_id } %}
+{% set route_params = { (association): parent_id } %}
 
 {% if index_link and children_count > 0 %}
     <a class="items" href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'), route_params) }}">

@@ -12,7 +12,7 @@
         {% set new_url = admin_path(
             meta.entityClass,
             constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'),
-            association ? { (association ~ ''): parent_entity_id } : {}
+            association ? { (association): parent_entity_id } : {}
         ) %}
 
         <div class="post_item_btn">

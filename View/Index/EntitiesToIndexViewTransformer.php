@@ -131,6 +131,9 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $configuration = $meta->getConfiguration();
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
+        if (!empty($configuration['view']['index']['action_widgets'])) {
+            $head->addItem('action_widgets', new HeadItem('interface.actions'));
+        }
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
             $content = $translationPrefix.StringsUtil::toUnderscore($field);
 
@@ -147,9 +150,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             }
 
             $head->addItem($field, $headItem);
-        }
-        if (!empty($configuration['view']['index']['action_widgets'])) {
-            $head->addItem('action_widgets', new HeadItem('interface.actions'));
         }
 
         return $head;
@@ -173,6 +173,15 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         foreach ($entities as $entity) {
             $bodyRow = new BodyRow();
 
+            if (!empty($configuration['view']['index']['action_widgets'])) {
+                $actionWidgets = '';
+
+                foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
+                    $actionWidgets .= $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate($entity);
+                }
+
+                $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
+            }
             foreach ($configuration['view']['index']['fields'] as $field => $attr) {
                 if (isset($propertyForms[$field])) {
                     $form = $propertyForms[$field];
@@ -184,15 +193,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 }
 
                 $bodyRow->addItem($field, new BodyRowItem($content));
-            }
-            if (!empty($configuration['view']['index']['action_widgets'])) {
-                $actionWidgets = '';
-
-                foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias) {
-                    $actionWidgets .= $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate($entity);
-                }
-
-                $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
             }
 
             $body->addRow($bodyRow);

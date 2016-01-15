@@ -63,6 +63,7 @@ imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/a2lix_translation_form.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/bazinga_js_translation.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
+    - { resource: "@DarvinAdminBundle/Resources/config/app/knp_paginator.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" }
     - { resource: "@DarvinImageBundle/Resources/config/app/liip_imagine.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }

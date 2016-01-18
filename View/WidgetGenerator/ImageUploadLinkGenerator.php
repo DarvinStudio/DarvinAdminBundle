@@ -43,9 +43,15 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
             return '';
         }
 
+        $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
+
+        if (!$url) {
+            return '';
+        }
+
         return $this->render($options, array(
             'entity' => $entity,
-            'url'    => $this->uploadStorage->resolveUri($entity, $options['file_property']),
+            'url'    => $url,
         ));
     }
 

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Configuration\Configuration;
 use Darvin\ImageBundle\UrlBuilder\Filter\ResizeFilter;
+use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 
 /**
  * Image Twig extension
@@ -59,7 +60,11 @@ class ImageExtension extends \Twig_Extension
         $parameters = $this->getResizeFilterParameters();
         $parameters['outbound'] = true;
 
-        return $this->resizeFilter->buildUrl($pathname, $parameters);
+        try {
+            return $this->resizeFilter->buildUrl($pathname, $parameters);
+        } catch (NotLoadableException $ex) {
+            return null;
+        }
     }
 
     /**
@@ -69,7 +74,11 @@ class ImageExtension extends \Twig_Extension
      */
     public function resizeImage($pathname)
     {
-        return $this->resizeFilter->buildUrl($pathname, $this->getResizeFilterParameters());
+        try {
+            return $this->resizeFilter->buildUrl($pathname, $this->getResizeFilterParameters());
+        } catch (NotLoadableException $ex) {
+            return null;
+        }
     }
 
     /**

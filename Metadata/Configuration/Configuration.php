@@ -42,6 +42,8 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
+        $container = $this->container;
+
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('root');
 
@@ -54,11 +56,37 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('entity_name')->defaultNull()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('sortable_fields')->useAttributeAsKey('field')->prototype('scalar')->end()->end()
+                ->arrayNode('sorter')
+                    ->validate()
+                        ->ifTrue(function ($v) use ($container) {
+                            return !method_exists($container->get($v['id']), $v['method']);
+                        })
+                        ->thenInvalid('Service does not have method %s.')
+                    ->end()
+                    ->children()
+                        ->scalarNode('id')
+                            ->defaultNull()
+                            ->validate()
+                                ->ifTrue(function ($v) use ($container) {
+                                    return !$container->has($v);
+                                })
+                                ->thenInvalid('Service %s does not exist.')
+                            ->end()
+                        ->end()
+                        ->scalarNode('method')->defaultNull()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('order_by')
                     ->useAttributeAsKey('property')
                     ->prototype('enum')->values(array('asc', 'desc'))->end()
                 ->end()
-                ->integerNode('pagination_items')->defaultValue(10)->min(1)->end()
+                ->arrayNode('pagination')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultTrue()->end()
+                        ->integerNode('items')->defaultValue(10)->min(1)->end()
+                    ->end()
+                ->end()
                 ->arrayNode('form')
                     ->addDefaultsIfNotSet()
                     ->children()

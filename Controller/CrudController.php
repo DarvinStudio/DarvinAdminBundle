@@ -133,7 +133,7 @@ class CrudController extends Controller implements MenuItemInterface
         $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
 
         if (!empty($sortCriteria)) {
-            if (count($sortCriteria) > 1) {
+            if (count($sortCriteria) > 1 || !$this->configuration['pagination']['enabled']) {
                 foreach ($sortCriteria as $sort => $order) {
                     $qb->addOrderBy('o.'.$sort, $order);
                 }
@@ -144,22 +144,35 @@ class CrudController extends Controller implements MenuItemInterface
             }
         }
 
-        $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
+        $pagination = null;
 
-        /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
-        $pagination = $this->getPaginator()->paginate(
-            $qb,
-            $request->query->get('page', 1),
-            $this->configuration['pagination_items'],
-            $paginatorOptions
-        );
+        if ($this->configuration['pagination']['enabled']) {
+            $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
-        $this->getCustomObjectLoader()->loadCustomObjects($pagination->getItems(), false);
+            /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
+            $pagination = $this->getPaginator()->paginate(
+                $qb,
+                $request->query->get('page', 1),
+                $this->configuration['pagination']['items'],
+                $paginatorOptions
+            );
+            $entities = $pagination->getItems();
+            $entitiesCount = $pagination->getTotalItemCount();
+        } else {
+            $entities = $qb->getQuery()->getResult();
+            $entitiesCount = count($entities);
+        }
+        if (isset($this->configuration['sorter'])) {
+            $entities = $this->get($this->configuration['sorter']['id'])->{$this->configuration['sorter']['method']}($entities);
+        }
 
-        $view = $this->getEntitiesToIndexViewTransformer()->transform($pagination->getItems());
+        $this->getCustomObjectLoader()->loadCustomObjects($entities, false);
+
+        $view = $this->getEntitiesToIndexViewTransformer()->transform($entities);
 
         return $this->renderResponse('index', array(
             'association'      => $association,
+            'entities_count'   => $entitiesCount,
             'filter_form'      => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'             => $this->meta,
             'new_form_widget'  => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,

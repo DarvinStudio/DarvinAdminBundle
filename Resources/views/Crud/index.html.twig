@@ -31,10 +31,10 @@
         <h3>{% trans %}interface.empty_list{% endtrans %}</h3>
     {% else %}
 
-        {% set pagination_html = knp_pagination_render(pagination) %}
+        {% set pagination_html = pagination ? knp_pagination_render(pagination) : '' %}
 
         {{ pagination_html | raw }}
-        <p>{% trans with { '%count%': pagination.totalItemCount } %}interface.total_item_count{% endtrans %}</p>
+        <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
         <div class="scroll-pane horizontal-only">
             <div class="section_table">
                 <table class="property_forms">
@@ -42,7 +42,7 @@
                         <tr>
                             {% for field, item in view.head.items if item.width %}
                                 <th colspan="{{ item.width }}">
-                                    {% if item.sortable %}
+                                    {% if pagination and item.sortable %}
                                         {{ knp_pagination_sortable(pagination, item.content | trans, item.sortablePropertyPath) }}
                                     {% else %}
                                         {{ item.content | trans }}
@@ -64,7 +64,7 @@
             </div>
         </div>
         {{ pagination_html | raw }}
-        <p>{% trans with { '%count%': pagination.totalItemCount } %}interface.total_item_count{% endtrans %}</p>
+        <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
     {% endif %}
     {{ new_form_widget | raw }}
 {% endblock %}

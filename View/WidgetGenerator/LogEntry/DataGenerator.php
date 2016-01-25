@@ -18,6 +18,7 @@ use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -90,7 +91,10 @@ class DataGenerator extends AbstractWidgetGenerator
 
         foreach ($data as $property => $value) {
             if (isset($mappings[$property])) {
-                $value = $this->stringifier->stringify($value, $mappings[$property]['type']);
+                $value = $this->stringifier->stringify(
+                    $value,
+                    isset($mappings[$property]['targetEntity']) ? Type::SIMPLE_ARRAY : $mappings[$property]['type']
+                );
             }
 
             $viewData[$translationPrefix.StringsUtil::toUnderscore($property)] = $value;

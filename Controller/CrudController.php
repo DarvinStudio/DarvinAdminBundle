@@ -90,7 +90,7 @@ class CrudController extends Controller implements MenuItemInterface
     {
         $this->checkIfUserHasPermission(Permission::VIEW);
 
-        list($parentEntity, $association, $parentEntityId) = $this->getParentEntityDefinition($request);
+        list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
         $configuration = $this->meta->getConfiguration();
 
@@ -111,8 +111,12 @@ class CrudController extends Controller implements MenuItemInterface
         $filterForm = null;
 
         if ($this->meta->isFilterFormEnabled()) {
-            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->entityClass, $association, $parentEntityId)
-                ->handleRequest($request);
+            $filterForm = $this->getAdminFormFactory()->createFilterForm(
+                $this->entityClass,
+                $association,
+                $associationParam,
+                $parentEntityId
+            )->handleRequest($request);
 
             $filtererOptions = array('non_strict_comparison_fields' => array());
             $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
@@ -171,15 +175,15 @@ class CrudController extends Controller implements MenuItemInterface
         $view = $this->getEntitiesToIndexViewTransformer()->transform($entities);
 
         return $this->renderResponse('index', array(
-            'association'      => $association,
-            'entities_count'   => $entitiesCount,
-            'filter_form'      => !empty($filterForm) ? $filterForm->createView() : null,
-            'meta'             => $this->meta,
-            'new_form_widget'  => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
-            'pagination'       => $pagination,
-            'parent_entity'    => $parentEntity,
-            'parent_entity_id' => $parentEntityId,
-            'view'             => $view,
+            'association_param' => $associationParam,
+            'entities_count'    => $entitiesCount,
+            'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
+            'meta'              => $this->meta,
+            'new_form_widget'   => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
+            'pagination'        => $pagination,
+            'parent_entity'     => $parentEntity,
+            'parent_entity_id'  => $parentEntityId,
+            'view'              => $view,
         ));
     }
 
@@ -477,20 +481,23 @@ class CrudController extends Controller implements MenuItemInterface
      */
     private function getParentEntityDefinition(Request $request)
     {
-        $association = $id = $entity = null;
-
         if (!$this->meta->hasParent()) {
-            return array($association, $id, $entity);
+            return array_fill(0, 4, null);
         }
 
-        $association = $this->meta->getParent()->getAssociation();
-        $id = (int) $request->query->get($association);
+        $associationParam = $this->meta->getParent()->getAssociationParameterName();
+        $id = (int) $request->query->get($associationParam);
 
         if (empty($id)) {
-            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $association));
+            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
         }
 
-        return array($this->getEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()), $association, $id);
+        return array(
+            $this->getEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
+            $this->meta->getParent()->getAssociation(),
+            $associationParam,
+            $id,
+        );
     }
 
     /**

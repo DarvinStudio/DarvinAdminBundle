@@ -141,14 +141,19 @@ class AdminFormFactory
     }
 
     /**
-     * @param string $entityClass             Entity class
-     * @param string $parentEntityAssociation Parent entity association
-     * @param mixed  $parentEntityId          Parent entity ID
+     * @param string $entityClass                  Entity class
+     * @param string $parentEntityAssociation      Parent entity association
+     * @param string $parentEntityAssociationParam Parent entity association query parameter name
+     * @param mixed  $parentEntityId               Parent entity ID
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createFilterForm($entityClass, $parentEntityAssociation = null, $parentEntityId = null)
-    {
+    public function createFilterForm(
+        $entityClass,
+        $parentEntityAssociation = null,
+        $parentEntityAssociationParam = null,
+        $parentEntityId = null
+    ) {
         $meta = $this->metadataManager->getMetadata($entityClass);
 
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)) {
@@ -157,7 +162,7 @@ class AdminFormFactory
 
         $actionRouteParams = !empty($parentEntityAssociation)
             ? array(
-                $parentEntityAssociation => $parentEntityId,
+                $parentEntityAssociationParam => $parentEntityId,
             )
             : array();
         $action = $this->adminRouter->generate($entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);

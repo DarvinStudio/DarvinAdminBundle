@@ -218,18 +218,18 @@ class AdminRouter
             return;
         }
 
-        $association = $meta->getParent()->getAssociation();
+        $associationParam = $meta->getParent()->getAssociationParameterName();
 
-        if (isset($parameters[$association])) {
+        if (isset($parameters[$associationParam])) {
             return;
         }
         if (empty($entity)) {
             throw new RouteException(
-                sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $entityClass, $association)
+                sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $entityClass, $associationParam)
             );
         }
 
-        $parameters[$association] = $this->getParentEntityId($entity, $association, $routeType);
+        $parameters[$associationParam] = $this->getParentEntityId($entity, $meta->getParent()->getAssociation(), $routeType);
     }
 
     /**

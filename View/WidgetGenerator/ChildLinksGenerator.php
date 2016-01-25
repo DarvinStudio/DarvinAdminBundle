@@ -83,7 +83,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             ->getSingleScalarResult();
 
         return $this->render($options, array(
-            'association'        => $association,
+            'association_param'  => $childMeta->getAssociationParameterName(),
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
             'index_link'         => $viewPermissionGranted,

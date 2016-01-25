@@ -38,6 +38,14 @@ class AssociatedMetadata
     /**
      * @return string
      */
+    public function getAssociationParameterName()
+    {
+        return $this->association.'_id';
+    }
+
+    /**
+     * @return string
+     */
     public function getAssociation()
     {
         return $this->association;

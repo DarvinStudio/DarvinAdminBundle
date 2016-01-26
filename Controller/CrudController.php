@@ -92,34 +92,19 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $qb = $this->getIndexQueryBuilder($request->getLocale());
-
-        if ($this->meta->hasParent()) {
-            $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
-        }
-
-        $filterForm = null;
-
-        if ($this->meta->isFilterFormEnabled()) {
-            $filterForm = $this->getAdminFormFactory()->createFilterForm(
+        $filterForm = $this->meta->isFilterFormEnabled()
+            ? $this->getAdminFormFactory()->createFilterForm(
                 $this->entityClass,
                 $association,
                 $associationParam,
                 $parentEntityId
-            )->handleRequest($request);
+            )->handleRequest($request)
+            : null;
 
-            $filtererOptions = array('non_strict_comparison_fields' => array());
-            $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
-                foreach ($fields as $field => $attr) {
-                    if (!$attr['strict_comparison']) {
-                        $filtererOptions['non_strict_comparison_fields'][] = $field;
-                    }
-                }
-            };
-            $getNonStrictComparisonFields($this->configuration['form']['filter']['fields']);
-            array_map($getNonStrictComparisonFields, $this->configuration['form']['filter']['field_groups']);
+        $qb = $this->getIndexQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
 
-            $this->getFilterer()->filter($qb, $filterForm->getData(), $filtererOptions);
+        if ($this->meta->hasParent()) {
+            $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
         $paginatorOptions = array();
@@ -169,7 +154,10 @@ class CrudController extends Controller implements MenuItemInterface
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
-            'new_form_widget'   => $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
+            'new_form_widget'   => $this->configuration['index_view_new_form']
+                ? $this->newAction($request, true)->getContent()
+                : null
+            ,
             'pagination'        => $pagination,
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
@@ -450,11 +438,12 @@ class CrudController extends Controller implements MenuItemInterface
     }
 
     /**
-     * @param string $locale Locale
+     * @param string $locale         Locale
+     * @param array  $filterFormData Filter form data
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function getIndexQueryBuilder($locale)
+    private function getIndexQueryBuilder($locale, array $filterFormData = null)
     {
         $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
 
@@ -472,6 +461,22 @@ class CrudController extends Controller implements MenuItemInterface
             $translationJoiner->joinTranslation($qb, $locale, 'translations');
             $qb->addSelect('translations');
         }
+        if (empty($filterFormData)) {
+            return $qb;
+        }
+
+        $filtererOptions = array('non_strict_comparison_fields' => array());
+        $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
+            foreach ($fields as $field => $attr) {
+                if (!$attr['strict_comparison']) {
+                    $filtererOptions['non_strict_comparison_fields'][] = $field;
+                }
+            }
+        };
+        $getNonStrictComparisonFields($this->configuration['form']['filter']['fields']);
+        array_map($getNonStrictComparisonFields, $this->configuration['form']['filter']['field_groups']);
+
+        $this->getFilterer()->filter($qb, $filterFormData, $filtererOptions);
 
         return $qb;
     }

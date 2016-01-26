@@ -15,6 +15,7 @@ index_view_new_form:      false # Показывать форму добавле
 images: # Конфигурация изображений
     homepage_menu_icon: ~ # Путь до иконки меню на главной странице
     left_menu_icon:     ~ # Путь до иконки меню слева
+joins:           # Left join'ы
 sortable_fields: # Сортируемые поля
 
     # Прототип

@@ -55,6 +55,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->scalarNode('entity_name')->defaultNull()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
+                ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->useAttributeAsKey('field')->prototype('scalar')->end()->end()
                 ->arrayNode('sorter')
                     ->validate()

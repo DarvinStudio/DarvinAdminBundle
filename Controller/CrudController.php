@@ -92,18 +92,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $configuration = $this->meta->getConfiguration();
+        $qb = $this->getIndexQueryBuilder($request->getLocale());
 
-        $em = $this->getEntityManager();
-
-        $qb = $em->getRepository($this->entityClass)->createQueryBuilder('o');
-
-        $translationJoiner = $this->getTranslationJoiner();
-
-        if ($translationJoiner->isTranslatable($this->entityClass)) {
-            $translationJoiner->joinTranslation($qb, $request->getLocale(), 'translations');
-            $qb->addSelect('translations');
-        }
         if ($this->meta->hasParent()) {
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
@@ -126,8 +116,8 @@ class CrudController extends Controller implements MenuItemInterface
                     }
                 }
             };
-            $getNonStrictComparisonFields($configuration['form']['filter']['fields']);
-            array_map($getNonStrictComparisonFields, $configuration['form']['filter']['field_groups']);
+            $getNonStrictComparisonFields($this->configuration['form']['filter']['fields']);
+            array_map($getNonStrictComparisonFields, $this->configuration['form']['filter']['field_groups']);
 
             $this->getFilterer()->filter($qb, $filterForm->getData(), $filtererOptions);
         }
@@ -179,7 +169,7 @@ class CrudController extends Controller implements MenuItemInterface
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
-            'new_form_widget'   => $configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
+            'new_form_widget'   => $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null,
             'pagination'        => $pagination,
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
@@ -457,6 +447,33 @@ class CrudController extends Controller implements MenuItemInterface
     public function getMenuItemAttributes()
     {
         return $this->menuItemAttributes;
+    }
+
+    /**
+     * @param string $locale Locale
+     *
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    private function getIndexQueryBuilder($locale)
+    {
+        $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
+
+        foreach ($this->configuration['joins'] as $alias => $join) {
+            if (false === strpos($join, '.')) {
+                $join = 'o.'.$join;
+            }
+
+            $qb->addSelect($alias)->leftJoin($join, $alias);
+        }
+
+        $translationJoiner = $this->getTranslationJoiner();
+
+        if ($translationJoiner->isTranslatable($this->entityClass)) {
+            $translationJoiner->joinTranslation($qb, $locale, 'translations');
+            $qb->addSelect('translations');
+        }
+
+        return $qb;
     }
 
     /**

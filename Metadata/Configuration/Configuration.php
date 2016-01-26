@@ -58,6 +58,29 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(array('asc', 'desc'))->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
+                ->arrayNode('images')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('homepage_menu_icon')->defaultNull()->end()
+                        ->scalarNode('left_menu_icon')->defaultNull()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('pagination')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultTrue()->end()
+                        ->integerNode('items')->defaultValue(10)->min(1)->end()
+                    ->end()
+                ->end()
+                ->arrayNode('form')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->append($this->addFormNode('index'))
+                        ->append($this->addFormNode('new'))
+                        ->append($this->addFormNode('edit'))
+                        ->append($this->addFormNode('filter'))
+                    ->end()
+                ->end()
                 ->arrayNode('sorter')
                     ->validate()
                         ->ifTrue(function ($v) use ($container) {
@@ -78,41 +101,24 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('method')->defaultNull()->end()
                     ->end()
                 ->end()
-                ->arrayNode('pagination')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->booleanNode('enabled')->defaultTrue()->end()
-                        ->integerNode('items')->defaultValue(10)->min(1)->end()
-                    ->end()
-                ->end()
-                ->arrayNode('form')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->append($this->addFormNode('index'))
-                        ->append($this->addFormNode('new'))
-                        ->append($this->addFormNode('edit'))
-                        ->append($this->addFormNode('filter'))
-                    ->end()
-                ->end()
-                ->arrayNode('images')
-                    ->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('homepage_menu_icon')->defaultNull()->end()
-                        ->scalarNode('left_menu_icon')->defaultNull()->end()
-                    ->end()
-                ->end()
                 ->arrayNode('view')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->append(
-                            $this->addViewNode(
-                                'index',
-                                array(ShowLinkGenerator::ALIAS, EditLinkGenerator::ALIAS, CopyFormGenerator::ALIAS, DeleteFormGenerator::ALIAS)
-                            )
-                        )
+                        ->append($this->addViewNode('index', array(
+                            ShowLinkGenerator::ALIAS,
+                            EditLinkGenerator::ALIAS,
+                            CopyFormGenerator::ALIAS,
+                            DeleteFormGenerator::ALIAS,
+                        )))
                         ->append($this->addViewNode('new'))
-                        ->append($this->addViewNode('edit', array(ShowLinkGenerator::ALIAS, DeleteFormGenerator::ALIAS)))
-                        ->append($this->addViewNode('show', array(EditLinkGenerator::ALIAS, DeleteFormGenerator::ALIAS)))
+                        ->append($this->addViewNode('edit', array(
+                            ShowLinkGenerator::ALIAS,
+                            DeleteFormGenerator::ALIAS,
+                        )))
+                        ->append($this->addViewNode('show', array(
+                            EditLinkGenerator::ALIAS,
+                            DeleteFormGenerator::ALIAS,
+                        )))
                     ->end()
                 ->end()
             ->end();

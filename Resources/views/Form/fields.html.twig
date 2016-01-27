@@ -43,7 +43,7 @@
     {% if form.vars.data %}
         {% for image in form.vars.data if image.id and image_exists(image) %}
 
-            {% include 'DarvinAdminBundle:form:image.html.twig' %}
+            {% include 'DarvinAdminBundle:Form:image.html.twig' %}
 
         {% endfor %}
     {% endif %}

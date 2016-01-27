@@ -116,7 +116,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             'property'       => $property,
         ), $templateParams);
 
-        return $this->templating->render('DarvinAdminBundle:widget/index/property_form:form.html.twig', $templateParams);
+        return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', $templateParams);
     }
 
     /**

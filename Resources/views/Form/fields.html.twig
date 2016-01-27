@@ -53,7 +53,7 @@
 {%- block darvin_image_image_widget -%}
     {% if form.vars.data and image_exists(form.vars.data) %}
 
-        {% include 'DarvinAdminBundle:form:image.html.twig' with {
+        {% include 'DarvinAdminBundle:Form:image.html.twig' with {
             'image': form.vars.data,
         } %}
 

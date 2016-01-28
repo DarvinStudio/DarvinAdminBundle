@@ -97,11 +97,11 @@ abstract class AbstractEntityToViewTransformer
             return $this->container->get($fieldAttr['service']['id'])->$method($entity, $fieldAttr['service']['options']);
         }
 
-        $widgetGeneratorAlias = $fieldAttr['widget_generator']['alias'];
+        $widgetGeneratorAlias = $fieldAttr['widget']['alias'];
 
         return $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate(
             $entity,
-            $fieldAttr['widget_generator']['options']
+            $fieldAttr['widget']['options']
         );
     }
 

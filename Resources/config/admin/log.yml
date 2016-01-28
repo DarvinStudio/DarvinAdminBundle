@@ -38,18 +38,18 @@ view:
             actionName: ~
             loggedAt:   ~
             objectName:
-                widget_generator:
+                widget:
                     alias: log_entry_entity_name
             objectId: ~
             object:
-                widget_generator:
+                widget:
                     alias: show_link
                     options:
                         entity_property: object
             version:  ~
             username: ~
             user:
-                widget_generator:
+                widget:
                     alias: show_link
                     options:
                         entity_property: user
@@ -60,21 +60,21 @@ view:
             actionName: ~
             loggedAt:   ~
             objectName:
-                widget_generator:
+                widget:
                     alias: log_entry_entity_name
             objectId: ~
             object:
-                widget_generator:
+                widget:
                     alias: show_link
                     options:
                         entity_property: object
             version:  ~
             username: ~
             user:
-                widget_generator:
+                widget:
                     alias: show_link
                     options:
                         entity_property: user
             data:
-                widget_generator:
+                widget:
                     alias: log_entry_data

@@ -80,12 +80,12 @@ Darvin\AdminBundle\Entity\Administrator:
         index:
             fields:
                 email:
-                    widget_generator:
+                    widget:
                         alias: email_link
                         options:
                             email_property: email
                 roles:
-                    widget_generator:
+                    widget:
                         alias: list
                         options:
                             keys_property:   roles

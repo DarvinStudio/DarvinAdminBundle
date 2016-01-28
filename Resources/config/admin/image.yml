@@ -29,7 +29,7 @@ view:
             - edit_link
         fields:
             image:
-                widget_generator:
+                widget:
                     alias: image_link
                     options:
                         filter_parameters:

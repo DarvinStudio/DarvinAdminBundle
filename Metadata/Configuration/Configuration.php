@@ -245,7 +245,7 @@ class Configuration implements ConfigurationInterface
                                     ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->end()
                             ->end()
-                            ->arrayNode('widget_generator')
+                            ->arrayNode('widget')
                                 ->children()
                                     ->scalarNode('alias')->cannotBeEmpty()->isRequired()->end()
                                     ->arrayNode('options')->prototype('variable')->end()->end()

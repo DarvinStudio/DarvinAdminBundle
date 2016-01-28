@@ -24,11 +24,11 @@ form:
             loggedAtFrom: ~
             loggedAtTo:   ~
             objectClass:
-                strict_comparison: false
+                compare_strict: false
             version:
-                strict_comparison: false
+                compare_strict: false
             username:
-                strict_comparison: false
+                compare_strict: false
 view:
     index:
         action_widgets:

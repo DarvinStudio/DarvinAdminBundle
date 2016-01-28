@@ -15,9 +15,9 @@ form:
     filter:
         fields:
             name:
-                strict_comparison: false
+                compare_strict: false
             extension:
-                strict_comparison: false
+                compare_strict: false
     index:
         fields:
             name: ~

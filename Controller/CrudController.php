@@ -468,7 +468,7 @@ class CrudController extends Controller implements MenuItemInterface
         $filtererOptions = array('non_strict_comparison_fields' => array());
         $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
             foreach ($fields as $field => $attr) {
-                if (!$attr['strict_comparison']) {
+                if (!$attr['compare_strict']) {
                     $filtererOptions['non_strict_comparison_fields'][] = $field;
                 }
             }

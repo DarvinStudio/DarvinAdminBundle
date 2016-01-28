@@ -22,6 +22,9 @@
 <div class="path">
     {{ breadcrumbs.render_crumb_link(path('darvin_admin_homepage'), 'homepage.action.homepage.link') }}
     {% for crumb in crumbs %}
+        {% if loop.first and crumb.meta.configuration.menu.group %}
+            <span>{{ ('menu.group.' ~ crumb.meta.configuration.menu.group ~ '.title') | trans }}</span>
+        {% endif %}
         {{ breadcrumbs.render_crumb(
             crumb,
             constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'),

@@ -18,31 +18,24 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 
 class EditLinkGenerator extends AbstractWidgetGenerator
 {
-    public function generate($entity, array $options = array())
+    protected function generateWidget($entity, array $options, $property)
     {
-        if (!$this->isGranted(Permission::EDIT, $entity)) {
-            return '';
-        }
-
         return $this->render($options, array(
             'entity'             => $entity,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
     }
 
-    public function getAlias()
+    protected function getRequiredPermissions()
     {
-        return 'edit_link';
+        return array(
+            Permission::EDIT,
+        );
     }
 }
 ```
 
-Метод "getAlias()" должен возвращать уникальный псевдоним виджета.
-
-**Необходимо обязательно осуществлять проверку наличия у пользователя соответствующих прав. Для этого в базовом классе
- присутствует метод "isGranted()".**
-
-**Базовый класс содержит и другие методы, с которыми полезно ознакомиться.**
+**Базовый класс содержит ряд методов, с которыми полезно ознакомиться.**
 
 **2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.view.widget_generator":**
 

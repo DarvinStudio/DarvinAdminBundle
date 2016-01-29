@@ -19,6 +19,7 @@ parameters:
     darvin_admin.view.widget_generator.log_entry.data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\DataGenerator
     darvin_admin.view.widget_generator.log_entry.entity_name.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\EntityNameGenerator
     darvin_admin.view.widget_generator.log_entry.revert_form.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\RevertFormGenerator
+    darvin_admin.view.widget_generator.photo_gallery.class: Darvin\AdminBundle\View\WidgetGenerator\PhotoGalleryGenerator
     darvin_admin.view.widget_generator.public_link.class: Darvin\AdminBundle\View\WidgetGenerator\PublicLinkGenerator
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
@@ -161,6 +162,12 @@ services:
         calls:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
             - [ setRouter,           [ "@router" ] ]
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.photo_gallery:
+        class:  %darvin_admin.view.widget_generator.photo_gallery.class%
+        parent: darvin_admin.view.widget_generator.entities_list
         tags:
             - { name: darvin_admin.view.widget_generator }
 

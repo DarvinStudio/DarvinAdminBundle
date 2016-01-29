@@ -201,7 +201,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     {
         $template = isset($options['template']) ? $options['template'] : $this->getDefaultTemplate();
 
-        return $this->templating->render($template, $templateParams);
+        return $this->templating->render($template, array_merge($options, $templateParams));
     }
 
     /**

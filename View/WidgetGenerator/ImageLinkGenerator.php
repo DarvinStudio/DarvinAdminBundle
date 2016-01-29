@@ -22,6 +22,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ImageLinkGenerator extends AbstractWidgetGenerator
 {
+    const ALIAS = 'image_link';
+
     /**
      * @var \Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface
      */
@@ -33,6 +35,14 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     public function setImageUrlBuilder(UrlBuilderInterface $imageUrlBuilder)
     {
         $this->imageUrlBuilder = $imageUrlBuilder;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        return self::ALIAS;
     }
 
     /**

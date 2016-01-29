@@ -11,9 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -23,22 +21,9 @@ use Symfony\Component\Routing\RouterInterface;
 class PublicLinkGenerator extends AbstractWidgetGenerator
 {
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
-     */
-    private $propertyAccessor;
-
-    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
-
-    /**
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
-     */
-    public function setPropertyAccessor(PropertyAccessorInterface $propertyAccessor)
-    {
-        $this->propertyAccessor = $propertyAccessor;
-    }
 
     /**
      * @param \Symfony\Component\Routing\RouterInterface $router Router
@@ -65,13 +50,8 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
             if (empty($propertyPath)) {
                 $propertyPath = $paramName;
             }
-            if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
-                throw new WidgetGeneratorException(
-                    sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $propertyPath)
-                );
-            }
 
-            $parameters[$paramName] = $this->propertyAccessor->getValue($entity, $propertyPath);
+            $parameters[$paramName] = $this->getPropertyValue($entity, $propertyPath);
         }
         try {
             $url = $this->router->generate($route, $parameters);

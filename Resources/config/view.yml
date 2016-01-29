@@ -73,6 +73,7 @@ services:
         arguments:
             - "@security.authorization_checker"
             - "@darvin_admin.metadata.manager"
+            - "@property_accessor"
             - "@templating"
 
     darvin_admin.view.widget_generator.actions:
@@ -119,8 +120,6 @@ services:
     darvin_admin.view.widget_generator.email_link:
         class:  %darvin_admin.view.widget_generator.email_link.class%
         parent: darvin_admin.view.widget_generator.abstract
-        calls:
-            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 
@@ -143,8 +142,6 @@ services:
     darvin_admin.view.widget_generator.list:
         class:  %darvin_admin.view.widget_generator.list.class%
         parent: darvin_admin.view.widget_generator.abstract
-        calls:
-            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 
@@ -179,16 +176,13 @@ services:
         class:  %darvin_admin.view.widget_generator.public_link.class%
         parent: darvin_admin.view.widget_generator.abstract
         calls:
-            - [ setPropertyAccessor, [ "@property_accessor" ] ]
-            - [ setRouter,           [ "@router" ] ]
+            - [ setRouter, [ "@router" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.show_link:
         class:  %darvin_admin.view.widget_generator.show_link.class%
         parent: darvin_admin.view.widget_generator.abstract
-        calls:
-            - [ setPropertyAccessor, [ "@property_accessor" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

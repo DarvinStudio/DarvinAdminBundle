@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * List view widget generator
@@ -21,30 +20,11 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class ListGenerator extends AbstractWidgetGenerator
 {
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
-     */
-    private $propertyAccessor;
-
-    /**
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
-     */
-    public function setPropertyAccessor(PropertyAccessorInterface $propertyAccessor)
-    {
-        $this->propertyAccessor = $propertyAccessor;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->propertyAccessor->isReadable($entity, $options['keys_property'])) {
-            throw new WidgetGeneratorException(
-                sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['keys_property'])
-            );
-        }
-
-        $keys = $this->propertyAccessor->getValue($entity, $options['keys_property']);
+        $keys = $this->getPropertyValue($entity, $options['keys_property']);
 
         if (null === $keys) {
             return '';

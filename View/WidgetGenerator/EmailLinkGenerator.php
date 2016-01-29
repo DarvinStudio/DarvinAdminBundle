@@ -11,9 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Email link view widget generator
@@ -21,30 +19,11 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class EmailLinkGenerator extends AbstractWidgetGenerator
 {
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
-     */
-    private $propertyAccessor;
-
-    /**
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
-     */
-    public function setPropertyAccessor(PropertyAccessorInterface $propertyAccessor)
-    {
-        $this->propertyAccessor = $propertyAccessor;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->propertyAccessor->isReadable($entity, $options['email_property'])) {
-            throw new WidgetGeneratorException(
-                sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['email_property'])
-            );
-        }
-
-        $email = $this->propertyAccessor->getValue($entity, $options['email_property']);
+        $email = $this->getPropertyValue($entity, $options['email_property']);
 
         if (empty($email)) {
             return '';

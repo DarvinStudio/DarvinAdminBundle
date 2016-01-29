@@ -11,9 +11,12 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\ContentBundle\Translatable\TranslatableException;
 use Darvin\Utils\Strings\StringsUtil;
+use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -33,6 +36,11 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     protected $metadataManager;
 
     /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
      * @var \Symfony\Component\Templating\EngineInterface
      */
     private $templating;
@@ -45,15 +53,18 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
      * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         MetadataManager $metadataManager,
+        PropertyAccessorInterface $propertyAccessor,
         EngineInterface $templating
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->metadataManager = $metadataManager;
+        $this->propertyAccessor = $propertyAccessor;
         $this->templating = $templating;
         $this->optionsResolver = new OptionsResolver();
 
@@ -108,6 +119,28 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     protected function getDefaultTemplate()
     {
         return sprintf('DarvinAdminBundle:Widget:%s.html.twig', $this->getAlias());
+    }
+
+    /**
+     * @param object $entity       Entity
+     * @param string $propertyPath Property path
+     *
+     * @return mixed
+     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     */
+    protected function getPropertyValue($entity, $propertyPath)
+    {
+        try {
+            if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
+                throw new WidgetGeneratorException(
+                    sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $propertyPath)
+                );
+            }
+        } catch (TranslatableException $ex) {
+            throw new WidgetGeneratorException($ex->getMessage());
+        }
+
+        return $this->propertyAccessor->getValue($entity, $propertyPath);
     }
 
     /**

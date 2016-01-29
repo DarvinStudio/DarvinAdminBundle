@@ -74,19 +74,23 @@ class DataGenerator extends AbstractWidgetGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
+     * @param string                              $property Property name
+     * @param array                               $options  Options
+     *
+     * @return string
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($logEntry, $property, array $options)
     {
-        $data = $entity->getData();
+        $data = $logEntry->getData();
 
         if (empty($data)) {
             return '';
         }
 
-        $mappings = $this->getMappings($entity->getObjectClass());
+        $mappings = $this->getMappings($logEntry->getObjectClass());
 
-        $translationPrefix = $this->getTranslationPrefix($entity->getObjectClass());
+        $translationPrefix = $this->getTranslationPrefix($logEntry->getObjectClass());
 
         $viewData = array();
 

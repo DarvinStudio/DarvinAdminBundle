@@ -68,19 +68,22 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
+     * @param string                              $property Property name
+     * @param array                               $options  Options
+     *
+     * @return string
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($logEntry, $property, array $options)
     {
-        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        $object = $entity->getObject();
+        $object = $logEntry->getObject();
 
         if (empty($object) || !$this->isGranted(Permission::EDIT, $object)) {
             return '';
         }
 
         return $this->render($options, array(
-            'form' => $this->createRevertForm($entity)->createView(),
+            'form' => $this->createRevertForm($logEntry)->createView(),
         ));
     }
 

@@ -22,7 +22,15 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
+    {
+        return self::ALIAS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
     {
         if (!$this->isGranted(Permission::EDIT, $entity)) {
             return '';
@@ -32,13 +40,5 @@ class EditLinkGenerator extends AbstractWidgetGenerator
             'entity'             => $entity,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 }

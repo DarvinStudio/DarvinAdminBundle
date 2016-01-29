@@ -35,10 +35,16 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return 'image_upload_link';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         if (!$this->isGranted(Permission::VIEW, $entity)) {
             return '';
         }
@@ -53,14 +59,6 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
             'entity' => $entity,
             'url'    => $url,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'image_upload_link';
     }
 
     /**

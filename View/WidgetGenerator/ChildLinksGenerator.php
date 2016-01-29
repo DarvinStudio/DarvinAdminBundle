@@ -49,10 +49,16 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return 'child_links';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         $childClass = $options['child_entity'];
 
         $viewPermissionGranted = $this->isGranted(Permission::VIEW, $childClass);
@@ -91,14 +97,6 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             'parent_id'          => $parentId,
             'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'child_links';
     }
 
     /**

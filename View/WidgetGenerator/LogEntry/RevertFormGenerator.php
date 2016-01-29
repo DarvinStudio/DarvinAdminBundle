@@ -48,29 +48,6 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function generate($entity, array $options = array())
-    {
-        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        $this->validate($entity, $options);
-
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
-        $object = $entity->getObject();
-
-        if (empty($object) || !$this->isGranted(Permission::EDIT, $object)) {
-            return '';
-        }
-
-        return $this->render($options, array(
-            'form' => $this->createRevertForm($entity)->createView(),
-        ));
-    }
-
-    /**
      * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
      *
      * @return \Symfony\Component\Form\FormInterface
@@ -88,6 +65,27 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     public function getAlias()
     {
         return 'log_entry_revert_form';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
+        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
+        if (!$this->isGranted(Permission::VIEW, $entity)) {
+            return '';
+        }
+
+        $object = $entity->getObject();
+
+        if (empty($object) || !$this->isGranted(Permission::EDIT, $object)) {
+            return '';
+        }
+
+        return $this->render($options, array(
+            'form' => $this->createRevertForm($entity)->createView(),
+        ));
     }
 
     /**

@@ -36,11 +36,17 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
+    {
+        return 'image_link';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
     {
         /** @var \Darvin\ImageBundle\Entity\Image\AbstractImage $entity */
-        $this->validate($entity, $options);
-
         if (!$this->imageUrlBuilder->fileExists($entity)) {
             return '';
         }
@@ -54,14 +60,6 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             'name'         => $entity->getName(),
             'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($entity),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'image_link';
     }
 
     /**

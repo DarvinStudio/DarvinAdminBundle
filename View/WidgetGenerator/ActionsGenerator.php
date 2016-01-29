@@ -33,10 +33,16 @@ class ActionsGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return 'actions';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         $actions = array();
 
         $configuration = $this->metadataManager->getConfiguration($entity);
@@ -52,14 +58,6 @@ class ActionsGenerator extends AbstractWidgetGenerator
         return $this->render($options, array(
             'actions' => $actions,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'actions';
     }
 
     /**

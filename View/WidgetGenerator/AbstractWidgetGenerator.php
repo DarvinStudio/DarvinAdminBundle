@@ -60,6 +60,24 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function generate($entity, array $options = array())
+    {
+        $this->validate($entity, $options);
+
+        return $this->generateWidget($entity, $options);
+    }
+
+    /**
+     * @param object $entity  Entity
+     * @param array  $options Options
+     *
+     * @return string
+     */
+    abstract protected function generateWidget($entity, array $options);
+
+    /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
      */
     protected function configureOptions(OptionsResolver $resolver)
@@ -99,12 +117,20 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     }
 
     /**
+     * @return string
+     */
+    protected function getRequiredEntityClass()
+    {
+        return null;
+    }
+
+    /**
      * @param object $entity  Entity
      * @param array  $options Options
      *
      * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
      */
-    protected function validate($entity, array &$options)
+    private function validate($entity, array &$options)
     {
         $requiredEntityClass = $this->getRequiredEntityClass();
 
@@ -124,13 +150,5 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
                 sprintf('View widget generator "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
             );
         }
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRequiredEntityClass()
-    {
-        return null;
     }
 }

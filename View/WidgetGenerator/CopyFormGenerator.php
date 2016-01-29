@@ -65,7 +65,15 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
+    {
+        return self::ALIAS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
     {
         if (!$this->isGranted(Permission::CREATE_DELETE, $entity)) {
             return '';
@@ -81,13 +89,5 @@ class CopyFormGenerator extends AbstractWidgetGenerator
             'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 }

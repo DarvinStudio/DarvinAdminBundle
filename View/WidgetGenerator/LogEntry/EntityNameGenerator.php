@@ -36,24 +36,22 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        $this->validate($entity, $options);
-
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
-        return 'log.object.'.$this->getEntityName($entity->getObjectClass()).'.title';
+        return 'log_entry_entity_name';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    protected function generateWidget($entity, array $options)
     {
-        return 'log_entry_entity_name';
+        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
+        if (!$this->isGranted(Permission::VIEW, $entity)) {
+            return '';
+        }
+
+        return 'log.object.'.$this->getEntityName($entity->getObjectClass()).'.title';
     }
 
     /**

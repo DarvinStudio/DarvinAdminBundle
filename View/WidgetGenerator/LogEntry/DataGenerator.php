@@ -68,11 +68,17 @@ class DataGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
+    {
+        return 'log_entry_data';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
     {
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        $this->validate($entity, $options);
-
         if (!$this->isGranted(Permission::VIEW, $entity)) {
             return '';
         }
@@ -103,14 +109,6 @@ class DataGenerator extends AbstractWidgetGenerator
         return $this->render($options, array(
             'data' => $viewData,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'log_entry_data';
     }
 
     /**

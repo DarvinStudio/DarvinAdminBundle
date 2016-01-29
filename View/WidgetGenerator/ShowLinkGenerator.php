@@ -38,10 +38,16 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return self::ALIAS;
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         if (isset($options['entity_property'])) {
             $entityProperty = $options['entity_property'];
 
@@ -66,14 +72,6 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
             'text_link'          => $options['text_link'],
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return self::ALIAS;
     }
 
     /**

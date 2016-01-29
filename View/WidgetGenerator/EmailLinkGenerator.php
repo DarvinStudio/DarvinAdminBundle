@@ -36,10 +36,16 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return 'email_link';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         if (!$this->isGranted(Permission::VIEW, $entity)) {
             return '';
         }
@@ -58,14 +64,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
         return $this->render($options, array(
             'email' => $email,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'email_link';
     }
 
     /**

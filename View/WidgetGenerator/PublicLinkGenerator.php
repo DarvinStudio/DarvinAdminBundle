@@ -51,10 +51,16 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array())
+    public function getAlias()
     {
-        $this->validate($entity, $options);
+        return 'public_link';
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function generateWidget($entity, array $options)
+    {
         if (!$this->isGranted(Permission::VIEW, $entity)) {
             return '';
         }
@@ -88,14 +94,6 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
         return $this->render($options, array(
             'url' => $url,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'public_link';
     }
 
     /**

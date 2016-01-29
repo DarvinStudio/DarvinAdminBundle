@@ -67,6 +67,12 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     {
         $this->validate($entity, $options);
 
+        foreach ($this->getRequiredPermissions() as $permission) {
+            if (!$this->isGranted($permission, $entity)) {
+                return '';
+            }
+        }
+
         return $this->generateWidget($entity, $options);
     }
 
@@ -134,6 +140,14 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     protected function getRequiredEntityClass()
     {
         return null;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequiredPermissions()
+    {
+        return array();
     }
 
     /**

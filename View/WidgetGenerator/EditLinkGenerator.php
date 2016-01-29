@@ -32,13 +32,19 @@ class EditLinkGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::EDIT, $entity)) {
-            return '';
-        }
-
         return $this->render($options, array(
             'entity'             => $entity,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::EDIT,
+        );
     }
 }

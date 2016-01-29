@@ -38,9 +38,6 @@ class ListGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
         if (!$this->propertyAccessor->isReadable($entity, $options['keys_property'])) {
             throw new WidgetGeneratorException(
                 sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['keys_property'])
@@ -89,6 +86,16 @@ class ListGenerator extends AbstractWidgetGenerator
             ))
             ->setAllowedTypes('keys_property', 'string')
             ->setAllowedTypes('values_callback', 'callable');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 
     /**

@@ -46,11 +46,6 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
         return 'log.object.'.$this->getEntityName($entity->getObjectClass()).'.title';
     }
 
@@ -60,6 +55,16 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     protected function getRequiredEntityClass()
     {
         return LogEntry::LOG_ENTRY_CLASS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 
     /**

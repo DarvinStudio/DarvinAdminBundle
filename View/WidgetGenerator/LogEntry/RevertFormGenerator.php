@@ -73,10 +73,6 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     protected function generateWidget($entity, array $options)
     {
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
         $object = $entity->getObject();
 
         if (empty($object) || !$this->isGranted(Permission::EDIT, $object)) {
@@ -94,5 +90,15 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     protected function getRequiredEntityClass()
     {
         return LogEntry::LOG_ENTRY_CLASS;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 }

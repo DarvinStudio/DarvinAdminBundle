@@ -37,10 +37,6 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
         $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
 
         if (!$url) {
@@ -61,5 +57,15 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
         $resolver
             ->setRequired('file_property')
             ->setAllowedTypes('file_property', 'string');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 }

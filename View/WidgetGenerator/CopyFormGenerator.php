@@ -75,10 +75,6 @@ class CopyFormGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::CREATE_DELETE, $entity)) {
-            return '';
-        }
-
         $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
 
         if (!isset($mappingMeta['clonable'])) {
@@ -89,5 +85,15 @@ class CopyFormGenerator extends AbstractWidgetGenerator
             'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::CREATE_DELETE,
+        );
     }
 }

@@ -38,9 +38,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
         if (!$this->propertyAccessor->isReadable($entity, $options['email_property'])) {
             throw new WidgetGeneratorException(
                 sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $options['email_property'])
@@ -68,5 +65,15 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
                 'email_property',
             ))
             ->setAllowedTypes('email_property', 'string');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 }

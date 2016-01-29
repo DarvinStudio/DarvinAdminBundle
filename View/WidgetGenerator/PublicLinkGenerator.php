@@ -53,10 +53,6 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options)
     {
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
-
         $route = $options['route'];
 
         if (null === $this->router->getRouteCollection()->get($route)) {
@@ -102,5 +98,15 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
             ))
             ->setAllowedTypes('parameters', 'array')
             ->setAllowedTypes('route', 'string');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return array(
+            Permission::VIEW,
+        );
     }
 }

@@ -112,7 +112,6 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefined('property');
     }
 
     /**

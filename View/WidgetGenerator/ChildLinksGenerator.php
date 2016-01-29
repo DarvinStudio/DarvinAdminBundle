@@ -99,9 +99,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(array(
-                'child_entity',
-            ))
+            ->setRequired('child_entity')
             ->setAllowedTypes('child_entity', 'string');
     }
 }

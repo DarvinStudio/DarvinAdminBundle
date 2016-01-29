@@ -58,9 +58,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefaults(array(
-                'text_link' => false,
-            ))
+            ->setDefault('text_link', false)
             ->setDefined('property')
             ->setAllowedTypes('property', 'string')
             ->setAllowedTypes('text_link', 'boolean');

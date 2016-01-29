@@ -62,9 +62,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(array(
-                'filter_params',
-            ))
+            ->setRequired('filter_params')
             ->setAllowedTypes('filter_params', 'array');
     }
 

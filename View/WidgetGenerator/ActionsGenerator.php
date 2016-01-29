@@ -60,9 +60,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(array(
-                'view_type',
-            ))
+            ->setRequired('view_type')
             ->setAllowedTypes('view_type', 'string');
     }
 }

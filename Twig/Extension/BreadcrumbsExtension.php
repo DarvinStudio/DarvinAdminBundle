@@ -58,6 +58,7 @@ class BreadcrumbsExtension extends \Twig_Extension
 
     /**
      * @param \Twig_Environment                     $environment       Twig environment
+     * @param string                                $menuGroup         Menu group alias
      * @param object                                $entity            Entity
      * @param \Darvin\AdminBundle\Metadata\Metadata $currentEntityMeta Current entity metadata
      * @param bool                                  $renderLast        Whether to render last crumb
@@ -67,6 +68,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      */
     public function renderBreadcrumbs(
         \Twig_Environment $environment,
+        $menuGroup = null,
         $entity = null,
         Metadata $currentEntityMeta = null,
         $renderLast = false,
@@ -109,6 +111,7 @@ class BreadcrumbsExtension extends \Twig_Extension
 
         return $environment->render($template, array(
             'crumbs'       => array_reverse($crumbs),
+            'menu_group'   => $menuGroup,
             'entity_route' => $entityRoute,
             'render_last'  => $renderLast,
         ));

@@ -22,7 +22,7 @@ class ListGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         $keys = $this->getPropertyValue($entity, $options['keys_property']);
 

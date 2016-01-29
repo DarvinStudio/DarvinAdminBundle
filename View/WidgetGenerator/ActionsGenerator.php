@@ -33,7 +33,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         $actions = array();
 

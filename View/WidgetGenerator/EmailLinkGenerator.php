@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Email link view widget generator
@@ -21,9 +20,9 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
-        $email = $this->getPropertyValue($entity, $options['email_property']);
+        $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
         if (empty($email)) {
             return '';
@@ -32,18 +31,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
         return $this->render($options, array(
             'email' => $email,
         ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver
-            ->setRequired(array(
-                'email_property',
-            ))
-            ->setAllowedTypes('email_property', 'string');
     }
 
     /**

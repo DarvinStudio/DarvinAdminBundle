@@ -44,7 +44,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         return 'log.object.'.$this->getEntityName($entity->getObjectClass()).'.title';
     }

@@ -44,7 +44,7 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         return $this->render($options, array(
             'form'               => $this->adminFormFactory->createDeleteForm($entity)->createView(),

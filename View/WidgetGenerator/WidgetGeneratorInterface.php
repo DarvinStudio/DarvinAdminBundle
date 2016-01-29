@@ -16,12 +16,13 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 interface WidgetGeneratorInterface
 {
     /**
-     * @param object $entity  Entity
-     * @param array  $options Options
+     * @param object $entity   Entity
+     * @param string $property Property
+     * @param array  $options  Options
      *
      * @return string
      */
-    public function generate($entity, array $options = array());
+    public function generate($entity, $property = null, array $options = array());
 
     /**
      * @return string

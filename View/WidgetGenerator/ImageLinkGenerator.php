@@ -36,7 +36,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         /** @var \Darvin\ImageBundle\Entity\Image\AbstractImage $entity */
         if (!$this->imageUrlBuilder->fileExists($entity)) {

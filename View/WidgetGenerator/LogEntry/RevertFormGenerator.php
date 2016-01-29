@@ -70,7 +70,7 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         /** @var \Darvin\AdminBundle\Entity\LogEntry $entity */
         $object = $entity->getObject();

@@ -31,7 +31,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options)
+    protected function generateWidget($entity, $property, array $options)
     {
         if (isset($options['entity_property'])) {
             $entityProperty = $options['entity_property'];

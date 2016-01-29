@@ -54,6 +54,11 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
                 );
             }
         }
+        if (empty($options['item_widget_alias'])) {
+            return $this->render($options, array(
+                'widgets' => $collection,
+            ));
+        }
 
         $widgetGenerator = $this->widgetGeneratorPool->getWidgetGenerator($options['item_widget_alias']);
 
@@ -83,6 +88,11 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
                 ),
             ))
             ->setDefined('property')
+            ->setAllowedTypes('item_widget_alias', array(
+                'null',
+                'string',
+            ))
+            ->setAllowedTypes('item_widget_options', 'array')
             ->setAllowedTypes('property', 'string');
     }
 

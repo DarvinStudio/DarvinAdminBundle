@@ -15,16 +15,16 @@ use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * List view widget generator
+ * Compound list view widget generator
  */
-class ListGenerator extends AbstractWidgetGenerator
+class CompoundListGenerator extends AbstractWidgetGenerator
 {
     /**
      * {@inheritdoc}
      */
     protected function generateWidget($entity, array $options, $property)
     {
-        $keys = $this->getPropertyValue($entity, $options['keys_property']);
+        $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $property);
 
         if (null === $keys) {
             return '';
@@ -63,12 +63,11 @@ class ListGenerator extends AbstractWidgetGenerator
 
         $resolver
             ->setDefault('sort', true)
-            ->setRequired(array(
-                'keys_property',
-                'values_callback',
-            ))
+            ->setRequired('values_callback')
+            ->setDefined('keys_property')
             ->setAllowedTypes('keys_property', 'string')
-            ->setAllowedTypes('values_callback', 'callable');
+            ->setAllowedTypes('values_callback', 'callable')
+            ->setAllowedTypes('sort', 'boolean');
     }
 
     /**

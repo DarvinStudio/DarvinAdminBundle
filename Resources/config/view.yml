@@ -8,6 +8,7 @@ parameters:
     darvin_admin.view.widget_generator.abstract.class: Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator
     darvin_admin.view.widget_generator.actions.class: Darvin\AdminBundle\View\WidgetGenerator\ActionsGenerator
     darvin_admin.view.widget_generator.child_links.class: Darvin\AdminBundle\View\WidgetGenerator\ChildLinksGenerator
+    darvin_admin.view.widget_generator.compound_list.class: Darvin\AdminBundle\View\WidgetGenerator\CompoundListGenerator
     darvin_admin.view.widget_generator.copy_form.class: Darvin\AdminBundle\View\WidgetGenerator\CopyFormGenerator
     darvin_admin.view.widget_generator.delete_form.class: Darvin\AdminBundle\View\WidgetGenerator\DeleteFormGenerator
     darvin_admin.view.widget_generator.edit_link.class: Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator
@@ -15,7 +16,6 @@ parameters:
     darvin_admin.view.widget_generator.entities_list.class: Darvin\AdminBundle\View\WidgetGenerator\EntitiesListGenerator
     darvin_admin.view.widget_generator.image_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageLinkGenerator
     darvin_admin.view.widget_generator.image_upload_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageUploadLinkGenerator
-    darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
     darvin_admin.view.widget_generator.log_entry.data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\DataGenerator
     darvin_admin.view.widget_generator.log_entry.entity_name.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\EntityNameGenerator
     darvin_admin.view.widget_generator.log_entry.revert_form.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\RevertFormGenerator
@@ -78,6 +78,12 @@ services:
         tags:
             - { name: darvin_admin.view.widget_generator }
 
+    darvin_admin.view.widget_generator.compound_list:
+        class:  %darvin_admin.view.widget_generator.compound_list.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
     darvin_admin.view.widget_generator.copy_form:
         class:  %darvin_admin.view.widget_generator.copy_form.class%
         parent: darvin_admin.view.widget_generator.abstract
@@ -129,12 +135,6 @@ services:
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
-        tags:
-            - { name: darvin_admin.view.widget_generator }
-
-    darvin_admin.view.widget_generator.list:
-        class:  %darvin_admin.view.widget_generator.list.class%
-        parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 

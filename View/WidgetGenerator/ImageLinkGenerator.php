@@ -36,7 +36,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         /** @var \Darvin\ImageBundle\Entity\Image\AbstractImage $entity */
         if (!$this->imageUrlBuilder->fileExists($entity)) {
@@ -47,7 +47,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             'filtered_url' => $this->imageUrlBuilder->buildUrlToFilter(
                 $entity,
                 ResizeFilter::NAME,
-                $options['filter_parameters']
+                $options['filter_params']
             ),
             'name'         => $entity->getName(),
             'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($entity),
@@ -59,11 +59,13 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setRequired(array(
-                'filter_parameters',
+                'filter_params',
             ))
-            ->setAllowedTypes('filter_parameters', 'array');
+            ->setAllowedTypes('filter_params', 'array');
     }
 
     /**

@@ -49,7 +49,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $childClass = $options['child_entity'];
 
@@ -96,6 +96,8 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setRequired(array(
                 'child_entity',

@@ -22,7 +22,7 @@ class ListGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $keys = $this->getPropertyValue($entity, $options['keys_property']);
 
@@ -45,7 +45,7 @@ class ListGenerator extends AbstractWidgetGenerator
         if (empty($list)) {
             return '';
         }
-        if (!isset($options['sort']) || $options['sort']) {
+        if ($options['sort']) {
             sort($list);
         }
 
@@ -59,7 +59,10 @@ class ListGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
+            ->setDefault('sort', true)
             ->setRequired(array(
                 'keys_property',
                 'values_callback',

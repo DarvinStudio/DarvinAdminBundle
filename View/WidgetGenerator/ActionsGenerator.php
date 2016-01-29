@@ -33,7 +33,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $actions = array();
 
@@ -57,6 +57,8 @@ class ActionsGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setRequired(array(
                 'view_type',

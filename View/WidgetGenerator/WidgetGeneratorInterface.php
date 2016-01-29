@@ -17,12 +17,12 @@ interface WidgetGeneratorInterface
 {
     /**
      * @param object $entity   Entity
-     * @param string $property Property
      * @param array  $options  Options
+     * @param string $property Property name
      *
      * @return string
      */
-    public function generate($entity, $property = null, array $options = array());
+    public function generate($entity, array $options = array(), $property = null);
 
     /**
      * @return string

@@ -31,12 +31,10 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
-        if (isset($options['entity_property'])) {
-            $entityProperty = $options['entity_property'];
-
-            $entity = $this->getPropertyValue($entity, $entityProperty);
+        if (isset($options['property'])) {
+            $entity = $this->getPropertyValue($entity, $options['property']);
 
             if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
                 return '';
@@ -58,11 +56,10 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults(array(
-                'text_link' => false,
-            ))
-            ->setDefined('entity_property')
-            ->setAllowedTypes('entity_property', 'string');
+        parent::configureOptions($resolver);
+
+        $resolver->setDefaults(array(
+            'text_link' => false,
+        ));
     }
 }

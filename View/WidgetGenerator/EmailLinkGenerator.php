@@ -20,7 +20,7 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 

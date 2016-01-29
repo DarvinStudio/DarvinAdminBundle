@@ -45,14 +45,14 @@ view:
                 widget:
                     alias: show_link
                     options:
-                        entity_property: object
+                        property: object
             version:  ~
             username: ~
             user:
                 widget:
                     alias: show_link
                     options:
-                        entity_property: user
+                        property: user
     show:
         action_widgets:
             - log_entry_revert_form
@@ -67,14 +67,14 @@ view:
                 widget:
                     alias: show_link
                     options:
-                        entity_property: object
+                        property: object
             version:  ~
             username: ~
             user:
                 widget:
                     alias: show_link
                     options:
-                        entity_property: user
+                        property: user
             data:
                 widget:
                     alias: log_entry_data

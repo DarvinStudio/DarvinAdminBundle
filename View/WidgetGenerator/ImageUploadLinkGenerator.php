@@ -35,18 +35,16 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
 
-        if (!$url) {
-            return '';
-        }
-
-        return $this->render($options, array(
-            'entity' => $entity,
-            'url'    => $url,
-        ));
+        return $url
+            ? $this->render($options, array(
+                'entity' => $entity,
+                'url'    => $url,
+            ))
+            : '';
     }
 
     /**
@@ -54,6 +52,8 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setRequired('file_property')
             ->setAllowedTypes('file_property', 'string');

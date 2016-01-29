@@ -36,7 +36,7 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $route = $options['route'];
 
@@ -46,7 +46,7 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
 
         $parameters = array();
 
-        foreach ($options['parameters'] as $paramName => $propertyPath) {
+        foreach ($options['params'] as $paramName => $propertyPath) {
             if (empty($propertyPath)) {
                 $propertyPath = $paramName;
             }
@@ -73,10 +73,10 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
 
         $resolver
             ->setRequired(array(
-                'parameters',
+                'params',
                 'route',
             ))
-            ->setAllowedTypes('parameters', 'array')
+            ->setAllowedTypes('params', 'array')
             ->setAllowedTypes('route', 'string');
     }
 

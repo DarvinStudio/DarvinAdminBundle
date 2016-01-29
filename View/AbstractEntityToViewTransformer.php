@@ -101,8 +101,8 @@ abstract class AbstractEntityToViewTransformer
 
         return $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate(
             $entity,
-            $fieldName,
-            $fieldAttr['widget']['options']
+            $fieldAttr['widget']['options'],
+            $fieldName
         );
     }
 

@@ -73,7 +73,7 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
 

@@ -30,7 +30,7 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, $property, array $options)
+    protected function generateWidget($entity, array $options, $property)
     {
         return $this->render($options, array(
             'entity'             => $entity,

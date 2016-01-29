@@ -74,7 +74,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, $property = null, array $options = array())
+    public function generate($entity, array $options = array(), $property = null)
     {
         $this->validate($entity, $options);
 
@@ -84,7 +84,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
             }
         }
 
-        return $this->generateWidget($entity, $property, $options);
+        return $this->generateWidget($entity, $options, $property);
     }
 
     /**
@@ -100,12 +100,12 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
 
     /**
      * @param object $entity   Entity
-     * @param string $property Property
      * @param array  $options  Options
+     * @param string $property Property name
      *
      * @return string
      */
-    abstract protected function generateWidget($entity, $property, array $options);
+    abstract protected function generateWidget($entity, array $options, $property);
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver

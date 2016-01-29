@@ -32,7 +32,7 @@ view:
                 widget:
                     alias: image_link
                     options:
-                        filter_parameters:
+                        filter_params:
                             size_name: darvin_admin
                             outbound:  true
             name:      ~

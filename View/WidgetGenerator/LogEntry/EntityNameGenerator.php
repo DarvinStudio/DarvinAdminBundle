@@ -43,12 +43,12 @@ class EntityNameGenerator extends AbstractWidgetGenerator
 
     /**
      * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
-     * @param string                              $property Property name
      * @param array                               $options  Options
+     * @param string                              $property Property name
      *
      * @return string
      */
-    protected function generateWidget($logEntry, $property, array $options)
+    protected function generateWidget($logEntry, array $options, $property)
     {
         return 'log.object.'.$this->getEntityName($logEntry->getObjectClass()).'.title';
     }

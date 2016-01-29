@@ -6,39 +6,23 @@ parameters:
     darvin_admin.view.entity_transformer.show.class: Darvin\AdminBundle\View\Show\EntityToShowViewTransformer
 
     darvin_admin.view.widget_generator.abstract.class: Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator
-
     darvin_admin.view.widget_generator.actions.class: Darvin\AdminBundle\View\WidgetGenerator\ActionsGenerator
-
     darvin_admin.view.widget_generator.child_links.class: Darvin\AdminBundle\View\WidgetGenerator\ChildLinksGenerator
-
     darvin_admin.view.widget_generator.copy_form.class: Darvin\AdminBundle\View\WidgetGenerator\CopyFormGenerator
-
     darvin_admin.view.widget_generator.delete_form.class: Darvin\AdminBundle\View\WidgetGenerator\DeleteFormGenerator
-
     darvin_admin.view.widget_generator.edit_link.class: Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator
-
     darvin_admin.view.widget_generator.email_link.class: Darvin\AdminBundle\View\WidgetGenerator\EmailLinkGenerator
-
+    darvin_admin.view.widget_generator.entities_list.class: Darvin\AdminBundle\View\WidgetGenerator\EntitiesListGenerator
     darvin_admin.view.widget_generator.image_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageLinkGenerator
-
     darvin_admin.view.widget_generator.image_upload_link.class: Darvin\AdminBundle\View\WidgetGenerator\ImageUploadLinkGenerator
-
     darvin_admin.view.widget_generator.list.class: Darvin\AdminBundle\View\WidgetGenerator\ListGenerator
-
     darvin_admin.view.widget_generator.log_entry.data.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\DataGenerator
-
     darvin_admin.view.widget_generator.log_entry.entity_name.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\EntityNameGenerator
-
     darvin_admin.view.widget_generator.log_entry.revert_form.class: Darvin\AdminBundle\View\WidgetGenerator\LogEntry\RevertFormGenerator
-
     darvin_admin.view.widget_generator.public_link.class: Darvin\AdminBundle\View\WidgetGenerator\PublicLinkGenerator
-
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
-
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
-
     darvin_admin.view.widget_generator.pool_provider.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPoolProvider
-
     darvin_admin.view.widget_generator.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ViewWidgetGeneratorExtension
 
 services:
@@ -120,6 +104,14 @@ services:
     darvin_admin.view.widget_generator.email_link:
         class:  %darvin_admin.view.widget_generator.email_link.class%
         parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.entities_list:
+        class:  %darvin_admin.view.widget_generator.entities_list.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        calls:
+            - [ setWidgetGeneratorPool, [ "@darvin_admin.view.widget_generator.pool" ] ]
         tags:
             - { name: darvin_admin.view.widget_generator }
 

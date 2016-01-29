@@ -51,14 +51,6 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
-    {
-        return 'public_link';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function generateWidget($entity, array $options)
     {
         if (!$this->isGranted(Permission::VIEW, $entity)) {

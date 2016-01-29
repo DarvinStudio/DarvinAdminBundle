@@ -49,14 +49,6 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
-    {
-        return 'child_links';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function generateWidget($entity, array $options)
     {
         $childClass = $options['child_entity'];

@@ -36,14 +36,6 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
-    {
-        return 'email_link';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function generateWidget($entity, array $options)
     {
         if (!$this->isGranted(Permission::VIEW, $entity)) {

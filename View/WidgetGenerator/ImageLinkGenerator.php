@@ -36,14 +36,6 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
-    {
-        return 'image_link';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function generateWidget($entity, array $options)
     {
         /** @var \Darvin\ImageBundle\Entity\Image\AbstractImage $entity */

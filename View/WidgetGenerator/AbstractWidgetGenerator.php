@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -67,6 +68,17 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
         $this->validate($entity, $options);
 
         return $this->generateWidget($entity, $options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAlias()
+    {
+        $parts = explode('\\', get_class($this));
+        $alias = StringsUtil::toUnderscore(preg_replace('/Generator$/', '', array_pop($parts)));
+
+        return $alias;
     }
 
     /**

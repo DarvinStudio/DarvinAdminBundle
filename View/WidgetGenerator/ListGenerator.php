@@ -36,14 +36,6 @@ class ListGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
-    {
-        return 'list';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function generateWidget($entity, array $options)
     {
         if (!$this->isGranted(Permission::VIEW, $entity)) {

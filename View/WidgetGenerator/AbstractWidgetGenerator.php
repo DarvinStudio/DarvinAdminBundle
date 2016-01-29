@@ -132,12 +132,23 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     {
         try {
             if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
-                throw new WidgetGeneratorException(
-                    sprintf('Property "%s::$%s" is not readable.', ClassUtils::getClass($entity), $propertyPath)
+                $message = sprintf(
+                    'Unable to get value of "%s::$%s" property: it is not readable.',
+                    ClassUtils::getClass($entity),
+                    $propertyPath
                 );
+
+                throw new WidgetGeneratorException($message);
             }
         } catch (TranslatableException $ex) {
-            throw new WidgetGeneratorException($ex->getMessage());
+            $message = sprintf(
+                'Unable to get value of "%s::$%s" property: %s',
+                ClassUtils::getClass($entity),
+                $propertyPath,
+                lcfirst($ex->getMessage())
+            );
+
+            throw new WidgetGeneratorException($message);
         }
 
         return $this->propertyAccessor->getValue($entity, $propertyPath);

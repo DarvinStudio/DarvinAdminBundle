@@ -24,13 +24,11 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
     {
         $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
-        if (empty($email)) {
-            return '';
-        }
-
-        return $this->render($options, array(
-            'email' => $email,
-        ));
+        return !empty($email)
+            ? $this->render($options, array(
+                'email' => $email,
+            ))
+            : '';
     }
 
     /**

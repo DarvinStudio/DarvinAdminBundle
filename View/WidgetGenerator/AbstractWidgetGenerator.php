@@ -155,6 +155,22 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     }
 
     /**
+     * @return string
+     */
+    protected function getRequiredEntityClass()
+    {
+        return null;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getRequiredPermissions()
+    {
+        return array();
+    }
+
+    /**
      * @param string $permission Permission
      * @param object $entity     Entity
      *
@@ -176,22 +192,6 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
         $template = isset($options['template']) ? $options['template'] : $this->getDefaultTemplate();
 
         return $this->templating->render($template, $templateParams);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getRequiredEntityClass()
-    {
-        return null;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getRequiredPermissions()
-    {
-        return array();
     }
 
     /**

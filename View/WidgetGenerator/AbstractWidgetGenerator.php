@@ -51,6 +51,11 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     private $optionsResolver;
 
     /**
+     * @var string
+     */
+    private $alias;
+
+    /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
@@ -69,6 +74,8 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
         $this->optionsResolver = new OptionsResolver();
 
         $this->configureOptions($this->optionsResolver);
+
+        $this->alias = null;
     }
 
     /**
@@ -92,10 +99,12 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      */
     public function getAlias()
     {
-        $parts = explode('\\', get_class($this));
-        $alias = StringsUtil::toUnderscore(preg_replace('/Generator$/', '', array_pop($parts)));
+        if (empty($this->alias)) {
+            $parts = explode('\\', get_class($this));
+            $this->alias = StringsUtil::toUnderscore(preg_replace('/Generator$/', '', array_pop($parts)));
+        }
 
-        return $alias;
+        return $this->alias;
     }
 
     /**

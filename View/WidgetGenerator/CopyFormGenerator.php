@@ -77,14 +77,12 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     {
         $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
 
-        if (!isset($mappingMeta['clonable'])) {
-            return '';
-        }
-
-        return $this->render($options, array(
-            'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
-            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-        ));
+        return isset($mappingMeta['clonable'])
+            ? $this->render($options, array(
+                'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
+                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+            ))
+            : '';
     }
 
     /**

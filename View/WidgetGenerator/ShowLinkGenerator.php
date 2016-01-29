@@ -40,15 +40,14 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
                 return '';
             }
         }
-        if (!$this->isGranted(Permission::VIEW, $entity)) {
-            return '';
-        }
 
-        return $this->render($options, array(
-            'entity'             => $entity,
-            'text_link'          => $options['text_link'],
-            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-        ));
+        return $this->isGranted(Permission::VIEW, $entity)
+            ? $this->render($options, array(
+                'entity'             => $entity,
+                'text_link'          => $options['text_link'],
+                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+            ))
+            : '';
     }
 
     /**

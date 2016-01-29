@@ -31,9 +31,5 @@ view:
             image:
                 widget:
                     alias: image_link
-                    options:
-                        filter_params:
-                            size_name: darvin_admin
-                            outbound:  true
             name:      ~
             extension: ~

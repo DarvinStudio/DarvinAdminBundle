@@ -81,18 +81,9 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
                 'item_widget_options' => array(
                     'text_link' => true,
                 ),
-                'line_size' => 1,
             ))
             ->setDefined('property')
             ->setAllowedTypes('property', 'string');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return 'DarvinAdminBundle:Widget:entities_list.html.twig';
     }
 
     /**

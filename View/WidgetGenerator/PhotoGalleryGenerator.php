@@ -30,12 +30,4 @@ class PhotoGalleryGenerator extends EntitiesListGenerator
             'line_size'           => 5,
         ));
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getDefaultTemplate()
-    {
-        return parent::getDefaultTemplate();
-    }
 }

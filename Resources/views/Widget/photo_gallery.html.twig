@@ -1,0 +1,12 @@
+{% if widgets is not empty %}
+    <table>
+        <tbody>
+            <tr>
+                {% for widget in widgets %}
+                    <td>{{ widget | raw }}</td>
+                    {% if 0 == loop.index % line_size %}</tr><tr>{% endif %}
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endif %}

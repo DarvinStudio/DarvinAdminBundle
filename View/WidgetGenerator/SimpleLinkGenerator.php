@@ -27,7 +27,8 @@ class SimpleLinkGenerator extends AbstractWidgetGenerator
 
         return !empty($url)
             ? $this->render($options, array(
-                'url' => $url,
+                'title' => $url,
+                'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? 'http://'.$url : $url,
             ))
             : '';
     }
@@ -40,6 +41,7 @@ class SimpleLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
+            ->setDefault('add_http_prefix', false)
             ->setDefined('property')
             ->setAllowedTypes('property', 'string');
     }

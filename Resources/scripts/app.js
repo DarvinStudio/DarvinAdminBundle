@@ -28,8 +28,8 @@ $('#sidebar_switcher').on('mousedown', function(){
     var locales = [ 'ru' ];
 
     var init;
-    init = function () {
-        $('select').each(function () {
+    init = function (context) {
+        $(context || 'body').find('select').each(function () {
             var $select = $(this);
 
             if ($select.children('option').length > 3) {
@@ -42,8 +42,14 @@ $('#sidebar_switcher').on('mousedown', function(){
     };
 
     -1 !== locales.indexOf(LOCALE)
-        ? $.getScript('/bundles/darvinadmin/scripts/bootstrap/bootstrap-select-' + LOCALE + '.js').done(init)
+        ? $.getScript('/bundles/darvinadmin/scripts/bootstrap/bootstrap-select-' + LOCALE + '.js').done(function () {
+            init();
+        })
         : init();
+
+    $(document).on('propertyFormSubmit', function (e, $form) {
+        init($form);
+    });
 })();
 
 /* спойлер */

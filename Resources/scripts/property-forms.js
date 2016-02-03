@@ -25,22 +25,28 @@ $(document).ready(function () {
             toggleButtons($formReplacement.find('.field'));
             $form.replaceWith($formReplacement);
 
+            $(document).trigger('propertyFormSubmit', $formReplacement);
+
             noty({
                 text: Translator.trans(data.message),
                 type: data.success ? 'success' : 'error'
             });
 
-            if (!data.success || !redirect) {
-                return;
-            }
-
-            setTimeout(function () {
-                document.location.href = '';
-            }, $.noty.defaults.timeout);
+//            if (!data.success || !redirect) {
+//                return;
+//            }
+//
+//            setTimeout(function () {
+//                document.location.href = '';
+//            }, $.noty.defaults.timeout);
         }).error(onAjaxError);
     };
 
     var toggleButtons = function ($field) {
+        if ('undefined' === typeof $field.data('original-value')) {
+            return;
+        }
+
         var $form = $field.parents('.property_form').first();
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 

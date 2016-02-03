@@ -32,13 +32,13 @@ $(document).ready(function () {
                 type: data.success ? 'success' : 'error'
             });
 
-//            if (!data.success || !redirect) {
-//                return;
-//            }
-//
-//            setTimeout(function () {
-//                document.location.href = '';
-//            }, $.noty.defaults.timeout);
+            if (!data.success || !redirect) {
+                return;
+            }
+
+            setTimeout(function () {
+                document.location.href = '';
+            }, $.noty.defaults.timeout);
         }).error(onAjaxError);
     };
 

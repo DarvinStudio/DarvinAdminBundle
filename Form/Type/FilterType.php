@@ -181,9 +181,10 @@ class FilterType extends AbstractFormType
             case 'Symfony\Component\Form\Extension\Core\Type\ChoiceType':
                 return array(
                     'choices' => array(
-                        'boolean.0',
-                        'boolean.1',
+                        'boolean.1' => 1,
+                        'boolean.0' => 0,
                     ),
+                    'choices_as_values' => true,
                 );
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                 return array(

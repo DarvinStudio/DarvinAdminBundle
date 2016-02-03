@@ -112,7 +112,7 @@ class CrudController extends Controller implements MenuItemInterface
         $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
 
         if (!empty($sortCriteria)) {
-            if (count($sortCriteria) > 1 || !$this->configuration['pagination']['enabled']) {
+            if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$this->configuration['pagination']['enabled']) {
                 foreach ($sortCriteria as $sort => $order) {
                     $qb->addOrderBy('o.'.$sort, $order);
                 }

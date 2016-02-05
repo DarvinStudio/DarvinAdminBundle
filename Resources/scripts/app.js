@@ -24,34 +24,6 @@ $('#sidebar_switcher').on('mousedown', function(){
 	setTimeout( function(){ $(window).resize();}, 300);
 });
 
-(function selectpickerInit () {
-    var locales = [ 'ru' ];
-
-    var init;
-    init = function (context) {
-        $(context || 'body').find('select').each(function () {
-            var $select = $(this);
-
-            if ($select.children('option').length > 3) {
-                $select.attr('data-live-search', 'true');
-                $select.attr('data-width', 'auto');
-            }
-
-            $select.selectpicker({size: 10});
-        });
-    };
-
-    -1 !== locales.indexOf(LOCALE)
-        ? $.getScript('/bundles/darvinadmin/scripts/bootstrap/bootstrap-select-' + LOCALE + '.js').done(function () {
-            init();
-        })
-        : init();
-
-    $(document).on('propertyFormSubmit', function (e, $form) {
-        init($form);
-    });
-})();
-
 /* спойлер */
 $('.spoiler_links').on('mousedown', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');

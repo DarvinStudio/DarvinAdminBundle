@@ -147,6 +147,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         $this->getCustomObjectLoader()->loadCustomObjects($entities, false);
 
+        $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
+
         $view = $this->getEntitiesToIndexViewTransformer()->transform($entities);
 
         return $this->renderResponse('index', array(
@@ -154,10 +156,7 @@ class CrudController extends Controller implements MenuItemInterface
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
-            'new_form_widget'   => $this->configuration['index_view_new_form']
-                ? $this->newAction($request, true)->getContent()
-                : null
-            ,
+            'new_form_widget'   => $newFormWidget,
             'pagination'        => $pagination,
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,

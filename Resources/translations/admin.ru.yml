@@ -10,6 +10,11 @@ cache:
             submit:  Очистить кэш
             success: Кэш успешно очищен
 
+chosen:
+    no_results_text:           Нет результатов, соответствующих
+    placeholder_text_multiple: Выберите одно или несколько значений
+    placeholder_text_single:   Выберите одно значение
+
 configuration:
     action:
         edit:

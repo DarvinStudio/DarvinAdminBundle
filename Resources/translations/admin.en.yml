@@ -10,6 +10,11 @@ cache:
             submit:  Clear cache
             success: Cache successfully cleared
 
+chosen:
+    no_results_text:           No results match
+    placeholder_text_multiple: Select some options
+    placeholder_text_single:   Select an option
+
 configuration:
     action:
         edit:

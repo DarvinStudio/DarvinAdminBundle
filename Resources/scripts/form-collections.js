@@ -9,7 +9,7 @@ $(document).ready(function () {
     $collections.each(function () {
         var $collection = $(this);
         $collection
-            .data('index', $collection.children().length + 1)
+            .data('index', $collection.children().length)
             .children().each(function (index) {
                 $(this).children('label').first().text(index + 1);
             });
@@ -28,7 +28,9 @@ $(document).ready(function () {
         .on('click', 'form .collection[data-prototype] .collection_add', function () {
             var $addButton = $(this);
             var $collection = $addButton.parents('.collection[data-prototype]').first();
-            var newElement = $collection.data('prototype').replace(/__name__label__|__name__/g, $collection.data('index'));
+            var newElement = $collection.data('prototype')
+                .replace(/__name__label__/g, $collection.data('index') + 1)
+                .replace(/__name__/g, $collection.data('index'));
             var $newElement = $(newElement);
 
             if ('undefined' !== typeof $collection.attr('data-allow-delete')) {

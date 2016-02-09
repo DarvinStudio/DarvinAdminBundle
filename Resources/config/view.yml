@@ -23,6 +23,7 @@ parameters:
     darvin_admin.view.widget_generator.public_link.class: Darvin\AdminBundle\View\WidgetGenerator\PublicLinkGenerator
     darvin_admin.view.widget_generator.show_link.class: Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator
     darvin_admin.view.widget_generator.simple_link.class: Darvin\AdminBundle\View\WidgetGenerator\SimpleLinkGenerator
+    darvin_admin.view.widget_generator.simple_list.class: Darvin\AdminBundle\View\WidgetGenerator\SimpleListGenerator
     darvin_admin.view.widget_generator.pool.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
     darvin_admin.view.widget_generator.pool_provider.class: Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPoolProvider
     darvin_admin.view.widget_generator.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ViewWidgetGeneratorExtension
@@ -188,6 +189,12 @@ services:
 
     darvin_admin.view.widget_generator.simple_link:
         class:  %darvin_admin.view.widget_generator.simple_link.class%
+        parent: darvin_admin.view.widget_generator.abstract
+        tags:
+            - { name: darvin_admin.view.widget_generator }
+
+    darvin_admin.view.widget_generator.simple_list:
+        class:  %darvin_admin.view.widget_generator.simple_list.class%
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }

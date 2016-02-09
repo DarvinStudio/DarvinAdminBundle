@@ -13,7 +13,11 @@ $(document).ready(function () {
         });
     })();
 
-    $(document).on('propertyFormSubmit', function (e, $form) {
-        init($form);
-    });
+    $(document)
+        .on('formCollectionAdd', function (e, $form) {
+            init($form);
+        })
+        .on('propertyFormSubmit', function (e, $form) {
+            init($form);
+        });
 });

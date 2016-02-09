@@ -33,6 +33,8 @@ $(document).ready(function () {
 
             $addButton.before($newElement);
 
+            $(document).trigger('formCollectionAdd', $newElement);
+
             $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {

@@ -8,7 +8,11 @@ $(document).ready(function () {
 
     $collections.each(function () {
         var $collection = $(this);
-        $collection.data('index', $collection.children().length);
+        $collection
+            .data('index', $collection.children().length + 1)
+            .children().each(function (index) {
+                $(this).children('label').first().text(index + 1);
+            });
 
         if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
             $collection.children().each(function () {

@@ -66,10 +66,16 @@ $('.spoiler_links').on('mousedown', function(){
 });
 
 /* фикс чекбоксов без нужной вёртски*/
- $('.input_value input[type="checkbox"]').each(function(){
+var checkboxesInit;
+(checkboxesInit = function (context) {
+ $(context || 'body').find('.input_value input[type="checkbox"]').each(function(){
 	$(this).wrap("<label></label>").wrap("<span class='checkbox'></span>");
 	$(this).after("<span></span>")
  });
+})();
+$(document).on('formCollectionAdd', function (e, $form) {
+    checkboxesInit($form);
+});
 
  
  jQuery(document).ready(function(){

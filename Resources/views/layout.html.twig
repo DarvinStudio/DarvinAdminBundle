@@ -22,24 +22,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block stylesheets %}
-            {% stylesheets
-                'bundles/darvinadmin/styles/bootstrap.css'
-                'bundles/darvinadmin/styles/bootstrap-chosen.css'
-                'bundles/darvinadmin/styles/jquery-jscrollpane.css'
-                'bundles/darvinadmin/styles/jquery-ui.css'
-                'bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css'
-
-                'bundles/darvinadmin/styles/dropzone.css'
-                'bundles/darvinadmin/styles/fancybox.css'
-
-                'bundles/a2lixtranslationform/css/a2lix_translation_default.css'
-                filter='?cssembed'
-                filter='cssrewrite'
-                filter='?yui_css'
-                output='assets/admin/styles/app.css'
-            %}
-                <link href="{{ asset_url }}" rel="stylesheet">
-            {% endstylesheets %}
+            {% if not app.debug %}
+                <link href="{{ asset('bundles/darvinadmin/styles/prod/app.css') }}" rel="stylesheet">
+            {% else %}
+                {% for asset in admin_assets('styles') %}
+                    <link href="{{ asset(asset) }}" rel="stylesheet">
+                {% endfor %}
+            {% endif %}
             <link href="{{ asset(darvin_admin_visual_assets_path ~ '/styles/app.css') }}" rel="stylesheet">
         {% endblock %}
 

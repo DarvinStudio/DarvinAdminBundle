@@ -35,6 +35,7 @@ class DarvinAdminExtension extends Extension
         $configInjector->inject($config, $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('asset.yml');
         $loader->load('breadcrumbs.yml');
         $loader->load('cache.yml');
         $loader->load('ckeditor.yml');

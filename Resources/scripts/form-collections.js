@@ -8,11 +8,7 @@ $(document).ready(function () {
 
     $collections.each(function () {
         var $collection = $(this);
-        $collection
-            .data('index', $collection.children().length)
-            .children().each(function (index) {
-                $(this).children('label').first().text(index + 1);
-            });
+        $collection.data('index', $collection.children().length);
 
         if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
             $collection.children().each(function () {
@@ -20,7 +16,11 @@ $(document).ready(function () {
             });
         }
         if ('undefined' !== typeof $collection.attr('data-allow-add')) {
-            $collection.append(buttons.add);
+            $collection
+                .append(buttons.add)
+                .children().each(function (index) {
+                    $(this).children('label').first().text(index + 1);
+                });
         }
     });
 

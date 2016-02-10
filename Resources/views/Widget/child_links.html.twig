@@ -2,12 +2,12 @@
 
 {% set route_params = { (association_param): parent_id } %}
 
-{% if index_link and children_count > 0 %}
+{% if index_link %}
     <a class="items" href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'), route_params) }}">
         {{ (translation_prefix ~ 'action.index.link') | trans }}&nbsp;({{ children_count }})
     </a>
 {% endif %}
-{% if new_link and not children_count %}
+{% if new_link %}
     <a class="items none" href="{{ admin_path(child_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'), route_params) }}">
         {{ (translation_prefix ~ 'action.new.link') | trans }}
     </a>

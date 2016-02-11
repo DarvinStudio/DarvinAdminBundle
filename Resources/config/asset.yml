@@ -1,4 +1,6 @@
 parameters:
+    darvin_admin.asset.compiler.pool.class: Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool
+
     darvin_admin.asset.compiler.generic.class: Darvin\AdminBundle\Asset\Compiler\GenericAssetCompiler
 
     darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetProviderPool
@@ -18,14 +20,20 @@ parameters:
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 
 services:
+    darvin_admin.asset.compiler.pool:
+        class: %darvin_admin.asset.compiler.pool.class%
+
     darvin_admin.asset.compiler.styles:
-        class: %darvin_admin.asset.compiler.generic.class%
+        class:  %darvin_admin.asset.compiler.generic.class%
+        public: false
         arguments:
             - "@darvin_admin.asset.provider.styles"
         calls:
             - [ addFilter, [ "@assetic.filter.cssembed" ] ]
             - [ addFilter, [ "@assetic.filter.cssrewrite" ] ]
             - [ addFilter, [ "@assetic.filter.yui_css" ] ]
+        tags:
+            - { name: darvin_admin.asset_compiler }
 
     darvin_admin.asset.provider.pool:
         class:  %darvin_admin.asset.provider.pool.class%

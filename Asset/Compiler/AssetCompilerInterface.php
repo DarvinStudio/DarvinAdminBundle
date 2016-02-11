@@ -8,15 +8,20 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Asset\Dumper;
+namespace Darvin\AdminBundle\Asset\Compiler;
 
 /**
- * Assets dumper
+ * Asset compiler
  */
-interface AssetsDumperInterface
+interface AssetCompilerInterface
 {
     /**
-     * @param callable $assetPathnameCallback Asset pathname process callback
+     * @param callable $assetCallback Asset process callback
      */
-    public function dumpAssets(callable $assetPathnameCallback = null);
+    public function compileAssets(callable $assetCallback = null);
+
+    /**
+     * @return string
+     */
+    public function getCompiledAssetPathname();
 }

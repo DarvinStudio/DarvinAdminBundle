@@ -6,22 +6,30 @@
     <a href="{{ url }}">{{ title | trans }}</a>
 {% endmacro %}
 
+{% macro render_crumb_span(title) %}
+    <span>{{ title | trans }}</span>
+{% endmacro %}
+
 {% macro render_crumb(crumb, route_type, title) %}
     {% import _self as breadcrumbs %}
 
-    {{ breadcrumbs.render_crumb_link(
-        admin_path(
-            crumb.entity,
-            route_type,
-            crumb.meta.parent ? { (crumb.meta.parent.associationParameterName): app.request.query.get(crumb.meta.parent.associationParameterName) } : {}
-        ),
-        title
-    ) }}
+    {% if not route_type %}
+        {{ breadcrumbs.render_crumb_span(title) }}
+    {% else %}
+        {{ breadcrumbs.render_crumb_link(
+            admin_path(
+                crumb.entity,
+                route_type,
+                crumb.meta.parent ? { (crumb.meta.parent.associationParameterName): app.request.query.get(crumb.meta.parent.associationParameterName) } : {}
+            ),
+            title
+        ) }}
+    {% endif %}
 {% endmacro %}
 
 <div class="path">
     {{ breadcrumbs.render_crumb_link(path('darvin_admin_homepage'), 'homepage.action.homepage.link') }}
-    {% if menu_group %}<span>{{ ('menu.group.' ~ menu_group ~ '.title') | trans }}</span>{% endif %}
+    {% if menu_group %}{{ breadcrumbs.render_crumb_span('menu.group.' ~ menu_group ~ '.title') }}{% endif %}
     {% for crumb in crumbs %}
         {{ breadcrumbs.render_crumb(
             crumb,

@@ -130,10 +130,12 @@ class GenericAssetProvider implements AssetProviderInterface
 
         $this->assetWebPathnames = $this->kernel->isDebug()
             ? $this->devAssetWebPathnames
-            : implode(DIRECTORY_SEPARATOR, array(
-                'bundles',
-                preg_replace('/bundle$/', '', strtolower($bundle->getName())),
-                $this->compiledAssetPathname,
-            ));
+            : array(
+                implode(DIRECTORY_SEPARATOR, array(
+                    'bundles',
+                    preg_replace('/bundle$/', '', strtolower($bundle->getName())),
+                    $this->compiledAssetPathname,
+                )),
+            );
     }
 }

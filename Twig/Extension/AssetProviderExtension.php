@@ -13,9 +13,9 @@ namespace Darvin\AdminBundle\Twig\Extension;
 use Darvin\AdminBundle\Asset\Provider\AssetProviderPool;
 
 /**
- * Asset Twig extension
+ * Asset provider Twig extension
  */
-class AssetExtension extends \Twig_Extension
+class AssetProviderExtension extends \Twig_Extension
 {
     /**
      * @var \Darvin\AdminBundle\Asset\Provider\AssetProviderPool
@@ -45,6 +45,6 @@ class AssetExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'darvin_admin_asset_extension';
+        return 'darvin_admin_asset_provider_extension';
     }
 }

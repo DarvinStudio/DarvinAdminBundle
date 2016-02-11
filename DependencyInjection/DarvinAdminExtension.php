@@ -35,7 +35,7 @@ class DarvinAdminExtension extends Extension
         $configInjector->inject($config, $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('asset.yml');
+        $loader->load('asset/provider.yml');
         $loader->load('breadcrumbs.yml');
         $loader->load('cache.yml');
         $loader->load('ckeditor.yml');
@@ -53,5 +53,9 @@ class DarvinAdminExtension extends Extension
         $loader->load('twig.yml');
         $loader->load('uploader.yml');
         $loader->load('view.yml');
+
+        if ('dev' === $container->getParameter('kernel.environment')) {
+            $loader->load('asset/compiler.yml');
+        }
     }
 }

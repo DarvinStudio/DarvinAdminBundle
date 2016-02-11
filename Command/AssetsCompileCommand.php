@@ -11,7 +11,8 @@
 namespace Darvin\AdminBundle\Command;
 
 use Assetic\Asset\AssetInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -19,8 +20,24 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Assets compile command
  */
-class AssetsCompileCommand extends ContainerAwareCommand
+class AssetsCompileCommand extends Command
 {
+    /**
+     * @var \Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool
+     */
+    private $assetCompilerPool;
+
+    /**
+     * @param string                                               $name              Command name
+     * @param \Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool $assetCompilerPool Asset compiler pool
+     */
+    public function __construct($name, AssetCompilerPool $assetCompilerPool)
+    {
+        parent::__construct($name);
+
+        $this->assetCompilerPool = $assetCompilerPool;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +61,7 @@ class AssetsCompileCommand extends ContainerAwareCommand
             $io->comment($asset->getSourceRoot().DIRECTORY_SEPARATOR.$asset->getSourcePath());
         };
 
-        foreach ($this->getAssetCompilerPool()->getCompilers() as $compiler) {
+        foreach ($this->assetCompilerPool->getCompilers() as $compiler) {
             $io->section('Compiling '.$compiler->getCompiledAssetPathname());
             $io->progressStart($compiler->getDevAssetsCount());
 
@@ -52,13 +69,5 @@ class AssetsCompileCommand extends ContainerAwareCommand
 
             $io->note(sprintf('Do not forget to commit the "%s" file :)', $compiler->getCompiledAssetPathname()));
         }
-    }
-
-    /**
-     * @return \Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool
-     */
-    private function getAssetCompilerPool()
-    {
-        return $this->getContainer()->get('darvin_admin.asset.compiler.pool');
     }
 }

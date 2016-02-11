@@ -1,0 +1,42 @@
+parameters:
+    darvin_admin.asset.compiler.command.class: Darvin\AdminBundle\Command\AssetsCompileCommand
+    darvin_admin.asset.compiler.command.name:  darvin:admin:assets:compile
+
+    darvin_admin.asset.compiler.pool.class: Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool
+
+    darvin_admin.asset.compiler.generic.class: Darvin\AdminBundle\Asset\Compiler\GenericAssetCompiler
+
+services:
+    darvin_admin.asset.compiler.command:
+        class: %darvin_admin.asset.compiler.command.class%
+        arguments:
+            - %darvin_admin.asset.compiler.command.name%
+            - "@darvin_admin.asset.compiler.pool"
+        tags:
+            - { name: console.command }
+
+    darvin_admin.asset.compiler.pool:
+        class:  %darvin_admin.asset.compiler.pool.class%
+        public: false
+
+    darvin_admin.asset.compiler.scripts:
+        class:  %darvin_admin.asset.compiler.generic.class%
+        public: false
+        arguments:
+            - "@darvin_admin.asset.provider.scripts"
+        calls:
+            - [ addFilter, [ "@assetic.filter.closure" ] ]
+        tags:
+            - { name: darvin_admin.asset_compiler }
+
+    darvin_admin.asset.compiler.styles:
+        class:  %darvin_admin.asset.compiler.generic.class%
+        public: false
+        arguments:
+            - "@darvin_admin.asset.provider.styles"
+        calls:
+            - [ addFilter, [ "@assetic.filter.cssembed" ] ]
+            - [ addFilter, [ "@assetic.filter.cssrewrite" ] ]
+            - [ addFilter, [ "@assetic.filter.yui_css" ] ]
+        tags:
+            - { name: darvin_admin.asset_compiler }

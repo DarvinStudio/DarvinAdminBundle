@@ -20,7 +20,6 @@
         "ocramius/proxy-manager":             "0.5.*",
         "oneup/uploader-bundle":              "dev-master@dev",
         "stof/doctrine-extensions-bundle":    "1.2.*",
-        "symfony/assetic-bundle":             "2.7.*",
         "vich/uploader-bundle":               "1.0.*@dev",
         "willdurand/js-translation-bundle":   "2.2.*",
 
@@ -29,6 +28,9 @@
         "darvinstudio/darvin-image-bundle":   "*@dev",
         "darvinstudio/darvin-user-bundle":    "*@dev",
         "darvinstudio/darvin-utils-bundle":   "*@dev"
+    },
+    "require-dev": {
+        "symfony/assetic-bundle": "2.7.*"
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }

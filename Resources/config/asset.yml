@@ -19,6 +19,8 @@ parameters:
         - bundles/darvinadmin/styles/fancybox.css
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 
+    darvin_admin.asset.twig_extension.class: Darvin\AdminBundle\Twig\Extension\AssetExtension
+
 services:
     darvin_admin.asset.compiler.pool:
         class: %darvin_admin.asset.compiler.pool.class%
@@ -49,3 +51,11 @@ services:
             - %darvin_admin.asset.provider.styles.compiled_asset_pathname%
         tags:
             - { name: darvin_admin.asset_provider, alias: styles }
+
+    darvin_admin.asset.twig_extension:
+        class:  %darvin_admin.asset.twig_extension.class%
+        public: false
+        arguments:
+            - "@darvin_admin.asset.provider.pool"
+        tags:
+            - { name: twig.extension }

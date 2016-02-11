@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Asset\Provider\AssetsProviderPool;
+use Darvin\AdminBundle\Asset\Provider\AssetProviderPool;
 
 /**
  * Asset Twig extension
@@ -18,16 +18,16 @@ use Darvin\AdminBundle\Asset\Provider\AssetsProviderPool;
 class AssetExtension extends \Twig_Extension
 {
     /**
-     * @var \Darvin\AdminBundle\Asset\Provider\AssetsProviderPool
+     * @var \Darvin\AdminBundle\Asset\Provider\AssetProviderPool
      */
     private $assetProviderPool;
 
     /**
-     * @param \Darvin\AdminBundle\Asset\Provider\AssetsProviderPool $assetsProviderPool Asset provider pool
+     * @param \Darvin\AdminBundle\Asset\Provider\AssetProviderPool $assetProviderPool Asset provider pool
      */
-    public function __construct(AssetsProviderPool $assetsProviderPool)
+    public function __construct(AssetProviderPool $assetProviderPool)
     {
-        $this->assetProviderPool = $assetsProviderPool;
+        $this->assetProviderPool = $assetProviderPool;
     }
 
     /**

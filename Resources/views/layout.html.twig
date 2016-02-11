@@ -22,13 +22,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block stylesheets %}
-            {% if not app.debug %}
-                <link href="{{ asset('bundles/darvinadmin/styles/prod/app.css') }}" rel="stylesheet">
-            {% else %}
-                {% for asset in admin_assets('styles') %}
-                    <link href="{{ asset(asset) }}" rel="stylesheet">
-                {% endfor %}
-            {% endif %}
+            {% for asset in admin_assets('styles') %}
+                <link href="{{ asset(asset) }}" rel="stylesheet">
+            {% endfor %}
             <link href="{{ asset(darvin_admin_visual_assets_path ~ '/styles/app.css') }}" rel="stylesheet">
         {% endblock %}
 

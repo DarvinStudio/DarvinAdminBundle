@@ -1,8 +1,8 @@
 parameters:
+    darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetProviderPool
+
     darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetProvider
     darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
-
-    darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetProviderPool
 
     darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/prod/app.css
     darvin_admin.asset.provider.styles.dev_asset_web_pathnames:

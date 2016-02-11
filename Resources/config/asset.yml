@@ -8,7 +8,7 @@ parameters:
     darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetProvider
     darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
 
-    darvin_admin.asset.provider.scripts.compiled_asset_pathname: scripts/prod/app.js
+    darvin_admin.asset.provider.scripts.compiled_asset_pathname: scripts/compiled/app.js
     darvin_admin.asset.provider.scripts.dev_asset_web_pathnames:
           - bundles/darvinadmin/scripts/jquery/jquery.js
           - bundles/darvinadmin/scripts/jquery/ui/ui.js
@@ -49,7 +49,7 @@ parameters:
 
           - bundles/darvinadmin/scripts/app.js
 
-    darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/prod/app.css
+    darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/compiled/app.css
     darvin_admin.asset.provider.styles.dev_asset_web_pathnames:
         - bundles/darvinadmin/styles/bootstrap.css
         - bundles/darvinadmin/styles/bootstrap-chosen.css

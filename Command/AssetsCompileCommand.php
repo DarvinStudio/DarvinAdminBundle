@@ -45,6 +45,7 @@ class AssetsCompileCommand extends ContainerAwareCommand
         };
 
         foreach ($this->getAssetCompilerPool()->getCompilers() as $compiler) {
+            $io->section('Compiling '.$compiler->getCompiledAssetPathname());
             $io->progressStart($compiler->getDevAssetsCount());
 
             $compiler->compileAssets($assetCallback);

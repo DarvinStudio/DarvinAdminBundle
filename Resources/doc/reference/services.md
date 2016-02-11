@@ -1,7 +1,7 @@
 Публичные сервисы
 =================
 
-- **darvin_admin.asset.compiler.pool** - пул компиляторов ресурсов;
+- **darvin_admin.asset.compiler.pool** - пул компиляторов ресурсов (скрипты, стили) бандла;
 
 
 - **darvin_admin.cache.clear_command** - команда очистки кэша Symfony и Imagine;

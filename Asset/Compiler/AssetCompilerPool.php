@@ -21,23 +21,11 @@ class AssetCompilerPool
     private $compilers;
 
     /**
-     * @var int
-     */
-    private $devAssetsCount;
-
-    /**
-     * @var bool
-     */
-    private $initialized;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->compilers = array();
-        $this->devAssetsCount = 0;
-        $this->initialized = false;
     }
 
     /**
@@ -54,28 +42,5 @@ class AssetCompilerPool
     public function getCompilers()
     {
         return $this->compilers;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDevAssetsCount()
-    {
-        $this->init();
-
-        return $this->devAssetsCount;
-    }
-
-    private function init()
-    {
-        if ($this->initialized) {
-            return;
-        }
-
-        $this->initialized = true;
-
-        foreach ($this->compilers as $compiler) {
-            $this->devAssetsCount += $compiler->getDevAssetsCount();
-        }
     }
 }

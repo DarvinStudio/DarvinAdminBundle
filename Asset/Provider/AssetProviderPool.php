@@ -13,12 +13,12 @@ namespace Darvin\AdminBundle\Asset\Provider;
 use Darvin\AdminBundle\Asset\AssetException;
 
 /**
- * Assets provider pool
+ * Asset provider pool
  */
-class AssetsProviderPool
+class AssetProviderPool
 {
     /**
-     * @var \Darvin\AdminBundle\Asset\Provider\AssetsProviderInterface[]
+     * @var \Darvin\AdminBundle\Asset\Provider\AssetProviderInterface[]
      */
     private $providers;
 
@@ -31,22 +31,22 @@ class AssetsProviderPool
     }
 
     /**
-     * @param string                                                     $alias    Assets provider alias
-     * @param \Darvin\AdminBundle\Asset\Provider\AssetsProviderInterface $provider Assets provider
+     * @param string                                                    $alias    Asset provider alias
+     * @param \Darvin\AdminBundle\Asset\Provider\AssetProviderInterface $provider Asset provider
      *
      * @throws \Darvin\AdminBundle\Asset\AssetException
      */
-    public function addProvider($alias, AssetsProviderInterface $provider)
+    public function addProvider($alias, AssetProviderInterface $provider)
     {
         if (isset($this->providers[$alias])) {
-            throw new AssetException(sprintf('Assets provider with alias "%s" already added to pool.', $alias));
+            throw new AssetException(sprintf('Asset provider with alias "%s" already added to pool.', $alias));
         }
 
         $this->providers[$alias] = $provider;
     }
 
     /**
-     * @param string $alias Assets provider alias
+     * @param string $alias Asset provider alias
      *
      * @return array
      * @throws \Darvin\AdminBundle\Asset\AssetException
@@ -54,7 +54,7 @@ class AssetsProviderPool
     public function getAssetWebPathnames($alias)
     {
         if (!isset($this->providers[$alias])) {
-            throw new AssetException(sprintf('There is no assets provider with alias "%s" in pool.', $alias));
+            throw new AssetException(sprintf('There is no asset provider with alias "%s" in pool.', $alias));
         }
 
         $provider = $this->providers[$alias];

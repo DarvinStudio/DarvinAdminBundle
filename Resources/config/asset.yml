@@ -2,6 +2,8 @@ parameters:
     darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetProvider
     darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
 
+    darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetProviderPool
+
     darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/prod/app.css
     darvin_admin.asset.provider.styles.dev_asset_web_pathnames:
         - bundles/darvinadmin/styles/bootstrap.css
@@ -14,13 +16,19 @@ parameters:
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 
 services:
+    darvin_admin.asset.provider.pool:
+        class: %darvin_admin.asset.provider.pool.class%
+
     darvin_admin.asset.provider.styles:
-        class: %darvin_admin.asset.provider.generic.class%
+        class:  %darvin_admin.asset.provider.generic.class%
+        public: false
         arguments:
             - "@kernel"
             - %darvin_admin.asset.provider.generic.web_dir%
             - %darvin_admin.asset.provider.styles.dev_asset_web_pathnames%
             - %darvin_admin.asset.provider.styles.compiled_asset_pathname%
+        tags:
+            - { name: darvin_admin.asset_provider, alias: styles }
 
 #    darvin_admin.asset.dumper.generic.class: Darvin\AdminBundle\Asset\Dumper\GenericAssetsDumper
 #

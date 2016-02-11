@@ -21,7 +21,7 @@ class AddAssetProvidersPass implements CompilerPassInterface
 {
     const POOL_ID = 'darvin_admin.asset.provider.pool';
 
-    const TAG_ASSETS_PROVIDER = 'darvin_admin.assets_provider';
+    const TAG_ASSET_PROVIDER = 'darvin_admin.asset_provider';
 
     /**
      * {@inheritdoc}
@@ -34,14 +34,14 @@ class AddAssetProvidersPass implements CompilerPassInterface
 
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-        foreach ($container->findTaggedServiceIds(self::TAG_ASSETS_PROVIDER) as $id => $tags) {
+        foreach ($container->findTaggedServiceIds(self::TAG_ASSET_PROVIDER) as $id => $tags) {
             $reference = new Reference($id);
 
             foreach ($tags as $tag) {
                 if (!isset($tag['alias'])) {
                     $message = sprintf(
                         'Tag "%s" of service "%s" misconfigured: attribute "alias" must be provided.',
-                        self::TAG_ASSETS_PROVIDER,
+                        self::TAG_ASSET_PROVIDER,
                         $id
                     );
 

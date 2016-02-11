@@ -1,14 +1,9 @@
 parameters:
-    darvin_admin.asset.dumper.generic.class: Darvin\AdminBundle\Asset\Dumper\GenericAssetsDumper
-
-    darvin_admin.asset.dumper.styles.destination: Resources/public/styles/prod/app.css
-
-    darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetsProviderPool
-
-    darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetsProvider
+    darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetProvider
     darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
 
-    darvin_admin.asset.provider.styles.web_pathnames:
+    darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/prod/app.css
+    darvin_admin.asset.provider.styles.dev_asset_web_pathnames:
         - bundles/darvinadmin/styles/bootstrap.css
         - bundles/darvinadmin/styles/bootstrap-chosen.css
         - bundles/darvinadmin/styles/jquery-jscrollpane.css
@@ -18,38 +13,66 @@ parameters:
         - bundles/darvinadmin/styles/fancybox.css
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 
-    darvin_admin.asset.twig_extension.class: Darvin\AdminBundle\Twig\Extension\AssetExtension
-
 services:
-    darvin_admin.asset.dumper.styles:
-        class:  %darvin_admin.asset.dumper.generic.class%
-        public: false
-        arguments:
-            - "@darvin_admin.asset.provider.styles"
-            - "@kernel"
-            - %darvin_admin.asset.dumper.styles.destination%
-        calls:
-            - [ addFilter, [ "@assetic.filter.cssembed" ] ]
-            - [ addFilter, [ "@assetic.filter.cssrewrite" ] ]
-            - [ addFilter, [ "@assetic.filter.yui_css" ] ]
-
-    darvin_admin.asset.provider.pool:
-        class:  %darvin_admin.asset.provider.pool.class%
-        public: false
-
     darvin_admin.asset.provider.styles:
-        class:  %darvin_admin.asset.provider.generic.class%
-        public: false
+        class: %darvin_admin.asset.provider.generic.class%
         arguments:
+            - "@kernel"
             - %darvin_admin.asset.provider.generic.web_dir%
-            - %darvin_admin.asset.provider.styles.web_pathnames%
-        tags:
-            - { name: darvin_admin.assets_provider, alias: styles }
+            - %darvin_admin.asset.provider.styles.dev_asset_web_pathnames%
+            - %darvin_admin.asset.provider.styles.compiled_asset_pathname%
 
-    darvin_admin.asset.twig_extension:
-        class:  %darvin_admin.asset.twig_extension.class%
-        public: false
-        arguments:
-            - "@darvin_admin.asset.provider.pool"
-        tags:
-            - { name: twig.extension }
+#    darvin_admin.asset.dumper.generic.class: Darvin\AdminBundle\Asset\Dumper\GenericAssetsDumper
+#
+#    darvin_admin.asset.dumper.styles.destination: Resources/public/styles/prod/app.css
+#
+#    darvin_admin.asset.provider.pool.class: Darvin\AdminBundle\Asset\Provider\AssetsProviderPool
+#
+#    darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetsProvider
+#    darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
+#
+#    darvin_admin.asset.provider.styles.web_pathnames:
+#        - bundles/darvinadmin/styles/bootstrap.css
+#        - bundles/darvinadmin/styles/bootstrap-chosen.css
+#        - bundles/darvinadmin/styles/jquery-jscrollpane.css
+#        - bundles/darvinadmin/styles/jquery-ui.css
+#        - bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css
+#        - bundles/darvinadmin/styles/dropzone.css
+#        - bundles/darvinadmin/styles/fancybox.css
+#        - bundles/a2lixtranslationform/css/a2lix_translation_default.css
+#
+#    darvin_admin.asset.twig_extension.class: Darvin\AdminBundle\Twig\Extension\AssetExtension
+#
+#services:
+#    darvin_admin.asset.dumper.styles:
+#        class:  %darvin_admin.asset.dumper.generic.class%
+#        public: false
+#        arguments:
+#            - "@darvin_admin.asset.provider.styles"
+#            - "@kernel"
+#            - %darvin_admin.asset.dumper.styles.destination%
+#        calls:
+#            - [ addFilter, [ "@assetic.filter.cssembed" ] ]
+#            - [ addFilter, [ "@assetic.filter.cssrewrite" ] ]
+#            - [ addFilter, [ "@assetic.filter.yui_css" ] ]
+#
+#    darvin_admin.asset.provider.pool:
+#        class:  %darvin_admin.asset.provider.pool.class%
+#        public: false
+#
+#    darvin_admin.asset.provider.styles:
+#        class:  %darvin_admin.asset.provider.generic.class%
+#        public: false
+#        arguments:
+#            - %darvin_admin.asset.provider.generic.web_dir%
+#            - %darvin_admin.asset.provider.styles.web_pathnames%
+#        tags:
+#            - { name: darvin_admin.assets_provider, alias: styles }
+#
+#    darvin_admin.asset.twig_extension:
+#        class:  %darvin_admin.asset.twig_extension.class%
+#        public: false
+#        arguments:
+#            - "@darvin_admin.asset.provider.pool"
+#        tags:
+#            - { name: twig.extension }

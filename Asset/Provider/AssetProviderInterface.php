@@ -11,14 +11,19 @@
 namespace Darvin\AdminBundle\Asset\Provider;
 
 /**
- * Assets provider
+ * Asset provider
  */
-interface AssetsProviderInterface
+interface AssetProviderInterface
 {
     /**
      * @return array
      */
-    public function getAssetAbsolutePathnames();
+    public function getDevAssetAbsolutePathnames();
+
+    /**
+     * @return string
+     */
+    public function getCompiledAssetAbsolutePathname();
 
     /**
      * @return array

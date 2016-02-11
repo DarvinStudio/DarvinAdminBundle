@@ -8,6 +8,47 @@ parameters:
     darvin_admin.asset.provider.generic.class:   Darvin\AdminBundle\Asset\Provider\GenericAssetProvider
     darvin_admin.asset.provider.generic.web_dir: %kernel.root_dir%/../web
 
+    darvin_admin.asset.provider.scripts.compiled_asset_pathname: scripts/prod/app.js
+    darvin_admin.asset.provider.scripts.dev_asset_web_pathnames:
+          - bundles/darvinadmin/scripts/jquery/jquery.js
+          - bundles/darvinadmin/scripts/jquery/ui/ui.js
+          - bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js
+          - bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js
+          - bundles/darvinadmin/scripts/jquery/ui/timepicker-ru.js
+
+          - bundles/darvinadmin/scripts/dropzone.js
+          - bundles/darvinadmin/scripts/jquery/bootstrap.js
+          - bundles/darvinadmin/scripts/jquery/chosen.js
+          - bundles/darvinadmin/scripts/jquery/cookie.js
+          - bundles/darvinadmin/scripts/jquery/fancybox.js
+          - bundles/darvinadmin/scripts/jquery/jscrollpane.js
+          - bundles/darvinadmin/scripts/jquery/mousewheel.js
+          - bundles/darvinadmin/scripts/jquery/noty/noty.js
+          - bundles/darvinadmin/scripts/jquery/noty/layouts/top.js
+          - bundles/darvinadmin/scripts/jquery/noty/themes/bootstrap.js
+          - bundles/darvinadmin/scripts/jquery/word-and-character-counter.js
+
+          - bundles/a2lixtranslationform/js/a2lix_translation_default.js
+          - bundles/bazingajstranslation/js/translator.min.js
+
+          - bundles/darvinadmin/scripts/globals.js
+          - bundles/darvinadmin/scripts/yandex-translator.js
+
+          - bundles/darvinadmin/scripts/ajax-forms.js
+          - bundles/darvinadmin/scripts/chosen-init.js
+          - bundles/darvinadmin/scripts/counter-init.js
+          - bundles/darvinadmin/scripts/date-time-pickers-init.js
+          - bundles/darvinadmin/scripts/dropzone-init.js
+          - bundles/darvinadmin/scripts/fancybox-init.js
+          - bundles/darvinadmin/scripts/form-collections.js
+          - bundles/darvinadmin/scripts/images.js
+          - bundles/darvinadmin/scripts/master-slave-inputs.js
+          - bundles/darvinadmin/scripts/noty-init.js
+          - bundles/darvinadmin/scripts/property-forms.js
+          - bundles/darvinadmin/scripts/translations-sync.js
+
+          - bundles/darvinadmin/scripts/app.js
+
     darvin_admin.asset.provider.styles.compiled_asset_pathname: styles/prod/app.css
     darvin_admin.asset.provider.styles.dev_asset_web_pathnames:
         - bundles/darvinadmin/styles/bootstrap.css
@@ -15,8 +56,10 @@ parameters:
         - bundles/darvinadmin/styles/jquery-jscrollpane.css
         - bundles/darvinadmin/styles/jquery-ui.css
         - bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css
+
         - bundles/darvinadmin/styles/dropzone.css
         - bundles/darvinadmin/styles/fancybox.css
+
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 
     darvin_admin.asset.twig_extension.class: Darvin\AdminBundle\Twig\Extension\AssetExtension
@@ -24,6 +67,16 @@ parameters:
 services:
     darvin_admin.asset.compiler.pool:
         class: %darvin_admin.asset.compiler.pool.class%
+
+    darvin_admin.asset.compiler.scripts:
+        class:  %darvin_admin.asset.compiler.generic.class%
+        public: false
+        arguments:
+            - "@darvin_admin.asset.provider.scripts"
+        calls:
+            - [ addFilter, [ "@assetic.filter.closure" ] ]
+        tags:
+            - { name: darvin_admin.asset_compiler }
 
     darvin_admin.asset.compiler.styles:
         class:  %darvin_admin.asset.compiler.generic.class%
@@ -40,6 +93,17 @@ services:
     darvin_admin.asset.provider.pool:
         class:  %darvin_admin.asset.provider.pool.class%
         public: false
+
+    darvin_admin.asset.provider.scripts:
+        class:  %darvin_admin.asset.provider.generic.class%
+        public: false
+        arguments:
+            - "@kernel"
+            - %darvin_admin.asset.provider.generic.web_dir%
+            - %darvin_admin.asset.provider.scripts.dev_asset_web_pathnames%
+            - %darvin_admin.asset.provider.scripts.compiled_asset_pathname%
+        tags:
+            - { name: darvin_admin.asset_provider, alias: scripts }
 
     darvin_admin.asset.provider.styles:
         class:  %darvin_admin.asset.provider.generic.class%

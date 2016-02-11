@@ -156,50 +156,9 @@
                 var LOCALE                   = '{{ app.request.locale }}';
                 var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
             </script>
-            {% javascripts
-                '@DarvinAdminBundle/Resources/scripts/jquery/jquery.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/ui/ui.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/ui/datepicker-ru.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/ui/timepicker-addon.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/ui/timepicker-ru.js'
-
-                '@DarvinAdminBundle/Resources/scripts/dropzone.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/bootstrap.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/chosen.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/cookie.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/fancybox.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/jscrollpane.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/mousewheel.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/noty/noty.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/noty/layouts/top.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/noty/themes/bootstrap.js'
-                '@DarvinAdminBundle/Resources/scripts/jquery/word-and-character-counter.js'
-
-                'bundles/a2lixtranslationform/js/a2lix_translation_default.js'
-                'bundles/bazingajstranslation/js/translator.min.js'
-
-                '@DarvinAdminBundle/Resources/scripts/globals.js'
-                '@DarvinAdminBundle/Resources/scripts/yandex-translator.js'
-
-                '@DarvinAdminBundle/Resources/scripts/ajax-forms.js'
-                '@DarvinAdminBundle/Resources/scripts/chosen-init.js'
-                '@DarvinAdminBundle/Resources/scripts/counter-init.js'
-                '@DarvinAdminBundle/Resources/scripts/date-time-pickers-init.js'
-                '@DarvinAdminBundle/Resources/scripts/dropzone-init.js'
-                '@DarvinAdminBundle/Resources/scripts/fancybox-init.js'
-                '@DarvinAdminBundle/Resources/scripts/form-collections.js'
-                '@DarvinAdminBundle/Resources/scripts/images.js'
-                '@DarvinAdminBundle/Resources/scripts/master-slave-inputs.js'
-                '@DarvinAdminBundle/Resources/scripts/noty-init.js'
-                '@DarvinAdminBundle/Resources/scripts/property-forms.js'
-                '@DarvinAdminBundle/Resources/scripts/translations-sync.js'
-
-                '@DarvinAdminBundle/Resources/scripts/app.js'
-                filter='?closure'
-                output='assets/admin/scripts/app.js'
-            %}
-                <script src="{{ asset_url }}"></script>
-            {% endjavascripts %}
+            {% for asset in admin_assets('scripts') %}
+                <script src="{{ asset(asset) }}"></script>
+            {% endfor %}
             <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales=en,{{ app.request.locale }}"></script>
             <script>
                 $.fancybox.defaults.locale = '{{ app.request.locale }}';

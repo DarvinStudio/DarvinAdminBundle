@@ -10,8 +10,6 @@
 
 namespace Darvin\AdminBundle\Asset\Compiler;
 
-use Darvin\AdminBundle\Asset\AssetException;
-
 /**
  * Asset compiler pool
  */
@@ -32,18 +30,10 @@ class AssetCompilerPool
 
     /**
      * @param \Darvin\AdminBundle\Asset\Compiler\AssetCompilerInterface $compiler Asset compiler
-     *
-     * @throws \Darvin\AdminBundle\Asset\AssetException
      */
     public function addCompiler(AssetCompilerInterface $compiler)
     {
-        $class = get_class($compiler);
-
-        if (isset($this->compilers[$class])) {
-            throw new AssetException(sprintf('Asset compiler "%s" already added to pool.', $class));
-        }
-
-        $this->compilers[$class] = $compiler;
+        $this->compilers[] = $compiler;
     }
 
     /**

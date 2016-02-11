@@ -37,15 +37,21 @@ class AssetsCompileCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
+        $io->writeln('');
+
+        $assetCompilerPool = $this->getAssetCompilerPool();
+
+        $io->progressStart($assetCompilerPool->getDevAssetsCount());
 
         $assetCallback = function (AssetInterface $asset) use ($io) {
+            $io->progressAdvance();
             $io->comment($asset->getSourceRoot().DIRECTORY_SEPARATOR.$asset->getSourcePath());
         };
 
         foreach ($this->getAssetCompilerPool()->getCompilers() as $compiler) {
             $compiler->compileAssets($assetCallback);
 
-            $io->note(sprintf('Do not forget to commit the "%s" file.', $compiler->getCompiledAssetPathname()));
+            $io->note(sprintf('Do not forget to commit the "%s" file :)', $compiler->getCompiledAssetPathname()));
         }
     }
 

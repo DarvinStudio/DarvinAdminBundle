@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Asset\Compiler;
 
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
+use Assetic\Asset\StringAsset;
 use Assetic\Filter\FilterInterface;
 use Darvin\AdminBundle\Asset\AssetException;
 use Darvin\AdminBundle\Asset\Provider\AssetProviderInterface;
@@ -63,16 +64,16 @@ class GenericAssetCompiler implements AssetCompilerInterface
      */
     public function compileAssets(callable $assetCallback = null)
     {
-        $collection = new AssetCollection(array(), $this->filters);
+        $collection = new AssetCollection();
 
         foreach ($this->assetProvider->getDevAssetAbsolutePathnames() as $pathname) {
-            $asset = new FileAsset($pathname);
+            $asset = new FileAsset($pathname, $this->filters);
 
             if (!empty($assetCallback)) {
                 $assetCallback($asset);
             }
 
-            $collection->add($asset);
+            $collection->add(new StringAsset($asset->dump()));
         }
 
         $fs = new Filesystem();
@@ -82,6 +83,14 @@ class GenericAssetCompiler implements AssetCompilerInterface
         } catch (\Exception $ex) {
             throw new AssetException($ex->getMessage());
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDevAssetsCount()
+    {
+        return count($this->assetProvider->getDevAssetAbsolutePathnames());
     }
 
     /**

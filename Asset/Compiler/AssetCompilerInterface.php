@@ -21,6 +21,11 @@ interface AssetCompilerInterface
     public function compileAssets(callable $assetCallback = null);
 
     /**
+     * @return int
+     */
+    public function getDevAssetsCount();
+
+    /**
      * @return string
      */
     public function getCompiledAssetPathname();

@@ -35,26 +35,33 @@ class DarvinAdminExtension extends Extension
         $configInjector->inject($config, $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('asset/provider.yml');
-        $loader->load('breadcrumbs.yml');
-        $loader->load('cache.yml');
-        $loader->load('ckeditor.yml');
-        $loader->load('configuration.yml');
-        $loader->load('crud.yml');
-        $loader->load('dashboard.yml');
-        $loader->load('dropzone.yml');
-        $loader->load('form.yml');
-        $loader->load('image.yml');
-        $loader->load('log.yml');
-        $loader->load('menu.yml');
-        $loader->load('metadata.yml');
-        $loader->load('route.yml');
-        $loader->load('security.yml');
-        $loader->load('twig.yml');
-        $loader->load('uploader.yml');
-        $loader->load('view.yml');
 
-        if ('dev' === $container->getParameter('kernel.environment')) {
+        foreach (array(
+            'asset/provider',
+            'breadcrumbs',
+            'cache',
+            'ckeditor',
+            'configuration',
+            'crud',
+            'dashboard',
+            'dropzone',
+            'form',
+            'image',
+            'log',
+            'menu',
+            'metadata',
+            'route',
+            'security',
+            'twig',
+            'uploader',
+            'view',
+        ) as $resource) {
+            $loader->load($resource.'.yml');
+        }
+
+        $bundles = $container->getParameter('kernel.bundles');
+
+        if (isset($bundles['AsseticBundle']) && 'dev' === $container->getParameter('kernel.environment')) {
             $loader->load('asset/compiler.yml');
         }
     }

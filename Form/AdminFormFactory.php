@@ -223,9 +223,24 @@ class AdminFormFactory
      */
     public function createPropertyForm(Metadata $meta, $property, $entity = null)
     {
+        $dataClass = $meta->getEntityClass();
+
+        if (!empty($entity) && null !== $meta->getTranslationClass()) {
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
+            $translations = $entity->getTranslations();
+
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
+            foreach ($translations as $translation) {
+                if ($translation->getLocale() === $entity->getCurrentLocale()) {
+                    $dataClass = $meta->getTranslationClass();
+                    $entity = $translation;
+                }
+            }
+        }
+
         return $this->formFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, array(
             'action_type'       => 'index',
-            'data_class'        => $meta->getEntityClass(),
+            'data_class'        => $dataClass,
             'field_filter'      => $property,
             'metadata'          => $meta,
             'validation_groups' => array(

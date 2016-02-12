@@ -18,8 +18,7 @@ extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 
 **2. Регистрируем сервис-метаданные раздела администрирования.**
 
-Сервис - производный метода "createMetadata()" сервиса-фабрики "darvin_admin.metadata.factory". Класс -
- "Darvin\AdminBundle\Metadata\Metadata". Аргументами являются:
+Сервис - потомок абстрактного сервиса "darvin_admin.metadata.abstract". Аргументами являются:
 
 - класс сущности, для которой создается раздел администрирования;
 - путь до конфигурационного файла раздела, создание которого описано в предыдущем пункте.
@@ -35,15 +34,12 @@ extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 
 ```yaml
 parameters:
-    darvin_admin.administrator.metadata.class:  Darvin\AdminBundle\Metadata\Metadata
     darvin_admin.administrator.metadata.entity: Darvin\AdminBundle\Entity\Administrator
     darvin_admin.administrator.metadata.config: "@@DarvinAdminBundle/Resources/config/admin/administrator.yml"
 
 services:
     darvin_admin.administrator.metadata:
-        class:   %darvin_admin.administrator.metadata.class%
-        factory: [ "@darvin_admin.metadata.factory", createMetadata ]
-        public:  false
+        parent: darvin_admin.metadata.abstract
         arguments:
             - %darvin_admin.administrator.metadata.entity%
             - %darvin_admin.administrator.metadata.config%

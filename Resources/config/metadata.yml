@@ -1,4 +1,6 @@
 parameters:
+    darvin_admin.metadata.abstract.class: Darvin\AdminBundle\Metadata\Metadata
+
     darvin_admin.metadata.configuration.configuration.class: Darvin\AdminBundle\Metadata\Configuration\Configuration
 
     darvin_admin.metadata.configuration.loader.class: Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
@@ -14,6 +16,12 @@ parameters:
     darvin_admin.metadata.sort_criteria_detector.class: Darvin\AdminBundle\Metadata\SortCriteriaDetector
 
 services:
+    darvin_admin.metadata.abstract:
+        class:    %darvin_admin.metadata.abstract.class%
+        factory:  [ "@darvin_admin.metadata.factory", createMetadata ]
+        abstract: true
+        public:   false
+
     darvin_admin.metadata.configuration.configuration:
         class: %darvin_admin.metadata.configuration.configuration.class%
         arguments:

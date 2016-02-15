@@ -1,6 +1,7 @@
 assetic:
-    debug: %kernel.debug%
-    java:  /usr/bin/java
+    bundles: []
+    debug:   %kernel.debug%
+    java:    /usr/bin/java
     filters:
         closure:
             jar: %kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/compiler.jar

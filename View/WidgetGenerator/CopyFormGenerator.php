@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
 use Doctrine\Common\Util\ClassUtils;
@@ -29,6 +30,11 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     private $adminFormFactory;
 
     /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
@@ -44,6 +50,14 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
     {
         $this->adminFormFactory = $adminFormFactory;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouter $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
     }
 
     /**
@@ -75,6 +89,10 @@ class CopyFormGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options, $property)
     {
+        if (!$this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_COPY)) {
+            return '';
+        }
+
         $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
 
         return isset($mappingMeta['clonable'])

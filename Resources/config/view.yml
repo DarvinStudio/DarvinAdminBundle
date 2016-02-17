@@ -91,6 +91,7 @@ services:
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminFormFactory,       [ "@darvin_admin.form.factory" ] ]
+            - [ setAdminRouter,            [ "@darvin_admin.route.router" ] ]
             - [ setEntityManager,          [ "@doctrine.orm.entity_manager" ] ]
             - [ setMappingMetadataFactory, [ "@darvin_utils.mapping.metadata_factory" ] ]
         tags:

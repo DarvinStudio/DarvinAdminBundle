@@ -166,8 +166,8 @@ security:
         logout:
             link: Logout
     object:
-        abstract_image: Image manager
-        log_entry:      Log
+        image: Image manager
+        log:   Log
     permission:
         create_delete: Create and remove
         edit:          Edit

@@ -176,8 +176,8 @@ security:
         logout:
             link: Выйти
     object:
-        abstract_image: Менеджер изображений
-        log_entry:      Журнал
+        image: Менеджер изображений
+        log:   Журнал
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование

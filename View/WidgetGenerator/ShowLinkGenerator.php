@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
+use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,6 +20,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ShowLinkGenerator extends AbstractWidgetGenerator
 {
     const ALIAS = 'show_link';
+
+    /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouter $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
+    }
 
     /**
      * {@inheritdoc}
@@ -41,7 +55,7 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
             }
         }
 
-        return $this->isGranted(Permission::VIEW, $entity)
+        return $this->isGranted(Permission::VIEW, $entity) && $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_SHOW)
             ? $this->render($options, array(
                 'entity'             => $entity,
                 'text_link'          => $options['text_link'],

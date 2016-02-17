@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
+use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 
 /**
@@ -18,6 +19,19 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 class EditLinkGenerator extends AbstractWidgetGenerator
 {
     const ALIAS = 'edit_link';
+
+    /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouter $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
+    }
 
     /**
      * {@inheritdoc}
@@ -32,10 +46,12 @@ class EditLinkGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options, $property)
     {
-        return $this->render($options, array(
-            'entity'             => $entity,
-            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-        ));
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_EDIT)
+            ? $this->render($options, array(
+                'entity'             => $entity,
+                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+            ))
+            : '';
     }
 
     /**

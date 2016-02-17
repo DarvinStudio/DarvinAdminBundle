@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\WidgetGenerator;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 
 /**
@@ -26,11 +27,24 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     private $adminFormFactory;
 
     /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
      * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
      */
     public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
     {
         $this->adminFormFactory = $adminFormFactory;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouter $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
     }
 
     /**
@@ -46,10 +60,12 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options, $property)
     {
-        return $this->render($options, array(
-            'form'               => $this->adminFormFactory->createDeleteForm($entity)->createView(),
-            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-        ));
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
+            ? $this->render($options, array(
+                'form'               => $this->adminFormFactory->createDeleteForm($entity)->createView(),
+                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+            ))
+            : '';
     }
 
     /**

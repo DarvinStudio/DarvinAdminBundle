@@ -100,16 +100,11 @@ class BreadcrumbsExtension extends \Twig_Extension
         $config = $meta->getConfiguration();
 
         if ($config['menu']['group']) {
-            $crumbs[] = array(
-                'title' => 'menu.group.'.$config['menu']['group'].'.title',
-                'url'   => null,
-            );
+            $this->addCrumb($crumbs, 'menu.group.'.$config['menu']['group'].'.title');
         }
 
-        $crumbs[] = array(
-            'title' => 'homepage.action.homepage.link',
-            'url'   => $this->genericRouter->generate('darvin_admin_homepage'),
-        );
+        $this->addCrumb($crumbs, 'homepage.action.homepage.link', $this->genericRouter->generate('darvin_admin_homepage'));
+
         $crumbs = array_reverse($crumbs);
 
         if (!$renderLast) {
@@ -179,9 +174,10 @@ class BreadcrumbsExtension extends \Twig_Extension
     {
         $config = $meta->getConfiguration();
 
-        $crumbs[] = array(
-            'title' => (string) $entity,
-            'url'   => $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route']),
+        $this->addCrumb(
+            $crumbs,
+            (string) $entity,
+            $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route'])
         );
 
         $this->addEntityIndexCrumb($crumbs, $meta, $entity);
@@ -200,8 +196,18 @@ class BreadcrumbsExtension extends \Twig_Extension
             $url = null;
         }
 
+        $this->addCrumb($crumbs, $meta->getBaseTranslationPrefix().'action.index.link', $url);
+    }
+
+    /**
+     * @param array  $crumbs Breadcrumbs
+     * @param string $title  Title
+     * @param string $url    URL
+     */
+    private function addCrumb(array &$crumbs, $title, $url = null)
+    {
         $crumbs[] = array(
-            'title' => $meta->getBaseTranslationPrefix().'action.index.link',
+            'title' => $title,
             'url'   => $url,
         );
     }

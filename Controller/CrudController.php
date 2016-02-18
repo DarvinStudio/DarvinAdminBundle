@@ -319,7 +319,7 @@ class CrudController extends Controller implements MenuItemInterface
         }
 
         return new JsonResponse(array(
-            'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $property, array(
+            'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, array(
                 'original_value' => $originalValue,
             )),
             'message' => $formIsValid

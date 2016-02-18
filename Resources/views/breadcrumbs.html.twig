@@ -19,7 +19,7 @@
         {{ breadcrumbs.render_crumb_link(
             admin_path(
                 crumb.entity,
-                null,
+                crumb.meta.entityClass,
                 route_type,
                 crumb.meta.parent ? { (crumb.meta.parent.associationParameterName): app.request.query.get(crumb.meta.parent.associationParameterName) } : {}
             ),

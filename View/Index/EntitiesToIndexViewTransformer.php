@@ -97,17 +97,19 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     /**
      * @param \Symfony\Component\Form\FormInterface $form           Form
      * @param object                                $entity         Entity
+     * @param string                                $entityClass    Entity class
      * @param string                                $property       Property name
      * @param array                                 $templateParams Template parameters
      *
      * @return string
      */
-    public function renderPropertyForm(FormInterface $form, $entity, $property, array $templateParams = array())
+    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property, array $templateParams = array())
     {
         $formView = $form->createView();
 
         $templateParams = array_merge(array(
             'entity'         => $entity,
+            'entity_class'   => $entityClass,
             'form'           => $formView,
             'original_value' => $formView->children[$property]->vars['value'],
             'property'       => $property,
@@ -187,7 +189,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                     $form = $propertyForms[$field];
                     $form->setData($entity);
 
-                    $content = $this->renderPropertyForm($form, $entity, $field);
+                    $content = $this->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
                 } else {
                     $content = $this->getFieldContent($entity, $field, $attr, $mappings);
                 }

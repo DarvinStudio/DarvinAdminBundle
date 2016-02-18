@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-<a href="{{ admin_path(entity, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) }}"
+<a href="{{ admin_path(entity, null, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_EDIT')) }}"
    class="edit_element edit"
    title="{{ (translation_prefix ~ 'action.edit.link') | trans }}">
 </a>

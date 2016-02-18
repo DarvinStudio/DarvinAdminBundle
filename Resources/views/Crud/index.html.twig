@@ -10,6 +10,7 @@
     {% if admin_route_exists(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW')) %}
 
         {% set new_url = admin_path(
+            null,
             meta.entityClass,
             constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'),
             association_param ? { (association_param): parent_entity_id } : {}

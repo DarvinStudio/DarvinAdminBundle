@@ -16,10 +16,10 @@ services:
     darvin_admin.route.router:
         class: %darvin_admin.route.router.class%
         arguments:
+            - "@router"
             - "@darvin_admin.metadata.identifier_accessor"
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"
-            - "@router"
 
     darvin_admin.route.twig_extension:
         class:  %darvin_admin.route.twig_extension.class%

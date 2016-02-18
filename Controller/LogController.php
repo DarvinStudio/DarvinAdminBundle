@@ -43,7 +43,7 @@ class LogController extends Controller
 
         $this->checkIfUserHasPermission(Permission::EDIT, $logEntry->getObjectClass());
 
-        $url = $request->headers->get('referer', $this->getAdminRouter()->generate($logEntry, AdminRouter::TYPE_INDEX));
+        $url = $request->headers->get('referer', $this->getAdminRouter()->generate($logEntry, null, AdminRouter::TYPE_INDEX));
 
         if (!$this->getLogEntryRevertFormWidgetGenerator()->createRevertForm($logEntry)->handleRequest($request)->isValid()) {
             $this->getFlashNotifier()->formError();

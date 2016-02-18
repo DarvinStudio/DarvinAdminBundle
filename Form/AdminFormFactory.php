@@ -82,7 +82,7 @@ class AdminFormFactory
      */
     public function createCopyForm($entity)
     {
-        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, AdminRouter::TYPE_COPY));
+        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, null, AdminRouter::TYPE_COPY));
     }
 
     /**
@@ -92,7 +92,7 @@ class AdminFormFactory
      */
     public function createDeleteForm($entity)
     {
-        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, AdminRouter::TYPE_DELETE));
+        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, null, AdminRouter::TYPE_DELETE));
     }
 
     /**
@@ -165,7 +165,7 @@ class AdminFormFactory
                 $parentEntityAssociationParam => $parentEntityId,
             )
             : array();
-        $action = $this->adminRouter->generate($entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);
+        $action = $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);
 
         $options = array(
             'action' => $action,

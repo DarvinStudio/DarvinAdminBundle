@@ -12,13 +12,26 @@ namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\RouteException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Breadcrumbs Twig extension
  */
 class BreadcrumbsExtension extends \Twig_Extension
 {
+    /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $genericRouter;
+
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
@@ -30,11 +43,19 @@ class BreadcrumbsExtension extends \Twig_Extension
     private $propertyAccessor;
 
     /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter      Admin router
+     * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter    Generic router
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager  Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
      */
-    public function __construct(MetadataManager $metadataManager, PropertyAccessorInterface $propertyAccessor)
-    {
+    public function __construct(
+        AdminRouter $adminRouter,
+        RouterInterface $genericRouter,
+        MetadataManager $metadataManager,
+        PropertyAccessorInterface $propertyAccessor
+    ) {
+        $this->adminRouter = $adminRouter;
+        $this->genericRouter = $genericRouter;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
     }
@@ -57,63 +78,46 @@ class BreadcrumbsExtension extends \Twig_Extension
     }
 
     /**
-     * @param \Twig_Environment                     $environment       Twig environment
-     * @param string                                $menuGroup         Menu group alias
-     * @param object                                $entity            Entity
-     * @param \Darvin\AdminBundle\Metadata\Metadata $currentEntityMeta Current entity metadata
-     * @param bool                                  $renderLast        Whether to render last crumb
-     * @param string                                $template          Template
+     * @param \Twig_Environment                     $environment  Environment
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
+     * @param object                                $parentEntity Parent entity
+     * @param object                                $entity       Entity
+     * @param bool                                  $renderLast   Whether to render last crumb
+     * @param string                                $template     Template
      *
      * @return string
      */
     public function renderBreadcrumbs(
         \Twig_Environment $environment,
-        $menuGroup = null,
+        Metadata $meta,
+        $parentEntity = null,
         $entity = null,
-        Metadata $currentEntityMeta = null,
         $renderLast = false,
         $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
     ) {
-        $crumbs = array();
-        $entityRoute = null;
-        $meta = null;
+        $crumbs = $this->getEntityCrumbs($meta, $parentEntity, $entity);
 
-        if (!empty($entity)) {
-            $meta = $this->metadataManager->getMetadata($entity);
+        $config = $meta->getConfiguration();
 
-            /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parentMeta */
-            while ($parentMeta = $meta->getParent()) {
-                $crumbs[] = array(
-                    'entity' => $entity,
-                    'meta'   => $meta,
-                );
-
-                $entity = $this->propertyAccessor->getValue($entity, $parentMeta->getAssociation());
-                $meta = $parentMeta->getMetadata();
-            }
-
-        }
-        if (!empty($currentEntityMeta)) {
+        if ($config['menu']['group']) {
             $crumbs[] = array(
-                'entity' => $currentEntityMeta->getEntityClass(),
-                'meta'   => $currentEntityMeta,
+                'title' => 'menu.group.'.$config['menu']['group'].'.title',
+                'url'   => null,
             );
         }
-        if (!empty($entity)) {
-            $crumbs[] = array(
-                'entity' => $entity,
-                'meta'   => $meta,
-            );
 
-            $configuration = $meta->getConfiguration();
-            $entityRoute = $configuration['breadcrumbs_entity_route'];
+        $crumbs[] = array(
+            'title' => 'homepage.action.homepage.link',
+            'url'   => $this->genericRouter->generate('darvin_admin_homepage'),
+        );
+        $crumbs = array_reverse($crumbs);
+
+        if (!$renderLast) {
+            array_pop($crumbs);
         }
 
         return $environment->render($template, array(
-            'crumbs'       => array_reverse($crumbs),
-            'menu_group'   => $menuGroup,
-            'entity_route' => $entityRoute,
-            'render_last'  => $renderLast,
+            'crumbs' => $crumbs,
         ));
     }
 
@@ -123,5 +127,82 @@ class BreadcrumbsExtension extends \Twig_Extension
     public function getName()
     {
         return 'darvin_admin_breadcrumbs_extension';
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
+     * @param object                                $parentEntity Parent entity
+     * @param object                                $entity       Entity
+     *
+     * @return array
+     */
+    private function getEntityCrumbs(Metadata $meta, $parentEntity, $entity)
+    {
+        $crumbs = array();
+
+        if (empty($entity)) {
+            $this->addEntityIndexCrumb($crumbs, $meta);
+
+            if (empty($parentEntity)) {
+                return $crumbs;
+            }
+
+            $meta = $this->metadataManager->getMetadata($parentEntity);
+            $entity = $parentEntity;
+        }
+
+        $this->addEntityCrumbs($crumbs, $meta, $entity);
+
+        $childEntity = $entity;
+        $childMeta = $meta;
+
+        /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parent */
+        while ($parent = $childMeta->getParent()) {
+            $parentEntity = $this->propertyAccessor->getValue($childEntity, $parent->getAssociation());
+            $parentMeta = $parent->getMetadata();
+
+            $this->addEntityCrumbs($crumbs, $parentMeta, $parentEntity);
+
+            $childEntity = $parentEntity;
+            $childMeta = $parentMeta;
+        }
+
+        return $crumbs;
+    }
+
+    /**
+     * @param array                                 $crumbs Breadcrumbs
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
+     * @param object                                $entity Entity
+     */
+    private function addEntityCrumbs(array &$crumbs, Metadata $meta, $entity)
+    {
+        $config = $meta->getConfiguration();
+
+        $crumbs[] = array(
+            'title' => (string) $entity,
+            'url'   => $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route']),
+        );
+
+        $this->addEntityIndexCrumb($crumbs, $meta, $entity);
+    }
+
+    /**
+     * @param array                                 $crumbs Breadcrumbs
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
+     * @param object                                $entity Entity
+     */
+    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $entity = null)
+    {
+        try {
+            $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX);
+        } catch (RouteException $ex) {
+            $url = null;
+        }
+
+        $crumbs[] = array(
+            'title' => $meta->getBaseTranslationPrefix().'action.index.link',
+            'url'   => $url,
+        );
     }
 }

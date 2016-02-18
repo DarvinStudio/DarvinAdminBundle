@@ -6,6 +6,8 @@ services:
         class:  %darvin_admin.breadcrumbs.twig_extension.class%
         public: false
         arguments:
+            - "@darvin_admin.route.router"
+            - "@router"
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"
         tags:

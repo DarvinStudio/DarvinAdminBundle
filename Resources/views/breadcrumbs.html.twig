@@ -1,44 +1,11 @@
 {% trans_default_domain 'admin' %}
 
-{% import _self as breadcrumbs %}
-
-{% macro render_crumb_link(url, title) %}
-    <a href="{{ url }}">{{ title | trans }}</a>
-{% endmacro %}
-
-{% macro render_crumb_span(title) %}
-    <span>{{ title | trans }}</span>
-{% endmacro %}
-
-{% macro render_crumb(crumb, route_type, title) %}
-    {% import _self as breadcrumbs %}
-
-    {% if not route_type %}
-        {{ breadcrumbs.render_crumb_span(title) }}
-    {% else %}
-        {{ breadcrumbs.render_crumb_link(
-            admin_path(
-                crumb.entity,
-                crumb.meta.entityClass,
-                route_type,
-                crumb.meta.parent ? { (crumb.meta.parent.associationParameterName): app.request.query.get(crumb.meta.parent.associationParameterName) } : {}
-            ),
-            title
-        ) }}
-    {% endif %}
-{% endmacro %}
-
 <div class="path">
-    {{ breadcrumbs.render_crumb_link(path('darvin_admin_homepage'), 'homepage.action.homepage.link') }}
-    {% if menu_group %}{{ breadcrumbs.render_crumb_span('menu.group.' ~ menu_group ~ '.title') }}{% endif %}
     {% for crumb in crumbs %}
-        {{ breadcrumbs.render_crumb(
-            crumb,
-            constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_INDEX'),
-            crumb.meta.baseTranslationPrefix ~ 'action.index.link'
-        ) }}
-        {% if not loop.last or render_last %}
-            {{ breadcrumbs.render_crumb(crumb, entity_route, crumb.entity) }}
+        {% if crumb.url %}
+            <a href="{{ crumb.url }}">{{ crumb.title | trans }}</a>
+        {% else %}
+            <span>{{ crumb.title | trans }}</span>
         {% endif %}
     {% endfor %}
 </div>

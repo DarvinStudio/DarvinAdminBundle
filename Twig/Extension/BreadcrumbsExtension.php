@@ -182,11 +182,11 @@ class BreadcrumbsExtension extends \Twig_Extension
     {
         $config = $meta->getConfiguration();
 
-        $this->addCrumb(
-            $crumbs,
-            (string) $entity,
-            $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route'])
-        );
+        $url = !empty($config['breadcrumbs_entity_route'])
+            ? $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route'])
+            : null;
+
+        $this->addCrumb($crumbs, (string) $entity, $url);
 
         $this->addEntityIndexCrumb($crumbs, $meta, null, $entity);
     }

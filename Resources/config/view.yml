@@ -34,7 +34,6 @@ services:
         abstract: true
         arguments:
             - "@service_container"
-            - "@darvin_admin.metadata.manager"
             - "@property_accessor"
             - "@darvin_utils.stringifier.doctrine"
             - "@darvin_admin.view.widget_generator.pool"

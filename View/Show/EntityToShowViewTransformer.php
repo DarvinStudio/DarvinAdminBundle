@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Show;
 
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Event\ShowViewEvent;
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -35,14 +36,13 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
     }
 
     /**
-     * @param object $entity Entity
+     * @param object                                $entity Entity
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
      *
      * @return \Darvin\AdminBundle\View\Show\ShowView
      */
-    public function transform($entity)
+    public function transform($entity, Metadata $meta)
     {
-        $meta = $this->metadataManager->getMetadata($entity);
-
         $this->validateConfiguration($meta, $entity, 'show');
 
         $this->eventDispatcher->dispatch(Events::PRE_SHOW_VIEW_CREATING, new ShowViewEvent($entity));

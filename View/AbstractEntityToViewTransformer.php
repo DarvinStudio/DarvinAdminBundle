@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,11 +25,6 @@ abstract class AbstractEntityToViewTransformer
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
-     */
-    protected $metadataManager;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -49,20 +43,17 @@ abstract class AbstractEntityToViewTransformer
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface    $container           DI container
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                 $metadataManager     Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface  $propertyAccessor    Property accessor
      * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface       $stringifier         Stringifier
      * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
      */
     public function __construct(
         ContainerInterface $container,
-        MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
         StringifierInterface $stringifier,
         WidgetGeneratorPool $widgetGeneratorPool
     ) {
         $this->container = $container;
-        $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
         $this->widgetGeneratorPool = $widgetGeneratorPool;

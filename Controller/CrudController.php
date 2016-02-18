@@ -149,7 +149,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
-        $view = $this->getEntitiesToIndexViewTransformer()->transform($entities);
+        $view = $this->getEntitiesToIndexViewTransformer()->transform($entities, $this->meta);
 
         return $this->renderResponse('index', array(
             'association_param' => $associationParam,
@@ -341,7 +341,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $this->getCustomObjectLoader()->loadCustomObjects($entity, false);
 
-        $view = $this->getEntityToShowViewTransformer()->transform($entity);
+        $view = $this->getEntityToShowViewTransformer()->transform($entity, $this->meta);
 
         return $this->renderResponse('show', array(
             'entity'        => $entity,

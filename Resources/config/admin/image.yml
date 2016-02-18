@@ -23,10 +23,11 @@ form:
             name: ~
 view:
     edit:
-        action_widgets: {}
+        action_widgets: ~
     index:
         action_widgets:
-            - edit_link
+            edit_link:
+                entity_class: Darvin\ImageBundle\Entity\AbstractImage
         fields:
             image:
                 widget:

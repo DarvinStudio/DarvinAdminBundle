@@ -74,11 +74,11 @@ form: # Конфигурация форм
                 compare_strict: true # Использовать строгое сравнение ("=", а не "LIKE '%foo%'")
 view: # Конфигурация уровня представления
     index: # Конфигурация индексной страницы
-        action_widgets: # Список алиасов виджетов действий
-            - show_link
-            - edit_link
-            - copy_form
-            - delete_form
+        action_widgets: # Виджеты действий: ключи - алиасы, значения - опции
+            show_link:   {}
+            edit_link:   {}
+            copy_form:   {}
+            delete_form: {}
         template: ~ # Шаблон
         fields:     # Поля
 
@@ -100,19 +100,19 @@ view: # Конфигурация уровня представления
                     method:     # Требуется, метод сервиса
                     options: {} # Опции
     new: # Конфигурация индексной страницы
-        action_widgets: []
+        action_widgets: {}
 
         # Остальное как в секции "index" выше
     edit: # Конфигурация страницы редактирования
         action_widgets:
-            - show_link
-            - delete_form
+            show_link:   {}
+            delete_form: {}
 
         # Остальное как в секции "index" выше
     show: # Конфигурация страницы просмотра
         action_widgets:
-            - edit_link
-            - delete_form
+            edit_link:   {}
+            delete_form: {}
 
         # Остальное как в секции "index" выше
 ```

@@ -32,8 +32,8 @@ form:
 view:
     index:
         action_widgets:
-            - show_link
-            - log_entry_revert_form
+            show_link:             ~
+            log_entry_revert_form: ~
         fields:
             actionName: ~
             loggedAt:   ~
@@ -55,7 +55,7 @@ view:
                         property: user
     show:
         action_widgets:
-            - log_entry_revert_form
+            log_entry_revert_form: ~
         fields:
             actionName: ~
             loggedAt:   ~

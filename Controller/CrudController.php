@@ -94,7 +94,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $filterForm = $this->meta->isFilterFormEnabled()
             ? $this->getAdminFormFactory()->createFilterForm(
-                $this->entityClass,
+                $this->meta,
                 $association,
                 $associationParam,
                 $parentEntityId
@@ -149,7 +149,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
-        $view = $this->getEntitiesToIndexViewTransformer()->transform($entities, $this->meta);
+        $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
 
         return $this->renderResponse('index', array(
             'association_param' => $associationParam,
@@ -193,6 +193,7 @@ class CrudController extends Controller implements MenuItemInterface
         }
 
         $form = $this->getAdminFormFactory()->createEntityForm(
+            $this->meta,
             $entity,
             'new',
             $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_NEW),
@@ -263,6 +264,7 @@ class CrudController extends Controller implements MenuItemInterface
         $entity = $this->getEntity($id);
 
         $form = $this->getAdminFormFactory()->createEntityForm(
+            $this->meta,
             $entity,
             'edit',
             $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_EDIT),
@@ -341,7 +343,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $this->getCustomObjectLoader()->loadCustomObjects($entity, false);
 
-        $view = $this->getEntityToShowViewTransformer()->transform($entity, $this->meta);
+        $view = $this->getEntityToShowViewTransformer()->transform($this->meta, $entity);
 
         return $this->renderResponse('show', array(
             'entity'        => $entity,

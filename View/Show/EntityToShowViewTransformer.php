@@ -36,12 +36,12 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
     }
 
     /**
-     * @param object                                $entity Entity
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
+     * @param object                                $entity Entity
      *
      * @return \Darvin\AdminBundle\View\Show\ShowView
      */
-    public function transform($entity, Metadata $meta)
+    public function transform(Metadata $meta, $entity)
     {
         $this->validateConfiguration($meta, $entity, 'show');
 

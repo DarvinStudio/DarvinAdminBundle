@@ -27,7 +27,7 @@ view:
     index:
         action_widgets:
             edit_link:
-                entity_class: Darvin\ImageBundle\Entity\AbstractImage
+                entity_class: Darvin\ImageBundle\Entity\Image\AbstractImage
         fields:
             image:
                 widget:

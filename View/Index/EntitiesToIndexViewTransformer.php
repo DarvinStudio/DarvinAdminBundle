@@ -69,13 +69,13 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     }
 
     /**
-     * @param array                                 $entities Entities
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
+     * @param array                                 $entities Entities
      *
      * @return \Darvin\AdminBundle\View\Index\IndexView
      * @throws \Darvin\AdminBundle\View\ViewException
      */
-    public function transform(array $entities, Metadata $meta)
+    public function transform(Metadata $meta, array $entities)
     {
         $view = new IndexView();
 
@@ -89,7 +89,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 
         $view
             ->setHead($this->getHead($meta))
-            ->setBody($this->getBody($entities, $meta));
+            ->setBody($this->getBody($meta, $entities));
 
         return $view;
     }
@@ -153,12 +153,12 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     }
 
     /**
-     * @param array                                 $entities Entities
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
+     * @param array                                 $entities Entities
      *
      * @return \Darvin\AdminBundle\View\Index\Body\Body
      */
-    private function getBody(array $entities, Metadata $meta)
+    private function getBody(Metadata $meta, array $entities)
     {
         $body = new Body();
 

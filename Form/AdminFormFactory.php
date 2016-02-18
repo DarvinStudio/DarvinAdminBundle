@@ -14,7 +14,6 @@ use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -45,7 +44,7 @@ class AdminFormFactory
     /**
      * @var \Symfony\Component\Form\FormFactoryInterface
      */
-    private $formFactory;
+    private $genericFormFactory;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
@@ -53,26 +52,18 @@ class AdminFormFactory
     private $identifierAccessor;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
-     */
-    private $metadataManager;
-
-    /**
      * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface    $formFactory        Form factory
+     * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager    $metadataManager    Metadata manager
      */
     public function __construct(
         AdminRouter $adminRouter,
-        FormFactoryInterface $formFactory,
-        IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager
+        FormFactoryInterface $genericFormFactory,
+        IdentifierAccessor $identifierAccessor
     ) {
         $this->adminRouter = $adminRouter;
-        $this->formFactory = $formFactory;
+        $this->genericFormFactory = $genericFormFactory;
         $this->identifierAccessor = $identifierAccessor;
-        $this->metadataManager = $metadataManager;
     }
 
     /**
@@ -96,17 +87,16 @@ class AdminFormFactory
     }
 
     /**
-     * @param object $entity        Entity
-     * @param string $actionType    Action type
-     * @param string $formAction    Form action
-     * @param array  $submitButtons Submit button names
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta          Metadata
+     * @param object                                $entity        Entity
+     * @param string                                $actionType    Action type
+     * @param string                                $formAction    Form action
+     * @param array                                 $submitButtons Submit button names
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createEntityForm($entity, $actionType, $formAction, array $submitButtons)
+    public function createEntityForm(Metadata $meta, $entity, $actionType, $formAction, array $submitButtons)
     {
-        $meta = $this->metadataManager->getMetadata($entity);
-
         $options = array(
             'action'             => $formAction,
             'data_class'         => $meta->getEntityClass(),
@@ -129,7 +119,7 @@ class AdminFormFactory
             ));
         }
 
-        $builder = $this->formFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
+        $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {
             $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', array(
@@ -141,22 +131,20 @@ class AdminFormFactory
     }
 
     /**
-     * @param string $entityClass                  Entity class
-     * @param string $parentEntityAssociation      Parent entity association
-     * @param string $parentEntityAssociationParam Parent entity association query parameter name
-     * @param mixed  $parentEntityId               Parent entity ID
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta                         Metadata
+     * @param string                                $parentEntityAssociation      Parent entity association
+     * @param string                                $parentEntityAssociationParam Parent entity association query parameter name
+     * @param mixed                                 $parentEntityId               Parent entity ID
      *
      * @return \Symfony\Component\Form\FormInterface
      */
     public function createFilterForm(
-        $entityClass,
+        Metadata $meta,
         $parentEntityAssociation = null,
         $parentEntityAssociationParam = null,
         $parentEntityId = null
     ) {
-        $meta = $this->metadataManager->getMetadata($entityClass);
-
-        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)) {
+        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
             return null;
         }
 
@@ -165,7 +153,7 @@ class AdminFormFactory
                 $parentEntityAssociationParam => $parentEntityId,
             )
             : array();
-        $action = $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX, $actionRouteParams);
+        $action = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
 
         $options = array(
             'action' => $action,
@@ -184,7 +172,7 @@ class AdminFormFactory
             ));
         }
 
-        return $this->formFactory->createNamed($meta->getFilterFormTypeName(), $type, null, $options);
+        return $this->genericFormFactory->createNamed($meta->getFilterFormTypeName(), $type, null, $options);
     }
 
     /**
@@ -198,7 +186,7 @@ class AdminFormFactory
     {
         $id = $this->identifierAccessor->getValue($entity);
 
-        $builder = $this->formFactory->createNamedBuilder(
+        $builder = $this->genericFormFactory->createNamedBuilder(
             $namePrefix.$id,
             'Symfony\Component\Form\Extension\Core\Type\FormType',
             array(
@@ -238,7 +226,7 @@ class AdminFormFactory
             }
         }
 
-        return $this->formFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, array(
+        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, array(
             'action_type'       => 'index',
             'data_class'        => $dataClass,
             'field_filter'      => $property,

@@ -10,10 +10,10 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
+use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
-use Darvin\AdminBundle\Route\RouteException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -33,6 +33,11 @@ class BreadcrumbsExtension extends \Twig_Extension
     private $genericRouter;
 
     /**
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     */
+    private $identifierAccessor;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
     private $metadataManager;
@@ -43,19 +48,22 @@ class BreadcrumbsExtension extends \Twig_Extension
     private $propertyAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter      Admin router
-     * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter    Generic router
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager  Metadata manager
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter        Admin router
+     * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouter $adminRouter,
         RouterInterface $genericRouter,
+        IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor
     ) {
         $this->adminRouter = $adminRouter;
         $this->genericRouter = $genericRouter;
+        $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
     }
@@ -136,7 +144,7 @@ class BreadcrumbsExtension extends \Twig_Extension
         $crumbs = array();
 
         if (empty($entity)) {
-            $this->addEntityIndexCrumb($crumbs, $meta);
+            $this->addEntityIndexCrumb($crumbs, $meta, $parentEntity);
 
             if (empty($parentEntity)) {
                 return $crumbs;
@@ -180,21 +188,24 @@ class BreadcrumbsExtension extends \Twig_Extension
             $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_entity_route'])
         );
 
-        $this->addEntityIndexCrumb($crumbs, $meta, $entity);
+        $this->addEntityIndexCrumb($crumbs, $meta, null, $entity);
     }
 
     /**
-     * @param array                                 $crumbs Breadcrumbs
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
-     * @param object                                $entity Entity
+     * @param array                                 $crumbs       Breadcrumbs
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
+     * @param object                                $parentEntity Parent entity
+     * @param object                                $entity       Entity
      */
-    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $entity = null)
+    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $parentEntity, $entity = null)
     {
-        try {
-            $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX);
-        } catch (RouteException $ex) {
-            $url = null;
+        $params = array();
+
+        if (empty($entity) && !empty($parentEntity)) {
+            $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getValue($parentEntity);
         }
+
+        $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $params);
 
         $this->addCrumb($crumbs, $meta->getBaseTranslationPrefix().'action.index.link', $url);
     }

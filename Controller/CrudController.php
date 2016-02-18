@@ -240,7 +240,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $form = $this->getAdminFormFactory()->createCopyForm($entity)->handleRequest($request);
+        $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
         $this->getFormHandler()->handleCopyForm($form, $entity);
 
@@ -370,7 +370,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $form = $this->getAdminFormFactory()->createDeleteForm($entity)->handleRequest($request);
+        $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 
         $url = $this->getFormHandler()->handleDeleteForm($form, $entity)
             ? $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)

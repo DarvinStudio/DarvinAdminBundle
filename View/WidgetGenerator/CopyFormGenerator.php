@@ -16,6 +16,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Copy form view widget generator
@@ -97,10 +98,20 @@ class CopyFormGenerator extends AbstractWidgetGenerator
 
         return isset($mappingMeta['clonable'])
             ? $this->render($options, array(
-                'form'               => $this->adminFormFactory->createCopyForm($entity)->createView(),
+                'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ))
             : '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefault('entity_class', null);
     }
 
     /**

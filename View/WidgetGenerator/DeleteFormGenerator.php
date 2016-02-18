@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Delete form view widget generator
@@ -62,10 +63,20 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     {
         return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
             ? $this->render($options, array(
-                'form'               => $this->adminFormFactory->createDeleteForm($entity)->createView(),
+                'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ))
             : '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        parent::configureOptions($resolver);
+
+        $resolver->setDefault('entity_class', null);
     }
 
     /**

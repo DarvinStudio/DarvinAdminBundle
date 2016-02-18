@@ -60,6 +60,8 @@ class EditLinkGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefault('entity_class', null);
     }
 

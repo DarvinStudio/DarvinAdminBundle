@@ -67,23 +67,25 @@ class AdminFormFactory
     }
 
     /**
-     * @param object $entity Entity
+     * @param object $entity      Entity
+     * @param string $entityClass Entity class
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createCopyForm($entity)
+    public function createCopyForm($entity, $entityClass)
     {
-        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, null, AdminRouter::TYPE_COPY));
+        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouter::TYPE_COPY));
     }
 
     /**
-     * @param object $entity Entity
+     * @param object $entity      Entity
+     * @param string $entityClass Entity class
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createDeleteForm($entity)
+    public function createDeleteForm($entity, $entityClass)
     {
-        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, null, AdminRouter::TYPE_DELETE));
+        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouter::TYPE_DELETE));
     }
 
     /**

@@ -51,6 +51,8 @@ class SimpleListGenerator extends AbstractWidgetGenerator
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver
             ->setDefined('property')
             ->setAllowedTypes('property', 'string');

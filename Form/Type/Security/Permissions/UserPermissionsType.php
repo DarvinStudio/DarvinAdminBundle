@@ -13,8 +13,6 @@ namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -37,22 +35,10 @@ class UserPermissionsType extends AbstractType
                 'label'         => false,
                 'entry_type'    => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
                 'entry_options' => array(
-                    'required' => false,
+                    'label_format' => 'security.permission.%name%',
+                    'required'     => false,
                 ),
             ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-        $permissionsField = $view->children['permissions'];
-
-        /** @var \Symfony\Component\Form\FormView $child */
-        foreach ($permissionsField->children as $name => $child) {
-            $child->vars['label'] = 'security.permission.'.$name;
-        }
     }
 
     /**

@@ -95,8 +95,6 @@ class ObjectPermissionsType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $view->vars['label'] = 'security.object.'.$view->vars['name'];
-
         $users = $this->getUsers();
 
         /** @var \Symfony\Component\Form\FormView $child */
@@ -114,6 +112,7 @@ class ObjectPermissionsType extends AbstractType
         $resolver->setDefaults(array(
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
+            'label_format'  => 'security.object.%name%',
         ));
     }
 

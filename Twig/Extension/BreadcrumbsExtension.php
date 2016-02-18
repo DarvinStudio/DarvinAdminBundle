@@ -68,7 +68,7 @@ class BreadcrumbsExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction(
                 'admin_breadcrumbs',
-                array($this, 'renderBreadcrumbs'),
+                array($this, 'renderCrumbs'),
                 array(
                     'is_safe'           => array('html'),
                     'needs_environment' => true,
@@ -87,7 +87,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function renderBreadcrumbs(
+    public function renderCrumbs(
         \Twig_Environment $environment,
         Metadata $meta,
         $parentEntity = null,

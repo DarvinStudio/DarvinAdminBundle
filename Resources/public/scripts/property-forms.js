@@ -67,7 +67,7 @@ $(document).ready(function () {
         toggleButtons($(this));
     });
 
-    $('.property_forms').append('<button type="submit">' + Translator.trans('property_forms.submit') + '</button>');
+    $('.property_forms').append('<button class="property_forms_submit">' + Translator.trans('property_forms.submit') + '</button>');
 
     $('body')
         .on('change', '.property_form input[type="checkbox"]', function () {
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 .val($field.data('original-value'))
                 .trigger('change');
         })
-        .on('click', '.property_forms [type="submit"]', function () {
+        .on('click', '.property_forms .property_forms_submit', function () {
             $(this).parents('.property_forms').first().find('form.property_form[data-modified="1"]').submit();
         })
         .on('submit', 'form.property_form', function (e) {

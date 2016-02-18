@@ -196,7 +196,7 @@ class CrudController extends Controller implements MenuItemInterface
             $this->meta,
             $entity,
             'new',
-            $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_NEW),
+            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW),
             $widget ? array(AdminFormFactory::SUBMIT_INDEX) : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
@@ -244,7 +244,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $this->getFormHandler()->handleCopyForm($form, $entity);
 
-        $url = $request->headers->get('referer', $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_INDEX));
+        $url = $request->headers->get(
+            'referer',
+            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+        );
 
         return new RedirectResponse($url);
     }
@@ -267,7 +270,7 @@ class CrudController extends Controller implements MenuItemInterface
             $this->meta,
             $entity,
             'edit',
-            $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_EDIT),
+            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT),
             $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
@@ -370,10 +373,10 @@ class CrudController extends Controller implements MenuItemInterface
         $form = $this->getAdminFormFactory()->createDeleteForm($entity)->handleRequest($request);
 
         $url = $this->getFormHandler()->handleDeleteForm($form, $entity)
-            ? $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_INDEX)
+            ? $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
             : $request->headers->get(
                 'referer',
-                $this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_INDEX)
+                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
             );
 
         return $this->redirect($url);
@@ -620,11 +623,13 @@ class CrudController extends Controller implements MenuItemInterface
     {
         foreach ($form->all() as $name => $child) {
             if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::$submitButtonRedirects[$name])) {
-                return $this->redirect($this->getAdminRouter()->generate($entity, null, self::$submitButtonRedirects[$name]));
+                return $this->redirect(
+                    $this->getAdminRouter()->generate($entity, $this->entityClass, self::$submitButtonRedirects[$name])
+                );
             }
         }
 
-        return $this->redirect($this->getAdminRouter()->generate($entity, null, AdminRouter::TYPE_EDIT));
+        return $this->redirect($this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT));
     }
 
 

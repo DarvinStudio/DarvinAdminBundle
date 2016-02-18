@@ -14,6 +14,7 @@ services:
             - "@darvin_admin.route.router"
             - "@form.factory"
             - "@darvin_admin.metadata.identifier_accessor"
+            - "@property_accessor"
 
     darvin_admin.form.handler:
         class: %darvin_admin.form.handler.class%

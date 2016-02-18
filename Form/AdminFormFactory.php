@@ -17,6 +17,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
  * Admin form factory
@@ -52,18 +53,26 @@ class AdminFormFactory
     private $identifierAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter           $adminRouter        Admin router
-     * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter        Admin router
+     * @param \Symfony\Component\Form\FormFactoryInterface                $genericFormFactory Generic form factory
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouter $adminRouter,
         FormFactoryInterface $genericFormFactory,
-        IdentifierAccessor $identifierAccessor
+        IdentifierAccessor $identifierAccessor,
+        PropertyAccessorInterface $propertyAccessor
     ) {
         $this->adminRouter = $adminRouter;
         $this->genericFormFactory = $genericFormFactory;
         $this->identifierAccessor = $identifierAccessor;
+        $this->propertyAccessor = $propertyAccessor;
     }
 
     /**
@@ -215,7 +224,7 @@ class AdminFormFactory
     {
         $dataClass = $meta->getEntityClass();
 
-        if (!empty($entity) && null !== $meta->getTranslationClass()) {
+        if (!empty($entity) && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
             /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
             $translations = $entity->getTranslations();
 

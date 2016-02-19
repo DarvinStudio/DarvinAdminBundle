@@ -32,6 +32,7 @@ services:
         class: %darvin_admin.metadata.configuration.loader.class%
         arguments:
             - "@darvin_admin.metadata.configuration.configuration"
+            - "@=service('service_container').getParameterBag()"
             - %kernel.bundles%
 
     darvin_admin.metadata.factory:

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Metadata\Configuration;
 
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
@@ -26,17 +27,24 @@ class ConfigurationLoader
     private $configuration;
 
     /**
+     * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
+     */
+    private $parameterBag;
+
+    /**
      * @var array
      */
     private $bundles;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\Configuration $configuration Configuration
-     * @param array                                                    $bundles       List of bundles
+     * @param \Darvin\AdminBundle\Metadata\Configuration\Configuration                  $configuration Configuration
+     * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag  Parameter bag
+     * @param array                                                                     $bundles       List of bundles
      */
-    public function __construct(Configuration $configuration, array $bundles)
+    public function __construct(Configuration $configuration, ParameterBagInterface $parameterBag, array $bundles)
     {
         $this->configuration = $configuration;
+        $this->parameterBag = $parameterBag;
         $this->bundles = $bundles;
     }
 
@@ -69,7 +77,7 @@ class ConfigurationLoader
         $processor = new Processor();
 
         try {
-            return $processor->processConfiguration($this->configuration, $config);
+            return $this->parameterBag->resolveValue($processor->processConfiguration($this->configuration, $config));
         } catch (InvalidConfigurationException $ex) {
             throw new ConfigurationException(
                 sprintf('Configuration file "%s" is invalid: "%s".', $pathname, $ex->getMessage())

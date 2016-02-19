@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
+use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 
 /**
@@ -26,11 +27,24 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     private $objectNamer;
 
     /**
+     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
+     */
+    private $translatableManager;
+
+    /**
      * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
      */
     public function setObjectNamer(ObjectNamerInterface $objectNamer)
     {
         $this->objectNamer = $objectNamer;
+    }
+
+    /**
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
+     */
+    public function setTranslatableManager(TranslatableManagerInterface $translatableManager)
+    {
+        $this->translatableManager = $translatableManager;
     }
 
     /**
@@ -80,6 +94,14 @@ class EntityNameGenerator extends AbstractWidgetGenerator
     {
         if ($this->metadataManager->hasMetadata($entityClass)) {
             return $this->metadataManager->getMetadata($entityClass)->getEntityName();
+        }
+        if ($this->translatableManager->isTranslation($entityClass)) {
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $entityClass */
+            $translatableClass = $entityClass::getTranslatableEntityClass();
+
+            if ($this->metadataManager->hasMetadata($translatableClass)) {
+                return $this->metadataManager->getMetadata($translatableClass)->getEntityName().'_translation';
+            }
         }
 
         return $this->objectNamer->name($entityClass);

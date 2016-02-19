@@ -165,11 +165,11 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
-    protected function getRequiredEntityClass()
+    protected function getAllowedEntityClasses()
     {
-        return null;
+        return array();
     }
 
     /**
@@ -212,16 +212,27 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      */
     private function validate($entity, array &$options)
     {
-        $requiredEntityClass = $this->getRequiredEntityClass();
+        $allowedEntityClasses = $this->getAllowedEntityClasses();
 
-        if (!empty($requiredEntityClass) && !$entity instanceof $requiredEntityClass) {
-            $message = sprintf(
-                'View widget generator "%s" requires entity to be instance of "%s".',
-                $this->getAlias(),
-                $requiredEntityClass
-            );
+        if (!empty($allowedEntityClasses)) {
+            $entityClassAllowed = false;
 
-            throw new WidgetGeneratorException($message);
+            foreach ($allowedEntityClasses as $allowedEntityClass) {
+                if ($entity instanceof $allowedEntityClass) {
+                    $entityClassAllowed = true;
+
+                    break;
+                }
+            }
+            if (!$entityClassAllowed) {
+                $message = sprintf(
+                    'View widget generator "%s" requires entity to be instance of one of "%s" classes.',
+                    $this->getAlias(),
+                    implode('", "', $allowedEntityClasses)
+                );
+
+                throw new WidgetGeneratorException($message);
+            }
         }
         try {
             $options = $this->optionsResolver->resolve($options);

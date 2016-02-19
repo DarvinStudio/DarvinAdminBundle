@@ -90,9 +90,11 @@ class RevertFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredEntityClass()
+    protected function getAllowedEntityClasses()
     {
-        return LogEntry::LOG_ENTRY_CLASS;
+        return array(
+            LogEntry::LOG_ENTRY_CLASS,
+        );
     }
 
     /**

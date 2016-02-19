@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -144,8 +145,10 @@ class CrudController extends Controller implements MenuItemInterface
         if (isset($this->configuration['sorter'])) {
             $entities = $this->get($this->configuration['sorter']['id'])->{$this->configuration['sorter']['method']}($entities);
         }
-
-        $this->getCustomObjectLoader()->loadCustomObjects($entities, false);
+        try {
+            $this->getCustomObjectLoader()->loadCustomObjects($entities);
+        } catch (CustomObjectException $ex) {
+        }
 
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
@@ -344,7 +347,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getCustomObjectLoader()->loadCustomObjects($entity, false);
+        try {
+            $this->getCustomObjectLoader()->loadCustomObjects($entity);
+        } catch (CustomObjectException $ex) {
+        }
 
         $view = $this->getEntityToShowViewTransformer()->transform($this->meta, $entity);
 

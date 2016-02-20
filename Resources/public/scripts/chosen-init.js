@@ -15,10 +15,10 @@ $(document).ready(function () {
     })();
 
     $(document)
-        .on('formCollectionAdd', function (e, $form) {
-            init($form);
+        .on('formCollectionAdd', function (e, form) {
+            init(form);
         })
-        .on('propertyFormSubmit', function (e, $form) {
-            init($form);
+        .on('propertyFormSubmit', function (e, form) {
+            init(form);
         });
 });

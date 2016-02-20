@@ -73,8 +73,8 @@ var checkboxesInit;
 	$(this).after("<span></span>")
  });
 })();
-$(document).on('formCollectionAdd', function (e, $form) {
-    checkboxesInit($form);
+$(document).on('formCollectionAdd', function (e, form) {
+    checkboxesInit(form);
 });
 
  

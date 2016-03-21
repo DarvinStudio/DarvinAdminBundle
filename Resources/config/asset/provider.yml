@@ -41,6 +41,7 @@ parameters:
           - bundles/darvinadmin/scripts/master-slave-inputs.js
           - bundles/darvinadmin/scripts/noty-init.js
           - bundles/darvinadmin/scripts/property-forms.js
+          - bundles/darvinadmin/scripts/slug-suffix.js
           - bundles/darvinadmin/scripts/translations-sync.js
 
           - bundles/darvinadmin/scripts/app.js

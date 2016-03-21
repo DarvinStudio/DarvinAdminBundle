@@ -2,6 +2,8 @@
 
 {% use 'VichUploaderBundle:Form:fields.html.twig' %}
 
+{% trans_default_domain 'admin' %}
+
 {%- block button_attributes -%}
     {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ name) | trim }) %}
     {{ parent() }}
@@ -48,6 +50,37 @@
         {% endfor %}
     {% endif %}
     {{ form_widget(form) }}
+{%- endblock -%}
+
+{%- block darvin_admin_slug_suffix_widget -%}
+
+    {% set slug      = attribute(form.parent.vars.data, slug_property) %}
+    {% set url       = path(route, {(route_param_slug): slug}) %}
+    {% set url_parts = url|split(slug) %}
+    {% set widget    = form_widget(form, {'attr': {'data-default': data}}) %}
+
+    <div class="slug_suffix">
+        <div class="link_widget"{% if errors is not empty %} style="display: none;"{% endif %}>
+            <a href="{{ url }}" target="_blank">{{ url }}</a>
+            <button class="edit" type="button">{% trans %}slug_suffix.edit{% endtrans %}</button>
+
+            {% block reset_button %}
+                <button class="reset" type="button" style="display: none;">
+                    {% trans %}slug_suffix.reset{% endtrans %}
+                </button>
+            {% endblock %}
+
+        </div>
+        <div class="form_widget"{% if errors is empty %} style="display: none;"{% endif %}>
+            <span class="url_prefix">{{ url_parts[0] ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
+            {{ widget|raw }}
+            <span class="url_suffix">{{ url_parts[1] }}</span>
+            <button class="update" type="button">{% trans %}slug_suffix.update{% endtrans %}</button>
+
+            {{ block('reset_button') }}
+
+        </div>
+    </div>
 {%- endblock -%}
 
 {%- block darvin_image_image_widget -%}

@@ -177,6 +177,11 @@ size:
     height: Height
     width:  Width
 
+slug_suffix:
+    edit:   Edit URL
+    reset:  Reset URL
+    update: Update URL
+
 submit:
     edit:  Submit and edit
     index: Submit and go to index page

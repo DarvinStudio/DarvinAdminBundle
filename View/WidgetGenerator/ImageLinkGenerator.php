@@ -52,6 +52,9 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     {
         $image = isset($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
 
+        if (empty($image)) {
+            return '';
+        }
         if (!is_object($image)) {
             throw new WidgetGeneratorException(sprintf('Image must be object, "%s" provided.', gettype($image)));
         }

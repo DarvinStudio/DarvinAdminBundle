@@ -21,14 +21,14 @@ $(document).ready(function () {
         var $input = $widget.find('.form_widget input');
         var $reset = $widget.find('.reset');
         var slugSuffix = $input.val();
-        $input.data('default') !== slugSuffix ? $reset.show() : $reset.hide();
+        $input.data('default').toString() !== slugSuffix ? $reset.show() : $reset.hide();
 
         $widget.find('.url_prefix').text(buildUrlPrefix($widget));
 
         var url = buildUrl($widget);
         $widget.find('.link_widget a').attr('href', url).text(url);
 
-        if (url !== $widget.data('default-url')) {
+        if ($widget.data('default-url').toString() !== url) {
             $widget.addClass('changed');
 
             return;

@@ -11,7 +11,9 @@ $(document).ready(function () {
     };
 
     var buildUrl = function ($widget) {
-        return buildUrlPrefix($widget) + $widget.find('.form_widget input').val() + $widget.data('url-suffix');
+        var slugSuffix = $widget.find('.form_widget input').val();
+
+        return buildUrlPrefix($widget) + (slugSuffix ? slugSuffix : '___') + $widget.data('url-suffix');
     };
 
     var updateWidget = function ($widget) {

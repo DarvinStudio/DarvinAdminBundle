@@ -54,11 +54,20 @@
 
 {%- block darvin_admin_slug_suffix_widget -%}
 
-    {% set slug       = attribute(form.parent.vars.data, slug_property) %}
+    {% set slug = attribute(form.parent.vars.data, slug_property) %}
+
     {% set url_parts  = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
     {% set url_prefix = url_parts[0] ~ slug_prefix %}
     {% set url_suffix = url_parts[1] %}
-    {% set url        = slug ? path(route, {(route_param_slug): slug}) : (url_prefix ~ url_suffix) %}
+    {% set url_parts  = [url_prefix] %}
+
+    {% if not slug %}
+        {% set url_parts = url_parts|merge(['___']) %}
+    {% endif %}
+
+    {% set url_parts = url_parts|merge([url_suffix]) %}
+
+    {% set url = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') %}
 
     <div class="slug_suffix{% if not slug %} changed{% endif %}"
          data-default-url="{{ url }}"

@@ -63,7 +63,7 @@ $(document).ready(function () {
             var $widget = getWidget($(this));
 
             var $input = $widget.find('.form_widget input');
-            $input.val($input.data('default'));
+            $input.val($input.data('default')).trigger('change');
 
             $widget.find('.update').trigger('click');
         })

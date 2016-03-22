@@ -6,5 +6,6 @@ services:
         class: %darvin_admin.slug_suffix.form_type.class%
         arguments:
             - "@router"
+            - "@darvin_utils.sluggable.manager"
         tags:
             - { name: form.type }

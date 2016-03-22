@@ -54,16 +54,18 @@
 
 {%- block darvin_admin_slug_suffix_widget -%}
 
-    {% set slug      = attribute(form.parent.vars.data, slug_property) %}
-    {% set url_parts = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
-    {% set url       = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') %}
+    {% set slug       = attribute(form.parent.vars.data, slug_property) %}
+    {% set url_parts  = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
+    {% set url_prefix = url_parts[0] ~ slug_prefix %}
+    {% set url_suffix = url_parts[1] %}
+    {% set url        = slug ? path(route, {(route_param_slug): slug}) : (url_prefix ~ url_suffix) %}
 
     <div class="slug_suffix{% if not slug %} changed{% endif %}"
          data-default-url="{{ url }}"
          data-parent-select="{{ parent_select_selector }}"
          data-parent-option-data-slug="{{ parent_option_data_slug }}"
-         data-url-prefix="{{ url_parts[0] }}"
-         data-url-suffix="{{ url_parts[1] }}">
+         data-url-prefix="{{ url_prefix }}"
+         data-url-suffix="{{ url_suffix }}">
         <div class="link_widget" id="{{ id }}_link_widget">
             <a href="{{ url }}" target="_blank">{{ url }}</a>
             <button class="edit" id="{{ id }}_edit" type="button" style="display: none;">
@@ -78,9 +80,9 @@
 
         </div>
         <div class="form_widget" id="{{ id }}_form_widget">
-            <span class="url_prefix">{{ url_parts[0] ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
+            <span class="url_prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
             {{ form_widget(form, {'attr': {'data-default': data}}) }}
-            <span class="url_suffix">{{ url_parts[1] }}</span>
+            <span class="url_suffix">{{ url_suffix }}</span>
             <button class="update" id="{{ id }}_update" type="button" style="display: none;">
                 {% trans %}slug_suffix.update{% endtrans %}
             </button>

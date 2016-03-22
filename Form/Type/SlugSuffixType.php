@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Form\FormException;
+use Darvin\Utils\Sluggable\SluggableManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -28,11 +29,18 @@ class SlugSuffixType extends AbstractType
     private $router;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface $router Router
+     * @var \Darvin\Utils\Sluggable\SluggableManagerInterface
      */
-    public function __construct(RouterInterface $router)
+    private $sluggableManager;
+
+    /**
+     * @param \Symfony\Component\Routing\RouterInterface        $router           Router
+     * @param \Darvin\Utils\Sluggable\SluggableManagerInterface $sluggableManager Sluggable manager
+     */
+    public function __construct(RouterInterface $router, SluggableManagerInterface $sluggableManager)
     {
         $this->router = $router;
+        $this->sluggableManager = $sluggableManager;
     }
 
     /**
@@ -48,7 +56,10 @@ class SlugSuffixType extends AbstractType
             );
         }
 
-        $view->vars['route_path'] = $route->getPath();
+        $view->vars = array_merge($view->vars, array(
+            'route_path'  => $route->getPath(),
+            'slug_prefix' => $this->sluggableManager->getSlugPrefix($form->getParent()->getData(), $options['slug_property']),
+        ));
 
         foreach (array(
             'slug_property',

@@ -3,12 +3,9 @@ $(document).ready(function () {
         return $child.parents('.slug_suffix').first();
     };
 
-    var getParentSelect = function ($widget) {
-        return $widget.parents('form').first().find($widget.data('parent-select'));
-    };
-
     var buildUrlPrefix = function ($widget) {
-        var parentSlug = getParentSelect($widget).children('option:selected').data($widget.data('parent-option-data-slug'));
+        var parentSlug = $widget.parents('form').first().find($widget.data('parent-select')).children('option:selected')
+            .data($widget.data('parent-option-data-slug'));
 
         return $widget.data('url-prefix') + ('undefined' !== typeof parentSlug ? parentSlug + '/' : '');
     };
@@ -40,13 +37,6 @@ $(document).ready(function () {
 
     $('.slug_suffix').each(function () {
         var $widget = $(this);
-
-        if (!getParentSelect($widget).length) {
-            $widget.attr(
-                'data-url-prefix',
-                $widget.data('default-url').replace($widget.find('.form_widget input').data('default') + $widget.data('url-suffix'), '')
-            );
-        }
 
         updateWidget($widget);
 

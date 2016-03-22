@@ -42,6 +42,11 @@ $(document).ready(function () {
 
         updateWidget($widget);
 
+        $widget.find('.form_widget input').counter({
+            count:  'up',
+            goal:   'sky',
+            target: $widget.find('.form_widget .input_value')
+        });
         $widget.parents('form').first().on('change', $widget.data('parent-select'), function () {
             updateWidget($widget);
         });

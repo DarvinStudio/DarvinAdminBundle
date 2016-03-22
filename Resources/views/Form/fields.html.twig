@@ -61,9 +61,14 @@
     {% else %}
 
         {% set url       = path(route, {(route_param_slug): slug}) %}
-        {% set url_parts = url|split(slug) %}
+        {% set url_parts = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
 
-        <div class="slug_suffix">
+        <div class="slug_suffix"
+             data-default-url="{{ url }}"
+             data-parent-select="{{ parent_select_selector }}"
+             data-parent-option-data-slug="{{ parent_option_data_slug }}"
+             data-url-prefix="{{ url_parts[0] }}"
+             data-url-suffix="{{ url_parts[1] }}">
             <div class="link_widget" id="{{ id }}_link_widget">
                 <a href="{{ url }}" target="_blank">{{ url }}</a>
                 <button class="edit" id="{{ id }}_edit" type="button" style="display: none;">

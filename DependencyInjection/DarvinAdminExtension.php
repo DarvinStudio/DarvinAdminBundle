@@ -52,6 +52,7 @@ class DarvinAdminExtension extends Extension
             'metadata',
             'route',
             'security',
+            'slug_suffix',
             'twig',
             'uploader',
             'view',

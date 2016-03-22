@@ -3,26 +3,37 @@ $(document).ready(function () {
         return $child.parents('.slug_suffix').first();
     };
 
-    var updateLink = function ($widget) {
-        var $input = $widget.find('.form_widget input');
-        var $link = $widget.find('.link_widget a');
+    var buildUrlPrefix = function ($widget) {
+        var parentSlug = $widget.parents('form').first().find($widget.data('parent-select')).children('option:selected')
+            .data($widget.data('parent-option-data-slug'));
 
-        var slugSuffix = $input.val();
-        var url = $widget.find('.url_prefix').text() + slugSuffix + $widget.find('.url_suffix').text();
-        $link.attr('href', url).text(url);
-
-        if (slugSuffix !== $input.data('default')) {
-            $link.addClass('changed');
-            $widget.find('.reset').show();
-
-            return;
-        }
-
-        $link.removeClass('changed');
-        $widget.find('.reset').hide();
+        return $widget.data('url-prefix') + ('undefined' !== parentSlug ? parentSlug + '/' : '');
     };
+
+    var buildUrl = function ($widget) {
+        return buildUrlPrefix($widget) + $widget.find('.form_widget input').val() + $widget.data('url-suffix');
+    };
+
+    var updateWidget = function ($widget) {
+        var url = buildUrl($widget);
+        $widget.find('.link_widget a').attr('href', url).text(url);
+        url !== $widget.data('default-url') ? $widget.addClass('changed') : $widget.removeClass('changed');
+
+        $widget.find('.url_prefix').text(buildUrlPrefix($widget));
+
+        var $input = $widget.find('.form_widget input');
+        var $reset = $widget.find('.reset');
+        $input.data('default') !== $input.val() ? $reset.show() : $reset.hide();
+    };
+
     $('.slug_suffix').each(function () {
-        updateLink($(this));
+        var $widget = $(this);
+
+        updateWidget($widget);
+
+        $widget.parents('form').first().on('change', $widget.data('parent-select'), function () {
+            updateWidget($widget);
+        });
     });
 
     $('body')
@@ -43,12 +54,12 @@ $(document).ready(function () {
         .on('click', '.slug_suffix .update', function () {
             var $widget = getWidget($(this));
 
-            updateLink($widget);
+            updateWidget($widget);
 
             $widget.find('.form_widget').hide();
             $widget.find('.link_widget').show();
         })
-        .on('click', '.slug_suffix .link_widget a.changed', function (e) {
+        .on('click', '.slug_suffix.changed .link_widget a', function (e) {
             e.preventDefault();
         });
 });

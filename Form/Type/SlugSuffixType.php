@@ -10,10 +10,12 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
+use Darvin\AdminBundle\Form\FormException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Slug suffix form type
@@ -21,14 +23,39 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SlugSuffixType extends AbstractType
 {
     /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+
+    /**
+     * @param \Symfony\Component\Routing\RouterInterface $router Router
+     */
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
+        $route = $this->router->getRouteCollection()->get($options['route']);
+
+        if (empty($route)) {
+            throw new FormException(
+                sprintf('Unable to finish slug suffix form view: route "%s" does not exist.', $options['route'])
+            );
+        }
+
+        $view->vars['route_path'] = $route->getPath();
+
         foreach (array(
             'slug_property',
             'route',
             'route_param_slug',
+            'parent_select_selector',
+            'parent_option_data_slug',
         ) as $option) {
             $view->vars[$option] = $options[$option];
         }
@@ -41,10 +68,12 @@ class SlugSuffixType extends AbstractType
     {
         $resolver
             ->setDefaults(array(
-                'slug_property'    => 'slug',
-                'route'            => 'darvin_content_content_show',
-                'route_param_slug' => 'slug',
-                'required'         => false,
+                'slug_property'           => 'slug',
+                'route'                   => 'darvin_content_content_show',
+                'route_param_slug'        => 'slug',
+                'parent_select_selector'  => '.parent',
+                'parent_option_data_slug' => 'slug',
+                'required'                => false,
             ))
             ->setAllowedTypes('slug_property', 'string')
             ->setAllowedTypes('route', 'string')

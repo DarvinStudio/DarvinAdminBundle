@@ -7,7 +7,7 @@ $(document).ready(function () {
         var parentSlug = $widget.parents('form').first().find($widget.data('parent-select')).children('option:selected')
             .data($widget.data('parent-option-data-slug'));
 
-        return $widget.data('url-prefix') + ('undefined' !== parentSlug ? parentSlug + '/' : '');
+        return $widget.data('url-prefix') + ('undefined' !== typeof parentSlug ? parentSlug + '/' : '');
     };
 
     var buildUrl = function ($widget) {
@@ -15,15 +15,24 @@ $(document).ready(function () {
     };
 
     var updateWidget = function ($widget) {
-        var url = buildUrl($widget);
-        $widget.find('.link_widget a').attr('href', url).text(url);
-        url !== $widget.data('default-url') ? $widget.addClass('changed') : $widget.removeClass('changed');
+        var $input = $widget.find('.form_widget input');
+        var $reset = $widget.find('.reset');
+        var slugSuffix = $input.val();
+        $input.data('default') !== slugSuffix ? $reset.show() : $reset.hide();
 
         $widget.find('.url_prefix').text(buildUrlPrefix($widget));
 
-        var $input = $widget.find('.form_widget input');
-        var $reset = $widget.find('.reset');
-        $input.data('default') !== $input.val() ? $reset.show() : $reset.hide();
+        var url = buildUrl($widget);
+        $widget.find('.link_widget a').attr('href', url).text(url);
+
+        if (url !== $widget.data('default-url')) {
+            $widget.addClass('changed');
+
+            return;
+        }
+        if (slugSuffix) {
+            $widget.removeClass('changed');
+        }
     };
 
     $('.slug_suffix').each(function () {

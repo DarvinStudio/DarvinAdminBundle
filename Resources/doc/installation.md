@@ -110,8 +110,7 @@ parameters:
         - ru
         - en
         - de
-    locale_pattern:    "|de|en|ru"
-    admin_path_suffix: (%locale_pattern%)/
+    locale_pattern: "|de|en|ru"
 ```
 
 - добавляем настройки безопасности в "app/config/security.yml":
@@ -166,7 +165,7 @@ security:
         ROLE_SUPERADMIN: [ ROLE_ADMIN ]
 
     access_control:
-        - { path: ^/admin/%admin_path_suffix%login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/admin/(%locale_pattern%)/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: ^/admin/,                         roles: [ ROLE_ADMIN ] }
 ```
 

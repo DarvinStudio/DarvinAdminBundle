@@ -123,8 +123,6 @@ security:
             hash_algorithm: sha512
 
     providers:
-        hwi:
-            id: darvin_admin.security.user_provider.oauth
         user:
             entity:
                 class:    Darvin\UserBundle\Entity\BaseUser
@@ -135,13 +133,13 @@ security:
             pattern:  ^/admin/
             provider: user
             form_login:
-                check_path:          darvin_admin_security_login_check
-                login_path:          darvin_admin_security_login
-                default_target_path: darvin_admin_homepage
-                use_referer:         true
-                csrf_token_id:       %secret%
-                csrf_provider:       security.csrf.token_manager
-                remember_me:         true
+                check_path:                     darvin_admin_security_login_check
+                login_path:                     darvin_admin_security_login
+                default_target_path:            darvin_admin_homepage
+                always_use_default_target_path: true
+                csrf_token_id:                  %secret%
+                csrf_provider:                  security.csrf.token_manager
+                remember_me:                    true
             remember_me:
                 name:     REMEMBERMEADMIN
                 lifetime: 31536000 # 1 year
@@ -150,15 +148,19 @@ security:
                 csrf_token_id: %secret%
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
+                handlers:
+                    - darvin_ecommerce.cart_item.migrate_listener
             anonymous: ~
             oauth:
                 resource_owners:
-                    darvin_auth: darvin_admin_security_login_check_darvin_auth
+                    darvin_auth_admin: darvin_admin_security_login_check_darvin_auth
                 login_path:   darvin_admin_security_login
                 failure_path: darvin_admin_security_login
                 oauth_user_provider:
                     service: darvin_admin.security.user_provider.oauth
-                check_path: darvin_admin_security_login_check_oauth
+                default_target_path:            darvin_admin_homepage
+                always_use_default_target_path: true
+                check_path:                     darvin_admin_security_login_check_darvin_auth
 
     role_hierarchy:
         ROLE_GUESTADMIN: [ ROLE_ADMIN ]
@@ -218,9 +220,6 @@ darvin_admin_loader:
     type:         darvin_admin
     prefix:       /admin/{_locale}
     requirements: { _locale: %locale_pattern% }
-
-hwi_oauth:
-    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
 ```
 
 если проект не многоязычный, удаляем из роутинга все упоминания параметра "_locale";

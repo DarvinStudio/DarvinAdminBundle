@@ -153,14 +153,14 @@ security:
             anonymous: ~
             oauth:
                 resource_owners:
-                    darvin_auth_admin: darvin_admin_security_login_check_darvin_auth
+                    darvin_auth_admin: darvin_admin_security_darvin_auth_login_check
                 login_path:   darvin_admin_security_login
                 failure_path: darvin_admin_security_login
                 oauth_user_provider:
                     service: darvin_admin.security.user_provider.oauth
                 default_target_path:            darvin_admin_homepage
                 always_use_default_target_path: true
-                check_path:                     darvin_admin_security_login_check_darvin_auth
+                check_path:                     darvin_admin_security_darvin_auth_login_check
 
     role_hierarchy:
         ROLE_GUESTADMIN: [ ROLE_ADMIN ]

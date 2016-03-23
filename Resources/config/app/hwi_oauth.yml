@@ -1,5 +1,6 @@
 hwi_oauth:
-    firewall_name: admin_area
+    firewall_names:
+        - admin_area
     resource_owners:
         darvin_auth:
             type:                oauth2
@@ -8,12 +9,13 @@ hwi_oauth:
             access_token_url:    %darvin_auth_access_token_url%
             authorization_url:   %darvin_auth_authorization_url%
             infos_url:           %darvin_auth_infos_url%
-            user_response_class: Darvin\AdminBundle\Security\OAuth\Response\DarvinAuthResponse
+            user_response_class: Darvin\UserBundle\Security\OAuth\Response\DarvinAuthResponse
             paths:
-                identifier: username
-                nickname:   username
-                realname:   fullname
-                roles: roles
+                identifier:     username
+                nickname:       username
+                realname:       fullname
+
+                error:          error
+                phone:          phone
                 profilepicture: picture
-                phone: phone
-                error: error
+                roles:          roles

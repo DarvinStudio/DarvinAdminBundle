@@ -35,10 +35,5 @@ services:
             - { name: form.type }
 
     darvin_admin.security.user_provider.oauth:
-        class: %darvin_admin.security.user_provider.oauth.class%
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@session"
-            - "@security.token_storage"
-            - "@darvin_user.user.factory"
-            - "@darvin_user.user.repository"
+        class:  %darvin_admin.security.user_provider.oauth.class%
+        parent: darvin_user.security.user_provider.oauth

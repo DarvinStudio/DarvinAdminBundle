@@ -14,7 +14,6 @@
     "require": {
         "a2lix/translation-form-bundle":      "2.1.*",
         "egeloen/ckeditor-bundle":            "4.0.*",
-        "hwi/oauth-bundle":                   "0.4.*",
         "knplabs/knp-paginator-bundle":       "2.5.*",
         "lexik/translation-bundle":           "dev-master@dev",
         "ocramius/proxy-manager":             "0.5.*",

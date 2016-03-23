@@ -46,7 +46,7 @@
                     <a href="{{ darvin_admin_project_url }}" class="site_name">{{ darvin_admin_project_title }}</a>
                 </div>
                 <div class="version">
-                    <a href="{{ path('hwi_oauth_service_redirect', { 'service': 'darvin_auth' }) }}">Darvin Auth</a>
+                    <a href="{{ path('darvin_admin_security_darvin_auth_login') }}">Darvin Auth</a>
                     {% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}
                         security.action.login.version
                     {% endtrans %}

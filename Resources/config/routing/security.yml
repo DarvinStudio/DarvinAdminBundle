@@ -1,12 +1,16 @@
+darvin_admin_security_darvin_auth_login_check:
+    path: /login/darvin_auth/check
+
+darvin_admin_security_login_check:
+    path: /login/check
+
+darvin_admin_security_darvin_auth_login:
+    path:     /login/{service}
+    defaults: { _controller: HWIOAuthBundle:Connect:redirectToService, service: darvin_auth_admin }
+
 darvin_admin_security_login:
     path:     /login
     defaults: { _controller: DarvinAdminBundle:Security:login }
-
-darvin_admin_security_login_check:
-    path: /login_check
-
-darvin_admin_security_login_check_darvin_auth:
-    path: /login_check_darvin_auth
 
 darvin_admin_security_logout:
     path: /logout

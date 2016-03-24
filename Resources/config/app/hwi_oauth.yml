@@ -10,6 +10,8 @@ hwi_oauth:
             authorization_url:   %darvin_auth_authorization_url%
             infos_url:           %darvin_auth_infos_url%
             user_response_class: Darvin\UserBundle\Security\OAuth\Response\DarvinAuthResponse
+            options:
+                csrf: true
             paths:
                 identifier:     username
                 nickname:       username

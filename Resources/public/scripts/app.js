@@ -37,6 +37,8 @@ $('.spoiler_links').on('mousedown', function(){
                 path: '/'
             });
         }
+
+        $(document).trigger('spoilerOpen', body);
 	} else {
         body.hide('normal');
         if ('undefined' !== typeof body.data('cookie')) {

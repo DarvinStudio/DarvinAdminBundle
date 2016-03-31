@@ -14,8 +14,6 @@ use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
-use Doctrine\Common\Util\ClassUtils;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -36,14 +34,9 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     private $adminRouter;
 
     /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    private $em;
-
-    /**
      * @var \Darvin\Utils\Mapping\MetadataFactoryInterface
      */
-    private $mappingMetadataFactory;
+    private $extendedMetadataFactory;
 
     /**
      * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
@@ -62,19 +55,11 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     }
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
+     * @param \Darvin\Utils\Mapping\MetadataFactoryInterface $extendedMetadataFactory Extended metadata factory
      */
-    public function setEntityManager(EntityManager $em)
+    public function setExtendedMetadataFactory(MetadataFactoryInterface $extendedMetadataFactory)
     {
-        $this->em = $em;
-    }
-
-    /**
-     * @param \Darvin\Utils\Mapping\MetadataFactoryInterface $mappingMetadataFactory Mapping metadata factory
-     */
-    public function setMappingMetadataFactory(MetadataFactoryInterface $mappingMetadataFactory)
-    {
-        $this->mappingMetadataFactory = $mappingMetadataFactory;
+        $this->extendedMetadataFactory = $extendedMetadataFactory;
     }
 
     /**
@@ -94,9 +79,9 @@ class CopyFormGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        $mappingMeta = $this->mappingMetadataFactory->getMetadata($this->em->getClassMetadata(ClassUtils::getClass($entity)));
+        $extendedMeta = $this->extendedMetadataFactory->getExtendedMetadata($entity);
 
-        return isset($mappingMeta['clonable'])
+        return isset($extendedMeta['clonable'])
             ? $this->render($options, array(
                 'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),

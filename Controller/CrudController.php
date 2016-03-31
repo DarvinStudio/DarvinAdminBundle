@@ -95,7 +95,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $filterForm = $this->meta->isFilterFormEnabled()
             ? $this->getAdminFormFactory()->createFilterForm(
@@ -183,7 +186,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $isXmlHttpRequest = $request->isXmlHttpRequest();
 
@@ -249,7 +255,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
@@ -277,7 +286,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $form = $this->getAdminFormFactory()->createEntityForm(
             $this->meta,
@@ -315,7 +327,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
 
@@ -359,7 +374,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         try {
             $this->getCustomObjectLoader()->loadCustomObjects($entity);
@@ -390,7 +408,10 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 

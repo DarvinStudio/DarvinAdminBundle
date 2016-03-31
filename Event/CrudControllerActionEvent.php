@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Event;
 
+use Darvin\AdminBundle\Metadata\Metadata;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -18,16 +19,31 @@ use Symfony\Component\EventDispatcher\Event;
 class CrudControllerActionEvent extends Event
 {
     /**
+     * @var \Darvin\AdminBundle\Metadata\Metadata
+     */
+    private $metadata;
+
+    /**
      * @var string
      */
     private $action;
 
     /**
-     * @param string $action CRUD controller action
+     * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
+     * @param string                                $action   CRUD controller action
      */
-    public function __construct($action)
+    public function __construct(Metadata $metadata, $action)
     {
+        $this->metadata = $metadata;
         $this->action = $action;
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
     }
 
     /**

@@ -10,6 +10,8 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Event\CrudControllerActionEvent;
+use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
@@ -92,6 +94,8 @@ class CrudController extends Controller implements MenuItemInterface
         $this->checkIfUserHasPermission(Permission::VIEW);
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
+
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
 
         $filterForm = $this->meta->isFilterFormEnabled()
             ? $this->getAdminFormFactory()->createFilterForm(
@@ -179,6 +183,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+
         $isXmlHttpRequest = $request->isXmlHttpRequest();
 
         if ($isXmlHttpRequest) {
@@ -243,6 +249,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+
         $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
         $this->getFormHandler()->handleCopyForm($form, $entity);
@@ -268,6 +276,8 @@ class CrudController extends Controller implements MenuItemInterface
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
+
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createEntityForm(
             $this->meta,
@@ -304,6 +314,8 @@ class CrudController extends Controller implements MenuItemInterface
         $this->checkIfUserHasPermission(Permission::EDIT);
 
         $entity = $this->getEntity($id);
+
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
 
@@ -347,6 +359,8 @@ class CrudController extends Controller implements MenuItemInterface
 
         $entity = $this->getEntity($id);
 
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
+
         try {
             $this->getCustomObjectLoader()->loadCustomObjects($entity);
         } catch (CustomObjectException $ex) {
@@ -375,6 +389,8 @@ class CrudController extends Controller implements MenuItemInterface
         $this->getParentEntityDefinition($request);
 
         $entity = $this->getEntity($id);
+
+        $this->getEventDispatcher()->dispatch(Events::PRE_CRUD_CONTROLLER_ACTION, new CrudControllerActionEvent(__FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 
@@ -676,6 +692,12 @@ class CrudController extends Controller implements MenuItemInterface
     private function getEntityManager()
     {
         return $this->get('doctrine.orm.entity_manager');
+    }
+
+    /** @return \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    private function getEventDispatcher()
+    {
+        return $this->get('event_dispatcher');
     }
 
     /** @return \Darvin\ContentBundle\Filterer\FiltererInterface */

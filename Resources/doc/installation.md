@@ -78,9 +78,10 @@ imports:
 stof_doctrine_extensions:
     orm:
         default:
-            loggable: true
-            sortable: true
-            tree:     true
+            loggable:      true
+            sortable:      true
+            timestampable: true
+            tree:          true
 ```
 
 настраиваем остальные бандлы:

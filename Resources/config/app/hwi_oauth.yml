@@ -2,7 +2,7 @@ hwi_oauth:
     firewall_names:
         - admin_area
     resource_owners:
-        darvin_auth:
+        darvin_auth_admin:
             type:                oauth2
             client_id:           %darvin_auth_client_id%
             client_secret:       %darvin_auth_client_secret%

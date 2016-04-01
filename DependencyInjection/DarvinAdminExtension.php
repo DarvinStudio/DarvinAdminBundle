@@ -45,6 +45,7 @@ class DarvinAdminExtension extends Extension
             'crud',
             'dashboard',
             'dropzone',
+            'entity_namer',
             'form',
             'image',
             'log',

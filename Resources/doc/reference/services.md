@@ -22,6 +22,10 @@
 - **darvin_admin.dashboard.dashboard** - dashboard;
 
 
+- **darvin_admin.entity_namer** - генератор имени сущности, возвращающий имя из конфигурации раздела администрирования,
+ если оно задано, либо, в противном случае, имя, сгенерированное сервисом "Object namer" из "Utils bundle";
+
+
 - **darvin_admin.dropzone.form_type** - поле формы для Dropzone;
 
 

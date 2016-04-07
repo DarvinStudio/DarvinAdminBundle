@@ -43,9 +43,7 @@ class AssetsCompileCommand extends Command
      */
     protected function configure()
     {
-        $this
-            ->setName('darvin:admin:assets:compile')
-            ->setDescription('Compiles admin bundle assets.');
+        $this->setDescription('Compiles admin bundle assets.');
     }
 
     /**

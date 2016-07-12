@@ -39,8 +39,8 @@ ivory_ck_editor:
                 tab,
                 tabletools,
                 templates,
-                undo,
-                wsc
+                wsc,
+                wysiwygarea
             toolbar:
                 - [ Source ]
                 - [ Image, Flash, Table, SpecialChar ]
@@ -51,3 +51,62 @@ ivory_ck_editor:
                 - [ TextColor, BGColor ]
                 - [ Maximize, ShowBlocks ]
                 - [ Find, Replace ]
+        darvin_admin_compact:
+            removePlugins: >
+                a11yhelp,
+                about,
+                bidi,
+                blockquote,
+                clipboard,
+                colorbutton,
+                colordialog,
+                contextmenu,
+                dialogadvtab,
+                div,
+                elementspath,
+                enterkey,
+                entities,
+                filebrowser,
+                find,
+                flash,
+                floatingspace,
+                font,
+                format,
+                forms,
+                horizontalrule,
+                htmlwriter,
+                iframe,
+                image,
+                indentblock,
+                indentlist,
+                justify,
+                language,
+                link,
+                list,
+                liststyle,
+                magicline,
+                maximize,
+                newpage,
+                pagebreak,
+                pastefromword,
+                pastetext,
+                preview,
+                print,
+                resize,
+                save,
+                scayt,
+                selectall,
+                showblocks,
+                showborders,
+                smiley,
+                specialchar,
+                stylescombo,
+                tab,
+                table,
+                tabletools,
+                templates,
+                wsc,
+                wysiwygarea
+            toolbar:
+                - [ Source ]
+                - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]

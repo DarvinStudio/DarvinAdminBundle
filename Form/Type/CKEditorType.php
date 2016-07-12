@@ -13,6 +13,8 @@ namespace Darvin\AdminBundle\Form\Type;
 use Darvin\ContentBundle\Widget\WidgetInterface;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,6 +24,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CKEditorType extends AbstractType
 {
     const CKEDITOR_TYPE_CLASS = __CLASS__;
+
+    const CONFIG_NAME = 'darvin_admin';
 
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -60,7 +64,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $plugins = array(
             'lineutils' => array(
@@ -94,20 +98,38 @@ class CKEditorType extends AbstractType
             $extraPlugins[] = $widgetName;
         }
 
-        $config = array(
-            'extraPlugins' => implode(',', $extraPlugins),
-        );
+        // Config
+        $config = $view->vars['config'];
+
+        $extraPluginsString = implode(',', $extraPlugins);
+        $config['extraPlugins'] = isset($config['extraPlugins']) && !empty($config['extraPlugins'])
+            ? $config['extraPlugins'].','.$extraPluginsString
+            : $extraPluginsString;
+
+        if (isset($config['toolbar'])) {
+            $config['toolbar'] = array_merge($config['toolbar'], array($extraPlugins));
+        }
 
         $request = $this->requestStack->getCurrentRequest();
 
-        if (!empty($request)) {
+        if (!isset($config['language']) && !empty($request)) {
             $config['language'] = $request->getLocale();
         }
 
-        $resolver->setDefaults(array(
-            'config'  => $config,
-            'plugins' => $plugins,
-        ));
+        $view->vars['config'] = $config;
+
+        // Plugins
+        $view->vars['plugins'] = isset($view->vars['plugins'])
+            ? array_merge($view->vars['plugins'], $plugins)
+            : $plugins;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('config_name', self::CONFIG_NAME);
     }
 
     /**

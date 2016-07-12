@@ -1,0 +1,53 @@
+ivory_ck_editor:
+    configs:
+        darvin_admin:
+            removePlugins: >
+                a11yhelp,
+                about,
+                bidi,
+                blockquote,
+                colordialog,
+                contextmenu,
+                dialogadvtab,
+                div,
+                elementspath,
+                enterkey,
+                entities,
+                filebrowser,
+                floatingspace,
+                forms,
+                horizontalrule,
+                htmlwriter,
+                iframe,
+                indentblock,
+                language,
+                liststyle,
+                magicline,
+                newpage,
+                pagebreak,
+                pastefromword,
+                pastetext,
+                preview,
+                print,
+                resize,
+                save,
+                scayt,
+                selectall,
+                showborders,
+                smiley,
+                stylescombo,
+                tab,
+                tabletools,
+                templates,
+                undo,
+                wsc
+            toolbar:
+                - [ Source ]
+                - [ Image, Flash, Table, SpecialChar ]
+                - [ NumberedList, BulletedList, -, Outdent, Indent, -, JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock ]
+                - [ Link, Unlink, Anchor ]
+                - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]
+                - [ Format, Font, FontSize ]
+                - [ TextColor, BGColor ]
+                - [ Maximize, ShowBlocks ]
+                - [ Find, Replace ]

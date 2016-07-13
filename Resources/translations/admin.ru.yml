@@ -12,8 +12,8 @@ cache:
 
 chosen:
     no_results_text:           Нет результатов, соответствующих
-    placeholder_text_multiple: Выберите одно или несколько значений
-    placeholder_text_single:   Выберите одно значение
+    placeholder_text_multiple: ---
+    placeholder_text_single:   ---
 
 configuration:
     action:

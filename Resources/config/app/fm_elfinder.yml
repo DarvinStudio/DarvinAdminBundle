@@ -8,5 +8,5 @@ fm_elfinder:
                 roots:
                     uploads:
                         driver:          LocalFileSystem
-                        path:            "%upload_dir%"
+                        path:            "%upload_path%"
                         upload_max_size: "%upload_max_size_mb%M"

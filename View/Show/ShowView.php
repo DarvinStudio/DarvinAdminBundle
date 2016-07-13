@@ -23,7 +23,7 @@ class ShowView
     /**
      * @param \Darvin\AdminBundle\View\Show\Item[] $items Items
      */
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         $this->items = $items;
     }

@@ -41,9 +41,10 @@ class AddSecurityConfigurationsPass implements CompilerPassInterface
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($configurationIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addConfiguration', array(
+            $poolDefinition->addMethodCall('addConfiguration', [
                 new Reference($id),
-            ));
+            ]
+            );
         }
     }
 }

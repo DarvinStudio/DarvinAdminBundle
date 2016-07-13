@@ -22,11 +22,11 @@ final class Permission
     /**
      * @var array
      */
-    private static $permissions = array(
+    private static $permissions = [
         self::CREATE_DELETE,
         self::EDIT,
         self::VIEW,
-    );
+    ];
 
     /**
      * @return array

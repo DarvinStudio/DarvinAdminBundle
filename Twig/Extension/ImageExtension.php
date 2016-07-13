@@ -44,10 +44,10 @@ class ImageExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('admin_image_crop', array($this, 'cropImage')),
-            new \Twig_SimpleFilter('admin_image_resize', array($this, 'resizeImage')),
-        );
+        return [
+            new \Twig_SimpleFilter('admin_image_crop', [$this, 'cropImage']),
+            new \Twig_SimpleFilter('admin_image_resize', [$this, 'resizeImage']),
+        ];
     }
 
     /**
@@ -96,10 +96,10 @@ class ImageExtension extends \Twig_Extension
     {
         $size = $this->getAdminImageSize();
 
-        return array(
+        return [
             'width'  => $size->getWidth(),
             'height' => $size->getHeight(),
-        );
+        ];
     }
 
     /**

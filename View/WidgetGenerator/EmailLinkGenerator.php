@@ -26,9 +26,10 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
         $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
         return !empty($email)
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'email' => $email,
-            ))
+            ]
+            )
             : '';
     }
 
@@ -49,8 +50,8 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

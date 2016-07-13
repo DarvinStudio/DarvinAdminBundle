@@ -35,7 +35,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($entity, array $options, $property)
     {
-        $actions = array();
+        $actions = [];
 
         $configuration = $this->metadataManager->getConfiguration($entity);
 
@@ -47,9 +47,10 @@ class ActionsGenerator extends AbstractWidgetGenerator
             }
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'actions' => $actions,
-        ));
+        ]
+        );
     }
 
     /**

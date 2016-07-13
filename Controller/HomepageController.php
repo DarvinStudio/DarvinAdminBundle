@@ -22,9 +22,10 @@ class HomepageController extends Controller
      */
     public function homepageAction()
     {
-        return $this->render('DarvinAdminBundle:Homepage:homepage.html.twig', array(
+        return $this->render('DarvinAdminBundle:Homepage:homepage.html.twig', [
             'dashboard' => $this->getDashboard(),
-        ));
+        ]
+        );
     }
 
     /**

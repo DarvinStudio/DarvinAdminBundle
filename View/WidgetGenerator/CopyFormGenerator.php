@@ -82,10 +82,11 @@ class CopyFormGenerator extends AbstractWidgetGenerator
         $extendedMeta = $this->extendedMetadataFactory->getExtendedMetadata($entity);
 
         return isset($extendedMeta['clonable'])
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ))
+            ]
+            )
             : '';
     }
 
@@ -104,8 +105,8 @@ class CopyFormGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::CREATE_DELETE,
-        );
+        ];
     }
 }

@@ -44,10 +44,11 @@ class ConfigurationController extends Controller implements MenuItemInterface
 
         $url = $this->generateUrl('darvin_admin_configuration');
 
-        $form = $this->createForm(ConfigurationsType::CONFIGURATIONS_TYPE_CLASS, $configurationPool, array(
+        $form = $this->createForm(ConfigurationsType::CONFIGURATIONS_TYPE_CLASS, $configurationPool, [
             'action'             => $url,
             'translation_domain' => 'admin',
-        ))->handleRequest($request);
+        ]
+        )->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -61,9 +62,10 @@ class ConfigurationController extends Controller implements MenuItemInterface
             $this->getFlashNotifier()->formError();
         }
 
-        return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', array(
+        return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]
+        );
     }
 
     /**
@@ -78,7 +80,7 @@ class ConfigurationController extends Controller implements MenuItemInterface
      */
     public function getChildMenuItems()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -118,13 +120,13 @@ class ConfigurationController extends Controller implements MenuItemInterface
      */
     private function generateMenuItemAttributes()
     {
-        return array(
+        return [
             'color'              => '#5a4fb6',
             'description'        => 'configuration.menu.description',
             'homepage_menu_icon' => 'bundles/darvinadmin/images/icons/homepage/configuration.png',
             'index_title'        => 'configuration.action.edit.link',
             'name'               => 'configuration',
-        );
+        ];
     }
 
     /**

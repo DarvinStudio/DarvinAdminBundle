@@ -40,10 +40,11 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
         $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
 
         return $url
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'entity' => $entity,
                 'url'    => $url,
-            ))
+            ]
+            )
             : '';
     }
 
@@ -64,8 +65,8 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

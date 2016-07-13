@@ -56,11 +56,12 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
         }
 
         return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'entity'             => $entity,
                 'text_link'          => $options['text_link'],
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ))
+            ]
+            )
             : '';
     }
 
@@ -72,10 +73,12 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'entity_class' => null,
                 'text_link'    => false,
-            ))
+                ]
+            )
             ->setDefined('property')
             ->setAllowedTypes('property', 'string')
             ->setAllowedTypes('text_link', 'boolean');

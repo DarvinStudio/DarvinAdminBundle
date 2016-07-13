@@ -25,7 +25,7 @@ class AssetCompilerPool
      */
     public function __construct()
     {
-        $this->compilers = array();
+        $this->compilers = [];
     }
 
     /**

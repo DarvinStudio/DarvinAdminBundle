@@ -23,7 +23,7 @@ class Head
     /**
      * @param \Darvin\AdminBundle\View\Index\Head\HeadItem[] $items Items
      */
-    public function __construct(array $items = array())
+    public function __construct(array $items = [])
     {
         $this->items = $items;
     }

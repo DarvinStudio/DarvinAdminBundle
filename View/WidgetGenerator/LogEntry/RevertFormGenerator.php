@@ -54,7 +54,7 @@ class RevertFormGenerator extends AbstractWidgetGenerator
      */
     public function createRevertForm(LogEntry $logEntry)
     {
-        $action = $this->router->generate('darvin_admin_log_revert', array('id' => $logEntry->getId()));
+        $action = $this->router->generate('darvin_admin_log_revert', ['id' => $logEntry->getId()]);
 
         return $this->adminFormFactory->createIdForm($logEntry, 'revert_', $action);
     }
@@ -82,9 +82,10 @@ class RevertFormGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'form' => $this->createRevertForm($logEntry)->createView(),
-        ));
+        ]
+        );
     }
 
     /**
@@ -92,9 +93,9 @@ class RevertFormGenerator extends AbstractWidgetGenerator
      */
     protected function getAllowedEntityClasses()
     {
-        return array(
+        return [
             LogEntry::LOG_ENTRY_CLASS,
-        );
+        ];
     }
 
     /**
@@ -102,8 +103,8 @@ class RevertFormGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

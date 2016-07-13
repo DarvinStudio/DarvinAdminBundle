@@ -37,11 +37,11 @@ class LogEntry extends AbstractLogEntry
     /**
      * @var array
      */
-    private static $actions = array(
+    private static $actions = [
         self::ACTION_CREATE => 'log.entity.actions.create',
         self::ACTION_REMOVE => 'log.entity.actions.remove',
         self::ACTION_UPDATE => 'log.entity.actions.update',
-    );
+    ];
 
     /**
      * @var object

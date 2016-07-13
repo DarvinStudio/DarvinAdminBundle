@@ -22,7 +22,7 @@ interface WidgetGeneratorInterface
      *
      * @return string
      */
-    public function generate($entity, array $options = array(), $property = null);
+    public function generate($entity, array $options = [], $property = null);
 
     /**
      * @return string

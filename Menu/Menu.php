@@ -52,7 +52,7 @@ class Menu
     {
         $this->authorizationChecker = $authorizationChecker;
         $this->optionsResolver = new OptionsResolver();
-        $this->items = $this->groups = array();
+        $this->items = $this->groups = [];
         $this->itemsFiltered = false;
 
         $this->configureItemAttributes($this->optionsResolver);
@@ -112,18 +112,22 @@ class Menu
     private function configureItemAttributes(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'associated_object_class' => '',
                 'color'                   => '',
                 'description'             => '',
                 'homepage_menu_icon'      => '',
                 'left_menu_icon'          => '',
                 'new_title'               => '',
-            ))
-            ->setRequired(array(
+                ]
+            )
+            ->setRequired(
+                [
                 'index_title',
                 'name',
-            ))
+                ]
+            )
             ->setAllowedTypes('associated_object_class', 'string')
             ->setAllowedTypes('description', 'string')
             ->setAllowedTypes('new_title', 'string')

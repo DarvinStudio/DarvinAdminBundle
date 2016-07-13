@@ -31,9 +31,9 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
      */
     protected function getSecurableObjectClasses()
     {
-        return array(
+        return [
             'image' => AbstractImage::ABSTRACT_IMAGE_CLASS,
             'log'   => LogEntry::LOG_ENTRY_CLASS,
-        );
+        ];
     }
 }

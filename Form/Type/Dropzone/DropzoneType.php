@@ -92,30 +92,32 @@ class DropzoneType extends AbstractType
         $uploadablesField = $builder->getName();
 
         $builder
-            ->add('dropzone', 'Symfony\Component\Form\Extension\Core\Type\FormType', array(
+            ->add('dropzone', 'Symfony\Component\Form\Extension\Core\Type\FormType', [
                 'label'  => false,
                 'mapped' => false,
-                'attr'   => array(
+                'attr'   => [
                     'class'               => 'dropzone',
                     'data-accepted-files' => $options['accepted_files'],
                     'data-files'          => '.files',
                     'data-max-filesize'   => $this->uploadMaxSizeMB,
                     'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
-                ),
-            ))
-            ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
+                ],
+            ]
+            )
+            ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
                 'label'         => false,
                 'mapped'        => false,
                 'entry_type'    => FileType::FILE_TYPE_CLASS,
                 'allow_add'     => true,
-                'entry_options' => array(
+                'entry_options' => [
                     'label' => false,
-                ),
-                'attr' => array(
+                ],
+                'attr' => [
                     'class'         => 'files',
                     'data-autoinit' => 0,
-                ),
-            ))
+                ],
+            ]
+            )
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($propertyAccessor, $uploadablesField) {
                 $event->setData($propertyAccessor->getValue($event->getForm()->getParent()->getData(), $uploadablesField));
             })
@@ -159,19 +161,25 @@ class DropzoneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'accepted_files'         => self::DEFAULT_ACCEPTED_FILES,
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-            ))
-            ->setDefined(array(
+                ]
+            )
+            ->setDefined(
+                [
                 'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
-            ))
-            ->setRequired(array(
+                ]
+            )
+            ->setRequired(
+                [
                 'uploadable_class',
-            ))
+                ]
+            )
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
             ->setAllowedTypes('uploadable_class', 'string');
     }

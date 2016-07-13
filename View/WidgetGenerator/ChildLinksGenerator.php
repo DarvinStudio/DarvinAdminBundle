@@ -80,7 +80,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'association_param'  => $childMeta->getAssociationParameterName(),
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
@@ -88,7 +88,8 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             'new_link'           => $createDeletePermissionGranted,
             'parent_id'          => $parentId,
             'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
-        ));
+        ]
+        );
     }
 
     /**

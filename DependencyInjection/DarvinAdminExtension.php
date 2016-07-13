@@ -36,7 +36,7 @@ class DarvinAdminExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        foreach (array(
+        foreach ([
             'asset/provider',
             'breadcrumbs',
             'cache',
@@ -57,7 +57,7 @@ class DarvinAdminExtension extends Extension
             'twig',
             'uploader',
             'view',
-        ) as $resource) {
+                 ] as $resource) {
             $loader->load($resource.'.yml');
         }
 

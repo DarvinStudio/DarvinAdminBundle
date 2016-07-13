@@ -26,21 +26,22 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
      */
     public function getModel()
     {
-        $defaultValue = array();
+        $defaultValue = [];
 
         foreach ($this->getSecurableObjectClasses() as $name => $class) {
             $defaultValue[$name] = new ObjectPermissions($class);
         }
 
-        return array(
-            new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, array(
-                'form' => array(
-                    'options' => array(
+        return [
+            new ParameterModel('permissions', ParameterModel::TYPE_ARRAY, $defaultValue, [
+                'form' => [
+                    'options' => [
                         'entry_type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
-                    ),
-                ),
-            )),
-        );
+                    ],
+                ],
+            ]
+            ),
+        ];
     }
 
     /**
@@ -56,9 +57,9 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
      */
     public function getAllowedRoles()
     {
-        return array(
+        return [
             BaseUser::ROLE_SUPERADMIN,
-        );
+        ];
     }
 
     /**

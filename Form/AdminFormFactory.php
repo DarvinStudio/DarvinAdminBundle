@@ -31,11 +31,11 @@ class AdminFormFactory
     /**
      * @var array
      */
-    private static $submitButtons = array(
+    private static $submitButtons = [
         self::SUBMIT_EDIT  => 'submit.edit',
         self::SUBMIT_INDEX => 'submit.index',
         self::SUBMIT_NEW   => 'submit.new',
-    );
+    ];
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
@@ -108,15 +108,15 @@ class AdminFormFactory
      */
     public function createEntityForm(Metadata $meta, $entity, $actionType, $formAction, array $submitButtons)
     {
-        $options = array(
+        $options = [
             'action'             => $formAction,
             'data_class'         => $meta->getEntityClass(),
             'translation_domain' => 'admin',
-            'validation_groups'  => array(
+            'validation_groups'  => [
                 'Default',
                 'Admin'.ucfirst($actionType),
-            ),
-        );
+            ],
+        ];
 
         $configuration = $meta->getConfiguration();
         $type = $configuration['form'][$actionType]['type'];
@@ -124,18 +124,20 @@ class AdminFormFactory
         if (empty($type)) {
             $type = BaseType::BASE_TYPE_CLASS;
 
-            $options = array_merge($options, array(
+            $options = array_merge($options, [
                 'action_type' => $actionType,
                 'metadata'    => $meta,
-            ));
+            ]
+            );
         }
 
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {
-            $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', array(
+            $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', [
                 'label' => self::$submitButtons[$name],
-            ));
+            ]
+            );
         }
 
         return $builder->getForm();
@@ -160,15 +162,15 @@ class AdminFormFactory
         }
 
         $actionRouteParams = !empty($parentEntityAssociation)
-            ? array(
+            ? [
                 $parentEntityAssociationParam => $parentEntityId,
-            )
-            : array();
+            ]
+            : [];
         $action = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
 
-        $options = array(
+        $options = [
             'action' => $action,
-        );
+        ];
 
         $configuration = $meta->getConfiguration();
         $type = $configuration['form']['filter']['type'];
@@ -176,11 +178,12 @@ class AdminFormFactory
         if (empty($type)) {
             $type = FilterType::FILTER_TYPE_CLASS;
 
-            $options = array_merge($options, array(
+            $options = array_merge($options, [
                 'metadata'                  => $meta,
                 'parent_entity_association' => $parentEntityAssociation,
                 'parent_entity_id'          => $parentEntityId,
-            ));
+            ]
+            );
         }
 
         return $this->genericFormFactory->createNamed($meta->getFilterFormTypeName(), $type, null, $options);
@@ -200,14 +203,14 @@ class AdminFormFactory
         $builder = $this->genericFormFactory->createNamedBuilder(
             $namePrefix.$id,
             'Symfony\Component\Form\Extension\Core\Type\FormType',
-            array(
+            [
                 'id' => $id,
-            ),
-            array(
+            ],
+            [
                 'action'             => $action,
                 'csrf_token_id'      => md5(__FILE__.ClassUtils::getClass($entity).$id),
                 'translation_domain' => 'admin',
-            )
+            ]
         )->add('id', 'Symfony\Component\Form\Extension\Core\Type\HiddenType');
 
         return $builder->getForm();
@@ -237,15 +240,16 @@ class AdminFormFactory
             }
         }
 
-        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, array(
+        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, [
             'action_type'       => 'index',
             'data_class'        => $dataClass,
             'field_filter'      => $property,
             'metadata'          => $meta,
-            'validation_groups' => array(
+            'validation_groups' => [
                 'Default',
                 'AdminUpdateProperty',
-            ),
-        ));
+            ],
+        ]
+        );
     }
 }

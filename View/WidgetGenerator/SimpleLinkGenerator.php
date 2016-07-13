@@ -26,10 +26,11 @@ class SimpleLinkGenerator extends AbstractWidgetGenerator
         $url = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
         return !empty($url)
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'title' => $url,
                 'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? 'http://'.$url : $url,
-            ))
+            ]
+            )
             : '';
     }
 
@@ -51,8 +52,8 @@ class SimpleLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

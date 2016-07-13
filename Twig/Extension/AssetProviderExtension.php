@@ -35,9 +35,9 @@ class AssetProviderExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('admin_assets', array($this->assetProviderPool, 'getAssetWebPathnames')),
-        );
+        return [
+            new \Twig_SimpleFunction('admin_assets', [$this->assetProviderPool, 'getAssetWebPathnames']),
+        ];
     }
 
     /**

@@ -41,9 +41,10 @@ class SimpleListGenerator extends AbstractWidgetGenerator
             throw new WidgetGeneratorException($message);
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'items' => $items,
-        ));
+        ]
+        );
     }
 
     /**
@@ -63,8 +64,8 @@ class SimpleListGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

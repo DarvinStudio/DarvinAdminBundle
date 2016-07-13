@@ -25,11 +25,13 @@ class PhotoGalleryGenerator extends EntitiesListGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'item_widget_alias'   => ImageLinkGenerator::ALIAS,
-                'item_widget_options' => array(),
+                'item_widget_options' => [],
                 'line_size'           => 5,
-            ))
+                ]
+            )
             ->setAllowedTypes('line_size', 'integer');
     }
 }

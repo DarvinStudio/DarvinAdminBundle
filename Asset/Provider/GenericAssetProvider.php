@@ -70,7 +70,7 @@ class GenericAssetProvider implements AssetProviderInterface
         $this->devAssetWebPathnames = $devAssetWebPathnames;
         $this->compiledAssetPathname = $compiledAssetPathname;
 
-        $this->devAssetAbsolutePathnames = $this->assetWebPathnames = array();
+        $this->devAssetAbsolutePathnames = $this->assetWebPathnames = [];
         $this->compiledAssetAbsolutePathname = null;
         $this->initialized = false;
     }
@@ -121,21 +121,22 @@ class GenericAssetProvider implements AssetProviderInterface
 
         $this->compiledAssetAbsolutePathname = implode(
             DIRECTORY_SEPARATOR,
-            array(
+            [
                 $bundle->getPath(),
                 'Resources/public',
                 $this->compiledAssetPathname,
-            )
+            ]
         );
 
         $this->assetWebPathnames = $this->kernel->isDebug()
             ? $this->devAssetWebPathnames
-            : array(
-                implode(DIRECTORY_SEPARATOR, array(
+            : [
+                implode(DIRECTORY_SEPARATOR, [
                     'bundles',
                     preg_replace('/bundle$/', '', strtolower($bundle->getName())),
                     $this->compiledAssetPathname,
-                )),
-            );
+                ]
+                ),
+            ];
     }
 }

@@ -23,7 +23,7 @@ class Body
     /**
      * @param \Darvin\AdminBundle\View\Index\Body\BodyRow[] $rows Rows
      */
-    public function __construct(array $rows = array())
+    public function __construct(array $rows = [])
     {
         $this->rows = $rows;
     }

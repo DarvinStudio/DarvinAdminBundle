@@ -41,9 +41,10 @@ class AddMetadataPass implements CompilerPassInterface
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($metadataIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addMetadata', array(
+            $poolDefinition->addMethodCall('addMetadata', [
                 new Reference($id),
-            ));
+            ]
+            );
         }
     }
 }

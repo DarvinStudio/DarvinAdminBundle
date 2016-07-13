@@ -59,10 +59,10 @@ class CacheFormManager
             'cache_clear',
             'Symfony\Component\Form\Extension\Core\Type\FormType',
             null,
-            array(
+            [
                 'action'        => $this->router->generate('darvin_admin_cache_clear'),
                 'csrf_token_id' => md5(__FILE__),
-            )
+            ]
         );
     }
 
@@ -77,8 +77,9 @@ class CacheFormManager
             $form = $this->createClearForm();
         }
 
-        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:Cache/widget:clear_form.html.twig', array(
+        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:Cache/widget:clear_form.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]
+        );
     }
 }

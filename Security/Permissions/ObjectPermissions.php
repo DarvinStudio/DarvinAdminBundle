@@ -33,7 +33,7 @@ class ObjectPermissions implements \Serializable
     public function __construct($objectClass)
     {
         $this->objectClass = $objectClass;
-        $this->userPermissionsSet = array();
+        $this->userPermissionsSet = [];
     }
 
     /**
@@ -41,10 +41,12 @@ class ObjectPermissions implements \Serializable
      */
     public function serialize()
     {
-        return serialize(array(
+        return serialize(
+            [
             $this->objectClass,
             $this->userPermissionsSet,
-        ));
+            ]
+        );
     }
 
     /**

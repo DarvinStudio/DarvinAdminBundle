@@ -62,10 +62,11 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     protected function generateWidget($entity, array $options, $property)
     {
         return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ))
+            ]
+            )
             : '';
     }
 
@@ -84,8 +85,8 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::CREATE_DELETE,
-        );
+        ];
     }
 }

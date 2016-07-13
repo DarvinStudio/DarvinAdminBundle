@@ -49,9 +49,10 @@ class CompoundListGenerator extends AbstractWidgetGenerator
             sort($list);
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'list' => $list,
-        ));
+        ]
+        );
     }
 
     /**
@@ -75,9 +76,9 @@ class CompoundListGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 
     /**
@@ -88,7 +89,7 @@ class CompoundListGenerator extends AbstractWidgetGenerator
      */
     private function createList(array $keys, array $values)
     {
-        $list = array();
+        $list = [];
 
         foreach ($keys as $key) {
             if (array_key_exists($key, $values)) {

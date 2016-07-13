@@ -51,7 +51,7 @@ class BaseType extends AbstractFormType
             $builder->add($field, $attr['type'], $fieldOptions);
         }
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'filterEntityFields'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'filterEntityFields']);
     }
 
     /**
@@ -101,16 +101,20 @@ class BaseType extends AbstractFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'csrf_token_id'      => md5(__FILE__),
                 'translation_domain' => 'admin',
-            ))
+                ]
+            )
             ->remove('data_class')
-            ->setRequired(array(
+            ->setRequired(
+                [
                 'action_type',
                 'data_class',
                 'metadata',
-            ))
+                ]
+            )
             ->setDefined('field_filter')
             ->setAllowedTypes('action_type', 'string')
             ->setAllowedTypes('data_class', 'string')
@@ -142,10 +146,10 @@ class BaseType extends AbstractFormType
             return;
         }
 
-        $fieldOptions['constraints'] = array(
+        $fieldOptions['constraints'] = [
             $fieldOptions['constraints'],
             new Valid(),
-        );
+        ];
     }
 
     /**

@@ -38,9 +38,10 @@ class AddAssetCompilersPass implements CompilerPassInterface
             $reference = new Reference($id);
 
             foreach ($tags as $tag) {
-                $poolDefinition->addMethodCall('addCompiler', array(
+                $poolDefinition->addMethodCall('addCompiler', [
                     $reference,
-                ));
+                ]
+                );
             }
         }
     }

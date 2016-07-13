@@ -34,7 +34,7 @@ class CachesClearCommand extends Command
         parent::__construct($name);
 
         $this->setDescription($description);
-        $this->cacheClearCommands = array();
+        $this->cacheClearCommands = [];
     }
 
     /**
@@ -52,7 +52,7 @@ class CachesClearCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $commandInput = new ArrayInput(array());
+        $commandInput = new ArrayInput([]);
 
         foreach ($this->cacheClearCommands as $command) {
             $io->comment(sprintf('Running "%s" command...', $command->getName()));

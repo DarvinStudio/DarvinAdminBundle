@@ -41,9 +41,10 @@ class AddViewWidgetGeneratorsPass implements CompilerPassInterface
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($generatorIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addWidgetGenerator', array(
+            $poolDefinition->addMethodCall('addWidgetGenerator', [
                 new Reference($id),
-            ));
+            ]
+            );
         }
     }
 }

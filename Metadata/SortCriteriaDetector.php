@@ -62,11 +62,11 @@ class SortCriteriaDetector
         $sortableConfiguration = $this->sortableListener->getConfiguration($this->em, $entityClass);
 
         return !empty($sortableConfiguration)
-            ? array(
+            ? [
                 $sortableConfiguration['position'] => 'asc',
-            )
-            : array(
+            ]
+            : [
                 $meta->getIdentifier() => 'desc',
-            );
+            ];
     }
 }

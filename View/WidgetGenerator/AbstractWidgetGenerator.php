@@ -81,7 +81,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array(), $property = null)
+    public function generate($entity, array $options = [], $property = null)
     {
         $this->validate($entity, $options);
 
@@ -169,7 +169,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      */
     protected function getAllowedEntityClasses()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -177,7 +177,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      */
     protected function getRequiredPermissions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -197,7 +197,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      *
      * @return string
      */
-    protected function render(array $options, array $templateParams = array())
+    protected function render(array $options, array $templateParams = [])
     {
         $template = isset($options['template']) ? $options['template'] : $this->getDefaultTemplate();
 

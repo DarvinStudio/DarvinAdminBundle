@@ -25,7 +25,7 @@ class MetadataPool
      */
     public function __construct()
     {
-        $this->metadata = array();
+        $this->metadata = [];
     }
 
     /**

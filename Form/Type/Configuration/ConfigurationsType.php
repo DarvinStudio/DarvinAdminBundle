@@ -58,12 +58,13 @@ class ConfigurationsType extends AbstractType
                 continue;
             }
 
-            $builder->add($configuration->getName(), ConfigurationType::CONFIGURATION_TYPE_CLASS, array(
+            $builder->add($configuration->getName(), ConfigurationType::CONFIGURATION_TYPE_CLASS, [
                 'label'         => sprintf('configuration.%s.title', $configuration->getName()),
                 'configuration' => $configuration,
                 'constraints'   => new Valid(),
                 'data_class'    => get_class($configuration),
-            ));
+            ]
+            );
         }
     }
 
@@ -72,10 +73,12 @@ class ConfigurationsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            [
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => get_class($this->configurationPool),
-        ));
+            ]
+        );
     }
 
     /**

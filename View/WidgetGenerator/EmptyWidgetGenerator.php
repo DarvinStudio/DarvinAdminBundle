@@ -18,7 +18,7 @@ class EmptyWidgetGenerator implements WidgetGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = array(), $property = null)
+    public function generate($entity, array $options = [], $property = null)
     {
         return '';
     }

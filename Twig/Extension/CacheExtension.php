@@ -35,17 +35,17 @@ class CacheExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction(
                 'admin_cache_clear_form',
-                array($this->cacheFormManager, 'renderClearForm'),
-                array(
-                    'is_safe' => array(
+                [$this->cacheFormManager, 'renderClearForm'],
+                [
+                    'is_safe' => [
                         'html',
-                    ),
-                )
+                    ],
+                ]
             ),
-        );
+        ];
     }
 
     /**

@@ -73,16 +73,16 @@ class BreadcrumbsExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction(
                 'admin_breadcrumbs',
-                array($this, 'renderCrumbs'),
-                array(
-                    'is_safe'           => array('html'),
+                [$this, 'renderCrumbs'],
+                [
+                    'is_safe'           => ['html'],
                     'needs_environment' => true,
-                )
+                ]
             ),
-        );
+        ];
     }
 
     /**
@@ -119,9 +119,10 @@ class BreadcrumbsExtension extends \Twig_Extension
             array_pop($crumbs);
         }
 
-        return $environment->render($template, array(
+        return $environment->render($template, [
             'crumbs' => $crumbs,
-        ));
+        ]
+        );
     }
 
     /**
@@ -141,7 +142,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      */
     private function getEntityCrumbs(Metadata $meta, $parentEntity, $entity)
     {
-        $crumbs = array();
+        $crumbs = [];
 
         if (empty($entity)) {
             $this->addEntityIndexCrumb($crumbs, $meta, $parentEntity);
@@ -199,7 +200,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      */
     private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $parentEntity, $entity = null)
     {
-        $params = array();
+        $params = [];
 
         if (empty($entity) && !empty($parentEntity)) {
             $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getValue($parentEntity);
@@ -217,9 +218,9 @@ class BreadcrumbsExtension extends \Twig_Extension
      */
     private function addCrumb(array &$crumbs, $title, $url = null)
     {
-        $crumbs[] = array(
+        $crumbs[] = [
             'title' => $title,
             'url'   => $url,
-        );
+        ];
     }
 }

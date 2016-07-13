@@ -60,7 +60,7 @@ class MetadataManager
         $this->cache = $cache;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
-        $this->checkedIfHasMetadataClasses = $this->metadata = array();
+        $this->checkedIfHasMetadataClasses = $this->metadata = [];
         $this->initialized = false;
     }
 

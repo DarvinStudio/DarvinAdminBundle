@@ -23,78 +23,78 @@ class CrudRouteGenerator implements RouteGeneratorInterface
     /**
      * @var array
      */
-    private static $model = array(
-        AdminRouter::TYPE_UPDATE_PROPERTY => array(
+    private static $model = [
+        AdminRouter::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
             '%s:updatePropertyAction',
-            array(
+            [
                 'id'       => '\d+',
                 'property' => '\w+',
-            ),
-            array(
+            ],
+            [
                 'post',
-            ),
-        ),
-        AdminRouter::TYPE_COPY => array(
+            ],
+        ],
+        AdminRouter::TYPE_COPY => [
             '%s_copy',
             '%s/{id}/copy',
             '%s:copyAction',
-            array(
+            [
                 'id' => '\d+',
-            ),
-            array(
+            ],
+            [
                 'post',
-            ),
-        ),
-        AdminRouter::TYPE_DELETE => array(
+            ],
+        ],
+        AdminRouter::TYPE_DELETE => [
             '%s_delete',
             '%s/{id}/delete',
             '%s:deleteAction',
-            array(
+            [
                 'id' => '\d+',
-            ),
-            array(
+            ],
+            [
                 'post',
-            ),
-        ),
-        AdminRouter::TYPE_EDIT => array(
+            ],
+        ],
+        AdminRouter::TYPE_EDIT => [
             '%s_edit',
             '%s/{id}/edit',
             '%s:editAction',
-            array(
+            [
                 'id' => '\d+',
-            ),
-            array(),
-        ),
-        AdminRouter::TYPE_SHOW => array(
+            ],
+            [],
+        ],
+        AdminRouter::TYPE_SHOW => [
             '%s_show',
             '%s/{id}/show',
             '%s:showAction',
-            array(
+            [
                 'id' => '\d+',
-            ),
-            array(
+            ],
+            [
                 'get',
-            ),
-        ),
-        AdminRouter::TYPE_NEW => array(
+            ],
+        ],
+        AdminRouter::TYPE_NEW => [
             '%s_new',
             '%s/new',
             '%s:newAction',
-            array(),
-            array(),
-        ),
-        AdminRouter::TYPE_INDEX => array(
+            [],
+            [],
+        ],
+        AdminRouter::TYPE_INDEX => [
             '%s',
             '%s/',
             '%s:indexAction',
-            array(),
-            array(
+            [],
+            [
                 'get',
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     /**
      * {@inheritdoc}
@@ -112,16 +112,16 @@ class CrudRouteGenerator implements RouteGeneratorInterface
 
             $route = new Route(
                 sprintf($attr[1], $meta->getEntityName()),
-                array(
+                [
                     '_controller' => sprintf($attr[2], $meta->getControllerId()),
-                ),
+                ],
                 $attr[3],
-                array(
+                [
                     AdminRouter::OPTION_ENTITY_CLASS => $entityClass,
                     AdminRouter::OPTION_ROUTE_TYPE   => $routeType,
-                ),
+                ],
                 '',
-                array(),
+                [],
                 $attr[4]
             );
 

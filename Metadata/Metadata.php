@@ -128,7 +128,7 @@ class Metadata
         $this->routingPrefix = $routingPrefix;
         $this->translationClass = $translationClass;
 
-        $this->children = array();
+        $this->children = [];
     }
 
     /**

@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('entity_name')->defaultNull()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
-                ->arrayNode('order_by')->prototype('enum')->values(array('asc', 'desc'))->end()->end()
+                ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('images')
                     ->addDefaultsIfNotSet()
@@ -104,21 +104,24 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('view')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->append($this->addViewNode('index', array(
+                        ->append($this->addViewNode('index', [
                             ShowLinkGenerator::ALIAS,
                             EditLinkGenerator::ALIAS,
                             CopyFormGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        )))
+                        ]
+                        ))
                         ->append($this->addViewNode('new'))
-                        ->append($this->addViewNode('edit', array(
+                        ->append($this->addViewNode('edit', [
                             ShowLinkGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        )))
-                        ->append($this->addViewNode('show', array(
+                        ]
+                        ))
+                        ->append($this->addViewNode('show', [
                             EditLinkGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        )))
+                        ]
+                        ))
                     ->end()
                 ->end()
             ->end();
@@ -191,7 +194,7 @@ class Configuration implements ConfigurationInterface
      *
      * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
      */
-    private function addViewNode($view, array $defaultActionWidgets = array())
+    private function addViewNode($view, array $defaultActionWidgets = [])
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($view);
@@ -205,7 +208,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->prototype('variable')->end()
                     ->end()
-                    ->defaultValue(array_fill_keys($defaultActionWidgets, array()))
+                    ->defaultValue(array_fill_keys($defaultActionWidgets, []))
                 ->end()
                 ->scalarNode('template')->defaultNull()->end()
                 ->arrayNode('fields')

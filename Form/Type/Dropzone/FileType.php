@@ -27,18 +27,20 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('filename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+            ->add('filename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-                'attr'  => array(
+                'attr'  => [
                     'class' => 'filename',
-                ),
-            ))
-            ->add('originalFilename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+                ],
+            ]
+            )
+            ->add('originalFilename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-                'attr'  => array(
+                'attr'  => [
                     'class' => 'original_filename',
-                ),
-            ));
+                ],
+            ]
+            );
     }
 
     /**
@@ -46,9 +48,11 @@ class FileType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            [
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-        ));
+            ]
+        );
     }
 
     /**

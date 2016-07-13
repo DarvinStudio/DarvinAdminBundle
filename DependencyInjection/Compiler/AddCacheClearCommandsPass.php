@@ -40,7 +40,7 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
 
         $cachesClearCommandDefinition = $container->getDefinition(self::CACHES_CLEAR_COMMAND_ID);
 
-        $definitions = array();
+        $definitions = [];
 
         foreach ($cacheClearCommandClasses as $class) {
             $definition = new Definition($class);
@@ -49,16 +49,18 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
                 ->addTag('console.command');
 
             if (is_subclass_of($class, 'Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand')) {
-                $definition->addMethodCall('setContainer', array(
+                $definition->addMethodCall('setContainer', [
                     new Reference('service_container'),
-                ));
+                ]
+                );
             }
 
             $id = 'darvin_admin.cache.'.StringsUtil::toUnderscore(str_replace('\\', '_', $class));
 
-            $cachesClearCommandDefinition->addMethodCall('addCacheClearCommand', array(
+            $cachesClearCommandDefinition->addMethodCall('addCacheClearCommand', [
                 new Reference($id),
-            ));
+            ]
+            );
 
             $definitions[$id] = $definition;
         }

@@ -95,12 +95,12 @@ class ConfigurationLoader
         $config = $this->getConfig($pathname);
 
         if (!isset($config['extends'])) {
-            return array($config);
+            return [$config];
         }
 
         $child = $config;
         unset($config['extends']);
-        $hierarchy = array($config);
+        $hierarchy = [$config];
 
         while ($parent = $this->getParentConfig($child)) {
             $child = $parent;
@@ -108,7 +108,7 @@ class ConfigurationLoader
             $hierarchy[] = $parent;
         }
 
-        return array(call_user_func_array('array_replace_recursive', array_reverse($hierarchy)));
+        return [call_user_func_array('array_replace_recursive', array_reverse($hierarchy))];
     }
 
     /**

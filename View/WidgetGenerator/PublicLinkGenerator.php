@@ -44,7 +44,7 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
             throw new WidgetGeneratorException(sprintf('Route "%s" does not exist.', $route));
         }
 
-        $parameters = array();
+        $parameters = [];
 
         foreach ($options['params'] as $paramName => $propertyPath) {
             if (empty($propertyPath)) {
@@ -59,9 +59,10 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
             throw new WidgetGeneratorException($ex->getMessage());
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'url' => $url,
-        ));
+        ]
+        );
     }
 
     /**
@@ -72,10 +73,12 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(array(
+            ->setRequired(
+                [
                 'params',
                 'route',
-            ))
+                ]
+            )
             ->setAllowedTypes('params', 'array')
             ->setAllowedTypes('route', 'string');
     }
@@ -85,8 +88,8 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 }

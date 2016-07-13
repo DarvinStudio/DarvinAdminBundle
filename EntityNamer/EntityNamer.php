@@ -43,7 +43,7 @@ class EntityNamer implements EntityNamerInterface
         $this->genericObjectNamer = $genericObjectNamer;
         $this->metadataManager = $metadataManager;
 
-        $this->names = array();
+        $this->names = [];
     }
 
     /**

@@ -30,22 +30,22 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
      */
     public function getModel()
     {
-        return array(
+        return [
             new ParameterModel(
                 'image_sizes',
                 ParameterModel::TYPE_ARRAY,
-                array(
+                [
                     'darvin_admin' => new Size(self::IMAGE_SIZE_ADMIN, 128, 128),
-                ),
-                array(
-                    'form' => array(
-                        'options' => array(
+                ],
+                [
+                    'form' => [
+                        'options' => [
                             'entry_type' => SizeType::SIZE_TYPE_CLASS,
-                        ),
-                    ),
-                )
+                        ],
+                    ],
+                ]
             ),
-        );
+        ];
     }
 
     /**
@@ -77,9 +77,9 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
      */
     public function getAllowedRoles()
     {
-        return array(
+        return [
             BaseUser::ROLE_SUPERADMIN,
-        );
+        ];
     }
 
     /**

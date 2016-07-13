@@ -71,7 +71,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             return '';
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'filtered_url' => $this->imageUrlBuilder->buildUrlToFilter(
                 $image,
                 ResizeFilter::NAME,
@@ -79,7 +79,8 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             ),
             'name'         => $image->getName(),
             'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($image),
-        ));
+        ]
+        );
     }
 
     /**
@@ -90,10 +91,11 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('filter_params', array(
+            ->setDefault('filter_params', [
                 'size_name' => Configuration::IMAGE_SIZE_ADMIN,
                 'outbound'  => true,
-            ))
+            ]
+            )
             ->setDefined('property')
             ->setAllowedTypes('filter_params', 'array')
             ->setAllowedTypes('property', 'string');

@@ -25,7 +25,7 @@ class SecurityConfigurationPool
      */
     public function __construct()
     {
-        $this->configurations = array();
+        $this->configurations = [];
     }
 
     /**

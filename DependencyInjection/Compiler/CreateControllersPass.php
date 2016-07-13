@@ -31,21 +31,24 @@ class CreateControllersPass implements CompilerPassInterface
             return;
         }
 
-        $definitions = array();
+        $definitions = [];
 
         foreach ($allMeta as $entityClass => $meta) {
             $definition = new DefinitionDecorator('darvin_admin.crud.controller');
-            $definition->setArguments(array(
+            $definition->setArguments(
+                [
                 $entityClass,
-            ));
+                ]
+            );
 
             $configuration = $meta->getConfiguration();
 
             if (!$meta->hasParent() && !$configuration['menu']['skip']) {
-                $definition->addTag(AddMenuItemsPass::TAG_MENU_ITEM, array(
+                $definition->addTag(AddMenuItemsPass::TAG_MENU_ITEM, [
                     'group'    => $configuration['menu']['group'],
                     'position' => $configuration['menu']['position'],
-                ));
+                ]
+                );
             }
 
             $definitions[$meta->getControllerId()] = $definition;

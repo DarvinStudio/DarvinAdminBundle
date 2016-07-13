@@ -34,7 +34,7 @@ class MenuItemGroup implements MenuItemInterface
      * @param string                                       $name  Group name
      * @param \Darvin\AdminBundle\Menu\MenuItemInterface[] $items Menu items
      */
-    public function __construct($name, array $items = array())
+    public function __construct($name, array $items = [])
     {
         $this->name = $name;
         $this->items = $items;
@@ -102,10 +102,10 @@ class MenuItemGroup implements MenuItemInterface
      */
     private function generateAttributes()
     {
-        return array(
+        return [
             'description' => sprintf('menu.group.%s.description', $this->name),
             'index_title' => sprintf('menu.group.%s.title', $this->name),
             'name'        => $this->name,
-        );
+        ];
     }
 }

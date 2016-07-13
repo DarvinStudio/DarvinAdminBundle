@@ -37,11 +37,11 @@ class CrudController extends Controller implements MenuItemInterface
     /**
      * @var array
      */
-    private static $submitButtonRedirects = array(
+    private static $submitButtonRedirects = [
         AdminFormFactory::SUBMIT_EDIT  => AdminRouter::TYPE_EDIT,
         AdminFormFactory::SUBMIT_INDEX => AdminRouter::TYPE_INDEX,
         AdminFormFactory::SUBMIT_NEW   => AdminRouter::TYPE_NEW,
-    );
+    ];
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata
@@ -72,7 +72,7 @@ class CrudController extends Controller implements MenuItemInterface
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
         $this->entityClass = $entityClass;
-        $this->menuItemAttributes = array(
+        $this->menuItemAttributes = [
             'associated_object_class' => $this->entityClass,
             'color'                   => $this->configuration['menu']['color'],
             'description'             => $this->meta->getBaseTranslationPrefix().'menu.description',
@@ -81,7 +81,7 @@ class CrudController extends Controller implements MenuItemInterface
             'left_menu_icon'          => $this->configuration['images']['left_menu_icon'],
             'name'                    => $this->meta->getEntityName(),
             'new_title'               => $this->meta->getBaseTranslationPrefix().'action.new.link',
-        );
+        ];
     }
 
     /**
@@ -115,7 +115,7 @@ class CrudController extends Controller implements MenuItemInterface
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
-        $paginatorOptions = array();
+        $paginatorOptions = [];
 
         $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
 
@@ -161,7 +161,7 @@ class CrudController extends Controller implements MenuItemInterface
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
 
-        return $this->renderResponse('index', array(
+        return $this->renderResponse('index', [
             'association_param' => $associationParam,
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
@@ -171,7 +171,8 @@ class CrudController extends Controller implements MenuItemInterface
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
             'view'              => $view,
-        ));
+        ]
+        );
     }
 
     /**
@@ -212,7 +213,7 @@ class CrudController extends Controller implements MenuItemInterface
             $entity,
             'new',
             $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW),
-            $widget ? array(AdminFormFactory::SUBMIT_INDEX) : $this->getEntityFormSubmitButtons()
+            $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
         if (!$form->isSubmitted()) {
@@ -233,7 +234,7 @@ class CrudController extends Controller implements MenuItemInterface
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($isXmlHttpRequest) {
-            return new AjaxResponse($html, $success, $message, array(), $success ? '' : null);
+            return new AjaxResponse($html, $success, $message, [], $success ? '' : null);
         }
 
         $this->getFlashNotifier()->done($success, $message);
@@ -301,12 +302,13 @@ class CrudController extends Controller implements MenuItemInterface
 
         return $this->getFormHandler()->handleEntityForm($form, 'action.edit.success')
             ? $this->successRedirect($form, $entity)
-            : $this->renderResponse('edit', array(
+            : $this->renderResponse('edit', [
                 'entity'        => $entity,
                 'form'          => $form->createView(),
                 'meta'          => $this->meta,
                 'parent_entity' => $parentEntity,
-            ));
+            ]
+            );
     }
 
     /**
@@ -348,16 +350,19 @@ class CrudController extends Controller implements MenuItemInterface
             $originalValue = $formView->children[$property]->vars['value'];
         }
 
-        return new JsonResponse(array(
-            'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, array(
+        return new JsonResponse(
+            [
+            'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, [
                 'original_value' => $originalValue,
-            )),
+            ]
+            ),
             'message' => $formIsValid
                 ? $this->meta->getBaseTranslationPrefix().'action.update_property.success'
                 : FlashNotifierInterface::MESSAGE_FORM_ERROR
             ,
             'success' => $formIsValid,
-        ));
+            ]
+        );
     }
 
     /**
@@ -386,12 +391,12 @@ class CrudController extends Controller implements MenuItemInterface
 
         $view = $this->getEntityToShowViewTransformer()->transform($this->meta, $entity);
 
-        return $this->renderResponse('show', array(
+        return $this->renderResponse('show', [
             'entity'        => $entity,
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,
             'view'          => $view,
-        ), $request->isXmlHttpRequest());
+        ], $request->isXmlHttpRequest());
     }
 
     /**
@@ -437,7 +442,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     public function getChildMenuItems()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -512,7 +517,7 @@ class CrudController extends Controller implements MenuItemInterface
             return $qb;
         }
 
-        $filtererOptions = array('non_strict_comparison_fields' => array());
+        $filtererOptions = ['non_strict_comparison_fields' => []];
         $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
             foreach ($fields as $field => $attr) {
                 if (!$attr['compare_strict']) {
@@ -561,12 +566,12 @@ class CrudController extends Controller implements MenuItemInterface
             throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
         }
 
-        return array(
+        return [
             $this->getEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
             $this->meta->getParent()->getAssociation(),
             $associationParam,
             $id,
-        );
+        ];
     }
 
     /**
@@ -598,7 +603,7 @@ class CrudController extends Controller implements MenuItemInterface
      */
     private function getEntityFormSubmitButtons()
     {
-        $submitButtons = array();
+        $submitButtons = [];
 
         $adminRouter = $this->getAdminRouter();
 
@@ -620,12 +625,12 @@ class CrudController extends Controller implements MenuItemInterface
      */
     private function renderNewTemplate($widget, FormInterface $form, $parentEntity)
     {
-        return $this->renderTemplate('new', array(
+        return $this->renderTemplate('new', [
             'ajax_form'     => $widget,
             'form'          => $form->createView(),
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,
-        ), $widget);
+        ], $widget);
     }
 
     /**
@@ -635,7 +640,7 @@ class CrudController extends Controller implements MenuItemInterface
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse($viewType, array $templateParams = array(), $widget = false)
+    private function renderResponse($viewType, array $templateParams = [], $widget = false)
     {
         return new Response($this->renderTemplate($viewType, $templateParams, $widget));
     }
@@ -647,7 +652,7 @@ class CrudController extends Controller implements MenuItemInterface
      *
      * @return string
      */
-    private function renderTemplate($viewType, array $templateParams = array(), $widget = false)
+    private function renderTemplate($viewType, array $templateParams = [], $widget = false)
     {
         $template = $widget && !empty($this->configuration['view'][$viewType]['template'])
             ? $this->configuration['view'][$viewType]['template']

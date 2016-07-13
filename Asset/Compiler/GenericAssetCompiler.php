@@ -40,7 +40,7 @@ class GenericAssetCompiler implements AssetCompilerInterface
     {
         $this->assetProvider = $assetProvider;
 
-        $this->filters = array();
+        $this->filters = [];
     }
 
     /**

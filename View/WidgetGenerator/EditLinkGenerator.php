@@ -48,10 +48,11 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     protected function generateWidget($entity, array $options, $property)
     {
         return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_EDIT)
-            ? $this->render($options, array(
+            ? $this->render($options, [
                 'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ))
+            ]
+            )
             : '';
     }
 
@@ -70,8 +71,8 @@ class EditLinkGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::EDIT,
-        );
+        ];
     }
 }

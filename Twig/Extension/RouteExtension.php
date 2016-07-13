@@ -35,11 +35,11 @@ class RouteExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('admin_path', array($this->adminRouter, 'generate')),
-            new \Twig_SimpleFunction('admin_route_exists', array($this->adminRouter, 'isRouteExists')),
-            new \Twig_SimpleFunction('admin_url', array($this->adminRouter, 'generateAbsolute')),
-        );
+        return [
+            new \Twig_SimpleFunction('admin_path', [$this->adminRouter, 'generate']),
+            new \Twig_SimpleFunction('admin_route_exists', [$this->adminRouter, 'isRouteExists']),
+            new \Twig_SimpleFunction('admin_url', [$this->adminRouter, 'generateAbsolute']),
+        ];
     }
 
     /**

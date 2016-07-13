@@ -43,7 +43,7 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
      */
     public function getRequiredPermissions()
     {
-        return array();
+        return [];
     }
 
     /**

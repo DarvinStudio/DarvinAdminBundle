@@ -25,7 +25,7 @@ class WidgetGeneratorPool
      */
     public function __construct()
     {
-        $this->generators = array();
+        $this->generators = [];
     }
 
     /**

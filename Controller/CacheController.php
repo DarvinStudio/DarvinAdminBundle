@@ -38,7 +38,7 @@ class CacheController extends Controller
         if ($formIsValid) {
             set_time_limit(0);
 
-            if ($this->getCachesClearCommand()->run(new ArrayInput(array()), new NullOutput()) > 0) {
+            if ($this->getCachesClearCommand()->run(new ArrayInput([]), new NullOutput()) > 0) {
                 $message = 'cache.action.clear.error';
             } else {
                 $message = 'cache.action.clear.success';

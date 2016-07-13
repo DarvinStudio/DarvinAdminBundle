@@ -45,10 +45,11 @@ class AddMenuItemsPass implements CompilerPassInterface
         $menuDefinition = $container->getDefinition(self::MENU_ID);
 
         foreach ($items as $id => $attr) {
-            $menuDefinition->addMethodCall('addItem', array(
+            $menuDefinition->addMethodCall('addItem', [
                 new Reference($id),
                 isset($attr[0]['group']) ? $attr[0]['group'] : null,
-            ));
+            ]
+            );
         }
     }
 }

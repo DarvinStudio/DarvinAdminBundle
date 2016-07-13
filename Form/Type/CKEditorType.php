@@ -66,21 +66,21 @@ class CKEditorType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $plugins = array(
-            'lineutils' => array(
+        $plugins = [
+            'lineutils' => [
                 'path'     => $this->pluginsPath.'/lineutils/',
                 'filename' => 'plugin.js',
-            ),
-            'widget' => array(
+            ],
+            'widget' => [
                 'path'     => $this->pluginsPath.'/widget/',
                 'filename' => 'plugin.js',
-            ),
-        );
+            ],
+        ];
 
-        $extraPlugins = array(
+        $extraPlugins = [
             'lineutils',
             'widget',
-        );
+        ];
 
         foreach ($this->widgetPool->getAllWidgets() as $widget) {
             $path = $this->getWidgetPluginPath($widget);
@@ -91,10 +91,10 @@ class CKEditorType extends AbstractType
 
             $widgetName = $widget->getName();
 
-            $plugins[$widgetName] = array(
+            $plugins[$widgetName] = [
                 'path'     => $path,
                 'filename' => $this->getWidgetPluginFilename($widget),
-            );
+            ];
             $extraPlugins[] = $widgetName;
         }
 
@@ -107,7 +107,7 @@ class CKEditorType extends AbstractType
             : $extraPluginsString;
 
         if (isset($config['toolbar'])) {
-            $config['toolbar'] = array_merge($config['toolbar'], array($extraPlugins));
+            $config['toolbar'] = array_merge($config['toolbar'], [$extraPlugins]);
         }
 
         $request = $this->requestStack->getCurrentRequest();

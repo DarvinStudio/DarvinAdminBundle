@@ -45,9 +45,10 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
         $dashboardDefinition = $container->getDefinition(self::DASHBOARD_ID);
 
         foreach ($widgetIds as $id => $attr) {
-            $dashboardDefinition->addMethodCall('addWidget', array(
+            $dashboardDefinition->addMethodCall('addWidget', [
                 new Reference($id),
-            ));
+            ]
+            );
         }
     }
 }

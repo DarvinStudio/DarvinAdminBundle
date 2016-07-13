@@ -37,24 +37,24 @@ class AdminRouter
     /**
      * @var array
      */
-    private static $typesRequiringId = array(
+    private static $typesRequiringId = [
         self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
         self::TYPE_SHOW,
         self::TYPE_UPDATE_PROPERTY,
-    );
+    ];
 
     /**
      * @var array
      */
-    private static $typesRequiringParentId = array(
+    private static $typesRequiringParentId = [
         self::TYPE_DELETE,
         self::TYPE_EDIT,
         self::TYPE_INDEX,
         self::TYPE_NEW,
         self::TYPE_SHOW,
-    );
+    ];
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
@@ -104,7 +104,7 @@ class AdminRouter
         $this->propertyAccessor = $propertyAccessor;
 
         $this->initialized = false;
-        $this->routeNames = array();
+        $this->routeNames = [];
     }
 
     /**
@@ -115,7 +115,8 @@ class AdminRouter
      *
      * @return string
      */
-    public function generateAbsolute($entity = null, $entityClass = null, $routeType = self::TYPE_SHOW, array $params = array())
+    public function generateAbsolute($entity = null, $entityClass = null, $routeType = self::TYPE_SHOW, array $params = []
+    )
     {
         return $this->generate($entity, $entityClass, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL);
     }
@@ -134,7 +135,7 @@ class AdminRouter
         $entity = null,
         $entityClass = null,
         $routeType = self::TYPE_SHOW,
-        array $params = array(),
+        array $params = [],
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ) {
         if (empty($entity) && empty($entityClass)) {
@@ -288,7 +289,7 @@ class AdminRouter
             $entityClass = $route->getOption(self::OPTION_ENTITY_CLASS);
 
             if (!isset($this->routeNames[$entityClass])) {
-                $this->routeNames[$entityClass] = array();
+                $this->routeNames[$entityClass] = [];
             }
 
             $this->routeNames[$entityClass][$route->getOption(self::OPTION_ROUTE_TYPE)] = $name;

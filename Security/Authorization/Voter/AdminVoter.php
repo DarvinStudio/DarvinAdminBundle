@@ -48,7 +48,7 @@ class AdminVoter extends Voter
     public function __construct(SecurityConfigurationPool $securityConfigurationPool)
     {
         $this->securityConfigurationPool = $securityConfigurationPool;
-        $this->supportedClasses = $this->permissions = array();
+        $this->supportedClasses = $this->permissions = [];
         $this->initialized = false;
     }
 
@@ -112,7 +112,7 @@ class AdminVoter extends Voter
 
                 $this->supportedClasses[] = $objectClass;
 
-                $this->permissions[$objectClass] = array();
+                $this->permissions[$objectClass] = [];
 
                 foreach ($objectPermissions->getUserPermissionsSet() as $userPermissions) {
                     $this->permissions[$objectClass][$userPermissions->getUserId()] = $userPermissions->getPermissions();

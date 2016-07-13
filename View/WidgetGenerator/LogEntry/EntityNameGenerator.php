@@ -72,9 +72,9 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      */
     protected function getAllowedEntityClasses()
     {
-        return array(
+        return [
             LogEntry::LOG_ENTRY_CLASS,
-        );
+        ];
     }
 
     /**
@@ -82,9 +82,9 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 
     /**

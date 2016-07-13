@@ -49,7 +49,7 @@ class ObjectPermissionsType extends AbstractType
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->users = array();
+        $this->users = [];
         $this->usersLoaded = false;
     }
 
@@ -61,13 +61,15 @@ class ObjectPermissionsType extends AbstractType
         $users = $this->getUsers();
 
         $builder
-            ->add('objectClass', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+            ->add('objectClass', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-            ))
-            ->add('userPermissionsSet', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
+            ]
+            )
+            ->add('userPermissionsSet', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
                 'label'      => false,
                 'entry_type' => UserPermissionsType::USER_PERMISSIONS_TYPE_CLASS,
-            ))
+            ]
+            )
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($users) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */
                 $objectPermissions = $event->getData();
@@ -109,11 +111,13 @@ class ObjectPermissionsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults(
+            [
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
             'label_format'  => 'security.object.%name%',
-        ));
+            ]
+        );
     }
 
     /**

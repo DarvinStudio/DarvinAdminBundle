@@ -66,7 +66,7 @@ class GlobalsExtension extends \Twig_Extension implements \Twig_Extension_Global
         $this->projectUrl = $projectUrl;
         $this->visualAssetsPath = $visualAssetsPath;
         $this->yandexTranslateApiKey = $yandexTranslateApiKey;
-        $this->globals = array();
+        $this->globals = [];
         $this->initialized = false;
     }
 

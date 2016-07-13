@@ -30,10 +30,10 @@ class FilterType extends AbstractFormType
     /**
      * @var array
      */
-    private static $fieldTypeChangeMap = array(
+    private static $fieldTypeChangeMap = [
         'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => 'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
         'Symfony\Component\Form\Extension\Core\Type\TextareaType' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
-    );
+    ];
 
     /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
@@ -70,9 +70,10 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields'], $meta);
 
         if (!empty($options['parent_entity_association'])) {
-            $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', array(
+            $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-            ));
+            ]
+            );
         }
     }
 
@@ -100,14 +101,16 @@ class FilterType extends AbstractFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(array(
+            ->setDefaults(
+                [
                 'csrf_protection'           => false,
                 'method'                    => 'get',
                 'parent_entity_association' => null,
                 'parent_entity_id'          => null,
                 'required'                  => false,
                 'translation_domain'        => 'admin',
-            ))
+                ]
+            )
             ->setRequired('metadata')
             ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
     }
@@ -148,9 +151,10 @@ class FilterType extends AbstractFormType
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
                 ? $this->formTypeGuesser->guessType($meta->getTranslationClass(), $property)
                 : $this->formTypeGuesser->guessType($meta->getEntityClass(), $property);
-            $options = array_merge(array(
+            $options = array_merge(
+                [
                 'required' => false,
-            ), $typeGuess->getOptions(), $options);
+                ], $typeGuess->getOptions(), $options);
 
             if (!empty($attr['type'])) {
                 $type = $attr['type'];
@@ -179,25 +183,25 @@ class FilterType extends AbstractFormType
 
         switch ($fieldType) {
             case 'Symfony\Component\Form\Extension\Core\Type\ChoiceType':
-                return array(
-                    'choices' => array(
+                return [
+                    'choices' => [
                         'boolean.1' => 1,
                         'boolean.0' => 0,
-                    ),
+                    ],
                     'choices_as_values' => true,
-                );
+                ];
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
-                return array(
+                return [
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy',
-                );
+                ];
             case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
-                return array(
+                return [
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy HH:mm',
-                );
+                ];
             case 'Symfony\Bridge\Doctrine\Form\Type\EntityType':
-                return array(
+                return [
                     'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
                         $qb = $er->createQueryBuilder('o');
 
@@ -208,13 +212,13 @@ class FilterType extends AbstractFormType
 
                         return $qb;
                     },
-                );
+                ];
             case 'Symfony\Component\Form\Extension\Core\Type\TimeType':
-                return array(
+                return [
                     'widget' => 'single_text',
-                );
+                ];
             default:
-                return array();
+                return [];
         }
     }
 

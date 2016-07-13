@@ -38,7 +38,7 @@ class Dashboard implements DashboardInterface
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->widgets = array();
+        $this->widgets = [];
         $this->widgetsFiltered = false;
     }
 

@@ -36,6 +36,6 @@ class UploaderListener
             return;
         }
 
-        $response->addToOffset($file->getFilename(), array());
+        $response->addToOffset($file->getFilename(), []);
     }
 }

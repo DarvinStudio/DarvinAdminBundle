@@ -92,7 +92,7 @@ class DataGenerator extends AbstractWidgetGenerator
 
         $translationPrefix = $this->getTranslationPrefix($logEntry->getObjectClass());
 
-        $viewData = array();
+        $viewData = [];
 
         foreach ($data as $property => $value) {
             if (isset($mappings[$property])) {
@@ -105,9 +105,10 @@ class DataGenerator extends AbstractWidgetGenerator
             $viewData[$translationPrefix.StringsUtil::toUnderscore($property)] = $value;
         }
 
-        return $this->render($options, array(
+        return $this->render($options, [
             'data' => $viewData,
-        ));
+        ]
+        );
     }
 
     /**
@@ -115,9 +116,9 @@ class DataGenerator extends AbstractWidgetGenerator
      */
     protected function getAllowedEntityClasses()
     {
-        return array(
+        return [
             LogEntry::LOG_ENTRY_CLASS,
-        );
+        ];
     }
 
     /**
@@ -125,9 +126,9 @@ class DataGenerator extends AbstractWidgetGenerator
      */
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::VIEW,
-        );
+        ];
     }
 
     /**

@@ -35,16 +35,16 @@ class MenuExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             new \Twig_SimpleFunction(
                 'admin_menu',
-                array($this, 'renderMenu'),
-                array(
-                    'is_safe'           => array('html'),
+                [$this, 'renderMenu'],
+                [
+                    'is_safe'           => ['html'],
                     'needs_environment' => true,
-                )
+                ]
             ),
-        );
+        ];
     }
 
     /**
@@ -55,9 +55,10 @@ class MenuExtension extends \Twig_Extension
      */
     public function renderMenu(\Twig_Environment $environment, $template = 'DarvinAdminBundle::menu.html.twig')
     {
-        return $environment->render($template, array(
+        return $environment->render($template, [
             'items' => $this->menu->getItems(),
-        ));
+        ]
+        );
     }
 
     /**

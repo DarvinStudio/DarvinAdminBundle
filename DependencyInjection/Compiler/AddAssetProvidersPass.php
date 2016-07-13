@@ -48,10 +48,11 @@ class AddAssetProvidersPass implements CompilerPassInterface
                     throw new \InvalidArgumentException($message);
                 }
 
-                $poolDefinition->addMethodCall('addProvider', array(
+                $poolDefinition->addMethodCall('addProvider', [
                     $tag['alias'],
                     $reference,
-                ));
+                ]
+                );
             }
         }
     }

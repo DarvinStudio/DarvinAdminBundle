@@ -205,11 +205,6 @@ project_url:   example.com
 bazinga_js_translation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
 
-fm_elfinder:
-    resource:     "@FMElfinderBundle/Resources/config/routing.yml"
-    prefix:       /admin/{_locale}
-    requirements: { _locale: %locale_pattern% }
-
 lexik_translation:
     resource:     "@LexikTranslationBundle/Resources/config/routing.yml"
     prefix:       /admin/{_locale}/translation
@@ -225,12 +220,6 @@ oneup_uploader:
 # Darvin bundles
 darvin_admin:
     resource:     "@DarvinAdminBundle/Resources/config/routing.yml"
-    prefix:       /admin/{_locale}
-    requirements: { _locale: %locale_pattern% }
-
-darvin_admin_loader:
-    resource:     .
-    type:         darvin_admin
     prefix:       /admin/{_locale}
     requirements: { _locale: %locale_pattern% }
 ```

@@ -52,8 +52,7 @@ ivory_ck_editor:
                 tab,
                 tabletools,
                 templates,
-                wsc,
-                wysiwygarea
+                wsc
         darvin_admin_compact:
             toolbar:
                 - [ Source ]
@@ -111,5 +110,4 @@ ivory_ck_editor:
                 table,
                 tabletools,
                 templates,
-                wsc,
-                wysiwygarea
+                wsc

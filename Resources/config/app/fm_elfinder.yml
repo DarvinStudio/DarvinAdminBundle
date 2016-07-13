@@ -1,0 +1,12 @@
+fm_elfinder:
+    assets_path: /assets/components
+    instances:
+        default:
+            editor: ckeditor
+            connector:
+                debug: "%kernel.debug%"
+                roots:
+                    uploads:
+                        driver:          LocalFileSystem
+                        path:            "%upload_dir%"
+                        upload_max_size: "%upload_max_size_mb%M"

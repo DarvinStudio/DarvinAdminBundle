@@ -4,6 +4,8 @@ ivory_ck_editor:
     jquery:   true
     configs:
         darvin_admin:
+            filebrowserBrowseRoute:           elfinder
+            filebrowserBrowseRouteParameters: []
             toolbar:
                 - [ Source ]
                 - [ Image, Flash, Table, SpecialChar ]
@@ -26,7 +28,6 @@ ivory_ck_editor:
                 elementspath,
                 enterkey,
                 entities,
-                filebrowser,
                 floatingspace,
                 forms,
                 horizontalrule,

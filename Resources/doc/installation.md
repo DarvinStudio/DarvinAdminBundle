@@ -1,12 +1,15 @@
 Установка
 =========
 
-**1. Добавляем бандл в секцию "require" файла composer.json:**
+**1. Добавляем бандл в секцию "require" файла composer.json и опцию "component-dir" в раздел "config" этого файла:**
 
 ```json
 {
     "require": {
         "darvinstudio/darvin-admin-bundle": "*"
+    },
+    "config": {
+        "component-dir": "web/assets/components"
     }
 }
 ```
@@ -30,6 +33,7 @@ class AppKernel extends Kernel
             // Third party bundles
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
+            new FM\ElfinderBundle\FMElfinderBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
             new Ivory\FormExtraBundle\IvoryFormExtraBundle(),
@@ -63,6 +67,7 @@ class AppKernel extends Kernel
 imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/a2lix_translation_form.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/bazinga_js_translation.yml" }
+    - { resource: "@DarvinAdminBundle/Resources/config/app/fm_elfinder.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/ivory_ck_editor.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/knp_paginator.yml" }
@@ -199,6 +204,11 @@ project_url:   example.com
 # Third party bundles
 bazinga_js_translation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+
+fm_elfinder:
+    resource:     "@FMElfinderBundle/Resources/config/routing.yml"
+    prefix:       /admin/{_locale}
+    requirements: { _locale: %locale_pattern% }
 
 lexik_translation:
     resource:     "@LexikTranslationBundle/Resources/config/routing.yml"

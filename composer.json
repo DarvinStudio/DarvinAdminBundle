@@ -17,7 +17,7 @@
         "egeloen/form-extra-bundle":          "1.0.*",
         "helios-ag/fm-elfinder-bundle":       "6.1.*",
         "knplabs/knp-paginator-bundle":       "2.5.*",
-        "lexik/translation-bundle":           "dev-master@dev",
+        "lexik/translation-bundle":           "4.0.*",
         "ocramius/proxy-manager":             "0.5.*",
         "oneup/uploader-bundle":              "dev-master@dev",
         "stof/doctrine-extensions-bundle":    "1.2.*",

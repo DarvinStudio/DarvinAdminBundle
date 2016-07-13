@@ -10,3 +10,8 @@
     <button type="submit">{% trans %}configuration.action.edit.submit{% endtrans %}</button>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}

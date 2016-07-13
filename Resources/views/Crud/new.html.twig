@@ -13,3 +13,8 @@
     {% include 'DarvinAdminBundle:Crud/widget:new.html.twig' %}
 
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ form_javascript(form) }}
+{% endblock %}

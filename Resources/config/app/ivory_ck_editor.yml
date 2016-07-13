@@ -1,4 +1,7 @@
 ivory_ck_editor:
+    autoload: false
+    async:    true
+    jquery:   true
     configs:
         darvin_admin:
             toolbar:

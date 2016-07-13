@@ -3,3 +3,5 @@
 {% include 'DarvinAdminBundle:Crud/widget:form.html.twig' with {
     'field_groups': meta.configuration.form.new.field_groups,
 } %}
+
+{{ form_javascript(form) }}

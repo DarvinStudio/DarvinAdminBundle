@@ -6,6 +6,7 @@ ivory_ck_editor:
         darvin_admin:
             filebrowserBrowseRoute:           elfinder
             filebrowserBrowseRouteParameters: []
+            height:                           300
             toolbar:
                 - [ Source ]
                 - [ Image, Flash, Table, SpecialChar ]
@@ -54,6 +55,7 @@ ivory_ck_editor:
                 templates,
                 wsc
         darvin_admin_compact:
+            height: 100
             toolbar:
                 - [ Source ]
                 - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]

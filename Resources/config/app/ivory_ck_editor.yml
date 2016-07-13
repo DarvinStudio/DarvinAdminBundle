@@ -1,6 +1,16 @@
 ivory_ck_editor:
     configs:
         darvin_admin:
+            toolbar:
+                - [ Source ]
+                - [ Image, Flash, Table, SpecialChar ]
+                - [ NumberedList, BulletedList, -, Outdent, Indent, -, JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock ]
+                - [ Link, Unlink, Anchor ]
+                - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]
+                - [ Format, Font, FontSize ]
+                - [ TextColor, BGColor ]
+                - [ Maximize, ShowBlocks ]
+                - [ Find, Replace ]
             removePlugins: >
                 a11yhelp,
                 about,
@@ -41,17 +51,10 @@ ivory_ck_editor:
                 templates,
                 wsc,
                 wysiwygarea
+        darvin_admin_compact:
             toolbar:
                 - [ Source ]
-                - [ Image, Flash, Table, SpecialChar ]
-                - [ NumberedList, BulletedList, -, Outdent, Indent, -, JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock ]
-                - [ Link, Unlink, Anchor ]
                 - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]
-                - [ Format, Font, FontSize ]
-                - [ TextColor, BGColor ]
-                - [ Maximize, ShowBlocks ]
-                - [ Find, Replace ]
-        darvin_admin_compact:
             removePlugins: >
                 a11yhelp,
                 about,
@@ -107,6 +110,3 @@ ivory_ck_editor:
                 templates,
                 wsc,
                 wysiwygarea
-            toolbar:
-                - [ Source ]
-                - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]

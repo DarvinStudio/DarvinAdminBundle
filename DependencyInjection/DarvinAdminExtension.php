@@ -54,6 +54,7 @@ class DarvinAdminExtension extends Extension
             'route',
             'security',
             'slug_suffix',
+            'translation',
             'twig',
             'uploader',
             'view',

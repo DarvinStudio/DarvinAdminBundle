@@ -32,8 +32,9 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
     protected function getSecurableObjectClasses()
     {
         return [
-            'image' => AbstractImage::ABSTRACT_IMAGE_CLASS,
-            'log'   => LogEntry::LOG_ENTRY_CLASS,
+            'image'       => AbstractImage::ABSTRACT_IMAGE_CLASS,
+            'log'         => LogEntry::LOG_ENTRY_CLASS,
+            'translation' => 'Lexik\Bundle\TranslationBundle\Entity\Translation',
         ];
     }
 }

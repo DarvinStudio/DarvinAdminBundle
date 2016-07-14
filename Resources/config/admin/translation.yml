@@ -1,0 +1,27 @@
+disabled_routes:
+    - copy
+    - delete
+    - edit
+    - new
+    - show
+view:
+    index:
+        action_widgets: ~
+        fields:
+            content:          ~
+            locale:           ~
+            transUnit.domain: ~
+            updatedAt:        ~
+form:
+    index:
+        fields:
+            content:
+                type: Symfony\Component\Form\Extension\Core\Type\TextType
+    filter:
+        fields:
+            content:
+                compare_strict: false
+            locale:
+                compare_strict: false
+            updatedAtFrom: ~
+            updatedAtTo:   ~

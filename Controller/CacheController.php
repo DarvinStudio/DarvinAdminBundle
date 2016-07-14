@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -29,33 +28,50 @@ class CacheController extends Controller
      */
     public function clearAction(Request $request)
     {
-        $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
-        $success = false;
+        $url = $request->headers->get('referer', $this->generateUrl('darvin_admin_homepage'));
 
-        $form = $this->getCacheFormManager()->createClearForm();
-        $formIsValid = $form->handleRequest($request)->isValid();
+        $form = $this->getCacheFormManager()->createClearForm()->handleRequest($request);
 
-        if ($formIsValid) {
-            set_time_limit(0);
+        if (!$form->isValid()) {
+            $messages = [];
 
-            if ($this->getCachesClearCommand()->run(new ArrayInput([]), new NullOutput()) > 0) {
-                $message = 'cache.action.clear.error';
-            } else {
-                $message = 'cache.action.clear.success';
-                $success = true;
+            /** @var \Symfony\Component\Form\FormError $error */
+            foreach ($form->getErrors(true) as $error) {
+                $messages[] = $error->getMessage();
             }
-        }
-        if (!$request->isXmlHttpRequest()) {
-            $this->getFlashNotifier()->done($success, $message);
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse('', false, implode(' ', $messages), [], $url);
+            }
+            foreach ($messages as $message) {
+                $this->getFlashNotifier()->error($message);
+            }
 
-            return $this->redirect($request->headers->get('referer', $this->generateUrl('darvin_admin_homepage')));
+            return $this->redirect($url);
         }
 
-        return new AjaxResponse(
-            $success ? '' : $this->getCacheFormManager()->renderClearForm($form),
-            $success,
-            $message
-        );
+        set_time_limit(0);
+
+        if ($this->getCachesClearCommand()->run(new ArrayInput([]), new NullOutput()) > 0) {
+            $message = 'cache.action.clear.error';
+
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($this->getCacheFormManager()->renderClearForm($form), false, $message);
+            }
+
+            $this->getFlashNotifier()->error($message);
+
+            return $this->redirect($url);
+        }
+
+        $message = 'cache.action.clear.success';
+
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse('', true, $message, [], $url);
+        }
+
+        $this->getFlashNotifier()->success($message);
+
+        return $this->redirect($url);
     }
 
     /**

@@ -109,19 +109,16 @@ class Configuration implements ConfigurationInterface
                             EditLinkGenerator::ALIAS,
                             CopyFormGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        ]
-                        ))
+                        ]))
                         ->append($this->addViewNode('new'))
                         ->append($this->addViewNode('edit', [
                             ShowLinkGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        ]
-                        ))
+                        ]))
                         ->append($this->addViewNode('show', [
                             EditLinkGenerator::ALIAS,
                             DeleteFormGenerator::ALIAS,
-                        ]
-                        ))
+                        ]))
                     ->end()
                 ->end()
             ->end();

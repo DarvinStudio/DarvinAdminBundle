@@ -171,8 +171,7 @@ class CrudController extends Controller implements MenuItemInterface
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
             'view'              => $view,
-        ]
-        );
+        ]);
     }
 
     /**
@@ -307,8 +306,7 @@ class CrudController extends Controller implements MenuItemInterface
                 'form'          => $form->createView(),
                 'meta'          => $this->meta,
                 'parent_entity' => $parentEntity,
-            ]
-            );
+            ]);
     }
 
     /**
@@ -350,19 +348,16 @@ class CrudController extends Controller implements MenuItemInterface
             $originalValue = $formView->children[$property]->vars['value'];
         }
 
-        return new JsonResponse(
-            [
+        return new JsonResponse([
             'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, [
                 'original_value' => $originalValue,
-            ]
-            ),
+            ]),
             'message' => $formIsValid
                 ? $this->meta->getBaseTranslationPrefix().'action.update_property.success'
                 : FlashNotifierInterface::MESSAGE_FORM_ERROR
             ,
             'success' => $formIsValid,
-            ]
-        );
+        ]);
     }
 
     /**

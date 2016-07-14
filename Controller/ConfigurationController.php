@@ -47,8 +47,7 @@ class ConfigurationController extends Controller implements MenuItemInterface
         $form = $this->createForm(ConfigurationsType::CONFIGURATIONS_TYPE_CLASS, $configurationPool, [
             'action'             => $url,
             'translation_domain' => 'admin',
-        ]
-        )->handleRequest($request);
+        ])->handleRequest($request);
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -64,8 +63,7 @@ class ConfigurationController extends Controller implements MenuItemInterface
 
         return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', [
             'form' => $form->createView(),
-        ]
-        );
+        ]);
     }
 
     /**

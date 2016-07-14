@@ -58,8 +58,7 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
             if (!isset($options['item_title_property'])) {
                 return $this->render($options, [
                     'widgets' => $collection,
-                ]
-                );
+                ]);
             }
 
             $widgets = [];
@@ -70,8 +69,7 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
 
             return $this->render($options, [
                 'widgets' => $widgets,
-            ]
-            );
+            ]);
         }
 
         $widgetGenerator = $this->widgetGeneratorPool->getWidgetGenerator($options['item_widget_alias']);
@@ -84,8 +82,7 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'widgets' => $widgets,
-        ]
-        );
+        ]);
     }
 
     /**
@@ -96,26 +93,21 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'item_widget_alias'   => ShowLinkGenerator::ALIAS,
                 'item_widget_options' => [
                     'text_link' => true,
                 ],
-                ]
-            )
-            ->setDefined(
-                [
+            ])
+            ->setDefined([
                 'item_title_property',
                 'property',
-                ]
-            )
+            ])
             ->setAllowedTypes('item_title_property', 'string')
             ->setAllowedTypes('item_widget_alias', [
                 'null',
                 'string',
-            ]
-            )
+            ])
             ->setAllowedTypes('item_widget_options', 'array')
             ->setAllowedTypes('property', 'string');
     }

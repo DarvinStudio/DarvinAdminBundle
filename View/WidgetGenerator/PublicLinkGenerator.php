@@ -61,8 +61,7 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'url' => $url,
-        ]
-        );
+        ]);
     }
 
     /**
@@ -73,12 +72,10 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired(
-                [
+            ->setRequired([
                 'params',
                 'route',
-                ]
-            )
+            ])
             ->setAllowedTypes('params', 'array')
             ->setAllowedTypes('route', 'string');
     }

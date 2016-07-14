@@ -88,8 +88,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
             'new_link'           => $createDeletePermissionGranted,
             'parent_id'          => $parentId,
             'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
-        ]
-        );
+        ]);
     }
 
     /**

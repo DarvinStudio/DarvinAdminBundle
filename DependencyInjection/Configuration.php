@@ -36,12 +36,10 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addCKEditorNode())
                 ->arrayNode('cache_clear_command_classes')
                     ->prototype('scalar')->end()
-                    ->defaultValue(
-                        [
+                    ->defaultValue([
                         'Liip\ImagineBundle\Command\RemoveCacheCommand',
                         'Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand',
-                        ]
-                    )
+                    ])
                 ->end()
                 ->booleanNode('debug')->defaultFalse()->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()

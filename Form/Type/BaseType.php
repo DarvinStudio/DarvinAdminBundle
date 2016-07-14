@@ -101,20 +101,16 @@ class BaseType extends AbstractFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'csrf_token_id'      => md5(__FILE__),
                 'translation_domain' => 'admin',
-                ]
-            )
+            ])
             ->remove('data_class')
-            ->setRequired(
-                [
+            ->setRequired([
                 'action_type',
                 'data_class',
                 'metadata',
-                ]
-            )
+            ])
             ->setDefined('field_filter')
             ->setAllowedTypes('action_type', 'string')
             ->setAllowedTypes('data_class', 'string')

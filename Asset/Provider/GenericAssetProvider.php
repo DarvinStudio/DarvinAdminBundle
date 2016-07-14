@@ -119,14 +119,11 @@ class GenericAssetProvider implements AssetProviderInterface
 
         $bundle = $this->kernel->getBundle('DarvinAdminBundle');
 
-        $this->compiledAssetAbsolutePathname = implode(
-            DIRECTORY_SEPARATOR,
-            [
-                $bundle->getPath(),
-                'Resources/public',
-                $this->compiledAssetPathname,
-            ]
-        );
+        $this->compiledAssetAbsolutePathname = implode(DIRECTORY_SEPARATOR, [
+            $bundle->getPath(),
+            'Resources/public',
+            $this->compiledAssetPathname,
+        ]);
 
         $this->assetWebPathnames = $this->kernel->isDebug()
             ? $this->devAssetWebPathnames
@@ -135,8 +132,7 @@ class GenericAssetProvider implements AssetProviderInterface
                     'bundles',
                     preg_replace('/bundle$/', '', strtolower($bundle->getName())),
                     $this->compiledAssetPathname,
-                ]
-                ),
+                ]),
             ];
     }
 }

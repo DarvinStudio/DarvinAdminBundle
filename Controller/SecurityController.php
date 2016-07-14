@@ -36,8 +36,7 @@ class SecurityController extends Controller
         return $this->render('DarvinAdminBundle:Security:login.html.twig', [
             'error' => !empty($error) ? $error->getMessage() : null,
             'form'  => $form->createView(),
-        ]
-        );
+        ]);
     }
 
     /**

@@ -63,8 +63,7 @@ class ConfigurationsType extends AbstractType
                 'configuration' => $configuration,
                 'constraints'   => new Valid(),
                 'data_class'    => get_class($configuration),
-            ]
-            );
+            ]);
         }
     }
 
@@ -73,12 +72,10 @@ class ConfigurationsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
+        $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => get_class($this->configurationPool),
-            ]
-        );
+        ]);
     }
 
     /**

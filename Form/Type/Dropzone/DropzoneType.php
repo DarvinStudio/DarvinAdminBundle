@@ -102,8 +102,7 @@ class DropzoneType extends AbstractType
                     'data-max-filesize'   => $this->uploadMaxSizeMB,
                     'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
                 ],
-            ]
-            )
+            ])
             ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
                 'label'         => false,
                 'mapped'        => false,
@@ -116,8 +115,7 @@ class DropzoneType extends AbstractType
                     'class'         => 'files',
                     'data-autoinit' => 0,
                 ],
-            ]
-            )
+            ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($propertyAccessor, $uploadablesField) {
                 $event->setData($propertyAccessor->getValue($event->getForm()->getParent()->getData(), $uploadablesField));
             })
@@ -161,25 +159,19 @@ class DropzoneType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'accepted_files'         => self::DEFAULT_ACCEPTED_FILES,
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-                ]
-            )
-            ->setDefined(
-                [
+            ])
+            ->setDefined([
                 'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
-                ]
-            )
-            ->setRequired(
-                [
+            ])
+            ->setRequired([
                 'uploadable_class',
-                ]
-            )
+            ])
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
             ->setAllowedTypes('uploadable_class', 'string');
     }

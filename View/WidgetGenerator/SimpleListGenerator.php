@@ -43,8 +43,7 @@ class SimpleListGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'items' => $items,
-        ]
-        );
+        ]);
     }
 
     /**

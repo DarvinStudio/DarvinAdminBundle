@@ -51,8 +51,7 @@ class AddAssetProvidersPass implements CompilerPassInterface
                 $poolDefinition->addMethodCall('addProvider', [
                     $tag['alias'],
                     $reference,
-                ]
-                );
+                ]);
             }
         }
     }

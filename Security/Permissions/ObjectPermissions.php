@@ -41,12 +41,10 @@ class ObjectPermissions implements \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
+        return serialize([
             $this->objectClass,
             $this->userPermissionsSet,
-            ]
-        );
+        ]);
     }
 
     /**

@@ -127,8 +127,7 @@ class AdminFormFactory
             $options = array_merge($options, [
                 'action_type' => $actionType,
                 'metadata'    => $meta,
-            ]
-            );
+            ]);
         }
 
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
@@ -136,8 +135,7 @@ class AdminFormFactory
         foreach ($submitButtons as $name) {
             $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', [
                 'label' => self::$submitButtons[$name],
-            ]
-            );
+            ]);
         }
 
         return $builder->getForm();
@@ -182,8 +180,7 @@ class AdminFormFactory
                 'metadata'                  => $meta,
                 'parent_entity_association' => $parentEntityAssociation,
                 'parent_entity_id'          => $parentEntityId,
-            ]
-            );
+            ]);
         }
 
         return $this->genericFormFactory->createNamed($meta->getFilterFormTypeName(), $type, null, $options);
@@ -249,7 +246,6 @@ class AdminFormFactory
                 'Default',
                 'AdminUpdateProperty',
             ],
-        ]
-        );
+        ]);
     }
 }

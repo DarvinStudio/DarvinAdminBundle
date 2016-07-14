@@ -28,8 +28,7 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
         return !empty($email)
             ? $this->render($options, [
                 'email' => $email,
-            ]
-            )
+            ])
             : '';
     }
 

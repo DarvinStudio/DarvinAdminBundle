@@ -43,8 +43,7 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
             ? $this->render($options, [
                 'entity' => $entity,
                 'url'    => $url,
-            ]
-            )
+            ])
             : '';
     }
 

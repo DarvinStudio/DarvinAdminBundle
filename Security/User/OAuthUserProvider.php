@@ -24,10 +24,8 @@ class OAuthUserProvider extends BaseOAuthUserProvider
     protected function createUser($email)
     {
         return parent::createUser($email)
-            ->setRoles(
-                [
+            ->setRoles([
                 BaseUser::ROLE_ADMIN,
-                ]
-            );
+            ]);
     }
 }

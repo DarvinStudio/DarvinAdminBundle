@@ -180,8 +180,7 @@ class MetadataFactory
             'Bundle' => '',
             'Entity' => '',
             '\\'     => '',
-            ]
-            ).'.'.$entityName.self::CONTROLLER_ID_SUFFIX;
+        ]).'.'.$entityName.self::CONTROLLER_ID_SUFFIX;
 
         return StringsUtil::toUnderscore($id);
     }

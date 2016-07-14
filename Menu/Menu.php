@@ -112,22 +112,18 @@ class Menu
     private function configureItemAttributes(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'associated_object_class' => '',
                 'color'                   => '',
                 'description'             => '',
                 'homepage_menu_icon'      => '',
                 'left_menu_icon'          => '',
                 'new_title'               => '',
-                ]
-            )
-            ->setRequired(
-                [
+            ])
+            ->setRequired([
                 'index_title',
                 'name',
-                ]
-            )
+            ])
             ->setAllowedTypes('associated_object_class', 'string')
             ->setAllowedTypes('description', 'string')
             ->setAllowedTypes('new_title', 'string')

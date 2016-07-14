@@ -48,8 +48,7 @@ class AddMenuItemsPass implements CompilerPassInterface
             $menuDefinition->addMethodCall('addItem', [
                 new Reference($id),
                 isset($attr[0]['group']) ? $attr[0]['group'] : null,
-            ]
-            );
+            ]);
         }
     }
 }

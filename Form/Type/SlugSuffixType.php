@@ -59,8 +59,7 @@ class SlugSuffixType extends AbstractType
         $view->vars = array_merge($view->vars, [
             'route_path'  => $route->getPath(),
             'slug_prefix' => $this->sluggableManager->getSlugPrefix($form->getParent()->getData(), $options['slug_property']),
-        ]
-        );
+        ]);
 
         foreach ([
             'slug_property',
@@ -79,16 +78,14 @@ class SlugSuffixType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'slug_property'           => 'slug',
                 'route'                   => 'darvin_content_content_show',
                 'route_param_slug'        => 'slug',
                 'parent_select_selector'  => '.parent',
                 'parent_option_data_slug' => 'slug',
                 'required'                => false,
-                ]
-            )
+            ])
             ->setAllowedTypes('slug_property', 'string')
             ->setAllowedTypes('route', 'string')
             ->setAllowedTypes('route_param_slug', 'string');

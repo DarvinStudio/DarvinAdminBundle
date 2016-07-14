@@ -51,8 +51,7 @@ class EditLinkGenerator extends AbstractWidgetGenerator
             ? $this->render($options, [
                 'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ]
-            )
+            ])
             : '';
     }
 

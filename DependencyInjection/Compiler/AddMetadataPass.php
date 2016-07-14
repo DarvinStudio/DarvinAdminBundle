@@ -43,8 +43,7 @@ class AddMetadataPass implements CompilerPassInterface
         foreach ($metadataIds as $id => $attr) {
             $poolDefinition->addMethodCall('addMetadata', [
                 new Reference($id),
-            ]
-            );
+            ]);
         }
     }
 }

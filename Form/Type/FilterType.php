@@ -72,8 +72,7 @@ class FilterType extends AbstractFormType
         if (!empty($options['parent_entity_association'])) {
             $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-            ]
-            );
+            ]);
         }
     }
 
@@ -101,16 +100,14 @@ class FilterType extends AbstractFormType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefaults(
-                [
+            ->setDefaults([
                 'csrf_protection'           => false,
                 'method'                    => 'get',
                 'parent_entity_association' => null,
                 'parent_entity_id'          => null,
                 'required'                  => false,
                 'translation_domain'        => 'admin',
-                ]
-            )
+            ])
             ->setRequired('metadata')
             ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
     }
@@ -151,10 +148,9 @@ class FilterType extends AbstractFormType
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
                 ? $this->formTypeGuesser->guessType($meta->getTranslationClass(), $property)
                 : $this->formTypeGuesser->guessType($meta->getEntityClass(), $property);
-            $options = array_merge(
-                [
+            $options = array_merge([
                 'required' => false,
-                ], $typeGuess->getOptions(), $options);
+            ], $typeGuess->getOptions(), $options);
 
             if (!empty($attr['type'])) {
                 $type = $attr['type'];

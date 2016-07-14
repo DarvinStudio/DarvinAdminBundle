@@ -51,16 +51,14 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
             if (is_subclass_of($class, 'Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand')) {
                 $definition->addMethodCall('setContainer', [
                     new Reference('service_container'),
-                ]
-                );
+                ]);
             }
 
             $id = 'darvin_admin.cache.'.StringsUtil::toUnderscore(str_replace('\\', '_', $class));
 
             $cachesClearCommandDefinition->addMethodCall('addCacheClearCommand', [
                 new Reference($id),
-            ]
-            );
+            ]);
 
             $definitions[$id] = $definition;
         }

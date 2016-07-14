@@ -39,8 +39,7 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
                         'entry_type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
                     ],
                 ],
-            ]
-            ),
+            ]),
         ];
     }
 

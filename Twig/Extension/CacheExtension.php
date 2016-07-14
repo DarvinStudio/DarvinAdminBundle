@@ -40,9 +40,7 @@ class CacheExtension extends \Twig_Extension
                 'admin_cache_clear_form',
                 [$this->cacheFormManager, 'renderClearForm'],
                 [
-                    'is_safe' => [
-                        'html',
-                    ],
+                    'is_safe' => ['html'],
                 ]
             ),
         ];

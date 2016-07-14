@@ -24,8 +24,7 @@ class HomepageController extends Controller
     {
         return $this->render('DarvinAdminBundle:Homepage:homepage.html.twig', [
             'dashboard' => $this->getDashboard(),
-        ]
-        );
+        ]);
     }
 
     /**

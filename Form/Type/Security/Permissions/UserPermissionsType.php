@@ -30,8 +30,7 @@ class UserPermissionsType extends AbstractType
         $builder
             ->add('userId', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
-            ]
-            )
+            ])
             ->add('permissions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
                 'label'         => false,
                 'entry_type'    => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
@@ -39,8 +38,7 @@ class UserPermissionsType extends AbstractType
                     'label_format' => 'security.permission.%name%',
                     'required'     => false,
                 ],
-            ]
-            );
+            ]);
     }
 
     /**
@@ -48,12 +46,10 @@ class UserPermissionsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
+        $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => UserPermissions::USER_PERMISSIONS_CLASS,
-            ]
-        );
+        ]);
     }
 
     /**

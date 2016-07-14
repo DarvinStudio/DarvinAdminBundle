@@ -42,12 +42,10 @@ class UserPermissions implements \Serializable
      */
     public function serialize()
     {
-        return serialize(
-            [
+        return serialize([
             $this->userId,
             $this->permissions,
-            ]
-        );
+        ]);
     }
 
     /**

@@ -32,15 +32,13 @@ class FileType extends AbstractType
                 'attr'  => [
                     'class' => 'filename',
                 ],
-            ]
-            )
+            ])
             ->add('originalFilename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
                 'attr'  => [
                     'class' => 'original_filename',
                 ],
-            ]
-            );
+            ]);
     }
 
     /**
@@ -48,11 +46,9 @@ class FileType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
+        $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-            ]
-        );
+        ]);
     }
 
     /**

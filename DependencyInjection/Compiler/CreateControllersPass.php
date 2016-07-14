@@ -35,11 +35,9 @@ class CreateControllersPass implements CompilerPassInterface
 
         foreach ($allMeta as $entityClass => $meta) {
             $definition = new DefinitionDecorator('darvin_admin.crud.controller');
-            $definition->setArguments(
-                [
+            $definition->setArguments([
                 $entityClass,
-                ]
-            );
+            ]);
 
             $configuration = $meta->getConfiguration();
 
@@ -47,8 +45,7 @@ class CreateControllersPass implements CompilerPassInterface
                 $definition->addTag(AddMenuItemsPass::TAG_MENU_ITEM, [
                     'group'    => $configuration['menu']['group'],
                     'position' => $configuration['menu']['position'],
-                ]
-                );
+                ]);
             }
 
             $definitions[$meta->getControllerId()] = $definition;

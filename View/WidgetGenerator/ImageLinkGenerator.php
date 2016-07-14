@@ -79,8 +79,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             ),
             'name'         => $image->getName(),
             'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($image),
-        ]
-        );
+        ]);
     }
 
     /**
@@ -94,8 +93,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             ->setDefault('filter_params', [
                 'size_name' => Configuration::IMAGE_SIZE_ADMIN,
                 'outbound'  => true,
-            ]
-            )
+            ])
             ->setDefined('property')
             ->setAllowedTypes('filter_params', 'array')
             ->setAllowedTypes('property', 'string');

@@ -51,8 +51,7 @@ class CompoundListGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'list' => $list,
-        ]
-        );
+        ]);
     }
 
     /**

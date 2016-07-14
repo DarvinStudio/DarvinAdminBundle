@@ -103,19 +103,17 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
      *
      * @return string
      */
-    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property, array $templateParams = []
-    )
+    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property, array $templateParams = [])
     {
         $formView = $form->createView();
 
-        $templateParams = array_merge(
-            [
+        $templateParams = array_merge([
             'entity'         => $entity,
             'entity_class'   => $entityClass,
             'form'           => $formView,
             'original_value' => $formView->children[$property]->vars['value'],
             'property'       => $property,
-            ], $templateParams);
+        ], $templateParams);
 
         return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', $templateParams);
     }

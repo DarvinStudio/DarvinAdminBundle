@@ -107,8 +107,7 @@ class DataGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'data' => $viewData,
-        ]
-        );
+        ]);
     }
 
     /**

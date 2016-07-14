@@ -84,8 +84,7 @@ class RevertFormGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'form' => $this->createRevertForm($logEntry)->createView(),
-        ]
-        );
+        ]);
     }
 
     /**

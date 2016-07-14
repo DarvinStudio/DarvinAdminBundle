@@ -49,8 +49,7 @@ class ActionsGenerator extends AbstractWidgetGenerator
 
         return $this->render($options, [
             'actions' => $actions,
-        ]
-        );
+        ]);
     }
 
     /**

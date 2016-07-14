@@ -121,8 +121,7 @@ class BreadcrumbsExtension extends \Twig_Extension
 
         return $environment->render($template, [
             'crumbs' => $crumbs,
-        ]
-        );
+        ]);
     }
 
     /**

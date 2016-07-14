@@ -57,8 +57,7 @@ class MenuExtension extends \Twig_Extension
     {
         return $environment->render($template, [
             'items' => $this->menu->getItems(),
-        ]
-        );
+        ]);
     }
 
     /**

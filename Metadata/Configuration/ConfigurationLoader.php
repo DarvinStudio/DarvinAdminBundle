@@ -137,15 +137,7 @@ class ConfigurationLoader
             throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $realPathname));
         }
         try {
-            $config = Yaml::parse($content);
-
-            if (!is_array($config)) {
-                throw new ConfigurationException(
-                    sprintf('Configuration file "%s" must contain array, "%s" provided.', $realPathname, gettype($config))
-                );
-            }
-
-            return $config;
+            return (array) Yaml::parse($content);
         } catch (ParseException $ex) {
             throw new ConfigurationException(
                 sprintf('Unable to parse configuration file "%s": "%s".', $realPathname, $ex->getMessage())

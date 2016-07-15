@@ -1,66 +1,66 @@
 {% trans_default_domain 'admin' %}
 
 <div class="main_menu">
-    {% for item in items %}
+    {#{% for item in items %}#}
 
-        {% set index_url = item.indexUrl %}
-        {% set attr = item.menuItemAttributes %}
-        {% set icon = attr.homepage_menu_icon
-            ?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: darvin_admin_visual_assets_path ~ '/images/main_menu_' ~ attr.name ~ '.png' : null)
-        %}
+        {#{% set index_url = item.indexUrl %}#}
+        {#{% set attr = item.menuItemAttributes %}#}
+        {#{% set icon = attr.homepage_menu_icon#}
+            {#?: (item.childMenuItems is not empty ? attr.homepage_menu_icon ?: darvin_admin_visual_assets_path ~ '/images/main_menu_' ~ attr.name ~ '.png' : null)#}
+        {#%}#}
 
-        <div class="item color_{{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">
-            {% if icon %}
-                <div class="img">
-                    <a href="{{ index_url }}"><img src="{{ asset(icon) }}" alt="" /></a>
-                    {% if attr.associated_object_class
-                        and utils_new_objects_countable(attr.associated_object_class)
-                        and utils_count_new_objects(attr.associated_object_class)
-                    %}
-                        <a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>
-                    {% endif %}
-                </div>
-            {% endif %}
-            <div class="name">
-                <a href="{{ index_url }}"{% if attr.color %} style="color: {{ attr.color }};"{% endif %}>
-                    {{ attr.index_title | trans }}
-                </a>
-            </div>
-            {% if attr.description %}
-                <div class="description">
-                    <p>{{ attr.description | trans | raw }}</p>
-                </div>
-            {% endif %}
-            {% if item.childMenuItems is not empty %}
-                <div class="main_dropdown_menu_wrap">
-                    <div class="top_sep"></div>
-                    <div class="main_dropdown_menu">
-                        <div class="main_dropdown_menu_inner">
-                            {% for child in item.childMenuItems %}
+        {#<div class="item color_{{ attr.name }}{% if item.childMenuItems is not empty %} parent{% endif %}">#}
+            {#{% if icon %}#}
+                {#<div class="img">#}
+                    {#<a href="{{ index_url }}"><img src="{{ asset(icon) }}" alt="" /></a>#}
+                    {#{% if attr.associated_object_class#}
+                        {#and utils_new_objects_countable(attr.associated_object_class)#}
+                        {#and utils_count_new_objects(attr.associated_object_class)#}
+                    {#%}#}
+                        {#<a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>#}
+                    {#{% endif %}#}
+                {#</div>#}
+            {#{% endif %}#}
+            {#<div class="name">#}
+                {#<a href="{{ index_url }}"{% if attr.color %} style="color: {{ attr.color }};"{% endif %}>#}
+                    {#{{ attr.index_title | trans }}#}
+                {#</a>#}
+            {#</div>#}
+            {#{% if attr.description %}#}
+                {#<div class="description">#}
+                    {#<p>{{ attr.description | trans | raw }}</p>#}
+                {#</div>#}
+            {#{% endif %}#}
+            {#{% if item.childMenuItems is not empty %}#}
+                {#<div class="main_dropdown_menu_wrap">#}
+                    {#<div class="top_sep"></div>#}
+                    {#<div class="main_dropdown_menu">#}
+                        {#<div class="main_dropdown_menu_inner">#}
+                            {#{% for child in item.childMenuItems %}#}
 
-                                {% set index_url = child.indexUrl %}
-                                {% set new_url = child.newUrl %}
-                                {% set attr = child.menuItemAttributes %}
+                                {#{% set index_url = child.indexUrl %}#}
+                                {#{% set new_url = child.newUrl %}#}
+                                {#{% set attr = child.menuItemAttributes %}#}
 
-                                <div class="sub_item">
-                                    {% if attr.homepage_menu_icon %}
-                                        <div class="img">
-                                            <a href="{{ index_url }}"><img src="{{ asset(attr.homepage_menu_icon) }}"></a>
-                                        </div>
-                                    {% endif %}
-                                    <div class="name">
-                                        <a href="{{ index_url }}">{{ attr.index_title | trans }}</a>
-                                    </div>
-                                    {% if new_url and attr.new_title %}
-                                        <div class="sep"></div>
-                                        <a href="{{ new_url }}" class="btn">{{ attr.new_title | trans }}</a>
-                                    {% endif %}
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-        </div>
-    {% endfor %}
+                                {#<div class="sub_item">#}
+                                    {#{% if attr.homepage_menu_icon %}#}
+                                        {#<div class="img">#}
+                                            {#<a href="{{ index_url }}"><img src="{{ asset(attr.homepage_menu_icon) }}"></a>#}
+                                        {#</div>#}
+                                    {#{% endif %}#}
+                                    {#<div class="name">#}
+                                        {#<a href="{{ index_url }}">{{ attr.index_title | trans }}</a>#}
+                                    {#</div>#}
+                                    {#{% if new_url and attr.new_title %}#}
+                                        {#<div class="sep"></div>#}
+                                        {#<a href="{{ new_url }}" class="btn">{{ attr.new_title | trans }}</a>#}
+                                    {#{% endif %}#}
+                                {#</div>#}
+                            {#{% endfor %}#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#{% endif %}#}
+        {#</div>#}
+    {#{% endfor %}#}
 </div>

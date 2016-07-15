@@ -1,9 +1,25 @@
 parameters:
+    darvin_admin.menu.class: Darvin\AdminBundle\Menu\Menu
+
+    darvin_admin.menu.item_factory.class: Darvin\AdminBundle\Menu\ItemFactory
+
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
 services:
+    darvin_admin.menu:
+        class: %darvin_admin.menu.class%
+
+    darvin_admin.menu.item_factory:
+        class: %darvin_admin.menu.item_factory.class%
+        arguments:
+            - "@darvin_admin.metadata.manager"
+        tags:
+            - { name: darvin_admin.menu_item_factory }
+
     darvin_admin.menu.twig_extension:
         class:  %darvin_admin.menu.twig_extension.class%
         public: false
+        arguments:
+            - "@darvin_admin.menu"
         tags:
             - { name: twig.extension }

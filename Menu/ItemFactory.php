@@ -80,7 +80,8 @@ class ItemFactory implements ItemFactoryInterface
         $config = $meta->getConfiguration();
         $entityClass = $meta->getEntityClass();
 
-        $item = (new Item($meta->getEntityName(), $meta->getBaseTranslationPrefix().'action.index.link'))
+        $item = (new Item($meta->getEntityName()))
+            ->setIndexTitle($meta->getBaseTranslationPrefix().'action.index.link')
             ->setNewTitle($meta->getBaseTranslationPrefix().'action.new.link')
             ->setSmallIcon($config['images']['left_menu_icon'])
             ->setBigIcon($config['images']['homepage_menu_icon'])

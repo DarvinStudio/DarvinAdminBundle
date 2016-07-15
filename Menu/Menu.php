@@ -87,7 +87,7 @@ class Menu
                 $parentName = $item->getParentName();
 
                 if (!isset($items[$parentName])) {
-                    $items[$parentName] = $this->createItemGroup($parentName, $item->getPosition());
+                    $items[$parentName] = new ItemGroup($parentName, $item->getPosition(), $this->visualAssetsPath);
                 }
 
                 $parent = $items[$parentName];
@@ -105,19 +105,6 @@ class Menu
         }
 
         return $this->items;
-    }
-
-    /**
-     * @param string $name     Name
-     * @param string $position Position
-     *
-     * @return \Darvin\AdminBundle\Menu\Item
-     */
-    private function createItemGroup($name, $position)
-    {
-        return (new Item($name, sprintf('menu.group.%s.title', $name)))
-            ->setSmallIcon(sprintf('%s/images/left_menu_%s.png', $this->visualAssetsPath, $name))
-            ->setPosition($position);
     }
 
     /**

@@ -18,61 +18,59 @@ class Item
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      */
-    private $indexTitle;
+    protected $indexTitle;
 
     /**
      * @var string
      */
-    private $newTitle;
+    protected $newTitle;
 
     /**
      * @var string
      */
-    private $indexUrl;
+    protected $indexUrl;
 
     /**
      * @var string
      */
-    private $newUrl;
+    protected $newUrl;
 
     /**
      * @var string
      */
-    private $smallIcon;
+    protected $smallIcon;
 
     /**
      * @var string
      */
-    private $bigIcon;
+    protected $bigIcon;
 
     /**
      * @var int
      */
-    private $position;
+    protected $position;
 
     /**
      * @var string
      */
-    private $parentName;
+    protected $parentName;
 
     /**
      * @var \Darvin\AdminBundle\Menu\Item[]
      */
-    private $children;
+    protected $children;
 
     /**
-     * @param string $name       Name
-     * @param string $indexTitle Index action title
+     * @param string $name Name
      */
-    public function __construct($name, $indexTitle)
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->indexTitle = $indexTitle;
         $this->children = [];
     }
 
@@ -90,6 +88,18 @@ class Item
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $indexTitle indexTitle
+     *
+     * @return Item
+     */
+    public function setIndexTitle($indexTitle)
+    {
+        $this->indexTitle = $indexTitle;
+
+        return $this;
     }
 
     /**

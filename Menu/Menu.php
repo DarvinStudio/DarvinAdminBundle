@@ -70,6 +70,9 @@ class Menu
                     $items[$item->getName()] = $item;
                 }
             }
+
+            $this->sortItems($items);
+
             foreach ($items as $item) {
                 if (!$item->hasParent()) {
                     continue;
@@ -78,7 +81,8 @@ class Menu
                 $parentName = $item->getParentName();
 
                 if (!isset($items[$parentName])) {
-                    $items[$parentName] = new Item($parentName, sprintf('menu.group.%s.title', $parentName));
+                    $items[$parentName] = (new Item($parentName, sprintf('menu.group.%s.title', $parentName)))
+                        ->setPosition($item->getPosition());
                 }
 
                 $parent = $items[$parentName];
@@ -90,9 +94,28 @@ class Menu
                 }
             }
 
+            $this->sortItems($items);
+
             $this->items = $items;
         }
 
         return $this->items;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Menu\Item[] $items Menu items
+     */
+    private function sortItems(array &$items)
+    {
+        $defaultPos = max(array_map(function (Item $item) {
+            return $item->getPosition();
+        }, $items)) + 1;
+
+        usort($items, function (Item $a, Item $b) use ($defaultPos) {
+            $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
+            $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
+
+            return $posA === $posB ? 0 : ($posA > $posB ? 1 : -1);
+        });
     }
 }

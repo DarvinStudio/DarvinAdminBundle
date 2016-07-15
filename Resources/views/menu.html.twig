@@ -8,7 +8,6 @@
 
     <ul>
         {% for item in items %}
-            <li>{{ item.title|trans }}</li>
 
             {#{% set index_url = item.indexUrl %}#}
             {#{% set attr = item.menuItemAttributes %}#}
@@ -16,11 +15,11 @@
                 {#?: (item.childMenuItems is not empty ? darvin_admin_visual_assets_path ~ '/images/left_menu_' ~ attr.name ~ '.png' : null)#}
             {#%}#}
 
-            {#<li class="left_menu_{{ attr.name }}">#}
+            <li class="left_menu_{{ item.name }}">
                 {#{% if icon %}#}
                     {#<a href="{{ index_url }}" class="img"><img src="{{ asset(icon) }}" alt="" /></a>#}
                 {#{% endif %}#}
-                {#<a href="{{ index_url }}">{{ attr.index_title | trans }}</a>#}
+                <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
                 {#{% if attr.associated_object_class#}
                     {#and utils_new_objects_countable(attr.associated_object_class)#}
                     {#and utils_count_new_objects(attr.associated_object_class)#}
@@ -32,7 +31,7 @@
                     {#{{ menu.render(item.childMenuItems) }}#}
 
                 {#{% endif %}#}
-            {#</li>#}
+            </li>
         {% endfor %}
     </ul>
 {% endmacro %}

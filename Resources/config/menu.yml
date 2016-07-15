@@ -12,6 +12,8 @@ services:
     darvin_admin.menu.item_factory:
         class: %darvin_admin.menu.item_factory.class%
         arguments:
+            - "@darvin_admin.route.router"
+            - "@security.authorization_checker"
             - "@darvin_admin.metadata.manager"
         tags:
             - { name: darvin_admin.menu_item_factory }

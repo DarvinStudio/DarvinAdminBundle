@@ -11,28 +11,14 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
-use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Configuration controller
  */
-class ConfigurationController extends Controller implements MenuItemInterface
+class ConfigurationController extends Controller
 {
-    /**
-     * @var array
-     */
-    private $menuItemAttributes;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->menuItemAttributes = $this->generateMenuItemAttributes();
-    }
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
@@ -64,67 +50,6 @@ class ConfigurationController extends Controller implements MenuItemInterface
         return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', [
             'form' => $form->createView(),
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setChildMenuItems(array $childMenuItems)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildMenuItems()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIndexUrl()
-    {
-        return $this->generateUrl('darvin_admin_configuration');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNewUrl()
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setMenuItemAttributes(array $menuItemAttributes)
-    {
-        $this->menuItemAttributes = $menuItemAttributes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuItemAttributes()
-    {
-        return $this->menuItemAttributes;
-    }
-
-    /**
-     * @return array
-     */
-    private function generateMenuItemAttributes()
-    {
-        return [
-            'color'              => '#5a4fb6',
-            'description'        => 'configuration.menu.description',
-            'homepage_menu_icon' => 'bundles/darvinadmin/images/icons/homepage/configuration.png',
-            'index_title'        => 'configuration.action.edit.link',
-            'name'               => 'configuration',
-        ];
     }
 
     /**

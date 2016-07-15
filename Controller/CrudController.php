@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\Controller;
 use Darvin\AdminBundle\Event\CrudControllerActionEvent;
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Menu\MenuItemInterface;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -32,7 +31,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 /**
  * CRUD controller
  */
-class CrudController extends Controller implements MenuItemInterface
+class CrudController extends Controller
 {
     /**
      * @var array
@@ -59,11 +58,6 @@ class CrudController extends Controller implements MenuItemInterface
     private $entityClass;
 
     /**
-     * @var array
-     */
-    private $menuItemAttributes;
-
-    /**
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
      * @param string                                       $entityClass     Entity class
      */
@@ -72,16 +66,6 @@ class CrudController extends Controller implements MenuItemInterface
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
         $this->entityClass = $entityClass;
-        $this->menuItemAttributes = [
-            'associated_object_class' => $this->entityClass,
-            'color'                   => $this->configuration['menu']['color'],
-            'description'             => $this->meta->getBaseTranslationPrefix().'menu.description',
-            'homepage_menu_icon'      => $this->configuration['images']['homepage_menu_icon'],
-            'index_title'             => $this->meta->getBaseTranslationPrefix().'action.index.link',
-            'left_menu_icon'          => $this->configuration['images']['left_menu_icon'],
-            'name'                    => $this->meta->getEntityName(),
-            'new_title'               => $this->meta->getBaseTranslationPrefix().'action.new.link',
-        ];
     }
 
     /**
@@ -423,65 +407,6 @@ class CrudController extends Controller implements MenuItemInterface
             );
 
         return $this->redirect($url);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setChildMenuItems(array $childMenuItems)
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildMenuItems()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIndexUrl()
-    {
-        if (!$this->isGranted(Permission::VIEW, $this->entityClass)) {
-            return null;
-        }
-
-        return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_INDEX)
-            ? $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX)
-            : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getNewUrl()
-    {
-        if (!$this->isGranted(Permission::CREATE_DELETE, $this->entityClass)) {
-            return null;
-        }
-
-        return $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_NEW)
-            ? $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_NEW)
-            : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setMenuItemAttributes(array $menuItemAttributes)
-    {
-        $this->menuItemAttributes = $menuItemAttributes;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getMenuItemAttributes()
-    {
-        return $this->menuItemAttributes;
     }
 
     /**

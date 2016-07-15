@@ -39,15 +39,6 @@ class CreateControllersPass implements CompilerPassInterface
                 $entityClass,
             ]);
 
-            $configuration = $meta->getConfiguration();
-
-            if (!$meta->hasParent() && !$configuration['menu']['skip']) {
-                $definition->addTag(AddMenuItemsPass::TAG_MENU_ITEM, [
-                    'group'    => $configuration['menu']['group'],
-                    'position' => $configuration['menu']['position'],
-                ]);
-            }
-
             $definitions[$meta->getControllerId()] = $definition;
         }
 

@@ -10,26 +10,11 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Menu\Menu;
-
 /**
  * Menu Twig extension
  */
 class MenuExtension extends \Twig_Extension
 {
-    /**
-     * @var \Darvin\AdminBundle\Menu\Menu
-     */
-    private $menu;
-
-    /**
-     * @param \Darvin\AdminBundle\Menu\Menu $menu Menu
-     */
-    public function __construct(Menu $menu)
-    {
-        $this->menu = $menu;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -55,9 +40,7 @@ class MenuExtension extends \Twig_Extension
      */
     public function renderMenu(\Twig_Environment $environment, $template = 'DarvinAdminBundle::menu.html.twig')
     {
-        return $environment->render($template, [
-            'items' => $this->menu->getItems(),
-        ]);
+
     }
 
     /**

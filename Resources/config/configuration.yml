@@ -24,5 +24,3 @@ services:
         class: %darvin_admin.configuration.controller.class%
         calls:
             - [ setContainer, [ "@service_container" ] ]
-        tags:
-            - { name: darvin_admin.menu_item, position: 10 }

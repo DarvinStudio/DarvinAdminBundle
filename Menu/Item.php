@@ -43,6 +43,11 @@ class Item
     /**
      * @var string
      */
+    protected $associatedObject;
+
+    /**
+     * @var string
+     */
     protected $smallIcon;
 
     /**
@@ -168,6 +173,26 @@ class Item
     public function getNewUrl()
     {
         return $this->newUrl;
+    }
+
+    /**
+     * @param string $associatedObject associatedObject
+     *
+     * @return Item
+     */
+    public function setAssociatedObject($associatedObject)
+    {
+        $this->associatedObject = $associatedObject;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssociatedObject()
+    {
+        return $this->associatedObject;
     }
 
     /**

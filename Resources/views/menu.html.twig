@@ -8,24 +8,17 @@
 
     <ul>
         {% for item in items %}
-
-            {#{% set index_url = item.indexUrl %}#}
-            {#{% set attr = item.menuItemAttributes %}#}
-            {#{% set icon = attr.left_menu_icon#}
-                {#?: (item.childMenuItems is not empty ? darvin_admin_visual_assets_path ~ '/images/left_menu_' ~ attr.name ~ '.png' : null)#}
-            {#%}#}
-
             <li class="left_menu_{{ item.name }}">
                 {% if item.smallIcon %}
                     <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.smallIcon) }}" alt="" /></a>
                 {% endif %}
                 <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
-                {#{% if attr.associated_object_class#}
-                    {#and utils_new_objects_countable(attr.associated_object_class)#}
-                    {#and utils_count_new_objects(attr.associated_object_class)#}
-                {#%}#}
-                    {#<a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>#}
-                {#{% endif %}#}
+                {% if item.associatedObject
+                    and utils_new_objects_countable(item.associatedObject)
+                    and utils_count_new_objects(item.associatedObject)
+                %}
+                    <a href="{{ item.indexUrl }}" class="count">{{ utils_count_new_objects(item.associatedObject) }}</a>
+                {% endif %}
                 {% if item.children is not empty %}
 
                     {{ menu.render(item.children) }}

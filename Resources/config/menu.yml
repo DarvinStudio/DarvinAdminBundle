@@ -1,6 +1,8 @@
 parameters:
     darvin_admin.menu.class: Darvin\AdminBundle\Menu\Menu
 
+    darvin_admin.menu.configuration_item_factory.class: Darvin\AdminBundle\Menu\ConfigurationItemFactory
+
     darvin_admin.menu.item_factory.class: Darvin\AdminBundle\Menu\ItemFactory
 
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
@@ -10,6 +12,13 @@ services:
         class: %darvin_admin.menu.class%
         arguments:
             - %darvin_admin.visual_assets_path%
+
+    darvin_admin.menu.configuration_item_factory:
+        class: %darvin_admin.menu.configuration_item_factory.class%
+        arguments:
+            - "@router"
+        tags:
+            - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.item_factory:
         class: %darvin_admin.menu.item_factory.class%

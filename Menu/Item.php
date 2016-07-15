@@ -41,6 +41,16 @@ class Item
     private $newUrl;
 
     /**
+     * @var string
+     */
+    private $smallIcon;
+
+    /**
+     * @var string
+     */
+    private $bigIcon;
+
+    /**
      * @var int
      */
     private $position;
@@ -148,6 +158,46 @@ class Item
     public function getNewUrl()
     {
         return $this->newUrl;
+    }
+
+    /**
+     * @param string $smallIcon smallIcon
+     *
+     * @return Item
+     */
+    public function setSmallIcon($smallIcon)
+    {
+        $this->smallIcon = $smallIcon;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSmallIcon()
+    {
+        return $this->smallIcon;
+    }
+
+    /**
+     * @param string $bigIcon bigIcon
+     *
+     * @return Item
+     */
+    public function setBigIcon($bigIcon)
+    {
+        $this->bigIcon = $bigIcon;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBigIcon()
+    {
+        return $this->bigIcon;
     }
 
     /**

@@ -16,6 +16,11 @@ namespace Darvin\AdminBundle\Menu;
 class Menu
 {
     /**
+     * @var string
+     */
+    private $visualAssetsPath;
+
+    /**
      * @var \Darvin\AdminBundle\Menu\ItemFactoryInterface[]
      */
     private $itemFactories;
@@ -26,10 +31,11 @@ class Menu
     private $items;
 
     /**
-     * Constructor
+     * @param string $visualAssetsPath Visual assets path
      */
-    public function __construct()
+    public function __construct($visualAssetsPath)
     {
+        $this->visualAssetsPath = $visualAssetsPath;
         $this->itemFactories = [];
         $this->items = null;
     }
@@ -81,8 +87,7 @@ class Menu
                 $parentName = $item->getParentName();
 
                 if (!isset($items[$parentName])) {
-                    $items[$parentName] = (new Item($parentName, sprintf('menu.group.%s.title', $parentName)))
-                        ->setPosition($item->getPosition());
+                    $items[$parentName] = $this->createItemGroup($parentName, $item->getPosition());
                 }
 
                 $parent = $items[$parentName];
@@ -100,6 +105,19 @@ class Menu
         }
 
         return $this->items;
+    }
+
+    /**
+     * @param string $name     Name
+     * @param string $position Position
+     *
+     * @return \Darvin\AdminBundle\Menu\Item
+     */
+    private function createItemGroup($name, $position)
+    {
+        return (new Item($name, sprintf('menu.group.%s.title', $name)))
+            ->setSmallIcon(sprintf('%s/images/left_menu_%s.png', $this->visualAssetsPath, $name))
+            ->setPosition($position);
     }
 
     /**

@@ -8,6 +8,8 @@ parameters:
 services:
     darvin_admin.menu:
         class: %darvin_admin.menu.class%
+        arguments:
+            - %darvin_admin.visual_assets_path%
 
     darvin_admin.menu.item_factory:
         class: %darvin_admin.menu.item_factory.class%

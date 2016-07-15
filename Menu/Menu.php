@@ -16,9 +16,14 @@ namespace Darvin\AdminBundle\Menu;
 class Menu
 {
     /**
-     * @var \Darvin\AdminBundle\Menu\ItemFactory[]
+     * @var \Darvin\AdminBundle\Menu\ItemFactoryInterface[]
      */
     private $itemFactories;
+
+    /**
+     * @var \Darvin\AdminBundle\Menu\Item[]
+     */
+    private $items;
 
     /**
      * Constructor
@@ -26,6 +31,7 @@ class Menu
     public function __construct()
     {
         $this->itemFactories = [];
+        $this->items = null;
     }
 
     /**
@@ -45,16 +51,48 @@ class Menu
     }
 
     /**
-     * @return array
+     * @return \Darvin\AdminBundle\Menu\Item[]
+     *
+     * @throws \Darvin\AdminBundle\Menu\MenuException
      */
     public function getItems()
     {
-        $items = [];
+        if (null === $this->items) {
+            /** @var \Darvin\AdminBundle\Menu\Item[] $items */
+            $items = [];
 
-        foreach ($this->itemFactories as $itemFactory) {
-            $items = array_merge($items, $itemFactory->getItems());
+            foreach ($this->itemFactories as $itemFactory) {
+                foreach ($itemFactory->getItems() as $item) {
+                    if (isset($items[$item->getName()])) {
+                        throw new MenuException(sprintf('Menu item "%s" already exists.', $item->getName()));
+                    }
+
+                    $items[$item->getName()] = $item;
+                }
+            }
+            foreach ($items as $item) {
+                if (!$item->hasParent()) {
+                    continue;
+                }
+
+                $parentName = $item->getParentName();
+
+                if (!isset($items[$parentName])) {
+                    $items[$parentName] = new Item($parentName, sprintf('menu.group.%s.title', $parentName));
+                }
+
+                $parent = $items[$parentName];
+                $parent->addChild($item);
+            }
+            foreach ($items as $key => $item) {
+                if ($item->hasParent()) {
+                    unset($items[$key]);
+                }
+            }
+
+            $this->items = $items;
         }
 
-        return $items;
+        return $this->items;
     }
 }

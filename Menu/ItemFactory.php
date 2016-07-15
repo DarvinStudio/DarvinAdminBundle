@@ -81,7 +81,8 @@ class ItemFactory implements ItemFactoryInterface
 
         $item = (new Item($meta->getEntityName(), $meta->getBaseTranslationPrefix().'action.index.link'))
             ->setNewTitle($meta->getBaseTranslationPrefix().'action.new.link')
-            ->setPosition($config['menu']['position']);
+            ->setPosition($config['menu']['position'])
+            ->setParentName($config['menu']['group']);
 
         if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
             && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)

@@ -26,11 +26,11 @@
                 {#%}#}
                     {#<a href="{{ index_url }}" class="count">{{ utils_count_new_objects(attr.associated_object_class) }}</a>#}
                 {#{% endif %}#}
-                {#{% if item.childMenuItems is not empty %}#}
+                {% if item.children is not empty %}
 
-                    {#{{ menu.render(item.childMenuItems) }}#}
+                    {{ menu.render(item.children) }}
 
-                {#{% endif %}#}
+                {% endif %}
             </li>
         {% endfor %}
     </ul>

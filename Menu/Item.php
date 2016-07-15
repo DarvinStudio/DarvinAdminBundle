@@ -46,6 +46,16 @@ class Item
     private $position;
 
     /**
+     * @var string
+     */
+    private $parentName;
+
+    /**
+     * @var \Darvin\AdminBundle\Menu\Item[]
+     */
+    private $children;
+
+    /**
      * @param string $name       Name
      * @param string $indexTitle Index action title
      */
@@ -53,8 +63,15 @@ class Item
     {
         $this->name = $name;
         $this->indexTitle = $indexTitle;
+        $this->children = [];
+    }
 
-        $this->indexUrl = '#';
+    /**
+     * @return bool
+     */
+    public function hasParent()
+    {
+        return !empty($this->parentName);
     }
 
     /**
@@ -151,5 +168,45 @@ class Item
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * @param string $parentName parentName
+     *
+     * @return Item
+     */
+    public function setParentName($parentName)
+    {
+        $this->parentName = $parentName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentName()
+    {
+        return $this->parentName;
+    }
+
+    /**
+     * @param Item $child Child menu item
+     *
+     * @return Item
+     */
+    public function addChild(Item $child)
+    {
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Menu\Item[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
     }
 }

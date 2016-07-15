@@ -43,7 +43,7 @@ class Item
     /**
      * @var string
      */
-    protected $associatedObject;
+    protected $description;
 
     /**
      * @var string
@@ -56,9 +56,19 @@ class Item
     protected $bigIcon;
 
     /**
+     * @var string
+     */
+    protected $color;
+
+    /**
      * @var int
      */
     protected $position;
+
+    /**
+     * @var string
+     */
+    protected $associatedObject;
 
     /**
      * @var string
@@ -176,13 +186,13 @@ class Item
     }
 
     /**
-     * @param string $associatedObject associatedObject
+     * @param string $description description
      *
      * @return Item
      */
-    public function setAssociatedObject($associatedObject)
+    public function setDescription($description)
     {
-        $this->associatedObject = $associatedObject;
+        $this->description = $description;
 
         return $this;
     }
@@ -190,9 +200,9 @@ class Item
     /**
      * @return string
      */
-    public function getAssociatedObject()
+    public function getDescription()
     {
-        return $this->associatedObject;
+        return $this->description;
     }
 
     /**
@@ -236,6 +246,26 @@ class Item
     }
 
     /**
+     * @param string $color color
+     *
+     * @return Item
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
      * @param int $position position
      *
      * @return Item
@@ -253,6 +283,26 @@ class Item
     public function getPosition()
     {
         return $this->position;
+    }
+
+    /**
+     * @param string $associatedObject associatedObject
+     *
+     * @return Item
+     */
+    public function setAssociatedObject($associatedObject)
+    {
+        $this->associatedObject = $associatedObject;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssociatedObject()
+    {
+        return $this->associatedObject;
     }
 
     /**

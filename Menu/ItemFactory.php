@@ -15,7 +15,6 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 /**
  * Menu item factory
@@ -91,19 +90,15 @@ class ItemFactory implements ItemFactoryInterface
             ->setAssociatedObject($entityClass)
             ->setParentName($config['menu']['group']);
 
-        try {
-            if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
-                && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)
-            ) {
-                $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX));
-            }
-            if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entityClass)
-                && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_NEW)
-            ) {
-                $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_NEW));
-            }
-        } catch (AuthenticationCredentialsNotFoundException $ex) {
-            // Needs for testing in CLI
+        if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
+            && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)
+        ) {
+            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX));
+        }
+        if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entityClass)
+            && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_NEW)
+        ) {
+            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_NEW));
         }
 
         return $item;

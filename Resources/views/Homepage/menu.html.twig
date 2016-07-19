@@ -20,9 +20,14 @@
                 </a>
             </div>
             {% if item.description %}
-                <div class="description">
-                    <p>{{ item.description|trans|raw }}</p>
-                </div>
+
+                {% set description = item.description|trans %}
+
+                {% if description != item.description %}
+                    <div class="description">
+                        <p>{{ description|raw }}</p>
+                    </div>
+                {% endif %}
             {% endif %}
             {% if item.children is not empty %}
                 <div class="main_dropdown_menu_wrap">

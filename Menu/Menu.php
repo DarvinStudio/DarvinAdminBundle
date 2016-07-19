@@ -10,11 +10,19 @@
 
 namespace Darvin\AdminBundle\Menu;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+
 /**
  * Menu
  */
 class Menu
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
     /**
      * @var string
      */
@@ -31,10 +39,12 @@ class Menu
     private $items;
 
     /**
-     * @param string $visualAssetsPath Visual assets path
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param string                                                                       $visualAssetsPath     Visual assets path
      */
-    public function __construct($visualAssetsPath)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, $visualAssetsPath)
     {
+        $this->authorizationChecker = $authorizationChecker;
         $this->visualAssetsPath = $visualAssetsPath;
         $this->itemFactories = [];
         $this->items = null;
@@ -65,12 +75,27 @@ class Menu
     {
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
-            $items = [];
+            $items = $skipped = [];
 
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
                     if (isset($items[$item->getName()])) {
                         throw new MenuException(sprintf('Menu item "%s" already exists.', $item->getName()));
+                    }
+                    if ('#' === $item->getIndexUrl() && '#' === $item->getNewUrl()) {
+                        $skipped[$item->getName()] = true;
+
+                        continue;
+                    }
+
+                    $associatedObject = $item->getAssociatedObject();
+
+                    if (!empty($associatedObject)
+                        && (!$this->authorizationChecker->isGranted(Permission::VIEW, $associatedObject) && !$this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $associatedObject))
+                    ) {
+                        $skipped[$item->getName()] = true;
+
+                        continue;
                     }
 
                     $items[$item->getName()] = $item;
@@ -86,6 +111,9 @@ class Menu
 
                 $parentName = $item->getParentName();
 
+                if (isset($skipped[$parentName])) {
+                    continue;
+                }
                 if (!isset($items[$parentName])) {
                     $items[$parentName] = new ItemGroup($parentName, $item->getPosition(), $this->visualAssetsPath);
                 }
@@ -94,7 +122,7 @@ class Menu
                 $parent->addChild($item);
             }
             foreach ($items as $key => $item) {
-                if ($item->hasParent()) {
+                if ($item->hasParent() && !isset($skipped[$item->getParentName()])) {
                     unset($items[$key]);
                 }
             }
@@ -116,7 +144,7 @@ class Menu
             return $item->getPosition();
         }, $items)) + 1;
 
-        usort($items, function (Item $a, Item $b) use ($defaultPos) {
+        uasort($items, function (Item $a, Item $b) use ($defaultPos) {
             $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
             $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
 

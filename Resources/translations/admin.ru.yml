@@ -176,8 +176,9 @@ security:
         logout:
             link: Выйти
     object:
-        image: Менеджер изображений
-        log:   Журнал
+        image:       Менеджер изображений
+        log:         Журнал
+        translation: Перевод
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование
@@ -199,5 +200,19 @@ submit:
 
 translation:
     action:
+        filter:
+            reset:  Сбросить фильтр
+            submit: Применить фильтр
         index:
-            link: Менеджер переводов
+            link:  Менеджер переводов
+            title: Менеджер переводов
+        update_property:
+            success: Значение успешно изменено
+    entity:
+        content: Перевод
+        locale:  Язык
+        trans_unit:
+            domain: Домен
+        updated_at:      Обновлен
+        updated_at_from: Обновлен (с)
+        updated_at_to:   Обновлен (по)

@@ -82,7 +82,7 @@ class Menu
                     if (isset($items[$item->getName()])) {
                         throw new MenuException(sprintf('Menu item "%s" already exists.', $item->getName()));
                     }
-                    if ('#' === $item->getIndexUrl() && '#' === $item->getNewUrl()) {
+                    if (null === $item->getIndexUrl() && null === $item->getNewUrl()) {
                         $skipped[$item->getName()] = true;
 
                         continue;

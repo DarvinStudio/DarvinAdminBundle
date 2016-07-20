@@ -91,7 +91,6 @@ class Item
     public function __construct($name)
     {
         $this->name = $name;
-        $this->indexUrl = $this->newUrl = '#';
         $this->children = [];
     }
 

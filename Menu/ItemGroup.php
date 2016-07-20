@@ -25,6 +25,7 @@ class ItemGroup extends Item
         parent::__construct($name);
 
         $this->indexTitle = sprintf('menu.group.%s.title', $name);
+        $this->indexUrl = '#';
         $this->description = sprintf('menu.group.%s.description', $name);
         $this->mainIcon = sprintf('%s/images/main_menu_%s.png', $visualAssetsPath, $name);
         $this->sidebarIcon = sprintf('%s/images/left_menu_%s.png', $visualAssetsPath, $name);

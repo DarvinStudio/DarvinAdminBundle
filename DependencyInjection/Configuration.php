@@ -88,18 +88,68 @@ class Configuration implements ConfigurationInterface
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('groups')->defaultValue([
-                    'pages'        => [
+                    'modules' => [
+                        'colors' => [
+                            'main'    => '#ff9a16',
+                            'sidebar' => '#ffe86d',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/modules_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
+                        ],
+                    ],
+                    'pages' => [
                         'position' => 1,
                         'colors'   => [
                             'main'    => '#649ea6',
                             'sidebar' => '#9befe2',
                         ],
-                        'icons'    => [
+                        'icons' => [
                             'main'    => 'bundles/darvinadmin/images/admin/pages_main.png',
                             'sidebar' => 'bundles/darvinadmin/images/admin/pages_sidebar.png',
                         ],
                     ],
-                    'publications' => [],
+                    'portfolio' => [
+                        'colors' => [
+                            'main'    => '#0086c4',
+                            'sidebar' => '#00a1b9',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/portfolio_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/portfolio_sidebar.png',
+                        ],
+                    ],
+                    'prices' => [
+                        'colors' => [
+                            'main'    => '#389fa8',
+                            'sidebar' => '#279f00',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/prices_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/prices_sidebar.png',
+                        ],
+                    ],
+                    'publications' => [
+                        'position' => 2,
+                        'colors'   => [
+                            'main'    => '#ff4d25',
+                            'sidebar' => '#ff7e75',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/publications_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/publications_sidebar.png',
+                        ],
+                    ],
+                    'seo_results' => [
+                        'colors' => [
+                            'main'    => '#d49d00',
+                            'sidebar' => '#f4b800',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/seo_results_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/seo_results_sidebar.png',
+                        ],
+                    ],
                 ])->prototype('array')->addDefaultsIfNotSet()
                     ->children()
                         ->integerNode('position')->defaultNull()->end()

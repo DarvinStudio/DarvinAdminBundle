@@ -84,6 +84,7 @@ class ItemFactory implements ItemFactoryInterface
             ->setNewTitle($meta->getBaseTranslationPrefix().'action.new.link')
             ->setDescription($meta->getBaseTranslationPrefix().'menu.description')
             ->setMainColor($config['menu']['colors']['main'])
+            ->setSidebarColor($config['menu']['colors']['sidebar'])
             ->setMainIcon($config['menu']['icons']['main'])
             ->setSidebarIcon($config['menu']['icons']['sidebar'])
             ->setPosition($config['menu']['position'])

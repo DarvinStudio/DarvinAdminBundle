@@ -8,11 +8,13 @@
 
     <ul>
         {% for item in items %}
-            <li class="left_menu_{{ item.name }}">
+            <li{% if item.sidebarColor %} style="background: radial-gradient(500px 500px at -250px -250px, {{ item.sidebarColor }} 0%, rgba(255, 255, 255, 0) 100%);"{% endif %}>
                 {% if item.sidebarIcon %}
                     <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" width="20" height="20" /></a>
                 {% endif %}
-                <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
+                <a href="{{ item.indexUrl }}"{% if item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
+                    {{ item.indexTitle|trans }}
+                </a>
                 {% if item.associatedObject
                     and utils_new_objects_countable(item.associatedObject)
                     and utils_count_new_objects(item.associatedObject)

@@ -40,6 +40,7 @@ class ConfigurationItemFactory implements ItemFactoryInterface
             ->setIndexUrl($this->router->generate('darvin_admin_configuration'))
             ->setDescription('configuration.menu.description')
             ->setMainColor('#5a4fb6')
+            ->setSidebarColor('#9482ee')
             ->setMainIcon('bundles/darvinadmin/images/admin/configuration_main.png')
             ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png');
 

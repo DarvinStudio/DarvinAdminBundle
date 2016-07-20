@@ -7,7 +7,8 @@ disabled_routes:
 menu:
     position: 30
     colors:
-        main: "#0a9771"
+        main:    "#0a9771"
+        sidebar: "#00c0ab"
     icons:
         main:    bundles/darvinadmin/images/admin/image_main.png
         sidebar: bundles/darvinadmin/images/admin/image_sidebar.png

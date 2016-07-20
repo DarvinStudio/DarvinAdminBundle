@@ -39,6 +39,7 @@ class ConfigurationItemFactory implements ItemFactoryInterface
             ->setIndexTitle('configuration.action.edit.link')
             ->setIndexUrl($this->router->generate('darvin_admin_configuration'))
             ->setDescription('configuration.menu.description')
+            ->setSmallIcon('bundles/darvinadmin/images/admin/configuration_small.png')
             ->setBigIcon('bundles/darvinadmin/images/admin/configuration_big.png')
             ->setColor('#5a4fb6');
 

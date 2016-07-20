@@ -8,7 +8,21 @@
 
     <ul>
         {% for item in items %}
-            <li{% if item.sidebarColor %} style="background: radial-gradient(500px 500px at -250px -250px, {{ item.sidebarColor }} 0%, rgba(255, 255, 255, 0) 100%);"{% endif %}>
+
+            {% set styles = [] %}
+
+            {% if item.sidebarColor %}
+
+                {% set gradient = 'radial-gradient(500px 500px at -250px -250px, ' ~ item.sidebarColor ~ ' 0%, rgba(255, 255, 255, 0) 100%)' %}
+                {% set styles = [
+                    'background: ' ~ gradient,
+                    'background: moz-' ~ gradient,
+                    'background: o-' ~ gradient,
+                    'background: webkit-' ~ gradient,
+                ] %}
+
+            {% endif %}
+            <li{% if styles is not empty %} style="{{ styles|join('; ') }};"{% endif %}>
                 {% if item.sidebarIcon %}
                     <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
                 {% endif %}

@@ -10,7 +10,7 @@
         {% for item in items %}
             <li{% if item.sidebarColor %} style="background: radial-gradient(500px 500px at -250px -250px, {{ item.sidebarColor }} 0%, rgba(255, 255, 255, 0) 100%);"{% endif %}>
                 {% if item.sidebarIcon %}
-                    <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" width="20" height="20" /></a>
+                    <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
                 {% endif %}
                 <a href="{{ item.indexUrl }}"{% if item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
                     {{ item.indexTitle|trans }}

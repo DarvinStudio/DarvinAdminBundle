@@ -16,19 +16,14 @@ namespace Darvin\AdminBundle\Menu;
 class ItemGroup extends Item
 {
     /**
-     * @param string $name             Name
-     * @param int    $position         Position
-     * @param string $visualAssetsPath Visual assets path
+     * {@inheritdoc}
      */
-    public function __construct($name, $position, $visualAssetsPath)
+    public function __construct($name)
     {
         parent::__construct($name);
 
         $this->indexTitle = sprintf('menu.group.%s.title', $name);
         $this->indexUrl = '#';
         $this->description = sprintf('menu.group.%s.description', $name);
-        $this->mainIcon = sprintf('%s/images/main_menu_%s.png', $visualAssetsPath, $name);
-        $this->sidebarIcon = sprintf('%s/images/left_menu_%s.png', $visualAssetsPath, $name);
-        $this->position = $position;
     }
 }

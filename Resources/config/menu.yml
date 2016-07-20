@@ -13,7 +13,7 @@ services:
         public: false
         arguments:
             - "@security.authorization_checker"
-            - %darvin_admin.visual_assets_path%
+            - %darvin_admin.menu.groups%
 
     darvin_admin.menu.configuration_item_factory:
         class:  %darvin_admin.menu.configuration_item_factory.class%

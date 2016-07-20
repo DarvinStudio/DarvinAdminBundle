@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->append($this->addCKEditorNode())
+                ->append($this->addMenuNode())
                 ->arrayNode('cache_clear_command_classes')
                     ->prototype('scalar')->end()
                     ->defaultValue([
@@ -72,6 +73,46 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
                 ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->end()
             ->end();
+
+        return $rootNode;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addMenuNode()
+    {
+        $treeBuilder = new TreeBuilder();
+
+        $rootNode = $treeBuilder->root('menu');
+        $rootNode->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('groups')->defaultValue([
+                    'pages'        => [
+                        'position' => 1,
+                        'colors'   => [
+                            'main'    => '#649ea6',
+                            'sidebar' => '#9befe2',
+                        ],
+                        'icons'    => [
+                            'main'    => 'bundles/darvinadmin/images/admin/pages_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/pages_sidebar.png',
+                        ],
+                    ],
+                    'publications' => [],
+                ])->prototype('array')->addDefaultsIfNotSet()
+                    ->children()
+                        ->integerNode('position')->defaultNull()->end()
+                        ->arrayNode('colors')->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('main')->defaultNull()->end()
+                                ->scalarNode('sidebar')->defaultNull()->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('icons')->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('main')->defaultNull()->end()
+                                ->scalarNode('sidebar')->defaultNull()->end();
 
         return $rootNode;
     }

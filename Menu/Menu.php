@@ -24,9 +24,9 @@ class Menu
     private $authorizationChecker;
 
     /**
-     * @var string
+     * @var array[]
      */
-    private $visualAssetsPath;
+    private $groupsConfig;
 
     /**
      * @var \Darvin\AdminBundle\Menu\ItemFactoryInterface[]
@@ -40,12 +40,12 @@ class Menu
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param string                                                                       $visualAssetsPath     Visual assets path
+     * @param array                                                                        $groupsConfig         Groups configuration
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, $visualAssetsPath)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupsConfig)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->visualAssetsPath = $visualAssetsPath;
+        $this->groupsConfig = $groupsConfig;
         $this->itemFactories = [];
         $this->items = null;
     }
@@ -115,7 +115,7 @@ class Menu
                     continue;
                 }
                 if (!isset($items[$parentName])) {
-                    $items[$parentName] = new ItemGroup($parentName, $item->getPosition(), $this->visualAssetsPath);
+                    $items[$parentName] = $this->createItemGroup($parentName, $item->getPosition());
                 }
 
                 $parent = $items[$parentName];
@@ -133,6 +133,34 @@ class Menu
         }
 
         return $this->items;
+    }
+
+    /**
+     * @param string $name            Name
+     * @param int    $defaultPosition Default position
+     *
+     * @return \Darvin\AdminBundle\Menu\ItemGroup
+     */
+    private function createItemGroup($name, $defaultPosition)
+    {
+        $group = (new ItemGroup($name))
+            ->setPosition($defaultPosition);
+
+        if (!isset($this->groupsConfig[$name])) {
+            return $group;
+        }
+
+        $config = $this->groupsConfig[$name];
+
+        if (isset($config['position'])) {
+            $group->setPosition($config['position']);
+        }
+
+        return $group
+            ->setMainColor(isset($config['colors']['main']) ? $config['colors']['main'] : null)
+            ->setSidebarColor(isset($config['colors']['sidebar']) ? $config['colors']['sidebar'] : null)
+            ->setMainIcon(isset($config['icons']['main']) ? $config['icons']['main'] : null)
+            ->setSidebarIcon(isset($config['icons']['sidebar']) ? $config['icons']['sidebar'] : null);
     }
 
     /**

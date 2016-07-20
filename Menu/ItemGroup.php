@@ -26,8 +26,8 @@ class ItemGroup extends Item
 
         $this->indexTitle = sprintf('menu.group.%s.title', $name);
         $this->description = sprintf('menu.group.%s.description', $name);
-        $this->smallIcon = sprintf('%s/images/left_menu_%s.png', $visualAssetsPath, $name);
-        $this->bigIcon = sprintf('%s/images/main_menu_%s.png', $visualAssetsPath, $name);
+        $this->mainIcon = sprintf('%s/images/main_menu_%s.png', $visualAssetsPath, $name);
+        $this->sidebarIcon = sprintf('%s/images/left_menu_%s.png', $visualAssetsPath, $name);
         $this->position = $position;
     }
 }

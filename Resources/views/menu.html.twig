@@ -9,8 +9,8 @@
     <ul>
         {% for item in items %}
             <li class="left_menu_{{ item.name }}">
-                {% if item.smallIcon %}
-                    <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.smallIcon) }}" alt="" width="20" height="20" /></a>
+                {% if item.sidebarIcon %}
+                    <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" width="20" height="20" /></a>
                 {% endif %}
                 <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
                 {% if item.associatedObject

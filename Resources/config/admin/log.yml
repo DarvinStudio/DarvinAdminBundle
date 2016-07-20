@@ -1,9 +1,10 @@
 entity_name: log
 menu:
-    color: "#8ea500"
+    colors:
+        main: "#8ea500"
     icons:
-        small: bundles/darvinadmin/images/admin/log_small.png
-        big:   bundles/darvinadmin/images/admin/log_big.png
+        main:    bundles/darvinadmin/images/admin/log_main.png
+        sidebar: bundles/darvinadmin/images/admin/log_sidebar.png
 disabled_routes:
     - copy
     - delete

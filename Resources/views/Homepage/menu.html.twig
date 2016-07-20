@@ -3,9 +3,9 @@
 <div class="main_menu">
     {% for item in items %}
         <div class="item color_{{ item.name }}{% if item.children is not empty %} parent{% endif %}">
-            {% if item.bigIcon %}
+            {% if item.mainIcon %}
                 <div class="img">
-                    <a href="{{ item.indexUrl }}"><img src="{{ asset(item.bigIcon) }}" alt="" /></a>
+                    <a href="{{ item.indexUrl }}"><img src="{{ asset(item.mainIcon) }}" alt="" /></a>
                     {% if item.associatedObject
                         and utils_new_objects_countable(item.associatedObject)
                         and utils_count_new_objects(item.associatedObject)
@@ -15,7 +15,7 @@
                 </div>
             {% endif %}
             <div class="name">
-                <a href="{{ item.indexUrl }}"{% if item.color %} style="color: {{ item.color }};"{% endif %}>
+                <a href="{{ item.indexUrl }}"{% if item.mainColor %} style="color: {{ item.mainColor }};"{% endif %}>
                     {{ item.indexTitle|trans }}
                 </a>
             </div>
@@ -36,9 +36,9 @@
                         <div class="main_dropdown_menu_inner">
                             {% for child in item.children %}
                                 <div class="sub_item">
-                                    {% if child.bigIcon %}
+                                    {% if child.mainIcon %}
                                         <div class="img">
-                                            <a href="{{ child.indexUrl }}"><img src="{{ asset(child.bigIcon) }}"></a>
+                                            <a href="{{ child.indexUrl }}"><img src="{{ asset(child.mainIcon) }}"></a>
                                         </div>
                                     {% endif %}
                                     <div class="name">

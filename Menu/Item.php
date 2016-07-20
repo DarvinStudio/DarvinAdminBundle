@@ -48,17 +48,22 @@ class Item
     /**
      * @var string
      */
-    protected $smallIcon;
+    protected $mainColor;
 
     /**
      * @var string
      */
-    protected $bigIcon;
+    protected $sidebarColor;
 
     /**
      * @var string
      */
-    protected $color;
+    protected $mainIcon;
+
+    /**
+     * @var string
+     */
+    protected $sidebarIcon;
 
     /**
      * @var int
@@ -207,13 +212,13 @@ class Item
     }
 
     /**
-     * @param string $smallIcon smallIcon
+     * @param string $mainColor mainColor
      *
      * @return Item
      */
-    public function setSmallIcon($smallIcon)
+    public function setMainColor($mainColor)
     {
-        $this->smallIcon = $smallIcon;
+        $this->mainColor = $mainColor;
 
         return $this;
     }
@@ -221,19 +226,19 @@ class Item
     /**
      * @return string
      */
-    public function getSmallIcon()
+    public function getMainColor()
     {
-        return $this->smallIcon;
+        return $this->mainColor;
     }
 
     /**
-     * @param string $bigIcon bigIcon
+     * @param string $sidebarColor sidebarColor
      *
      * @return Item
      */
-    public function setBigIcon($bigIcon)
+    public function setSidebarColor($sidebarColor)
     {
-        $this->bigIcon = $bigIcon;
+        $this->sidebarColor = $sidebarColor;
 
         return $this;
     }
@@ -241,19 +246,19 @@ class Item
     /**
      * @return string
      */
-    public function getBigIcon()
+    public function getSidebarColor()
     {
-        return $this->bigIcon;
+        return $this->sidebarColor;
     }
 
     /**
-     * @param string $color color
+     * @param string $mainIcon mainIcon
      *
      * @return Item
      */
-    public function setColor($color)
+    public function setMainIcon($mainIcon)
     {
-        $this->color = $color;
+        $this->mainIcon = $mainIcon;
 
         return $this;
     }
@@ -261,9 +266,29 @@ class Item
     /**
      * @return string
      */
-    public function getColor()
+    public function getMainIcon()
     {
-        return $this->color;
+        return $this->mainIcon;
+    }
+
+    /**
+     * @param string $sidebarIcon sidebarIcon
+     *
+     * @return Item
+     */
+    public function setSidebarIcon($sidebarIcon)
+    {
+        $this->sidebarIcon = $sidebarIcon;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSidebarIcon()
+    {
+        return $this->sidebarIcon;
     }
 
     /**

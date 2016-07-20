@@ -5,11 +5,12 @@ disabled_routes:
     - new
     - show
 menu:
-    color:    "#0a9771"
     position: 30
+    colors:
+        main: "#0a9771"
     icons:
-        big:   bundles/darvinadmin/images/admin/image_big.png
-        small: bundles/darvinadmin/images/admin/image_small.png
+        main:    bundles/darvinadmin/images/admin/image_main.png
+        sidebar: bundles/darvinadmin/images/admin/image_sidebar.png
 form:
     edit:
         type: Darvin\ImageBundle\Form\Type\Image\Image\SizesType

@@ -41,9 +41,6 @@
 - **darvin_admin.log.admin.controller** - контроллер раздела администрирования сущности "Лог";
 
 
-- **darvin_admin.menu** - меню панели администрирования;
-
-
 - **darvin_admin.metadata.configuration.configuration** - дерево конфигурации раздела администрирования;
 
 

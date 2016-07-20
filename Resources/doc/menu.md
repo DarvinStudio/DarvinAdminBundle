@@ -1,33 +1,22 @@
 Меню
 ====
 
-## Добавление пункта
+## Добавление пунктов
 
-**1. Создаем класс, реализующий "Darvin\AdminBundle\Menu\MenuItemInterface".**
+**1. Создаем класс, реализующий "Darvin\AdminBundle\Menu\ItemFactoryInterface".**
 
-**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.menu_item".**
-
-Тег имеет два аргумента:
-
-- **group** *(опционально)* - название группы элементов меню;
-- **position** *(опционально)* - позиция элемента меню.
-
-Особенности:
-
-- позицией группы элементов меню является позиция первого в ней элемента.
+**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.menu_item_factory".**
 
 Пример объявления сервиса:
 
 ```yaml
 parameters:
-    app.admin.menu.item.class: AppBundle\Admin\Menu\MenuItem
+    darvin_admin.menu.item_factory.class: Darvin\AdminBundle\Menu\ItemFactory
 
 services:
-    app.admin.menu.item:
-        class: %app.admin.menu.item.class%
+    darvin_admin.menu.item_factory:
+        class:  %darvin_admin.menu.item_factory.class%
+        public: false
         tags:
-            - { name: darvin_admin.menu_item }
+            - { name: darvin_admin.menu_item_factory }
 ```
-
-*Контроллеры разделов администрирования реализуют требуемый интерфейс, но тегируются только в том случае, если
- [параметр](reference/admin_section_configuration.md) "menu.skip" имеет значение false (по умолчанию).*

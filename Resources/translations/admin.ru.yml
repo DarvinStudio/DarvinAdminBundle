@@ -163,6 +163,24 @@ log:
         username:       Имя пользователя
         version:        Версия
 
+menu:
+    group:
+        modules:
+            description: Просмотр заказов, настройка платежных систем.
+            title:       Модули
+        pages:
+            description: Структура и основные разделы.<br>Редактирование и добавление.
+            title:       Структурные разделы
+        portfolio:
+            title: Портфолио
+        prices:
+            title: Цены
+        publications:
+            description: Просмотр заказов, настройка платежных систем.
+            title:       Публикации
+        seo_results:
+            title: Результаты продвижения
+
 property_forms:
     submit: Сохранить
 

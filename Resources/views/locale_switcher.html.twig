@@ -7,7 +7,7 @@
             {% for locale in darvin_admin_locales %}
                 <li>
                     {% if locale == app.request.locale %}
-                        <span title="{{ ('locale.' ~ locale)|trans }}">{{ locale|capitalize }}</span>
+                        <span title="{{ ('locale.' ~ locale)|trans }}">{{ ('locale.' ~ locale)|trans }}</span>
                     {% else %}
 
                         {% set url = path(

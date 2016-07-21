@@ -34,7 +34,7 @@
             {% for type, messages in flashes %}
                 <ul class="{{ type }}">
                     {% for message in messages %}
-                        <li>{{ message | trans }}</li>
+                        <li>{{ message|trans }}</li>
                     {% endfor %}
                 </ul>
             {% endfor %}
@@ -84,7 +84,7 @@
                             } %}
 
                             {% for title, attr in menu if attr.accessible %}
-                                <a href="{{ attr.url }}" class="{{ attr.class }}">{{ title | trans }}</a>
+                                <a href="{{ attr.url }}" class="{{ attr.class }}">{{ title|trans }}</a>
                             {% endfor %}
 
                             {{ admin_cache_clear_form() }}
@@ -100,7 +100,7 @@
                     <div class="main">
                         <div class="sidebar_wrap{% if sidebar_active %} active{% endif %}">
                             <span id="sidebar_switcher"{% if sidebar_active %} class="active"{% endif %}>
-                                {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand') | trans }}
+                                {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
                             </span>
                             <div class="sidebar_wrap_fix">
                                 <div class="sidebar">
@@ -128,7 +128,7 @@
                         <div class="col-md-5 col-lg-4">
                             <p class="copywrite">
                                 {% trans with {
-                                    '%current_year%': 'now' | date('Y'),
+                                    '%current_year%': 'now'|date('Y'),
                                     '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
                                 } %}
                                     layout.copyright
@@ -169,7 +169,7 @@
                 {% for type, messages in flashes %}
                     {% for message in messages %}
                         noty({
-                            text: '{{ message | trans }}',
+                            text: '{{ message|trans }}',
                             type: '{{ type }}'
                         });
                     {% endfor %}

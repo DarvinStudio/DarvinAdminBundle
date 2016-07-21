@@ -4,7 +4,7 @@
 
 {% trans_default_domain 'admin' %}
 
-{% set heading = (meta.baseTranslationPrefix ~ 'action.new.title') | trans %}
+{% set heading = (meta.baseTranslationPrefix ~ 'action.new.title')|trans %}
 
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
 

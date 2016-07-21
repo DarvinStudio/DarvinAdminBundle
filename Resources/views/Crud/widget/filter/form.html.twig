@@ -21,9 +21,9 @@
             {% for field, attr in meta.configuration.form.filter.fields %}
                 {{ form_row(form[field]) }}
             {% endfor %}
-            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit') | trans }}</button>
+            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit')|trans }}</button>
             <a href="{{ form.vars.action }}">
-                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset') | trans }}
+                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset')|trans }}
             </a>
             {{ form_end(form) }}
         </div>

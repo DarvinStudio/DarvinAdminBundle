@@ -5,7 +5,7 @@
 {% trans_default_domain 'admin' %}
 
 {%- block button_attributes -%}
-    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ name) | trim }) %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' ' ~ name)|trim }) %}
     {{ parent() }}
 {%- endblock button_attributes -%}
 
@@ -31,12 +31,12 @@
 {%- endblock choice_widget_expanded -%}
 
 {%- block collection_widget -%}
-    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' collection') | trim }) %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' collection')|trim }) %}
     {% if allow_add %}
-        {% set attr = attr | merge({ 'data-allow-add': 1 }) %}
+        {% set attr = attr|merge({ 'data-allow-add': 1 }) %}
     {% endif %}
     {% if allow_delete %}
-        {% set attr = attr | merge({ 'data-allow-delete': 1 }) %}
+        {% set attr = attr|merge({ 'data-allow-delete': 1 }) %}
     {% endif %}
     {{ parent() }}
 {%- endblock collection_widget -%}
@@ -120,7 +120,7 @@
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}
-        {% set label_attr = label_attr | merge({ 'class': (label_attr.class | default('') ~ ' name') | trim }) %}
+        {% set label_attr = label_attr|merge({ 'class': (label_attr.class|default('') ~ ' name')|trim }) %}
     {% endif %}
     {{ parent() }}
 {%- endblock form_label -%}
@@ -136,7 +136,7 @@
 {%- block form_widget -%}
     {{ parent() }}
     {% if darvin_admin_info %}
-        <div class="description">{{ darvin_admin_info | trans({}, translation_domain) }}</div>
+        <div class="description">{{ darvin_admin_info|trans({}, translation_domain) }}</div>
     {% endif %}
 {%- endblock form_widget -%}
 
@@ -173,13 +173,13 @@
             {% endif %}
 
             {% if download_uri is defined and download_uri %}
-                <a class="fancybox" href="{{ download_uri }}"><img src="{{ download_uri | admin_image_crop }}" alt="" /></a>
+                <a class="fancybox" href="{{ download_uri }}"><img src="{{ download_uri|admin_image_crop }}" alt="" /></a>
             {% endif %}
         </div>
     {% endspaceless %}
 {%- endblock -%}
 
 {%- block widget_attributes -%}
-    {% set attr = attr | merge({ 'class': (attr.class | default('') ~ ' ' ~ form.vars.block_prefixes[1]) | trim }) %}
+    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim }) %}
     {{ parent() }}
 {%- endblock widget_attributes -%}

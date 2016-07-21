@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
-{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title') | trans }}{% endblock %}
+{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
 {% block content %}
     {% if admin_route_exists(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW')) %}
@@ -17,7 +17,7 @@
         ) %}
 
         <div class="post_item_btn">
-            <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link') | trans }}</a>
+            <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
         </div>
     {% endif %}
     {% if filter_form %}
@@ -34,7 +34,7 @@
 
         {% set pagination_html = pagination ? knp_pagination_render(pagination) : '' %}
 
-        {{ pagination_html | raw }}
+        {{ pagination_html|raw }}
         <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
         <div class="scroll-pane horizontal-only">
             <div class="section_table">
@@ -44,9 +44,9 @@
                             {% for field, item in view.head.items if item.width %}
                                 <th colspan="{{ item.width }}">
                                     {% if pagination and item.sortable %}
-                                        {{ knp_pagination_sortable(pagination, item.content | trans, item.sortablePropertyPath) }}
+                                        {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
                                     {% else %}
-                                        {{ item.content | trans }}
+                                        {{ item.content|trans }}
                                     {% endif %}
                                 </th>
                             {% endfor %}
@@ -56,7 +56,7 @@
                         {% for row in view.body.rows %}
                             <tr>
                                 {% for item in row.items %}
-                                    <td>{{ item.content | trans | raw }}</td>
+                                    <td>{{ item.content|trans|raw }}</td>
                                 {% endfor %}
                             </tr>
                         {% endfor %}
@@ -64,8 +64,8 @@
                 </table>
             </div>
         </div>
-        {{ pagination_html | raw }}
+        {{ pagination_html|raw }}
         <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
     {% endif %}
-    {{ new_form_widget | raw }}
+    {{ new_form_widget|raw }}
 {% endblock %}

@@ -17,7 +17,6 @@ This bundle provides highly configurable admin panel for Symfony2-based applicat
 
 ### Справочники:
 
-- [**DI-теги**](Resources/doc/reference/di_tags.md);
 - [**Консольные команды**](Resources/doc/reference/commands.md);
 - [**Конфигурация**](Resources/doc/reference/configuration.md);
 - [**Конфигурация раздела администрирования**](Resources/doc/reference/admin_section_configuration.md);

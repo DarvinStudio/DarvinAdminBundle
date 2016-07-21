@@ -122,7 +122,7 @@ layout:
             label: Техническая поддержка
             email: support@darvin-studio.ru
     locale_switcher:
-        title: Язык:
+        title: Текущий язык:
     logo: Система управления контентом
     menu:
         collapse: Свернуть меню

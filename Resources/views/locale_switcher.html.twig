@@ -15,7 +15,7 @@
                             app.request.attributes.get('_route_params')|merge({'_locale': locale})|merge(app.request.query.all)
                         ) %}
 
-                        <a href="{{ url }}" title="{{ ('locale.' ~ locale)|trans }}">{{ locale|capitalize }}</a>
+                        <a href="{{ url }}" title="{{ ('locale.' ~ locale)|trans }}">{{ locale|upper }}</a>
                     {% endif %}
                 </li>
             {% endfor %}

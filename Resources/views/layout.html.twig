@@ -137,6 +137,9 @@
                         </div>
                         <div class="col-md-7 col-lg-8">
                             <div class="footer_contacts">
+
+                                {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
+
                                 <div class="mail">
                                     <span>{% trans %}layout.footer.support.label{% endtrans %}</span>
                                     <a href="mailto:{% trans %}layout.footer.support.email{% endtrans %}">

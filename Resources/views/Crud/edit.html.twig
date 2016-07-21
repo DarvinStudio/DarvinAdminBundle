@@ -4,9 +4,11 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, entity) }}{% endblock %}
+{% set heading = (meta.baseTranslationPrefix ~ 'action.edit.title') | trans({ '%entity%': entity }) %}
 
-{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.edit.title') | trans({ '%entity%': entity }) }}{% endblock %}
+{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
+
+{% block heading %}{{ heading }}{% endblock %}
 
 {% block content %}
     {{ admin_widget_actions(entity, { 'view_type': 'edit' }) }}

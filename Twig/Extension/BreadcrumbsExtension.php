@@ -89,8 +89,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      * @param \Twig_Environment                     $environment  Environment
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
      * @param object                                $parentEntity Parent entity
-     * @param object                                $entity       Entity
-     * @param bool                                  $renderLast   Whether to render last crumb
+     * @param string                                $heading      Page heading
      * @param string                                $template     Template
      *
      * @return string
@@ -99,11 +98,10 @@ class BreadcrumbsExtension extends \Twig_Extension
         \Twig_Environment $environment,
         Metadata $meta,
         $parentEntity = null,
-        $entity = null,
-        $renderLast = false,
+        $heading = null,
         $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
     ) {
-        $crumbs = $this->getEntityCrumbs($meta, $parentEntity, $entity);
+        $crumbs = $this->getEntityCrumbs($meta, $parentEntity);
 
         $config = $meta->getConfiguration();
 
@@ -115,8 +113,8 @@ class BreadcrumbsExtension extends \Twig_Extension
 
         $crumbs = array_reverse($crumbs);
 
-        if (!$renderLast) {
-            array_pop($crumbs);
+        if (!empty($heading)) {
+            $this->addCrumb($crumbs, $heading);
         }
 
         return $environment->render($template, [
@@ -135,29 +133,25 @@ class BreadcrumbsExtension extends \Twig_Extension
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
      * @param object                                $parentEntity Parent entity
-     * @param object                                $entity       Entity
      *
      * @return array
      */
-    private function getEntityCrumbs(Metadata $meta, $parentEntity, $entity)
+    private function getEntityCrumbs(Metadata $meta, $parentEntity = null)
     {
         $crumbs = [];
 
-        if (empty($entity)) {
-            $this->addEntityIndexCrumb($crumbs, $meta, $parentEntity);
+        $this->addEntityIndexCrumb($crumbs, $meta, $parentEntity);
 
-            if (empty($parentEntity)) {
-                return $crumbs;
-            }
-
-            $meta = $this->metadataManager->getMetadata($parentEntity);
-            $entity = $parentEntity;
+        if (empty($parentEntity)) {
+            return $crumbs;
         }
 
-        $this->addEntityCrumbs($crumbs, $meta, $entity);
+        $parentMeta = $this->metadataManager->getMetadata($parentEntity);
 
-        $childEntity = $entity;
-        $childMeta = $meta;
+        $this->addEntityCrumbs($crumbs, $parentMeta, $parentEntity);
+
+        $childEntity = $parentEntity;
+        $childMeta = $parentMeta;
 
         /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parent */
         while ($parent = $childMeta->getParent()) {
@@ -197,7 +191,7 @@ class BreadcrumbsExtension extends \Twig_Extension
      * @param object                                $parentEntity Parent entity
      * @param object                                $entity       Entity
      */
-    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $parentEntity, $entity = null)
+    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $parentEntity = null, $entity = null)
     {
         $params = [];
 

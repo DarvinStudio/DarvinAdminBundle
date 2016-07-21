@@ -2,12 +2,10 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, entity) }}{% endblock %}
+{% set heading = (meta.baseTranslationPrefix ~ 'action.show.title') | trans({ '%entity%': entity }) %}
 
-{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.show.title') | trans({ '%entity%': entity }) }}{% endblock %}
+{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
 
-{% block content %}
+{% block heading %}{{ heading }}{% endblock %}
 
-    {% include meta.configuration.view.show.template ?: 'DarvinAdminBundle:Crud/widget:show.html.twig' %}
-
-{% endblock %}
+{% block content %}{% include meta.configuration.view.show.template ?: 'DarvinAdminBundle:Crud/widget:show.html.twig' %}{% endblock %}

@@ -12,7 +12,7 @@
     </div>
     {% for name, widget in dashboard.widgets %}
 
-        {% set cookie_name = 'DARVINADMIN' ~ (widget.name|upper|replace({ '_': '' })) %}
+        {% set cookie_name = 'DARVINADMIN' ~ (widget.name|upper|replace({'_': ''})) %}
 
         <div class="index_modul spoiler_container">
             <div class="index_modul_header">

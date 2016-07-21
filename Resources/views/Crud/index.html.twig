@@ -35,7 +35,7 @@
         {% set pagination_html = pagination ? knp_pagination_render(pagination) : '' %}
 
         {{ pagination_html|raw }}
-        <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
+        <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
         <div class="scroll-pane horizontal-only">
             <div class="section_table">
                 <table class="property_forms">
@@ -65,7 +65,7 @@
             </div>
         </div>
         {{ pagination_html|raw }}
-        <p>{% trans with { '%count%': entities_count } %}interface.total_item_count{% endtrans %}</p>
+        <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
     {% endif %}
     {{ new_form_widget|raw }}
 {% endblock %}

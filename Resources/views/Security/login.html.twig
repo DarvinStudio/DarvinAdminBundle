@@ -47,7 +47,7 @@
                 </div>
                 <div class="version">
                     <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}">Darvin Auth</a>
-                    {% trans with { '%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}
+                    {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}
                         security.action.login.version
                     {% endtrans %}
                 </div>

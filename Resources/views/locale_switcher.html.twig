@@ -12,7 +12,7 @@
 
                         {% set url = path(
                             app.request.attributes.get('_route'),
-                            app.request.attributes.get('_route_params')|merge({ '_locale': locale })|merge(app.request.query.all)
+                            app.request.attributes.get('_route_params')|merge({'_locale': locale})|merge(app.request.query.all)
                         ) %}
 
                         <a href="{{ url }}" title="{{ ('locale.' ~ locale)|trans }}">{{ locale|capitalize }}</a>

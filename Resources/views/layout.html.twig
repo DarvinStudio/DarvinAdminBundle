@@ -12,7 +12,7 @@
         <title>
 
             {%- block title -%}
-                {% trans with { '%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION') } %}layout.title{% endtrans %}
+                {% trans with {'%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}layout.title{% endtrans %}
             {%- endblock -%}
 
         </title>
@@ -161,7 +161,7 @@
                 <script src="{{ asset(asset) }}"></script>
             {% endfor %}
             <script src="{{ asset('bundles/ivoryckeditor/ckeditor.js') }}"></script>
-            <script src="{{ path('bazinga_jstranslation_js', { 'domain': 'admin' }) }}?locales=en,{{ app.request.locale }}"></script>
+            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
             <script>
                 $.fancybox.defaults.locale = '{{ app.request.locale }}';
                 Translator.locale = '{{ app.request.locale }}';

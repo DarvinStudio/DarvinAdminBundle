@@ -22,7 +22,7 @@
 {%- block form_label -%}{%- endblock -%}
 
 {%- block widget_attributes -%}
-    {% set attr = attr|merge({ 'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim }) %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
     name="{{ full_name }}"
     {%- if read_only and attr.readonly is not defined %} readonly="readonly"{% endif -%}
     {%- if disabled %} disabled="disabled"{% endif -%}

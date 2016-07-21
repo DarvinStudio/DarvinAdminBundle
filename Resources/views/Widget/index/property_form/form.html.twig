@@ -12,9 +12,9 @@
 {% set property_form = attribute(form, property) %}
 
 {{ form_errors(property_form) }}
-{{ form_widget(property_form, { 'attr': {
+{{ form_widget(property_form, {'attr': {
     'autocomplete':        'off',
     'class':               'field',
     'data-original-value': original_value,
-} }) }}
+}}) }}
 {{ form_end(form) }}

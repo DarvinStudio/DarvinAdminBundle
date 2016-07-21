@@ -81,10 +81,16 @@
                                     'class':      'link_translete_manager',
                                     'url':        path('admin_translation'),
                                 },
+                                'image_archive.action.build.link': {
+                                    'accessible': true,
+                                    'url':        path('darvin_image_archive_build'),
+                                },
                             } %}
 
                             {% for title, attr in menu if attr.accessible %}
-                                <a href="{{ attr.url }}" class="{{ attr.class }}">{{ title|trans }}</a>
+                                <a href="{{ attr.url }}"{% if attr.class|default %} class="{{ attr.class }}"{% endif %}>
+                                    {{ title|trans }}
+                                </a>
                             {% endfor %}
 
                             {{ admin_cache_clear_form() }}

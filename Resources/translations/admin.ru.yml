@@ -162,8 +162,6 @@ log:
         user:           Пользователь
         username:       Имя пользователя
         version:        Версия
-    menu:
-        description: ""
 
 property_forms:
     submit: Сохранить

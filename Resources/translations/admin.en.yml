@@ -152,8 +152,6 @@ log:
         user:           User
         username:       Username
         version:        Version
-    menu:
-        description: ""
 
 property_forms:
     submit: Submit changes

@@ -18,7 +18,7 @@ chosen:
 configuration:
     action:
         edit:
-            link:    Основные настройки
+            link:    Настройки
             submit:  Сохранить изменения
             success: Настройки успешно сохранены
     darvin_admin:
@@ -71,8 +71,8 @@ form_collections:
 homepage:
     action:
         homepage:
-            link:  На главную
-            title: Главная страница
+            link:  Главная
+            title: DarvinCMS
 
 image:
     action:
@@ -107,7 +107,7 @@ interface:
     total_item_count: "Всего объектов: %count%"
 
 layout:
-    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Версия %version%
+    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Версия %version%
     footer:
         phone_numbers: >
             <div class="phone">
@@ -127,7 +127,7 @@ layout:
     menu:
         collapse: Свернуть меню
         expand:   Показать меню
-    title: Darvin Studio CMS Версия %version%
+    title: DarvinCMS Версия %version%
 
 log:
     action:
@@ -220,8 +220,8 @@ translation:
             reset:  Сбросить фильтр
             submit: Применить фильтр
         index:
-            link:  Менеджер переводов
-            title: Менеджер переводов
+            link:  Переводы
+            title: Переводы
         update_property:
             success: Значение успешно изменено
     entity:

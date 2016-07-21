@@ -61,8 +61,8 @@ form_collections:
 homepage:
     action:
         homepage:
-            link:  Go to homepage
-            title: Homepage
+            link:  Homepage
+            title: DarvinCMS
 
 image:
     action:
@@ -97,7 +97,7 @@ interface:
     total_item_count: "Total items: %count%"
 
 layout:
-    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">Darvin Studio CMS</a> Release %version%
+    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%
     footer:
         phone_numbers: >
             <div class="phone">
@@ -117,7 +117,7 @@ layout:
     menu:
         collapse: Collapse menu
         expand:   Expand menu
-    title: Darvin Studio CMS Release %version%
+    title: DarvinCMS Release %version%
 
 log:
     action:
@@ -210,8 +210,8 @@ translation:
             reset:  Reset filter
             submit: Apply filter
         index:
-            link:  Translation manager
-            title: Translation manager
+            link:  Translations
+            title: Translations
         update_property:
             success: Value successfully updated
     entity:

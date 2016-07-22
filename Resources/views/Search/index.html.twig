@@ -13,6 +13,11 @@
         </h3>
     {% endif %}
     {% for entity_name in entity_names %}
-        <h4>{{ entity_name }}</h4>
+        <h3>{{ entity_name }}</h3>
+        <br>
+
+        {% render controller('DarvinAdminBundle:Search:results', {'entityName': entity_name, 'query': query}) %}
+
+        <br>
     {% endfor %}
 {% endblock %}

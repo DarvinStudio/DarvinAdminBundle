@@ -28,44 +28,8 @@
         } %}
 
     {% endif %}
-    {% if view.body.rows is empty %}
-        <h3>{% trans %}interface.empty_list{% endtrans %}</h3>
-    {% else %}
 
-        {% set pagination_html = pagination ? knp_pagination_render(pagination) : '' %}
+    {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
 
-        {{ pagination_html|raw }}
-        <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
-        <div class="scroll-pane horizontal-only">
-            <div class="section_table">
-                <table class="property_forms">
-                    <thead>
-                        <tr>
-                            {% for field, item in view.head.items if item.width %}
-                                <th colspan="{{ item.width }}">
-                                    {% if pagination and item.sortable %}
-                                        {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
-                                    {% else %}
-                                        {{ item.content|trans }}
-                                    {% endif %}
-                                </th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in view.body.rows %}
-                            <tr>
-                                {% for item in row.items %}
-                                    <td>{{ item.content|trans|raw }}</td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {{ pagination_html|raw }}
-        <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
-    {% endif %}
     {{ new_form_widget|raw }}
 {% endblock %}

@@ -42,6 +42,42 @@ class SearchController extends Controller
     }
 
     /**
+     * @param string $entityName Entity name
+     * @param string $query      Search query
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function resultsAction($entityName, $query)
+    {
+        $searcher = $this->getSearcher();
+
+        if (!$searcher->isSearchable($entityName)) {
+            throw $this->createNotFoundException(sprintf('Entity "%s" is not searchable.', $entityName));
+        }
+
+        $entities = $this->getSearcher()->search($entityName, $query);
+
+        $view = $this->getEntitiesToIndexViewTransformer()->transform(
+            $searcher->getSearchableEntityMeta($entityName),
+            $entities
+        );
+
+        return $this->render('DarvinAdminBundle:Search/widget:results.html.twig', [
+            'entities_count' => count($entities),
+            'view'           => $view,
+        ]);
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
+     */
+    private function getEntitiesToIndexViewTransformer()
+    {
+        return $this->get('darvin_admin.view.entity_transformer.index');
+    }
+
+    /**
      * @return \Darvin\AdminBundle\Search\Searcher
      */
     private function getSearcher()

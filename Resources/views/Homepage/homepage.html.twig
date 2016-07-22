@@ -17,7 +17,9 @@
         <div class="index_modul spoiler_container">
             <div class="index_modul_header">
                 <div class="index_modul_header_content spoiler_links">
-                    <div class="spoiler_arrow"></div>
+                    {% if widget.content|trim %}
+                        <div class="spoiler_arrow"></div>
+                    {% endif %}
                     {% if widget.icon %}
                         <div class="index_modul_icon">
                             <img src="{{ asset(widget.icon) }}" alt="" />

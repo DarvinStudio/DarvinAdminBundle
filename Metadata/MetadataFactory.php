@@ -89,9 +89,15 @@ class MetadataFactory
             $this->em->getConfiguration()->getEntityNamespaces()
         );
 
-        $entityName = isset($configuration['entity_name'])
-            ? $configuration['entity_name']
-            : $this->generateEntityName($doctrineMeta->getName(), $entityNamespace);
+        if (isset($configuration['entity_name'])) {
+            $entityName = $configuration['entity_name'];
+
+            if (isset($this->entityNames[$entityName])) {
+                throw new MetadataException(sprintf('Entity named "%s" already exists.', $entityName));
+            }
+        } else {
+            $entityName = $this->generateEntityName($doctrineMeta->getName(), $entityNamespace);
+        }
 
         $baseTranslationPrefix = $this->generateBaseTranslationPrefix($entityName);
 

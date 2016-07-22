@@ -46,6 +46,11 @@ class MetadataFactory
     private $translatableManager;
 
     /**
+     * @var array
+     */
+    private $entityNames;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader  $configurationLoader Configuration loader
      * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
@@ -58,6 +63,8 @@ class MetadataFactory
         $this->configurationLoader = $configurationLoader;
         $this->em = $em;
         $this->translatableManager = $translatableManager;
+
+        $this->entityNames = [];
     }
 
     /**
@@ -145,7 +152,25 @@ class MetadataFactory
             }
         }
 
-        return StringsUtil::toUnderscore(implode($parts));
+        $name = StringsUtil::toUnderscore(implode($parts));
+
+        if (!isset($this->entityNames[$name])) {
+            $this->entityNames[$name] = true;
+
+            return $name;
+        }
+
+        $index = 1;
+
+        while (isset($this->entityNames[$name.'_'.$index])) {
+            $index++;
+        }
+
+        $name = $name.'_'.$index;
+
+        $this->entityNames[$name] = true;
+
+        return $name;
     }
 
     /**

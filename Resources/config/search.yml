@@ -1,0 +1,10 @@
+parameters:
+    darvin_admin.searcher.class: Darvin\AdminBundle\Search\Searcher
+
+services:
+    darvin_admin.searcher:
+        class: "%darvin_admin.searcher.class%"
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@darvin_content.filterer"
+            - "@darvin_admin.metadata.manager"

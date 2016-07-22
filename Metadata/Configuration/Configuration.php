@@ -57,6 +57,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
+                ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('pagination')
                     ->addDefaultsIfNotSet()

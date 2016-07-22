@@ -52,6 +52,7 @@ class DarvinAdminExtension extends Extension
             'menu',
             'metadata',
             'route',
+            'search',
             'security',
             'slug_suffix',
             'translation',

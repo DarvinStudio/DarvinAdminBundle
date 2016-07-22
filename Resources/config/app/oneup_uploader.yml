@@ -3,4 +3,4 @@ oneup_uploader:
         darvin:
             frontend: dropzone
             storage:
-                directory: %kernel.cache_dir%/files
+                directory: "%kernel.cache_dir%/files"

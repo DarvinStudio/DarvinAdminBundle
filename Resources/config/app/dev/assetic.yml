@@ -2,9 +2,9 @@ assetic:
     bundles: []
     filters:
         closure:
-            jar: %kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/compiler.jar
+            jar: "%kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/compiler.jar"
         cssembed:
-            jar: %kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/cssembed-0.4.5.jar
+            jar: "%kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/cssembed-0.4.5.jar"
         cssrewrite: ~
         yui_css:
-            jar: %kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/yuicompressor-2.4.8.jar
+            jar: "%kernel.root_dir%/../src/Darvin/AdminBundle/Resources/java/yuicompressor-2.4.8.jar"

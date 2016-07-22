@@ -11,8 +11,10 @@
 namespace Darvin\AdminBundle\Search;
 
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\QueryException;
 
 /**
  * Searcher
@@ -56,11 +58,22 @@ class Searcher
 
         $searchableFields = $this->getSearchableFields($meta);
 
-        $this->filterer->filter($qb, array_fill_keys($searchableFields, $query), [
-            'non_strict_comparison_fields' => $searchableFields,
-        ], false);
-
-        return $qb->getQuery()->getResult();
+        try {
+            $this->filterer->filter($qb, array_fill_keys($searchableFields, $query), [
+                'non_strict_comparison_fields' => $searchableFields,
+            ], false);
+        } catch (FiltererException $ex) {
+            throw new SearchException(
+                sprintf('Unable to search for "%s" entities: "%s".', $meta->getEntityClass(), $ex->getMessage())
+            );
+        }
+        try {
+            return $qb->getQuery()->getResult();
+        } catch (QueryException $ex) {
+            throw new SearchException(
+                sprintf('Unable to search for "%s" entities: "%s".', $meta->getEntityClass(), $ex->getMessage())
+            );
+        }
     }
 
     /**

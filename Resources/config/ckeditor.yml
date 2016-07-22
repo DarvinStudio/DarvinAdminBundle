@@ -5,18 +5,18 @@ parameters:
 
 services:
     darvin_admin.ckeditor.compact_form_type:
-        class: %darvin_admin.ckeditor.compact_form_type.class%
+        class: "%darvin_admin.ckeditor.compact_form_type.class%"
         arguments:
             - "@request_stack"
         tags:
             - { name: form.type }
 
     darvin_admin.ckeditor.form_type:
-        class: %darvin_admin.ckeditor.form_type.class%
+        class: "%darvin_admin.ckeditor.form_type.class%"
         arguments:
             - "@request_stack"
             - "@darvin_content.widget.pool"
-            - %darvin_admin.ckeditor.plugin_filename%
-            - %darvin_admin.ckeditor.plugins_path%
+            - "%darvin_admin.ckeditor.plugin_filename%"
+            - "%darvin_admin.ckeditor.plugins_path%"
         tags:
             - { name: form.type }

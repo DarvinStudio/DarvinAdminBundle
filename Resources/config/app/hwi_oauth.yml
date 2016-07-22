@@ -4,11 +4,11 @@ hwi_oauth:
     resource_owners:
         darvin_auth_admin:
             type:                oauth2
-            client_id:           %darvin_auth_client_id%
-            client_secret:       %darvin_auth_client_secret%
-            access_token_url:    %darvin_auth_access_token_url%
-            authorization_url:   %darvin_auth_authorization_url%
-            infos_url:           %darvin_auth_infos_url%
+            client_id:           "%darvin_auth_client_id%"
+            client_secret:       "%darvin_auth_client_secret%"
+            access_token_url:    "%darvin_auth_access_token_url%"
+            authorization_url:   "%darvin_auth_authorization_url%"
+            infos_url:           "%darvin_auth_infos_url%"
             user_response_class: Darvin\UserBundle\Security\OAuth\Response\DarvinAuthResponse
             options:
                 csrf: true

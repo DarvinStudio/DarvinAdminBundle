@@ -12,27 +12,27 @@ parameters:
 
 services:
     darvin_admin.cache.clear_command:
-        class: %darvin_admin.cache.clear_command.class%
+        class: "%darvin_admin.cache.clear_command.class%"
         arguments:
-            - %darvin_admin.cache.clear_command.name%
-            - %darvin_admin.cache.clear_command.description%
+            - "%darvin_admin.cache.clear_command.name%"
+            - "%darvin_admin.cache.clear_command.description%"
         tags:
             - { name: console.command }
 
     darvin_admin.cache.filesystem:
-        class: %darvin_admin.cache.filesystem.class%
+        class: "%darvin_admin.cache.filesystem.class%"
         arguments:
-            - %kernel.cache_dir%
+            - "%kernel.cache_dir%"
 
     darvin_admin.cache.form_manager:
-        class: %darvin_admin.cache.form_manager.class%
+        class: "%darvin_admin.cache.form_manager.class%"
         arguments:
             - "@form.factory"
             - "@router"
             - "@darvin_utils.templating.provider"
 
     darvin_admin.cache.twig_extension:
-        class:  %darvin_admin.cache.twig_extension.class%
+        class:  "%darvin_admin.cache.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.cache.form_manager"

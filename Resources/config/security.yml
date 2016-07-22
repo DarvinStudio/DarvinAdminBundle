@@ -11,7 +11,7 @@ parameters:
 
 services:
     darvin_admin.security.authorization_voter:
-        class:  %darvin_admin.security.authorization_voter.class%
+        class:  "%darvin_admin.security.authorization_voter.class%"
         public: false
         arguments:
             - "@darvin_admin.security.configuration.pool"
@@ -19,21 +19,21 @@ services:
             - { name: security.voter }
 
     darvin_admin.security.configuration.configuration:
-        class: %darvin_admin.security.configuration.configuration.class%
+        class: "%darvin_admin.security.configuration.configuration.class%"
         tags:
             - { name: darvin_config.configuration }
             - { name: darvin_admin.security_configuration }
 
     darvin_admin.security.configuration.pool:
-        class: %darvin_admin.security.configuration.pool.class%
+        class: "%darvin_admin.security.configuration.pool.class%"
 
     darvin_admin.security.form_type.object_permissions:
-        class: %darvin_admin.security.form_type.object_permissions.class%
+        class: "%darvin_admin.security.form_type.object_permissions.class%"
         arguments:
             - "@darvin_user.user.repository"
         tags:
             - { name: form.type }
 
     darvin_admin.security.user_provider.oauth:
-        class:  %darvin_admin.security.user_provider.oauth.class%
+        class:  "%darvin_admin.security.user_provider.oauth.class%"
         parent: darvin_user.security.user_provider.oauth

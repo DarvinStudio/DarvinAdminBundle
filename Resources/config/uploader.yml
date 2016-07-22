@@ -3,6 +3,6 @@ parameters:
 
 services:
     darvin_admin.uploader.listener:
-        class: %darvin_admin.uploader.listener.class%
+        class: "%darvin_admin.uploader.listener.class%"
         tags:
             - { name: kernel.event_listener, event: oneup_uploader.post_upload, method: postUpload }

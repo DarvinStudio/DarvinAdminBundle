@@ -9,7 +9,7 @@ parameters:
 
 services:
     darvin_admin.form.factory:
-        class: %darvin_admin.form.factory.class%
+        class: "%darvin_admin.form.factory.class%"
         arguments:
             - "@darvin_admin.route.router"
             - "@form.factory"
@@ -17,7 +17,7 @@ services:
             - "@property_accessor"
 
     darvin_admin.form.handler:
-        class: %darvin_admin.form.handler.class%
+        class: "%darvin_admin.form.handler.class%"
         arguments:
             - "@darvin_utils.cloner"
             - "@doctrine.orm.entity_manager"
@@ -26,7 +26,7 @@ services:
             - "@validator"
 
     darvin_admin.form.type.filter:
-        class: %darvin_admin.form.type.filter.class%
+        class: "%darvin_admin.form.type.filter.class%"
         arguments:
             - "@form.type_guesser.doctrine"
             - "@darvin_content.translatable.translation_joiner"
@@ -34,6 +34,6 @@ services:
             - { name: form.type }
 
     darvin_admin.form.type_extension.info:
-        class: %darvin_admin.form.type_extension.info.class%
+        class: "%darvin_admin.form.type_extension.info.class%"
         tags:
             - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }

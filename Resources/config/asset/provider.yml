@@ -63,37 +63,37 @@ parameters:
 
 services:
     darvin_admin.asset.provider.pool:
-        class:  %darvin_admin.asset.provider.pool.class%
+        class:  "%darvin_admin.asset.provider.pool.class%"
         public: false
 
     darvin_admin.asset.provider.abstract:
-        class:    %darvin_admin.asset.provider.generic.class%
+        class:    "%darvin_admin.asset.provider.generic.class%"
         abstract: true
         public:   false
         arguments:
             - "@kernel"
-            - %darvin_admin.asset.provider.generic.web_dir%
+            - "%darvin_admin.asset.provider.generic.web_dir%"
 
     darvin_admin.asset.provider.scripts:
-        class:  %darvin_admin.asset.provider.generic.class%
+        class:  "%darvin_admin.asset.provider.generic.class%"
         parent: darvin_admin.asset.provider.abstract
         arguments:
-            - %darvin_admin.asset.provider.scripts.dev_asset_web_pathnames%
-            - %darvin_admin.asset.provider.scripts.compiled_asset_pathname%
+            - "%darvin_admin.asset.provider.scripts.dev_asset_web_pathnames%"
+            - "%darvin_admin.asset.provider.scripts.compiled_asset_pathname%"
         tags:
             - { name: darvin_admin.asset_provider, alias: scripts }
 
     darvin_admin.asset.provider.styles:
-        class:  %darvin_admin.asset.provider.generic.class%
+        class:  "%darvin_admin.asset.provider.generic.class%"
         parent: darvin_admin.asset.provider.abstract
         arguments:
-            - %darvin_admin.asset.provider.styles.dev_asset_web_pathnames%
-            - %darvin_admin.asset.provider.styles.compiled_asset_pathname%
+            - "%darvin_admin.asset.provider.styles.dev_asset_web_pathnames%"
+            - "%darvin_admin.asset.provider.styles.compiled_asset_pathname%"
         tags:
             - { name: darvin_admin.asset_provider, alias: styles }
 
     darvin_admin.asset.provider.twig_extension:
-        class:  %darvin_admin.asset.provider.twig_extension.class%
+        class:  "%darvin_admin.asset.provider.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.asset.provider.pool"

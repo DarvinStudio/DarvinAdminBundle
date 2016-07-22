@@ -3,7 +3,7 @@ parameters:
 
 services:
     darvin_admin.slug_suffix.form_type:
-        class: %darvin_admin.slug_suffix.form_type.class%
+        class: "%darvin_admin.slug_suffix.form_type.class%"
         arguments:
             - "@router"
             - "@darvin_utils.sluggable.manager"

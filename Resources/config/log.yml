@@ -6,7 +6,7 @@ services:
     darvin_admin.log.metadata:
         parent: darvin_admin.metadata.abstract
         arguments:
-            - %darvin_admin.log.metadata.entity%
-            - %darvin_admin.log.metadata.config%
+            - "%darvin_admin.log.metadata.entity%"
+            - "%darvin_admin.log.metadata.config%"
         tags:
             - { name: darvin_admin.metadata }

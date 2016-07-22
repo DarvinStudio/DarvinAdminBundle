@@ -6,7 +6,7 @@ parameters:
 
 services:
     darvin_admin.translation.clear_cache_listener:
-        class:  %darvin_admin.translation.clear_cache_listener.class%
+        class:  "%darvin_admin.translation.clear_cache_listener.class%"
         public: false
         arguments:
             - "@service_container"
@@ -16,7 +16,7 @@ services:
     darvin_admin.translation.metadata:
         parent: darvin_admin.metadata.abstract
         arguments:
-            - %darvin_admin.translation.metadata.entity%
-            - %darvin_admin.translation.metadata.config%
+            - "%darvin_admin.translation.metadata.entity%"
+            - "%darvin_admin.translation.metadata.config%"
         tags:
             - { name: darvin_admin.metadata }

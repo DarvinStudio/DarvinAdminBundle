@@ -8,19 +8,19 @@ parameters:
 
 services:
     darvin_admin.asset.compiler.command:
-        class: %darvin_admin.asset.compiler.command.class%
+        class: "%darvin_admin.asset.compiler.command.class%"
         arguments:
-            - %darvin_admin.asset.compiler.command.name%
+            - "%darvin_admin.asset.compiler.command.name%"
             - "@darvin_admin.asset.compiler.pool"
         tags:
             - { name: console.command }
 
     darvin_admin.asset.compiler.pool:
-        class:  %darvin_admin.asset.compiler.pool.class%
+        class:  "%darvin_admin.asset.compiler.pool.class%"
         public: false
 
     darvin_admin.asset.compiler.scripts:
-        class:  %darvin_admin.asset.compiler.generic.class%
+        class:  "%darvin_admin.asset.compiler.generic.class%"
         public: false
         arguments:
             - "@darvin_admin.asset.provider.scripts"
@@ -30,7 +30,7 @@ services:
             - { name: darvin_admin.asset_compiler }
 
     darvin_admin.asset.compiler.styles:
-        class:  %darvin_admin.asset.compiler.generic.class%
+        class:  "%darvin_admin.asset.compiler.generic.class%"
         public: false
         arguments:
             - "@darvin_admin.asset.provider.styles"

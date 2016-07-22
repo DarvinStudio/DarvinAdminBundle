@@ -9,14 +9,14 @@ parameters:
 
 services:
     darvin_admin.menu:
-        class:  %darvin_admin.menu.class%
+        class:  "%darvin_admin.menu.class%"
         public: false
         arguments:
             - "@security.authorization_checker"
-            - %darvin_admin.menu.groups%
+            - "%darvin_admin.menu.groups%"
 
     darvin_admin.menu.configuration_item_factory:
-        class:  %darvin_admin.menu.configuration_item_factory.class%
+        class:  "%darvin_admin.menu.configuration_item_factory.class%"
         public: false
         arguments:
             - "@router"
@@ -24,7 +24,7 @@ services:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.item_factory:
-        class:  %darvin_admin.menu.item_factory.class%
+        class:  "%darvin_admin.menu.item_factory.class%"
         public: false
         arguments:
             - "@darvin_admin.route.router"
@@ -34,7 +34,7 @@ services:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.twig_extension:
-        class:  %darvin_admin.menu.twig_extension.class%
+        class:  "%darvin_admin.menu.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.menu"

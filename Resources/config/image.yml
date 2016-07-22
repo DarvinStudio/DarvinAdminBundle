@@ -8,13 +8,13 @@ services:
 #    darvin_admin.image.metadata:
 #        parent: darvin_admin.metadata.abstract
 #        arguments:
-#            - %darvin_admin.image.metadata.entity%
-#            - %darvin_admin.image.metadata.config%
+#            - "%darvin_admin.image.metadata.entity%"
+#            - "%darvin_admin.image.metadata.config%"
 #        tags:
 #            - { name: darvin_admin.metadata }
 
     darvin_admin.image.twig_extension:
-        class:  %darvin_admin.image.twig_extension.class%
+        class:  "%darvin_admin.image.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.configuration.configuration"

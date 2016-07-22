@@ -31,7 +31,7 @@ parameters:
 
 services:
     darvin_admin.view.entity_transformer.abstract:
-        class:    %darvin_admin.view.entity_transformer.abstract.class%
+        class:    "%darvin_admin.view.entity_transformer.abstract.class%"
         abstract: true
         arguments:
             - "@service_container"
@@ -40,7 +40,7 @@ services:
             - "@darvin_admin.view.widget_generator.pool"
 
     darvin_admin.view.entity_transformer.index:
-        class:  %darvin_admin.view.entity_transformer.index.class%
+        class:  "%darvin_admin.view.entity_transformer.index.class%"
         parent: darvin_admin.view.entity_transformer.abstract
         calls:
             - [ setAdminFormFactory,     [ "@darvin_admin.form.factory" ] ]
@@ -48,13 +48,13 @@ services:
             - [ setTemplating,           [ "@templating" ] ]
 
     darvin_admin.view.entity_transformer.show:
-        class:  %darvin_admin.view.entity_transformer.show.class%
+        class:  "%darvin_admin.view.entity_transformer.show.class%"
         parent: darvin_admin.view.entity_transformer.abstract
         calls:
             - [ setEventDispatcher, [ "@event_dispatcher" ] ]
 
     darvin_admin.view.widget_generator.abstract:
-        class:    %darvin_admin.view.widget_generator.abstract.class%
+        class:    "%darvin_admin.view.widget_generator.abstract.class%"
         abstract: true
         public:   false
         arguments:
@@ -64,7 +64,7 @@ services:
             - "@templating"
 
     darvin_admin.view.widget_generator.actions:
-        class:  %darvin_admin.view.widget_generator.actions.class%
+        class:  "%darvin_admin.view.widget_generator.actions.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setWidgetGeneratorPool, [ "@darvin_admin.view.widget_generator.pool" ] ]
@@ -72,7 +72,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.child_links:
-        class:  %darvin_admin.view.widget_generator.child_links.class%
+        class:  "%darvin_admin.view.widget_generator.child_links.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setEntityManager,      [ "@doctrine.orm.entity_manager" ] ]
@@ -81,13 +81,13 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.compound_list:
-        class:  %darvin_admin.view.widget_generator.compound_list.class%
+        class:  "%darvin_admin.view.widget_generator.compound_list.class%"
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.copy_form:
-        class:  %darvin_admin.view.widget_generator.copy_form.class%
+        class:  "%darvin_admin.view.widget_generator.copy_form.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminFormFactory,        [ "@darvin_admin.form.factory" ] ]
@@ -97,7 +97,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.delete_form:
-        class:  %darvin_admin.view.widget_generator.delete_form.class%
+        class:  "%darvin_admin.view.widget_generator.delete_form.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
@@ -106,7 +106,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.edit_link:
-        class:  %darvin_admin.view.widget_generator.edit_link.class%
+        class:  "%darvin_admin.view.widget_generator.edit_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
@@ -114,18 +114,18 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.email_link:
-        class:  %darvin_admin.view.widget_generator.email_link.class%
+        class:  "%darvin_admin.view.widget_generator.email_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.empty_widget:
-        class: %darvin_admin.view.widget_generator.empty_widget.class%
+        class: "%darvin_admin.view.widget_generator.empty_widget.class%"
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.entities_list:
-        class:  %darvin_admin.view.widget_generator.entities_list.class%
+        class:  "%darvin_admin.view.widget_generator.entities_list.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setWidgetGeneratorPool, [ "@darvin_admin.view.widget_generator.pool" ] ]
@@ -133,7 +133,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.image_link:
-        class:  %darvin_admin.view.widget_generator.image_link.class%
+        class:  "%darvin_admin.view.widget_generator.image_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
@@ -141,7 +141,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.image_upload_link:
-        class:  %darvin_admin.view.widget_generator.image_upload_link.class%
+        class:  "%darvin_admin.view.widget_generator.image_upload_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
@@ -149,7 +149,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.log_entry.data:
-        class:  %darvin_admin.view.widget_generator.log_entry.data.class%
+        class:  "%darvin_admin.view.widget_generator.log_entry.data.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]
@@ -159,7 +159,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.log_entry.entity_name:
-        class:  %darvin_admin.view.widget_generator.log_entry.entity_name.class%
+        class:  "%darvin_admin.view.widget_generator.log_entry.entity_name.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setObjectNamer,         [ "@darvin_utils.object_namer" ] ]
@@ -168,7 +168,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.log_entry.revert_form:
-        class:  %darvin_admin.view.widget_generator.log_entry.revert_form.class%
+        class:  "%darvin_admin.view.widget_generator.log_entry.revert_form.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
@@ -177,13 +177,13 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.photo_gallery:
-        class:  %darvin_admin.view.widget_generator.photo_gallery.class%
+        class:  "%darvin_admin.view.widget_generator.photo_gallery.class%"
         parent: darvin_admin.view.widget_generator.entities_list
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.public_link:
-        class:  %darvin_admin.view.widget_generator.public_link.class%
+        class:  "%darvin_admin.view.widget_generator.public_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setRouter, [ "@router" ] ]
@@ -191,7 +191,7 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.show_link:
-        class:  %darvin_admin.view.widget_generator.show_link.class%
+        class:  "%darvin_admin.view.widget_generator.show_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         calls:
             - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
@@ -199,27 +199,27 @@ services:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.simple_link:
-        class:  %darvin_admin.view.widget_generator.simple_link.class%
+        class:  "%darvin_admin.view.widget_generator.simple_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.simple_list:
-        class:  %darvin_admin.view.widget_generator.simple_list.class%
+        class:  "%darvin_admin.view.widget_generator.simple_list.class%"
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }
 
     darvin_admin.view.widget_generator.pool:
-        class: %darvin_admin.view.widget_generator.pool.class%
+        class: "%darvin_admin.view.widget_generator.pool.class%"
 
     darvin_admin.view.widget_generator.pool_provider:
-        class: %darvin_admin.view.widget_generator.pool_provider.class%
+        class: "%darvin_admin.view.widget_generator.pool_provider.class%"
         arguments:
             - "@service_container"
 
     darvin_admin.view.widget_generator.twig_extension:
-        class:  %darvin_admin.view.widget_generator.twig_extension.class%
+        class:  "%darvin_admin.view.widget_generator.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.view.widget_generator.pool_provider"

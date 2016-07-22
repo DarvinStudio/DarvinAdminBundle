@@ -7,14 +7,14 @@ parameters:
 
 services:
     darvin_admin.route.loader:
-        class: %darvin_admin.route.loader.class%
+        class: "%darvin_admin.route.loader.class%"
         arguments:
             - "@darvin_admin.metadata.manager"
         tags:
             - { name: routing.loader }
 
     darvin_admin.route.router:
-        class: %darvin_admin.route.router.class%
+        class: "%darvin_admin.route.router.class%"
         arguments:
             - "@router"
             - "@darvin_admin.metadata.identifier_accessor"
@@ -22,7 +22,7 @@ services:
             - "@property_accessor"
 
     darvin_admin.route.twig_extension:
-        class:  %darvin_admin.route.twig_extension.class%
+        class:  "%darvin_admin.route.twig_extension.class%"
         public: false
         arguments:
             - "@darvin_admin.route.router"

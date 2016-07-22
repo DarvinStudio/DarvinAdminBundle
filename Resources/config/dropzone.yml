@@ -3,12 +3,12 @@ parameters:
 
 services:
     darvin_admin.dropzone.form_type:
-        class: %darvin_admin.dropzone.form_type.class%
+        class: "%darvin_admin.dropzone.form_type.class%"
         arguments:
             - "@oneup_uploader.templating.uploader_helper"
             - "@property_accessor"
             - "@vich_uploader.metadata_reader"
-            - %oneup_uploader.config%
-            - %darvin_admin.upload_max_size_mb%
+            - "%oneup_uploader.config%"
+            - "%darvin_admin.upload_max_size_mb%"
         tags:
             - { name: form.type }

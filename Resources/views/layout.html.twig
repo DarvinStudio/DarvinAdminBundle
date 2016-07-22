@@ -81,10 +81,6 @@
                                     'class':      'link_translete_manager',
                                     'url':        path('admin_translation'),
                                 },
-                                'image_archive.action.build.link': {
-                                    'accessible': true,
-                                    'url':        path('darvin_image_archive_build'),
-                                },
                             } %}
 
                             {% for title, attr in menu if attr.accessible %}
@@ -94,6 +90,8 @@
                             {% endfor %}
 
                             {{ admin_cache_clear_form() }}
+
+                            {{ image_archive_build_form() }}
 
                             <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
 

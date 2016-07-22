@@ -100,11 +100,6 @@ image:
         darvin_admin: Стандартный
     sizes: Размеры
 
-image_archive:
-    action:
-        build:
-            link: Скачать изображения
-
 interface:
     actions:          Действия
     characters_left:  символов осталось

@@ -90,11 +90,6 @@ image:
         darvin_admin: Common
     sizes: Sizes
 
-image_archive:
-    action:
-        build:
-            link: Download images
-
 interface:
     actions:          Actions
     characters_left:  character(s) left

@@ -14,6 +14,10 @@ darvin_admin_import_log:
     resource: "@DarvinAdminBundle/Resources/config/routing/log.yml"
     prefix:   /log
 
+darvin_admin_import_search:
+    resource: "@DarvinAdminBundle/Resources/config/routing/search.yml"
+    prefix:   /search
+
 darvin_admin_import_fm_elfinder:
     resource: "@FMElfinderBundle/Resources/config/routing.yml"
 

@@ -1,0 +1,4 @@
+darvin_admin_search:
+    path:     /
+    defaults: { _controller: DarvinAdminBundle:Search:index }
+    methods:  [ get ]

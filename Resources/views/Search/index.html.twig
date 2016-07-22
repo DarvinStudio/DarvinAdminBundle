@@ -1,0 +1,18 @@
+{% extends 'DarvinAdminBundle::layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block heading %}{% trans with {'%query%': query} %}search.action.index.heading{% endtrans %}{% endblock %}
+
+{% block content %}
+    {% if query_too_short %}
+        <h3 class="text-danger">
+            {% transchoice query_min_length with {'%min_length%': query_min_length} %}
+                search.action.index.query_too_short
+            {% endtranschoice %}
+        </h3>
+    {% endif %}
+    {% for entity_name in entity_names %}
+        <h4>{{ entity_name }}</h4>
+    {% endfor %}
+{% endblock %}

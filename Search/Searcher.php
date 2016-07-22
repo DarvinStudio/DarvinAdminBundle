@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Search;
 
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Doctrine\ORM\EntityManager;
@@ -32,27 +33,45 @@ class Searcher
     private $filterer;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                      $em       Entity manager
-     * @param \Darvin\ContentBundle\Filterer\FiltererInterface $filterer Filterer
+     * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
-    public function __construct(EntityManager $em, FiltererInterface $filterer)
+    private $metadataManager;
+
+    /**
+     * @var \Darvin\AdminBundle\Metadata\Metadata[]
+     */
+    private $searchableEntitiesMeta;
+
+    /**
+     * @param \Doctrine\ORM\EntityManager                      $em              Entity manager
+     * @param \Darvin\ContentBundle\Filterer\FiltererInterface $filterer        Filterer
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager     $metadataManager Metadata manager
+     */
+    public function __construct(EntityManager $em, FiltererInterface $filterer, MetadataManager $metadataManager)
     {
         $this->em = $em;
         $this->filterer = $filterer;
+        $this->metadataManager = $metadataManager;
+
+        $this->searchableEntitiesMeta = null;
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta  Metadata
-     * @param string                                $query Search query
+     * @param string $entityName Entity name
+     * @param string $query      Search query
      *
      * @return object[]
      * @throws \Darvin\AdminBundle\Search\SearchException
      */
-    public function search(Metadata $meta, $query)
+    public function search($entityName, $query)
     {
-        if (!$this->isSearchable($meta)) {
-            throw new SearchException(sprintf('Entity "%s" is not searchable.', $meta->getEntityClass()));
+        $searchableMeta = $this->getSearchableEntitiesMeta();
+
+        if (!isset($searchableMeta[$entityName])) {
+            throw new SearchException(sprintf('Entity "%s" does not exist or is not searchable.', $entityName));
         }
+
+        $meta = $searchableMeta[$entityName];
 
         $qb = $this->em->getRepository($meta->getEntityClass())->createQueryBuilder('o');
 
@@ -77,15 +96,33 @@ class Searcher
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta Metadata
-     *
-     * @return bool
+     * @return string[]
      */
-    public function isSearchable(Metadata $meta)
+    public function getSearchableEntityNames()
     {
-        $searchableFields = $this->getSearchableFields($meta);
+        $meta = $this->getSearchableEntitiesMeta();
 
-        return !empty($searchableFields);
+        return array_keys($meta);
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Metadata\Metadata[]
+     */
+    private function getSearchableEntitiesMeta()
+    {
+        if (null === $this->searchableEntitiesMeta) {
+            $this->searchableEntitiesMeta = [];
+
+            foreach ($this->metadataManager->getAllMetadata() as $meta) {
+                $searchableFields = $this->getSearchableFields($meta);
+
+                if (!empty($searchableFields)) {
+                    $this->searchableEntitiesMeta[$meta->getEntityName()] = $meta;
+                }
+            }
+        }
+
+        return $this->searchableEntitiesMeta;
     }
 
     /**

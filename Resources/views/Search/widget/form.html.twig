@@ -1,0 +1,9 @@
+{% trans_default_domain 'admin' %}
+
+<form action="{{ path('darvin_admin_search') }}" method="get">
+    <input name="q"
+           type="search"
+           required="required"
+           {% if 'darvin_admin_search' == app.request.get('_route') %} value="{{ app.request.query.get('q') }}"{% endif %}>
+    <button type="submit">{% trans %}search.form.submit{% endtrans %}</button>
+</form>

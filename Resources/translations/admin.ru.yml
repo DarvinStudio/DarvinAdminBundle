@@ -184,6 +184,17 @@ menu:
 property_forms:
     submit: Сохранить
 
+search:
+    action:
+        index:
+            heading: Вы искали «%query%»
+            query_too_short: >
+                Запрос слишком короткий, минимальная длина %min_length% символ |
+                Запрос слишком короткий, минимальная длина %min_length% символа |
+                Запрос слишком короткий, минимальная длина %min_length% символов
+    form:
+        submit: Искать
+
 security:
     action:
         login:

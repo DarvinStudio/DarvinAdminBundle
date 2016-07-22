@@ -41,8 +41,8 @@ services:
     darvin_admin.administrator.metadata:
         parent: darvin_admin.metadata.abstract
         arguments:
-            - %darvin_admin.administrator.metadata.entity%
-            - %darvin_admin.administrator.metadata.config%
+            - "%darvin_admin.administrator.metadata.entity%"
+            - "%darvin_admin.administrator.metadata.config%"
         tags:
             - { name: darvin_admin.metadata }
 ```

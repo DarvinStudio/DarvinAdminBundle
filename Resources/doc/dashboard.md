@@ -28,7 +28,7 @@ parameters:
 
 services:
     app.admin.dashboard_widget.latest_posts:
-        class:  %app.admin.dashboard_widget.latest_posts.class%
+        class:  "%app.admin.dashboard_widget.latest_posts.class%"
         parent: darvin_admin.dashboard.widget.abstract
         calls:
             - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]

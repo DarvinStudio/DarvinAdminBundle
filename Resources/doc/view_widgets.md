@@ -45,7 +45,7 @@ parameters:
 
 services:
     darvin_admin.view.widget_generator.edit_link:
-        class:  %darvin_admin.view.widget_generator.edit_link.class%
+        class:  "%darvin_admin.view.widget_generator.edit_link.class%"
         parent: darvin_admin.view.widget_generator.abstract
         tags:
             - { name: darvin_admin.view.widget_generator }

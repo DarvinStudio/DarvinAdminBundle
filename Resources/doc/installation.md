@@ -95,18 +95,18 @@ stof_doctrine_extensions:
 
 ```yaml
 darvin_admin:
-    locales: %locales%
+    locales: "%locales%"
     project:
-        title: %project_title%
-        url:   %project_url%
+        title: "%project_title%"
+        url:   "%project_url%"
 
 darvin_image:
-    imagine_filter: %image_imagine_filter%
-    upload_path:    %image_upload_path%
+    imagine_filter: "%image_imagine_filter%"
+    upload_path:    "%image_upload_path%"
     
 darvin_utils:
     mailer:
-        from: %mailer_from%
+        from: "%mailer_from%"
 ```
 
 - настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
@@ -145,15 +145,15 @@ security:
                 login_path:                     darvin_admin_security_login
                 default_target_path:            darvin_admin_homepage
                 always_use_default_target_path: true
-                csrf_token_id:                  %secret%
+                csrf_token_id:                  "%secret%"
                 csrf_provider:                  security.csrf.token_manager
                 remember_me:                    true
             remember_me:
                 name:     REMEMBERMEADMIN
                 lifetime: 31536000 # 1 year
-                secret:   %secret%
+                secret:   "%secret%"
             logout:
-                csrf_token_id: %secret%
+                csrf_token_id: "%secret%"
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
                 handlers:
@@ -175,8 +175,8 @@ security:
         ROLE_SUPERADMIN: [ ROLE_ADMIN ]
 
     access_control:
-        - { path: ^/admin/(%locale_pattern%)/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: ^/admin/,                         roles: [ ROLE_ADMIN ] }
+        - { path: "^/admin/(%locale_pattern%)/login", roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/admin/,                           roles: [ ROLE_ADMIN ] }
 ```
 
 - добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yml.dist"
@@ -208,7 +208,7 @@ bazinga_js_translation:
 lexik_translation:
     resource:     "@LexikTranslationBundle/Resources/config/routing.yml"
     prefix:       /admin/{_locale}/translation
-    requirements: { _locale: %locale_pattern% }
+    requirements: { _locale: "%locale_pattern%" }
 
 liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
@@ -221,7 +221,7 @@ oneup_uploader:
 darvin_admin:
     resource:     "@DarvinAdminBundle/Resources/config/routing.yml"
     prefix:       /admin/{_locale}
-    requirements: { _locale: %locale_pattern% }
+    requirements: { _locale: "%locale_pattern%" }
 ```
 
 если проект не многоязычный, удаляем из роутинга все упоминания параметра "_locale";

@@ -52,7 +52,7 @@ parameters:
 
 services:
     darvin_admin.security.configuration:
-        class: %darvin_admin.security.configuration.class%
+        class: "%darvin_admin.security.configuration.class%"
         tags:
             - { name: darvin_admin.security_configuration }
             - { name: darvin_config.configuration }

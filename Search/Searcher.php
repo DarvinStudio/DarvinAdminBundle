@@ -82,7 +82,7 @@ class Searcher
         $qb = $this->em->getRepository($meta->getEntityClass())->createQueryBuilder('o');
 
         if ($this->translationJoiner->isTranslatable($meta->getEntityClass())) {
-            $this->translationJoiner->joinTranslation($qb, null, null, true, true);
+            $this->translationJoiner->joinTranslation($qb, true, null, null, true);
         }
 
         $searchableFields = $this->getSearchableFields($meta);

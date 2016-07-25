@@ -202,8 +202,7 @@ class FilterType extends AbstractFormType
                         $qb = $er->createQueryBuilder('o');
 
                         if ($translationJoiner->isTranslatable($er->getClassName())) {
-                            $translationJoiner->joinTranslation($qb, null, 'translations');
-                            $qb->addSelect('translations');
+                            $translationJoiner->joinTranslation($qb, true);
                         }
 
                         return $qb;

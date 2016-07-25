@@ -430,8 +430,7 @@ class CrudController extends Controller
         $translationJoiner = $this->getTranslationJoiner();
 
         if ($translationJoiner->isTranslatable($this->entityClass)) {
-            $translationJoiner->joinTranslation($qb, $locale, 'translations');
-            $qb->addSelect('translations');
+            $translationJoiner->joinTranslation($qb, true, $locale);
         }
         if (empty($filterFormData)) {
             return $qb;

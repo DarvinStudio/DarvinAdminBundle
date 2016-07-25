@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    if (!$('.property_form').length) {
-        return;
-    }
+//    if (!$('.property_form').length) {
+//        return;
+//    }
 
     var submitForm = function ($form, redirect) {
         if ($form.data('submitted')) {
@@ -63,36 +63,49 @@ $(document).ready(function () {
         }
     };
 
-    $('.property_form .field[type!="checkbox"]').each(function () {
-        toggleButtons($(this));
-    });
+    var init;
+    (init = function (context) {
+        if ('undefined' === typeof context) {
+            context = 'body';
+        }
 
-    $('.property_forms').append('<button class="property_forms_submit">' + Translator.trans('property_forms.submit') + '</button>');
+        var $context = $(context);
 
-    $('body')
-        .on('change', '.property_form input[type="checkbox"]', function () {
-            submitForm($(this).parents('form.property_form').first(), false);
-        })
-        .on('change', '.property_form .field[type!="checkbox"]', function () {
+        $context.find('.property_form .field[type!="checkbox"]').each(function () {
             toggleButtons($(this));
-        })
-        .on('keyup', '.property_form input', function () {
-            toggleButtons($(this));
-        })
-        .on('click', '.property_form [type="reset"]', function (e) {
-            e.preventDefault();
-
-            var $field = $(this).siblings('.field');
-
-            $field
-                .val($field.data('original-value'))
-                .trigger('change');
-        })
-        .on('click', '.property_forms .property_forms_submit', function () {
-            $(this).parents('.property_forms').first().find('form.property_form[data-modified="1"]').submit();
-        })
-        .on('submit', 'form.property_form', function (e) {
-            e.preventDefault();
-            submitForm($(this));
         });
+
+        $context.find('.property_forms').append('<button class="property_forms_submit">' + Translator.trans('property_forms.submit') + '</button>');
+
+        $context
+            .on('change', '.property_form input[type="checkbox"]', function () {
+                submitForm($(this).parents('form.property_form').first(), false);
+            })
+            .on('change', '.property_form .field[type!="checkbox"]', function () {
+                toggleButtons($(this));
+            })
+            .on('keyup', '.property_form input', function () {
+                toggleButtons($(this));
+            })
+            .on('click', '.property_form [type="reset"]', function (e) {
+                e.preventDefault();
+
+                var $field = $(this).siblings('.field');
+
+                $field
+                    .val($field.data('original-value'))
+                    .trigger('change');
+            })
+            .on('click', '.property_forms .property_forms_submit', function () {
+                $(this).parents('.property_forms').first().find('form.property_form[data-modified="1"]').submit();
+            })
+            .on('submit', 'form.property_form', function (e) {
+                e.preventDefault();
+                submitForm($(this));
+            });
+    })();
+
+    $(document).on('searchComplete', function (e, results) {
+        init(results);
+    });
 });

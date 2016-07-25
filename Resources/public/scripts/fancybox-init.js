@@ -21,9 +21,11 @@ $(document).ready(function () {
             context = 'body';
         }
 
-        $(context).find('.fancybox').fancybox();
+        var $context = $(context);
 
-        $(context).on('click', 'a.fancybox_ajax', function (e) {
+        $context.find('.fancybox').fancybox();
+
+        $context.on('click', 'a.fancybox_ajax', function (e) {
             e.preventDefault();
 
             var $link = $(this);

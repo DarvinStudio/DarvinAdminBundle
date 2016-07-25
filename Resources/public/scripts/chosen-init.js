@@ -41,6 +41,9 @@ $(document).ready(function () {
         .on('propertyFormSubmit', function (e, form) {
             init(form);
         })
+        .on('searchComplete', function (e, results) {
+            init(results);
+        })
         .on('spoilerOpen', function (e, spoiler) {
             init(spoiler);
         });

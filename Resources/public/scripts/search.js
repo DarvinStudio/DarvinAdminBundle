@@ -22,6 +22,7 @@ $(document).ready(function () {
                 url: $results.data('source')
             }).done(function (html) {
                 $results.html(html);
+                $(document).trigger('searchComplete', $results);
             }).complete(function () {
                 clearInterval(interval);
                 pending = false;

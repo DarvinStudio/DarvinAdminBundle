@@ -175,6 +175,13 @@ property_forms:
     submit: Submit changes
 
 search:
+    action:
+        index:
+            heading: Searching for "%query%"
+            query_too_short: >
+                Query is too short, min length is %min_length% symbol |
+                Query is too short, min length is %min_length% symbols |
+                Query is too short, min length is %min_length% symbols
     form:
         submit: Search
 

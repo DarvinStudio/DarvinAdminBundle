@@ -187,7 +187,7 @@ property_forms:
 search:
     action:
         index:
-            heading: Вы искали «%query%»
+            heading: Поиск «%query%»
             query_too_short: >
                 Запрос слишком короткий, минимальная длина %min_length% символ |
                 Запрос слишком короткий, минимальная длина %min_length% символа |

@@ -15,7 +15,7 @@
         "a2lix/translation-form-bundle":      "2.1.*",
         "egeloen/ckeditor-bundle":            "4.0.*",
         "egeloen/form-extra-bundle":          "1.0.*",
-        "helios-ag/fm-elfinder-bundle":       "6.1.*",
+        "helios-ag/fm-elfinder-bundle":       "dev-master@dev",
         "knplabs/knp-paginator-bundle":       "2.5.*",
         "lexik/translation-bundle":           "3.1.*",
         "ocramius/proxy-manager":             "0.5.*",

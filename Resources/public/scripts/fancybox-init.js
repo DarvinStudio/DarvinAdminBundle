@@ -1,9 +1,4 @@
 $(document).ready(function () {
-//    $.fancybox.defaults = $.extend({}, $.fancybox.defaults, {
-//        caption: {
-//            type: 'inside'
-//        }
-//    });
     $.fancybox.defaults.locales = $.extend({}, $.fancybox.defaults.locales, {
         ru: {
             CLOSE:      Translator.trans('fancybox.close'),
@@ -20,29 +15,40 @@ $(document).ready(function () {
         closeBtn: '<a title="{{CLOSE}}" class="overlay_close" href="javascript:;"></a>'
     });
 
-    $('.fancybox').fancybox();
-
-    $('body').on('click', 'a.fancybox_ajax', function (e) {
-        e.preventDefault();
-
-        var $link = $(this);
-
-        if ($link.data('submitted')) {
-            return;
+    var init;
+    (init = function (context) {
+        if ('undefined' === typeof context) {
+            context = 'body';
         }
 
-        $link
-            .append(AJAX_LOADER)
-            .data('submitted', true);
+        $(context).find('.fancybox').fancybox();
 
-        $.ajax({
-            type: 'get',
-            url:  $link.attr('href')
-        }).done(function (html) {
-            $.fancybox({
-                content: html,
-                title:   $link.attr('title')
-            });
-        }).error(onAjaxError);
+        $(context).on('click', 'a.fancybox_ajax', function (e) {
+            e.preventDefault();
+
+            var $link = $(this);
+
+            if ($link.data('submitted')) {
+                return;
+            }
+
+            $link
+                .append(AJAX_LOADER)
+                .data('submitted', true);
+
+            $.ajax({
+                type: 'get',
+                url:  $link.attr('href')
+            }).done(function (html) {
+                $.fancybox({
+                    content: html,
+                    title:   $link.attr('title')
+                });
+            }).error(onAjaxError);
+        });
+    })();
+
+    $(document).on('searchComplete', function (e, results) {
+        init(results);
     });
 });

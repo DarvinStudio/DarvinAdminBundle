@@ -185,6 +185,11 @@ search:
     form:
         submit: Search
 
+securable:
+    image:       Image manager
+    log:         Log
+    translation: Translation
+
 security:
     action:
         login:
@@ -192,10 +197,6 @@ security:
             version: Release %number%
         logout:
             link: Logout
-    object:
-        image:       Image manager
-        log:         Log
-        translation: Translation
     permission:
         create_delete: Create and remove
         edit:          Edit

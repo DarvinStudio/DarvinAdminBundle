@@ -195,6 +195,11 @@ search:
     form:
         submit: Искать
 
+securable:
+    image:       Менеджер изображений
+    log:         Журнал
+    translation: Перевод
+
 security:
     action:
         login:
@@ -202,10 +207,6 @@ security:
             version: Версия %number%
         logout:
             link: Выйти
-    object:
-        image:       Менеджер изображений
-        log:         Журнал
-        translation: Перевод
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование

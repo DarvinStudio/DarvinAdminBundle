@@ -64,7 +64,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      */
     protected function generateWidget($logEntry, array $options, $property)
     {
-        return 'log.object.'.$this->getEntityName($logEntry->getObjectClass()).'.title';
+        return 'loggable.'.$this->getEntityName($logEntry->getObjectClass());
     }
 
     /**

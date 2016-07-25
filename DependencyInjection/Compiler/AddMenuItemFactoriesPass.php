@@ -41,4 +41,3 @@ class AddMenuItemFactoriesPass implements CompilerPassInterface
         }
     }
 }
- 

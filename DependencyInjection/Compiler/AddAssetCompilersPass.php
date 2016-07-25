@@ -34,14 +34,10 @@ class AddAssetCompilersPass implements CompilerPassInterface
 
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-        foreach ($container->findTaggedServiceIds(self::TAG_ASSET_COMPILER) as $id => $tags) {
-            $reference = new Reference($id);
-
-            foreach ($tags as $tag) {
-                $poolDefinition->addMethodCall('addCompiler', [
-                    $reference,
-                ]);
-            }
+        foreach ($container->findTaggedServiceIds(self::TAG_ASSET_COMPILER) as $id => $attr) {
+            $poolDefinition->addMethodCall('addCompiler', [
+                new Reference($id),
+            ]);
         }
     }
 }

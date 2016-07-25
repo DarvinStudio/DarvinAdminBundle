@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
+use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\QueryException;
 
@@ -38,20 +39,31 @@ class Searcher
     private $metadataManager;
 
     /**
+     * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
+     */
+    private $translationJoiner;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]
      */
     private $searchableEntitiesMeta;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                      $em              Entity manager
-     * @param \Darvin\ContentBundle\Filterer\FiltererInterface $filterer        Filterer
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager     $metadataManager Metadata manager
+     * @param \Doctrine\ORM\EntityManager                                   $em                Entity manager
+     * @param \Darvin\ContentBundle\Filterer\FiltererInterface              $filterer          Filterer
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                  $metadataManager   Metadata manager
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner Translation joiner
      */
-    public function __construct(EntityManager $em, FiltererInterface $filterer, MetadataManager $metadataManager)
-    {
+    public function __construct(
+        EntityManager $em,
+        FiltererInterface $filterer,
+        MetadataManager $metadataManager,
+        TranslationJoinerInterface $translationJoiner
+    ) {
         $this->em = $em;
         $this->filterer = $filterer;
         $this->metadataManager = $metadataManager;
+        $this->translationJoiner = $translationJoiner;
 
         $this->searchableEntitiesMeta = null;
     }
@@ -68,6 +80,10 @@ class Searcher
         $meta = $this->getSearchableEntityMeta($entityName);
 
         $qb = $this->em->getRepository($meta->getEntityClass())->createQueryBuilder('o');
+
+        if ($this->translationJoiner->isTranslatable($meta->getEntityClass())) {
+            $this->translationJoiner->joinTranslation($qb, null, null, true, true);
+        }
 
         $searchableFields = $this->getSearchableFields($meta);
 

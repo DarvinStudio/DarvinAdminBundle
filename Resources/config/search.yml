@@ -8,3 +8,4 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@darvin_content.filterer"
             - "@darvin_admin.metadata.manager"
+            - "@darvin_content.translatable.translation_joiner"

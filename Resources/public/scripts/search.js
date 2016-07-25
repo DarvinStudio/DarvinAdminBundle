@@ -1,14 +1,15 @@
 $(document).ready(function () {
-    var $results = $('.search_results[data-source]');
+    var $searchables = $('.searchable[data-source]');
 
-    if (!$results.length) {
+    if (!$searchables.length) {
         return;
     }
 
     var pending = false;
 
-    $results.each(function () {
-        var $results = $(this);
+    $searchables.each(function () {
+        var $searchable = $(this);
+        var $results = $searchable.find('.searchable_results');
 
         var interval = setInterval(function () {
             if (pending) {
@@ -16,11 +17,19 @@ $(document).ready(function () {
             }
 
             pending = true;
-            $results.html(AJAX_LOADER);
+            $searchable.show().find('.searchable_title').append(AJAX_LOADER);
 
             $.ajax({
-                url: $results.data('source')
+                url: $searchable.data('source')
             }).done(function (html) {
+                var $html = $(html);
+
+                if (!$html.find('tr').length) {
+                    $searchable.remove();
+
+                    return;
+                }
+
                 $results.html(html);
                 $(document).trigger('searchComplete', $results);
             }).complete(function () {

@@ -12,17 +12,24 @@ namespace Darvin\AdminBundle\Search;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\QueryException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Searcher
  */
 class Searcher
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -49,17 +56,20 @@ class Searcher
     private $searchableEntitiesMeta;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                                   $em                Entity manager
-     * @param \Darvin\ContentBundle\Filterer\FiltererInterface              $filterer          Filterer
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                  $metadataManager   Metadata manager
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner Translation joiner
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Doctrine\ORM\EntityManager                                                  $em                   Entity manager
+     * @param \Darvin\ContentBundle\Filterer\FiltererInterface                             $filterer             Filterer
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface                $translationJoiner    Translation joiner
      */
     public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
         EntityManager $em,
         FiltererInterface $filterer,
         MetadataManager $metadataManager,
         TranslationJoinerInterface $translationJoiner
     ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->em = $em;
         $this->filterer = $filterer;
         $this->metadataManager = $metadataManager;
@@ -151,6 +161,12 @@ class Searcher
             $this->searchableEntitiesMeta = [];
 
             foreach ($this->metadataManager->getAllMetadata() as $meta) {
+                if (!$this->authorizationChecker->isGranted(Permission::EDIT, $meta->getEntityClass())
+                    && !$this->authorizationChecker->isGranted(Permission::VIEW)
+                ) {
+                    continue;
+                }
+
                 $searchableFields = $this->getSearchableFields($meta);
 
                 if (!empty($searchableFields)) {

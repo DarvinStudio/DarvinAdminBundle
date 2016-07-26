@@ -62,7 +62,9 @@ abstract class AbstractSecurityConfiguration extends AbstractConfiguration imple
     }
 
     /**
-     * @return array
+     * @return array {
+     *      string objectName => string objectClass
+     * }
      */
     abstract protected function getSecurableObjectClasses();
 }

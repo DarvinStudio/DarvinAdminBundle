@@ -1,6 +1,6 @@
 {
     "name":        "darvinstudio/darvin-admin-bundle",
-    "description": "This bundle provides highly configurable admin panel for Symfony2-based applications.",
+    "description": "This bundle provides highly configurable admin panel for Symfony-based applications.",
     "keywords":    ["admin"],
     "type":        "symfony-bundle",
     "license":     "MIT",

@@ -153,6 +153,8 @@ log:
 
 menu:
     group:
+        menu:
+            title: Menu
         modules:
             description: View orders, configure payment systems.
             title:       Modules

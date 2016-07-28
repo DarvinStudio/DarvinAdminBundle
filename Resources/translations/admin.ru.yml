@@ -163,6 +163,8 @@ log:
 
 menu:
     group:
+        menu:
+            title: Меню
         modules:
             description: Просмотр заказов, настройка платежных систем.
             title:       Модули

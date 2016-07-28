@@ -59,7 +59,7 @@ class DarvinAdminExtension extends Extension
             'twig',
             'uploader',
             'view',
-                 ] as $resource) {
+        ] as $resource) {
             $loader->load($resource.'.yml');
         }
 

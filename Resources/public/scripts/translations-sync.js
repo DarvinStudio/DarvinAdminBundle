@@ -1,6 +1,8 @@
 $(document).ready(function () {
     var getLocale = function ($tab) {
-        return $tab.attr('class').replace(/(a2lix_translationsFields-|tab-pane|active)/g, '').trim();
+        var matches = $tab.attr('class').match(/a2lix_translationsfields-([a-z]+)\s*/i);
+
+        return matches[1];
     };
 
     $('body')

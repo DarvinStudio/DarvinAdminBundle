@@ -69,7 +69,7 @@ services:
         calls:
             - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.child_links:
         class:  "%darvin_admin.view.widget.child_links.class%"
@@ -78,13 +78,13 @@ services:
             - [ setEntityManager,      [ "@doctrine.orm.entity_manager" ] ]
             - [ setIdentifierAccessor, [ "@darvin_admin.metadata.identifier_accessor" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.compound_list:
         class:  "%darvin_admin.view.widget.compound_list.class%"
         parent: darvin_admin.view.widget.abstract
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.copy_form:
         class:  "%darvin_admin.view.widget.copy_form.class%"
@@ -94,7 +94,7 @@ services:
             - [ setAdminRouter,             [ "@darvin_admin.route.router" ] ]
             - [ setExtendedMetadataFactory, [ "@darvin_utils.mapping.metadata_factory" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.delete_form:
         class:  "%darvin_admin.view.widget.delete_form.class%"
@@ -103,7 +103,7 @@ services:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
             - [ setAdminRouter,      [ "@darvin_admin.route.router" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.edit_link:
         class:  "%darvin_admin.view.widget.edit_link.class%"
@@ -111,18 +111,18 @@ services:
         calls:
             - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.email_link:
         class:  "%darvin_admin.view.widget.email_link.class%"
         parent: darvin_admin.view.widget.abstract
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.empty_widget:
         class: "%darvin_admin.view.widget.empty_widget.class%"
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.entity_list:
         class:  "%darvin_admin.view.widget.entity_list.class%"
@@ -130,7 +130,7 @@ services:
         calls:
             - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.image_link:
         class:  "%darvin_admin.view.widget.image_link.class%"
@@ -138,7 +138,7 @@ services:
         calls:
             - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.image_upload_link:
         class:  "%darvin_admin.view.widget.image_upload_link.class%"
@@ -146,7 +146,7 @@ services:
         calls:
             - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.log_entry.data:
         class:  "%darvin_admin.view.widget.log_entry.data.class%"
@@ -156,7 +156,7 @@ services:
             - [ setObjectNamer,   [ "@darvin_utils.object_namer" ] ]
             - [ setStringifier,   [ "@darvin_utils.stringifier.doctrine" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.log_entry.entity_name:
         class:  "%darvin_admin.view.widget.log_entry.entity_name.class%"
@@ -165,7 +165,7 @@ services:
             - [ setObjectNamer,         [ "@darvin_utils.object_namer" ] ]
             - [ setTranslatableManager, [ "@darvin_content.translatable.manager" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.log_entry.revert_form:
         class:  "%darvin_admin.view.widget.log_entry.revert_form.class%"
@@ -174,13 +174,13 @@ services:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
             - [ setRouter,           [ "@router" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.photo_gallery:
         class:  "%darvin_admin.view.widget.photo_gallery.class%"
         parent: darvin_admin.view.widget.entity_list
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.public_link:
         class:  "%darvin_admin.view.widget.public_link.class%"
@@ -188,7 +188,7 @@ services:
         calls:
             - [ setRouter, [ "@router" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.show_link:
         class:  "%darvin_admin.view.widget.show_link.class%"
@@ -196,19 +196,19 @@ services:
         calls:
             - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.simple_link:
         class:  "%darvin_admin.view.widget.simple_link.class%"
         parent: darvin_admin.view.widget.abstract
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.simple_list:
         class:  "%darvin_admin.view.widget.simple_list.class%"
         parent: darvin_admin.view.widget.abstract
         tags:
-            - { name: darvin_admin.view.widget }
+            - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.pool:
         class: "%darvin_admin.view.widget.pool.class%"

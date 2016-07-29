@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\ConfigBundle\DependencyInjection\Compiler\AddConfigurationsPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -41,6 +42,8 @@ class AddSecurityConfigurationsPass implements CompilerPassInterface
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
         foreach ($configurationIds as $id => $attr) {
+            $container->getDefinition($id)->addTag(AddConfigurationsPass::TAG_CONFIGURATION);
+
             $poolDefinition->addMethodCall('addConfiguration', [
                 new Reference($id),
             ]);

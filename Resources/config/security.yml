@@ -21,7 +21,6 @@ services:
     darvin_admin.security.configuration.configuration:
         class: "%darvin_admin.security.configuration.configuration.class%"
         tags:
-            - { name: darvin_config.configuration }
             - { name: darvin_admin.security_configuration }
 
     darvin_admin.security.configuration.pool:

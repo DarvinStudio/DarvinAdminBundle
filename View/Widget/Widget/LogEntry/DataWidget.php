@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
+namespace Darvin\AdminBundle\View\Widget\Widget\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
-use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException;
+use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
@@ -22,9 +22,9 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Log entry data view widget generator
+ * Log entry data view widget
  */
-class DataGenerator extends AbstractWidgetGenerator
+class DataWidget extends AbstractWidget
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -80,7 +80,7 @@ class DataGenerator extends AbstractWidgetGenerator
      *
      * @return string
      */
-    protected function generateWidget($logEntry, array $options, $property)
+    protected function createContent($logEntry, array $options, $property)
     {
         $data = $logEntry->getData();
 
@@ -134,7 +134,7 @@ class DataGenerator extends AbstractWidgetGenerator
      * @param string $entityClass Entity class
      *
      * @return array
-     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
     private function getMappings($entityClass)
     {
@@ -144,7 +144,7 @@ class DataGenerator extends AbstractWidgetGenerator
         try {
             return $this->em->getClassMetadata($entityClass)->fieldMappings;
         } catch (MappingException $ex) {
-            throw new WidgetGeneratorException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
+            throw new WidgetException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
         }
     }
 

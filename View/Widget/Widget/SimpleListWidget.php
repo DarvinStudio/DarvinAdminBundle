@@ -8,21 +8,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Simple list view widget generator
+ * Simple list view widget
  */
-class SimpleListGenerator extends AbstractWidgetGenerator
+class SimpleListWidget extends AbstractWidget
 {
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         if (isset($options['property'])) {
             $property = $options['property'];
@@ -38,7 +39,7 @@ class SimpleListGenerator extends AbstractWidgetGenerator
                 gettype($items)
             );
 
-            throw new WidgetGeneratorException($message);
+            throw new WidgetException($message);
         }
 
         return $this->render($options, [

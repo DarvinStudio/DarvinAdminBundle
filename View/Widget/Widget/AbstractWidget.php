@@ -8,9 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\View\Widget\WidgetException;
+use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Translatable\TranslatableException;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Util\ClassUtils;
@@ -21,9 +23,9 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
- * View widget generator abstract implementation
+ * View widget abstract implementation
  */
-abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
+abstract class AbstractWidget implements WidgetInterface
 {
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
@@ -38,22 +40,22 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
-    private $propertyAccessor;
+    protected $propertyAccessor;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
      */
-    private $templating;
+    protected $templating;
 
     /**
      * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
-    private $optionsResolver;
+    protected $optionsResolver;
 
     /**
      * @var string
      */
-    private $alias;
+    protected $alias;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
@@ -81,7 +83,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = [], $property = null)
+    public function getContent($entity, array $options = [], $property = null)
     {
         $this->validate($entity, $options);
 
@@ -91,7 +93,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
             }
         }
 
-        return $this->generateWidget($entity, $options, $property);
+        return $this->createContent($entity, $options, $property);
     }
 
     /**
@@ -101,7 +103,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
     {
         if (empty($this->alias)) {
             $parts = explode('\\', get_class($this));
-            $this->alias = StringsUtil::toUnderscore(preg_replace('/Generator$/', '', array_pop($parts)));
+            $this->alias = StringsUtil::toUnderscore(preg_replace('/Widget$/', '', array_pop($parts)));
         }
 
         return $this->alias;
@@ -114,7 +116,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      *
      * @return string
      */
-    abstract protected function generateWidget($entity, array $options, $property);
+    abstract protected function createContent($entity, array $options, $property);
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
@@ -136,7 +138,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      * @param string $propertyPath Property path
      *
      * @return mixed
-     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
     protected function getPropertyValue($entity, $propertyPath)
     {
@@ -148,7 +150,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
                     $propertyPath
                 );
 
-                throw new WidgetGeneratorException($message);
+                throw new WidgetException($message);
             }
         } catch (TranslatableException $ex) {
             $message = sprintf(
@@ -158,7 +160,7 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
                 lcfirst($ex->getMessage())
             );
 
-            throw new WidgetGeneratorException($message);
+            throw new WidgetException($message);
         }
 
         return $this->propertyAccessor->getValue($entity, $propertyPath);
@@ -208,9 +210,9 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
      * @param object $entity  Entity
      * @param array  $options Options
      *
-     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    private function validate($entity, array &$options)
+    protected function validate($entity, array &$options)
     {
         $allowedEntityClasses = $this->getAllowedEntityClasses();
 
@@ -226,19 +228,19 @@ abstract class AbstractWidgetGenerator implements WidgetGeneratorInterface
             }
             if (!$entityClassAllowed) {
                 $message = sprintf(
-                    'View widget generator "%s" requires entity to be instance of one of "%s" classes.',
+                    'View widget "%s" requires entity to be instance of one of "%s" classes.',
                     $this->getAlias(),
                     implode('", "', $allowedEntityClasses)
                 );
 
-                throw new WidgetGeneratorException($message);
+                throw new WidgetException($message);
             }
         }
         try {
             $options = $this->optionsResolver->resolve($options);
         } catch (ExceptionInterface $ex) {
-            throw new WidgetGeneratorException(
-                sprintf('View widget generator "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
+            throw new WidgetException(
+                sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
             );
         }
     }

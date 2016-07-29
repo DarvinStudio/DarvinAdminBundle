@@ -8,21 +8,22 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Compound list view widget generator
+ * Compound list view widget
  */
-class CompoundListGenerator extends AbstractWidgetGenerator
+class CompoundListWidget extends AbstractWidget
 {
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $property);
 
@@ -37,7 +38,7 @@ class CompoundListGenerator extends AbstractWidgetGenerator
                 gettype($keys)
             );
 
-            throw new WidgetGeneratorException($message);
+            throw new WidgetException($message);
         }
 
         $list = $this->createList($keys, $this->getValues($options));
@@ -103,7 +104,7 @@ class CompoundListGenerator extends AbstractWidgetGenerator
      * @param array $options Options
      *
      * @return array
-     * @throws \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorException
+     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
     private function getValues(array $options)
     {
@@ -111,7 +112,7 @@ class CompoundListGenerator extends AbstractWidgetGenerator
         $values = $valuesCallback();
 
         if (!is_array($values) && !$values instanceof \Traversable) {
-            throw new WidgetGeneratorException(
+            throw new WidgetException(
                 sprintf('Values callback must return array or instance of \Traversable, "%s" provided.', gettype($values))
             );
         }

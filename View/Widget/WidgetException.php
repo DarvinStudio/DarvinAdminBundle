@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget;
 
 use Darvin\AdminBundle\View\ViewException;
 
 /**
- * View widget generator exception
+ * View widget exception
  */
-class WidgetGeneratorException extends ViewException
+class WidgetException extends ViewException
 {
 
 }

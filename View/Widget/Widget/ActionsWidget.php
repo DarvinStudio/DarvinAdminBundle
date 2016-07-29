@@ -8,39 +8,40 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
+use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Actions view widget generator
+ * Actions view widget
  */
-class ActionsGenerator extends AbstractWidgetGenerator
+class ActionsWidget extends AbstractWidget
 {
     /**
-     * @var \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    private $widgetGeneratorPool;
+    private $widgetPool;
 
     /**
-     * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
      */
-    public function setWidgetGeneratorPool(WidgetGeneratorPool $widgetGeneratorPool)
+    public function setWidgetPool(WidgetPool $widgetPool)
     {
-        $this->widgetGeneratorPool = $widgetGeneratorPool;
+        $this->widgetPool = $widgetPool;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $actions = [];
 
         $configuration = $this->metadataManager->getConfiguration($entity);
 
-        foreach ($configuration['view'][$options['view_type']]['action_widgets'] as $widgetGeneratorAlias => $widgetGeneratorOptions) {
-            $action = $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate($entity, $widgetGeneratorOptions);
+        foreach ($configuration['view'][$options['view_type']]['action_widgets'] as $widgetAlias => $widgetOptions) {
+            $action = $this->widgetPool->getWidget($widgetAlias)->getContent($entity, $widgetOptions);
 
             if (!empty($action)) {
                 $actions[] = $action;

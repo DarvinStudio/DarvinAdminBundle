@@ -8,18 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Edit link view widget generator
+ * Show link view widget
  */
-class EditLinkGenerator extends AbstractWidgetGenerator
+class ShowLinkWidget extends AbstractWidget
 {
-    const ALIAS = 'edit_link';
+    const ALIAS = 'show_link';
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
@@ -45,11 +45,20 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_EDIT)
+        if (isset($options['property'])) {
+            $entity = $this->getPropertyValue($entity, $options['property']);
+
+            if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
+                return '';
+            }
+        }
+
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
             ? $this->render($options, [
                 'entity'             => $entity,
+                'text_link'          => $options['text_link'],
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
             : '';
@@ -62,16 +71,13 @@ class EditLinkGenerator extends AbstractWidgetGenerator
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefault('entity_class', null);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRequiredPermissions()
-    {
-        return [
-            Permission::EDIT,
-        ];
+        $resolver
+            ->setDefaults([
+                'entity_class' => null,
+                'text_link'    => false,
+            ])
+            ->setDefined('property')
+            ->setAllowedTypes('property', 'string')
+            ->setAllowedTypes('text_link', 'boolean');
     }
 }

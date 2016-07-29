@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Photo gallery view widget generator
+ * Photo gallery view widget
  */
-class PhotoGalleryGenerator extends EntitiesListGenerator
+class PhotoGalleryWidget extends EntityListWidget
 {
     /**
      * {@inheritdoc}
@@ -26,7 +26,7 @@ class PhotoGalleryGenerator extends EntitiesListGenerator
 
         $resolver
             ->setDefaults([
-                'item_widget_alias'   => ImageLinkGenerator::ALIAS,
+                'item_widget_alias'   => ImageLinkWidget::ALIAS,
                 'item_widget_options' => [],
                 'line_size'           => 5,
             ])

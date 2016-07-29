@@ -8,16 +8,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Storage\StorageInterface;
 
 /**
- * Image upload link generator
+ * Image upload link view widget
  */
-class ImageUploadLinkGenerator extends AbstractWidgetGenerator
+class ImageUploadLinkWidget extends AbstractWidget
 {
     /**
      * @var \Vich\UploaderBundle\Storage\StorageInterface
@@ -35,7 +35,7 @@ class ImageUploadLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
 

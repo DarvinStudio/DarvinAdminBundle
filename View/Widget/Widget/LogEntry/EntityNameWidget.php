@@ -8,18 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
+namespace Darvin\AdminBundle\View\Widget\Widget\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
+use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 
 /**
- * Log entry entity name view widget generator
+ * Log entry entity name view widget
  */
-class EntityNameGenerator extends AbstractWidgetGenerator
+class EntityNameWidget extends AbstractWidget
 {
     /**
      * @var \Darvin\Utils\ObjectNamer\ObjectNamerInterface
@@ -62,7 +62,7 @@ class EntityNameGenerator extends AbstractWidgetGenerator
      *
      * @return string
      */
-    protected function generateWidget($logEntry, array $options, $property)
+    protected function createContent($logEntry, array $options, $property)
     {
         return 'loggable.'.$this->getEntityName($logEntry->getObjectClass());
     }

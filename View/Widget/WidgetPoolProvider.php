@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * View widget generator pool provider
+ * View widget pool provider
  */
-class WidgetGeneratorPoolProvider
+class WidgetPoolProvider
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -31,10 +31,10 @@ class WidgetGeneratorPoolProvider
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    public function getPool()
+    public function getWidgetPool()
     {
-        return $this->container->get('darvin_admin.view.widget_generator.pool');
+        return $this->container->get('darvin_admin.view.widget.pool');
     }
 }

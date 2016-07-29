@@ -8,18 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator\LogEntry;
+namespace Darvin\AdminBundle\View\Widget\Widget\LogEntry;
 
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator;
+use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Log entry revert form view widget generator
+ * Log entry revert form view widget
  */
-class RevertFormGenerator extends AbstractWidgetGenerator
+class RevertFormWidget extends AbstractWidget
 {
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactory
@@ -74,7 +74,7 @@ class RevertFormGenerator extends AbstractWidgetGenerator
      *
      * @return string
      */
-    protected function generateWidget($logEntry, array $options, $property)
+    protected function createContent($logEntry, array $options, $property)
     {
         $object = $logEntry->getObject();
 

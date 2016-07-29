@@ -8,34 +8,36 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\WidgetException;
+use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Entities list view widget generator
+ * Entity list view widget
  */
-class EntitiesListGenerator extends AbstractWidgetGenerator
+class EntityListWidget extends AbstractWidget
 {
     /**
-     * @var \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    private $widgetGeneratorPool;
+    private $widgetPool;
 
     /**
-     * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
      */
-    public function setWidgetGeneratorPool(WidgetGeneratorPool $widgetGeneratorPool)
+    public function setWidgetPool(WidgetPool $widgetPool)
     {
-        $this->widgetGeneratorPool = $widgetGeneratorPool;
+        $this->widgetPool = $widgetPool;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $collection = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
@@ -44,12 +46,12 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
         }
         if (!is_array($collection)) {
             if (!is_object($collection)) {
-                throw new WidgetGeneratorException(
+                throw new WidgetException(
                     sprintf('Entities collection must be array or object, "%s" provided.', gettype($collection))
                 );
             }
             if (!$collection instanceof \Traversable) {
-                throw new WidgetGeneratorException(
+                throw new WidgetException(
                     sprintf('Entities collection object "%s" must be instance of \Traversable.', ClassUtils::getClass($collection))
                 );
             }
@@ -72,12 +74,12 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
             ]);
         }
 
-        $widgetGenerator = $this->widgetGeneratorPool->getWidgetGenerator($options['item_widget_alias']);
+        $widget = $this->widgetPool->getWidget($options['item_widget_alias']);
 
         $widgets = [];
 
         foreach ($collection as $item) {
-            $widgets[] = $widgetGenerator->generate($item, $options['item_widget_options']);
+            $widgets[] = $widget->getContent($item, $options['item_widget_options']);
         }
 
         return $this->render($options, [
@@ -94,7 +96,7 @@ class EntitiesListGenerator extends AbstractWidgetGenerator
 
         $resolver
             ->setDefaults([
-                'item_widget_alias'   => ShowLinkGenerator::ALIAS,
+                'item_widget_alias'   => ShowLinkWidget::ALIAS,
                 'item_widget_options' => [
                     'text_link' => true,
                 ],

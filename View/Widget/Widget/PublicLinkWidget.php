@@ -8,17 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Public link view widget generator
+ * Public link view widget
  */
-class PublicLinkGenerator extends AbstractWidgetGenerator
+class PublicLinkWidget extends AbstractWidget
 {
     /**
      * @var \Symfony\Component\Routing\RouterInterface
@@ -36,12 +37,12 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $route = $options['route'];
 
         if (null === $this->router->getRouteCollection()->get($route)) {
-            throw new WidgetGeneratorException(sprintf('Route "%s" does not exist.', $route));
+            throw new WidgetException(sprintf('Route "%s" does not exist.', $route));
         }
 
         $parameters = [];
@@ -56,7 +57,7 @@ class PublicLinkGenerator extends AbstractWidgetGenerator
         try {
             $url = $this->router->generate($route, $parameters);
         } catch (ExceptionInterface $ex) {
-            throw new WidgetGeneratorException($ex->getMessage());
+            throw new WidgetException($ex->getMessage());
         }
 
         return $this->render($options, [

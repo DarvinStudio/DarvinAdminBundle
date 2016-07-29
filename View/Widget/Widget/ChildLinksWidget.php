@@ -8,17 +8,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Child links view widget generator
+ * Child links view widget
  */
-class ChildLinksGenerator extends AbstractWidgetGenerator
+class ChildLinksWidget extends AbstractWidget
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -49,7 +50,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $childClass = $options['child_entity'];
 
@@ -63,7 +64,7 @@ class ChildLinksGenerator extends AbstractWidgetGenerator
         $parentMeta = $this->metadataManager->getMetadata($entity);
 
         if (!$parentMeta->hasChild($childClass)) {
-            throw new WidgetGeneratorException(
+            throw new WidgetException(
                 sprintf('Entity "%s" is not child of entity "%s".', $childClass, $parentMeta->getEntityClass())
             );
         }

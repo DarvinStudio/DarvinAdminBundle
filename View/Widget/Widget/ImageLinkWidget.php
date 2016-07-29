@@ -8,9 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Configuration\Configuration;
+use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\Filter\ResizeFilter;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
@@ -18,9 +19,9 @@ use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Image link view widget generator
+ * Image link view widget
  */
-class ImageLinkGenerator extends AbstractWidgetGenerator
+class ImageLinkWidget extends AbstractWidget
 {
     const ALIAS = 'image_link';
 
@@ -48,7 +49,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         $image = isset($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
 
@@ -56,7 +57,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
             return '';
         }
         if (!is_object($image)) {
-            throw new WidgetGeneratorException(sprintf('Image must be object, "%s" provided.', gettype($image)));
+            throw new WidgetException(sprintf('Image must be object, "%s" provided.', gettype($image)));
         }
         if (!$image instanceof AbstractImage) {
             $message = sprintf(
@@ -65,7 +66,7 @@ class ImageLinkGenerator extends AbstractWidgetGenerator
                 AbstractImage::ABSTRACT_IMAGE_CLASS
             );
 
-            throw new WidgetGeneratorException($message);
+            throw new WidgetException($message);
         }
         if (!$this->imageUrlBuilder->fileExists($image)) {
             return '';

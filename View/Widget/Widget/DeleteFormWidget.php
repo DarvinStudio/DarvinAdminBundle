@@ -8,23 +8,37 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
+use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Show link view widget generator
+ * Delete form view widget
  */
-class ShowLinkGenerator extends AbstractWidgetGenerator
+class DeleteFormWidget extends AbstractWidget
 {
-    const ALIAS = 'show_link';
+    const ALIAS = 'delete_form';
+
+    /**
+     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     */
+    private $adminFormFactory;
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
      */
     private $adminRouter;
+
+    /**
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     */
+    public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
+    {
+        $this->adminFormFactory = $adminFormFactory;
+    }
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
@@ -45,20 +59,11 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
-        if (isset($options['property'])) {
-            $entity = $this->getPropertyValue($entity, $options['property']);
-
-            if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
-                return '';
-            }
-        }
-
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
             ? $this->render($options, [
-                'entity'             => $entity,
-                'text_link'          => $options['text_link'],
+                'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
             : '';
@@ -71,13 +76,16 @@ class ShowLinkGenerator extends AbstractWidgetGenerator
     {
         parent::configureOptions($resolver);
 
-        $resolver
-            ->setDefaults([
-                'entity_class' => null,
-                'text_link'    => false,
-            ])
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string')
-            ->setAllowedTypes('text_link', 'boolean');
+        $resolver->setDefault('entity_class', null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getRequiredPermissions()
+    {
+        return [
+            Permission::CREATE_DELETE,
+        ];
     }
 }

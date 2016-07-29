@@ -8,37 +8,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Delete form view widget generator
+ * Edit link view widget
  */
-class DeleteFormGenerator extends AbstractWidgetGenerator
+class EditLinkWidget extends AbstractWidget
 {
-    const ALIAS = 'delete_form';
-
-    /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactory
-     */
-    private $adminFormFactory;
+    const ALIAS = 'edit_link';
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
      */
     private $adminRouter;
-
-    /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
-     */
-    public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
-    {
-        $this->adminFormFactory = $adminFormFactory;
-    }
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
@@ -59,11 +45,11 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_EDIT)
             ? $this->render($options, [
-                'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
+                'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
             : '';
@@ -85,7 +71,7 @@ class DeleteFormGenerator extends AbstractWidgetGenerator
     protected function getRequiredPermissions()
     {
         return [
-            Permission::CREATE_DELETE,
+            Permission::EDIT,
         ];
     }
 }

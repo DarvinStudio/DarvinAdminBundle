@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget;
 
 /**
- * View widget generator
+ * View widget
  */
-interface WidgetGeneratorInterface
+interface WidgetInterface
 {
     /**
      * @param object $entity   Entity
@@ -22,7 +22,7 @@ interface WidgetGeneratorInterface
      *
      * @return string
      */
-    public function generate($entity, array $options = [], $property = null);
+    public function getContent($entity, array $options = [], $property = null);
 
     /**
      * @return string

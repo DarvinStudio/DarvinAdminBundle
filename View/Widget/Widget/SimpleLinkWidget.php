@@ -1,33 +1,34 @@
 <?php
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2015, Darvin Studio
+ * @copyright Copyright (c) 2016, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Email link view widget generator
+ * Simple link view widget
  */
-class EmailLinkGenerator extends AbstractWidgetGenerator
+class SimpleLinkWidget extends AbstractWidget
 {
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
-        $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
+        $url = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
-        return !empty($email)
+        return !empty($url)
             ? $this->render($options, [
-                'email' => $email,
+                'title' => $url,
+                'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? 'http://'.$url : $url,
             ])
             : '';
     }
@@ -40,6 +41,7 @@ class EmailLinkGenerator extends AbstractWidgetGenerator
         parent::configureOptions($resolver);
 
         $resolver
+            ->setDefault('add_http_prefix', false)
             ->setDefined('property')
             ->setAllowedTypes('property', 'string');
     }

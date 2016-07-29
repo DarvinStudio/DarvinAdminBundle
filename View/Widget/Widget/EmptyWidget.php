@@ -8,17 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
+
+use Darvin\AdminBundle\View\Widget\WidgetInterface;
 
 /**
- * Empty view widget generator
+ * Empty view widget
  */
-class EmptyWidgetGenerator implements WidgetGeneratorInterface
+class EmptyWidget implements WidgetInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function generate($entity, array $options = [], $property = null)
+    public function getContent($entity, array $options = [], $property = null)
     {
         return '';
     }

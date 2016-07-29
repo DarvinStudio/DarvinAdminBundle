@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\WidgetGenerator;
+namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouter;
@@ -17,9 +17,9 @@ use Darvin\Utils\Mapping\MetadataFactoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Copy form view widget generator
+ * Copy form view widget
  */
-class CopyFormGenerator extends AbstractWidgetGenerator
+class CopyFormWidget extends AbstractWidget
 {
     const ALIAS = 'copy_form';
 
@@ -73,7 +73,7 @@ class CopyFormGenerator extends AbstractWidgetGenerator
     /**
      * {@inheritdoc}
      */
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         if (!$this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_COPY)) {
             return '';

@@ -10,24 +10,24 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPoolProvider;
+use Darvin\AdminBundle\View\Widget\WidgetPoolProvider;
 
 /**
- * View widget generator Twig extension
+ * View widget Twig extension
  */
-class ViewWidgetGeneratorExtension extends \Twig_Extension
+class ViewWidgetExtension extends \Twig_Extension
 {
     /**
-     * @var \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPoolProvider
+     * @var \Darvin\AdminBundle\View\Widget\WidgetPoolProvider
      */
-    private $widgetGeneratorPoolProvider;
+    private $widgetPoolProvider;
 
     /**
-     * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPoolProvider $widgetGeneratorPoolProvider View widget generator pool provider
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPoolProvider $widgetPoolProvider View widget pool provider
      */
-    public function __construct(WidgetGeneratorPoolProvider $widgetGeneratorPoolProvider)
+    public function __construct(WidgetPoolProvider $widgetPoolProvider)
     {
-        $this->widgetGeneratorPoolProvider = $widgetGeneratorPoolProvider;
+        $this->widgetPoolProvider = $widgetPoolProvider;
     }
 
     /**
@@ -37,8 +37,8 @@ class ViewWidgetGeneratorExtension extends \Twig_Extension
     {
         $functions = [];
 
-        foreach ($this->widgetGeneratorPoolProvider->getPool()->getAllWidgetGenerators() as $alias => $generator) {
-            $functions[] = new \Twig_SimpleFunction('admin_widget_'.$alias, [$generator, 'generate'], [
+        foreach ($this->widgetPoolProvider->getWidgetPool()->getWidgets() as $alias => $widget) {
+            $functions[] = new \Twig_SimpleFunction('admin_widget_'.$alias, [$widget, 'getContent'], [
                 'is_safe' => ['html'],
             ]);
         }
@@ -51,6 +51,6 @@ class ViewWidgetGeneratorExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'darvin_admin_view_widget_generator_extension';
+        return 'darvin_admin_view_widget_extension';
     }
 }

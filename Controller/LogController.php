@@ -45,7 +45,7 @@ class LogController extends Controller
 
         $url = $request->headers->get('referer', $this->getAdminRouter()->generate($logEntry, null, AdminRouter::TYPE_INDEX));
 
-        if (!$this->getLogEntryRevertFormWidgetGenerator()->createRevertForm($logEntry)->handleRequest($request)->isValid()) {
+        if (!$this->getLogEntryRevertFormWidget()->createRevertForm($logEntry)->handleRequest($request)->isValid()) {
             $this->getFlashNotifier()->formError();
 
             return $this->redirect($url);
@@ -132,18 +132,18 @@ class LogController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\WidgetGenerator\LogEntry\RevertFormGenerator
+     * @return \Darvin\AdminBundle\View\Widget\Widget\LogEntry\RevertFormWidget
      */
-    private function getLogEntryRevertFormWidgetGenerator()
+    private function getLogEntryRevertFormWidget()
     {
-        return $this->getViewWidgetGeneratorPool()->getWidgetGenerator('log_entry_revert_form');
+        return $this->getViewWidgetPool()->getWidget('log_entry_revert_form');
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    private function getViewWidgetGeneratorPool()
+    private function getViewWidgetPool()
     {
-        return $this->get('darvin_admin.view.widget_generator.pool');
+        return $this->get('darvin_admin.view.widget.pool');
     }
 }

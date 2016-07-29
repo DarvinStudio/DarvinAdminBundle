@@ -17,7 +17,7 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddSecurityConfigurationsPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetGeneratorsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
@@ -48,6 +48,6 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new AddMetadataPass())
             ->addCompilerPass(new ResolveDefinitionTemplatesPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new AddSecurityConfigurationsPass())
-            ->addCompilerPass(new AddViewWidgetGeneratorsPass());
+            ->addCompilerPass(new AddViewWidgetsPass());
     }
 }

@@ -16,9 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * View widget generator aliases list command
+ * List view widgets command
  */
-class WidgetGeneratorsListCommand extends ContainerAwareCommand
+class ListViewWidgetsCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class WidgetGeneratorsListCommand extends ContainerAwareCommand
     {
         $this
             ->setName('darvin:admin:widget:list')
-            ->setDescription('Displays list of aliases of existing view widget generators.');
+            ->setDescription('Displays list of existing view widgets.');
     }
 
     /**
@@ -37,14 +37,14 @@ class WidgetGeneratorsListCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->listing($this->getViewWidgetGeneratorPool()->getAllWidgetGeneratorAliases());
+        $io->listing($this->getViewWidgetPool()->getWidgetAliases());
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    private function getViewWidgetGeneratorPool()
+    private function getViewWidgetPool()
     {
-        return $this->getContainer()->get('darvin_admin.view.widget_generator.pool');
+        return $this->getContainer()->get('darvin_admin.view.widget.pool');
     }
 }

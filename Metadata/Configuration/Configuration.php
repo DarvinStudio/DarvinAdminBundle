@@ -11,10 +11,10 @@
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
 use Darvin\AdminBundle\Route\AdminRouter;
-use Darvin\AdminBundle\View\WidgetGenerator\CopyFormGenerator;
-use Darvin\AdminBundle\View\WidgetGenerator\DeleteFormGenerator;
-use Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator;
-use Darvin\AdminBundle\View\WidgetGenerator\ShowLinkGenerator;
+use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
+use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
+use Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget;
+use Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -99,19 +99,19 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->append($this->addViewNode('index', [
-                            ShowLinkGenerator::ALIAS,
-                            EditLinkGenerator::ALIAS,
-                            CopyFormGenerator::ALIAS,
-                            DeleteFormGenerator::ALIAS,
+                            ShowLinkWidget::ALIAS,
+                            EditLinkWidget::ALIAS,
+                            CopyFormWidget::ALIAS,
+                            DeleteFormWidget::ALIAS,
                         ]))
                         ->append($this->addViewNode('new'))
                         ->append($this->addViewNode('edit', [
-                            ShowLinkGenerator::ALIAS,
-                            DeleteFormGenerator::ALIAS,
+                            ShowLinkWidget::ALIAS,
+                            DeleteFormWidget::ALIAS,
                         ]))
                         ->append($this->addViewNode('show', [
-                            EditLinkGenerator::ALIAS,
-                            DeleteFormGenerator::ALIAS,
+                            EditLinkWidget::ALIAS,
+                            DeleteFormWidget::ALIAS,
                         ]))
                     ->end()
                 ->end()

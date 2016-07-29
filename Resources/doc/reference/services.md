@@ -92,8 +92,8 @@
 - **darvin_admin.view.entity_transformer.show** - трансформер сущности в модель страницы ее просмотра;
 
 
-- **darvin_admin.view.widget_generator.pool** - пул виджетов моделей представления;
+- **darvin_admin.view.widget.pool** - пул виджетов моделей представления;
 
 
-- **darvin_admin.view.widget_generator.pool_provider** - провайдер сервиса "darvin_admin.view.widget_generator.pool",
+- **darvin_admin.view.widget.pool_provider** - провайдер сервиса "darvin_admin.view.widget.pool",
  пула виджетов моделей представления, необходимый для обхода циклических зависимостей сервисов.

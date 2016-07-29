@@ -15,13 +15,13 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Add view widget generators compiler pass
+ * Add view widgets to pool compiler pass
  */
-class AddViewWidgetGeneratorsPass implements CompilerPassInterface
+class AddViewWidgetsPass implements CompilerPassInterface
 {
-    const POOL_ID = 'darvin_admin.view.widget_generator.pool';
+    const POOL_ID = 'darvin_admin.view.widget.pool';
 
-    const TAG_VIEW_WIDGET_GENERATOR = 'darvin_admin.view.widget_generator';
+    const TAG_VIEW_WIDGET = 'darvin_admin.view_widget';
 
     /**
      * {@inheritdoc}
@@ -32,16 +32,16 @@ class AddViewWidgetGeneratorsPass implements CompilerPassInterface
             return;
         }
 
-        $generatorIds = $container->findTaggedServiceIds(self::TAG_VIEW_WIDGET_GENERATOR);
+        $widgetIds = $container->findTaggedServiceIds(self::TAG_VIEW_WIDGET);
 
-        if (empty($generatorIds)) {
+        if (empty($widgetIds)) {
             return;
         }
 
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-        foreach ($generatorIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addWidgetGenerator', [
+        foreach ($widgetIds as $id => $attr) {
+            $poolDefinition->addMethodCall('addWidget', [
                 new Reference($id),
             ]);
         }

@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\View;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool;
+use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -37,26 +37,26 @@ abstract class AbstractEntityToViewTransformer
     protected $stringifier;
 
     /**
-     * @var \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool
+     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    protected $widgetGeneratorPool;
+    protected $widgetPool;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface    $container           DI container
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface  $propertyAccessor    Property accessor
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface       $stringifier         Stringifier
-     * @param \Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorPool $widgetGeneratorPool View widget generator pool
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container        DI container
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface      $stringifier      Stringifier
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                  $widgetPool       View widget pool
      */
     public function __construct(
         ContainerInterface $container,
         PropertyAccessorInterface $propertyAccessor,
         StringifierInterface $stringifier,
-        WidgetGeneratorPool $widgetGeneratorPool
+        WidgetPool $widgetPool
     ) {
         $this->container = $container;
         $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
-        $this->widgetGeneratorPool = $widgetGeneratorPool;
+        $this->widgetPool = $widgetPool;
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class AbstractEntityToViewTransformer
 
         $widgetGeneratorAlias = $fieldAttr['widget']['alias'];
 
-        return $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate(
+        return $this->widgetPool->getWidget($widgetGeneratorAlias)->getContent(
             $entity,
             $fieldAttr['widget']['options'],
             $fieldName

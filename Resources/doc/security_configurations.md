@@ -19,7 +19,7 @@
 ```php
 use Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration;
 
-class SecurityConfiguration extends AbstractSecurityConfiguration
+class Configuration extends AbstractSecurityConfiguration
 {
     public function getName()
     {
@@ -29,8 +29,8 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
     protected function getSecurableObjectClasses()
     {
         return array(
-            'abstract_image' => 'Darvin\\ImageBundle\\Entity\\Image\\AbstractImage',
-            'log_entry'      => 'Darvin\\AdminBundle\\Entity\\LogEntry',
+            'abstract_image' => 'Darvin\ImageBundle\Entity\Image\AbstractImage',
+            'log_entry'      => 'Darvin\AdminBundle\Entity\LogEntry',
         );
     }
 }
@@ -38,24 +38,19 @@ class SecurityConfiguration extends AbstractSecurityConfiguration
 
 Данная конфигурация позволяет ограничивать доступ к изображениям и записям лога.
 
-**2. Объявляем класс сервисом и помечаем его тегами "darvin_admin.security_configuration" и "darvin_config.configuration".**
-
-Последний тег имеет один аргумент:
-
-- **position** *(опционально)* - позиция конфигурации в форме редактирования в панели администрирования.
+**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.security_configuration".**
 
 Пример определения сервиса:
 
 ```yaml
 parameters:
-    darvin_admin.security.configuration.class: Darvin\AdminBundle\Security\Configuration\SecurityConfiguration
+    darvin_admin.security.configuration.class: Darvin\AdminBundle\Admin\Security\Configuration
 
 services:
     darvin_admin.security.configuration:
         class: "%darvin_admin.security.configuration.class%"
         tags:
             - { name: darvin_admin.security_configuration }
-            - { name: darvin_config.configuration }
 ```
 
 ## Использование

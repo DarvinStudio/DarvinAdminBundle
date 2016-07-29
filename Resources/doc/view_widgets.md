@@ -8,17 +8,18 @@
 
 ## Создание
 
-**1. Создаем класс, реализующий "Darvin\AdminBundle\View\WidgetGenerator\WidgetGeneratorInterface" или наследующийся от
- "Darvin\AdminBundle\View\WidgetGenerator\AbstractWidgetGenerator".**
+**1. Создаем класс, реализующий "Darvin\AdminBundle\View\Widget\WidgetInterface" или наследующийся от
+ "Darvin\AdminBundle\View\Widget\Widget\AbstractWidget".**
 
 Пример реализации:
 
 ```php
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 
-class EditLinkGenerator extends AbstractWidgetGenerator
+class EditLinkWidget extends AbstractWidget
 {
-    protected function generateWidget($entity, array $options, $property)
+    protected function createContent($entity, array $options, $property)
     {
         return $this->render($options, array(
             'entity'             => $entity,
@@ -37,21 +38,21 @@ class EditLinkGenerator extends AbstractWidgetGenerator
 
 **Базовый класс содержит ряд методов, с которыми полезно ознакомиться.**
 
-**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.view.widget_generator":**
+**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.view_widget":**
 
 ```yaml
 parameters:
-    darvin_admin.view.widget_generator.edit_link.class: Darvin\AdminBundle\View\WidgetGenerator\EditLinkGenerator
+    darvin_admin.view.widget.edit_link.class: Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget
 
 services:
-    darvin_admin.view.widget_generator.edit_link:
-        class:  "%darvin_admin.view.widget_generator.edit_link.class%"
-        parent: darvin_admin.view.widget_generator.abstract
+    darvin_admin.view.widget.edit_link:
+        class:  "%darvin_admin.view.widget.edit_link.class%"
+        parent: darvin_admin.view.widget.abstract
         tags:
-            - { name: darvin_admin.view.widget_generator }
+            - { name: darvin_admin.view_widget }
 ```
 
-Если используется базовый класс, сервис может наследоваться от базового сервиса "darvin_admin.view.widget_generator.abstract"
+Если используется базовый класс, сервис может наследоваться от базового сервиса "darvin_admin.view.widget.abstract"
  как в приведенном примере.
 
 ## Список виджетов
@@ -65,7 +66,7 @@ $ php app/console darvin:admin:widget:list
 ## Использование
 
 **1. Для использования виджета необходимо в настройках какого-либо поля в секции "view" конфигурационного файла раздела
- администрирования указать опцию "widget_generator":**
+ администрирования указать опцию "widget":**
 
 ```yaml
 Darvin\AdminBundle\Entity\Administrator:

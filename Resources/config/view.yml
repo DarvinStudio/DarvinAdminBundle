@@ -67,7 +67,7 @@ services:
         class:  "%darvin_admin.view.widget.actions.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setWidgetGeneratorPool, [ "@darvin_admin.view.widget.pool" ] ]
+            - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
             - { name: darvin_admin.view.widget }
 
@@ -128,7 +128,7 @@ services:
         class:  "%darvin_admin.view.widget.entity_list.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setWidgetGeneratorPool, [ "@darvin_admin.view.widget.pool" ] ]
+            - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
             - { name: darvin_admin.view.widget }
 

@@ -221,7 +221,7 @@ class Configuration implements ConfigurationInterface
                             ->ifTrue(function ($v) {
                                 return count($v) > 1;
                             })
-                            ->thenInvalid('You must specify callback OR generator OR service but not collection of them.')
+                            ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
                         ->children()
                             ->arrayNode('callback')

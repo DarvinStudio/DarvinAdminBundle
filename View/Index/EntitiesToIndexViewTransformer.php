@@ -175,10 +175,10 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             if (!empty($configuration['view']['index']['action_widgets'])) {
                 $actionWidgets = '';
 
-                foreach ($configuration['view']['index']['action_widgets'] as $widgetGeneratorAlias => $widgetGeneratorOptions) {
-                    $actionWidgets .= $this->widgetGeneratorPool->getWidgetGenerator($widgetGeneratorAlias)->generate(
+                foreach ($configuration['view']['index']['action_widgets'] as $widgetAlias => $widgetOptions) {
+                    $actionWidgets .= $this->widgetPool->getWidget($widgetAlias)->getContent(
                         $entity,
-                        $widgetGeneratorOptions
+                        $widgetOptions
                     );
                 }
 

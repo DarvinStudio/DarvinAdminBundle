@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\Utils\Templating\TemplatingProviderInterface;
+use Darvin\Utils\Service\ServiceProviderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,20 +31,17 @@ class CacheFormManager
     private $router;
 
     /**
-     * @var \Darvin\Utils\Templating\TemplatingProviderInterface
+     * @var \Darvin\Utils\Service\ServiceProviderInterface
      */
     private $templatingProvider;
 
     /**
-     * @param \Symfony\Component\Form\FormFactoryInterface         $formFactory        Form factory
-     * @param \Symfony\Component\Routing\RouterInterface           $router             Router
-     * @param \Darvin\Utils\Templating\TemplatingProviderInterface $templatingProvider Templating provider
+     * @param \Symfony\Component\Form\FormFactoryInterface   $formFactory        Form factory
+     * @param \Symfony\Component\Routing\RouterInterface     $router             Router
+     * @param \Darvin\Utils\Service\ServiceProviderInterface $templatingProvider Templating provider
      */
-    public function __construct(
-        FormFactoryInterface $formFactory,
-        RouterInterface $router,
-        TemplatingProviderInterface $templatingProvider
-    ) {
+    public function __construct(FormFactoryInterface $formFactory, RouterInterface $router, ServiceProviderInterface $templatingProvider)
+    {
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->templatingProvider = $templatingProvider;
@@ -77,8 +74,16 @@ class CacheFormManager
             $form = $this->createClearForm();
         }
 
-        return $this->templatingProvider->getTemplating()->render('DarvinAdminBundle:Cache/widget:clear_form.html.twig', [
+        return $this->getTemplating()->render('DarvinAdminBundle:Cache/widget:clear_form.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @return \Symfony\Component\Templating\EngineInterface
+     */
+    private function getTemplating()
+    {
+        return $this->templatingProvider->getService();
     }
 }

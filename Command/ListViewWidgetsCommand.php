@@ -37,7 +37,10 @@ class ListViewWidgetsCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->listing($this->getViewWidgetPool()->getWidgetAliases());
+        $aliases = $this->getViewWidgetPool()->getWidgetAliases();
+        sort($aliases);
+
+        $io->listing($aliases);
     }
 
     /**

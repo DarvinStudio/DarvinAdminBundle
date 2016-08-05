@@ -26,7 +26,6 @@ parameters:
     darvin_admin.view.widget.simple_link.class: Darvin\AdminBundle\View\Widget\Widget\SimpleLinkWidget
     darvin_admin.view.widget.simple_list.class: Darvin\AdminBundle\View\Widget\Widget\SimpleListWidget
     darvin_admin.view.widget.pool.class: Darvin\AdminBundle\View\Widget\WidgetPool
-    darvin_admin.view.widget.pool_provider.class: Darvin\AdminBundle\View\Widget\WidgetPoolProvider
     darvin_admin.view.widget.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ViewWidgetExtension
 
 services:
@@ -212,16 +211,13 @@ services:
 
     darvin_admin.view.widget.pool:
         class: "%darvin_admin.view.widget.pool.class%"
-
-    darvin_admin.view.widget.pool_provider:
-        class: "%darvin_admin.view.widget.pool_provider.class%"
-        arguments:
-            - "@service_container"
+        tags:
+            - { name: darvin_utils.providable }
 
     darvin_admin.view.widget.twig_extension:
         class:  "%darvin_admin.view.widget.twig_extension.class%"
         public: false
         arguments:
-            - "@darvin_admin.view.widget.pool_provider"
+            - "@darvin_admin.view.widget.pool.provider"
         tags:
             - { name: twig.extension }

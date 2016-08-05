@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\View\Widget\WidgetPoolProvider;
+use Darvin\Utils\Service\ServiceProviderInterface;
 
 /**
  * View widget Twig extension
@@ -18,14 +18,14 @@ use Darvin\AdminBundle\View\Widget\WidgetPoolProvider;
 class ViewWidgetExtension extends \Twig_Extension
 {
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPoolProvider
+     * @var \Darvin\Utils\Service\ServiceProviderInterface
      */
     private $widgetPoolProvider;
 
     /**
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPoolProvider $widgetPoolProvider View widget pool provider
+     * @param \Darvin\Utils\Service\ServiceProviderInterface $widgetPoolProvider View widget pool provider
      */
-    public function __construct(WidgetPoolProvider $widgetPoolProvider)
+    public function __construct(ServiceProviderInterface $widgetPoolProvider)
     {
         $this->widgetPoolProvider = $widgetPoolProvider;
     }
@@ -37,7 +37,7 @@ class ViewWidgetExtension extends \Twig_Extension
     {
         $functions = [];
 
-        foreach ($this->widgetPoolProvider->getWidgetPool()->getWidgets() as $alias => $widget) {
+        foreach ($this->getWidgetPool()->getWidgets() as $alias => $widget) {
             $functions[] = new \Twig_SimpleFunction('admin_widget_'.$alias, [$widget, 'getContent'], [
                 'is_safe' => ['html'],
             ]);
@@ -52,5 +52,13 @@ class ViewWidgetExtension extends \Twig_Extension
     public function getName()
     {
         return 'darvin_admin_view_widget_extension';
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
+     */
+    private function getWidgetPool()
+    {
+        return $this->widgetPoolProvider->getService();
     }
 }

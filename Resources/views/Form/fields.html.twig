@@ -119,10 +119,31 @@
 {%- endblock -%}
 
 {%- block form_label -%}
-    {% if label is not same as(false) and 'ckeditor' != block_prefixes.3|default -%}
-        {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
-    {% endif %}
-    {{ parent() }}
+    {% if label is not same as(false) -%}
+        {% set is_ckeditor = 'ckeditor' == block_prefixes.3|default %}
+        {% if not is_ckeditor %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
+        {% endif %}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if not is_ckeditor %}:{% endif %}
+        </label>
+    {%- endif -%}
 {%- endblock form_label -%}
 
 {%- block form_row -%}

@@ -55,6 +55,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->scalarNode('entity_name')->defaultNull()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
+                ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()

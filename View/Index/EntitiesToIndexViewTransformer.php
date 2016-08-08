@@ -170,7 +170,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $propertyForms = $this->getPropertyForms($meta);
 
         foreach ($entities as $entity) {
-            $bodyRow = new BodyRow();
+            $bodyRow = new BodyRow($this->buildBodyRowAttr($entity, $meta));
 
             if (!empty($configuration['view']['index']['action_widgets'])) {
                 $actionWidgets = '';
@@ -203,6 +203,23 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $this->normalizeBody($body);
 
         return $body;
+    }
+
+    /**
+     * @param object                                $entity Entity
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
+     *
+     * @return array
+     */
+    private function buildBodyRowAttr($entity, Metadata $meta)
+    {
+        $attr = [];
+
+        foreach ($meta->getConfiguration()['index_view_row_attr'] as $property) {
+            $attr['data-'.$property] = $this->propertyAccessor->getValue($entity, $property);
+        }
+
+        return $attr;
     }
 
     /**

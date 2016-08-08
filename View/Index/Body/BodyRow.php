@@ -21,11 +21,25 @@ class BodyRow
     private $items;
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Body\BodyRowItem[] $items Row items
+     * @var array
      */
-    public function __construct(array $items = [])
+    private $attr;
+
+    /**
+     * @param array $attr Attributes
+     */
+    public function __construct(array $attr = [])
     {
-        $this->items = $items;
+        $this->items = [];
+        $this->attr = $attr;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLength()
+    {
+        return count($this->items);
     }
 
     /**
@@ -50,10 +64,10 @@ class BodyRow
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getLength()
+    public function getAttr()
     {
-        return count($this->items);
+        return $this->attr;
     }
 }

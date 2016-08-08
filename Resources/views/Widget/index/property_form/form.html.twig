@@ -14,7 +14,7 @@
 {{ form_errors(property_form) }}
 {{ form_widget(property_form, {'attr': {
     'autocomplete':        'off',
-    'class':               'field',
+    'class':               ('field ' ~ property_form.vars.attr.class|default)|trim,
     'data-original-value': original_value,
 }}) }}
 {{ form_end(form) }}

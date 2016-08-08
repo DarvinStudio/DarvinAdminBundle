@@ -28,7 +28,7 @@
                 </thead>
                 <tbody>
                     {% for row in view.body.rows %}
-                        <tr>
+                        <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
                             {% for item in row.items %}
                                 <td>{{ item.content|trans|raw }}</td>
                             {% endfor %}

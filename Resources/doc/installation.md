@@ -208,11 +208,6 @@ upload_max_size_mb: 2
 bazinga_js_translation:
     resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
 
-lexik_translation:
-    resource:     "@LexikTranslationBundle/Resources/config/routing.yml"
-    prefix:       /admin/{_locale}/translation
-    requirements: { _locale: "%locale_pattern%" }
-
 liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 

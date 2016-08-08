@@ -196,6 +196,9 @@ mailer_from: noreply@example.com
 
 project_title: Example
 project_url:   example.com
+
+upload_path:        files/uploads
+upload_max_size_mb: 2
 ```
 
 - добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"):

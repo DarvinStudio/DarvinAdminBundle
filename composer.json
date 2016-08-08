@@ -17,7 +17,6 @@
         "egeloen/form-extra-bundle":          "1.0.*",
         "helios-ag/fm-elfinder-bundle":       "dev-master@dev",
         "knplabs/knp-paginator-bundle":       "2.5.*",
-        "lexik/translation-bundle":           "3.1.*",
         "ocramius/proxy-manager":             "0.5.*",
         "oneup/uploader-bundle":              "1.7.*",
         "stof/doctrine-extensions-bundle":    "1.2.*",
@@ -32,6 +31,9 @@
     },
     "require-dev": {
         "symfony/assetic-bundle": "2.7.*"
+    },
+    "suggest": {
+        "lexik/translation-bundle": "Allows to manage translations"
     },
     "autoload": {
         "psr-4": { "Darvin\\AdminBundle\\": "" }

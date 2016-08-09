@@ -45,7 +45,7 @@ class AddAssetProvidersPass implements CompilerPassInterface
                         $id
                     );
 
-                    throw new \InvalidArgumentException($message);
+                    throw new \RuntimeException($message);
                 }
 
                 $poolDefinition->addMethodCall('addProvider', [

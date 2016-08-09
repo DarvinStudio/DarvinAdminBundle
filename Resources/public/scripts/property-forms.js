@@ -1,10 +1,4 @@
 $(document).ready(function () {
-//    if (!$('.property_form').length) {
-//        return;
-//    }
-
-    var SUBMIT_BUTTON = '<button class="property_forms_submit submit_edit">' + Translator.trans('property_forms.submit') + '</button>';
-
     var submitForm = function ($form, redirect) {
         if ($form.data('submitted')) {
             return;
@@ -55,9 +49,9 @@ $(document).ready(function () {
         var $forms = $form.parents('.property_forms').first();
 
         if (1 != $form.attr('data-modified') && !$forms.find('form.property_form[data-modified="1"]').length) {
-            $forms.find('.property_forms_submit').remove();
-        } else if (!$forms.find('.property_forms_submit').length) {
-            $forms.append(SUBMIT_BUTTON).prepend(SUBMIT_BUTTON);
+            $forms.find('.property_forms_submit').hide();
+        } else {
+            $forms.find('.property_forms_submit').show();
         }
         if (1 != $form.attr('data-modified')) {
             $form.find('.errors, [type="submit"], [type="reset"]').remove();

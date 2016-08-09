@@ -15,19 +15,6 @@
         } %}
 
     {% endif %}
-    {% if admin_route_exists(meta.entityClass, 'new') %}
-
-        {% set new_url = admin_path(
-            null,
-            meta.entityClass,
-            'new',
-            association_param ? {(association_param): parent_entity_id} : {}
-        ) %}
-
-        <div class="post_item_btn">
-            <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
-        </div>
-    {% endif %}
 
     {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
 

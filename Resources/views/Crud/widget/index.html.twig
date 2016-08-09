@@ -1,43 +1,92 @@
 {% trans_default_domain 'admin' %}
 
-{% set pagination = pagination|default %}
+{% set pagination      = pagination|default %}
+{% set pagination_html = pagination ? knp_pagination_render(pagination) : null %}
 
-{% if view.body.rows is empty %}
-    <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
-{% else %}
+<div class="property_forms">
+    <div class="clearfix">
 
-    {% set pagination_html = pagination ? knp_pagination_render(pagination) : '' %}
+        {% block new_link %}
 
-    {{ pagination_html|raw }}
-    <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
-    <div class="scroll-pane horizontal-only">
-        <div class="property_forms section_table">
-            <table>
-                <thead>
-                    <tr>
-                        {% for field, item in view.head.items if item.width %}
-                            <th colspan="{{ item.width }}">
-                                {% if pagination and item.sortable %}
-                                    {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
-                                {% else %}
-                                    {{ item.content|trans }}
-                                {% endif %}
-                            </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in view.body.rows %}
-                        <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
-                            {% for item in row.items %}
-                                <td>{{ item.content|trans|raw }}</td>
+            {% set new_url = admin_route_exists(meta.entityClass, 'new')
+                ? admin_path(
+                    null,
+                    meta.entityClass,
+                    'new',
+                    association_param ? {(association_param): parent_entity_id} : {}
+                )
+                : null
+            %}
+
+            {% if new_url %}
+                <div class="post_item_btn pull-left">
+                    <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+                </div>
+            {% endif %}
+        {% endblock %}
+
+        {% block property_forms_submit %}
+            {% if view.body.rows is not empty %}
+                <button class="property_forms_submit submit_edit pull-right" style="display: none;">
+                    {% trans %}property_forms.submit{% endtrans %}
+                </button>
+            {% endif %}
+        {% endblock %}
+
+    </div>
+    <div class="clearfix">
+        {{ pagination_html|raw }}
+
+        {% block total_item_count %}
+            {% if view.body.rows is not empty %}
+                <span class="pull-right">{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</span>
+            {% endif %}
+        {% endblock %}
+
+    </div>
+    {% if view.body.rows is empty %}
+        <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
+    {% else %}
+        <div class="scroll-pane horizontal-only">
+            <div class="section_table">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for field, item in view.head.items if item.width %}
+                                <th colspan="{{ item.width }}">
+                                    {% if pagination and item.sortable %}
+                                        {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
+                                    {% else %}
+                                        {{ item.content|trans }}
+                                    {% endif %}
+                                </th>
                             {% endfor %}
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for row in view.body.rows %}
+                            <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
+                                {% for item in row.items %}
+                                    <td>{{ item.content|trans|raw }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
-    {{ pagination_html|raw }}
-    <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
-{% endif %}
+        <div class="clearfix">
+            {{ pagination_html|raw }}
+
+            {{ block('total_item_count') }}
+
+        </div>
+        <div class="clearfix">
+
+            {{ block('new_link') }}
+
+            {{ block('property_forms_submit') }}
+
+        </div>
+    {% endif %}
+</div>

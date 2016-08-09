@@ -102,7 +102,7 @@ interface:
     actions:          Действия
     characters_left:  символов осталось
     empty_list:       Список пуст
-    total_item_count: "Всего объектов: %count%"
+    total_item_count: "Всего объектов: <strong>%count%</strong>"
 
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Версия %version%

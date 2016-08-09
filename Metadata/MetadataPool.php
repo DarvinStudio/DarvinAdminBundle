@@ -36,7 +36,7 @@ class MetadataPool
     public function addMetadata(Metadata $metadata)
     {
         if (isset($this->metadata[$metadata->getEntityClass()])) {
-            throw new MetadataException(sprintf('Metadata for entity "%s" is already added.'));
+            throw new MetadataException(sprintf('Metadata for entity "%s" is already added.', $metadata->getEntityClass()));
         }
 
         $this->metadata[$metadata->getEntityClass()] = $metadata;

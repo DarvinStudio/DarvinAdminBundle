@@ -15,6 +15,8 @@ namespace Darvin\AdminBundle\Metadata;
  */
 class MetadataPool
 {
+    const ADD_METHOD = 'addMetadata';
+
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]
      */

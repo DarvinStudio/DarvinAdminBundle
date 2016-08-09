@@ -10,8 +10,13 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\AdminBundle\Metadata\MetadataFactory;
+use Darvin\AdminBundle\Metadata\MetadataPool;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -19,6 +24,9 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddMetadataPass implements CompilerPassInterface
 {
+    const METADATA_FACTORY_ID = 'darvin_admin.metadata.factory';
+    const METADATA_PARENT_ID  = 'darvin_admin.metadata.abstract';
+
     const POOL_ID = 'darvin_admin.metadata.pool';
 
     const TAG_METADATA = 'darvin_admin.metadata';
@@ -32,18 +40,48 @@ class AddMetadataPass implements CompilerPassInterface
             return;
         }
 
-        $metadataIds = $container->findTaggedServiceIds(self::TAG_METADATA);
-
-        if (empty($metadataIds)) {
-            return;
-        }
-
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-        foreach ($metadataIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addMetadata', [
+        $this->addMetadata($poolDefinition, array_keys($container->findTaggedServiceIds(self::TAG_METADATA)));
+
+        $metaDefinitions = [];
+        $metaFactoryReference = new Reference(self::METADATA_FACTORY_ID);
+
+        foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
+            $metaDefinitions[$section->getMetadataId()] = (new DefinitionDecorator(self::METADATA_PARENT_ID))
+                ->setFactory([$metaFactoryReference, MetadataFactory::CREATE_METHOD])
+                ->setArguments([
+                    $section->getEntity(),
+                    $section->getConfig(),
+                    $section->getAlias(),
+                ]);
+        }
+
+        $container->addDefinitions($metaDefinitions);
+
+        $this->addMetadata($poolDefinition, array_keys($metaDefinitions));
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\Definition $poolDefinition Metadata pool service definition
+     * @param string[]                                          $ids            Metadata service IDs
+     */
+    private function addMetadata(Definition $poolDefinition, array $ids)
+    {
+        foreach ($ids as $id) {
+            $poolDefinition->addMethodCall(MetadataPool::ADD_METHOD, [
                 new Reference($id),
             ]);
         }
+    }
+
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
+     *
+     * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
+     */
+    private function getSectionConfiguration(ContainerInterface $container)
+    {
+        return $container->get('darvin_admin.configuration.section');
     }
 }

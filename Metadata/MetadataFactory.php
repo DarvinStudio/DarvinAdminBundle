@@ -24,6 +24,8 @@ class MetadataFactory
 {
     const CONTROLLER_ID_SUFFIX = '.admin.controller';
 
+    const CREATE_METHOD = 'createMetadata';
+
     const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
 
     const FORM_TYPE_NAME_PREFIX = 'admin_';
@@ -70,11 +72,12 @@ class MetadataFactory
     /**
      * @param string $entityClass    Entity class
      * @param string $configPathname Configuration file pathname
+     * @param string $entityName     Entity name
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function createMetadata($entityClass, $configPathname)
+    public function createMetadata($entityClass, $configPathname, $entityName = null)
     {
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);
@@ -89,8 +92,8 @@ class MetadataFactory
             $this->em->getConfiguration()->getEntityNamespaces()
         );
 
-        if (isset($configuration['entity_name'])) {
-            $entityName = $configuration['entity_name'];
+        if (!empty($entityName) || isset($configuration['entity_name'])) {
+            $entityName = !empty($entityName) ? $entityName : $configuration['entity_name'];
 
             if (isset($this->entityNames[$entityName])) {
                 throw new MetadataException(sprintf('Entity named "%s" already exists.', $entityName));

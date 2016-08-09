@@ -35,6 +35,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->append($this->addCKEditorNode())
                 ->append($this->addMenuNode())
+                ->append($this->addSectionsNode())
                 ->arrayNode('cache_clear_command_classes')
                     ->prototype('scalar')->end()
                     ->defaultValue([
@@ -48,14 +49,10 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
                 ->scalarNode('visual_assets_path')->defaultValue('bundles/darvinadmin')->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
-                ->arrayNode('project')
-                    ->isRequired()
+                ->arrayNode('project')->isRequired()
                     ->children()
                         ->scalarNode('title')->cannotBeEmpty()->isRequired()->end()
-                        ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
-                    ->end()
-                ->end()
-            ->end();
+                        ->scalarNode('url')->cannotBeEmpty()->isRequired();
 
         return $treeBuilder;
     }
@@ -65,15 +62,27 @@ class Configuration implements ConfigurationInterface
      */
     private function addCKEditorNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        $rootNode = $treeBuilder->root('ckeditor');
-        $rootNode
-            ->addDefaultsIfNotSet()
+        $rootNode = (new TreeBuilder())->root('ckeditor');
+        $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
-                ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->end()
-            ->end();
+                ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins');
+
+        return $rootNode;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addSectionsNode()
+    {
+        $rootNode = (new TreeBuilder())->root('sections');
+        $rootNode
+            ->prototype('array')
+                ->children()
+                    ->scalarNode('alias')->defaultNull()->end()
+                    ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()
+                    ->scalarNode('config')->isRequired()->cannotBeEmpty();
 
         return $rootNode;
     }
@@ -83,9 +92,7 @@ class Configuration implements ConfigurationInterface
      */
     private function addMenuNode()
     {
-        $treeBuilder = new TreeBuilder();
-
-        $rootNode = $treeBuilder->root('menu');
+        $rootNode = (new TreeBuilder())->root('menu');
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('groups')->defaultValue([

@@ -11,8 +11,8 @@
     {{ pagination_html|raw }}
     <p>{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</p>
     <div class="scroll-pane horizontal-only">
-        <div class="section_table">
-            <table class="property_forms">
+        <div class="property_forms section_table">
+            <table>
                 <thead>
                     <tr>
                         {% for field, item in view.head.items if item.width %}

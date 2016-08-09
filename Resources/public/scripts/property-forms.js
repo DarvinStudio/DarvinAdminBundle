@@ -3,6 +3,8 @@ $(document).ready(function () {
 //        return;
 //    }
 
+    var SUBMIT_BUTTON = '<button class="property_forms_submit submit_edit">' + Translator.trans('property_forms.submit') + '</button>';
+
     var submitForm = function ($form, redirect) {
         if ($form.data('submitted')) {
             return;
@@ -50,6 +52,13 @@ $(document).ready(function () {
         var $form = $field.parents('.property_form').first();
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
+        var $forms = $form.parents('.property_forms').first();
+
+        if (1 != $form.attr('data-modified') && !$forms.find('form.property_form[data-modified="1"]').length) {
+            $forms.find('.property_forms_submit').remove();
+        } else if (!$forms.find('.property_forms_submit').length) {
+            $forms.append(SUBMIT_BUTTON).prepend(SUBMIT_BUTTON);
+        }
         if (1 != $form.attr('data-modified')) {
             $form.find('.errors, [type="submit"], [type="reset"]').remove();
 
@@ -74,8 +83,6 @@ $(document).ready(function () {
         $context.find('.property_form .field[type!="checkbox"]').each(function () {
             toggleButtons($(this));
         });
-
-        $context.find('.property_forms').append('<button class="property_forms_submit">' + Translator.trans('property_forms.submit') + '</button>');
 
         $context
             .on('change', '.property_form input[type="checkbox"]', function () {

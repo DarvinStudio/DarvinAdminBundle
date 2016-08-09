@@ -1,7 +1,7 @@
 {% form_theme form 'DarvinAdminBundle:Widget/index/property_form:fields.html.twig' %}
 
 {{ form_start(form, {
-    'action': admin_path(entity, entity_class, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_UPDATE_PROPERTY'), {
+    'action': admin_path(entity, entity_class, 'update-property', {
         'property': property,
     }),
     'attr': {

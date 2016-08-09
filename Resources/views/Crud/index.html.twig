@@ -7,19 +7,6 @@
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
 {% block content %}
-    {% if admin_route_exists(meta.entityClass, constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW')) %}
-
-        {% set new_url = admin_path(
-            null,
-            meta.entityClass,
-            constant('Darvin\\AdminBundle\\Route\\AdminRouter::TYPE_NEW'),
-            association_param ? {(association_param): parent_entity_id} : {}
-        ) %}
-
-        <div class="post_item_btn">
-            <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
-        </div>
-    {% endif %}
     {% if filter_form %}
 
         {% include 'DarvinAdminBundle:Crud/widget/filter:form.html.twig' with {
@@ -27,6 +14,19 @@
             'form':         filter_form,
         } %}
 
+    {% endif %}
+    {% if admin_route_exists(meta.entityClass, 'new') %}
+
+        {% set new_url = admin_path(
+            null,
+            meta.entityClass,
+            'new',
+            association_param ? {(association_param): parent_entity_id} : {}
+        ) %}
+
+        <div class="post_item_btn">
+            <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+        </div>
     {% endif %}
 
     {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}

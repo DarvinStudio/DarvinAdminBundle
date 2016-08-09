@@ -203,8 +203,9 @@ securable:
 security:
     action:
         login:
-            submit:  Войти
-            version: Версия %number%
+            darvin_auth: Войти через Darvin Auth
+            submit:      Войти
+            version:     Версия %number%
         logout:
             link: Выйти
     permission:

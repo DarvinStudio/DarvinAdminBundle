@@ -193,8 +193,9 @@ securable:
 security:
     action:
         login:
-            submit:  Sign in
-            version: Release %number%
+            darvin_auth: Sign in using Darvin Auth
+            submit:      Sign in
+            version:     Release %number%
         logout:
             link: Logout
     permission:

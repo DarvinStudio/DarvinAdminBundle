@@ -15,6 +15,8 @@ namespace Darvin\AdminBundle\Security\Configuration;
  */
 class SecurityConfigurationPool
 {
+    const ADD_METHOD = 'addConfiguration';
+
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
      */

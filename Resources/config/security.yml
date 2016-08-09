@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.security.configuration.configuration.class: Darvin\AdminBundle\Security\Configuration\SecurityConfiguration
 
+    darvin_admin.security.configuration.entity.abstract.class: Darvin\AdminBundle\Security\Configuration\EntitySecurityConfiguration
+
     darvin_admin.security.configuration.pool.class: Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
 
     darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
@@ -22,6 +24,11 @@ services:
         class: "%darvin_admin.security.configuration.configuration.class%"
         tags:
             - { name: darvin_admin.security_configuration }
+
+    darvin_admin.security.configuration.entity.abstract:
+        class:    "%darvin_admin.security.configuration.entity.abstract.class%"
+        abstract: true
+        public:   false
 
     darvin_admin.security.configuration.pool:
         class: "%darvin_admin.security.configuration.pool.class%"

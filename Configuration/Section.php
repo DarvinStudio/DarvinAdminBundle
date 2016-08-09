@@ -36,6 +36,16 @@ class Section
     private $metadataId;
 
     /**
+     * @var string
+     */
+    private $securityConfigId;
+
+    /**
+     * @var string
+     */
+    private $securityConfigName;
+
+    /**
      * @param string $alias  Alias
      * @param string $entity Entity
      * @param string $config Config
@@ -46,7 +56,9 @@ class Section
         $this->entity = $entity;
         $this->config = $config;
 
-        $this->metadataId = 'darvin_admin.metadata.metadata.'.$alias;
+        $this->metadataId = 'darvin_admin.metadata.section.'.$alias;
+        $this->securityConfigId = 'darvin_admin.security.configuration.section.'.$alias;
+        $this->securityConfigName = sprintf('darvin_admin_%s_security', $alias);
     }
 
     /**
@@ -79,5 +91,21 @@ class Section
     public function getMetadataId()
     {
         return $this->metadataId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecurityConfigId()
+    {
+        return $this->securityConfigId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSecurityConfigName()
+    {
+        return $this->securityConfigName;
     }
 }

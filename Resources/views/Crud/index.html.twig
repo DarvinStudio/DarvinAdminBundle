@@ -18,5 +18,8 @@
 
     {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
 
-    {{ new_form_widget|raw }}
+    {% if new_form_widget %}
+        <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+        {{ new_form_widget|raw }}
+    {% endif %}
 {% endblock %}

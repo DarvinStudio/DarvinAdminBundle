@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
-use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -31,7 +30,7 @@ class MetadataFactory
     /**
      * @var \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
      */
-    private $configurationLoader;
+    private $configLoader;
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -44,37 +43,27 @@ class MetadataFactory
     private $translatableManager;
 
     /**
-     * @var array
-     */
-    private $entityNames;
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader  $configurationLoader Configuration loader
+     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader  $configLoader        Configuration loader
      * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
      */
-    public function __construct(
-        ConfigurationLoader $configurationLoader,
-        EntityManager $em,
-        TranslatableManagerInterface $translatableManager
-    ) {
-        $this->configurationLoader = $configurationLoader;
+    public function __construct(ConfigurationLoader $configLoader, EntityManager $em, TranslatableManagerInterface $translatableManager)
+    {
+        $this->configLoader = $configLoader;
         $this->em = $em;
         $this->translatableManager = $translatableManager;
-
-        $this->entityNames = [];
     }
 
     /**
+     * @param string $entityName     Entity name
      * @param string $entityClass    Entity class
      * @param string $configPathname Configuration file pathname
-     * @param string $entityName     Entity name
      * @param string $controllerId   Controller service ID
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function createMetadata($entityClass, $configPathname, $entityName, $controllerId)
+    public function createMetadata($entityName, $entityClass, $configPathname, $controllerId)
     {
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);
@@ -82,101 +71,24 @@ class MetadataFactory
             throw $this->createUnableToGetDoctrineMetadataException($entityClass);
         }
 
-        $configuration = $this->configurationLoader->load($configPathname);
-
-        $entityNamespace = $this->detectEntityNamespace(
-            $doctrineMeta->getName(),
-            $this->em->getConfiguration()->getEntityNamespaces()
-        );
-
-        if (!empty($entityName) || isset($configuration['entity_name'])) {
-            $entityName = !empty($entityName) ? $entityName : $configuration['entity_name'];
-
-            if (isset($this->entityNames[$entityName])) {
-                throw new MetadataException(sprintf('Entity named "%s" already exists.', $entityName));
-            }
-        } else {
-            $entityName = $this->generateEntityName($doctrineMeta->getName(), $entityNamespace);
-        }
-
         $baseTranslationPrefix = $this->generateBaseTranslationPrefix($entityName);
-
-        $identifiers = $doctrineMeta->getIdentifier();
 
         $formTypeName = $this->generateFormTypeName($entityName);
 
         return new Metadata(
             $baseTranslationPrefix,
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
-            $configuration,
+            $this->configLoader->load($configPathname),
             $controllerId,
             $entityClass,
             $entityName,
             $formTypeName.self::FILTER_FORM_TYPE_NAME_SUFFIX,
             $formTypeName,
-            $identifiers[0],
+            $doctrineMeta->getIdentifier()[0],
             $this->getMappings($doctrineMeta),
             $this->generateRoutingPrefix($entityName),
             $this->translatableManager->isTranslatable($entityClass) ? $this->translatableManager->getTranslationClass($entityClass) : null
         );
-    }
-
-    /**
-     * @param string $entityClass      Entity class
-     * @param array  $entityNamespaces Entity namespaces
-     *
-     * @return string
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
-     */
-    private function detectEntityNamespace($entityClass, array $entityNamespaces)
-    {
-        foreach ($entityNamespaces as $namespace) {
-            if (0 === strpos($entityClass, $namespace)) {
-                return $namespace;
-            }
-        }
-
-        throw new MetadataException(sprintf('Unable to detect namespace of entity "%s".', $entityClass));
-    }
-
-    /**
-     * @param string $entityClass     Entity class
-     * @param string $entityNamespace Entity namespace
-     *
-     * @return string
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
-     */
-    private function generateEntityName($entityClass, $entityNamespace)
-    {
-        $name = str_replace($entityNamespace.'\\', '', $entityClass);
-        $parts = explode('\\', $name);
-        $partsCount = count($parts);
-
-        for ($i = 0; $i < $partsCount - 1; $i++) {
-            if ($parts[$i] === $parts[$i + 1]) {
-                unset($parts[$i]);
-            }
-        }
-
-        $name = StringsUtil::toUnderscore(implode($parts));
-
-        if (!isset($this->entityNames[$name])) {
-            $this->entityNames[$name] = true;
-
-            return $name;
-        }
-
-        $index = 1;
-
-        while (isset($this->entityNames[$name.'_'.$index])) {
-            $index++;
-        }
-
-        $name = $name.'_'.$index;
-
-        $this->entityNames[$name] = true;
-
-        return $name;
     }
 
     /**

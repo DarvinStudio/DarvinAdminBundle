@@ -10,9 +10,11 @@
 
 namespace Darvin\AdminBundle\DependencyInjection;
 
+use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
@@ -21,7 +23,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class DarvinAdminExtension extends Extension
+class DarvinAdminExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * {@inheritdoc}
@@ -44,7 +46,6 @@ class DarvinAdminExtension extends Extension
             'entity_namer',
             'form',
             'image',
-            'log',
             'menu',
             'metadata',
             'route',
@@ -66,5 +67,37 @@ class DarvinAdminExtension extends Extension
         if (isset($bundles['LexikTranslationBundle'])) {
             $loader->load('translation.yml');
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepend(ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+
+        $sections = [
+//            [
+//                'alias'  => 'image',
+//                'entity' => AbstractImage::ABSTRACT_IMAGE_CLASS,
+//                'config' => __DIR__.'/../Resources/config/admin/image.yml',
+//            ],
+            [
+                'alias'  => 'log',
+                'entity' => LogEntry::LOG_ENTRY_CLASS,
+                'config' => __DIR__.'/../Resources/config/admin/log.yml',
+            ],
+        ];
+
+        if (isset($bundles['LexikTranslationBundle'])) {
+            $sections[] = [
+                'entity' => 'Lexik\Bundle\TranslationBundle\Entity\Translation',
+                'config' => __DIR__.'/../Resources/config/admin/translation.yml',
+            ];
+        }
+
+        $container->prependExtensionConfig('darvin_admin', [
+            'sections' => $sections,
+        ]);
     }
 }

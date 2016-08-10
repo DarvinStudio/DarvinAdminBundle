@@ -1,9 +1,6 @@
 parameters:
     darvin_admin.translation.clear_cache_listener.class: Darvin\AdminBundle\EventListener\ClearTranslationCacheListener
 
-    darvin_admin.translation.metadata.entity: Lexik\Bundle\TranslationBundle\Entity\Translation
-    darvin_admin.translation.metadata.config: "@@DarvinAdminBundle/Resources/config/admin/translation.yml"
-
 services:
     darvin_admin.translation.clear_cache_listener:
         class:  "%darvin_admin.translation.clear_cache_listener.class%"
@@ -12,11 +9,3 @@ services:
             - "@service_container"
         tags:
             - { name: doctrine.event_listener, event: onFlush }
-
-    darvin_admin.translation.metadata:
-        parent: darvin_admin.metadata.abstract
-        arguments:
-            - "%darvin_admin.translation.metadata.entity%"
-            - "%darvin_admin.translation.metadata.config%"
-        tags:
-            - { name: darvin_admin.metadata }

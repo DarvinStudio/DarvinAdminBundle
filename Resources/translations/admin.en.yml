@@ -25,8 +25,6 @@ configuration:
         parameter:
             image_sizes: Image sizes
         title: The "Administration panel" module configuration
-    darvin_admin_security:
-        title: The "Administration panel" module security configuration
     menu:
         description: Script configuration and common settings, per page items count managing.
 

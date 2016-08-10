@@ -24,8 +24,6 @@ class MetadataFactory
 {
     const CONTROLLER_ID_SUFFIX = '.admin.controller';
 
-    const CREATE_METHOD = 'createMetadata';
-
     const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
 
     const FORM_TYPE_NAME_PREFIX = 'admin_';

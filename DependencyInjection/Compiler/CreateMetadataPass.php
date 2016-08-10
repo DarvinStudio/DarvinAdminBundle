@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\AdminBundle\Metadata\MetadataFactory;
 use Darvin\AdminBundle\Metadata\MetadataPool;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,8 +22,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CreateMetadataPass implements CompilerPassInterface
 {
-    const FACTORY_ID = 'darvin_admin.metadata.factory';
-
     const PARENT_ID  = 'darvin_admin.metadata.abstract';
 
     const POOL_ID = 'darvin_admin.metadata.pool';
@@ -36,11 +33,8 @@ class CreateMetadataPass implements CompilerPassInterface
     {
         $definitions = [];
 
-        $factory = [new Reference(self::FACTORY_ID), MetadataFactory::CREATE_METHOD];
-
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
             $definitions[$section->getMetadataId()] = (new DefinitionDecorator(self::PARENT_ID))
-                ->setFactory($factory)
                 ->setArguments([
                     $section->getEntity(),
                     $section->getConfig(),

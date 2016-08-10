@@ -144,7 +144,7 @@ class Configuration implements ConfigurationInterface
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
-                        ->scalarNode('sidebar')->defaultNull()->end()
+                        ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->end()
                     ->end()
                 ->end()
                 ->scalarNode('group')->defaultNull()->end()

@@ -15,7 +15,8 @@ namespace Darvin\AdminBundle\Menu;
  */
 class Item
 {
-    const DEFAULT_MAIN_ICON = 'bundles/darvinadmin/images/main_menu_stub.png';
+    const DEFAULT_MAIN_ICON    = 'bundles/darvinadmin/images/main_menu_stub.png';
+    const DEFAULT_SIDEBAR_ICON = 'bundles/darvinadmin/images/sidebar_menu_stub.png';
 
     /**
      * @var string
@@ -94,6 +95,7 @@ class Item
     {
         $this->name = $name;
         $this->mainIcon = self::DEFAULT_MAIN_ICON;
+        $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
         $this->children = [];
     }
 

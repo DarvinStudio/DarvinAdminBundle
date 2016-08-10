@@ -42,7 +42,7 @@ class EntityListWidget extends AbstractWidget
         $collection = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
 
         if (empty($collection)) {
-            return '';
+            return null;
         }
         if (!is_array($collection)) {
             if (!is_object($collection)) {

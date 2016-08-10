@@ -76,7 +76,7 @@ class CopyFormWidget extends AbstractWidget
     protected function createContent($entity, array $options, $property)
     {
         if (!$this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_COPY)) {
-            return '';
+            return null;
         }
 
         $extendedMeta = $this->extendedMetadataFactory->getExtendedMetadata($entity);
@@ -86,7 +86,7 @@ class CopyFormWidget extends AbstractWidget
                 'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
-            : '';
+            : null;
     }
 
     /**

@@ -52,7 +52,7 @@ class EditLinkWidget extends AbstractWidget
                 'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
-            : '';
+            : null;
     }
 
     /**

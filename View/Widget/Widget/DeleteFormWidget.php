@@ -66,7 +66,7 @@ class DeleteFormWidget extends AbstractWidget
                 'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
-            : '';
+            : null;
     }
 
     /**

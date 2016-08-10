@@ -28,7 +28,7 @@ class CompoundListWidget extends AbstractWidget
         $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $property);
 
         if (null === $keys) {
-            return '';
+            return null;
         }
         if (!is_array($keys) && !$keys instanceof \Traversable) {
             $message = sprintf(
@@ -44,7 +44,7 @@ class CompoundListWidget extends AbstractWidget
         $list = $this->createList($keys, $this->getValues($options));
 
         if (empty($list)) {
-            return '';
+            return null;
         }
         if ($options['sort']) {
             sort($list);

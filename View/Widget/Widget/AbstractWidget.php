@@ -89,7 +89,7 @@ abstract class AbstractWidget implements WidgetInterface
 
         foreach ($this->getRequiredPermissions() as $permission) {
             if (!$this->isGranted($permission, $entity)) {
-                return '';
+                return null;
             }
         }
 

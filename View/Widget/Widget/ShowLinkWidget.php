@@ -51,7 +51,7 @@ class ShowLinkWidget extends AbstractWidget
             $entity = $this->getPropertyValue($entity, $options['property']);
 
             if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
-                return '';
+                return null;
             }
         }
 
@@ -61,7 +61,7 @@ class ShowLinkWidget extends AbstractWidget
                 'text_link'          => $options['text_link'],
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])
-            : '';
+            : null;
     }
 
     /**

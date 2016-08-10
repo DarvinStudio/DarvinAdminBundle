@@ -29,7 +29,7 @@ class EmailLinkWidget extends AbstractWidget
             ? $this->render($options, [
                 'email' => $email,
             ])
-            : '';
+            : null;
     }
 
     /**

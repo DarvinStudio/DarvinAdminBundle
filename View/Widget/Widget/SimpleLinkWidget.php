@@ -30,7 +30,7 @@ class SimpleLinkWidget extends AbstractWidget
                 'title' => $url,
                 'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? 'http://'.$url : $url,
             ])
-            : '';
+            : null;
     }
 
     /**

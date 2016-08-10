@@ -79,7 +79,7 @@ class RevertFormWidget extends AbstractWidget
         $object = $logEntry->getObject();
 
         if (empty($object) || !$this->isGranted(Permission::EDIT, $object)) {
-            return '';
+            return null;
         }
 
         return $this->render($options, [

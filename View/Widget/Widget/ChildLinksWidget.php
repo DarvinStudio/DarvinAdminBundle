@@ -58,7 +58,7 @@ class ChildLinksWidget extends AbstractWidget
         $createDeletePermissionGranted = $this->isGranted(Permission::CREATE_DELETE, $childClass);
 
         if (!$viewPermissionGranted && !$createDeletePermissionGranted) {
-            return '';
+            return null;
         }
 
         $parentMeta = $this->metadataManager->getMetadata($entity);

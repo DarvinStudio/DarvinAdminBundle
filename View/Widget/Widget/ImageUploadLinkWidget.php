@@ -44,7 +44,7 @@ class ImageUploadLinkWidget extends AbstractWidget
                 'entity' => $entity,
                 'url'    => $url,
             ])
-            : '';
+            : null;
     }
 
     /**

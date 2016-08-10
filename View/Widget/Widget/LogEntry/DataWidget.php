@@ -85,7 +85,7 @@ class DataWidget extends AbstractWidget
         $data = $logEntry->getData();
 
         if (empty($data)) {
-            return '';
+            return null;
         }
 
         $mappings = $this->getMappings($logEntry->getObjectClass());

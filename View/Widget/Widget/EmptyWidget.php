@@ -22,7 +22,7 @@ class EmptyWidget implements WidgetInterface
      */
     public function getContent($entity, array $options = [], $property = null)
     {
-        return '';
+        return null;
     }
 
     /**

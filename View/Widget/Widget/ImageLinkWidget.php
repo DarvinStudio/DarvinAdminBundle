@@ -55,7 +55,7 @@ class ImageLinkWidget extends AbstractWidget
         $image = isset($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
 
         if (empty($image)) {
-            return '';
+            return null;
         }
         if (!is_object($image)) {
             throw new WidgetException(sprintf('Image must be object, "%s" provided.', gettype($image)));
@@ -70,7 +70,7 @@ class ImageLinkWidget extends AbstractWidget
             throw new WidgetException($message);
         }
         if (!$this->imageUrlBuilder->fileExists($image)) {
-            return '';
+            return null;
         }
 
         try {

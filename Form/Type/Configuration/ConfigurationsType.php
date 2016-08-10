@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type\Configuration;
 
+use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
@@ -59,7 +60,10 @@ class ConfigurationsType extends AbstractType
             }
 
             $builder->add($configuration->getName(), ConfigurationType::CONFIGURATION_TYPE_CLASS, [
-                'label'         => sprintf('configuration.%s.title', $configuration->getName()),
+                'label'         => $configuration instanceof SecurityConfigurationInterface
+                    ? false
+                    : sprintf('configuration.%s.title', $configuration->getName())
+                ,
                 'configuration' => $configuration,
                 'constraints'   => new Valid(),
                 'data_class'    => get_class($configuration),

@@ -152,15 +152,15 @@ class Menu
 
         $config = $this->groupsConfig[$name];
 
-        if (isset($config['position'])) {
+        if (null !== $config['position']) {
             $group->setPosition($config['position']);
         }
 
         return $group
-            ->setMainColor(isset($config['colors']['main']) ? $config['colors']['main'] : null)
-            ->setSidebarColor(isset($config['colors']['sidebar']) ? $config['colors']['sidebar'] : null)
-            ->setMainIcon(isset($config['icons']['main']) ? $config['icons']['main'] : null)
-            ->setSidebarIcon(isset($config['icons']['sidebar']) ? $config['icons']['sidebar'] : null);
+            ->setMainColor($config['colors']['main'])
+            ->setSidebarColor($config['colors']['sidebar'])
+            ->setMainIcon($config['icons']['main'])
+            ->setSidebarIcon($config['icons']['sidebar']);
     }
 
     /**

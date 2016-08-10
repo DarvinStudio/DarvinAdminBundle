@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
+use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
@@ -142,7 +143,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('icons')
                     ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('main')->defaultNull()->end()
+                        ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
                         ->scalarNode('sidebar')->defaultNull()->end()
                     ->end()
                 ->end()

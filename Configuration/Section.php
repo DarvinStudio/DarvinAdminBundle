@@ -56,8 +56,8 @@ class Section
         $this->entity = $entity;
         $this->config = $config;
 
-        $this->metadataId = 'darvin_admin.metadata.section.'.$alias;
-        $this->securityConfigId = 'darvin_admin.security.configuration.section.'.$alias;
+        $this->metadataId = sprintf('darvin_admin.section.%s.metadata', $alias);
+        $this->securityConfigId = sprintf('darvin_admin.section.%s.security_configuration', $alias);
         $this->securityConfigName = sprintf('darvin_admin_%s_security', $alias);
     }
 

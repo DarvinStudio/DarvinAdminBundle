@@ -23,7 +23,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CreateSecurityConfigurationsPass implements CompilerPassInterface
 {
-    const PARENT_ID = 'darvin_admin.security.configuration.entity.abstract';
+    const PARENT_ID = 'darvin_admin.security.configuration.abstract';
 
     const POOL_ID = 'darvin_admin.security.configuration.pool';
 

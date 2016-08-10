@@ -1,7 +1,7 @@
 parameters:
     darvin_admin.security.authorization_voter.class: Darvin\AdminBundle\Security\Authorization\Voter\AdminVoter
 
-    darvin_admin.security.configuration.entity.abstract.class: Darvin\AdminBundle\Security\Configuration\EntitySecurityConfiguration
+    darvin_admin.security.configuration.abstract.class: Darvin\AdminBundle\Security\Configuration\SecurityConfiguration
 
     darvin_admin.security.configuration.pool.class: Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
 
@@ -18,8 +18,8 @@ services:
         tags:
             - { name: security.voter }
 
-    darvin_admin.security.configuration.entity.abstract:
-        class:    "%darvin_admin.security.configuration.entity.abstract.class%"
+    darvin_admin.security.configuration.abstract:
+        class:    "%darvin_admin.security.configuration.abstract.class%"
         abstract: true
         public:   false
 

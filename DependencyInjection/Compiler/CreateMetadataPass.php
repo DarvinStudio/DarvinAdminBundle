@@ -15,21 +15,19 @@ use Darvin\AdminBundle\Metadata\MetadataPool;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Add metadata compiler pass
+ * Create metadata compiler pass
  */
-class AddMetadataPass implements CompilerPassInterface
+class CreateMetadataPass implements CompilerPassInterface
 {
-    const METADATA_FACTORY_ID = 'darvin_admin.metadata.factory';
-    const METADATA_PARENT_ID  = 'darvin_admin.metadata.abstract';
+    const FACTORY_ID = 'darvin_admin.metadata.factory';
+
+    const PARENT_ID  = 'darvin_admin.metadata.abstract';
 
     const POOL_ID = 'darvin_admin.metadata.pool';
-
-    const TAG_METADATA = 'darvin_admin.metadata';
 
     /**
      * {@inheritdoc}
@@ -40,16 +38,13 @@ class AddMetadataPass implements CompilerPassInterface
             return;
         }
 
-        $poolDefinition = $container->getDefinition(self::POOL_ID);
+        $definitions = [];
 
-        $this->addMetadata($poolDefinition, array_keys($container->findTaggedServiceIds(self::TAG_METADATA)));
-
-        $metaDefinitions = [];
-        $metaFactoryReference = new Reference(self::METADATA_FACTORY_ID);
+        $factory = [new Reference(self::FACTORY_ID), MetadataFactory::CREATE_METHOD];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $metaDefinitions[$section->getMetadataId()] = (new DefinitionDecorator(self::METADATA_PARENT_ID))
-                ->setFactory([$metaFactoryReference, MetadataFactory::CREATE_METHOD])
+            $definitions[$section->getMetadataId()] = (new DefinitionDecorator(self::PARENT_ID))
+                ->setFactory($factory)
                 ->setArguments([
                     $section->getEntity(),
                     $section->getConfig(),
@@ -57,18 +52,11 @@ class AddMetadataPass implements CompilerPassInterface
                 ]);
         }
 
-        $container->addDefinitions($metaDefinitions);
+        $container->addDefinitions($definitions);
 
-        $this->addMetadata($poolDefinition, array_keys($metaDefinitions));
-    }
+        $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\Definition $poolDefinition Metadata pool service definition
-     * @param string[]                                          $ids            Metadata service IDs
-     */
-    private function addMetadata(Definition $poolDefinition, array $ids)
-    {
-        foreach ($ids as $id) {
+        foreach ($definitions as $id => $attr) {
             $poolDefinition->addMethodCall(MetadataPool::ADD_METHOD, [
                 new Reference($id),
             ]);

@@ -15,10 +15,10 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddAssetProvidersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddCacheClearCommandsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\AddMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddSecurityConfigurationsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -45,7 +45,7 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new AddMenuItemFactoriesPass())
             ->addCompilerPass(new CreateControllersPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new AddDashboardWidgetsPass())
-            ->addCompilerPass(new AddMetadataPass())
+            ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new ResolveDefinitionTemplatesPass(), PassConfig::TYPE_BEFORE_REMOVING)
             ->addCompilerPass(new AddSecurityConfigurationsPass())
             ->addCompilerPass(new AddViewWidgetsPass());

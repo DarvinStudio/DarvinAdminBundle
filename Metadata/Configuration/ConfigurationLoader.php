@@ -131,7 +131,7 @@ class ConfigurationLoader
     {
         $realPathname = $this->resolveRealPathname($pathname);
 
-        $content = @file_get_contents($realPathname);
+        $content = file_get_contents($realPathname);
 
         if (false === $content) {
             throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $realPathname));

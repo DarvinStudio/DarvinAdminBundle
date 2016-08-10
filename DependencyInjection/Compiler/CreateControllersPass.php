@@ -20,26 +20,18 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
  */
 class CreateControllersPass implements CompilerPassInterface
 {
+    const PARENT_ID = 'darvin_admin.crud.controller';
+
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        $allMeta = $this->getMetadataManager($container)->getAllMetadata();
-
-        if (empty($allMeta)) {
-            return;
-        }
-
         $definitions = [];
 
-        foreach ($allMeta as $entityClass => $meta) {
-            $definition = new DefinitionDecorator('darvin_admin.crud.controller');
-            $definition->setArguments([
-                $entityClass,
-            ]);
-
-            $definitions[$meta->getControllerId()] = $definition;
+        foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
+            $definitions[$section->getControllerId()] = (new DefinitionDecorator(self::PARENT_ID))
+                ->addArgument($section->getEntity());
         }
 
         $container->addDefinitions($definitions);
@@ -48,10 +40,10 @@ class CreateControllersPass implements CompilerPassInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
      *
-     * @return \Darvin\AdminBundle\Metadata\MetadataManager
+     * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private function getMetadataManager(ContainerInterface $container)
+    private function getSectionConfiguration(ContainerInterface $container)
     {
-        return $container->get('darvin_admin.metadata.manager');
+        return $container->get('darvin_admin.configuration.section');
     }
 }

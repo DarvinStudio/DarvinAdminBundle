@@ -22,8 +22,6 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class MetadataFactory
 {
-    const CONTROLLER_ID_SUFFIX = '.admin.controller';
-
     const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
 
     const FORM_TYPE_NAME_PREFIX = 'admin_';
@@ -71,11 +69,12 @@ class MetadataFactory
      * @param string $entityClass    Entity class
      * @param string $configPathname Configuration file pathname
      * @param string $entityName     Entity name
+     * @param string $controllerId   Controller service ID
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function createMetadata($entityClass, $configPathname, $entityName = null)
+    public function createMetadata($entityClass, $configPathname, $entityName, $controllerId)
     {
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);
@@ -110,7 +109,7 @@ class MetadataFactory
             $baseTranslationPrefix,
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
             $configuration,
-            $this->generateControllerId($entityNamespace, $entityName),
+            $controllerId,
             $entityClass,
             $entityName,
             $formTypeName.self::FILTER_FORM_TYPE_NAME_SUFFIX,
@@ -198,23 +197,6 @@ class MetadataFactory
     private function generateEntityTranslationPrefix($baseTranslationPrefix)
     {
         return $baseTranslationPrefix.'entity.';
-    }
-
-    /**
-     * @param string $entityNamespace Entity namespace
-     * @param string $entityName      Entity name
-     *
-     * @return string
-     */
-    private function generateControllerId($entityNamespace, $entityName)
-    {
-        $id = strtr($entityNamespace, [
-            'Bundle' => '',
-            'Entity' => '',
-            '\\'     => '',
-        ]).'.'.$entityName.self::CONTROLLER_ID_SUFFIX;
-
-        return StringsUtil::toUnderscore($id);
     }
 
     /**

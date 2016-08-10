@@ -33,6 +33,11 @@ class Section
     /**
      * @var string
      */
+    private $controllerId;
+
+    /**
+     * @var string
+     */
     private $metadataId;
 
     /**
@@ -56,6 +61,7 @@ class Section
         $this->entity = $entity;
         $this->config = $config;
 
+        $this->controllerId = sprintf('darvin_admin.section.%s.controller', $alias);
         $this->metadataId = sprintf('darvin_admin.section.%s.metadata', $alias);
         $this->securityConfigId = sprintf('darvin_admin.section.%s.security_configuration', $alias);
         $this->securityConfigName = sprintf('darvin_admin_%s_security', $alias);
@@ -83,6 +89,14 @@ class Section
     public function getConfig()
     {
         return $this->config;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerId()
+    {
+        return $this->controllerId;
     }
 
     /**

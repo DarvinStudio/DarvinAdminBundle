@@ -39,6 +39,7 @@ class CreateMetadataPass implements CompilerPassInterface
                     $section->getEntity(),
                     $section->getConfig(),
                     $section->getAlias(),
+                    $section->getControllerId(),
                 ]);
         }
 

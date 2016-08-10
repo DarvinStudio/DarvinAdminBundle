@@ -16,6 +16,7 @@ use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\Filter\ResizeFilter;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
 use Doctrine\Common\Util\ClassUtils;
+use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -72,15 +73,19 @@ class ImageLinkWidget extends AbstractWidget
             return '';
         }
 
-        return $this->render($options, [
-            'filtered_url' => $this->imageUrlBuilder->buildUrlToFilter(
-                $image,
-                ResizeFilter::NAME,
-                $options['filter_params']
-            ),
-            'name'         => $image->getName(),
-            'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($image),
-        ]);
+        try {
+            return $this->render($options, [
+                'filtered_url' => $this->imageUrlBuilder->buildUrlToFilter(
+                    $image,
+                    ResizeFilter::NAME,
+                    $options['filter_params']
+                ),
+                'name'         => $image->getName(),
+                'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($image),
+            ]);
+        } catch (NotLoadableException $ex) {
+            return null;
+        }
     }
 
     /**

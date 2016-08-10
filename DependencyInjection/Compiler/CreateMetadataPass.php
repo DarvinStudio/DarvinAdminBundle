@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CreateMetadataPass implements CompilerPassInterface
 {
-    const PARENT_ID  = 'darvin_admin.metadata.abstract';
+    const PARENT_ID = 'darvin_admin.metadata.abstract';
 
     const POOL_ID = 'darvin_admin.metadata.pool';
 
@@ -31,6 +31,10 @@ class CreateMetadataPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::POOL_ID)) {
+            return;
+        }
+
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {

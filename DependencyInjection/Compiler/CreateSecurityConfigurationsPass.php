@@ -32,6 +32,10 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
+        if (!$container->hasDefinition(self::POOL_ID)) {
+            return;
+        }
+
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {

@@ -1,4 +1,3 @@
-entity_name: image
 disabled_routes:
     - copy
     - delete

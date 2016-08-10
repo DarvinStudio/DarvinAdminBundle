@@ -68,11 +68,7 @@ class EntityNamer implements EntityNamerInterface
     private function getName($class)
     {
         if ($this->metadataManager->hasMetadata($class)) {
-            $config = $this->metadataManager->getConfiguration($class);
-
-            if (!empty($config['entity_name'])) {
-                return $config['entity_name'];
-            }
+            return $this->metadataManager->getMetadata($class)->getEntityName();
         }
 
         return $this->genericObjectNamer->name($class);

@@ -54,7 +54,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('breadcrumbs_entity_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
                 ->arrayNode('child_entities')->prototype('scalar')->end()->end()
                 ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
-                ->scalarNode('entity_name')->defaultNull()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()

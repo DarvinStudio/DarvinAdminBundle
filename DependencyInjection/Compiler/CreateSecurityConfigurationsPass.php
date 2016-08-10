@@ -15,38 +15,27 @@ use Darvin\ConfigBundle\DependencyInjection\Compiler\AddConfigurationsPass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Add security configurations compiler pass
+ * Create security configurations compiler pass
  */
-class AddSecurityConfigurationsPass implements CompilerPassInterface
+class CreateSecurityConfigurationsPass implements CompilerPassInterface
 {
+    const PARENT_ID = 'darvin_admin.security.configuration.entity.abstract';
+
     const POOL_ID = 'darvin_admin.security.configuration.pool';
-
-    const SECTION_CONFIGURATION_PARENT_ID = 'darvin_admin.security.configuration.entity.abstract';
-
-    const TAG_SECURITY_CONFIGURATION = 'darvin_admin.security_configuration';
 
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(self::POOL_ID)) {
-            return;
-        }
-
-        $poolDefinition = $container->getDefinition(self::POOL_ID);
-
-        $this->addConfigurations($poolDefinition, array_keys($container->findTaggedServiceIds(self::TAG_SECURITY_CONFIGURATION)), $container);
-
-        $configurationDefinitions = [];
+        $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $configurationDefinitions[$section->getSecurityConfigId()] = (new DefinitionDecorator(self::SECTION_CONFIGURATION_PARENT_ID))
+            $definitions[$section->getSecurityConfigId()] = (new DefinitionDecorator(self::PARENT_ID))
                 ->setArguments([
                     $section->getSecurityConfigName(),
                     $section->getAlias(),
@@ -54,28 +43,17 @@ class AddSecurityConfigurationsPass implements CompilerPassInterface
                 ]);
         }
 
-        $container->addDefinitions($configurationDefinitions);
+        $container->addDefinitions($definitions);
 
-        $this->addConfigurations($poolDefinition, array_keys($configurationDefinitions), $container);
-    }
+        $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-    /**
-     * @param \Symfony\Component\DependencyInjection\Definition       $poolDefinition Security configuration pool service definition
-     * @param string[]                                                $ids            Security configuration service IDs
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container      DI container
-     */
-    private function addConfigurations(Definition $poolDefinition, array $ids, ContainerBuilder $container)
-    {
-        if (empty($ids)) {
-            return;
-        }
-        foreach ($ids as $id) {
+        foreach ($definitions as $id => $definition) {
             $poolDefinition->addMethodCall(SecurityConfigurationPool::ADD_METHOD, [
                 new Reference($id),
             ]);
         }
 
-        (new AddConfigurationsPass())->addConfigurations($container, $ids);
+        (new AddConfigurationsPass())->addConfigurations($container, array_keys($definitions));
     }
 
     /**

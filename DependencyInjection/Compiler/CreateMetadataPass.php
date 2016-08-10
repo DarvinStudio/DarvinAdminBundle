@@ -34,10 +34,6 @@ class CreateMetadataPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition(self::POOL_ID)) {
-            return;
-        }
-
         $definitions = [];
 
         $factory = [new Reference(self::FACTORY_ID), MetadataFactory::CREATE_METHOD];
@@ -56,7 +52,7 @@ class CreateMetadataPass implements CompilerPassInterface
 
         $poolDefinition = $container->getDefinition(self::POOL_ID);
 
-        foreach ($definitions as $id => $attr) {
+        foreach ($definitions as $id => $definition) {
             $poolDefinition->addMethodCall(MetadataPool::ADD_METHOD, [
                 new Reference($id),
             ]);

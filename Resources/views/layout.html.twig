@@ -44,59 +44,69 @@
             <div class="container-fluid">
                 <div class="container-fluid header_wrap">
                     <div class="row header">
-                        <div class="col-md-3 col-lg-3 header_left">
+                        <div class="col-md-2 col-lg-2 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
                                 <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_cms.png') }}"
                                      title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
 								<span>{% trans %}layout.logo{% endtrans %}</span>
                             </a>
                         </div>
-                        <div class="col-md-9 col-lg-9 header_right">
+                        <div class="col-md-10 col-lg-10 header_right">
+                            <div class="container-fluid">
 
-                            {% set menu = {
-                                'security.action.logout.link': {
-                                    'accessible': true,
-                                    'class':      'logout',
-                                    'url':        path('darvin_admin_security_logout'),
-                                },
-                                'user.action.index.link': {
-                                    'accessible': is_granted('view', app.user),
-                                    'class':      'link_users',
-                                    'url':        admin_path(app.user, null, 'index'),
-                                },
-                                'configuration.action.edit.link': {
-                                    'accessible': true,
-                                    'class':      'link_main_option',
-                                    'url':        path('darvin_admin_configuration'),
-                                },
-                                'translation.action.index.link': {
-                                    'accessible': admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                        and is_granted('view', 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation')
-                                    ,
-                                    'class': 'link_translete_manager',
-                                    'url':   admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                        ? admin_path(null, 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                        : null
-                                    ,
-                                },
-                            } %}
+                                {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
 
-                            {% for title, attr in menu if attr.accessible %}
-                                <a href="{{ attr.url }}"{% if attr.class|default %} class="{{ attr.class }}"{% endif %}>
-                                    {{ title|trans }}
-                                </a>
-                            {% endfor %}
+                                {% set menu = {
+                                    'security.action.logout.link': {
+                                        'accessible': true,
+                                        'class':      'logout',
+                                        'url':        path('darvin_admin_security_logout'),
+                                    },
+                                    'user.action.index.link': {
+                                        'accessible': is_granted('view', app.user),
+                                        'class':      'link_users',
+                                        'url':        admin_path(app.user, null, 'index'),
+                                    },
+                                    'configuration.action.edit.link': {
+                                        'accessible': true,
+                                        'class':      'link_main_option',
+                                        'url':        path('darvin_admin_configuration'),
+                                    },
+                                    'translation.action.index.link': {
+                                        'accessible': admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
+                                            and is_granted('view', 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation')
+                                        ,
+                                        'class': 'link_translete_manager',
+                                        'url':   admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
+                                            ? admin_path(null, 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
+                                            : null
+                                        ,
+                                    },
+                                } %}
 
-                            {{ admin_cache_clear_form() }}
+                                {% for title, attr in menu if attr.accessible %}
+                                    <a href="{{ attr.url }}"{% if attr.class|default %} class="{{ attr.class }}"{% endif %}>
+                                        {{ title|trans }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            <div class="container-fluid">
 
-                            {{ image_archive_build_form() }}
+                                {{ admin_cache_clear_form() }}
 
-                            <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
+                                {{ image_archive_build_form() }}
 
-                            {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
+                                <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
 
-                            {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
+                                {% if is_granted('view', app.user) %}
+                                    <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
+                                {% else %}
+                                    <span class="link_users">{{ app.user.email }}</span>
+                                {% endif %}
 
+                                {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
+
+                            </div>
                         </div>
                     </div>
                 </div>

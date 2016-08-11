@@ -6,4 +6,4 @@ services:
         class: "%darvin_admin.entity_namer.class%"
         arguments:
             - "@darvin_utils.object_namer"
-            - "@darvin_admin.metadata.manager"
+            - "@darvin_admin.configuration.section"

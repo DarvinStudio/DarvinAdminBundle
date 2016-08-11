@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\EntityNamer;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Configuration\SectionConfiguration;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Doctrine\Common\Util\ClassUtils;
 
@@ -22,12 +22,12 @@ class EntityNamer implements EntityNamerInterface
     /**
      * @var \Darvin\Utils\ObjectNamer\ObjectNamerInterface
      */
-    private $genericObjectNamer;
+    private $objectNamer;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private $metadataManager;
+    private $sectionConfig;
 
     /**
      * @var string[]
@@ -35,13 +35,13 @@ class EntityNamer implements EntityNamerInterface
     private $names;
 
     /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $genericObjectNamer Generic object namer
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager   $metadataManager    Admin metadata manager
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer   Object namer
+     * @param \Darvin\AdminBundle\Configuration\SectionConfiguration $sectionConfig Section configuration
      */
-    public function __construct(ObjectNamerInterface $genericObjectNamer, MetadataManager $metadataManager)
+    public function __construct(ObjectNamerInterface $objectNamer, SectionConfiguration $sectionConfig)
     {
-        $this->genericObjectNamer = $genericObjectNamer;
-        $this->metadataManager = $metadataManager;
+        $this->objectNamer = $objectNamer;
+        $this->sectionConfig = $sectionConfig;
 
         $this->names = [];
     }
@@ -67,10 +67,10 @@ class EntityNamer implements EntityNamerInterface
      */
     private function getName($class)
     {
-        if ($this->metadataManager->hasMetadata($class)) {
-            return $this->metadataManager->getMetadata($class)->getEntityName();
+        if ($this->sectionConfig->hasSection($class)) {
+            return $this->sectionConfig->getSection($class)->getAlias();
         }
 
-        return $this->genericObjectNamer->name($class);
+        return $this->objectNamer->name($class);
     }
 }

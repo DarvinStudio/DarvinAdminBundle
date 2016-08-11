@@ -20,7 +20,7 @@ class SectionConfiguration
     /**
      * @var \Darvin\AdminBundle\Configuration\Section[]
      */
-    private $sections;
+    private $sectionByEntities;
 
     /**
      * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
@@ -30,17 +30,42 @@ class SectionConfiguration
      */
     public function __construct(ObjectNamerInterface $objectNamer, array $configs)
     {
-        $this->sections = [];
+        $this->sectionByEntities = [];
 
         foreach ($configs as $config) {
             $alias = !empty($config['alias']) ? $config['alias'] : $objectNamer->name($config['entity']);
 
-            if (isset($this->sections[$alias])) {
+            if (isset($this->sectionByEntities[$alias])) {
                 throw new ConfigurationException(sprintf('Section with alias "%s" already exists.', $alias));
             }
 
-            $this->sections[$alias] = new Section($alias, $config['entity'], $config['config']);
+            $this->sectionByEntities[$config['entity']] = new Section($alias, $config['entity'], $config['config']);
         }
+    }
+
+    /**
+     * @param string $entity Entity class
+     *
+     * @return \Darvin\AdminBundle\Configuration\Section
+     * @throws \Darvin\AdminBundle\Configuration\ConfigurationException
+     */
+    public function getSection($entity)
+    {
+        if (!$this->hasSection($entity)) {
+            throw new ConfigurationException(sprintf('Section for entity "%s" does not exist.', $entity));
+        }
+
+        return $this->sectionByEntities[$entity];
+    }
+
+    /**
+     * @param string $entity Entity class
+     *
+     * @return bool
+     */
+    public function hasSection($entity)
+    {
+        return isset($this->sectionByEntities[$entity]);
     }
 
     /**
@@ -48,6 +73,6 @@ class SectionConfiguration
      */
     public function getSections()
     {
-        return $this->sections;
+        return $this->sectionByEntities;
     }
 }

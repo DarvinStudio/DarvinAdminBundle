@@ -7,51 +7,7 @@
 
 ## Добавление конфигурации
 
-**1. Создаем класс, наследующийся от "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration".**
-
-Метод "getSecurableObjectClasses()" должен возвращать массив, ключами которого являются названия объектов, а значениями - их
- классы. С помощью метода "getAllowedRoles()" можно разрешить редактирование конфигурации только пользователям с
- определенными ролями. По умолчанию редактировать конфигурацию смогут только суперадминистраторы (см. реализацию метода
- "Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration::getAllowedRoles()").
-
-Пример реализации класса конфигурации безопасности:
-
-```php
-use Darvin\AdminBundle\Security\Configuration\AbstractSecurityConfiguration;
-
-class Configuration extends AbstractSecurityConfiguration
-{
-    public function getName()
-    {
-        return 'darvin_admin_security';
-    }
-
-    protected function getSecurableObjectClasses()
-    {
-        return array(
-            'abstract_image' => 'Darvin\ImageBundle\Entity\Image\AbstractImage',
-            'log_entry'      => 'Darvin\AdminBundle\Entity\LogEntry',
-        );
-    }
-}
-```
-
-Данная конфигурация позволяет ограничивать доступ к изображениям и записям лога.
-
-**2. Объявляем класс сервисом и помечаем его тегом "darvin_admin.security_configuration".**
-
-Пример определения сервиса:
-
-```yaml
-parameters:
-    darvin_admin.security.configuration.class: Darvin\AdminBundle\Admin\Security\Configuration
-
-services:
-    darvin_admin.security.configuration:
-        class: "%darvin_admin.security.configuration.class%"
-        tags:
-            - { name: darvin_admin.security_configuration }
-```
+Конфигурация создается автоматически при [регистрации](admin_section_adding.md) раздела администрирования в настройках бандла.
 
 ## Использование
 

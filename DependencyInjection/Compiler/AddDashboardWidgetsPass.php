@@ -39,8 +39,7 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
             return;
         }
 
-        $sorter = new TaggedServiceIdsSorter();
-        $sorter->sort($widgetIds);
+        (new TaggedServiceIdsSorter())->sort($widgetIds);
 
         $dashboardDefinition = $container->getDefinition(self::DASHBOARD_ID);
 

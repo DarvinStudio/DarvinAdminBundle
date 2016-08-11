@@ -16,41 +16,40 @@
 extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 ```
 
-**2. Регистрируем сервис-метаданные раздела администрирования.**
+**2. Регистрируем раздел администрирования в секции "sections" [настроек](reference/configuration.md) бандла.**
 
-Сервис - потомок абстрактного сервиса "darvin_admin.metadata.abstract". Аргументами являются:
+Каждый раздел описывается тремя параметрами:
 
-- класс сущности, для которой создается раздел администрирования;
-- путь до конфигурационного файла раздела, создание которого описано в предыдущем пункте.
+- **alias** - уникальный псевдоним раздела, если не указан, сгенерируется автоматически;
+- **entity** - класс сущности, для администрирования которой создается раздел (обязательный параметр);
+- **config** - путь до файла конфигурации, если не указан, то будет создана только
+ [конфигурация безопасности](security_configurations.md), создание же непосредственно раздела администрирования
+ останется на вас.
 
-Путь до файла может быть
- относительным бандла, в таком случае он должен начинаться с "@@", например
- "@@DarvinAdminBundle/Resources/config/admin/administrator.yml". Чтобы метаданные попали в пул
- "darvin_admin.metadata.pool", и раздел администрирования заработал, необходимо отметить сервис тегом
- "darvin_admin.metadata". Так как метаданные доступны через менеджер метаданных "darvin_admin.metadata.manager", имеет
- смысл сделать сервис приватным.
+Путь до файла конфигурации может быть относительным бандла, в таком случае он должен начинаться с "@", например
+ "@DarvinAdminBundle/Resources/config/admin/image.yml".
 
-Таким образом определение сервиса может выглядеть так:
+Пример:
 
 ```yaml
-parameters:
-    darvin_admin.administrator.metadata.entity: Darvin\AdminBundle\Entity\Administrator
-    darvin_admin.administrator.metadata.config: "@@DarvinAdminBundle/Resources/config/admin/administrator.yml"
-
-services:
-    darvin_admin.administrator.metadata:
-        parent: darvin_admin.metadata.abstract
-        arguments:
-            - "%darvin_admin.administrator.metadata.entity%"
-            - "%darvin_admin.administrator.metadata.config%"
-        tags:
-            - { name: darvin_admin.metadata }
+darvin_admin:
+    sections:
+        alias:  log
+        entity: Darvin\AdminBundle\Entity\LogEntry
+        config: @DarvinAdminBundle/Resources/config/admin/log.yml
 ```
+
+**Примечания**
 
 Менеджер метаданных по умолчанию кэширует метаданные и возвращает версии из кэша. Поэтому все внесенные в конфигурацию
  раздела администрирования изменения активируются только после чисти кэша. Чтобы отключить это поведение, необходимо
   включить отладку панели администрирования, установив параметр [конфигурации](reference/configuration.md)
- "darvin_admin.debug" бандла равным true.
+ "darvin_admin.debug" бандла равным true. Имеет смысл сделать это для dev-окружения (обычно настраивается в app/config/config_dev.yml):
+
+```yaml
+darvin_admin:
+    debug: true
+```
 
 Пример получения метаданных из менеджера метаданных:
 
@@ -67,5 +66,3 @@ $metadata = $this->getContainer()->get('darvin_admin.metadata.manager')->getMeta
  раздела администрирования;
 - **darvin_admin.metadata.sort_criteria_detector** - сервис определения критерия сортировки для сущности на основе
  метаданных ее раздела администрирования.
-
-**3. Создаем [конфигурацию безопасности](security_configurations.md) для сущности, иначе она будет недоступна для всех пользователей.**

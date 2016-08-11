@@ -61,6 +61,7 @@ class ConfigurationLoader
         }
 
         $config = $this->getMergedConfig($pathname);
+        $this->cloneSections($config[0]);
 
         return $this->processConfiguration($config, $pathname);
     }
@@ -82,6 +83,22 @@ class ConfigurationLoader
             throw new ConfigurationException(
                 sprintf('Configuration file "%s" is invalid: "%s".', $pathname, $ex->getMessage())
             );
+        }
+    }
+
+    /**
+     * @param array $config Config
+     */
+    private function cloneSections(array &$config)
+    {
+        if (!isset($config['form']['new']) && isset($config['form']['edit'])) {
+            $config['form']['new'] = $config['form']['edit'];
+        }
+        if (!isset($config['form']['edit']) && isset($config['form']['new'])) {
+            $config['form']['edit'] = $config['form']['new'];
+        }
+        if (!isset($config['view']['show']) && isset($config['view']['index'])) {
+            $config['view']['show'] = $config['view']['index'];
         }
     }
 

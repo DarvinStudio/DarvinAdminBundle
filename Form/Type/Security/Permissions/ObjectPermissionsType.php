@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\Security\Permissions\UserPermissions;
+use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\UserBundle\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -132,7 +133,7 @@ class ObjectPermissionsType extends AbstractType
     {
         if (!$this->usersLoaded) {
             /** @var \Darvin\UserBundle\Entity\BaseUser $user */
-            foreach ($this->userRepository->getNotSuperadminsBuilder()->getQuery()->getResult() as $user) {
+            foreach ($this->userRepository->getByRolesBuilder(Roles::getRoles(), Roles::ROLE_SUPERADMIN)->getQuery()->getResult() as $user) {
                 $this->users[$user->getId()] = $user;
             }
         }

@@ -194,9 +194,10 @@ search:
         submit: Искать
 
 securable:
-    image:       Менеджер изображений
-    log:         Журнал
-    translation: Перевод
+    configuration: Настройки
+    image:         Менеджер изображений
+    log:           Журнал
+    translation:   Перевод
 
 security:
     action:

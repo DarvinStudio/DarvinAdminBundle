@@ -184,9 +184,10 @@ search:
         submit: Search
 
 securable:
-    image:       Image manager
-    log:         Log
-    translation: Translation
+    configuration: Configuration
+    image:         Image manager
+    log:           Log
+    translation:   Translation
 
 security:
     action:

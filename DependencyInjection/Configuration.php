@@ -83,7 +83,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('alias')->defaultNull()->end()
                     ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()
-                    ->scalarNode('config')->isRequired()->cannotBeEmpty();
+                    ->scalarNode('config')->defaultNull();
 
         return $rootNode;
     }

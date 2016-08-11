@@ -11,6 +11,8 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
+use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,9 +25,14 @@ class ConfigurationController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
     public function editAction(Request $request)
     {
+        if (!$this->isGranted(Permission::EDIT, ParameterEntity::PARAMETER_ENTITY_CLASS)) {
+            throw $this->createAccessDeniedException();
+        }
+
         $configurationPool = $this->getConfigurationPool();
 
         $url = $this->generateUrl('darvin_admin_configuration');

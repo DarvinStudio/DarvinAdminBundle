@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -77,6 +78,10 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $bundles = $container->getParameter('kernel.bundles');
 
         $sections = [
+            [
+                'alias'  => 'configuration',
+                'entity' => ParameterEntity::PARAMETER_ENTITY_CLASS,
+            ],
 //            [
 //                'alias'  => 'image',
 //                'entity' => AbstractImage::ABSTRACT_IMAGE_CLASS,

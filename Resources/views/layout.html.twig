@@ -68,7 +68,7 @@
                                         'url':        admin_path(app.user, null, 'index'),
                                     },
                                     'configuration.action.edit.link': {
-                                        'accessible': true,
+                                        'accessible': is_granted('edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
                                         'class':      'link_main_option',
                                         'url':        path('darvin_admin_configuration'),
                                     },

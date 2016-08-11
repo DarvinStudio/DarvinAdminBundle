@@ -38,13 +38,15 @@ class CreateMetadataPass implements CompilerPassInterface
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $definitions[$section->getMetadataId()] = (new DefinitionDecorator(self::PARENT_ID))
-                ->setArguments([
-                    $section->getAlias(),
-                    $section->getEntity(),
-                    $section->getConfig(),
-                    $section->getControllerId(),
-                ]);
+            if (null !== $section->getConfig()) {
+                $definitions[$section->getMetadataId()] = (new DefinitionDecorator(self::PARENT_ID))
+                    ->setArguments([
+                        $section->getAlias(),
+                        $section->getEntity(),
+                        $section->getConfig(),
+                        $section->getControllerId(),
+                    ]);
+            }
         }
 
         $container->addDefinitions($definitions);

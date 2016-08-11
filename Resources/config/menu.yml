@@ -19,6 +19,7 @@ services:
         class:  "%darvin_admin.menu.configuration_item_factory.class%"
         public: false
         arguments:
+            - "@security.authorization_checker"
             - "@router"
         tags:
             - { name: darvin_admin.menu_item_factory }

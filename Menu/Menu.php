@@ -168,6 +168,10 @@ class Menu
      */
     private function sortItems(array &$items)
     {
+        if (empty($items)) {
+            return;
+        }
+
         $defaultPos = max(array_map(function (Item $item) {
             return $item->getPosition();
         }, $items)) + 1;

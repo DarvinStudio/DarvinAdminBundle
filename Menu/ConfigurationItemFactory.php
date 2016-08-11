@@ -10,7 +10,10 @@
 
 namespace Darvin\AdminBundle\Menu;
 
+use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Configuration menu item factory
@@ -18,15 +21,22 @@ use Symfony\Component\Routing\RouterInterface;
 class ConfigurationItemFactory implements ItemFactoryInterface
 {
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
     /**
-     * @param \Symfony\Component\Routing\RouterInterface $router Router
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RouterInterface $router)
     {
+        $this->authorizationChecker = $authorizationChecker;
         $this->router = $router;
     }
 
@@ -35,6 +45,10 @@ class ConfigurationItemFactory implements ItemFactoryInterface
      */
     public function getItems()
     {
+        if (!$this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::PARAMETER_ENTITY_CLASS)) {
+            return [];
+        }
+
         $item = (new Item('configuration'))
             ->setIndexTitle('configuration.action.edit.link')
             ->setIndexUrl($this->router->generate('darvin_admin_configuration'))

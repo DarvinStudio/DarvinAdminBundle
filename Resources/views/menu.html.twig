@@ -45,8 +45,10 @@
     </ul>
 {% endmacro %}
 
-<div class="left_menu">
+{% if items is not empty %}
+    <div class="left_menu">
 
-    {{ menu.render(items) }}
+        {{ menu.render(items) }}
 
-</div>
+    </div>
+{% endif %}

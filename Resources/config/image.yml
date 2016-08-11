@@ -6,7 +6,7 @@ services:
         class:  "%darvin_admin.image.twig_extension.class%"
         public: false
         arguments:
-            - "@darvin_admin.configuration.configuration"
+            - "@darvin_admin.configuration"
             - "@darvin_image.url_builder.filter.resize"
         tags:
             - { name: twig.extension }

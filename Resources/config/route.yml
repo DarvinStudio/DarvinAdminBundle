@@ -7,7 +7,8 @@ parameters:
 
 services:
     darvin_admin.route.loader:
-        class: "%darvin_admin.route.loader.class%"
+        class:  "%darvin_admin.route.loader.class%"
+        public: false
         arguments:
             - "@darvin_admin.metadata.manager"
         tags:

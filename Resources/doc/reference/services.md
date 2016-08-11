@@ -4,22 +4,16 @@
 - **darvin_admin.cache.clear_command** - команда очистки кэша Symfony и Imagine;
 
 
-- **darvin_admin.cache.filesystem** - кэш файловой системы;
-
-
 - **darvin_admin.cache.form_manager** - менеджер форм для работы с кэшем;
 
 
 - **darvin_admin.ckeditor.form_type** - поле формы для CKEditor;
 
 
-- **darvin_admin.configuration.configuration** - конфигурация панели администрирования;
-
-
 - **darvin_admin.configuration.configurations_form_type** - форма конфигураций;
 
 
-- **darvin_admin.dashboard.dashboard** - dashboard;
+- **darvin_admin.dashboard** - dashboard;
 
 
 - **darvin_admin.entity_namer** - генератор имени сущности, возвращающий имя из конфигурации раздела администрирования,
@@ -41,15 +35,6 @@
 - **darvin_admin.log.admin.controller** - контроллер раздела администрирования сущности "Лог";
 
 
-- **darvin_admin.metadata.configuration.configuration** - дерево конфигурации раздела администрирования;
-
-
-- **darvin_admin.metadata.configuration.loader** - загрузчик конфигураций разделов администрирования;
-
-
-- **darvin_admin.metadata.factory** - фабрика метаданных разделов администрирования;
-
-
 - **darvin_admin.metadata.identifier_accessor** - сервис получения идентификатора сущности на основе метаданных ее
  раздела администрирования;
 
@@ -64,17 +49,11 @@
  метаданных ее раздела администрирования;
 
 
-- **darvin_admin.route.loader** - загрузчик роутинга разделов администрирования;
-
-
 - **darvin_admin.route.router** - роутер разделов администрирования;
 
 
 - **darvin_admin.security.configuration.configuration** - конфигурация безопасности базовых сущностей панели
  администрирования;
-
-
-- **darvin_admin.security.configuration.pool** - пул конфигураций безопасности панели администрирования;
 
 
 - **darvin_admin.security.form_type.object_permissions** - форма прав на объект;

@@ -24,7 +24,8 @@ services:
         public:   false
 
     darvin_admin.security.configuration.pool:
-        class: "%darvin_admin.security.configuration.pool.class%"
+        class:  "%darvin_admin.security.configuration.pool.class%"
+        public: false
 
     darvin_admin.security.form_type.object_permissions:
         class: "%darvin_admin.security.form_type.object_permissions.class%"

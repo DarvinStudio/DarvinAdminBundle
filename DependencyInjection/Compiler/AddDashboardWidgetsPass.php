@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddDashboardWidgetsPass implements CompilerPassInterface
 {
-    const DASHBOARD_ID = 'darvin_admin.dashboard.dashboard';
+    const DASHBOARD_ID = 'darvin_admin.dashboard';
 
     const TAG_DASHBOARD_WIDGET = 'darvin_admin.dashboard_widget';
 

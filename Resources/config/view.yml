@@ -119,7 +119,8 @@ services:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.empty_widget:
-        class: "%darvin_admin.view.widget.empty_widget.class%"
+        class:  "%darvin_admin.view.widget.empty_widget.class%"
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 

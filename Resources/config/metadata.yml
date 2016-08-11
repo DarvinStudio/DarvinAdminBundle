@@ -1,7 +1,7 @@
 parameters:
     darvin_admin.metadata.abstract.class: Darvin\AdminBundle\Metadata\Metadata
 
-    darvin_admin.metadata.configuration.configuration.class: Darvin\AdminBundle\Metadata\Configuration\Configuration
+    darvin_admin.metadata.configuration.class: Darvin\AdminBundle\Metadata\Configuration\Configuration
 
     darvin_admin.metadata.configuration.loader.class: Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
 
@@ -22,21 +22,24 @@ services:
         abstract: true
         public:   false
 
-    darvin_admin.metadata.configuration.configuration:
-        class: "%darvin_admin.metadata.configuration.configuration.class%"
+    darvin_admin.metadata.configuration:
+        class:  "%darvin_admin.metadata.configuration.class%"
+        public: false
         arguments:
             - "@service_container"
             - "@doctrine.orm.entity_manager"
 
     darvin_admin.metadata.configuration.loader:
-        class: "%darvin_admin.metadata.configuration.loader.class%"
+        class:  "%darvin_admin.metadata.configuration.loader.class%"
+        public: false
         arguments:
-            - "@darvin_admin.metadata.configuration.configuration"
+            - "@darvin_admin.metadata.configuration"
             - "@=service('service_container').getParameterBag()"
             - "%kernel.bundles%"
 
     darvin_admin.metadata.factory:
-        class: "%darvin_admin.metadata.factory.class%"
+        class:  "%darvin_admin.metadata.factory.class%"
+        public: false
         arguments:
             - "@darvin_admin.metadata.configuration.loader"
             - "@doctrine.orm.entity_manager"

@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Darvin\UserBundle\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
@@ -79,7 +80,7 @@ class ObjectPermissionsType extends AbstractType
 
                     $objectPermissions->addUserPermissions(
                         $id,
-                        new UserPermissions($user->getId(), $user->getDefaultPermissions())
+                        new UserPermissions($user->getId(), Permission::getDefaultPermissions($user))
                     );
                 }
                 foreach ($objectPermissions->getUserPermissionsSet() as $userId => $permissions) {

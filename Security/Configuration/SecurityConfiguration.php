@@ -12,9 +12,9 @@ namespace Darvin\AdminBundle\Security\Configuration;
 
 use Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType;
 use Darvin\AdminBundle\Security\Permissions\ObjectPermissions;
+use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
-use Darvin\UserBundle\Entity\BaseUser;
 
 /**
  * Security configuration
@@ -88,7 +88,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
     public function getAllowedRoles()
     {
         return [
-            BaseUser::ROLE_SUPERADMIN,
+            Roles::ROLE_SUPERADMIN,
         ];
     }
 

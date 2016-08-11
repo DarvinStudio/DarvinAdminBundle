@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Symfony\Component\Config\FileLocator;
@@ -76,6 +77,12 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container)
     {
         $bundles = $container->getParameter('kernel.bundles');
+
+        if (isset($bundles['DarvinUserBundle'])) {
+            $container->prependExtensionConfig('darvin_user', [
+                'roles' => Roles::getRoles(),
+            ]);
+        }
 
         $sections = [
             [

@@ -182,6 +182,11 @@ menu:
 property_forms:
     submit: Сохранить изменения
 
+role:
+    admin:      Администратор
+    guestadmin: Администратор-гость
+    superadmin: Супер администратор
+
 search:
     action:
         index:

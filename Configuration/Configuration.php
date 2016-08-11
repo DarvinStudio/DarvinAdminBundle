@@ -10,12 +10,12 @@
 
 namespace Darvin\AdminBundle\Configuration;
 
+use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Configuration\AbstractConfiguration;
 use Darvin\ConfigBundle\Parameter\ParameterModel;
 use Darvin\ImageBundle\Configuration\ImageConfigurationInterface;
 use Darvin\ImageBundle\Form\Type\SizeType;
 use Darvin\ImageBundle\Size\Size;
-use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\Security\SecurableInterface;
 
 /**
@@ -78,7 +78,7 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
     public function getAllowedRoles()
     {
         return [
-            BaseUser::ROLE_SUPERADMIN,
+            Roles::ROLE_SUPERADMIN,
         ];
     }
 

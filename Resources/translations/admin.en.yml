@@ -172,6 +172,11 @@ menu:
 property_forms:
     submit: Submit changes
 
+role:
+    admin:       Administrator
+    guestadmin:  Guest administrator
+    superadmin:  Super administrator
+
 search:
     action:
         index:

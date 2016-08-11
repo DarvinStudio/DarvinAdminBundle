@@ -71,7 +71,7 @@ class AdminVoter extends Voter
             return $this->permissions[$class][$user->getId()][$attribute];
         }
 
-        $defaultPermissions = $user->getDefaultPermissions();
+        $defaultPermissions = Permission::getDefaultPermissions($user);
 
         return isset($defaultPermissions[$attribute]) ? $defaultPermissions[$attribute] : false;
     }

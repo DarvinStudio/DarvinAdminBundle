@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Security\User;
 
-use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\UserBundle\Security\User\OAuthUserProvider as BaseOAuthUserProvider;
 
 /**
@@ -25,7 +24,7 @@ class OAuthUserProvider extends BaseOAuthUserProvider
     {
         return parent::createUser($email)
             ->setRoles([
-                BaseUser::ROLE_ADMIN,
+                Roles::ROLE_ADMIN,
             ]);
     }
 }

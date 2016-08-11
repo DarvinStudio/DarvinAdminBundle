@@ -10,6 +10,9 @@
 
 namespace Darvin\AdminBundle\Security\Permissions;
 
+use Darvin\AdminBundle\Security\User\Roles;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * Permission
  */
@@ -20,7 +23,7 @@ final class Permission
     const VIEW          = 'view';
 
     /**
-     * @var array
+     * @var string[]
      */
     private static $permissions = [
         self::CREATE_DELETE,
@@ -29,7 +32,17 @@ final class Permission
     ];
 
     /**
-     * @return array
+     * @param \Symfony\Component\Security\Core\User\UserInterface $user User
+     *
+     * @return string[]
+     */
+    public static function getDefaultPermissions(UserInterface $user)
+    {
+        return array_fill_keys(self::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
+    }
+
+    /**
+     * @return string[]
      */
     public static function getAllPermissions()
     {

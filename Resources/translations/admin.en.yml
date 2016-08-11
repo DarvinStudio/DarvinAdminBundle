@@ -181,7 +181,8 @@ search:
                 Query is too short, min length is %min_length% symbols |
                 Query is too short, min length is %min_length% symbols
     form:
-        submit: Search
+        placeholder: Search...
+        submit:      Search
 
 securable:
     configuration: Configuration

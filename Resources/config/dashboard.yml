@@ -13,5 +13,5 @@ services:
         class:    "%darvin_admin.dashboard.widget.abstract.class%"
         abstract: true
         arguments:
-            - "@darvin_admin.route.router"
+            - "@darvin_admin.router"
             - "@templating"

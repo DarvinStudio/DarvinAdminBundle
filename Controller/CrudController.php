@@ -612,7 +612,7 @@ class CrudController extends Controller
     /** @return \Darvin\AdminBundle\Route\AdminRouter */
     private function getAdminRouter()
     {
-        return $this->get('darvin_admin.route.router');
+        return $this->get('darvin_admin.router');
     }
 
     /** @return \Darvin\Utils\CustomObject\CustomObjectLoaderInterface */

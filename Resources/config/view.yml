@@ -90,7 +90,7 @@ services:
         parent: darvin_admin.view.widget.abstract
         calls:
             - [ setAdminFormFactory,        [ "@darvin_admin.form.factory" ] ]
-            - [ setAdminRouter,             [ "@darvin_admin.route.router" ] ]
+            - [ setAdminRouter,             [ "@darvin_admin.router" ] ]
             - [ setExtendedMetadataFactory, [ "@darvin_utils.mapping.metadata_factory" ] ]
         tags:
             - { name: darvin_admin.view_widget }
@@ -100,7 +100,7 @@ services:
         parent: darvin_admin.view.widget.abstract
         calls:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
-            - [ setAdminRouter,      [ "@darvin_admin.route.router" ] ]
+            - [ setAdminRouter,      [ "@darvin_admin.router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -108,7 +108,7 @@ services:
         class:  "%darvin_admin.view.widget.edit_link.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
+            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -194,7 +194,7 @@ services:
         class:  "%darvin_admin.view.widget.show_link.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setAdminRouter, [ "@darvin_admin.route.router" ] ]
+            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 

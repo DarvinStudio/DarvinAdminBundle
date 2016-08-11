@@ -11,7 +11,7 @@ services:
     darvin_admin.form.factory:
         class: "%darvin_admin.form.factory.class%"
         arguments:
-            - "@darvin_admin.route.router"
+            - "@darvin_admin.router"
             - "@form.factory"
             - "@darvin_admin.metadata.identifier_accessor"
             - "@property_accessor"

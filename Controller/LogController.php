@@ -96,7 +96,7 @@ class LogController extends Controller
      */
     private function getAdminRouter()
     {
-        return $this->get('darvin_admin.route.router');
+        return $this->get('darvin_admin.router');
     }
 
     /**

@@ -28,7 +28,7 @@ services:
         class:  "%darvin_admin.menu.item_factory.class%"
         public: false
         arguments:
-            - "@darvin_admin.route.router"
+            - "@darvin_admin.router"
             - "@security.authorization_checker"
             - "@darvin_admin.metadata.manager"
         tags:

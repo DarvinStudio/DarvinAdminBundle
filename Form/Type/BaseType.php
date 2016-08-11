@@ -11,11 +11,13 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -25,6 +27,26 @@ use Symfony\Component\Validator\Constraints\Valid;
 class BaseType extends AbstractFormType
 {
     const BASE_TYPE_CLASS = __CLASS__;
+
+    /**
+     * @var \Symfony\Component\Form\FormTypeGuesserInterface
+     */
+    private $formTypeGuesser;
+
+    /**
+     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
+     */
+    private $translatableManager;
+
+    /**
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface                $formTypeGuesser     Form type guesser
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
+     */
+    public function __construct(FormTypeGuesserInterface $formTypeGuesser, TranslatableManagerInterface $translatableManager)
+    {
+        $this->formTypeGuesser = $formTypeGuesser;
+        $this->translatableManager = $translatableManager;
+    }
 
     /**
      * {@inheritdoc}
@@ -46,9 +68,20 @@ class BaseType extends AbstractFormType
                 continue;
             }
 
+            $fieldType = $attr['type'];
             $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
+
+            if (empty($fieldType)) {
+                $guess = $this->guessFieldType($field, $options['data_class']);
+
+                if (!empty($guess)) {
+                    $fieldType = $guess->getType();
+                    $fieldOptions = array_merge($guess->getOptions(), $fieldOptions);
+                }
+            }
+
             $this->addValidConstraint($fieldOptions);
-            $builder->add($field, $attr['type'], $fieldOptions);
+            $builder->add($field, $fieldType, $fieldOptions);
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'filterEntityFields']);
@@ -146,6 +179,25 @@ class BaseType extends AbstractFormType
             $fieldOptions['constraints'],
             new Valid(),
         ];
+    }
+
+    /**
+     * @param string $field       Field name
+     * @param string $entityClass Entity class
+     *
+     * @return \Symfony\Component\Form\Guess\TypeGuess
+     */
+    private function guessFieldType($field, $entityClass)
+    {
+        if (!$this->translatableManager->isTranslatable($entityClass)) {
+            return null;
+        }
+
+        $guess = $this->formTypeGuesser->guessType($entityClass, $field);
+
+        return $guess->getConfidence() > 0
+            ? $guess
+            : $this->formTypeGuesser->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
     }
 
     /**

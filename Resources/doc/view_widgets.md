@@ -21,17 +21,17 @@ class EditLinkWidget extends AbstractWidget
 {
     protected function createContent($entity, array $options, $property)
     {
-        return $this->render($options, array(
+        return $this->render($options, [
             'entity'             => $entity,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-        ));
+        ]);
     }
 
     protected function getRequiredPermissions()
     {
-        return array(
+        return [
             Permission::EDIT,
-        );
+        ];
     }
 }
 ```

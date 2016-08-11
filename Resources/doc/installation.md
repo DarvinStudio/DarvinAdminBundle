@@ -29,7 +29,7 @@ class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = array(
+        $bundles = [
             // Third party bundles
             new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
@@ -54,7 +54,7 @@ class AppKernel extends Kernel
             new Darvin\WebmailLinkerBundle\DarvinWebmailLinkerBundle(),
             // Admin bundle
             new Darvin\AdminBundle\DarvinAdminBundle(),
-        );
+        ];
     }
 }
 ```

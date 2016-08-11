@@ -23,7 +23,7 @@ $creatingGranted = $this->container->get('security.authorization_checker')->isGr
 $administrator = $this->container->get('doctrine.orm.entity_manager')->find('DarvinAdminBundle:Administrator', 5);
 $editingGranted = $this->container->get('security.authorization_checker')->isGranted(Permission::EDIT, $administrator);
 $editingAndViewingGranted = $this->container->get('security.authorization_checker')->isGranted(
-    array(Permission::EDIT, Permission::VIEW),
+    [Permission::EDIT, Permission::VIEW],
     $administrator
 );
 ```

@@ -30,8 +30,8 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('root');
 
+        $rootNode = $treeBuilder->root('root');
         $rootNode
             ->children()
                 ->append($this->addMenuNode())
@@ -44,15 +44,13 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
-                ->arrayNode('pagination')
-                    ->addDefaultsIfNotSet()
+                ->arrayNode('pagination')->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultTrue()->end()
                         ->integerNode('items')->defaultValue(10)->min(1)->end()
                     ->end()
                 ->end()
-                ->arrayNode('form')
-                    ->addDefaultsIfNotSet()
+                ->arrayNode('form')->addDefaultsIfNotSet()
                     ->children()
                         ->append($this->addFormNode('index'))
                         ->append($this->addFormNode('new'))
@@ -66,8 +64,7 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('method')->defaultNull()->end()
                     ->end()
                 ->end()
-                ->arrayNode('view')
-                    ->addDefaultsIfNotSet()
+                ->arrayNode('view')->addDefaultsIfNotSet()
                     ->children()
                         ->append($this->addViewNode('index', [
                             ShowLinkWidget::ALIAS,
@@ -83,10 +80,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->addViewNode('show', [
                             EditLinkWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
-                        ]))
-                    ->end()
-                ->end()
-            ->end();
+                        ]));
 
         return $treeBuilder;
     }
@@ -96,30 +90,22 @@ class Configuration implements ConfigurationInterface
      */
     private function addMenuNode()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('menu');
-
-        $rootNode
-            ->addDefaultsIfNotSet()
+        $rootNode = (new TreeBuilder())->root('menu');
+        $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('colors')
-                    ->addDefaultsIfNotSet()
+                ->scalarNode('group')->defaultNull()->end()
+                ->scalarNode('position')->defaultNull()->end()
+                ->booleanNode('skip')->defaultFalse()->end()
+                ->arrayNode('colors')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('main')->defaultNull()->end()
                         ->scalarNode('sidebar')->defaultNull()->end()
                     ->end()
                 ->end()
-                ->arrayNode('icons')
-                    ->addDefaultsIfNotSet()
+                ->arrayNode('icons')->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
-                        ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->end()
-                    ->end()
-                ->end()
-                ->scalarNode('group')->defaultNull()->end()
-                ->scalarNode('position')->defaultNull()->end()
-                ->booleanNode('skip')->defaultFalse()->end()
-            ->end();
+                        ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON);
 
         return $rootNode;
     }
@@ -131,11 +117,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addFormNode($form)
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root($form);
-
-        $rootNode
-            ->addDefaultsIfNotSet()
+        $rootNode = (new TreeBuilder())->root($form);
+        $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('type')->defaultNull()->end()
                 ->arrayNode('field_groups')
@@ -154,11 +137,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('type')->defaultNull()->end()
                             ->arrayNode('options')->prototype('variable')->end()->end()
-                            ->scalarNode('compare_strict')->defaultTrue()->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
+                            ->scalarNode('compare_strict')->defaultTrue();
 
         return $rootNode;
     }
@@ -171,11 +150,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addViewNode($view, array $defaultActionWidgets = [])
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root($view);
-
-        $rootNode
-            ->addDefaultsIfNotSet()
+        $rootNode = (new TreeBuilder())->root($view);
+        $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('action_widgets')
                     ->prototype('array')
@@ -233,13 +209,7 @@ class Configuration implements ConfigurationInterface
                                 ->children()
                                     ->scalarNode('id')->cannotBeEmpty()->isRequired()->end()
                                     ->scalarNode('method')->cannotBeEmpty()->isRequired()->end()
-                                    ->arrayNode('options')->prototype('variable')->end()->end()
-                                ->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end()
-            ->end();
+                                    ->arrayNode('options')->prototype('variable');
 
         return $rootNode;
     }

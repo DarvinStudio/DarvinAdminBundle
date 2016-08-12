@@ -185,6 +185,10 @@ class FilterType extends AbstractFormType
                         'boolean.0' => 0,
                     ],
                     'choices_as_values' => true,
+                    'expanded'          => true,
+                    'attr'              => [
+                        'class' => 'tri_state_checkbox',
+                    ],
                 ];
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                 return [

@@ -169,10 +169,11 @@ security:
                 default_target_path:            darvin_admin_homepage
                 always_use_default_target_path: true
                 check_path:                     darvin_admin_security_darvin_auth_login_check
+            switch_user: true
 
     role_hierarchy:
         ROLE_GUESTADMIN: [ ROLE_ADMIN ]
-        ROLE_SUPERADMIN: [ ROLE_ADMIN ]
+        ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     access_control:
         - { path: "^/admin/(%locale_pattern%)/login", roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }

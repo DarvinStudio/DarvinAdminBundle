@@ -1,0 +1,8 @@
+{% trans_default_domain 'admin' %}
+
+{% if user != app.user %}
+    <a href="{{ path('darvin_admin_homepage', {'_switch_user': user.email}) }}"
+       title="{% trans with {'%entity%': user} %}security.action.switch_user.title{% endtrans %}">
+        {% trans %}security.action.switch_user.link{% endtrans %}
+    </a>
+{% endif %}

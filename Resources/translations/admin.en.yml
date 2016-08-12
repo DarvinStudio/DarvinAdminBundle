@@ -204,6 +204,10 @@ security:
             version:     Release %number%
         logout:
             link: Logout
+        switch_user:
+            back:  Switch user back
+            link:  Switch
+            title: Switch user to %entity%
     permission:
         create_delete: Create and remove
         edit:          Edit

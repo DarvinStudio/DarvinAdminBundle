@@ -103,6 +103,11 @@
                                 {% else %}
                                     <span class="link_users">{{ app.user.email }}</span>
                                 {% endif %}
+                                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                    <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}" class="link_users">
+                                        {% trans %}security.action.switch_user.back{% endtrans %}
+                                    </a>
+                                {% endif %}
 
                                 {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
 

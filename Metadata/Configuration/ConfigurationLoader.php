@@ -22,11 +22,6 @@ use Symfony\Component\Yaml\Yaml;
 class ConfigurationLoader
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\Configuration\Configuration
-     */
-    private $configuration;
-
-    /**
      * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
      */
     private $parameterBag;
@@ -37,13 +32,11 @@ class ConfigurationLoader
     private $bundles;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\Configuration                  $configuration Configuration
-     * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag  Parameter bag
-     * @param array                                                                     $bundles       List of bundles
+     * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag Parameter bag
+     * @param array                                                                     $bundles      List of bundles
      */
-    public function __construct(Configuration $configuration, ParameterBagInterface $parameterBag, array $bundles)
+    public function __construct(ParameterBagInterface $parameterBag, array $bundles)
     {
-        $this->configuration = $configuration;
         $this->parameterBag = $parameterBag;
         $this->bundles = $bundles;
     }
@@ -78,7 +71,7 @@ class ConfigurationLoader
         $processor = new Processor();
 
         try {
-            return $this->parameterBag->resolveValue($processor->processConfiguration($this->configuration, $config));
+            return $this->parameterBag->resolveValue($processor->processConfiguration(new Configuration(), $config));
         } catch (InvalidConfigurationException $ex) {
             throw new ConfigurationException(
                 sprintf('Configuration file "%s" is invalid: "%s".', $pathname, $ex->getMessage())

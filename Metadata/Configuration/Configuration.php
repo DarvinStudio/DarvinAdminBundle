@@ -18,7 +18,6 @@ use Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget;
 use Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Configuration
@@ -26,25 +25,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
-    private $container;
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
-        $container = $this->container;
-
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('root');
 
@@ -77,22 +61,8 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('sorter')
-                    ->validate()
-                        ->ifTrue(function ($v) use ($container) {
-                            return !method_exists($container->get($v['id']), $v['method']);
-                        })
-                        ->thenInvalid('Service does not have method %s.')
-                    ->end()
                     ->children()
-                        ->scalarNode('id')
-                            ->defaultNull()
-                            ->validate()
-                                ->ifTrue(function ($v) use ($container) {
-                                    return !$container->has($v);
-                                })
-                                ->thenInvalid('Service %s does not exist.')
-                            ->end()
-                        ->end()
+                        ->scalarNode('id')->defaultNull()->end()
                         ->scalarNode('method')->defaultNull()->end()
                     ->end()
                 ->end()
@@ -204,8 +174,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root($view);
 
-        $container = $this->container;
-
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
@@ -262,23 +230,8 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                             ->end()
                             ->arrayNode('service')
-                                ->validate()
-                                    ->ifTrue(function ($v) use ($container) {
-                                        return !method_exists($container->get($v['id']), $v['method']);
-                                    })
-                                    ->thenInvalid('Service does not have method %s.')
-                                ->end()
                                 ->children()
-                                    ->scalarNode('id')
-                                        ->validate()
-                                            ->ifTrue(function ($v) use ($container) {
-                                                return !$container->has($v);
-                                            })
-                                            ->thenInvalid('Service %s does not exist.')
-                                        ->end()
-                                        ->cannotBeEmpty()
-                                        ->isRequired()
-                                    ->end()
+                                    ->scalarNode('id')->cannotBeEmpty()->isRequired()->end()
                                     ->scalarNode('method')->cannotBeEmpty()->isRequired()->end()
                                     ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->end()

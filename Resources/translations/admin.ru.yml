@@ -62,6 +62,8 @@ filter:
 flash:
     error:
         form: При обработке формы были обнаружены ошибки. Исправьте их и повторите отправку
+    success:
+        update_property: Значение успешно изменено
 
 form_collections:
     add:    Добавить
@@ -238,8 +240,6 @@ translation:
         index:
             link:  Переводы
             title: Переводы
-        update_property:
-            success: Значение успешно изменено
     entity:
         content: Перевод
         locale:  Язык

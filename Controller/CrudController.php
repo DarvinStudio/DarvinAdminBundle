@@ -336,10 +336,7 @@ class CrudController extends Controller
             'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, [
                 'original_value' => $originalValue,
             ]),
-            'message' => $formIsValid
-                ? $this->meta->getBaseTranslationPrefix().'action.update_property.success'
-                : FlashNotifierInterface::MESSAGE_FORM_ERROR
-            ,
+            'message' => $formIsValid ? 'flash.success.update_property' : FlashNotifierInterface::MESSAGE_FORM_ERROR,
             'success' => $formIsValid,
         ]);
     }

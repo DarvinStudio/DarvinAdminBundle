@@ -52,6 +52,8 @@ filter:
 flash:
     error:
         form: Form errors detected. Fix them and resubmit form
+    success:
+        update_property: Value successfully updated
 
 form_collections:
     add:    Add
@@ -228,8 +230,6 @@ translation:
         index:
             link:  Translations
             title: Translations
-        update_property:
-            success: Value successfully updated
     entity:
         content: Translation
         locale:  Locale

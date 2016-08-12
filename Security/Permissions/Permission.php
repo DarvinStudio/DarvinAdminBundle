@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Security\Permissions;
 
 use Darvin\AdminBundle\Security\User\Roles;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Darvin\UserBundle\Entity\BaseUser;
 
 /**
  * Permission
@@ -32,11 +32,11 @@ final class Permission
     ];
 
     /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $user User
+     * @param \Darvin\UserBundle\Entity\BaseUser $user User
      *
      * @return string[]
      */
-    public static function getDefaultPermissions(UserInterface $user)
+    public static function getDefaultPermissions(BaseUser $user)
     {
         return array_fill_keys(self::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
     }

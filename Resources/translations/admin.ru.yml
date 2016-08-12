@@ -1,6 +1,7 @@
 boolean:
-    - Нет
-    - Да
+    0:             Нет
+    1:             Да
+    indeterminate: Не определено
 
 cache:
     action:

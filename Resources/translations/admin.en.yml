@@ -1,6 +1,7 @@
 boolean:
-    - No
-    - Yes
+    0:             No
+    1:             Yes
+    indeterminate: Indeterminate
 
 cache:
     action:

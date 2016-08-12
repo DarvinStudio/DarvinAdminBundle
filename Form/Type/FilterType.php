@@ -186,6 +186,7 @@ class FilterType extends AbstractFormType
                     ],
                     'choices_as_values' => true,
                     'expanded'          => true,
+                    'empty_value'       => 'boolean.indeterminate',
                     'attr'              => [
                         'class' => 'tri_state_checkbox',
                     ],

@@ -18,13 +18,27 @@
          {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
         <div class="filter_table">
             {{ form_start(form) }}
-            {% for field, attr in meta.configuration.form.filter.fields %}
-                {{ form_row(form[field]) }}
-            {% endfor %}
-            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit')|trans }}</button>
-            <a href="{{ form.vars.action }}">
-                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset')|trans }}
-            </a>
+            <table>
+                <tbody>
+                    <tr>
+                        {% for field, attr in meta.configuration.form.filter.fields %}
+                            <td>{{ form_label(form[field]) }}</td>
+                            <td class="filter_element">{{ form_widget(form[field]) }}</td>
+                            {% if 0 == loop.index % 4 %}
+                                </tr><tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td colspan="8">
+                            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit')|trans }}</button>
+                            <a href="{{ form.vars.action }}">
+                                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset')|trans }}
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             {{ form_end(form) }}
         </div>
     </div>

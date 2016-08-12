@@ -183,14 +183,14 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * @param string $permission Permission
-     * @param object $entity     Entity
+     * @param mixed $attributes Attributes
+     * @param mixed $object     Object
      *
      * @return bool
      */
-    protected function isGranted($permission, $entity)
+    protected function isGranted($attributes, $object = null)
     {
-        return $this->authorizationChecker->isGranted($permission, $entity);
+        return $this->authorizationChecker->isGranted($attributes, $object);
     }
 
     /**

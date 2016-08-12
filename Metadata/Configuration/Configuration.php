@@ -153,11 +153,10 @@ class Configuration implements ConfigurationInterface
         $rootNode = (new TreeBuilder())->root($view);
         $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('action_widgets')
+                ->arrayNode('action_widgets')->defaultValue(array_fill_keys($defaultActionWidgets, []))
                     ->prototype('array')
                         ->prototype('variable')->end()
                     ->end()
-                    ->defaultValue(array_fill_keys($defaultActionWidgets, []))
                 ->end()
                 ->scalarNode('template')->defaultNull()->end()
                 ->arrayNode('fields')
@@ -178,37 +177,33 @@ class Configuration implements ConfigurationInterface
                                 ->end()
                                 ->validate()
                                     ->ifTrue(function ($v) {
-                                        $methodReflection = new \ReflectionMethod($v['class'], $v['method']);
-
-                                        return !$methodReflection->isStatic();
+                                        return !(new \ReflectionMethod($v['class'], $v['method']))->isStatic();
                                     })
                                     ->thenInvalid('Method is not static %s.')
                                 ->end()
                                 ->children()
-                                    ->scalarNode('class')
+                                    ->scalarNode('class')->isRequired()->cannotBeEmpty()
                                         ->validate()
                                             ->ifTrue(function ($v) {
                                                 return !class_exists($v);
                                             })
                                             ->thenInvalid('Class %s does not exist.')
                                         ->end()
-                                        ->cannotBeEmpty()
-                                        ->isRequired()
                                     ->end()
-                                    ->scalarNode('method')->cannotBeEmpty()->isRequired()->end()
+                                    ->scalarNode('method')->isRequired()->cannotBeEmpty()->end()
                                     ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->end()
                             ->end()
                             ->arrayNode('widget')
                                 ->children()
-                                    ->scalarNode('alias')->cannotBeEmpty()->isRequired()->end()
+                                    ->scalarNode('alias')->isRequired()->cannotBeEmpty()->end()
                                     ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->end()
                             ->end()
                             ->arrayNode('service')
                                 ->children()
-                                    ->scalarNode('id')->cannotBeEmpty()->isRequired()->end()
-                                    ->scalarNode('method')->cannotBeEmpty()->isRequired()->end()
+                                    ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
+                                    ->scalarNode('method')->isRequired()->cannotBeEmpty()->end()
                                     ->arrayNode('options')->prototype('variable');
 
         return $rootNode;

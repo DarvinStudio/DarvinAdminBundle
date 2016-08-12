@@ -31,7 +31,7 @@ class FilterType extends AbstractFormType
      * @var array
      */
     private static $fieldTypeChangeMap = [
-        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => 'Symfony\Component\Form\Extension\Core\Type\ChoiceType',
+        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => TriStateCheckboxType::TRI_STATE_CHECKBOX_TYPE_CLASS,
         'Symfony\Component\Form\Extension\Core\Type\TextareaType' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
     ];
 
@@ -178,19 +178,6 @@ class FilterType extends AbstractFormType
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {
-            case 'Symfony\Component\Form\Extension\Core\Type\ChoiceType':
-                return [
-                    'choices' => [
-                        'boolean.1' => 1,
-                        'boolean.0' => 0,
-                    ],
-                    'choices_as_values' => true,
-                    'expanded'          => true,
-                    'empty_value'       => 'boolean.indeterminate',
-                    'attr'              => [
-                        'class' => 'tri_state_checkbox',
-                    ],
-                ];
             case 'Symfony\Component\Form\Extension\Core\Type\DateType':
                 return [
                     'widget' => 'single_text',

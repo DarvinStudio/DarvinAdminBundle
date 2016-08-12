@@ -46,6 +46,8 @@ exception:
 filter:
     title:       Table filter
     description: Filter parameters using filter
+    reset:       Reset
+    submit:      Apply filter
 
 flash:
     error:
@@ -71,9 +73,6 @@ image:
             link:    Edit image
             success: Image successfully updated
             title:   Edit image "%entity%"
-        filter:
-            reset:  Reset filter
-            submit: Submit filter
         index:
             link:  Image manager
             title: Image manager
@@ -118,9 +117,6 @@ layout:
 
 log:
     action:
-        filter:
-            reset:  Reset filter
-            submit: Apply filter
         index:
             link:  Log
             title: Log
@@ -229,9 +225,6 @@ submit:
 
 translation:
     action:
-        filter:
-            reset:  Reset filter
-            submit: Apply filter
         index:
             link:  Translations
             title: Translations

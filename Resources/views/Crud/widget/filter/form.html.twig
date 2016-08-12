@@ -28,10 +28,8 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <button type="submit">{{ (meta.baseTranslationPrefix ~ 'action.filter.submit')|trans }}</button>
-            <a href="{{ form.vars.action }}">
-                {{ (meta.baseTranslationPrefix ~ 'action.filter.reset')|trans }}
-            </a>
+            <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
+            <a href="{{ form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
             {{ form_end(form) }}
         </div>
     </div>

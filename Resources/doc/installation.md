@@ -101,8 +101,7 @@ darvin_admin:
         url:   "%project_url%"
 
 darvin_image:
-    imagine_filter: "%image_imagine_filter%"
-    upload_path:    "%image_upload_path%"
+    upload_path: "%image_upload_path%"
     
 darvin_utils:
     mailer:
@@ -187,8 +186,7 @@ security:
 darvin_auth_client_id:     secret
 darvin_auth_client_secret: secret
 
-image_imagine_filter: darvin_thumb
-image_upload_path:    files/images
+image_upload_path: files/images
 
 mailer_from: noreply@example.com
 

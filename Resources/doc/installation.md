@@ -186,9 +186,9 @@ security:
 ```yaml
 darvin_auth_client_id:         secret
 darvin_auth_client_secret:     secret
-darvin_auth_access_token_url:  http://example.com/oauth/v2/token
-darvin_auth_authorization_url: http://example.com/oauth/v2/auth
-darvin_auth_infos_url:         http://example.com/api/user
+darvin_auth_access_token_url:  https://example.com/oauth/v2/token
+darvin_auth_authorization_url: https://example.com/oauth/v2/auth
+darvin_auth_infos_url:         https://example.com/api/user
 
 image_imagine_filter: darvin_thumb
 image_upload_path:    files/images

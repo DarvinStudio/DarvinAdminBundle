@@ -191,7 +191,7 @@ image_upload_path: files/images
 mailer_from: noreply@example.com
 
 project_title: Example
-project_url:   example.com
+project_url:   http://example.com
 
 upload_path:        files/uploads
 upload_max_size_mb: 2

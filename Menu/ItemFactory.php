@@ -62,7 +62,7 @@ class ItemFactory implements ItemFactoryInterface
             $config = $meta->getConfiguration();
 
             if (!$meta->hasParent() && !$config['menu']['skip']) {
-                $items[] = $this->createItemFromMetadata($meta);
+                $items[$meta->getEntityName()] = $this->createItemFromMetadata($meta);
             }
         }
 

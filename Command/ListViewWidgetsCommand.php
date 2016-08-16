@@ -10,7 +10,8 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -18,16 +19,30 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * List view widgets command
  */
-class ListViewWidgetsCommand extends ContainerAwareCommand
+class ListViewWidgetsCommand extends Command
 {
+    /**
+     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     */
+    private $widgetPool;
+
+    /**
+     * @param string                                     $name       Command name
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
+     */
+    public function __construct($name, WidgetPool $widgetPool)
+    {
+        parent::__construct($name);
+
+        $this->widgetPool = $widgetPool;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function configure()
     {
-        $this
-            ->setName('darvin:admin:widget:list')
-            ->setDescription('Displays list of existing view widgets.');
+        $this->setDescription('Displays list of existing view widgets.');
     }
 
     /**
@@ -37,17 +52,9 @@ class ListViewWidgetsCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
 
-        $aliases = $this->getViewWidgetPool()->getWidgetAliases();
+        $aliases = $this->widgetPool->getWidgetAliases();
         sort($aliases);
 
         $io->listing($aliases);
-    }
-
-    /**
-     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
-     */
-    private function getViewWidgetPool()
-    {
-        return $this->getContainer()->get('darvin_admin.view.widget.pool');
     }
 }

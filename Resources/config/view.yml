@@ -26,7 +26,12 @@ parameters:
     darvin_admin.view.widget.simple_link.class: Darvin\AdminBundle\View\Widget\Widget\SimpleLinkWidget
     darvin_admin.view.widget.simple_list.class: Darvin\AdminBundle\View\Widget\Widget\SimpleListWidget
     darvin_admin.view.widget.switch_user.class: Darvin\AdminBundle\View\Widget\Widget\SwitchUserWidget
+
+    darvin_admin.view.widget.list_command.class: Darvin\AdminBundle\Command\ListViewWidgetsCommand
+    darvin_admin.view.widget.list_command.name:  darvin:admin:widget:list
+
     darvin_admin.view.widget.pool.class: Darvin\AdminBundle\View\Widget\WidgetPool
+
     darvin_admin.view.widget.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ViewWidgetExtension
 
 services:
@@ -216,6 +221,14 @@ services:
         parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.list_command:
+        class: "%darvin_admin.view.widget.list_command.class%"
+        arguments:
+            - "%darvin_admin.view.widget.list_command.name%"
+            - "@darvin_admin.view.widget.pool"
+        tags:
+            - { name: console.command }
 
     darvin_admin.view.widget.pool:
         class: "%darvin_admin.view.widget.pool.class%"

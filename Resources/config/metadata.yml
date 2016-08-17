@@ -26,6 +26,7 @@ services:
         arguments:
             - "@=service('service_container').getParameterBag()"
             - "%kernel.bundles%"
+            - "%kernel.root_dir%"
 
     darvin_admin.metadata.factory:
         class:  "%darvin_admin.metadata.factory.class%"

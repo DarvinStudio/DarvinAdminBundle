@@ -32,13 +32,20 @@ class ConfigurationLoader
     private $bundles;
 
     /**
+     * @var string
+     */
+    private $rootDir;
+
+    /**
      * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag Parameter bag
      * @param array                                                                     $bundles      List of bundles
+     * @param string                                                                    $rootDir      Root directory
      */
-    public function __construct(ParameterBagInterface $parameterBag, array $bundles)
+    public function __construct(ParameterBagInterface $parameterBag, array $bundles, $rootDir)
     {
         $this->parameterBag = $parameterBag;
         $this->bundles = $bundles;
+        $this->rootDir = $rootDir;
     }
 
     /**
@@ -170,9 +177,18 @@ class ConfigurationLoader
                 continue;
             }
 
-            $reflectionClass = new \ReflectionClass($class);
+            $path = str_replace('@'.$name.'/', '', $pathname);
+            $parts = explode('/', $path);
 
-            return dirname($reflectionClass->getFileName()).str_replace('@'.$name, '', $pathname);
+            if (!empty($parts)) {
+                $overridden = implode('/', array_merge([$this->rootDir, array_shift($parts), $name], $parts));
+
+                if (file_exists($overridden)) {
+                    return $overridden;
+                }
+            }
+
+            return dirname((new \ReflectionClass($class))->getFileName()).'/'.$path;
         }
 
         return $pathname;

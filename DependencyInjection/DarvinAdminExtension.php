@@ -92,19 +92,19 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 //            [
 //                'alias'  => 'image',
 //                'entity' => AbstractImage::ABSTRACT_IMAGE_CLASS,
-//                'config' => __DIR__.'/../Resources/config/admin/image.yml',
+//                'config' => '@DarvinAdminBundle/Resources/config/admin/image.yml',
 //            ],
             [
                 'alias'  => 'log',
                 'entity' => LogEntry::LOG_ENTRY_CLASS,
-                'config' => __DIR__.'/../Resources/config/admin/log.yml',
+                'config' => '@DarvinAdminBundle/Resources/config/admin/log.yml',
             ],
         ];
 
         if (isset($bundles['LexikTranslationBundle'])) {
             $sections[] = [
                 'entity' => 'Lexik\Bundle\TranslationBundle\Entity\Translation',
-                'config' => __DIR__.'/../Resources/config/admin/translation.yml',
+                'config' => '@DarvinAdminBundle/Resources/config/admin/translation.yml',
             ];
         }
 

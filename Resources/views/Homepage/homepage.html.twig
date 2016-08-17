@@ -26,13 +26,13 @@
                         </div>
                     {% endif %}
                     <div class="index_modul_name">
-                        <p class="tit">{{ ('dashboard.widget.' ~ name ~ '.title')|trans }}</p>
-                        <p>{{ ('dashboard.widget.' ~ name ~ '.description')|trans }}</p>
+                        <p class="tit">{{ ('dashboard_widget.' ~ name ~ '.title')|trans }}</p>
+                        <p>{{ ('dashboard_widget.' ~ name ~ '.description')|trans }}</p>
                     </div>
                 </div>
                 {% if widget.moduleUrl %}
                     <div class="to_modul">
-                        <a href="{{ widget.moduleUrl }}">{% trans %}dashboard.widget.module_link{% endtrans %}</a>
+                        <a href="{{ widget.moduleUrl }}">{% trans %}dashboard.module_link{% endtrans %}</a>
                     </div>
                 {% endif %}
             </div>

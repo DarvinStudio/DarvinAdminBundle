@@ -30,8 +30,7 @@ configuration:
         description: Script configuration and common settings, per page items count managing.
 
 dashboard:
-    widget:
-        module_link: Go to module page
+    module_link: Go to module page
 
 dropzone:
     default_message: Drop here files to upload

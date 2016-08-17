@@ -30,8 +30,7 @@ configuration:
         description: Настройка и общие параметры скрипта, изменение количества записей на странице.
 
 dashboard:
-    widget:
-        module_link: Перейти в модуль
+    module_link: Перейти в модуль
 
 dropzone:
     default_message: Поместите сюда файлы для загрузки

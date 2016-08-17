@@ -106,36 +106,37 @@ class ConfigurationLoader
      * @param string $pathname Configuration file pathname
      *
      * @return array
+     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
      */
     private function getMergedConfig($pathname)
     {
-        $config = $this->getConfig($pathname);
+        $hierarchy = [];
 
-        if (!isset($config['extends'])) {
-            return [$config];
+        $childPathname = $pathname;
+        $childRealPathname = $this->resolveRealPathname($childPathname, true);
+
+        $hierarchy[] = $child = $this->getConfig($childRealPathname);
+
+        while (isset($child['extends'])) {
+            $parentPathname = $child['extends'];
+            $parentRealPathname = $this->resolveRealPathname($parentPathname, $parentPathname !== $childPathname);
+
+            if ($parentRealPathname === $childRealPathname) {
+                throw new ConfigurationException(sprintf('Configuration file "%s" tried to extend itself.', $childRealPathname));
+            }
+
+            $childPathname = $parentPathname;
+            $childRealPathname = $parentRealPathname;
+
+            $hierarchy[] = $child = $this->getConfig($childRealPathname);
+        }
+        foreach ($hierarchy as &$config) {
+            unset($config['extends']);
         }
 
-        $child = $config;
-        unset($config['extends']);
-        $hierarchy = [$config];
-
-        while ($parent = $this->getParentConfig($child)) {
-            $child = $parent;
-            unset($parent['extends']);
-            $hierarchy[] = $parent;
-        }
+        unset($config);
 
         return [call_user_func_array('array_replace_recursive', array_reverse($hierarchy))];
-    }
-
-    /**
-     * @param array $config Config
-     *
-     * @return array
-     */
-    private function getParentConfig(array $config)
-    {
-        return isset($config['extends']) ? $this->getConfig($config['extends']) : null;
     }
 
     /**
@@ -146,28 +147,27 @@ class ConfigurationLoader
      */
     private function getConfig($pathname)
     {
-        $realPathname = $this->resolveRealPathname($pathname);
-
-        $content = file_get_contents($realPathname);
+        $content = file_get_contents($pathname);
 
         if (false === $content) {
-            throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $realPathname));
+            throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $pathname));
         }
         try {
             return (array) Yaml::parse($content);
         } catch (ParseException $ex) {
             throw new ConfigurationException(
-                sprintf('Unable to parse configuration file "%s": "%s".', $realPathname, $ex->getMessage())
+                sprintf('Unable to parse configuration file "%s": "%s".', $pathname, $ex->getMessage())
             );
         }
     }
 
     /**
-     * @param string $pathname Configuration file pathname
+     * @param string $pathname      Configuration file pathname
+     * @param bool   $allowOverride Whether to allow to override configuration file
      *
      * @return string
      */
-    private function resolveRealPathname($pathname)
+    private function resolveRealPathname($pathname, $allowOverride = false)
     {
         if (0 !== strpos($pathname, '@')) {
             return $pathname;
@@ -178,13 +178,16 @@ class ConfigurationLoader
             }
 
             $path = str_replace('@'.$name.'/', '', $pathname);
-            $parts = explode('/', $path);
 
-            if (!empty($parts)) {
-                $overridden = implode('/', array_merge([$this->rootDir, array_shift($parts), $name], $parts));
+            if ($allowOverride) {
+                $parts = explode('/', $path);
 
-                if (file_exists($overridden)) {
-                    return $overridden;
+                if (!empty($parts)) {
+                    $overridden = implode('/', array_merge([$this->rootDir, array_shift($parts), $name], $parts));
+
+                    if (file_exists($overridden)) {
+                        return $overridden;
+                    }
                 }
             }
 

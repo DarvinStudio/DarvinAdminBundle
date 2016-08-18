@@ -1,5 +1,4 @@
 lexik_translation:
-    base_layout: DarvinAdminBundle:Translation:layout.html.twig
     fallback_locale:
         - en
         - "%locale%"

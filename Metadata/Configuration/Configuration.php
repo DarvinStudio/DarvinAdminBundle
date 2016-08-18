@@ -57,6 +57,18 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('form')->addDefaultsIfNotSet()
+                    ->beforeNormalization()
+                        ->always(function ($v) {
+                            if (!isset($v['new']) && isset($v['edit'])) {
+                                $v['new'] = $v['edit'];
+                            }
+                            if (!isset($v['edit']) && isset($v['new'])) {
+                                $v['edit'] = $v['new'];
+                            }
+
+                            return $v;
+                        })
+                    ->end()
                     ->children()
                         ->append($this->addFormNode('index'))
                         ->append($this->addFormNode('new'))
@@ -65,6 +77,15 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('view')->addDefaultsIfNotSet()
+                    ->beforeNormalization()
+                        ->always(function ($v) {
+                            if (!isset($v['show']) && isset($v['index'])) {
+                                $v['show'] = $v['index'];
+                            }
+
+                            return $v;
+                        })
+                    ->end()
                     ->children()
                         ->append($this->addViewNode('index', [
                             ShowLinkWidget::ALIAS,

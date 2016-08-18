@@ -16,7 +16,7 @@ form:
     index:
         fields:
             content:
-                type: Symfony\Component\Form\Extension\Core\Type\TextType
+                type: text
     filter:
         fields:
             content:

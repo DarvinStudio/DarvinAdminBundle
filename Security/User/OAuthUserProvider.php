@@ -20,9 +20,9 @@ class OAuthUserProvider extends BaseOAuthUserProvider
     /**
      * {@inheritdoc}
      */
-    protected function createUser($email)
+    protected function createUser($username)
     {
-        return parent::createUser($email)
+        return parent::createUser($username)
             ->setRoles([
                 Roles::ROLE_ADMIN,
             ]);

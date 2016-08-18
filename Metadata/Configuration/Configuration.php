@@ -143,7 +143,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = (new TreeBuilder())->root($form);
         $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
+                ->scalarNode('type')->defaultNull()->end()
                 ->arrayNode('field_groups')
                     ->prototype('array')
                         ->prototype('array')

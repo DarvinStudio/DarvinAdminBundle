@@ -117,15 +117,17 @@ class Configuration implements ConfigurationInterface
      */
     private function addFormNode($form)
     {
+        $normalizeFormType = $this->createNormalizeFormTypeClosure();
+
         $rootNode = (new TreeBuilder())->root($form);
         $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('type')->defaultNull()->end()
+                ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                 ->arrayNode('field_groups')
                     ->prototype('array')
                         ->prototype('array')
                             ->children()
-                                ->scalarNode('type')->defaultNull()->end()
+                                ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                                 ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->scalarNode('compare_strict')->defaultTrue()->end()
                             ->end()
@@ -135,7 +137,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('fields')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('type')->defaultNull()->end()
+                            ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                             ->arrayNode('options')->prototype('variable')->end()->end()
                             ->scalarNode('compare_strict')->defaultTrue();
 
@@ -207,5 +209,21 @@ class Configuration implements ConfigurationInterface
                                     ->arrayNode('options')->prototype('variable');
 
         return $rootNode;
+    }
+
+    /**
+     * @return \Closure
+     */
+    private function createNormalizeFormTypeClosure()
+    {
+        return function ($type) {
+            if (false !== strpos($type, '\\')) {
+                return $type;
+            }
+
+            $class = sprintf('Symfony\Component\Form\Extension\Core\Type\%sType', ucfirst($type));
+
+            return class_exists($class) ? $class : $type;
+        };
     }
 }

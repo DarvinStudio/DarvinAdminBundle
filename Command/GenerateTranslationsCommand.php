@@ -212,9 +212,11 @@ class GenerateTranslationsCommand extends Command
                 $translation = $this->humanize($property);
             }
 
-            $translations[StringsUtil::toUnderscore($property)] = $translation;
+            $propertyUnderscore = StringsUtil::toUnderscore($property);
 
-            $length = strlen($property);
+            $translations[$propertyUnderscore] = $translation;
+
+            $length = strlen($propertyUnderscore);
 
             if ($length > $maxLength) {
                 $maxLength = $length;

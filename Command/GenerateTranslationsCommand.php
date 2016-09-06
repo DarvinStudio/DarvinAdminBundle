@@ -203,6 +203,8 @@ class GenerateTranslationsCommand extends Command
     {
         $translations = [];
 
+        $maxLength = 0;
+
         foreach ($properties as $property) {
             $translation = $this->parseTranslationFromDocComment($classReflection->getProperty($property)->getDocComment());
 
@@ -211,6 +213,15 @@ class GenerateTranslationsCommand extends Command
             }
 
             $translations[StringsUtil::toUnderscore($property)] = $translation;
+
+            $length = strlen($property);
+
+            if ($length > $maxLength) {
+                $maxLength = $length;
+            }
+        }
+        foreach ($translations as $property => $translation) {
+            $translations[$property] = str_repeat(' ', $maxLength - strlen($property)).$translation;
         }
 
         ksort($translations);

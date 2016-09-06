@@ -54,7 +54,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'search',
             'security',
             'slug_suffix',
-            'translation',
+            'translation_generator',
             'twig',
             'uploader',
             'view',
@@ -66,6 +66,9 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         if (isset($bundles['AsseticBundle']) && 'dev' === $container->getParameter('kernel.environment')) {
             $loader->load('asset/compiler.yml');
+        }
+        if (isset($bundles['LexikTranslationBundle'])) {
+            $loader->load('translation.yml');
         }
     }
 

@@ -1,0 +1,16 @@
+parameters:
+    darvin_admin.translation_generator.command.class: Darvin\AdminBundle\Command\GenerateTranslationsCommand
+    darvin_admin.translation_generator.command.name:  darvin:admin:translations:generate
+
+services:
+    darvin_admin.translation_generator.command:
+        class: "%darvin_admin.translation_generator.command.class%"
+        arguments:
+            - "%darvin_admin.translation_generator.command.name%"
+            - "@doctrine.orm.entity_manager"
+            - "@darvin_admin.entity_namer"
+            - "%locale%"
+            - "%locales%"
+            - "%darvin_admin.translations_model_dir%"
+        tags:
+            - { name: console.command }

@@ -133,7 +133,7 @@ class GenerateTranslationsCommand extends Command
         $translations = $this->getModel($locale);
         $translations[$entityName] = $translations['@entity_name@'];
         unset($translations['@entity_name@']);
-        $translations['entity'] = $this->getPropertyTranslations(
+        $translations[$entityName]['entity'] = $this->getPropertyTranslations(
             array_merge($meta->getAssociationNames(), $meta->getFieldNames()),
             $meta->getReflectionClass()
         );

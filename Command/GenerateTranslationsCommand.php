@@ -190,7 +190,7 @@ class GenerateTranslationsCommand extends Command
 
         $parts = explode('\\', $classReflection->getName());
 
-        return $this->humanize(!empty($parts) ? array_pop($parts) : $classReflection->getName());
+        return $this->humanize(array_pop($parts));
     }
 
     /**
@@ -272,7 +272,9 @@ class GenerateTranslationsCommand extends Command
      */
     private function lowercaseFirst($string)
     {
-        return mb_strtoupper($string) === $string ? $string : mb_strtolower(mb_substr($string, 0, 1)).mb_substr($string, 1);
+        $parts = preg_split('/\s+/', $string);
+
+        return mb_strtoupper($parts[0]) === $parts[0] ? $string : mb_strtolower(mb_substr($string, 0, 1)).mb_substr($string, 1);
     }
 
     /**

@@ -34,9 +34,10 @@ extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
 ```yaml
 darvin_admin:
     sections:
-        alias:  log
-        entity: Darvin\AdminBundle\Entity\LogEntry
-        config: @DarvinAdminBundle/Resources/config/admin/log.yml
+        -
+            alias:  log
+            entity: Darvin\AdminBundle\Entity\LogEntry
+            config: @DarvinAdminBundle/Resources/config/admin/log.yml
 ```
 
 **Примечания**

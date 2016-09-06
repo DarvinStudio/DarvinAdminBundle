@@ -27,6 +27,7 @@ use Symfony\Component\Yaml\Yaml;
 class GenerateTranslationsCommand extends Command
 {
     const DEFAULT_GENDER      = 'Male';
+    const DEFAULT_YAML_INDENT = 4;
     const DEFAULT_YAML_INLINE = 4;
 
     const GENDER_FEMALE = 'f';
@@ -95,6 +96,7 @@ class GenerateTranslationsCommand extends Command
             ->setDescription('Generates translations using entity class doc comments.')
             ->setDefinition([
                 new InputArgument('entity', InputArgument::REQUIRED),
+                new InputArgument('yaml_indent', InputArgument::OPTIONAL, '', self::DEFAULT_YAML_INDENT),
                 new InputArgument('yaml_inline', InputArgument::OPTIONAL, '', self::DEFAULT_YAML_INLINE),
             ]);
     }
@@ -107,13 +109,14 @@ class GenerateTranslationsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $entity = $input->getArgument('entity');
+        $yamlIndent = $input->getArgument('yaml_indent');
         $yamlInline = $input->getArgument('yaml_inline');
         $gender = $io->choice('Choose gender', self::$genders, self::DEFAULT_GENDER);
         $locale = $io->choice('Choose locale', $this->locales, $this->defaultLocale);
 
         $translations = $this->buildTranslations($this->em->getClassMetadata($entity), $gender, $locale);
 
-        $output->writeln(str_replace('\'', '"', Yaml::dump($translations, $yamlInline)));
+        $output->writeln(str_replace('\'', '', Yaml::dump($translations, $yamlInline, $yamlIndent)));
     }
 
     /**

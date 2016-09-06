@@ -145,7 +145,7 @@ security:
                 default_target_path:            darvin_admin_homepage
                 always_use_default_target_path: true
                 csrf_token_id:                  "%secret%"
-                csrf_provider:                  security.csrf.token_manager
+                csrf_token_generator:           security.csrf.token_manager
                 remember_me:                    true
             remember_me:
                 name:     REMEMBERMEADMIN

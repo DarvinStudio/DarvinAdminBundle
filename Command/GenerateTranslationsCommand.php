@@ -213,6 +213,8 @@ class GenerateTranslationsCommand extends Command
             $translations[StringsUtil::toUnderscore($property)] = $translation;
         }
 
+        ksort($translations);
+
         return $translations;
     }
 

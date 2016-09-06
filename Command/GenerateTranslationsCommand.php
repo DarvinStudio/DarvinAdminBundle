@@ -143,7 +143,7 @@ class GenerateTranslationsCommand extends Command
         return $this->replacePlaceholders($translations, [
             '@entity_name@'        => $entityName,
             '@entity_trans@'       => $entityTranslation,
-            '@entity_trans_lower@' => mb_strtolower($entityTranslation),
+            '@entity_trans_lower@' => $this->lowercaseFirst($entityTranslation),
         ], array_keys(self::$genders), $gender);
     }
 
@@ -256,13 +256,23 @@ class GenerateTranslationsCommand extends Command
     }
 
     /**
-     * @param string $text Text
+     * @param string $string String
      *
      * @return string
      */
-    private function humanize($text)
+    private function humanize($string)
     {
-        return ucfirst(trim(strtolower(preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $text))));
+        return ucfirst(trim(strtolower(preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $string))));
+    }
+
+    /**
+     * @param string $string String
+     *
+     * @return string
+     */
+    private function lowercaseFirst($string)
+    {
+        return mb_strtoupper($string) === $string ? $string : mb_strtolower(mb_substr($string, 0, 1)).mb_substr($string, 1);
     }
 
     /**

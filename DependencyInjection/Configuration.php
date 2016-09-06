@@ -47,6 +47,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
+                ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
                 ->scalarNode('visual_assets_path')->defaultValue('bundles/darvinadmin')->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()

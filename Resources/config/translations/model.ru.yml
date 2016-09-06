@@ -1,31 +1,31 @@
-@entity_name@:
+@name@:
     action:
         delete:
-            confirm: Подтвердите удаление @entity_trans_lower@
-            submit:  " Удалить @entity_trans_lower@"
+            confirm: Подтвердите удаление @trans_lower_genitive@
+            submit:  " Удалить @trans_lower_accusative@"
             success:
-                f: @entity_trans@ успешно удалена
-                m: @entity_trans@ успешно удален
-                n: @entity_trans@ успешно удалено
+                f: @trans@ успешно удалена
+                m: @trans@ успешно удален
+                n: @trans@ успешно удалено
         edit:
-            link: "   Редактировать @entity_trans_lower@"
+            link: "   Редактировать @trans_lower_accusative@"
             success:
-                f: @entity_trans@ успешно изменена
-                m: @entity_trans@ успешно изменен
-                n: @entity_trans@ успешно изменено
-            title: "  Изменить @entity_trans_lower@ «%entity%»"
+                f: @trans@ успешно изменена
+                m: @trans@ успешно изменен
+                n: @trans@ успешно изменено
+            title: "  Изменить @trans_lower_accusative@ «%entity%»"
         index:
-            link:  " @entity_trans@"
-            title: @entity_trans@
+            link:  " @trans_multiple@"
+            title: @trans_multiple@
         new:
-            link: "   Добавить @entity_trans_lower@"
+            link: "   Добавить @trans_lower_accusative@"
             success:
-                f: @entity_trans@ успешно добавлена
-                m: @entity_trans@ успешно добавлен
-                n: @entity_trans@ успешно добавлено
+                f: @trans@ успешно добавлена
+                m: @trans@ успешно добавлен
+                n: @trans@ успешно добавлено
             title:
-                f: "  Новая @entity_trans_lower@"
-                m: "  Новый @entity_trans_lower@"
-                n: "  Новое @entity_trans_lower@"
+                f: "  Новая @trans_lower@"
+                m: "  Новый @trans_lower@"
+                n: "  Новое @trans_lower@"
         show:
-            title: @entity_trans@ «%entity%»
+            title: @trans@ «%entity%»

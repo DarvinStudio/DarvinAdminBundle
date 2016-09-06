@@ -26,6 +26,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class GenerateTranslationsCommand extends Command
 {
+    const CASE_API_TIMEOUT = 3;
+    const CASE_API_URL     = 'http://api.morpher.ru/WebService.asmx/GetXml?s=';
+
     const DEFAULT_GENDER      = 'Male';
     const DEFAULT_YAML_INDENT = 4;
     const DEFAULT_YAML_INLINE = 4;
@@ -131,8 +134,8 @@ class GenerateTranslationsCommand extends Command
         $entityName = $this->entityNamer->name($meta->getName());
 
         $translations = $this->getModel($locale);
-        $translations[$entityName] = $translations['@entity_name@'];
-        unset($translations['@entity_name@']);
+        $translations[$entityName] = $translations['@name@'];
+        unset($translations['@name@']);
         $translations[$entityName]['entity'] = $this->getPropertyTranslations(
             array_merge($meta->getAssociationNames(), $meta->getFieldNames()),
             $meta->getReflectionClass()
@@ -140,11 +143,63 @@ class GenerateTranslationsCommand extends Command
 
         $entityTranslation = $this->getClassTranslation($meta->getReflectionClass());
 
+        $cases = $this->getCases($entityTranslation);
+
         return $this->replacePlaceholders($translations, [
-            '@entity_name@'        => $entityName,
-            '@entity_trans@'       => $entityTranslation,
-            '@entity_trans_lower@' => $this->lowercaseFirst($entityTranslation),
+            '@trans@'                  => $entityTranslation,
+            '@trans_lower@'            => $this->lowercaseFirst($entityTranslation),
+            '@trans_lower_accusative@' => $this->lowercaseFirst($cases['accusative']),
+            '@trans_lower_genitive@'   => $this->lowercaseFirst($cases['genitive']),
+            '@trans_multiple@'         => $cases['multiple'],
         ], array_keys(self::$genders), $gender);
+    }
+
+    /**
+     * @param string $word Word
+     *
+     * @return array
+     */
+    private function getCases($word)
+    {
+        $cases = array_fill_keys([
+            'accusative',
+            'genitive',
+            'multiple',
+        ], $word);
+
+        if (!preg_match('/[а-яА-Я]+/', $word)) {
+            return $cases;
+        }
+
+        $xml = @file_get_contents(self::CASE_API_URL.$word, null, stream_context_create([
+            'http' => [
+                'timeout' => self::CASE_API_TIMEOUT,
+            ],
+        ]));
+
+        if (false === $xml) {
+            return $cases;
+        }
+
+        $doc = simplexml_load_string($xml);
+
+        if (false === $doc) {
+            return $cases;
+        }
+
+        $doc = (array) $doc;
+
+        if (isset($doc['code'])) {
+            return $cases;
+        }
+
+        $doc['множественное'] = (array) $doc['множественное'];
+
+        $cases['accusative'] = $doc['В'];
+        $cases['genitive'] = $doc['Р'];
+        $cases['multiple'] = $doc['множественное']['И'];
+
+        return $cases;
     }
 
     /**

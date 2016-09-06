@@ -112,7 +112,7 @@ class GenerateTranslationsCommand extends Command
         $yamlIndent = $input->getArgument('yaml_indent');
         $yamlInline = $input->getArgument('yaml_inline');
         $gender = $io->choice('Choose gender', self::$genders, self::DEFAULT_GENDER);
-        $locale = $io->choice('Choose locale', $this->locales, $this->defaultLocale);
+        $locale = count($this->locales) > 1 ? $io->choice('Choose locale', $this->locales, $this->defaultLocale) : $this->defaultLocale;
 
         $translations = $this->buildTranslations($this->em->getClassMetadata($entity), $gender, $locale);
 

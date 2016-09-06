@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                         'Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand',
                     ])
                 ->end()
-                ->booleanNode('debug')->defaultFalse()->end()
+                ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(2)->end()

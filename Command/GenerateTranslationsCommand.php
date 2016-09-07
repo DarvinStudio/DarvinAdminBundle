@@ -133,9 +133,9 @@ class GenerateTranslationsCommand extends Command
     {
         $entityName = $this->entityNamer->name($meta->getName());
 
-        $translations = $this->getModel($locale);
-        $translations[$entityName] = $translations['@name@'];
-        unset($translations['@name@']);
+        $translations = [
+            $entityName => $this->getModel($locale),
+        ];
         $translations[$entityName]['entity'] = $this->getPropertyTranslations(
             array_merge($meta->getAssociationNames(), $meta->getFieldNames()),
             $meta->getReflectionClass()

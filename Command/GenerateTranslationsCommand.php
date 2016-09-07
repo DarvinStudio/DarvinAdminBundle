@@ -47,6 +47,13 @@ class GenerateTranslationsCommand extends Command
     ];
 
     /**
+     * @var string[]
+     */
+    private static $ignoreDocCommentLocales = [
+        'en',
+    ];
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
@@ -115,7 +122,9 @@ class GenerateTranslationsCommand extends Command
         $yamlIndent = $input->getArgument('yaml_indent');
         $yamlInline = $input->getArgument('yaml_inline');
         $gender = $io->choice('Choose gender', self::$genders, self::DEFAULT_GENDER);
-        $locale = count($this->locales) > 1 ? $io->choice('Choose locale', $this->locales, $this->defaultLocale) : $this->defaultLocale;
+        $locale = count($this->locales) > 1
+            ? $io->choice('Choose locale', $this->locales, $this->defaultLocale)
+            : $this->defaultLocale;
 
         $translations = $this->buildTranslations($this->em->getClassMetadata($entity), $gender, $locale);
 
@@ -133,15 +142,18 @@ class GenerateTranslationsCommand extends Command
     {
         $entityName = $this->entityNamer->name($meta->getName());
 
+        $parseDocComments = !in_array($locale, self::$ignoreDocCommentLocales);
+
         $translations = [
             $entityName => $this->getModel($locale),
         ];
         $translations[$entityName]['entity'] = $this->getPropertyTranslations(
             array_merge($meta->getAssociationNames(), $meta->getFieldNames()),
-            $meta->getReflectionClass()
+            $meta->getReflectionClass(),
+            $parseDocComments
         );
 
-        $entityTranslation = $this->getClassTranslation($meta->getReflectionClass());
+        $entityTranslation = $this->getClassTranslation($meta->getReflectionClass(), $parseDocComments);
 
         $cases = $this->getCases($entityTranslation);
 
@@ -152,6 +164,88 @@ class GenerateTranslationsCommand extends Command
             '@trans_lower_genitive@'   => $this->lowercaseFirst($cases['genitive']),
             '@trans_multiple@'         => $cases['multiple'],
         ], array_keys(self::$genders), $gender);
+    }
+
+    /**
+     * @param string $locale Locale
+     *
+     * @return array
+     * @throws \RuntimeException
+     */
+    private function getModel($locale)
+    {
+        $pathname = sprintf('%s/../%s/model.%s.yml', __DIR__, $this->modelDir, $locale);
+
+        $content = @file_get_contents($pathname);
+
+        if (false === $content) {
+            throw new \RuntimeException(sprintf('Unable to get content of translations model file "%s".', $pathname));
+        }
+
+        return (array) Yaml::parse($content);
+    }
+
+    /**
+     * @param string[]         $properties       Properties
+     * @param \ReflectionClass $classReflection  Class reflection
+     * @param bool             $parseDocComments Whether to parse translations from doc comments
+     *
+     * @return array
+     */
+    private function getPropertyTranslations(array $properties, \ReflectionClass $classReflection, $parseDocComments)
+    {
+        $translations = [];
+
+        $maxLength = 0;
+
+        foreach ($properties as $property) {
+            $translation = null;
+
+            if ($parseDocComments) {
+                $translation = $this->parseTranslationFromDocComment($classReflection->getProperty($property)->getDocComment());
+            }
+            if (empty($translation)) {
+                $translation = $this->humanize($property);
+            }
+
+            $propertyUnderscore = StringsUtil::toUnderscore($property);
+
+            $translations[$propertyUnderscore] = $translation;
+
+            $length = strlen($propertyUnderscore);
+
+            if ($length > $maxLength) {
+                $maxLength = $length;
+            }
+        }
+        foreach ($translations as $property => $translation) {
+            $translations[$property] = str_repeat(' ', $maxLength - strlen($property)).$translation;
+        }
+
+        ksort($translations);
+
+        return $translations;
+    }
+
+    /**
+     * @param \ReflectionClass $classReflection  Class reflection
+     * @param bool             $parseDocComments Whether to parse translations from doc comments
+     *
+     * @return string
+     */
+    private function getClassTranslation(\ReflectionClass $classReflection, $parseDocComments)
+    {
+        if ($parseDocComments) {
+            $translation = $this->parseTranslationFromDocComment($classReflection->getDocComment());
+
+            if (!empty($translation)) {
+                return $translation;
+            }
+        }
+
+        $parts = explode('\\', $classReflection->getName());
+
+        return $this->humanize(array_pop($parts));
     }
 
     /**
@@ -231,62 +325,6 @@ class GenerateTranslationsCommand extends Command
     }
 
     /**
-     * @param \ReflectionClass $classReflection Class reflection
-     *
-     * @return string
-     */
-    private function getClassTranslation(\ReflectionClass $classReflection)
-    {
-        $translation = $this->parseTranslationFromDocComment($classReflection->getDocComment());
-
-        if (!empty($translation)) {
-            return $translation;
-        }
-
-        $parts = explode('\\', $classReflection->getName());
-
-        return $this->humanize(array_pop($parts));
-    }
-
-    /**
-     * @param string[]         $properties      Properties
-     * @param \ReflectionClass $classReflection Class reflection
-     *
-     * @return array
-     */
-    private function getPropertyTranslations(array $properties, \ReflectionClass $classReflection)
-    {
-        $translations = [];
-
-        $maxLength = 0;
-
-        foreach ($properties as $property) {
-            $translation = $this->parseTranslationFromDocComment($classReflection->getProperty($property)->getDocComment());
-
-            if (empty($translation)) {
-                $translation = $this->humanize($property);
-            }
-
-            $propertyUnderscore = StringsUtil::toUnderscore($property);
-
-            $translations[$propertyUnderscore] = $translation;
-
-            $length = strlen($propertyUnderscore);
-
-            if ($length > $maxLength) {
-                $maxLength = $length;
-            }
-        }
-        foreach ($translations as $property => $translation) {
-            $translations[$property] = str_repeat(' ', $maxLength - strlen($property)).$translation;
-        }
-
-        ksort($translations);
-
-        return $translations;
-    }
-
-    /**
      * @param string $docComment Doc comment
      *
      * @return string
@@ -332,24 +370,5 @@ class GenerateTranslationsCommand extends Command
         $parts = preg_split('/\s+/', $string);
 
         return mb_strtoupper($parts[0]) === $parts[0] ? $string : mb_strtolower(mb_substr($string, 0, 1)).mb_substr($string, 1);
-    }
-
-    /**
-     * @param string $locale Locale
-     *
-     * @return array
-     * @throws \RuntimeException
-     */
-    private function getModel($locale)
-    {
-        $pathname = sprintf('%s/../%s/model.%s.yml', __DIR__, $this->modelDir, $locale);
-
-        $content = @file_get_contents($pathname);
-
-        if (false === $content) {
-            throw new \RuntimeException(sprintf('Unable to get content of translations model file "%s".', $pathname));
-        }
-
-        return (array) Yaml::parse($content);
     }
 }

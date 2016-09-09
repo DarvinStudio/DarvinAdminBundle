@@ -157,11 +157,13 @@ class GenerateTranslationsCommand extends Command
 
         $cases = $this->getCases($entityTranslation);
 
+        $startsWithAcronym = $this->startsWithAcronym($entityTranslation);
+
         return $this->replacePlaceholders($translations, [
             '@trans@'                  => $entityTranslation,
-            '@trans_lower@'            => $this->lowercaseFirst($entityTranslation),
-            '@trans_lower_accusative@' => $this->lowercaseFirst($cases['accusative']),
-            '@trans_lower_genitive@'   => $this->lowercaseFirst($cases['genitive']),
+            '@trans_lower@'            => $startsWithAcronym ? $entityTranslation : StringsUtil::lowercaseFirst($entityTranslation),
+            '@trans_lower_accusative@' => $startsWithAcronym ? $cases['accusative'] : StringsUtil::lowercaseFirst($cases['accusative']),
+            '@trans_lower_genitive@'   => $startsWithAcronym ? $cases['genitive'] : StringsUtil::lowercaseFirst($cases['genitive']),
             '@trans_multiple@'         => $cases['multiple'],
         ], array_keys(self::$genders), $gender);
     }
@@ -205,7 +207,7 @@ class GenerateTranslationsCommand extends Command
                 $translation = $this->parseTranslationFromDocComment($classReflection->getProperty($property)->getDocComment());
             }
             if (empty($translation)) {
-                $translation = $this->humanize($property);
+                $translation = StringsUtil::humanize($property);
             }
 
             $propertyUnderscore = StringsUtil::toUnderscore($property);
@@ -245,7 +247,7 @@ class GenerateTranslationsCommand extends Command
 
         $parts = explode('\\', $classReflection->getName());
 
-        return $this->humanize(array_pop($parts));
+        return StringsUtil::humanize(array_pop($parts));
     }
 
     /**
@@ -261,7 +263,7 @@ class GenerateTranslationsCommand extends Command
             'multiple',
         ], $word);
 
-        if (!preg_match('/[а-яА-Я]+/', $word)) {
+        if (!preg_match('/[а-яА-Я]+/', $word) || StringsUtil::isUppercase($word)) {
             return $cases;
         }
 
@@ -351,24 +353,12 @@ class GenerateTranslationsCommand extends Command
     }
 
     /**
-     * @param string $string String
+     * @param string $text Text
      *
-     * @return string
+     * @return bool
      */
-    private function humanize($string)
+    private function startsWithAcronym($text)
     {
-        return ucfirst(trim(strtolower(preg_replace(['/([A-Z])/', '/[_\s]+/'], ['_$1', ' '], $string))));
-    }
-
-    /**
-     * @param string $string String
-     *
-     * @return string
-     */
-    private function lowercaseFirst($string)
-    {
-        $parts = preg_split('/\s+/', $string);
-
-        return mb_strtoupper($parts[0]) === $parts[0] ? $string : mb_strtolower(mb_substr($string, 0, 1)).mb_substr($string, 1);
+        return StringsUtil::isUppercase(preg_split('/\s+/', $text)[0]);
     }
 }

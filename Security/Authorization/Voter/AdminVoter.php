@@ -70,6 +70,11 @@ class AdminVoter extends Voter
         if (isset($this->permissions[$class][$user->getId()][$attribute])) {
             return $this->permissions[$class][$user->getId()][$attribute];
         }
+        foreach (class_parents($class) as $parentClass) {
+            if (isset($this->permissions[$parentClass][$user->getId()][$attribute])) {
+                return $this->permissions[$parentClass][$user->getId()][$attribute];
+            }
+        }
 
         $defaultPermissions = Permission::getDefaultPermissions($user);
 

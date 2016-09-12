@@ -15,6 +15,7 @@ namespace Darvin\AdminBundle\Event;
  */
 final class Events
 {
-    const PRE_CRUD_CONTROLLER_ACTION = 'darvin_admin.pre_crud_controller_action';
-    const PRE_SHOW_VIEW_CREATING     = 'darvin_admin.pre_show_view_creating';
+    const CRUD_CONTROLLER_INDEX_ACTION = 'darvin_admin.crud_controller_index_action';
+    const PRE_CRUD_CONTROLLER_ACTION   = 'darvin_admin.pre_crud_controller_action';
+    const PRE_SHOW_VIEW_CREATING       = 'darvin_admin.pre_show_view_creating';
 }

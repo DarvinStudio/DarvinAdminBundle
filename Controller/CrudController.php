@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Event\CrudControllerActionEvent;
+use Darvin\AdminBundle\Event\CrudControllerIndexActionEvent;
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\MetadataManager;
@@ -94,6 +95,11 @@ class CrudController extends Controller
             : null;
 
         $qb = $this->getIndexQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
+
+        $this->getEventDispatcher()->dispatch(
+            Events::CRUD_CONTROLLER_INDEX_ACTION,
+            new CrudControllerIndexActionEvent($this->meta, $qb, $this->getUser())
+        );
 
         if ($this->meta->hasParent()) {
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);

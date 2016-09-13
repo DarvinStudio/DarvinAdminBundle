@@ -18,9 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Assets compile command
+ * Compile assets command
  */
-class AssetsCompileCommand extends Command
+class CompileAssetsCommand extends Command
 {
     /**
      * @var \Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool

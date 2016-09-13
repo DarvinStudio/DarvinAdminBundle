@@ -1,5 +1,5 @@
 parameters:
-    darvin_admin.cache.clear_command.class: Darvin\AdminBundle\Command\CachesClearCommand
+    darvin_admin.cache.clear_command.class: Darvin\AdminBundle\Command\ClearCachesCommand
     darvin_admin.cache.clear_command.name:  darvin:admin:caches:clear
     darvin_admin.cache.clear_command.description: >
         Runs cache clear commands specified in "darvin_admin.cache_clear_command_classes" parameter.

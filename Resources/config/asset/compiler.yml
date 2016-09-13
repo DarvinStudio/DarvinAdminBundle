@@ -1,5 +1,5 @@
 parameters:
-    darvin_admin.asset.compiler.command.class: Darvin\AdminBundle\Command\AssetsCompileCommand
+    darvin_admin.asset.compiler.command.class: Darvin\AdminBundle\Command\CompileAssetsCommand
     darvin_admin.asset.compiler.command.name:  darvin:admin:assets:compile
 
     darvin_admin.asset.compiler.pool.class: Darvin\AdminBundle\Asset\Compiler\AssetCompilerPool

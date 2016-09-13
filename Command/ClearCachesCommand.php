@@ -17,9 +17,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Caches clear command
+ * Clear caches command
  */
-class CachesClearCommand extends Command
+class ClearCachesCommand extends Command
 {
     /**
      * @var \Symfony\Component\Console\Command\Command[]

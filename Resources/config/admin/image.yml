@@ -1,4 +1,4 @@
-disabled_routes:
+route_blacklist:
     - copy
     - delete
     - new

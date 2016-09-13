@@ -4,7 +4,7 @@ menu:
     icons:
         main:    bundles/darvinadmin/images/admin/log_main.png
         sidebar: bundles/darvinadmin/images/admin/log_sidebar.png
-disabled_routes:
+route_blacklist:
     - copy
     - delete
     - edit

@@ -37,11 +37,13 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addMenuNode())
                 ->scalarNode('breadcrumbs_entity_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
                 ->arrayNode('child_entities')->prototype('scalar')->end()->end()
-                ->arrayNode('disabled_routes')->prototype('scalar')->end()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
+                ->arrayNode('route_blacklist')->prototype('scalar')->end()->defaultValue([
+                    AdminRouter::TYPE_COPY,
+                ])->end()
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('pagination')->addDefaultsIfNotSet()

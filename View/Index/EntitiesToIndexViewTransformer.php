@@ -21,7 +21,6 @@ use Darvin\AdminBundle\View\Index\Head\Head;
 use Darvin\AdminBundle\View\Index\Head\HeadItem;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -35,11 +34,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     private $adminFormFactory;
 
     /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
-    /**
      * @var \Symfony\Component\Templating\EngineInterface
      */
     private $templating;
@@ -50,14 +44,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
     {
         $this->adminFormFactory = $adminFormFactory;
-    }
-
-    /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     */
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
-    {
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -134,6 +120,10 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             $head->addItem('action_widgets', new HeadItem('interface.actions'));
         }
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
+            if ($this->isViewFieldHidden($meta, 'index', $field)) {
+                continue;
+            }
+
             $content = $translationPrefix.StringsUtil::toUnderscore($field);
 
             $headItem = new HeadItem($content);
@@ -185,6 +175,9 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
             }
             foreach ($configuration['view']['index']['fields'] as $field => $attr) {
+                if ($this->isViewFieldHidden($meta, 'index', $field)) {
+                    continue;
+                }
                 if (isset($propertyForms[$field])) {
                     $form = $propertyForms[$field];
                     $form->setData($entity);
@@ -290,7 +283,10 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $configuration = $meta->getConfiguration();
 
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
-            if (!empty($attr) || !array_key_exists($field, $configuration['form']['index']['fields'])) {
+            if (!$this->isPropertyViewField($meta, 'index', $field)
+                || !array_key_exists($field, $configuration['form']['index']['fields'])
+                || $this->isViewFieldHidden($meta, 'index', $field)
+            ) {
                 continue;
             }
 

@@ -15,12 +15,18 @@ use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Entity to view transformer abstract implementation
  */
 abstract class AbstractEntityToViewTransformer
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -42,17 +48,20 @@ abstract class AbstractEntityToViewTransformer
     protected $widgetPool;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container        DI container
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface      $stringifier      Stringifier
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                  $widgetPool       View widget pool
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                    $container            DI container
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
+     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface                       $stringifier          Stringifier
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                                   $widgetPool           View widget pool
      */
     public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
         ContainerInterface $container,
         PropertyAccessorInterface $propertyAccessor,
         StringifierInterface $stringifier,
         WidgetPool $widgetPool
     ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->container = $container;
         $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
@@ -69,12 +78,19 @@ abstract class AbstractEntityToViewTransformer
      */
     protected function getFieldContent($entity, $fieldName, array $fieldAttr, array $mappings)
     {
-        if (empty($fieldAttr)) {
-            $content = $this->propertyAccessor->getValue($entity, $fieldName);
+        if (isset($fieldAttr['widget'])) {
+            $widgetAlias = $fieldAttr['widget']['alias'];
 
-            return isset($mappings[$fieldName]['type'])
-                ? $this->stringifier->stringify($content, $mappings[$fieldName]['type'])
-                : $content;
+            return $this->widgetPool->getWidget($widgetAlias)->getContent(
+                $entity,
+                $fieldAttr['widget']['options'],
+                $fieldName
+            );
+        }
+        if (isset($fieldAttr['service'])) {
+            $method = $fieldAttr['service']['method'];
+
+            return $this->container->get($fieldAttr['service']['id'])->$method($entity, $fieldAttr['service']['options']);
         }
         if (isset($fieldAttr['callback'])) {
             $class = $fieldAttr['callback']['class'];
@@ -82,19 +98,12 @@ abstract class AbstractEntityToViewTransformer
 
             return $class::$method($entity, $fieldAttr['callback']['options']);
         }
-        if (isset($fieldAttr['service'])) {
-            $method = $fieldAttr['service']['method'];
 
-            return $this->container->get($fieldAttr['service']['id'])->$method($entity, $fieldAttr['service']['options']);
-        }
+        $content = $this->propertyAccessor->getValue($entity, $fieldName);
 
-        $widgetAlias = $fieldAttr['widget']['alias'];
-
-        return $this->widgetPool->getWidget($widgetAlias)->getContent(
-            $entity,
-            $fieldAttr['widget']['options'],
-            $fieldName
-        );
+        return isset($mappings[$fieldName]['type'])
+            ? $this->stringifier->stringify($content, $mappings[$fieldName]['type'])
+            : $content;
     }
 
     /**
@@ -109,12 +118,49 @@ abstract class AbstractEntityToViewTransformer
         $configuration = $meta->getConfiguration();
 
         foreach ($configuration['view'][$viewType]['fields'] as $field => $attr) {
-            if (!empty($attr)) {
+            if (!$this->isPropertyViewField($meta, $viewType, $field)) {
                 continue;
             }
             if (!$this->propertyAccessor->isReadable($entity, $field)) {
                 throw new ViewException(sprintf('Property "%s::$%s" is not readable.', $meta->getEntityClass(), $field));
             }
         }
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
+     * @param string                                $viewType View type
+     * @param string                                $field    Field name
+     *
+     * @return bool
+     */
+    protected function isPropertyViewField(Metadata $meta, $viewType, $field)
+    {
+        $config = $meta->getConfiguration()['view'][$viewType]['fields'][$field];
+
+        return !isset($config['widget']) && !isset($config['service']) && !isset($config['callback']);
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
+     * @param string                                $viewType View type
+     * @param string                                $field    Field name
+     *
+     * @return bool
+     */
+    protected function isViewFieldHidden(Metadata $meta, $viewType, $field)
+    {
+        $roleBlacklist = $meta->getConfiguration()['view'][$viewType]['fields'][$field]['role_blacklist'];
+
+        if (empty($roleBlacklist)) {
+            return false;
+        }
+        foreach ($roleBlacklist as $role) {
+            if ($this->authorizationChecker->isGranted($role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

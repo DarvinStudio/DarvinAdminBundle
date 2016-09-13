@@ -53,6 +53,10 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($configuration['view']['show']['fields'] as $field => $attr) {
+            if ($this->isViewFieldHidden($meta, 'show', $field)) {
+                continue;
+            }
+
             $label = $translationPrefix.StringsUtil::toUnderscore($field);
 
             $content = $this->getFieldContent($entity, $field, $attr, $meta->getMappings());

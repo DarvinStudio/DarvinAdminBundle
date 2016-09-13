@@ -186,11 +186,12 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->validate()
                             ->ifTrue(function ($v) {
-                                return count($v) > 1;
+                                return count($v) > 2;
                             })
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
                         ->children()
+                            ->arrayNode('role_blacklist')->prototype('scalar')->end()->end()
                             ->arrayNode('widget')
                                 ->children()
                                     ->scalarNode('alias')->isRequired()->cannotBeEmpty()->end()

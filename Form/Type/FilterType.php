@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Filter form type
@@ -36,6 +37,11 @@ class FilterType extends AbstractFormType
     ];
 
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
      */
     private $formTypeGuesser;
@@ -46,11 +52,16 @@ class FilterType extends AbstractFormType
     private $translationJoiner;
 
     /**
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser   Form type guesser
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner Translation joiner
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface                             $formTypeGuesser      Form type guesser
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface                $translationJoiner    Translation joiner
      */
-    public function __construct(FormTypeGuesserInterface $formTypeGuesser, TranslationJoinerInterface $translationJoiner)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormTypeGuesserInterface $formTypeGuesser,
+        TranslationJoinerInterface $translationJoiner
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->formTypeGuesser = $formTypeGuesser;
         $this->translationJoiner = $translationJoiner;
     }
@@ -143,6 +154,9 @@ class FilterType extends AbstractFormType
 
                 throw new FormException($message);
             }
+            if ($this->isFieldHidden($attr)) {
+                continue;
+            }
 
             $options = $this->resolveFieldOptionValues($attr['options']);
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
@@ -207,6 +221,22 @@ class FilterType extends AbstractFormType
             default:
                 return [];
         }
+    }
+
+    /**
+     * @param array $fieldAttr Field attributes
+     *
+     * @return bool
+     */
+    private function isFieldHidden(array $fieldAttr)
+    {
+        foreach ($fieldAttr['role_blacklist'] as $role) {
+            if ($this->authorizationChecker->isGranted($role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

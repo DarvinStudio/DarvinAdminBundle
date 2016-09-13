@@ -153,6 +153,7 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                                 ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->scalarNode('compare_strict')->defaultTrue()->end()
+                                ->arrayNode('role_blacklist')->prototype('scalar')->end()->end()
                             ->end()
                         ->end()
                     ->end()
@@ -162,7 +163,8 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                             ->arrayNode('options')->prototype('variable')->end()->end()
-                            ->scalarNode('compare_strict')->defaultTrue();
+                            ->scalarNode('compare_strict')->defaultTrue()->end()
+                            ->arrayNode('role_blacklist')->prototype('scalar');
 
         return $rootNode;
     }

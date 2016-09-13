@@ -19,6 +19,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -27,6 +28,11 @@ use Symfony\Component\Validator\Constraints\Valid;
 class BaseType extends AbstractFormType
 {
     const BASE_TYPE_CLASS = __CLASS__;
+
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
 
     /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
@@ -39,11 +45,16 @@ class BaseType extends AbstractFormType
     private $translatableManager;
 
     /**
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface                $formTypeGuesser     Form type guesser
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface                             $formTypeGuesser      Form type guesser
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface              $translatableManager  Translatable manager
      */
-    public function __construct(FormTypeGuesserInterface $formTypeGuesser, TranslatableManagerInterface $translatableManager)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        FormTypeGuesserInterface $formTypeGuesser,
+        TranslatableManagerInterface $translatableManager
+    ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->formTypeGuesser = $formTypeGuesser;
         $this->translatableManager = $translatableManager;
     }
@@ -64,7 +75,7 @@ class BaseType extends AbstractFormType
         $fieldFilterProvided = isset($options['field_filter']);
 
         foreach ($fields as $field => $attr) {
-            if ($fieldFilterProvided && $field !== $options['field_filter']) {
+            if (($fieldFilterProvided && $field !== $options['field_filter']) || $this->isFieldHidden($attr)) {
                 continue;
             }
 
@@ -198,6 +209,22 @@ class BaseType extends AbstractFormType
         return $guess->getConfidence() > 0
             ? $guess
             : $this->formTypeGuesser->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
+    }
+
+    /**
+     * @param array $fieldAttr Field attributes
+     *
+     * @return bool
+     */
+    private function isFieldHidden(array $fieldAttr)
+    {
+        foreach ($fieldAttr['role_blacklist'] as $role) {
+            if ($this->authorizationChecker->isGranted($role)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

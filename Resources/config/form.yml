@@ -30,6 +30,7 @@ services:
     darvin_admin.form.type.base:
         class: "%darvin_admin.form.type.base.class%"
         arguments:
+            - "@security.authorization_checker"
             - "@form.type_guesser.doctrine"
             - "@darvin_content.translatable.manager"
         tags:
@@ -38,6 +39,7 @@ services:
     darvin_admin.form.type.filter:
         class: "%darvin_admin.form.type.filter.class%"
         arguments:
+            - "@security.authorization_checker"
             - "@form.type_guesser.doctrine"
             - "@darvin_content.translatable.translation_joiner"
         tags:

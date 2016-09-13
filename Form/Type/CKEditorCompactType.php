@@ -69,14 +69,6 @@ class CKEditorCompactType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
-    {
-        return 'darvin_admin_ckeditor_compact';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParent()
     {
         return 'Ivory\CKEditorBundle\Form\Type\CKEditorType';

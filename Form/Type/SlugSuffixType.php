@@ -98,12 +98,4 @@ class SlugSuffixType extends AbstractType
     {
         return 'Symfony\Component\Form\Extension\Core\Type\TextType';
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'darvin_admin_slug_suffix';
-    }
 }

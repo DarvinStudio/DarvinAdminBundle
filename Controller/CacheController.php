@@ -51,7 +51,7 @@ class CacheController extends Controller
 
         set_time_limit(0);
 
-        if ($this->getCachesClearCommand()->run(new ArrayInput([]), new NullOutput()) > 0) {
+        if ($this->getClearCachesCommand()->run(new ArrayInput([]), new NullOutput()) > 0) {
             $message = 'cache.action.clear.error';
 
             if ($request->isXmlHttpRequest()) {
@@ -83,9 +83,9 @@ class CacheController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Command\CachesClearCommand
+     * @return \Darvin\AdminBundle\Command\ClearCachesCommand
      */
-    private function getCachesClearCommand()
+    private function getClearCachesCommand()
     {
         return $this->get('darvin_admin.cache.clear_command');
     }

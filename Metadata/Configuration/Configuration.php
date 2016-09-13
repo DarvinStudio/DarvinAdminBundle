@@ -35,8 +35,8 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->append($this->addMenuNode())
-                ->scalarNode('breadcrumbs_entity_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
-                ->arrayNode('child_entities')->prototype('scalar')->end()->end()
+                ->scalarNode('breadcrumbs_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
+                ->arrayNode('children')->prototype('scalar')->end()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()

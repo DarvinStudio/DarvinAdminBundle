@@ -203,7 +203,7 @@ class MetadataManager
             $parentMeta = $this->metadata[$parentEntity];
             $parentConfiguration = $parentMeta->getConfiguration();
 
-            foreach ($parentConfiguration['child_entities'] as $childEntity) {
+            foreach ($parentConfiguration['children'] as $childEntity) {
                 if (!isset($this->metadata[$childEntity])) {
                     throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $childEntity));
                 }
@@ -227,7 +227,7 @@ class MetadataManager
                 }
             }
 
-            $this->buildTree($parentConfiguration['child_entities']);
+            $this->buildTree($parentConfiguration['children']);
         }
     }
 }

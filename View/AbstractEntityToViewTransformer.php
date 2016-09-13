@@ -150,7 +150,17 @@ abstract class AbstractEntityToViewTransformer
      */
     protected function isViewFieldHidden(Metadata $meta, $viewType, $field)
     {
-        foreach ($meta->getConfiguration()['view'][$viewType]['fields'][$field]['role_blacklist'] as $role) {
+        return $this->isFieldHidden($meta->getConfiguration()['view'][$viewType]['fields'][$field]);
+    }
+
+    /**
+     * @param array $fieldAttr Field attributes
+     *
+     * @return bool
+     */
+    protected function isFieldHidden(array $fieldAttr)
+    {
+        foreach ($fieldAttr['role_blacklist'] as $role) {
             if ($this->authorizationChecker->isGranted($role)) {
                 return true;
             }

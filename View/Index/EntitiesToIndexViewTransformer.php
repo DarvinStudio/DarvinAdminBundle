@@ -286,6 +286,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             if (!$this->isPropertyViewField($meta, 'index', $field)
                 || !array_key_exists($field, $configuration['form']['index']['fields'])
                 || $this->isViewFieldHidden($meta, 'index', $field)
+                || $this->isFieldHidden($configuration['form']['index']['fields'][$field])
             ) {
                 continue;
             }

@@ -19,17 +19,26 @@ use Darvin\UserBundle\Entity\BaseUser;
 class SwitchUserWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * @param \Darvin\UserBundle\Entity\BaseUser $user     User
+     * @param array                              $options  Options
+     * @param string                             $property Property name
+     *
+     * @return string
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($user, array $options, $property)
     {
         if (!$this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
             return null;
         }
+        foreach ($user->getRoles() as $role) {
+            if (preg_match('/ADMIN$/', $role)) {
+                return $this->render([], [
+                    'user' => $user,
+                ]);
+            }
+        }
 
-        return $this->render([], [
-            'user' => $entity,
-        ]);
+        return null;
     }
 
     /**

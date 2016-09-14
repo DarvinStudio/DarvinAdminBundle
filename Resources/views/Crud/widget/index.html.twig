@@ -8,7 +8,7 @@
 
         {% block new_link %}
 
-            {% set new_url = admin_route_exists(meta.entityClass, 'new')
+            {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('create_delete', meta.entityClass)
                 ? admin_path(
                     null,
                     meta.entityClass,

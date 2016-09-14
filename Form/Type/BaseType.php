@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
+use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -19,7 +20,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -30,9 +30,9 @@ class BaseType extends AbstractFormType
     const BASE_TYPE_CLASS = __CLASS__;
 
     /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
      */
-    private $authorizationChecker;
+    private $fieldBlacklistManager;
 
     /**
      * @var \Symfony\Component\Form\FormTypeGuesserInterface
@@ -45,16 +45,16 @@ class BaseType extends AbstractFormType
     private $translatableManager;
 
     /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface                             $formTypeGuesser      Form type guesser
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface              $translatableManager  Translatable manager
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
+     * @param \Symfony\Component\Form\FormTypeGuesserInterface                $formTypeGuesser       Form type guesser
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
      */
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
+        FieldBlacklistManager $fieldBlacklistManager,
         FormTypeGuesserInterface $formTypeGuesser,
         TranslatableManagerInterface $translatableManager
     ) {
-        $this->authorizationChecker = $authorizationChecker;
+        $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->formTypeGuesser = $formTypeGuesser;
         $this->translatableManager = $translatableManager;
     }
@@ -64,6 +64,7 @@ class BaseType extends AbstractFormType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $meta = $this->getMetadata($options);
         $configuration = $this->getMetadata($options)->getConfiguration();
 
         $fields = $configuration['form'][$options['action_type']]['fields'];
@@ -75,7 +76,9 @@ class BaseType extends AbstractFormType
         $fieldFilterProvided = isset($options['field_filter']);
 
         foreach ($fields as $field => $attr) {
-            if (($fieldFilterProvided && $field !== $options['field_filter']) || $this->isFieldHidden($attr)) {
+            if (($fieldFilterProvided && $field !== $options['field_filter'])
+                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)
+            ) {
                 continue;
             }
 
@@ -209,22 +212,6 @@ class BaseType extends AbstractFormType
         return $guess->getConfidence() > 0
             ? $guess
             : $this->formTypeGuesser->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
-    }
-
-    /**
-     * @param array $fieldAttr Field attributes
-     *
-     * @return bool
-     */
-    private function isFieldHidden(array $fieldAttr)
-    {
-        foreach ($fieldAttr['role_blacklist'] as $role) {
-            if ($this->authorizationChecker->isGranted($role)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**

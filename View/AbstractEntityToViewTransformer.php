@@ -10,12 +10,12 @@
 
 namespace Darvin\AdminBundle\View;
 
+use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Entity to view transformer abstract implementation
@@ -23,14 +23,14 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 abstract class AbstractEntityToViewTransformer
 {
     /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    protected $authorizationChecker;
-
-    /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
+
+    /**
+     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
+     */
+    protected $fieldBlacklistManager;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -48,21 +48,21 @@ abstract class AbstractEntityToViewTransformer
     protected $widgetPool;
 
     /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                    $container            DI container
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface                       $stringifier          Stringifier
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                                   $widgetPool           View widget pool
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container             DI container
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager          $fieldBlacklistManager Field blacklist manager
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor      Property accessor
+     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface      $stringifier           Stringifier
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                  $widgetPool            View widget pool
      */
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
         ContainerInterface $container,
+        FieldBlacklistManager $fieldBlacklistManager,
         PropertyAccessorInterface $propertyAccessor,
         StringifierInterface $stringifier,
         WidgetPool $widgetPool
     ) {
-        $this->authorizationChecker = $authorizationChecker;
         $this->container = $container;
+        $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
         $this->widgetPool = $widgetPool;
@@ -139,33 +139,5 @@ abstract class AbstractEntityToViewTransformer
         $config = $meta->getConfiguration()['view'][$viewType]['fields'][$field];
 
         return !isset($config['widget']) && !isset($config['service']) && !isset($config['callback']);
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
-     * @param string                                $viewType View type
-     * @param string                                $field    Field name
-     *
-     * @return bool
-     */
-    protected function isViewFieldHidden(Metadata $meta, $viewType, $field)
-    {
-        return $this->isFieldHidden($meta->getConfiguration()['view'][$viewType]['fields'][$field]);
-    }
-
-    /**
-     * @param array $fieldAttr Field attributes
-     *
-     * @return bool
-     */
-    protected function isFieldHidden(array $fieldAttr)
-    {
-        foreach ($fieldAttr['role_blacklist'] as $role) {
-            if ($this->authorizationChecker->isGranted($role)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

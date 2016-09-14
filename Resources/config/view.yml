@@ -39,8 +39,8 @@ services:
         class:    "%darvin_admin.view.entity_transformer.abstract.class%"
         abstract: true
         arguments:
-            - "@security.authorization_checker"
             - "@service_container"
+            - "@darvin_admin.metadata.field_blacklist_manager"
             - "@property_accessor"
             - "@darvin_utils.stringifier.doctrine"
             - "@darvin_admin.view.widget.pool"
@@ -49,8 +49,9 @@ services:
         class:  "%darvin_admin.view.entity_transformer.index.class%"
         parent: darvin_admin.view.entity_transformer.abstract
         calls:
-            - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
-            - [ setTemplating,       [ "@templating" ] ]
+            - [ setAdminFormFactory,     [ "@darvin_admin.form.factory" ] ]
+            - [ setAuthorizationChecker, [ "@security.authorization_checker" ] ]
+            - [ setTemplating,           [ "@templating" ] ]
 
     darvin_admin.view.entity_transformer.show:
         class:  "%darvin_admin.view.entity_transformer.show.class%"

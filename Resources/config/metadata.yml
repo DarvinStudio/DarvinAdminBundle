@@ -5,6 +5,8 @@ parameters:
 
     darvin_admin.metadata.factory.class: Darvin\AdminBundle\Metadata\MetadataFactory
 
+    darvin_admin.metadata.field_blacklist_manager.class: Darvin\AdminBundle\Metadata\FieldBlacklistManager
+
     darvin_admin.metadata.identifier_accessor.class: Darvin\AdminBundle\Metadata\IdentifierAccessor
 
     darvin_admin.metadata.manager.class: Darvin\AdminBundle\Metadata\MetadataManager
@@ -35,6 +37,12 @@ services:
             - "@darvin_admin.metadata.configuration.loader"
             - "@doctrine.orm.entity_manager"
             - "@darvin_content.translatable.manager"
+
+    darvin_admin.metadata.field_blacklist_manager:
+        class:  "%darvin_admin.metadata.field_blacklist_manager.class%"
+        public: false
+        arguments:
+            - "@security.authorization_checker"
 
     darvin_admin.metadata.identifier_accessor:
         class: "%darvin_admin.metadata.identifier_accessor.class%"

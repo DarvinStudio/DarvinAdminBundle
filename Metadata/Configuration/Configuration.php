@@ -33,6 +33,12 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = $treeBuilder->root('root');
         $rootNode
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
+                })
+                ->thenInvalid('Same role cannot be in field blacklist and whitelist simultaneously.')
+            ->end()
             ->children()
                 ->append($this->addMenuNode())
                 ->scalarNode('breadcrumbs_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
@@ -41,11 +47,21 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
+                ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
+                ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('route_blacklist')->prototype('scalar')->end()->defaultValue([
                     AdminRouter::TYPE_COPY,
                 ])->end()
-                ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
-                ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
+                ->arrayNode('field_blacklist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('field_whitelist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('pagination')->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultTrue()->end()
@@ -153,7 +169,6 @@ class Configuration implements ConfigurationInterface
                                 ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                                 ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->scalarNode('compare_strict')->defaultTrue()->end()
-                                ->arrayNode('role_blacklist')->prototype('scalar')->end()->end()
                             ->end()
                         ->end()
                     ->end()
@@ -163,8 +178,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
                             ->arrayNode('options')->prototype('variable')->end()->end()
-                            ->scalarNode('compare_strict')->defaultTrue()->end()
-                            ->arrayNode('role_blacklist')->prototype('scalar');
+                            ->scalarNode('compare_strict')->defaultTrue();
 
         return $rootNode;
     }
@@ -195,7 +209,6 @@ class Configuration implements ConfigurationInterface
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
                         ->children()
-                            ->arrayNode('role_blacklist')->prototype('scalar')->end()->end()
                             ->arrayNode('widget')
                                 ->children()
                                     ->scalarNode('alias')->isRequired()->cannotBeEmpty()->end()

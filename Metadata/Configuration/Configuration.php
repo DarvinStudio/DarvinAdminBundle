@@ -160,8 +160,24 @@ class Configuration implements ConfigurationInterface
 
         $rootNode = (new TreeBuilder())->root($form);
         $rootNode->addDefaultsIfNotSet()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
+                })
+                ->thenInvalid('Same role cannot be in field blacklist and whitelist simultaneously.')
+            ->end()
             ->children()
                 ->scalarNode('type')->defaultNull()->end()
+                ->arrayNode('field_blacklist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('field_whitelist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
                 ->arrayNode('field_groups')
                     ->prototype('array')
                         ->prototype('array')
@@ -193,11 +209,27 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode = (new TreeBuilder())->root($view);
         $rootNode->addDefaultsIfNotSet()
+            ->validate()
+                ->ifTrue(function ($v) {
+                    return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
+                })
+                ->thenInvalid('Same role cannot be in field blacklist and whitelist simultaneously.')
+            ->end()
             ->children()
                 ->scalarNode('template')->defaultNull()->end()
                 ->arrayNode('action_widgets')->defaultValue(array_fill_keys($defaultActionWidgets, []))
                     ->prototype('array')
                         ->prototype('variable')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('field_blacklist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+                ->arrayNode('field_whitelist')
+                    ->prototype('array')
+                        ->prototype('scalar')->end()
                     ->end()
                 ->end()
                 ->arrayNode('fields')

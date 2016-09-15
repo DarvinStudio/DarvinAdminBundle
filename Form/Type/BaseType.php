@@ -77,7 +77,7 @@ class BaseType extends AbstractFormType
 
         foreach ($fields as $field => $attr) {
             if (($fieldFilterProvided && $field !== $options['field_filter'])
-                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)
+                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, sprintf('[form][%s]', $options['action_type']))
             ) {
                 continue;
             }

@@ -134,7 +134,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
             $head->addItem('action_widgets', new HeadItem('interface.actions'));
         }
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)) {
+            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                 continue;
             }
 
@@ -189,7 +189,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
             }
             foreach ($configuration['view']['index']['fields'] as $field => $attr) {
-                if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)) {
+                if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                     continue;
                 }
                 if (isset($propertyForms[$field])) {
@@ -299,7 +299,8 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
             if (!$this->isPropertyViewField($meta, 'index', $field)
                 || !array_key_exists($field, $configuration['form']['index']['fields'])
-                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)
+                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
+                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
             ) {
                 continue;
             }

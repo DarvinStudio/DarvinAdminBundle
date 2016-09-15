@@ -43,6 +43,7 @@ services:
         public: false
         arguments:
             - "@security.authorization_checker"
+            - "@property_accessor"
 
     darvin_admin.metadata.identifier_accessor:
         class: "%darvin_admin.metadata.identifier_accessor.class%"

@@ -154,7 +154,7 @@ class FilterType extends AbstractFormType
 
                 throw new FormException($message);
             }
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field)) {
+            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][filter]')) {
                 continue;
             }
 

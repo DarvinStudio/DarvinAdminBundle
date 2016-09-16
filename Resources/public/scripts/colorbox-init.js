@@ -43,7 +43,6 @@ $(document).ready(function () {
             .find('.colorbox').colorbox(locale);
     })('body');
 
-
     $(document).on('searchComplete', function (e, results) {
         init(results);
     });

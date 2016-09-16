@@ -16,6 +16,16 @@ chosen:
     placeholder_text_multiple: ---
     placeholder_text_single:   ---
 
+colorbox:
+    close:          закрыть
+    current:        изображение {current} из {total}
+    imgError:       Не удалось загрузить изображение.
+    next:           вперед
+    previous:       назад
+    slideshowStart: начать слайд-шоу
+    slideshowStop:  остановить слайд-шоу
+    xhrError:       Не удалось загрузить содержимое.
+
 configuration:
     action:
         edit:
@@ -41,16 +51,6 @@ exception:
     403: Запрещено
     404: Не найдено
     500: Внутренняя ошибка сервера
-
-fancybox:
-    close:      Закрыть
-    error:      Запрошенный контент не может быть загружен.<br>Пожалуйста, повторите попытку позднее.
-    expand:     Показать в оригинальном размере
-    next:       Далее
-    play_start: Начать слайдшоу
-    play_stop:  Приостановить слайдшоу
-    prev:       Назад
-    shrink:     Уместить в окно просмотра
 
 filter:
     title:       Фильтр таблицы

@@ -185,7 +185,6 @@
             <script src="{{ asset('bundles/ivoryckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
             <script>
-                $.fancybox.defaults.locale = '{{ app.request.locale }}';
                 Translator.locale = '{{ app.request.locale }}';
 
                 {% for type, messages in flashes %}

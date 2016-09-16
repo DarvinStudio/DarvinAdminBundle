@@ -16,6 +16,16 @@ chosen:
     placeholder_text_multiple: ---
     placeholder_text_single:   ---
 
+colorbox:
+    close:          close
+    current:        image {current} of {total}
+    imgError:       This image failed to load.
+    next:           next
+    previous:       previous
+    slideshowStart: start slideshow
+    slideshowStop:  stop slideshow
+    xhrError:       This content failed to load.
+
 configuration:
     action:
         edit:

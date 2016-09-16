@@ -15,8 +15,8 @@ parameters:
           - bundles/darvinadmin/scripts/dropzone.js
           - bundles/darvinadmin/scripts/jquery/bootstrap.js
           - bundles/darvinadmin/scripts/jquery/chosen.js
+          - bundles/darvinadmin/scripts/jquery/colorbox/colorbox.js
           - bundles/darvinadmin/scripts/jquery/cookie.js
-          - bundles/darvinadmin/scripts/jquery/fancybox.js
           - bundles/darvinadmin/scripts/jquery/jscrollpane.js
           - bundles/darvinadmin/scripts/jquery/mousewheel.js
           - bundles/darvinadmin/scripts/jquery/noty/noty.js
@@ -32,10 +32,10 @@ parameters:
 
           - bundles/darvinadmin/scripts/ajax-forms.js
           - bundles/darvinadmin/scripts/chosen-init.js
+          - bundles/darvinadmin/scripts/colorbox-init.js
           - bundles/darvinadmin/scripts/counter-init.js
           - bundles/darvinadmin/scripts/date-time-pickers-init.js
           - bundles/darvinadmin/scripts/dropzone-init.js
-          - bundles/darvinadmin/scripts/fancybox-init.js
           - bundles/darvinadmin/scripts/form-collections.js
           - bundles/darvinadmin/scripts/images.js
           - bundles/darvinadmin/scripts/master-slave-inputs.js
@@ -56,8 +56,8 @@ parameters:
         - bundles/darvinadmin/styles/jquery-ui.css
         - bundles/darvinadmin/styles/jquery-ui-timepicker-addon.css
 
+        - bundles/darvinadmin/styles/colorbox.css
         - bundles/darvinadmin/styles/dropzone.css
-        - bundles/darvinadmin/styles/fancybox.css
 
         - bundles/a2lixtranslationform/css/a2lix_translation_default.css
 

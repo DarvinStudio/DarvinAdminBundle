@@ -1,8 +1,9 @@
 $(document).ready(function () {
-    $.colorbox.settings = $.extend({}, $.colorbox.settings, {
+    $.extend($.colorbox.settings, {
         maxWidth:  '90%',
         opacity:   0.7,
-        scrolling: false
+        scrolling: false,
+        trapFocus: false
     });
 
     var translatable = [

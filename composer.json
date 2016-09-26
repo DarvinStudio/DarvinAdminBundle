@@ -12,25 +12,25 @@
         }
     ],
     "require": {
-        "a2lix/translation-form-bundle":      "2.1.*",
-        "egeloen/ckeditor-bundle":            "4.0.*",
-        "egeloen/form-extra-bundle":          "1.0.*",
-        "helios-ag/fm-elfinder-bundle":       "dev-master@dev",
-        "knplabs/knp-paginator-bundle":       "2.5.*",
-        "ocramius/proxy-manager":             "0.5.*",
-        "oneup/uploader-bundle":              "1.7.*",
-        "stof/doctrine-extensions-bundle":    "1.2.*",
-        "vich/uploader-bundle":               "1.0.*@dev",
-        "willdurand/js-translation-bundle":   "2.2.*",
+        "a2lix/translation-form-bundle":      "^2.1",
+        "egeloen/ckeditor-bundle":            "^4.0",
+        "egeloen/form-extra-bundle":          "^1.0",
+        "helios-ag/fm-elfinder-bundle":       "^6.2",
+        "knplabs/knp-paginator-bundle":       "^2.5",
+        "ocramius/proxy-manager":             "^0.5",
+        "oneup/uploader-bundle":              "^1.7",
+        "stof/doctrine-extensions-bundle":    "^1.2",
+        "vich/uploader-bundle":               "^1.0@dev",
+        "willdurand/js-translation-bundle":   "^2.2",
 
-        "darvinstudio/darvin-config-bundle":  "*@dev",
-        "darvinstudio/darvin-content-bundle": "*@dev",
-        "darvinstudio/darvin-image-bundle":   "*@dev",
-        "darvinstudio/darvin-user-bundle":    "*@dev",
-        "darvinstudio/darvin-utils-bundle":   "*@dev"
+        "darvinstudio/darvin-config-bundle":  "@dev",
+        "darvinstudio/darvin-content-bundle": "@dev",
+        "darvinstudio/darvin-image-bundle":   "@dev",
+        "darvinstudio/darvin-user-bundle":    "@dev",
+        "darvinstudio/darvin-utils-bundle":   "@dev"
     },
     "require-dev": {
-        "symfony/assetic-bundle": "2.8.*"
+        "symfony/assetic-bundle": "^2.8"
     },
     "suggest": {
         "lexik/translation-bundle": "Allows to manage translations"

@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                     ])
                 ->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
+                ->arrayNode('entity_override')->prototype('scalar')->end()->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->end()

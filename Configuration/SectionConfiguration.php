@@ -23,23 +23,28 @@ class SectionConfiguration
     private $sectionByEntities;
 
     /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
-     * @param array[]                                        $configs     Configs
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer    Object namer
+     * @param array[]                                        $configs        Configs
+     * @param array                                          $entityOverride Entity override configuration
      *
      * @throws \Darvin\AdminBundle\Configuration\ConfigurationException
      */
-    public function __construct(ObjectNamerInterface $objectNamer, array $configs)
+    public function __construct(ObjectNamerInterface $objectNamer, array $configs, array $entityOverride)
     {
         $this->sectionByEntities = [];
 
         foreach ($configs as $config) {
-            $alias = !empty($config['alias']) ? $config['alias'] : $objectNamer->name($config['entity']);
+            $entity = $config['entity'];
+            $alias = !empty($config['alias']) ? $config['alias'] : $objectNamer->name($entity);
 
             if (isset($this->sectionByEntities[$alias])) {
                 throw new ConfigurationException(sprintf('Section with alias "%s" already exists.', $alias));
             }
+            if (isset($entityOverride[$entity])) {
+                $entity = $entityOverride[$entity];
+            }
 
-            $this->sectionByEntities[$config['entity']] = new Section($alias, $config['entity'], $config['config']);
+            $this->sectionByEntities[$entity] = new Section($alias, $entity, $config['config']);
         }
     }
 

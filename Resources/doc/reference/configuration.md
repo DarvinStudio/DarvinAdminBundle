@@ -10,6 +10,7 @@ darvin_admin:
         - Liip\ImagineBundle\Command\RemoveCacheCommand
         - Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand
     debug:                    false                         # Включен ли режим отладки
+    entity_override:          {}                            # Таблица [замен классов сущностей](../how_to_override_entity.md), пример: {AppBundle\Entity\Foo: AppBundle\Entity\Bar}
     locales:                                                # Локали (обязательно)
     search_query_min_length:  3                             # Минимальная длина поискового запроса
     translations_model_dir:   Resources/config/translations # Путь до каталога с моделями переводов

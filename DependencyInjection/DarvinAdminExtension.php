@@ -113,7 +113,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'sections' => $sections,
             'menu'     => [
                 'groups' => [
-                    'modules' => [
+                    [
+                        'name'   => 'modules',
                         'colors' => [
                             'main'    => '#ff9a16',
                             'sidebar' => '#ffe86d',
@@ -123,7 +124,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
                         ],
                     ],
-                    'pages' => [
+                    [
+                        'name'     => 'pages',
                         'position' => 1,
                         'colors'   => [
                             'main'    => '#649ea6',
@@ -134,7 +136,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/pages_sidebar.png',
                         ],
                     ],
-                    'portfolio' => [
+                    [
+                        'name'   => 'portfolio',
                         'colors' => [
                             'main'    => '#0086c4',
                             'sidebar' => '#00a1b9',
@@ -144,7 +147,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/portfolio_sidebar.png',
                         ],
                     ],
-                    'prices' => [
+                    [
+                        'name'   => 'prices',
                         'colors' => [
                             'main'    => '#389fa8',
                             'sidebar' => '#279f00',
@@ -154,7 +158,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/prices_sidebar.png',
                         ],
                     ],
-                    'publications' => [
+                    [
+                        'name'     => 'publications',
                         'position' => 2,
                         'colors'   => [
                             'main'    => '#ff4d25',
@@ -165,7 +170,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/publications_sidebar.png',
                         ],
                     ],
-                    'seo_results' => [
+                    [
+                        'name'   => 'seo_results',
                         'colors' => [
                             'main'    => '#d49d00',
                             'sidebar' => '#f4b800',

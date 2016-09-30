@@ -45,7 +45,9 @@ class Menu
     public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupsConfig)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->groupsConfig = $groupsConfig;
+        $this->groupsConfig = array_combine(array_map(function (array $config) {
+            return $config['name'];
+        }, $groupsConfig), $groupsConfig);
         $this->itemFactories = [];
         $this->items = null;
     }

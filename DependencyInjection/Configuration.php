@@ -101,6 +101,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('groups')
                     ->prototype('array')->addDefaultsIfNotSet()
                         ->children()
+                            ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
                             ->integerNode('position')->defaultNull()->end()
                             ->arrayNode('colors')->addDefaultsIfNotSet()
                                 ->children()

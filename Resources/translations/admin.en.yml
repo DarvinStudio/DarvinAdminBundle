@@ -159,23 +159,12 @@ log:
 
 menu:
     group:
-        menu:
-            title: Menu
         modules:
             description: View orders, configure payment systems.
             title:       Modules
         pages:
             description: Structure and main sections. <br>Editing and creating.
             title:       Structural sections
-        portfolio:
-            title: Portfolio
-        prices:
-            title: Prices
-        publications:
-            description: View orders, configure payment systems.
-            title:       Publications
-        seo_results:
-            title: SEO results
 
 property_forms:
     submit: Submit changes

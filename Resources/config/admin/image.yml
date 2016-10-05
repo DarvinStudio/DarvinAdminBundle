@@ -13,7 +13,7 @@ menu:
         sidebar: bundles/darvinadmin/images/admin/image_sidebar.png
 form:
     edit:
-        type: Darvin\ImageBundle\Form\Type\Image\Image\SizesType
+        type: Darvin\ImageBundle\Form\Type\Image\ImageSizesType
     filter:
         fields:
             name:

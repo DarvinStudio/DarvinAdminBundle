@@ -93,9 +93,11 @@ image:
         name:      Name
     menu:
         description: Upload and manage images published on website.
-    size:
-        darvin_admin: Common
     sizes: Sizes
+
+image_size:
+    darvin_admin:
+        darvin_admin: Common
 
 interface:
     actions:          Actions

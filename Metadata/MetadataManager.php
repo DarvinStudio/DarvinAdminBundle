@@ -212,7 +212,9 @@ class MetadataManager
                 $associated = false;
 
                 foreach ($childMeta->getMappings() as $property => $mapping) {
-                    if (!$childMeta->isAssociation($property) || $mapping['targetEntity'] !== $parentEntity) {
+                    if (!$childMeta->isAssociation($property)
+                        || ($mapping['targetEntity'] !== $parentEntity && !in_array($mapping['targetEntity'], class_parents($parentEntity)))
+                    ) {
                         continue;
                     }
 

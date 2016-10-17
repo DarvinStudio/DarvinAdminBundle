@@ -1,7 +1,10 @@
 {% trans_default_domain 'admin' %}
 
 {% set pagination      = pagination|default %}
-{% set pagination_html = pagination ? knp_pagination_render(pagination) : null %}
+{% set pagination_html = pagination
+    ? knp_pagination_render(pagination, 'KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig')
+    : null
+%}
 
 <div class="property_forms">
     <div class="clearfix">

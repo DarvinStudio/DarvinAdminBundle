@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * CKEditor form type
@@ -31,6 +32,11 @@ class CKEditorType extends AbstractType
      * @var \Symfony\Component\HttpFoundation\RequestStack
      */
     private $requestStack;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
 
     /**
      * @var \Darvin\ContentBundle\Widget\WidgetPoolInterface
@@ -49,13 +55,20 @@ class CKEditorType extends AbstractType
 
     /**
      * @param \Symfony\Component\HttpFoundation\RequestStack   $requestStack   Request stack
+     * @param \Symfony\Component\Routing\RouterInterface       $router         Router
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface $widgetPool     Widget pool
      * @param string                                           $pluginFilename Plugin filename
      * @param string                                           $pluginsPath    Plugins path
      */
-    public function __construct(RequestStack $requestStack, WidgetPoolInterface $widgetPool, $pluginFilename, $pluginsPath)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        RouterInterface $router,
+        WidgetPoolInterface $widgetPool,
+        $pluginFilename,
+        $pluginsPath
+    ) {
         $this->requestStack = $requestStack;
+        $this->router = $router;
         $this->widgetPool = $widgetPool;
         $this->pluginFilename = $pluginFilename;
         $this->pluginsPath = $pluginsPath;
@@ -149,6 +162,11 @@ class CKEditorType extends AbstractType
     {
         $options = $widget->getOptions();
 
+        if (isset($options['ckeditor']) && $options['ckeditor']) {
+            return $this->router->generate('darvin_admin_ckeditor_plugin_path', [
+                'widgetName' => $widget->getName(),
+            ]);
+        }
         if (!isset($options['ckeditor_plugin_path'])) {
             return null;
         }

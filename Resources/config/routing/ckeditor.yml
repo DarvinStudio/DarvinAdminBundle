@@ -5,5 +5,5 @@ darvin_admin_ckeditor_plugin:
     methods:      [ get ]
 
 darvin_admin_ckeditor_plugin_path:
-    path:         /plugins/{widgetName}
+    path:         /plugins/{widgetName}/
     requirements: { widgetName: .+ }

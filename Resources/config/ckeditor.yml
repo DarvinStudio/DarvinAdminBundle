@@ -15,6 +15,7 @@ services:
         class: "%darvin_admin.ckeditor.form_type.class%"
         arguments:
             - "@request_stack"
+            - "@router"
             - "@darvin_content.widget.pool"
             - "%darvin_admin.ckeditor.plugin_filename%"
             - "%darvin_admin.ckeditor.plugins_path%"

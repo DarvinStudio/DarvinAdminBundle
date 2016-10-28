@@ -2,6 +2,10 @@ darvin_admin_import_cache:
     resource: "@DarvinAdminBundle/Resources/config/routing/cache.yml"
     prefix:   /cache
 
+darvin_admin_import_ckeditor:
+    resource: "@DarvinAdminBundle/Resources/config/routing/ckeditor.yml"
+    prefix:   /ckeditor
+
 darvin_admin_import_configuration:
     resource: "@DarvinAdminBundle/Resources/config/routing/configuration.yml"
     prefix:   /configuration

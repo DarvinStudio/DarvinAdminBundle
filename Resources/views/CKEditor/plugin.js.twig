@@ -1,0 +1,51 @@
+{% set icon = widget.options.ckeditor_icon|default %}
+
+(function () {
+    var widgetName        = '{{ widget.name }}';
+    var widgetPlaceholder = '{{ widget.placeholder|raw }}';
+
+    CKEDITOR.plugins.add(widgetName, {
+        requires: 'widget',
+        init:     function (editor) {
+            var widgetTitle = '{{ ('widgets.' ~ widget.name)|trans }}';
+
+            editor.widgets.add(widgetName, {
+                template:        '<div class="' + widgetName + '">' + widgetPlaceholder + '</div>',
+                allowedContent:  'div(!' + widgetName + ')',
+                requiredContent: 'div(' + widgetName + ')',
+                upcast:          function (element) {
+                    return 'div' === element.name
+                        && element.hasClass(widgetName)
+                        && 1 === element.children.length
+                        && widgetPlaceholder === element.children[0].value;
+                },
+                init: function () {
+                    this.element.setHtml('');
+                    this.element.setAttribute('title', widgetTitle);
+                },
+                downcast: function (element) {
+                    delete element.attributes.title;
+                    element.setHtml(widgetPlaceholder);
+                }
+            });
+
+            editor.ui.addButton(widgetName, {
+                label:   widgetTitle,
+                command: widgetName{% if icon %},{% endif %}
+
+                {% if icon %}icon:    '{{ icon|raw }}?' + Math.random(){% endif %}
+
+            });
+
+            CKEDITOR.addCss(
+                '.' + widgetName + ' {' +
+                    {% if icon %}'background:      url("{{ icon|raw }}") no-repeat center;' +{% endif %}
+
+                    'background-size: 64px 64px;' +
+                    'box-shadow:      grey 0 0 16px;' +
+                    'height:          84px;' +
+                '}'
+            );
+        }
+    });
+})();

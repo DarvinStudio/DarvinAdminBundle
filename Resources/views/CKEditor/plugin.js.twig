@@ -41,9 +41,12 @@
 
             CKEDITOR.addCss(
                 '.' + widgetName + ' {' +
-                    {% if icon %}'background:      url("{{ icon|raw }}") no-repeat center;' +{% endif %}
+                    {% if icon %}
 
+                    'background:      url("{{ icon|raw }}") no-repeat center;' +
                     'background-size: 64px 64px;' +
+                    {% endif %}
+
                     'box-shadow:      grey 0 0 16px;' +
                     'height:          84px;' +
                 '}'

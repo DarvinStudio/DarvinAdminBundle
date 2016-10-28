@@ -11,8 +11,8 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\ContentBundle\Widget\WidgetException;
+use Darvin\ContentBundle\Widget\WidgetInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * CKEditor controller
@@ -33,13 +33,39 @@ class CKEditorController extends Controller
             throw $this->createNotFoundException($ex->getMessage());
         }
 
-        $content = $this->renderView('DarvinAdminBundle:CKEditor:plugin.js.twig', [
+        $response = $this->render('DarvinAdminBundle:CKEditor:plugin.js.twig', [
+            'icon'   => $this->getWidgetIcon($widget),
             'widget' => $widget,
         ]);
+        $response->headers->set('Content-Type', 'application/javascript');
 
-        return new Response($content, 200, [
-            'Content-Type' => 'application/javascript',
-        ]);
+        if (!$this->getParameter('kernel.debug')) {
+            $response->setMaxAge(365 * 24 * 60 * 60);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
+     *
+     * @return string
+     */
+    private function getWidgetIcon(WidgetInterface $widget)
+    {
+        $options = $widget->getOptions();
+
+        if (!isset($options['ckeditor_icon']) || empty($options['ckeditor_icon'])) {
+            return null;
+        }
+
+        $content = file_get_contents($this->getParameter('kernel.root_dir').'/../web/'.$options['ckeditor_icon']);
+
+        if (!$content) {
+            return null;
+        }
+
+        return sprintf('data:%s;base64,%s', mime_content_type($options['ckeditor_icon']), base64_encode($content));
     }
 
     /**

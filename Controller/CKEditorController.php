@@ -59,13 +59,21 @@ class CKEditorController extends Controller
             return null;
         }
 
-        $content = file_get_contents($this->getParameter('kernel.root_dir').'/../web/'.$options['ckeditor_icon']);
+        $pathname = $this->getParameter('kernel.root_dir').'/../web/'.$options['ckeditor_icon'];
+
+        $content = @file_get_contents($pathname);
 
         if (!$content) {
             return null;
         }
 
-        return sprintf('data:%s;base64,%s', mime_content_type($options['ckeditor_icon']), base64_encode($content));
+        $mime = @mime_content_type($pathname);
+
+        if (!$mime) {
+            return null;
+        }
+
+        return sprintf('data:%s;base64,%s', $mime, base64_encode($content));
     }
 
     /**

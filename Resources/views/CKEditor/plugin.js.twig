@@ -11,7 +11,7 @@
     CKEDITOR.plugins.add(widgetName, {
         requires: 'widget',
         init:     function (editor) {
-            var widgetTitle = '{{ ('ckeditor_plugin.' ~ widget.name)|trans }}';
+            var widgetTitle = '{{ ('ckeditor_widget.' ~ widget.name)|trans }}';
 
             editor.widgets.add(widgetName, {
                 template:        '<div class="' + widgetName + '">' + widgetPlaceholder + '</div>',

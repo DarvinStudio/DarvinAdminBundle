@@ -53,21 +53,19 @@ class CKEditorController extends Controller
      */
     private function getWidgetIcon(WidgetInterface $widget)
     {
-        $options = $widget->getOptions();
+        $options = $widget->getResolvedOptions();
 
-        if (!isset($options['ckeditor_icon']) || empty($options['ckeditor_icon'])) {
+        if (!isset($options['icon']) || empty($options['icon'])) {
             return null;
         }
 
-        $pathname = $this->getParameter('kernel.root_dir').'/../web/'.$options['ckeditor_icon'];
-
-        $content = @file_get_contents($pathname);
+        $content = @file_get_contents($options['icon']);
 
         if (!$content) {
             return null;
         }
 
-        $mime = @mime_content_type($pathname);
+        $mime = @mime_content_type($options['icon']);
 
         if (!$mime) {
             return null;

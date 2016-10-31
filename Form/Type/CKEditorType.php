@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\ContentBundle\Widget\WidgetInterface;
+use Darvin\AdminBundle\CKEditor\AbstractCKEditorWidget;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
@@ -96,17 +96,17 @@ class CKEditorType extends AbstractType
         ];
 
         foreach ($this->widgetPool->getAllWidgets() as $widget) {
-            $path = $this->getWidgetPluginPath($widget);
-
-            if (empty($path)) {
+            if (!$widget instanceof AbstractCKEditorWidget) {
                 continue;
             }
 
             $widgetName = $widget->getName();
 
             $plugins[$widgetName] = [
-                'path'     => $path,
-                'filename' => $this->getWidgetPluginFilename($widget),
+                'path'     => $this->router->generate('darvin_admin_ckeditor_plugin_path', [
+                    'widgetName' => $widgetName,
+                ]),
+                'filename' => 'plugin.js',
             ];
             $extraPlugins[] = $widgetName;
         }
@@ -151,44 +151,5 @@ class CKEditorType extends AbstractType
     public function getParent()
     {
         return 'Ivory\CKEditorBundle\Form\Type\CKEditorType';
-    }
-
-    /**
-     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
-     *
-     * @return string
-     */
-    private function getWidgetPluginPath(WidgetInterface $widget)
-    {
-        $options = $widget->getOptions();
-
-        if (isset($options['ckeditor']) && $options['ckeditor']) {
-            return $this->router->generate('darvin_admin_ckeditor_plugin_path', [
-                'widgetName' => $widget->getName(),
-            ]);
-        }
-        if (!isset($options['ckeditor_plugin_path'])) {
-            return null;
-        }
-
-        $path = $options['ckeditor_plugin_path'];
-
-        if ('/' !== substr($path, -1)) {
-            $path .= '/';
-        }
-
-        return $path;
-    }
-
-    /**
-     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
-     *
-     * @return string
-     */
-    private function getWidgetPluginFilename(WidgetInterface $widget)
-    {
-        $options = $widget->getOptions();
-
-        return isset($options['ckeditor_plugin_filename']) ? $options['ckeditor_plugin_filename'] : $this->pluginFilename;
     }
 }

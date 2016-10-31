@@ -125,7 +125,7 @@ $(document).on('formCollectionAdd', function (e, form) {
 		$('.main_menu .item').height('auto');
 		$('.main_menu .item .description').height('auto');
 	}
-	console.log('resize')
+//	console.log('resize')
 }
 
 

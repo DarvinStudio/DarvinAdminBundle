@@ -65,7 +65,8 @@ class CKEditorController extends Controller
             return null;
         }
 
-        $mime = @mime_content_type($options['icon']);
+        $info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = @finfo_buffer($info, $content);
 
         if (!$mime) {
             return null;

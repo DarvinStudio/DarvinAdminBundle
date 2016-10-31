@@ -23,8 +23,11 @@ abstract class AbstractCKEditorWidget extends AbstractWidget
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
-            'icon' => __DIR__.'/../Resources/images/ckeditor_stub.png',
+            'icon'  => __DIR__.'/../Resources/images/ckeditor_stub.png',
+            'title' => 'ckeditor_widget.'.$this->getName(),
         ]);
     }
 }

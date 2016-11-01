@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormTypeGuesserInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -40,6 +41,11 @@ class BaseType extends AbstractFormType
     private $formTypeGuesser;
 
     /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
      * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
      */
     private $translatableManager;
@@ -47,15 +53,18 @@ class BaseType extends AbstractFormType
     /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormTypeGuesserInterface                $formTypeGuesser       Form type guesser
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface     $propertyAccessor      Property accessor
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
         FormTypeGuesserInterface $formTypeGuesser,
+        PropertyAccessorInterface $propertyAccessor,
         TranslatableManagerInterface $translatableManager
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->formTypeGuesser = $formTypeGuesser;
+        $this->propertyAccessor = $propertyAccessor;
         $this->translatableManager = $translatableManager;
     }
 
@@ -122,18 +131,18 @@ class BaseType extends AbstractFormType
             /** @var \Doctrine\ORM\EntityManager $em */
             $em = $fieldOptions['em'];
             $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
+            $propertyAccessor = $this->propertyAccessor;
 
             unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
 
-            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity) {
+            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity, $propertyAccessor) {
                 $qb = $er->createQueryBuilder('o');
 
                 if (empty($entity)) {
                     return $qb;
                 }
 
-                $ids = $doctrineMeta->getIdentifierValues($entity);
-                $id = reset($ids);
+                $id = $propertyAccessor->getValue($entity, $doctrineMeta->getIdentifier()[0]);
 
                 return !empty($id) ? $qb->andWhere('o != :entity')->setParameter('entity', $entity) : $qb;
             };

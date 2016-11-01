@@ -32,6 +32,7 @@ services:
         arguments:
             - "@darvin_admin.metadata.field_blacklist_manager"
             - "@form.type_guesser.doctrine"
+            - "@property_accessor"
             - "@darvin_content.translatable.manager"
         tags:
             - { name: form.type }

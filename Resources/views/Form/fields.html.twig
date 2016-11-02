@@ -107,15 +107,25 @@
     </script>
 {%- endblock -%}
 
+{%- block darvin_image_image_row -%}
+    <div class="table_row childless">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
+{%- endblock -%}
+
 {%- block darvin_image_image_widget -%}
-    {% if form.vars.data and image_exists(form.vars.data) %}
+    <div class="input_value">
+        {% if form.vars.data and image_exists(form.vars.data) %}
 
-        {% include 'DarvinAdminBundle:Form:image.html.twig' with {
-            'image': form.vars.data,
-        } %}
+            {% include 'DarvinAdminBundle:Form:image.html.twig' with {
+                'image': form.vars.data,
+            } %}
 
-    {% endif %}
-    {{ form_widget(form) }}
+        {% endif %}
+        {{ form_widget(form) }}
+    </div>
 {%- endblock -%}
 
 {%- block form_label -%}

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Command;
 
 use Darvin\AdminBundle\EntityNamer\EntityNamerInterface;
 use Darvin\Utils\Strings\StringsUtil;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Console\Command\Command;
@@ -19,6 +20,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -54,6 +56,24 @@ class GenerateTranslationsCommand extends Command
     ];
 
     /**
+     * @var array
+     */
+    private static $rangeDataTypes = [
+        Type::DATE,
+        Type::DATETIME,
+        Type::INTEGER,
+        Type::SMALLINT,
+    ];
+
+    /**
+     * @var array
+     */
+    private static $rangeSuffixes = [
+        '_from' => 'range.from',
+        '_to'   => 'range.to',
+    ];
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
@@ -62,6 +82,11 @@ class GenerateTranslationsCommand extends Command
      * @var \Darvin\AdminBundle\EntityNamer\EntityNamerInterface
      */
     private $entityNamer;
+
+    /**
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    private $translator;
 
     /**
      * @var string
@@ -82,16 +107,25 @@ class GenerateTranslationsCommand extends Command
      * @param string                                               $name          Command name
      * @param \Doctrine\ORM\EntityManager                          $em            Entity manager
      * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface $entityNamer   Entity namer
+     * @param \Symfony\Component\Translation\TranslatorInterface   $translator    Translator
      * @param string                                               $defaultLocale Default locale
      * @param string[]                                             $locales       Locales
      * @param string                                               $modelDir      Translations model directory
      */
-    public function __construct($name, EntityManager $em, EntityNamerInterface $entityNamer, $defaultLocale, array $locales, $modelDir)
-    {
+    public function __construct(
+        $name,
+        EntityManager $em,
+        EntityNamerInterface $entityNamer,
+        TranslatorInterface $translator,
+        $defaultLocale,
+        array $locales,
+        $modelDir
+    ) {
         parent::__construct($name);
 
         $this->em = $em;
         $this->entityNamer = $entityNamer;
+        $this->translator = $translator;
         $this->defaultLocale = $defaultLocale;
         $this->locales = $locales;
         $this->modelDir = $modelDir;
@@ -147,11 +181,7 @@ class GenerateTranslationsCommand extends Command
         $translations = [
             $entityName => $this->getModel($locale),
         ];
-        $translations[$entityName]['entity'] = $this->getPropertyTranslations(
-            array_merge($meta->getAssociationNames(), $meta->getFieldNames()),
-            $meta->getReflectionClass(),
-            $parseDocComments
-        );
+        $translations[$entityName]['entity'] = $this->getPropertyTranslations($meta, $parseDocComments, $locale);
 
         $entityTranslation = $this->getClassTranslation($meta->getReflectionClass(), $parseDocComments);
 
@@ -188,33 +218,48 @@ class GenerateTranslationsCommand extends Command
     }
 
     /**
-     * @param string[]         $properties       Properties
-     * @param \ReflectionClass $classReflection  Class reflection
-     * @param bool             $parseDocComments Whether to parse translations from doc comments
+     * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $meta             Doctrine meta
+     * @param bool                                    $parseDocComments Whether to parse translations from doc comments
+     * @param string                                  $locale           Locale
      *
      * @return array
      */
-    private function getPropertyTranslations(array $properties, \ReflectionClass $classReflection, $parseDocComments)
+    private function getPropertyTranslations(ClassMetadataInfo $meta, $parseDocComments, $locale)
     {
         $translations = [];
 
-        $maxLength = 0;
-
-        foreach ($properties as $property) {
+        foreach (array_merge($meta->getAssociationNames(), $meta->getFieldNames()) as $property) {
             $translation = null;
 
             if ($parseDocComments) {
-                $translation = $this->parseTranslationFromDocComment($classReflection->getProperty($property)->getDocComment());
+                $translation = $this->parseTranslationFromDocComment($meta->getReflectionProperty($property)->getDocComment());
             }
             if (empty($translation)) {
-                $translation = StringsUtil::humanize($property);
+                $translation = strlen($property) > 2 ? StringsUtil::humanize($property) : strtoupper($property);
             }
 
             $propertyUnderscore = StringsUtil::toUnderscore($property);
 
             $translations[$propertyUnderscore] = $translation;
 
-            $length = strlen($propertyUnderscore);
+            $mappings = $meta->getAssociationMappings();
+            $mapping = isset($mappings[$property]) ? $mappings[$property] : $meta->getFieldMapping($property);
+
+            if (in_array($mapping['type'], self::$rangeDataTypes) && !in_array($property, $meta->getIdentifier())) {
+                foreach (self::$rangeSuffixes as $suffix => $suffixTranslation) {
+                    $translations[$propertyUnderscore.$suffix] = sprintf(
+                        '%s (%s)',
+                        $translation,
+                        $this->translator->trans($suffixTranslation, [], 'admin', $locale)
+                    );
+                }
+            }
+        }
+
+        $maxLength = 0;
+
+        foreach ($translations as $property => $translation) {
+            $length = strlen($property);
 
             if ($length > $maxLength) {
                 $maxLength = $length;

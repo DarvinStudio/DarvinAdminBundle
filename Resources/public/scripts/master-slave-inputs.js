@@ -1,5 +1,9 @@
 $(document).ready(function () {
     var showSlave = function ($master, showOn) {
+        if ($master.is(':checkbox')) {
+            return (+$master.is(':checked')).toString() === showOn;
+        }
+
         var value = $master.val().toString();
 
         if ($master.is('select') && $master.prop('multiple')) {

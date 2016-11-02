@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Doctrine\ORM\EntityManager;
@@ -22,6 +23,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ChildLinksWidget extends AbstractWidget
 {
     /**
+     * @var \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private $adminRouter;
+
+    /**
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
@@ -30,6 +36,14 @@ class ChildLinksWidget extends AbstractWidget
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
     private $identifierAccessor;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouter $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
+    }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em Entity manager
@@ -54,10 +68,12 @@ class ChildLinksWidget extends AbstractWidget
     {
         $childClass = $options['child_entity'];
 
-        $viewPermissionGranted = $this->isGranted(Permission::VIEW, $childClass);
-        $createDeletePermissionGranted = $this->isGranted(Permission::CREATE_DELETE, $childClass);
+        $indexLink = $this->isGranted(Permission::VIEW, $childClass)
+            && $this->adminRouter->isRouteExists($childClass, AdminRouter::TYPE_INDEX);
+        $newLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
+            && $this->adminRouter->isRouteExists($childClass, AdminRouter::TYPE_NEW);
 
-        if (!$viewPermissionGranted && !$createDeletePermissionGranted) {
+        if (!$indexLink && !$newLink) {
             return null;
         }
 
@@ -85,8 +101,8 @@ class ChildLinksWidget extends AbstractWidget
             'association_param'  => $childMeta->getAssociationParameterName(),
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
-            'index_link'         => $viewPermissionGranted,
-            'new_link'           => $createDeletePermissionGranted,
+            'index_link'         => $indexLink,
+            'new_link'           => $newLink,
             'parent_id'          => $parentId,
             'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
         ]);

@@ -8,8 +8,8 @@ action:
         success: @trans@ successfully updated
         title:   "  Edit @trans_lower_accusative@ \"%entity%\""
     index:
-        link:  " @trans_multiple@"
-        title: @trans_multiple@
+        link:  " @trans_multiple@s"
+        title: @trans_multiple@s
     new:
         link:    "   Create @trans_lower_accusative@"
         success: @trans@ successfully created

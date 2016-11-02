@@ -290,9 +290,7 @@ class GenerateTranslationsCommand extends Command
             }
         }
 
-        $parts = explode('\\', $classReflection->getName());
-
-        return StringsUtil::humanize(array_pop($parts));
+        return StringsUtil::humanize($this->entityNamer->name($classReflection->getName()));
     }
 
     /**

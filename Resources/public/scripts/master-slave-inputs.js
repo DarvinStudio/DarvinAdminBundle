@@ -1,6 +1,15 @@
 $(document).ready(function () {
+    var showSlave = function ($master, showOn) {
+        var value = $master.val().toString();
+
+        if ($master.is('select') && $master.prop('multiple')) {
+            return value.indexOf(showOn) >= 0;
+        }
+
+        return value === showOn;
+    };
     var toggleSlaveContainer = function ($slaveContainer, $master, showOn) {
-        $master.val().toString() === showOn ? $slaveContainer.show() : $slaveContainer.hide();
+        $master.val() && showSlave($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
     };
 
     $('.slave_input').each(function () {

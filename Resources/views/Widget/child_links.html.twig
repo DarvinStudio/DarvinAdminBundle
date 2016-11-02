@@ -2,12 +2,12 @@
 
 {% set route_params = {(association_param): parent_id} %}
 
-{% if index_link %}
+{% if index_link and admin_route_exists(child_class, 'index') %}
     <a class="items" href="{{ admin_path(null, child_class, 'index', route_params) }}">
         {{ (translation_prefix ~ 'action.index.link')|trans }}&nbsp;({{ children_count }})
     </a>
 {% endif %}
-{% if new_link %}
+{% if new_link and admin_route_exists(child_class, 'new') %}
     <a class="items none" href="{{ admin_path(null, child_class, 'new', route_params) }}">
         {{ (translation_prefix ~ 'action.new.link')|trans }}
     </a>

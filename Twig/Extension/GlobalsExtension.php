@@ -80,14 +80,6 @@ class GlobalsExtension extends \Twig_Extension implements \Twig_Extension_Global
         return $this->globals;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_globals_extension';
-    }
-
     private function init()
     {
         if ($this->initialized) {

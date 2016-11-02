@@ -45,12 +45,4 @@ class CacheExtension extends \Twig_Extension
             ),
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_cache_extension';
-    }
 }

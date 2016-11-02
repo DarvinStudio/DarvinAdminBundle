@@ -59,12 +59,4 @@ class MenuExtension extends \Twig_Extension
             'items' => $this->menu->getItems(),
         ]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_menu_extension';
-    }
 }

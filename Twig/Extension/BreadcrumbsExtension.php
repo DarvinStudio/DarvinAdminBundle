@@ -123,14 +123,6 @@ class BreadcrumbsExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_breadcrumbs_extension';
-    }
-
-    /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
      * @param object                                $parentEntity Parent entity
      *

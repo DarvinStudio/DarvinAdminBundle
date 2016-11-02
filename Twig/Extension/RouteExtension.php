@@ -41,12 +41,4 @@ class RouteExtension extends \Twig_Extension
             new \Twig_SimpleFunction('admin_url', [$this->adminRouter, 'generateAbsolute']),
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_route_extension';
-    }
 }

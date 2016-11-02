@@ -39,12 +39,4 @@ class AssetProviderExtension extends \Twig_Extension
             new \Twig_SimpleFunction('admin_assets', [$this->assetProviderPool, 'getAssetWebPathnames']),
         ];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_asset_provider_extension';
-    }
 }

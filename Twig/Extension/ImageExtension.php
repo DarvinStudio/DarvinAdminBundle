@@ -82,14 +82,6 @@ class ImageExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_image_extension';
-    }
-
-    /**
      * @return array
      */
     private function getResizeFilterParameters()

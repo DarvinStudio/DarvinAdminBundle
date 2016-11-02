@@ -47,14 +47,6 @@ class ViewWidgetExtension extends \Twig_Extension
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'darvin_admin_view_widget_extension';
-    }
-
-    /**
      * @return \Darvin\AdminBundle\View\Widget\WidgetPool
      */
     private function getWidgetPool()

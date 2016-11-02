@@ -1,8 +1,5 @@
 liip_imagine:
     filter_sets:
-        darvin_admin_ckeditor_toolbar:
-            filters:
-                thumbnail: { size: [ 16, 16 ], mode: outbound }
         darvin_admin_ckeditor_widget:
             filters:
                 thumbnail: { size: [ 64, 64 ], mode: outbound }

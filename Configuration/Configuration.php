@@ -35,7 +35,7 @@ class Configuration extends AbstractConfiguration implements ImageConfigurationI
                 'image_sizes',
                 ParameterModel::TYPE_ARRAY,
                 [
-                    'darvin_admin' => new Size(self::IMAGE_SIZE_ADMIN, 128, 128),
+                    'darvin_admin' => new Size(self::IMAGE_SIZE_ADMIN, 80, 80),
                 ],
                 [
                     'form' => [

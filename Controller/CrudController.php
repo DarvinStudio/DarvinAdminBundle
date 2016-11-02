@@ -102,7 +102,9 @@ class CrudController extends Controller
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
-        $paginatorOptions = [];
+        $paginatorOptions = [
+            'wrap-queries' => true,
+        ];
 
         $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
 

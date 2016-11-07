@@ -23,11 +23,11 @@
         "vich/uploader-bundle":               "1.0.*@dev",
         "willdurand/js-translation-bundle":   "^2.2",
 
-        "darvinstudio/darvin-config-bundle":  "@dev",
-        "darvinstudio/darvin-content-bundle": "@dev",
-        "darvinstudio/darvin-image-bundle":   "@dev",
-        "darvinstudio/darvin-user-bundle":    "@dev",
-        "darvinstudio/darvin-utils-bundle":   "@dev"
+        "darvinstudio/darvin-config-bundle":  "*",
+        "darvinstudio/darvin-content-bundle": "*",
+        "darvinstudio/darvin-image-bundle":   "*",
+        "darvinstudio/darvin-user-bundle":    "*",
+        "darvinstudio/darvin-utils-bundle":   "*"
     },
     "require-dev": {
         "symfony/assetic-bundle": "^2.8"

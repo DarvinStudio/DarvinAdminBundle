@@ -195,10 +195,18 @@
     </div>
 {%- endblock textarea_widget -%}
 
+{%- block vich_image_row -%}
+    <div class="table_row childless">
+        {{ form_label(form) }}
+        {{ form_widget(form) }}
+    </div>
+{%- endblock -%}
+
 {%- block vich_image_widget -%}
     {% spaceless %}
         <div {{ block('widget_container_attributes') }}>
-            {{ form_row(form.file) }}
+            {{ form_widget(form.file, {'required': false}) }}
+            {{ form_errors(form) }}
             {% if form.delete is defined %}
                 {{ form_row(form.delete) }}
             {% endif %}

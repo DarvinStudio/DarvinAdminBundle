@@ -1,0 +1,10 @@
+parameters:
+    darvin_admin.locale.form_type.class: Darvin\AdminBundle\Form\Type\LocaleType
+
+services:
+    darvin_admin.locale.form_type:
+        class: "%darvin_admin.locale.form_type.class%"
+        arguments:
+            - "%locales%"
+        tags:
+            - { name: form.type }

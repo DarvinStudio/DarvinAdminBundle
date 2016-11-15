@@ -48,6 +48,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'entity_namer',
             'form',
             'image',
+            'locale',
             'menu',
             'metadata',
             'route',

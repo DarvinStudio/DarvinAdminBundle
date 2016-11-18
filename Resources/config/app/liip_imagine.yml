@@ -3,7 +3,8 @@ liip_imagine:
         darvin_admin_ckeditor_widget:
             filters:
                 thumbnail: { size: [ 64, 64 ], mode: outbound }
-        thumbs: ~
+        thumbs:
+            quality: 80
     resolvers:
         default:
             web_path:

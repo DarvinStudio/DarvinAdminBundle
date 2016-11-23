@@ -154,8 +154,8 @@ security:
                 csrf_token_id: "%secret%"
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
-                handlers:
-                    - darvin_ecommerce.cart_item.migrate_listener
+                # handlers:
+                    # - darvin_ecommerce.cart_item.migrate_listener (необходимо раскомментировать при использовании "darvinstudio/darvin-ecommerce-bundle")
             anonymous: ~
             oauth:
                 resource_owners:
@@ -221,8 +221,31 @@ darvin_admin:
 
 - настраиваем непосредственно бандл в соответствии с [описанием](reference/configuration.md) его конфигурации;
 
+- включаем компонент "Translator", раскомментировав соответствующие строки в "app/config/config.yml":
+
+```yaml
+framework:
+    # translator:      { fallbacks: ["%locale%"] }
+```
+
+- чтобы задействовать файлы переводов чистим кэш с помощью команды
+
+```shell
+$ php app/console cache:clear
+```
+
 - обновляем схему базы данных, выполнив команду
 
 ```shell
 $ php app/console doctrine:schema:update --force
 ```
+
+- создаем пользователя, выполнив
+
+```shell
+$ php app/console darvin:user:create admin@example.com admin
+```
+
+- в диалоге выбора роли пользователя выбираем "ROLE_SUPERADMIN";
+
+- проверяем успешность установки, перейдя на URL "/admin/" проекта.

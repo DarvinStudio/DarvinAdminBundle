@@ -225,7 +225,7 @@ darvin_admin:
 
 ```yaml
 framework:
-    # translator:      { fallbacks: ["%locale%"] }
+    # translator: { fallbacks: ["%locale%"] }
 ```
 
 - чтобы задействовать файлы переводов чистим кэш с помощью команды

@@ -56,10 +56,13 @@ ivory_ck_editor:
                 templates,
                 wsc
         darvin_admin_compact:
-            allowedContent: true
-            height:         100
+            allowedContent:                   true
+            filebrowserBrowseRoute:           elfinder
+            filebrowserBrowseRouteParameters: []
+            height:                           100
             toolbar:
                 - [ Source ]
+                - [ Image ]
                 - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]
             removePlugins: >
                 a11yhelp,
@@ -75,7 +78,6 @@ ivory_ck_editor:
                 elementspath,
                 enterkey,
                 entities,
-                filebrowser,
                 find,
                 flash,
                 floatingspace,
@@ -85,7 +87,6 @@ ivory_ck_editor:
                 horizontalrule,
                 htmlwriter,
                 iframe,
-                image,
                 indentblock,
                 indentlist,
                 justify,

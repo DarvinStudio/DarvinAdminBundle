@@ -228,7 +228,7 @@ framework:
     # translator: { fallbacks: ["%locale%"] }
 ```
 
-- чтобы задействовать файлы переводов чистим кэш с помощью команды
+чтобы задействовать файлы переводов чистим кэш с помощью команды
 
 ```shell
 $ php app/console cache:clear
@@ -246,6 +246,6 @@ $ php app/console doctrine:schema:update --force
 $ php app/console darvin:user:create admin@example.com admin
 ```
 
-- в диалоге выбора роли пользователя выбираем "ROLE_SUPERADMIN";
+в диалоге выбора роли пользователя выбираем "ROLE_SUPERADMIN";
 
 - проверяем успешность установки, перейдя на URL "/admin/" проекта.

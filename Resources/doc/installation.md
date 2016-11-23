@@ -40,7 +40,7 @@ class AppKernel extends Kernel
             new Ivory\FormExtraBundle\IvoryFormExtraBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
-            new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(),
+            // new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(), (необходимо раскомментировать при использовании "lexik/translation-bundle")
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -70,7 +70,7 @@ imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/fm_elfinder.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/ivory_ck_editor.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" }
+    # - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" } (необходимо раскомментировать при использовании "lexik/translation-bundle")
     - { resource: "@DarvinAdminBundle/Resources/config/app/liip_imagine.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }
     - { resource: "@DarvinImageBundle/Resources/config/app/vich_uploader.yml" }

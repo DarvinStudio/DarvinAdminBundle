@@ -40,7 +40,7 @@ class AppKernel extends Kernel
             new Ivory\FormExtraBundle\IvoryFormExtraBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
-            // new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(), (необходимо раскомментировать при использовании "lexik/translation-bundle")
+            // new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(), (раскомментировать при использовании "lexik/translation-bundle")
             new Liip\ImagineBundle\LiipImagineBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
@@ -70,7 +70,7 @@ imports:
     - { resource: "@DarvinAdminBundle/Resources/config/app/fm_elfinder.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/ivory_ck_editor.yml" }
-    # - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" } (необходимо раскомментировать при использовании "lexik/translation-bundle")
+    # - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" } (раскомментировать при использовании "lexik/translation-bundle")
     - { resource: "@DarvinAdminBundle/Resources/config/app/liip_imagine.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }
     - { resource: "@DarvinImageBundle/Resources/config/app/vich_uploader.yml" }
@@ -78,7 +78,7 @@ imports:
 
 либо копируем настройки из указанных выше файлов в случае необходимости их изменения;
 
-- в этом же конфигурационном файле включаем необходимые расширения Doctrine:
+- в этом же конфигурационном файле включаем требуемые расширения Doctrine:
 
 ```yaml
 stof_doctrine_extensions:
@@ -155,7 +155,7 @@ security:
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
                 # handlers:
-                    # - darvin_ecommerce.cart_item.migrate_listener (необходимо раскомментировать при использовании "darvinstudio/darvin-ecommerce-bundle")
+                    # - darvin_ecommerce.cart_item.migrate_listener (раскомментировать при использовании "darvinstudio/darvin-ecommerce-bundle")
             anonymous: ~
             oauth:
                 resource_owners:

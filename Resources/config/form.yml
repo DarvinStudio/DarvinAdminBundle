@@ -7,6 +7,8 @@ parameters:
 
     darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
 
+    darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
+
     darvin_admin.form.type_extension.info.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
 
 services:
@@ -43,6 +45,13 @@ services:
             - "@darvin_admin.metadata.field_blacklist_manager"
             - "@form.type_guesser.doctrine"
             - "@darvin_content.translatable.translation_joiner"
+        tags:
+            - { name: form.type }
+
+    darvin_admin.form.type.translatable:
+        class: "%darvin_admin.form.type.translatable.class%"
+        arguments:
+            - "%locales%"
         tags:
             - { name: form.type }
 

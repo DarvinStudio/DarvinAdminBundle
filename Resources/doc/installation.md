@@ -196,6 +196,9 @@ upload_path:        files/uploads
 upload_max_size_mb: 2
 ```
 
+*после добавления параметров в файл "app/config/parameters.yml.dist" рекомендуется выполнить команду "composer install"
+ для интерактивного обновления "app/config/parameters.yml*
+
 - добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"):
 
 ```yaml

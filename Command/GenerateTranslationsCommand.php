@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Command;
 
 use Darvin\AdminBundle\EntityNamer\EntityNamerInterface;
+use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
@@ -84,6 +85,11 @@ class GenerateTranslationsCommand extends Command
     private $entityNamer;
 
     /**
+     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
+     */
+    private $translatableManager;
+
+    /**
      * @var \Symfony\Component\Translation\TranslatorInterface
      */
     private $translator;
@@ -104,18 +110,20 @@ class GenerateTranslationsCommand extends Command
     private $modelDir;
 
     /**
-     * @param string                                               $name          Command name
-     * @param \Doctrine\ORM\EntityManager                          $em            Entity manager
-     * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface $entityNamer   Entity namer
-     * @param \Symfony\Component\Translation\TranslatorInterface   $translator    Translator
-     * @param string                                               $defaultLocale Default locale
-     * @param string[]                                             $locales       Locales
-     * @param string                                               $modelDir      Translations model directory
+     * @param string                                                          $name                Command name
+     * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
+     * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface            $entityNamer         Entity namer
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
+     * @param \Symfony\Component\Translation\TranslatorInterface              $translator          Translator
+     * @param string                                                          $defaultLocale       Default locale
+     * @param string[]                                                        $locales             Locales
+     * @param string                                                          $modelDir            Translations model directory
      */
     public function __construct(
         $name,
         EntityManager $em,
         EntityNamerInterface $entityNamer,
+        TranslatableManagerInterface $translatableManager,
         TranslatorInterface $translator,
         $defaultLocale,
         array $locales,
@@ -125,6 +133,7 @@ class GenerateTranslationsCommand extends Command
 
         $this->em = $em;
         $this->entityNamer = $entityNamer;
+        $this->translatableManager = $translatableManager;
         $this->translator = $translator;
         $this->defaultLocale = $defaultLocale;
         $this->locales = $locales;
@@ -176,12 +185,33 @@ class GenerateTranslationsCommand extends Command
     {
         $entityName = $this->entityNamer->name($meta->getName());
 
+        $entityTranslatable = $this->translatableManager->isTranslatable($meta->getName());
+
         $parseDocComments = !in_array($locale, self::$ignoreDocCommentLocales);
 
         $translations = [
             $entityName => $this->getModel($locale),
         ];
-        $translations[$entityName]['entity'] = $this->getPropertyTranslations($meta, $parseDocComments, $locale);
+        $translations[$entityName]['entity'] = $this->getPropertyTranslations(
+            $meta,
+            $parseDocComments,
+            $locale,
+            $entityTranslatable ? ['translations'] : []
+        );
+
+        if ($entityTranslatable) {
+            $translations[$entityName]['entity'] = array_merge($translations[$entityName]['entity'], $this->getPropertyTranslations(
+                $this->em->getClassMetadata($this->translatableManager->getTranslationClass($meta->getName())),
+                $parseDocComments,
+                $locale,
+                [
+                    'locale',
+                    'translatable',
+                ]
+            ));
+        }
+
+        $translations[$entityName]['entity'] = $this->normalizePropertyTranslations($translations[$entityName]['entity']);
 
         $entityTranslation = $this->getClassTranslation($meta->getReflectionClass(), $parseDocComments);
 
@@ -221,14 +251,19 @@ class GenerateTranslationsCommand extends Command
      * @param \Doctrine\ORM\Mapping\ClassMetadataInfo $meta             Doctrine meta
      * @param bool                                    $parseDocComments Whether to parse translations from doc comments
      * @param string                                  $locale           Locale
+     * @param string[]                                $propertiesToSkip Properties to skip
      *
      * @return array
      */
-    private function getPropertyTranslations(ClassMetadataInfo $meta, $parseDocComments, $locale)
+    private function getPropertyTranslations(ClassMetadataInfo $meta, $parseDocComments, $locale, array $propertiesToSkip = [])
     {
         $translations = [];
 
         foreach (array_merge($meta->getAssociationNames(), $meta->getFieldNames()) as $property) {
+            if (in_array($property, $propertiesToSkip)) {
+                continue;
+            }
+
             $translation = null;
 
             if ($parseDocComments) {
@@ -256,6 +291,16 @@ class GenerateTranslationsCommand extends Command
             }
         }
 
+        return $translations;
+    }
+
+    /**
+     * @param array $translations Property translations
+     *
+     * @return array
+     */
+    private function normalizePropertyTranslations(array $translations)
+    {
         $maxLength = 0;
 
         foreach ($translations as $property => $translation) {

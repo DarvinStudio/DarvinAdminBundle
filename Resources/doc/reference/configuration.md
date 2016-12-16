@@ -3,7 +3,8 @@
 
 ```yaml
 darvin_admin:
-    debug:                    false                         # Включен ли режим отладки
+    custom_logo:              ~                             # Путь до кастомного логотипа (будет передан в Twig-функцию "asset()")
+    debug:                    %kernel.debug%                # Включен ли режим отладки
     entity_override:          {}                            # Таблица [замен классов сущностей](../how_to_override_entity.md), пример: {AppBundle\Entity\Foo: AppBundle\Entity\Bar}
     locales:                                                # Локали (обязательно)
     search_query_min_length:  3                             # Минимальная длина поискового запроса

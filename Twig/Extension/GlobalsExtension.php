@@ -18,6 +18,11 @@ use Darvin\Utils\Strings\StringsUtil;
 class GlobalsExtension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
 {
     /**
+     * @var string
+     */
+    private $customLogo;
+
+    /**
      * @var array
      */
     private $locales;
@@ -53,14 +58,16 @@ class GlobalsExtension extends \Twig_Extension implements \Twig_Extension_Global
     private $initialized;
 
     /**
+     * @param string $customLogo            Custom logo pathname
      * @param array  $locales               Available locales
      * @param string $projectTitle          Project title
      * @param string $projectUrl            Project URL
      * @param string $visualAssetsPath      Visual assets path
      * @param string $yandexTranslateApiKey Yandex.Translate API key
      */
-    public function __construct(array $locales, $projectTitle, $projectUrl, $visualAssetsPath, $yandexTranslateApiKey)
+    public function __construct($customLogo, array $locales, $projectTitle, $projectUrl, $visualAssetsPath, $yandexTranslateApiKey)
     {
+        $this->customLogo = $customLogo;
         $this->locales = $locales;
         $this->projectTitle = $projectTitle;
         $this->projectUrl = $projectUrl;

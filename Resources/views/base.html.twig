@@ -46,9 +46,15 @@
                     <div class="row header">
                         <div class="col-md-2 col-lg-2 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
-                                <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_cms.png') }}"
-                                     title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
-								<span>{% trans %}layout.logo{% endtrans %}</span>
+                                {% if darvin_admin_custom_logo %}
+                                    <img src="{{ asset(darvin_admin_custom_logo) }}"
+                                         title="{% trans %}homepage.action.homepage.link{% endtrans %}"
+                                         height="64">
+                                {% else %}
+                                    <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_cms.png') }}"
+                                         title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
+                                    <span>{% trans %}layout.logo{% endtrans %}</span>
+                                {% endif %}
                             </a>
                         </div>
                         <div class="col-md-10 col-lg-10 header_right">

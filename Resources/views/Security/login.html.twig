@@ -12,10 +12,14 @@
                 {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
 
                 <div class="block">
-                    <a href="" class="logo">
-                        <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_auth.png') }}" alt="">
-						<span>{% trans %}layout.logo{% endtrans %}</span>
-                    </a>
+                    <span class="logo">
+                        {% if darvin_admin_custom_logo %}
+                            <img src="{{ asset(darvin_admin_custom_logo) }}">
+                        {% else %}
+                            <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_auth.png') }}" alt="">
+    						<span>{% trans %}layout.logo{% endtrans %}</span>
+                        {% endif %}
+                    </span>
                     <div class="authorization_form">
                         {{ form_start(form) }}
                         <div class="pole_name">{{ form_label(form._username) }}</div>

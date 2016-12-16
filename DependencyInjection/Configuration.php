@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                         'Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand',
                     ])
                 ->end()
+                ->scalarNode('custom_logo')->defaultNull()->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('entity_override')->prototype('scalar')->end()->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()

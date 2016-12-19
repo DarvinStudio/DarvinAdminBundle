@@ -54,8 +54,6 @@
 
 {%- block darvin_admin_slug_suffix_widget -%}
 
-    {% set slug = attribute(form.parent.vars.data, slug_property) %}
-
     {% set url_parts  = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
     {% set url_prefix = url_parts[0] ~ slug_prefix %}
     {% set url_suffix = url_parts[1] %}

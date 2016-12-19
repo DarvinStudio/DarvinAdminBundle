@@ -1,13 +1,13 @@
 $(document).ready(function () {
     var getWidget = function ($child) {
-        return $child.parents('.slug_suffix').first();
+        return $child.closest('.slug_suffix');
     };
 
     var buildUrlPrefix = function ($widget) {
-        var parentSlug = $widget.parents('form').first().find($widget.data('parent-select')).children('option:selected')
+        var parentSlug = $widget.closest('form').find($widget.data('parent-select')).children('option:selected')
             .data($widget.data('parent-option-data-slug'));
 
-        return $widget.data('url-prefix') + ('undefined' !== typeof parentSlug ? parentSlug + '/' : '');
+        return $widget.data('base-url') + ('undefined' !== typeof parentSlug ? parentSlug + '/' : '');
     };
 
     var buildUrl = function ($widget) {
@@ -39,6 +39,27 @@ $(document).ready(function () {
 
     $('.slug_suffix').each(function () {
         var $widget = $(this);
+        $widget.data('base-url', $widget.data('url-prefix'));
+
+        var $form = $widget.closest('form');
+
+        if ($widget.data('parent-select')) {
+            var $parent = $form.find($widget.data('parent-select'));
+
+            if ($parent.length) {
+                var parentSlug = $parent.find('option:selected').data($widget.data('parent-option-data-slug'));
+
+                if ('undefined' !== typeof parentSlug) {
+                    var baseUrl = $widget.data('url-prefix');
+                    var index = baseUrl.indexOf(parentSlug);
+
+                    if (-1 !== index) {
+                        baseUrl = baseUrl.slice(0, index);
+                        $widget.data('base-url', baseUrl);
+                    }
+                }
+            }
+        }
 
         updateWidget($widget);
 
@@ -47,7 +68,7 @@ $(document).ready(function () {
             goal:   'sky',
             target: $widget.find('.form_widget .input_value')
         });
-        $widget.parents('form').first().on('change', $widget.data('parent-select'), function () {
+        $form.on('change', $widget.data('parent-select'), function () {
             updateWidget($widget);
         });
     });

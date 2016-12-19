@@ -11,11 +11,11 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Form\FormException;
-use Darvin\Utils\Sluggable\SluggableManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -24,23 +24,23 @@ use Symfony\Component\Routing\RouterInterface;
 class SlugSuffixType extends AbstractType
 {
     /**
+     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
+     */
+    private $propertyAccessor;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
     /**
-     * @var \Darvin\Utils\Sluggable\SluggableManagerInterface
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     * @param \Symfony\Component\Routing\RouterInterface                  $router           Router
      */
-    private $sluggableManager;
-
-    /**
-     * @param \Symfony\Component\Routing\RouterInterface        $router           Router
-     * @param \Darvin\Utils\Sluggable\SluggableManagerInterface $sluggableManager Sluggable manager
-     */
-    public function __construct(RouterInterface $router, SluggableManagerInterface $sluggableManager)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, RouterInterface $router)
     {
+        $this->propertyAccessor = $propertyAccessor;
         $this->router = $router;
-        $this->sluggableManager = $sluggableManager;
     }
 
     /**
@@ -56,9 +56,16 @@ class SlugSuffixType extends AbstractType
             );
         }
 
+        $slug = $this->propertyAccessor->getValue($form->getParent()->getData(), $options['slug_property']);
+        $slugSuffix = $form->getData();
+        $slugPrefix = !empty($slug) && !empty($slugSuffix)
+            ? preg_replace(sprintf('/%s$/', $slugSuffix), '', $slug)
+            : null;
+
         $view->vars = array_merge($view->vars, [
             'route_path'  => $route->getPath(),
-            'slug_prefix' => $this->sluggableManager->getSlugPrefix($form->getParent()->getData(), $options['slug_property']),
+            'slug'        => $slug,
+            'slug_prefix' => $slugPrefix,
         ]);
 
         foreach ([

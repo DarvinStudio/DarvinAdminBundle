@@ -67,7 +67,7 @@ class SlugSuffixType extends AbstractType
             'route_param_slug',
             'parent_select_selector',
             'parent_option_data_slug',
-                 ] as $option) {
+        ] as $option) {
             $view->vars[$option] = $options[$option];
         }
     }
@@ -89,6 +89,14 @@ class SlugSuffixType extends AbstractType
             ->setAllowedTypes('slug_property', 'string')
             ->setAllowedTypes('route', 'string')
             ->setAllowedTypes('route_param_slug', 'string');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_slug_suffix';
     }
 
     /**

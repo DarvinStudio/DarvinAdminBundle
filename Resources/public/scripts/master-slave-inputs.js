@@ -18,15 +18,21 @@ $(document).ready(function () {
 
     $('.slave_input').each(function () {
         var $slave = $(this);
-        var $slaveContainer = $slave.parents('.table_row').first();
+        var $slaveContainer = $slave.closest('.table_row');
         var masterSelector = $slave.data('master');
         var showOn = $slave.data('show-on').toString();
 
-        var $form = $slave.parents('form').first();
+        var $context = $slave.closest('[class*="_a2lix_translationsFields-"]');
+        var $master = $context.find(masterSelector).first();
 
-        toggleSlaveContainer($slaveContainer, $form.find(masterSelector), showOn);
+        if (!$master.length) {
+            $context = $slave.closest('form');
+            $master = $context.find(masterSelector).first();
+        }
 
-        $form.on('change', masterSelector, function () {
+        toggleSlaveContainer($slaveContainer, $master, showOn);
+
+        $context.on('change', masterSelector, function () {
             toggleSlaveContainer($slaveContainer, $(this), showOn);
         });
     });

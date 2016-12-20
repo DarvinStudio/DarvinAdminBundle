@@ -695,7 +695,8 @@ a.append(e).children().each(function(a){$(this).children("label").first().text(a
 
 $(document).ready(function(){$("body").on("click",".image_delete[data-url]",function(a){a.preventDefault();a=$(this);if(!a.data("submitted")&&confirm(Translator.trans("image.action.delete.confirm"))){a.data("submitted",!0);var b=a.closest(".image");$.ajax({type:"post",url:a.data("url")}).done(function(){b.remove();noty({text:Translator.trans("image.action.delete.success"),type:"success"})}).error(onAjaxError)}})});
 
-$(document).ready(function(){var e=function(a,c,d){var b;if(b=c.val())c.is(":checkbox")?b=(+c.is(":checked")).toString()===d:(b=c.val().toString(),b=c.is("select")&&c.prop("multiple")?0<=b.indexOf(d):b===d);b?a.show():a.hide()};$(".slave_input").each(function(){var a=$(this),c=a.parents(".table_row").first(),d=a.data("master"),b=a.data("show-on").toString(),a=a.parents("form").first();e(c,a.find(d),b);a.on("change",d,function(){e(c,$(this),b)})})});
+$(document).ready(function(){var g=function(c,b,d){var a;if(a=b.val())b.is(":checkbox")?a=(+b.is(":checked")).toString()===d:(a=b.val().toString(),a=b.is("select")&&b.prop("multiple")?0<=a.indexOf(d):a===d);a?c.show():c.hide()};$(".slave_input").each(function(){var c=$(this),b=c.closest(".table_row"),d=c.data("master"),a=c.data("show-on").toString(),e=c.closest('[class*="_a2lix_translationsFields-"]'),f=e.find(d).first();f.length||(e=c.closest("form"),f=e.find(d).first());g(b,f,a);e.on("change",d,
+function(){g(b,$(this),a)})})});
 
 $.noty.defaults=$.extend({},$.noty.defaults,{theme:"bootstrapTheme",timeout:1E3});
 

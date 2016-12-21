@@ -1,0 +1,8 @@
+{% trans_default_domain 'admin' %}
+
+<input type="checkbox"
+       class="batch_delete_check"
+       data-id="{{ attribute(entity, identifier) }}"
+       title="{{ (translation_prefix ~ 'action.batch_delete.submit')|trans }}"
+/>
+

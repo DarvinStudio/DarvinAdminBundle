@@ -18,7 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormTypeGuesserInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -36,9 +36,9 @@ class BaseType extends AbstractFormType
     private $fieldBlacklistManager;
 
     /**
-     * @var \Symfony\Component\Form\FormTypeGuesserInterface
+     * @var \Symfony\Component\Form\FormRegistryInterface
      */
-    private $formTypeGuesser;
+    private $formRegistry;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -52,18 +52,18 @@ class BaseType extends AbstractFormType
 
     /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface                $formTypeGuesser       Form type guesser
+     * @param \Symfony\Component\Form\FormRegistryInterface                   $formRegistry          Form registry
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface     $propertyAccessor      Property accessor
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
-        FormTypeGuesserInterface $formTypeGuesser,
+        FormRegistryInterface $formRegistry,
         PropertyAccessorInterface $propertyAccessor,
         TranslatableManagerInterface $translatableManager
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
-        $this->formTypeGuesser = $formTypeGuesser;
+        $this->formRegistry = $formRegistry;
         $this->propertyAccessor = $propertyAccessor;
         $this->translatableManager = $translatableManager;
     }
@@ -216,11 +216,11 @@ class BaseType extends AbstractFormType
             return null;
         }
 
-        $guess = $this->formTypeGuesser->guessType($entityClass, $field);
+        $guess = $this->formRegistry->getTypeGuesser()->guessType($entityClass, $field);
 
         return $guess->getConfidence() > 0
             ? $guess
-            : $this->formTypeGuesser->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
+            : $this->formRegistry->getTypeGuesser()->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
     }
 
     /**

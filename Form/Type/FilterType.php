@@ -17,7 +17,7 @@ use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormTypeGuesserInterface;
+use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,9 +42,9 @@ class FilterType extends AbstractFormType
     private $fieldBlacklistManager;
 
     /**
-     * @var \Symfony\Component\Form\FormTypeGuesserInterface
+     * @var \Symfony\Component\Form\FormRegistryInterface
      */
-    private $formTypeGuesser;
+    private $formRegistry;
 
     /**
      * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
@@ -53,16 +53,16 @@ class FilterType extends AbstractFormType
 
     /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager            $fieldBlacklistManager Field blacklist manager
-     * @param \Symfony\Component\Form\FormTypeGuesserInterface              $formTypeGuesser       Form type guesser
+     * @param \Symfony\Component\Form\FormRegistryInterface                 $formRegistry          Form registry
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner     Translation joiner
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
-        FormTypeGuesserInterface $formTypeGuesser,
+        FormRegistryInterface $formRegistry,
         TranslationJoinerInterface $translationJoiner
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
-        $this->formTypeGuesser = $formTypeGuesser;
+        $this->formRegistry = $formRegistry;
         $this->translationJoiner = $translationJoiner;
     }
 
@@ -160,8 +160,8 @@ class FilterType extends AbstractFormType
 
             $options = $this->resolveFieldOptionValues($attr['options']);
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
-                ? $this->formTypeGuesser->guessType($meta->getTranslationClass(), $property)
-                : $this->formTypeGuesser->guessType($meta->getEntityClass(), $property);
+                ? $this->formRegistry->getTypeGuesser()->guessType($meta->getTranslationClass(), $property)
+                : $this->formRegistry->getTypeGuesser()->guessType($meta->getEntityClass(), $property);
             $options = array_merge([
                 'required' => false,
             ], $typeGuess->getOptions(), $options);

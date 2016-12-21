@@ -33,7 +33,7 @@ services:
         class: "%darvin_admin.form.type.base.class%"
         arguments:
             - "@darvin_admin.metadata.field_blacklist_manager"
-            - "@form.type_guesser.doctrine"
+            - "@form.registry"
             - "@property_accessor"
             - "@darvin_content.translatable.manager"
         tags:
@@ -43,7 +43,7 @@ services:
         class: "%darvin_admin.form.type.filter.class%"
         arguments:
             - "@darvin_admin.metadata.field_blacklist_manager"
-            - "@form.type_guesser.doctrine"
+            - "@form.registry"
             - "@darvin_content.translatable.translation_joiner"
         tags:
             - { name: form.type }

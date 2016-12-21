@@ -14,11 +14,17 @@ $(document).ready(function () {
     };
     var toggleSlaveContainer = function ($slaveContainer, $master, showOn) {
         $master.val() && showSlave($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
+
+        if ($slaveContainer.is('option')) {
+            $slaveContainer.closest('select').trigger('chosen:updated');
+        }
     };
 
     $('.slave_input').each(function () {
         var $slave = $(this);
-        var $slaveContainer = $slave.closest('.table_row');
+
+        var $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
+
         var masterSelector = $slave.data('master');
         var showOn = $slave.data('show-on').toString();
 

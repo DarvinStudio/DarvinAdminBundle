@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form;
 
 use Darvin\AdminBundle\Form\Type\BaseType;
+use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
@@ -73,6 +74,19 @@ class AdminFormFactory
         $this->genericFormFactory = $genericFormFactory;
         $this->identifierAccessor = $identifierAccessor;
         $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
+     * @param object[] $entities    Entities
+     * @param string   $entityClass Entity class
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createBatchDeleteForm(array $entities, $entityClass)
+    {
+        return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, [
+            'entities' => $entities,
+        ]);
     }
 
     /**

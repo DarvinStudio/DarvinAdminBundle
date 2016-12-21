@@ -146,12 +146,16 @@ class CrudController extends Controller
         } catch (CustomObjectException $ex) {
         }
 
+        $batchDeleteForm = !empty($entities)
+            ? $this->getAdminFormFactory()->createBatchDeleteForm($entities, $this->entityClass)->createView()
+            : null;
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
 
         return $this->renderResponse('index', [
             'association_param' => $associationParam,
+            'batch_delete_form' => $batchDeleteForm,
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,

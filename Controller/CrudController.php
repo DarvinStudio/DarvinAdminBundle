@@ -237,6 +237,18 @@ class CrudController extends Controller
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function batchDeleteAction(Request $request)
+    {
+        if ($request->isMethod($request::METHOD_POST))
+        {
+            return new Response('<html><body>post form:</body></html>');
+        }
+        return new Response('<html><body>not post form</body></html>');
+    }
+
+    /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      * @param int                                       $id      Entity ID
      *

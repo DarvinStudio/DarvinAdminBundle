@@ -7,8 +7,16 @@
 %}
 
 {% if batch_delete_form %}
-    {{ form(batch_delete_form) }}
+    {{ form_start(batch_delete_form) }}
+    {{ form_widget(batch_delete_form) }}
+        <button type="submit"
+                class="btn_batch_delete"
+                title="{{ (meta.baseTranslationPrefix ~ 'action.batch_delete.submit')|trans }}">
+                Submit
+        </button>
+    {{ form_end(batch_delete_form) }}
 {% endif %}
+
 <div class="property_forms">
     <div class="clearfix">
 

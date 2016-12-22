@@ -26,6 +26,7 @@ class AdminRouter
     const OPTION_ENTITY_CLASS = 'admin_entity_class';
     const OPTION_ROUTE_TYPE   = 'admin_route_type';
 
+    const TYPE_BATCH_DELETE    = 'batch-delete';
     const TYPE_COPY            = 'copy';
     const TYPE_DELETE          = 'delete';
     const TYPE_EDIT            = 'edit';
@@ -38,6 +39,7 @@ class AdminRouter
      * @var array
      */
     private static $typesRequiringId = [
+        self::TYPE_BATCH_DELETE,
         self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
@@ -49,6 +51,7 @@ class AdminRouter
      * @var array
      */
     private static $typesRequiringParentId = [
+        self::TYPE_BATCH_DELETE,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
         self::TYPE_INDEX,

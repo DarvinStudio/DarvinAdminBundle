@@ -85,6 +85,7 @@ class AdminFormFactory
     public function createBatchDeleteForm(array $entities, $entityClass)
     {
         return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, [
+            'action' => $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_BATCH_DELETE),
             'entities' => $entities,
         ]);
     }

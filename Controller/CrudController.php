@@ -21,6 +21,7 @@ use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -245,7 +246,29 @@ class CrudController extends Controller
     {
         $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
 
-        return new Response('<html><body>post form:</body></html>');
+        if (!$form->isValid()) {
+            $message = implode(PHP_EOL, array_map(function (FormError $error) {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
+
+            $this->getFlashNotifier()->error($message);
+
+            return $this->redirect(
+                $request->headers->get('referer', $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX))
+            );
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($form->getData()['entities'] as $entity) {
+            $em->remove($entity);
+        }
+
+        $em->flush();
+
+        $this->getFlashNotifier()->success('Success.');
+
+        return $this->redirect($this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX));
     }
 
     /**

@@ -243,11 +243,7 @@ class CrudController extends Controller
      */
     public function batchDeleteAction(Request $request)
     {
-        if ($request->isMethod($request::METHOD_POST))
-        {
-            return new Response('<html><body>post form:</body></html>');
-        }
-        return new Response('<html><body>not post form</body></html>');
+        return new Response('<html><body>post form:</body></html>');
     }
 
     /**

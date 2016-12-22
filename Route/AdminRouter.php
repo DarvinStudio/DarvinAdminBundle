@@ -39,7 +39,6 @@ class AdminRouter
      * @var array
      */
     private static $typesRequiringId = [
-        self::TYPE_BATCH_DELETE,
         self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,

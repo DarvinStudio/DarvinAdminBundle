@@ -237,7 +237,7 @@ class CrudController extends Controller
     }
 
     /**
-     * * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

@@ -39,6 +39,14 @@ configuration:
     menu:
         description: Script configuration and common settings, per page items count managing.
 
+crud:
+    action:
+        batch_delete:
+            confirm:    Confirm selected items removal
+            select_all: Select all
+            submit:     Remove selected
+            success:    Selected items successfully removed
+
 dashboard:
     module_link: Go to module page
 

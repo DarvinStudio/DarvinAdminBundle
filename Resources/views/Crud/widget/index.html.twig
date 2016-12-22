@@ -6,21 +6,6 @@
     : null
 %}
 
-{% if batch_delete_form %}
-    {{ form_start(batch_delete_form, {'attr': {'class': 'batch_delete_form', 'autocomplete': 'off'}}) }}
-    {{ form_widget(batch_delete_form) }}
-    <button type="submit" title="{{ (meta.baseTranslationPrefix ~ 'action.batch_delete.submit')|trans }}">Submit</button>
-    {{ form_end(batch_delete_form) }}
-    <label for="batch_delete_check_all">
-        <input type="checkbox"
-               class="batch_delete_check_all"
-               id="batch_delete_check_all"
-               title="{{ (meta.baseTranslationPrefix ~ 'action.batch_check_all.submit')|trans }}"
-               autocomplete="off">
-        Select All
-    </label>
-{% endif %}
-
 <div class="property_forms">
     <div class="clearfix">
 
@@ -54,6 +39,25 @@
     </div>
     <div class="clearfix">
         {{ pagination_html|raw }}
+
+        {% if batch_delete_form %}
+            <div>
+                <label for="batch_delete_check_all">
+                    <input type="checkbox" id="batch_delete_check_all" class="batch_delete_check_all" autocomplete="off">
+                    {% trans %}crud.action.batch_delete.select_all{% endtrans %}
+                </label>
+                {{ form_start(batch_delete_form, {'attr': {
+                    'class':        'batch_delete_form',
+                    'onsubmit':     'return confirm(' ~ 'crud.action.batch_delete.confirm'|trans|json_encode|raw ~ ');',
+                    'autocomplete': 'off',
+                }}) }}
+                {{ form_widget(batch_delete_form) }}
+                <button type="submit" class="btn btn-danger btn-sm" style="display: none;">
+                    {% trans %}crud.action.batch_delete.submit{% endtrans %}
+                </button>
+                {{ form_end(batch_delete_form) }}
+            </div>
+        {% endif %}
 
         {% block total_item_count %}
             {% if view.body.rows is not empty %}

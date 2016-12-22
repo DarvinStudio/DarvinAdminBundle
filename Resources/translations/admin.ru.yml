@@ -39,6 +39,14 @@ configuration:
     menu:
         description: Настройка и общие параметры скрипта, изменение количества записей на странице.
 
+crud:
+    action:
+        batch_delete:
+            confirm:    Подтвердите удаление выбранных элементов
+            select_all: Выбрать все
+            submit:     Удалить выбранные
+            success:    Выбранные элементы успешно удалены
+
 dashboard:
     module_link: Перейти в модуль
 

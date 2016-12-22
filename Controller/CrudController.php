@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Controller;
 use Darvin\AdminBundle\Event\CrudControllerActionEvent;
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -243,6 +244,10 @@ class CrudController extends Controller
      */
     public function batchDeleteAction(Request $request)
     {
+        $form = $this->createForm(BatchDeleteType::BATCH_DELETE_TYPE_CLASS)->handleRequest($request);
+        var_dump($form->getData());
+        die;
+
         return new Response('<html><body>post form:</body></html>');
     }
 

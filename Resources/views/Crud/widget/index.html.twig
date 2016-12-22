@@ -7,21 +7,18 @@
 %}
 
 {% if batch_delete_form %}
-    {{ form_start(batch_delete_form) }}
+    {{ form_start(batch_delete_form, {'attr': {'class': 'batch_delete_form', 'autocomplete': 'off'}}) }}
     {{ form_widget(batch_delete_form) }}
-        <button type="submit"
-                class="btn_batch_delete"
-                title="{{ (meta.baseTranslationPrefix ~ 'action.batch_delete.submit')|trans }}">
-                Submit
-        </button>
-
-        <button type="button"
-                class="btn_check_all"
-                title="{{ (meta.baseTranslationPrefix ~ 'action.batch_check_all.submit')|trans }}"
-                onclick='selChk("checked")'>
-            Select All
-        </button>
+    <button type="submit" title="{{ (meta.baseTranslationPrefix ~ 'action.batch_delete.submit')|trans }}">Submit</button>
     {{ form_end(batch_delete_form) }}
+    <label for="batch_delete_check_all">
+        <input type="checkbox"
+               class="batch_delete_check_all"
+               id="batch_delete_check_all"
+               title="{{ (meta.baseTranslationPrefix ~ 'action.batch_check_all.submit')|trans }}"
+               autocomplete="off">
+        Select All
+    </label>
 {% endif %}
 
 <div class="property_forms">

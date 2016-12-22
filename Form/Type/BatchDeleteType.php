@@ -28,6 +28,7 @@ class BatchDeleteType extends AbstractType
     {
         $builder->add('entities', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
             'class'        => $options['entity_class'],
+            'choices'      => isset($options['entities']) ? $options['entities'] : null,
             'multiple'     => true,
             'expanded'     => true,
             'choice_label' => false,

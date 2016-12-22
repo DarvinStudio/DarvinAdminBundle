@@ -252,11 +252,14 @@ class CrudController extends Controller
 
         $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
 
-        return $this->getFormHandler()->handleBatchDeleteForm($form, $form->getData()['entities'])
-            ? $this->redirect($this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX))
-            : $this->redirect($request->headers->get('referer', $this->getAdminRouter()->generate(
-                null, $this->entityClass, AdminRouter::TYPE_INDEX
-            )));
+        $url = $this->getFormHandler()->handleBatchDeleteForm($form, $form->getData()['entities'])
+            ? $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX)
+            : $request->headers->get(
+                'referer',
+                $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX)
+            );
+
+        return $this->redirect($url);
     }
 
     /**

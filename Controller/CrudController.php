@@ -146,9 +146,10 @@ class CrudController extends Controller
         } catch (CustomObjectException $ex) {
         }
 
-        $batchDeleteForm = !empty($entities)
-            ? $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView()
-            : null;
+        $batchDeleteForm = null;
+        if ((!empty($entities)) && ($this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_DELETE)))
+            $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
+
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);

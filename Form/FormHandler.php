@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\Utils\Cloner\ClonerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -67,6 +68,35 @@ class FormHandler
         $this->metadataManager = $metadataManager;
         $this->validator = $validator;
     }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form           Delete form
+     * @param object                                $entities         Entity
+     * @param string                                $successMessage Success message
+     *
+     * @return bool
+     */
+    public function handleBatchDeleteForm(FormInterface $form, $entities, $successMessage = 'action.batch_delete.success')
+    {
+        if (!$form->isValid()) {
+            $message = implode(PHP_EOL, array_map(function (FormError $error) {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
+            $this->flashNotifier->error($message);
+            return false;
+        }
+
+        foreach ($entities as $entity) {
+             $this->em->remove($entity);
+        }
+
+        $this->em->flush();
+
+        $this->flashNotifier->success($successMessage);
+
+        return true;
+    }
+
 
     /**
      * @param \Symfony\Component\Form\FormInterface $form           Copy form

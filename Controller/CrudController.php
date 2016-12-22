@@ -21,7 +21,6 @@ use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -244,31 +243,20 @@ class CrudController extends Controller
      */
     public function batchDeleteAction(Request $request)
     {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
+
         $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
 
-        if (!$form->isValid()) {
-            $message = implode(PHP_EOL, array_map(function (FormError $error) {
-                return $error->getMessage();
-            }, iterator_to_array($form->getErrors(true))));
-
-            $this->getFlashNotifier()->error($message);
-
-            return $this->redirect(
-                $request->headers->get('referer', $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX))
-            );
-        }
-
-        $em = $this->getDoctrine()->getManager();
-
-        foreach ($form->getData()['entities'] as $entity) {
-            $em->remove($entity);
-        }
-
-        $em->flush();
-
-        $this->getFlashNotifier()->success('Success.');
-
-        return $this->redirect($this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX));
+        return $this->getFormHandler()->handleBatchDeleteForm($form, $form->getData()['entities'])
+            ? $this->redirect($this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX))
+            : $this->redirect($request->headers->get('referer', $this->getAdminRouter()->generate(
+                null, $this->entityClass, AdminRouter::TYPE_INDEX
+            )));
     }
 
     /**

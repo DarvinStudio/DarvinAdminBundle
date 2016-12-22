@@ -3,3 +3,7 @@ $(document).ready(function () {
         //alert($(this).data('id'));
     });
 });
+
+function selChk(v){
+    alert(v);
+}

@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\Controller;
 use Darvin\AdminBundle\Event\CrudControllerActionEvent;
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -148,7 +147,7 @@ class CrudController extends Controller
         }
 
         $batchDeleteForm = !empty($entities)
-            ? $this->getAdminFormFactory()->createBatchDeleteForm($entities, $this->entityClass)->createView()
+            ? $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView()
             : null;
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
@@ -244,9 +243,7 @@ class CrudController extends Controller
      */
     public function batchDeleteAction(Request $request)
     {
-        $form = $this->createForm(BatchDeleteType::BATCH_DELETE_TYPE_CLASS)->handleRequest($request);
-        var_dump($form->getData());
-        die;
+        $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
 
         return new Response('<html><body>post form:</body></html>');
     }

@@ -5,8 +5,6 @@ parameters:
 
     darvin_admin.form.type.base.class: Darvin\AdminBundle\Form\Type\BaseType
 
-    darvin_admin.form.type.batch_delete.class: Darvin\AdminBundle\Form\Type\BatchDeleteType
-
     darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
 
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
@@ -38,13 +36,6 @@ services:
             - "@form.type_guesser.doctrine"
             - "@property_accessor"
             - "@darvin_content.translatable.manager"
-        tags:
-            - { name: form.type }
-
-    darvin_admin.form.type.batch_delete:
-        class: "%darvin_admin.form.type.batch_delete.class%"
-        arguments:
-            - "@darvin_admin.metadata.identifier_accessor"
         tags:
             - { name: form.type }
 

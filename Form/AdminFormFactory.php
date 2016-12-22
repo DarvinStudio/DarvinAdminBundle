@@ -77,17 +77,23 @@ class AdminFormFactory
     }
 
     /**
-     * @param object[] $entities    Entities
      * @param string   $entityClass Entity class
+     * @param object[] $entities    Entities
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createBatchDeleteForm(array $entities, $entityClass)
+    public function createBatchDeleteForm($entityClass, array $entities = null)
     {
-        return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, [
-            'action' => $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_BATCH_DELETE),
-            'entities' => $entities,
-        ]);
+        $options = [
+            'action'       => $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_BATCH_DELETE),
+            'entity_class' => $entityClass,
+        ];
+
+        if (!empty($entities)) {
+            $options['entities'] = $entities;
+        }
+
+        return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, $options);
     }
 
     /**

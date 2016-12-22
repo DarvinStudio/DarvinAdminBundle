@@ -10,9 +10,8 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -23,16 +22,16 @@ class BatchDeleteType extends AbstractType
     const BATCH_DELETE_TYPE_CLASS = __CLASS__;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     * {@inheritdoc}
      */
-    private $idAccessor;
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $idAccessor Identifier accessor
-     */
-    public function __construct(IdentifierAccessor $idAccessor)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->idAccessor = $idAccessor;
+        $builder->add('entities', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+            'class'        => $options['entity_class'],
+            'multiple'     => true,
+            'expanded'     => true,
+            'choice_label' => false,
+        ]);
     }
 
     /**
@@ -40,24 +39,16 @@ class BatchDeleteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $idAccessor = $this->idAccessor;
-
         $resolver
             ->setDefaults([
-                'choice_label'  => false,
-                'multiple'      => true,
-                'expanded'      => true,
                 'csrf_token_id' => md5(__FILE__.__METHOD__.$this->getBlockPrefix()),
             ])
-            ->setRequired('entities')
-            ->setAllowedTypes('entities', 'array')
-            ->setNormalizer('choices', function (Options $options) use ($idAccessor) {
-                $ids = array_map(function ($entity) use ($idAccessor) {
-                    return $idAccessor->getValue($entity);
-                }, $options['entities']);
-
-                return array_combine($ids, $ids);
-            });
+            ->setRequired('entity_class')
+            ->setDefined('entities')
+            ->setAllowedTypes([
+                'entities'     => 'array',
+                'entity_class' => 'string',
+            ]);
     }
 
     /**
@@ -66,13 +57,5 @@ class BatchDeleteType extends AbstractType
     public function getBlockPrefix()
     {
         return 'darvin_admin_batch_delete';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent()
-    {
-        return 'Symfony\Component\Form\Extension\Core\Type\ChoiceType';
     }
 }

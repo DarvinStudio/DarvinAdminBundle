@@ -79,7 +79,7 @@ image:
         edit:
             link: 'تحرير صورة'
             success: 'صورة تحديثها بنجاح'
-            title: 'تحرير صورة "%الكيان%"'
+            title: 'تحرير الصورة "%entity%"'
         index:
             link: 'صورة مدير'
             title: 'صورة مدير'
@@ -99,7 +99,7 @@ interface:
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإفراج %النسخة%'
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
     footer:
         phone_numbers: "<div class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
         support:
@@ -111,7 +111,7 @@ layout:
     menu:
         collapse: 'انهيار القائمة'
         expand: 'توسيع القائمة'
-    title: 'DarvinCMS الإفراج %النسخة%'
+    title: 'DarvinCMS الإصدار %version%'
 log:
     action:
         index:
@@ -123,7 +123,7 @@ log:
             success: 'كائن بنجاح عادت'
         show:
             link: 'عرض دخول'
-            title: 'سجل دخول من %الكيان%'
+            title: 'سجل دخول من %entity%'
     entity:
         action: العمل
         action_name: العمل
@@ -162,7 +162,7 @@ role:
 search:
     action:
         index:
-            heading: 'البحث عن "%الاستعلام%"'
+            heading: 'البحث عن "%query%"'
             query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
     form:
         placeholder: 'البحث عن...'
@@ -177,13 +177,13 @@ security:
         login:
             darvin_auth: 'تسجيل الدخول باستخدام مصادقة دارفين'
             submit: 'تسجيل الدخول'
-            version: 'الإفراج %عدد%'
+            version: 'الإصدار %number%'
         logout:
             link: خروج
         switch_user:
             back: 'تبديل المستخدم'
             link: التبديل
-            title: 'تبديل المستخدم إلى %الكيان%'
+            title: 'تبديل المستخدم %entity%'
     permission:
         create_delete: 'إنشاء وإزالة'
         edit: تحرير

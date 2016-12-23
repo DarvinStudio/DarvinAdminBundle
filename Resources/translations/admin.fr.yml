@@ -1,0 +1,214 @@
+boolean:
+    0: 'Pas de'
+    1: Oui
+    indeterminate: Indéterminée
+cache:
+    action:
+        clear:
+            confirm: 'Confirmer cache de compensation'
+            error: 'Erreur s''est produite lors de cache de compensation. Essayez de nouveau plus tard'
+            submit: 'Vider le cache'
+            success: 'Cache effacé avec succès'
+chosen:
+    no_results_text: 'Pas de résultats de match'
+    placeholder_text_multiple: '---'
+    placeholder_text_single: '---'
+colorbox:
+    close: fermer
+    current: 'image {current} de {total}'
+    imgError: 'Cette image pas réussi à charger.'
+    next: prochaine
+    previous: précédente
+    slideshowStart: 'démarrer le diaporama'
+    slideshowStop: 'arrêter le diaporama'
+    xhrError: 'Ce contenu a pas réussi à charger.'
+configuration:
+    action:
+        edit:
+            link: Configuration
+            submit: 'Soumettre les modifications'
+            success: 'Configuration de la mise à jour avec succès'
+    darvin_admin:
+        parameter:
+            image_sizes: 'Les tailles d''Image'
+        title: 'Le "panneau d''Administration" configuration du module'
+    menu:
+        description: 'Le Script de configuration et paramètres communs, par des éléments de page, comte de gestion.'
+crud:
+    action:
+        batch_delete:
+            check: 'De vérifier pour la suppression'
+            confirm: 'Confirmer la suppression des éléments sélectionnés'
+            select_all: 'Vérifiez tous pour l''enlèvement'
+            submit: 'Supprimer la sélection'
+            success: 'Les éléments sélectionnés supprimé avec succès'
+dashboard:
+    module_link: 'Aller à la page du module'
+dropzone:
+    default_message: 'Ici goutte fichiers à télécharger'
+    file_too_big: 'Le fichier est trop gros ({{taille}}MO). Max taille du fichier: {{maxFilesize}}MO.'
+    remove_file: 'Suppression de fichier'
+exception:
+    403: Interdit
+    404: 'Pas trouvé'
+    500: 'Erreur interne du serveur'
+filter:
+    title: 'Filtre de Table'
+    description: 'Les paramètres du filtre à l''aide de filtre'
+    reset: Réinitialiser
+    submit: 'Appliquer le filtre'
+flash:
+    error:
+        form: 'Des erreurs détectées. Les corriger et de soumettre à nouveau le formulaire'
+    success:
+        update_property: 'La valeur mise à jour avec succès'
+form_collections:
+    add: Ajouter
+    delete: Supprimer
+homepage:
+    action:
+        homepage:
+            link: 'Page d''accueil'
+            title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 'Confirmer la suppression de l''image'
+            submit: Supprimer
+            success: 'Image supprimé avec succès'
+        edit:
+            link: 'Modifier l''image'
+            success: 'Image correctement mis à jour'
+            title: 'Pour modifier l''image "%entity%"'
+        index:
+            link: 'Gestionnaire d''Image'
+            title: 'Gestionnaire d''Image'
+    entity:
+        extension: Extension
+        image: Image
+        name: Nom
+    menu:
+        description: 'Télécharger et gérer les images publiées sur le site web.'
+    sizes: Tailles
+image_size:
+    darvin_admin:
+        darvin_admin: Commune
+interface:
+    actions: Actions
+    characters_left: 'personnage(s) gauche'
+    empty_list: 'La liste est vide'
+    total_item_count: 'Nombre Total d''éléments: %count%'
+layout:
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
+    footer:
+        phone_numbers: "<div class=\"phone\">\n    <span>Kovrov ville</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>La ville de Vladimir</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        support:
+            label: 'Le support technique'
+            email: support@darvin-studio.ru
+    locale_switcher:
+        title: 'Langage courant:'
+    logo: 'Système de gestion de contenu'
+    menu:
+        collapse: 'L''effondrement de menu'
+        expand: 'Développez le menu'
+    title: 'DarvinCMS Libération %version%'
+log:
+    action:
+        index:
+            link: Journal
+            title: Journal
+        revert:
+            confirm: 'Confirmer le retour de l''objet'
+            submit: 'Revenir à la version'
+            success: 'L''objet est revenue avec succès'
+        show:
+            link: 'Vue de l''entrée'
+            title: 'Entrée de journal à partir de %entity%'
+    entity:
+        action: Action
+        action_name: Action
+        actions:
+            create: 'La création d'''
+            remove: 'La suppression'
+            update: 'Mise à jour'
+        data: Données
+        logged_at: 'Connecté à'
+        logged_at_from: 'Connecté à (de)'
+        logged_at_to: 'Connecté à (aux)'
+        object: Objet
+        object_class: Objet
+        object_id: 'ID de l''objet'
+        object_name: 'Nom de l''objet'
+        user: 'L''utilisateur'
+        username: 'Nom d''utilisateur'
+        version: Version
+menu:
+    group:
+        modules:
+            description: 'Voir les commandes, configurer des systèmes de paiement.'
+            title: 'Les Modules de'
+        pages:
+            description: 'La Structure et les sections principales. <br>L''édition et la création.'
+            title: 'Sections structurales'
+property_forms:
+    submit: 'Soumettre les modifications'
+range:
+    from: 'à partir de'
+    to: pour
+role:
+    admin: Administrateur
+    guestadmin: 'Administrateur invité'
+    superadmin: 'Super administrateur'
+search:
+    action:
+        index:
+            heading: 'La recherche pour "%query%"'
+            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+    form:
+        placeholder: Recherche...
+        submit: Recherche
+securable:
+    configuration: Configuration
+    image: 'Gestionnaire d''Image'
+    log: Journal
+    translation: Traduction
+security:
+    action:
+        login:
+            darvin_auth: 'Connectez-vous en utilisant Darvin Auth'
+            submit: 'Signe dans'
+            version: 'Libération %number%'
+        logout:
+            link: Déconnexion
+        switch_user:
+            back: 'Changer d''utilisateur arrière'
+            link: Commutateur
+            title: 'Changer d''utilisateur pour %entity%'
+    permission:
+        create_delete: 'Créer et supprimer des'
+        edit: Modifier
+        view: Vue
+size:
+    height: Hauteur
+    width: Largeur
+slug_suffix:
+    edit: 'Modifier l''URL'
+    reset: 'Réinitialiser URL'
+    update: 'Mettre à jour l''URL'
+submit:
+    edit: 'Soumettre et de modifier'
+    index: 'Soumettre et allez à la page d''index'
+    new: 'Soumettre et créer'
+translation:
+    action:
+        index:
+            link: Traductions
+            title: Traductions
+    entity:
+        content: Traduction
+        locale: 'Paramètres régionaux'
+        trans_unit:
+            domain: Domaine
+        updated_at: 'Mis à jour au'
+        updated_at_from: 'Mis à jour (à partir de)'
+        updated_at_to: 'Mis à jour (à)'

@@ -1,0 +1,18 @@
+action:
+    delete:
+        confirm: 'Confirmer @trans_lower_genitive@ retrait'
+        submit: ' Supprimer @trans_lower_accusative@'
+        success: '@trans@ supprimé avec succès'
+    edit:
+        link: ' Edit @trans_lower_accusative@'
+        success: '@trans@ correctement mis à jour'
+        title: ' Edit @trans_lower_accusative@ "%entity%"'
+    index:
+        link: ' @trans_multiple@s'
+        title: '@trans_multiple@s'
+    new:
+        link: ' Créer @trans_lower_accusative@'
+        success: '@trans@ créé avec succès'
+        title: ' @Trans_lower@'
+    show:
+        title: '@trans@ "%entity%"'

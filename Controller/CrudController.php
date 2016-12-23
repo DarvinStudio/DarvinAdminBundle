@@ -19,6 +19,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
@@ -146,12 +147,22 @@ class CrudController extends Controller
         } catch (CustomObjectException $ex) {
         }
 
+        $batchDeleteForm = null;
+
+        if (!empty($entities)
+            && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
+            && $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
+        ) {
+            $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
+        }
+
         $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
 
         return $this->renderResponse('index', [
             'association_param' => $associationParam,
+            'batch_delete_form' => $batchDeleteForm,
             'entities_count'    => $entitiesCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
@@ -406,6 +417,45 @@ class CrudController extends Controller
             : $request->headers->get(
                 'referer',
                 $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+            );
+
+        return $this->redirect($url);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Darvin\AdminBundle\Controller\ControllerException
+     */
+    public function batchDeleteAction(Request $request)
+    {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
+        $this->getParentEntityDefinition($request);
+
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
+
+        $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
+        $entities = $form->get('entities')->getData();
+
+        if ($entities instanceof Collection) {
+            $entities = $entities->toArray();
+        }
+        if (empty($entities)) {
+            throw new ControllerException(
+                sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
+            );
+        }
+
+        $url = $this->getFormHandler()->handleBatchDeleteForm($form, $entities)
+            ? $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
+            : $request->headers->get(
+                'referer',
+                $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
             );
 
         return $this->redirect($url);

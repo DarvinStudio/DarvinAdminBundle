@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form;
 
 use Darvin\AdminBundle\Form\Type\BaseType;
+use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
@@ -73,6 +74,35 @@ class AdminFormFactory
         $this->genericFormFactory = $genericFormFactory;
         $this->identifierAccessor = $identifierAccessor;
         $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
+     * @param string   $entityClass Entity class
+     * @param object[] $entities    Entities
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     * @throws \Darvin\AdminBundle\Form\FormException
+     */
+    public function createBatchDeleteForm($entityClass, array $entities = null)
+    {
+        if (null !== $entities && empty($entities)) {
+            throw new FormException(
+                sprintf('Unable to create batch delete form for entity class "%s": entity array is empty.', $entityClass)
+            );
+        }
+
+        $options = [
+            'entity_class' => $entityClass,
+        ];
+
+        if (!empty($entities)) {
+            $options = array_merge($options, [
+                'action'   => $this->adminRouter->generate(reset($entities), $entityClass, AdminRouter::TYPE_BATCH_DELETE),
+                'entities' => $entities,
+            ]);
+        }
+
+        return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, $options);
     }
 
     /**

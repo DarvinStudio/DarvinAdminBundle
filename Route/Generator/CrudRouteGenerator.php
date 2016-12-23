@@ -78,6 +78,15 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'get',
             ],
         ],
+        AdminRouter::TYPE_BATCH_DELETE => [
+            '%s_batch_delete',
+            '%s/batch-delete',
+            '%s:batchDeleteAction',
+            [],
+            [
+                'post',
+            ],
+        ],
         AdminRouter::TYPE_NEW => [
             '%s_new',
             '%s/new',

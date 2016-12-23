@@ -31,6 +31,7 @@ parameters:
           - bundles/darvinadmin/scripts/yandex-translator.js
 
           - bundles/darvinadmin/scripts/ajax-forms.js
+          - bundles/darvinadmin/scripts/batch-delete.js
           - bundles/darvinadmin/scripts/chosen-init.js
           - bundles/darvinadmin/scripts/colorbox-init.js
           - bundles/darvinadmin/scripts/counter-init.js

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Metadata\Configuration;
 
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget;
@@ -106,6 +107,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->children()
                         ->append($this->addViewNode('index', [
+                            BatchDeleteWidget::ALIAS,
                             ShowLinkWidget::ALIAS,
                             EditLinkWidget::ALIAS,
                             CopyFormWidget::ALIAS,

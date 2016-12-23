@@ -1,4 +1,5 @@
 route_blacklist:
+    - batch-delete
     - copy
     - delete
     - edit

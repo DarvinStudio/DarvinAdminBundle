@@ -5,6 +5,7 @@ menu:
         main:    bundles/darvinadmin/images/admin/log_main.png
         sidebar: bundles/darvinadmin/images/admin/log_sidebar.png
 route_blacklist:
+    - batch-delete
     - copy
     - delete
     - edit

@@ -44,7 +44,7 @@ crud:
         batch_delete:
             check:      Check for removal
             confirm:    Confirm selected items removal
-            select_all: Select all
+            select_all: Check all for removal
             submit:     Remove selected
             success:    Selected items successfully removed
 

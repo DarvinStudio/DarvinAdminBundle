@@ -10,10 +10,12 @@
 
 namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
+use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
 use Doctrine\Common\Util\ClassUtils;
+use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -22,6 +24,11 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
  */
 class AdminVoter extends Voter
 {
+    /**
+     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     */
+    private $metadataManager;
+
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
      */
@@ -43,10 +50,12 @@ class AdminVoter extends Voter
     private $initialized;
 
     /**
+     * @param \Darvin\AdminBundle\Metadata\MetadataManager                         $metadataManager           Metadata manager
      * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool $securityConfigurationPool Security configuration pool
      */
-    public function __construct(SecurityConfigurationPool $securityConfigurationPool)
+    public function __construct(MetadataManager $metadataManager, SecurityConfigurationPool $securityConfigurationPool)
     {
+        $this->metadataManager = $metadataManager;
         $this->securityConfigurationPool = $securityConfigurationPool;
         $this->supportedClasses = $this->permissions = [];
         $this->initialized = false;
@@ -60,6 +69,12 @@ class AdminVoter extends Voter
         $user = $token->getUser();
 
         if (!$user instanceof BaseUser) {
+            return false;
+        }
+        if ($this->metadataManager->hasMetadata($objectOrClass)
+            && $this->metadataManager->getConfiguration($objectOrClass)['oauth_only']
+            && !$token instanceof OAuthToken
+        ) {
             return false;
         }
 

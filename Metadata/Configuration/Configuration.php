@@ -47,6 +47,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
                 ->arrayNode('joins')->prototype('scalar')->end()->end()
+                ->booleanNode('oauth_only')->defaultFalse()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()

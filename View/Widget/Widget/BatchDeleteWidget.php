@@ -13,10 +13,9 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Delete form view widget
+ * Batch delete view widget
  */
 class BatchDeleteWidget extends AbstractWidget
 {
@@ -48,23 +47,15 @@ class BatchDeleteWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_DELETE)
+        $meta = $this->metadataManager->getMetadata($entity);
+
+        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_BATCH_DELETE)
             ? $this->render($options, [
                 'entity'             => $entity,
-                'identifier'         => $this->metadataManager->getMetadata($entity)->getIdentifier(),
-                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+                'identifier'         => $meta->getIdentifier(),
+                'translation_prefix' => $meta->getBaseTranslationPrefix(),
             ])
             : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver->setDefault('entity_class', null);
     }
 
     /**

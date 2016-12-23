@@ -107,11 +107,11 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->children()
                         ->append($this->addViewNode('index', [
+                            BatchDeleteWidget::ALIAS,
                             ShowLinkWidget::ALIAS,
                             EditLinkWidget::ALIAS,
                             CopyFormWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
-                            BatchDeleteWidget::ALIAS,
                         ]))
                         ->append($this->addViewNode('new'))
                         ->append($this->addViewNode('edit', [

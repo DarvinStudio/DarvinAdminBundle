@@ -82,7 +82,7 @@ services:
         class:  "%darvin_admin.view.widget.batch_delete.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setAdminRouter,      [ "@darvin_admin.router" ] ]
+            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 

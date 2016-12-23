@@ -81,16 +81,25 @@ class AdminFormFactory
      * @param object[] $entities    Entities
      *
      * @return \Symfony\Component\Form\FormInterface
+     * @throws \Darvin\AdminBundle\Form\FormException
      */
     public function createBatchDeleteForm($entityClass, array $entities = null)
     {
+        if (null !== $entities && empty($entities)) {
+            throw new FormException(
+                sprintf('Unable to create batch delete form for entity class "%s": entity array is empty.', $entityClass)
+            );
+        }
+
         $options = [
-            'action'       => $this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_BATCH_DELETE),
             'entity_class' => $entityClass,
         ];
 
         if (!empty($entities)) {
-            $options['entities'] = $entities;
+            $options = array_merge($options, [
+                'action'   => $this->adminRouter->generate(reset($entities), $entityClass, AdminRouter::TYPE_BATCH_DELETE),
+                'entities' => $entities,
+            ]);
         }
 
         return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, $options);

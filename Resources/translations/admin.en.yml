@@ -42,6 +42,7 @@ configuration:
 crud:
     action:
         batch_delete:
+            check:      Check for removal
             confirm:    Confirm selected items removal
             select_all: Select all
             submit:     Remove selected

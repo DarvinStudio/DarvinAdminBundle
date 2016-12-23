@@ -19,6 +19,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
@@ -244,32 +245,6 @@ class CrudController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function batchDeleteAction(Request $request)
-    {
-        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
-
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
-
-        $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
-
-        $url = $this->getFormHandler()->handleBatchDeleteForm($form, $form->getData()['entities'])
-            ? $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX)
-            : $request->headers->get(
-                'referer',
-                $this->getAdminRouter()->generate(null, $this->entityClass, AdminRouter::TYPE_INDEX)
-            );
-
-        return $this->redirect($url);
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
      * @param int                                       $id      Entity ID
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -442,6 +417,45 @@ class CrudController extends Controller
             : $request->headers->get(
                 'referer',
                 $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+            );
+
+        return $this->redirect($url);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Darvin\AdminBundle\Controller\ControllerException
+     */
+    public function batchDeleteAction(Request $request)
+    {
+        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+
+        $this->getParentEntityDefinition($request);
+
+        $this->getEventDispatcher()->dispatch(
+            Events::PRE_CRUD_CONTROLLER_ACTION,
+            new CrudControllerActionEvent($this->meta, __FUNCTION__)
+        );
+
+        $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
+        $entities = $form->get('entities')->getData();
+
+        if ($entities instanceof Collection) {
+            $entities = $entities->toArray();
+        }
+        if (empty($entities)) {
+            throw new ControllerException(
+                sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
+            );
+        }
+
+        $url = $this->getFormHandler()->handleBatchDeleteForm($form, $entities)
+            ? $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
+            : $request->headers->get(
+                'referer',
+                $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
             );
 
         return $this->redirect($url);

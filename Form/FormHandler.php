@@ -70,24 +70,24 @@ class FormHandler
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form           Delete form
-     * @param object                                $entities         Entity
+     * @param \Symfony\Component\Form\FormInterface $form           Batch delete form
+     * @param object[]                              $entities       Entities
      * @param string                                $successMessage Success message
      *
      * @return bool
      */
-    public function handleBatchDeleteForm(FormInterface $form, $entities, $successMessage = 'action.batch_delete.success')
+    public function handleBatchDeleteForm(FormInterface $form, $entities, $successMessage = 'crud.action.batch_delete.success')
     {
         if (!$form->isValid()) {
             $message = implode(PHP_EOL, array_map(function (FormError $error) {
                 return $error->getMessage();
             }, iterator_to_array($form->getErrors(true))));
             $this->flashNotifier->error($message);
+
             return false;
         }
-
         foreach ($entities as $entity) {
-             $this->em->remove($entity);
+            $this->em->remove($entity);
         }
 
         $this->em->flush();
@@ -96,7 +96,6 @@ class FormHandler
 
         return true;
     }
-
 
     /**
      * @param \Symfony\Component\Form\FormInterface $form           Copy form

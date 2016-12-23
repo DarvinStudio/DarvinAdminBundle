@@ -1,0 +1,214 @@
+boolean:
+    0: لا
+    1: نعم
+    indeterminate: 'غير محدد'
+cache:
+    action:
+        clear:
+            confirm: 'تأكيد مسح ذاكرة التخزين المؤقت'
+            error: 'حدث خطأ أثناء مسح ذاكرة التخزين المؤقت. حاول مرة أخرى في وقت لاحق'
+            submit: 'مسح ذاكرة التخزين المؤقت'
+            success: 'ذاكرة التخزين المؤقت مسح بنجاح'
+chosen:
+    no_results_text: 'لا توجد نتائج المباراة'
+    placeholder_text_multiple: '---'
+    placeholder_text_single: '---'
+colorbox:
+    close: قريب
+    current: 'صورة {الجارية} {مجموع}'
+    imgError: 'هذه صورة فشل في التحميل.'
+    next: القادم
+    previous: السابقة
+    slideshowStart: 'بدء عرض الشرائح'
+    slideshowStop: 'إيقاف عرض الشرائح'
+    xhrError: 'هذا المحتوى فشل في التحميل.'
+configuration:
+    action:
+        edit:
+            link: التكوين
+            submit: 'إرسال التغييرات'
+            success: 'التكوين بنجاح تحديث'
+    darvin_admin:
+        parameter:
+            image_sizes: 'أحجام الصور'
+        title: '"إدارة الفريق" وحدة التكوين'
+    menu:
+        description: 'سيناريو تكوين الإعدادات الشائعة في عناصر الصفحة العد إدارة.'
+crud:
+    action:
+        batch_delete:
+            check: 'تحقق من إزالة'
+            confirm: 'التأكد من إزالة العناصر المحددة'
+            select_all: 'تحقق من كل لإزالة'
+            submit: 'إزالة مختارة'
+            success: 'العناصر المحددة بنجاح إزالة'
+dashboard:
+    module_link: 'انتقل إلى صفحة وحدة'
+dropzone:
+    default_message: 'قطرة هنا لتحميل الملفات'
+    file_too_big: 'الملف كبير جدا ({{حجم الملف}}MB). ماكس حجم الملف: {{maxFilesize}}ميجا بايت.'
+    remove_file: 'إزالة الملف'
+exception:
+    403: ممنوع
+    404: 'لم يتم العثور على'
+    500: 'خطأ خادم داخلي'
+filter:
+    title: 'الجدول تصفية'
+    description: 'تصفية المعلمات باستخدام فلتر'
+    reset: 'إعادة تعيين'
+    submit: 'تطبيق عامل تصفية'
+flash:
+    error:
+        form: 'شكل الأخطاء المكتشفة. اصلاحها وإعادة تشكيل'
+    success:
+        update_property: 'قيمة تحديثها بنجاح'
+form_collections:
+    add: إضافة
+    delete: إزالة
+homepage:
+    action:
+        homepage:
+            link: 'الصفحة الرئيسية'
+            title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 'التأكد من إزالة الصورة'
+            submit: إزالة
+            success: 'صورة إزالة بنجاح'
+        edit:
+            link: 'تحرير صورة'
+            success: 'صورة تحديثها بنجاح'
+            title: 'تحرير صورة "%الكيان%"'
+        index:
+            link: 'صورة مدير'
+            title: 'صورة مدير'
+    entity:
+        extension: تمديد
+        image: صورة
+        name: اسم
+    menu:
+        description: 'تحميل وإدارة الصور المنشورة على الموقع.'
+    sizes: الأحجام
+image_size:
+    darvin_admin:
+        darvin_admin: المشتركة
+interface:
+    actions: الإجراءات
+    characters_left: 'حرف(s) left'
+    empty_list: 'القائمة فارغة'
+    total_item_count: 'مجموع البنود: %count%'
+layout:
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإفراج %النسخة%'
+    footer:
+        phone_numbers: "<div class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        support:
+            label: 'الدعم الفني'
+            email: support@darvin-studio.ru
+    locale_switcher:
+        title: 'اللغة الحالية:'
+    logo: 'نظام إدارة المحتوى'
+    menu:
+        collapse: 'انهيار القائمة'
+        expand: 'توسيع القائمة'
+    title: 'DarvinCMS الإفراج %النسخة%'
+log:
+    action:
+        index:
+            link: سجل
+            title: سجل
+        revert:
+            confirm: 'تأكيد كائن العودة'
+            submit: 'العودة إلى الإصدار'
+            success: 'كائن بنجاح عادت'
+        show:
+            link: 'عرض دخول'
+            title: 'سجل دخول من %الكيان%'
+    entity:
+        action: العمل
+        action_name: العمل
+        actions:
+            create: خلق
+            remove: إزالة
+            update: تحديث
+        data: البيانات
+        logged_at: 'تسجيل في'
+        logged_at_from: 'تسجيل في (من)'
+        logged_at_to: 'تسجيل في (إلى)'
+        object: وجوه
+        object_class: وجوه
+        object_id: 'معرف الكائن'
+        object_name: 'اسم الكائن'
+        user: المستخدم
+        username: 'اسم المستخدم'
+        version: الإصدار
+menu:
+    group:
+        modules:
+            description: 'عرض أوامر تكوين أنظمة الدفع.'
+            title: وحدات
+        pages:
+            description: 'هيكل أقسام رئيسية. <br>تحرير وإنشاء.'
+            title: 'هيكلية أقسام'
+property_forms:
+    submit: 'إرسال التغييرات'
+range:
+    from: من
+    to: إلى
+role:
+    admin: مسؤول
+    guestadmin: 'ضيف مدير'
+    superadmin: 'مشرف مميز'
+search:
+    action:
+        index:
+            heading: 'البحث عن "%الاستعلام%"'
+            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+    form:
+        placeholder: 'البحث عن...'
+        submit: البحث
+securable:
+    configuration: التكوين
+    image: 'صورة مدير'
+    log: سجل
+    translation: الترجمة
+security:
+    action:
+        login:
+            darvin_auth: 'تسجيل الدخول باستخدام مصادقة دارفين'
+            submit: 'تسجيل الدخول'
+            version: 'الإفراج %عدد%'
+        logout:
+            link: خروج
+        switch_user:
+            back: 'تبديل المستخدم'
+            link: التبديل
+            title: 'تبديل المستخدم إلى %الكيان%'
+    permission:
+        create_delete: 'إنشاء وإزالة'
+        edit: تحرير
+        view: عرض
+size:
+    height: ارتفاع
+    width: العرض
+slug_suffix:
+    edit: 'تحرير URL'
+    reset: 'إعادة تعيين URL'
+    update: 'تحديث URL'
+submit:
+    edit: 'تقديم وتحرير'
+    index: 'تقديم و اذهب إلى صفحة الفهرس'
+    new: 'تقديم وخلق'
+translation:
+    action:
+        index:
+            link: ترجمة
+            title: ترجمة
+    entity:
+        content: الترجمة
+        locale: 'الإعدادات المحلية'
+        trans_unit:
+            domain: المجال
+        updated_at: 'آخر تحديث في'
+        updated_at_from: 'آخر تحديث في (من)'
+        updated_at_to: 'آخر تحديث في (إلى)'

@@ -1,0 +1,18 @@
+action:
+    delete:
+        confirm: 'تأكيد @trans_lower_genitive@ إزالة'
+        submit: ' إزالة @trans_lower_accusative@'
+        success: '@عبر@ إزالة بنجاح'
+    edit:
+        link: ' تحرير @trans_lower_accusative@'
+        success: '@عبر@ تحديثها بنجاح'
+        title: ' تحرير @trans_lower_accusative@ "%الكيان%"'
+    index:
+        link: ' @trans_multiple@s'
+        title: '@trans_multiple@s'
+    new:
+        link: ' إنشاء @trans_lower_accusative@'
+        success: '@عبر@ بنجاح إنشاء'
+        title: ' جديد @trans_lower@'
+    show:
+        title: '@عبر@ "%الكيان%"'

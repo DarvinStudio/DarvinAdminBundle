@@ -1,0 +1,214 @@
+boolean:
+    0: 没有
+    1: 是的
+    indeterminate: 不确定
+cache:
+    action:
+        clear:
+            confirm: 确认清除缓存
+            error: '错误发生在高速缓存结算。 稍后再试'
+            submit: 清除缓存
+            success: 缓成功地清除
+chosen:
+    no_results_text: 无匹配结果
+    placeholder_text_multiple: '---'
+    placeholder_text_single: '---'
+colorbox:
+    close: 靠近
+    current: '像{前}{总}'
+    imgError: 这个图片加载失败。
+    next: 下
+    previous: 以前的
+    slideshowStart: 开始幻灯片
+    slideshowStop: 停止幻灯片
+    xhrError: 这些内容未能载荷。
+configuration:
+    action:
+        edit:
+            link: 配置
+            submit: 提出的变化
+            success: 构成功地更新
+    darvin_admin:
+        parameter:
+            image_sizes: 图像大小
+        title: '"管理小组"模块结构'
+    menu:
+        description: 剧本配置和共同的设置，每页的项目数的管理。
+crud:
+    action:
+        batch_delete:
+            check: 检查拆除
+            confirm: 确认选定项目拆除
+            select_all: 检查所有移除
+            submit: 删除选择
+            success: 选定的项目成功地除去
+dashboard:
+    module_link: 去页模块
+dropzone:
+    default_message: 落在这儿的文件上传
+    file_too_big: '文件太大({{filesize}}MB)。 Max filesize:{{maxFilesize}}MB。'
+    remove_file: 删除文件
+exception:
+    403: 禁止
+    404: 没有发现
+    500: 内部服务器的错误
+filter:
+    title: 表过滤器
+    description: 滤波器的参数使用的过滤器
+    reset: 重置
+    submit: 适用的过滤器
+flash:
+    error:
+        form: '形成的错误检测。 解决这些问题，并重新提交形式'
+    success:
+        update_property: 值的成功更新
+form_collections:
+    add: 添加
+    delete: 删除
+homepage:
+    action:
+        homepage:
+            link: 主页
+            title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 确认图像切除
+            submit: 删除
+            success: 图像成功地除去
+        edit:
+            link: 编辑的图像
+            success: 成功地更新图像
+            title: '编辑图像"%entity%"'
+        index:
+            link: 图像经理
+            title: 图像经理
+    entity:
+        extension: 扩展
+        image: 图像
+        name: 名称
+    menu:
+        description: 上传和管理图像发布在网站上。
+    sizes: 尺寸
+image_size:
+    darvin_admin:
+        darvin_admin: 常见的
+interface:
+    actions: 行动
+    characters_left: character(s)离开
+    empty_list: 表是空的
+    total_item_count: '总项目： %count%'
+layout:
+    copyright: '©2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
+    footer:
+        phone_numbers: "<div class=\"phone\">\n    <span>科夫罗夫市</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7(4922)32-32-32</a>\n</div>\n"
+        support:
+            label: 技术支持
+            email: support@darvin-studio.ru
+    locale_switcher:
+        title: 目前的语言：
+    logo: 内容管理系统
+    menu:
+        collapse: 崩溃的菜单
+        expand: 展开菜单
+    title: 'DarvinCMS释放 %version%'
+log:
+    action:
+        index:
+            link: 日志
+            title: 日志
+        revert:
+            confirm: 确认对象恢复
+            submit: 原来版本
+            success: 目成功地恢复了
+        show:
+            link: 图进入
+            title: '日志条目从 %entity%'
+    entity:
+        action: 动作
+        action_name: 动作
+        actions:
+            create: 创建
+            remove: 除
+            update: 更新
+        data: 数据
+        logged_at: 已登录在
+        logged_at_from: 记录()
+        logged_at_to: 记录()
+        object: 对象
+        object_class: 对象
+        object_id: 'Object ID'
+        object_name: 目名称
+        user: 用户
+        username: 用户名
+        version: 版本
+menu:
+    group:
+        modules:
+            description: 查看订单、配置支付系统。
+            title: 模块
+        pages:
+            description: '结构和主要部分。 <br>编辑和创造。'
+            title: 结构性的部分
+property_forms:
+    submit: 提出的变化
+range:
+    from: 从
+    to: 要
+role:
+    admin: 管理员
+    guestadmin: 游客的管理员
+    superadmin: 超级管理员
+search:
+    action:
+        index:
+            heading: '搜寻"%query%"'
+            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+    form:
+        placeholder: 搜索...
+        submit: 搜索
+securable:
+    configuration: 配置
+    image: 图像经理
+    log: 日志
+    translation: 翻译
+security:
+    action:
+        login:
+            darvin_auth: 标志在使用达文Auth
+            submit: 登录在
+            version: '释放 %number%'
+        logout:
+            link: 注销
+        switch_user:
+            back: 换用户回来
+            link: 开关
+            title: '开户 %entity%'
+    permission:
+        create_delete: 创建和删除
+        edit: 编辑
+        view: 看
+size:
+    height: 高度
+    width: 宽
+slug_suffix:
+    edit: 编辑URL
+    reset: 重URL
+    update: 更新URL
+submit:
+    edit: 提交和编辑
+    index: 提交并转到索引页面
+    new: 提交，并创造
+translation:
+    action:
+        index:
+            link: 翻译
+            title: 翻译
+    entity:
+        content: 翻译
+        locale: 区域
+        trans_unit:
+            domain: 域
+        updated_at: 更新
+        updated_at_from: 更新在()
+        updated_at_to: 更新在()

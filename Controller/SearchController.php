@@ -10,6 +10,8 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -58,15 +60,41 @@ class SearchController extends Controller
 
         $entities = $this->getSearcher()->search($entityName, $query);
 
-        $view = $this->getEntitiesToIndexViewTransformer()->transform(
-            $searcher->getSearchableEntityMeta($entityName),
-            $entities
-        );
+        $meta = $searcher->getSearchableEntityMeta($entityName);
+
+        $batchDeleteForm = null;
+
+        if (!empty($entities)
+            && $this->isGranted(Permission::CREATE_DELETE, $meta->getEntityClass())
+            && $this->getAdminRouter()->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_BATCH_DELETE)
+        ) {
+            $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $entities)->createView();
+        }
+
+        $view = $this->getEntitiesToIndexViewTransformer()->transform($meta, $entities);
 
         return $this->render('DarvinAdminBundle:Search/widget:results.html.twig', [
-            'entities_count' => count($entities),
-            'view'           => $view,
+            'batch_delete_form' => $batchDeleteForm,
+            'entities_count'    => count($entities),
+            'meta'              => $meta,
+            'view'              => $view,
         ]);
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Form\AdminFormFactory
+     */
+    private function getAdminFormFactory()
+    {
+        return $this->get('darvin_admin.form.factory');
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Route\AdminRouter
+     */
+    private function getAdminRouter()
+    {
+        return $this->get('darvin_admin.router');
     }
 
     /**

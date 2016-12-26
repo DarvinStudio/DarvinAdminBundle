@@ -117,10 +117,6 @@ log:
         index:
             link: Journal
             title: Journal
-        revert:
-            confirm: 'Confirmer le retour de l''objet'
-            submit: 'Revenir à la version'
-            success: 'L''objet est revenue avec succès'
         show:
             link: 'Vue de l''entrée'
             title: 'Entrée de journal à partir de %entity%'

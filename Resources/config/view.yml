@@ -20,7 +20,6 @@ parameters:
     darvin_admin.view.widget.image_upload_link.class: Darvin\AdminBundle\View\Widget\Widget\ImageUploadLinkWidget
     darvin_admin.view.widget.log_entry.data.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\DataWidget
     darvin_admin.view.widget.log_entry.entity_name.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\EntityNameWidget
-    darvin_admin.view.widget.log_entry.revert_form.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\RevertFormWidget
     darvin_admin.view.widget.photo_gallery.class: Darvin\AdminBundle\View\Widget\Widget\PhotoGalleryWidget
     darvin_admin.view.widget.public_link.class: Darvin\AdminBundle\View\Widget\Widget\PublicLinkWidget
     darvin_admin.view.widget.show_link.class: Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget
@@ -181,15 +180,6 @@ services:
         calls:
             - [ setObjectNamer,         [ "@darvin_utils.object_namer" ] ]
             - [ setTranslatableManager, [ "@darvin_content.translatable.manager" ] ]
-        tags:
-            - { name: darvin_admin.view_widget }
-
-    darvin_admin.view.widget.log_entry.revert_form:
-        class:  "%darvin_admin.view.widget.log_entry.revert_form.class%"
-        parent: darvin_admin.view.widget.abstract
-        calls:
-            - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
-            - [ setRouter,           [ "@router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 

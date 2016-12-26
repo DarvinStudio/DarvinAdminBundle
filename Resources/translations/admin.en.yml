@@ -142,10 +142,6 @@ log:
         index:
             link:  Log
             title: Log
-        revert:
-            confirm: Confirm object reverting
-            submit:  Revert to version
-            success: Object successfully reverted
         show:
             link:  View entry
             title: Log entry from %entity%

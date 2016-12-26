@@ -117,10 +117,6 @@ log:
         index:
             link: سجل
             title: سجل
-        revert:
-            confirm: 'تأكيد كائن العودة'
-            submit: 'العودة إلى الإصدار'
-            success: 'كائن بنجاح عادت'
         show:
             link: 'عرض دخول'
             title: 'سجل دخول من %entity%'

@@ -117,10 +117,6 @@ log:
         index:
             link: 日志
             title: 日志
-        revert:
-            confirm: 确认对象恢复
-            submit: 原来版本
-            success: 目成功地恢复了
         show:
             link: 图进入
             title: '日志条目从 %entity%'

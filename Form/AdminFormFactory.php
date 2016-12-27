@@ -140,7 +140,9 @@ class AdminFormFactory
     {
         $options = [
             'action'             => $formAction,
+            'action_type'        => $actionType,
             'data_class'         => $meta->getEntityClass(),
+            'metadata'           => $meta,
             'translation_domain' => 'admin',
             'validation_groups'  => [
                 'Default',
@@ -149,17 +151,9 @@ class AdminFormFactory
         ];
 
         $configuration = $meta->getConfiguration();
-        $type = $configuration['form'][$actionType]['type'];
-
-        if (empty($type)) {
-            $type = BaseType::BASE_TYPE_CLASS;
-
-            $options = array_merge($options, [
-                'action_type' => $actionType,
-                'metadata'    => $meta,
-            ]);
-        }
-
+        $type = !empty($configuration['form'][$actionType]['type'])
+            ? $configuration['form'][$actionType]['type']
+            : BaseType::BASE_TYPE_CLASS;
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {

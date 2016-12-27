@@ -70,26 +70,6 @@ homepage:
         homepage:
             link: 'Page d''accueil'
             title: DarvinCMS
-image:
-    action:
-        delete:
-            confirm: 'Confirmer la suppression de l''image'
-            submit: Supprimer
-            success: 'Image supprimé avec succès'
-        edit:
-            link: 'Modifier l''image'
-            success: 'Image correctement mis à jour'
-            title: 'Pour modifier l''image "%entity%"'
-        index:
-            link: 'Gestionnaire d''Image'
-            title: 'Gestionnaire d''Image'
-    entity:
-        extension: Extension
-        image: Image
-        name: Nom
-    menu:
-        description: 'Télécharger et gérer les images publiées sur le site web.'
-    sizes: Tailles
 image_size:
     darvin_admin:
         darvin_admin: Commune

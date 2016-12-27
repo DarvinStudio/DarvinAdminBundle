@@ -70,26 +70,6 @@ homepage:
         homepage:
             link: 'الصفحة الرئيسية'
             title: DarvinCMS
-image:
-    action:
-        delete:
-            confirm: 'التأكد من إزالة الصورة'
-            submit: إزالة
-            success: 'صورة إزالة بنجاح'
-        edit:
-            link: 'تحرير صورة'
-            success: 'صورة تحديثها بنجاح'
-            title: 'تحرير الصورة "%entity%"'
-        index:
-            link: 'صورة مدير'
-            title: 'صورة مدير'
-    entity:
-        extension: تمديد
-        image: صورة
-        name: اسم
-    menu:
-        description: 'تحميل وإدارة الصور المنشورة على الموقع.'
-    sizes: الأحجام
 image_size:
     darvin_admin:
         darvin_admin: المشتركة

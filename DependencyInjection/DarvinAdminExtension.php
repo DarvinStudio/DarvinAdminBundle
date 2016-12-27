@@ -91,11 +91,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 'alias'  => 'configuration',
                 'entity' => ParameterEntity::PARAMETER_ENTITY_CLASS,
             ],
-//            [
-//                'alias'  => 'image',
-//                'entity' => AbstractImage::ABSTRACT_IMAGE_CLASS,
-//                'config' => '@DarvinAdminBundle/Resources/config/admin/image.yml',
-//            ],
             [
                 'alias'  => 'log',
                 'entity' => LogEntry::LOG_ENTRY_CLASS,

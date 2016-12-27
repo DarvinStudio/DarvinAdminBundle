@@ -83,27 +83,6 @@ homepage:
             link:  Главная
             title: DarvinCMS
 
-image:
-    action:
-        delete:
-            confirm: Подтвердите удаление изображения
-            submit:  Удалить
-            success: Изображение успешно удалено
-        edit:
-            link:    Редактировать изображение
-            success: Изображение успешно изменено
-            title:   Изменить изображение «%entity%»
-        index:
-            link:  Менеджер изображений
-            title: Менеджер изображений
-    entity:
-        extension: Формат
-        image:     Изображение
-        name:      Название
-    menu:
-        description: Загружайте и управляйте изображениями, которые размещены на сайте.
-    sizes: Размеры
-
 image_size:
     darvin_admin:
         darvin_admin: Стандартный

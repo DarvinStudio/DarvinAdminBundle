@@ -83,27 +83,6 @@ homepage:
             link:  Homepage
             title: DarvinCMS
 
-image:
-    action:
-        delete:
-            confirm: Confirm image removal
-            submit:  Remove
-            success: Image successfully removed
-        edit:
-            link:    Edit image
-            success: Image successfully updated
-            title:   Edit image "%entity%"
-        index:
-            link:  Image manager
-            title: Image manager
-    entity:
-        extension: Extension
-        image:     Image
-        name:      Name
-    menu:
-        description: Upload and manage images published on website.
-    sizes: Sizes
-
 image_size:
     darvin_admin:
         darvin_admin: Common

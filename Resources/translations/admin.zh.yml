@@ -70,26 +70,6 @@ homepage:
         homepage:
             link: 主页
             title: DarvinCMS
-image:
-    action:
-        delete:
-            confirm: 确认图像切除
-            submit: 删除
-            success: 图像成功地除去
-        edit:
-            link: 编辑的图像
-            success: 成功地更新图像
-            title: '编辑图像"%entity%"'
-        index:
-            link: 图像经理
-            title: 图像经理
-    entity:
-        extension: 扩展
-        image: 图像
-        name: 名称
-    menu:
-        description: 上传和管理图像发布在网站上。
-    sizes: 尺寸
 image_size:
     darvin_admin:
         darvin_admin: 常见的

@@ -87,6 +87,13 @@ image_size:
     darvin_admin:
         darvin_admin: Стандартный
 
+image:
+    action:
+        delete:
+            confirm: Подтвердите удаление изображения
+            submit:  Удалить
+            success: Изображение успешно удалено
+
 interface:
     actions:          Действия
     characters_left:  символов осталось

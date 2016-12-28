@@ -70,6 +70,12 @@ homepage:
         homepage:
             link: 'Page d''accueil'
             title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 'Confirmer la suppression de l''image'
+            submit: Supprimer
+            success: 'Image supprimé avec succès'
 image_size:
     darvin_admin:
         darvin_admin: Commune

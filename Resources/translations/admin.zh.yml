@@ -70,6 +70,12 @@ homepage:
         homepage:
             link: 主页
             title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 确认图像切除
+            submit: 删除
+            success: 图像成功地除去
 image_size:
     darvin_admin:
         darvin_admin: 常见的

@@ -70,6 +70,12 @@ homepage:
         homepage:
             link: 'الصفحة الرئيسية'
             title: DarvinCMS
+image:
+    action:
+        delete:
+            confirm: 'التأكد من إزالة الصورة'
+            submit: إزالة
+            success: 'صورة إزالة بنجاح'
 image_size:
     darvin_admin:
         darvin_admin: المشتركة

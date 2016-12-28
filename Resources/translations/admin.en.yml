@@ -83,6 +83,13 @@ homepage:
             link:  Homepage
             title: DarvinCMS
 
+image:
+    action:
+        delete:
+            confirm: Confirm image removal
+            submit:  Remove
+            success: Image successfully removed
+
 image_size:
     darvin_admin:
         darvin_admin: Common

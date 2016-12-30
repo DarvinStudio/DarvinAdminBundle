@@ -167,23 +167,18 @@ class AdminFormFactory
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta                         Metadata
-     * @param string                                $parentEntityAssociation      Parent entity association
      * @param string                                $parentEntityAssociationParam Parent entity association query parameter name
      * @param mixed                                 $parentEntityId               Parent entity ID
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createFilterForm(
-        Metadata $meta,
-        $parentEntityAssociation = null,
-        $parentEntityAssociationParam = null,
-        $parentEntityId = null
-    ) {
+    public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null)
+    {
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
             return null;
         }
 
-        $actionRouteParams = !empty($parentEntityAssociation)
+        $actionRouteParams = !empty($parentEntityAssociationParam)
             ? [
                 $parentEntityAssociationParam => $parentEntityId,
             ]
@@ -201,9 +196,9 @@ class AdminFormFactory
             $type = FilterType::FILTER_TYPE_CLASS;
 
             $options = array_merge($options, [
-                'metadata'                  => $meta,
-                'parent_entity_association' => $parentEntityAssociation,
-                'parent_entity_id'          => $parentEntityId,
+                'metadata'                        => $meta,
+                'parent_entity_association_param' => $parentEntityAssociationParam,
+                'parent_entity_id'                => $parentEntityId,
             ]);
         }
 

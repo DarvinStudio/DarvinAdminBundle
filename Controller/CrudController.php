@@ -86,12 +86,7 @@ class CrudController extends Controller
         );
 
         $filterForm = $this->meta->isFilterFormEnabled()
-            ? $this->getAdminFormFactory()->createFilterForm(
-                $this->meta,
-                $association,
-                $associationParam,
-                $parentEntityId
-            )->handleRequest($request)
+            ? $this->getAdminFormFactory()->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request)
             : null;
 
         $qb = $this->getIndexQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);

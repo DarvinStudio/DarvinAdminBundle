@@ -80,8 +80,8 @@ class FilterType extends AbstractFormType
 
         $this->addFields($builder, $configuration['form']['filter']['fields'], $meta);
 
-        if (!empty($options['parent_entity_association'])) {
-            $builder->add($options['parent_entity_association'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+        if (!empty($options['parent_entity_association_param'])) {
+            $builder->add($options['parent_entity_association_param'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
                 'label' => false,
             ]);
         }
@@ -94,15 +94,13 @@ class FilterType extends AbstractFormType
     {
         parent::finishView($view, $form, $options);
 
-        $parentEntityAssociation = $options['parent_entity_association'];
+        $parentEntityAssociationParam = $options['parent_entity_association_param'];
 
-        if (empty($parentEntityAssociation)) {
-            return;
+        if (!empty($parentEntityAssociationParam)) {
+            $field = $view->children[$parentEntityAssociationParam];
+            $field->vars['full_name'] = $parentEntityAssociationParam;
+            $field->vars['value'] = $options['parent_entity_id'];
         }
-
-        $field = $view->children[$parentEntityAssociation];
-        $field->vars['full_name'] = $parentEntityAssociation;
-        $field->vars['value'] = $options['parent_entity_id'];
     }
 
     /**
@@ -112,12 +110,12 @@ class FilterType extends AbstractFormType
     {
         $resolver
             ->setDefaults([
-                'csrf_protection'           => false,
-                'method'                    => 'get',
-                'parent_entity_association' => null,
-                'parent_entity_id'          => null,
-                'required'                  => false,
-                'translation_domain'        => 'admin',
+                'csrf_protection'                 => false,
+                'method'                          => 'get',
+                'parent_entity_association_param' => null,
+                'parent_entity_id'                => null,
+                'required'                        => false,
+                'translation_domain'              => 'admin',
             ])
             ->setRequired('metadata')
             ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);

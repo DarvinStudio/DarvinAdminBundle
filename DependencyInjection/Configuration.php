@@ -82,7 +82,7 @@ class Configuration implements ConfigurationInterface
     {
         $rootNode = (new TreeBuilder())->root('sections');
         $rootNode
-            ->prototype('array')
+            ->prototype('array')->canBeDisabled()
                 ->children()
                     ->scalarNode('alias')->defaultNull()->end()
                     ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()

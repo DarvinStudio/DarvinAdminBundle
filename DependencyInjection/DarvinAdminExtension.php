@@ -32,6 +32,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $this->mergeSectionConfigs($configs);
+
         (new ConfigInjector())->inject($this->processConfiguration(new Configuration(), $configs), $container, $this->getAlias());
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
@@ -135,5 +137,35 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 ],
             ],
         ]);
+    }
+
+    /**
+     * @param array $configs Section configurations
+     */
+    private function mergeSectionConfigs(array &$configs)
+    {
+        foreach ($configs as $configKey => $config) {
+            if (!isset($config['sections'])) {
+                continue;
+            }
+            foreach ($config['sections'] as $sectionKey => $section) {
+                if (!isset($section['alias']) && !isset($section['entity'])) {
+                    continue;
+                }
+                foreach ($configs as $otherConfigKey => $otherConfig) {
+                    if (!isset($otherConfig['sections']) || $otherConfigKey === $configKey) {
+                        continue;
+                    }
+                    foreach ($otherConfig['sections'] as $otherSectionKey => $otherSection) {
+                        if ((isset($section['alias']) && isset($otherSection['alias']) && $otherSection['alias'] === $section['alias'])
+                            || (isset($section['entity']) && isset($otherSection['entity']) && $otherSection['entity'] === $section['entity'])
+                        ) {
+                            $configs[$configKey]['sections'][$sectionKey] = array_merge($section, $otherSection);
+                            unset($configs[$otherConfigKey]['sections'][$otherSectionKey]);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

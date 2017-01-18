@@ -39,6 +39,10 @@ class SectionConfiguration
         $this->sectionByAliases = $this->sectionByEntities = [];
 
         foreach ($configs as $config) {
+            if (!$config['enabled']) {
+                continue;
+            }
+
             $entity = $config['entity'];
             $alias = !empty($config['alias']) ? $config['alias'] : $objectNamer->name($entity);
 

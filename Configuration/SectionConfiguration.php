@@ -18,7 +18,12 @@ use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 class SectionConfiguration
 {
     /**
-     * @var \Darvin\AdminBundle\Configuration\Section[]
+     * @var array
+     */
+    private $sectionByAliases;
+
+    /**
+     * @var array
      */
     private $sectionByEntities;
 
@@ -31,13 +36,16 @@ class SectionConfiguration
      */
     public function __construct(ObjectNamerInterface $objectNamer, array $configs, array $entityOverride)
     {
-        $this->sectionByEntities = [];
+        $this->sectionByAliases = $this->sectionByEntities = [];
 
         foreach ($configs as $config) {
             $entity = $config['entity'];
             $alias = !empty($config['alias']) ? $config['alias'] : $objectNamer->name($entity);
 
-            if (isset($this->sectionByEntities[$alias])) {
+            if (isset($this->sectionByEntities[$entity])) {
+                throw new ConfigurationException(sprintf('Section for entity "%s" already exists.', $entity));
+            }
+            if (isset($this->sectionByAliases[$alias])) {
                 throw new ConfigurationException(sprintf('Section with alias "%s" already exists.', $alias));
             }
             if (isset($entityOverride[$entity])) {

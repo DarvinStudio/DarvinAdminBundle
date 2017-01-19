@@ -16,4 +16,6 @@
 4. Необходимо переопределить конфиги всех разделов администрирования, в которых заменяемый класс находится в разделе "children",
  указав там новый класс.
 
-5. Нужно обозначить замену класса в разделе "entity_override" бандла "DarvinAdminBundle", пример: {AppBundle\Entity\Foo: AppBundle\Entity\Bar}.
+5. Нужно обозначить замену класса в разделе "entity_override" конфигурации бандла "DarvinAdminBundle", пример: {AppBundle\Entity\Foo: AppBundle\Entity\Bar}.
+
+6. При необходимости указать замену класса в разделе "orm.resolve_target_entities" конфигурации бандла "DoctrineBundle".

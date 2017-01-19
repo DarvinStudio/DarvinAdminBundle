@@ -98,6 +98,12 @@ layout:
         collapse: 崩溃的菜单
         expand: 展开菜单
     title: 'DarvinCMS释放 %version%'
+locale:
+    ar: 阿拉伯文
+    en: 英语
+    fr: 法语
+    ru: 俄罗斯
+    zh: 中国
 log:
     action:
         index:

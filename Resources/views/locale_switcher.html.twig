@@ -5,9 +5,12 @@
         <span>{% trans %}layout.locale_switcher.title{% endtrans %}</span>
         <ul>
             {% for locale in darvin_admin_locales %}
+
+                {% set translation = ('locale.' ~ locale)|trans({}, 'admin', locale) %}
+
                 <li>
                     {% if locale == app.request.locale %}
-                        <span title="{{ ('locale.' ~ locale)|trans }}">{{ ('locale.' ~ locale)|trans }}</span>
+                        <span title="{{ translation }}">{{ translation }}</span>
                     {% else %}
 
                         {% set url = path(
@@ -15,7 +18,7 @@
                             app.request.attributes.get('_route_params')|merge({'_locale': locale})|merge(app.request.query.all)
                         ) %}
 
-                        <a href="{{ url }}" title="{{ ('locale.' ~ locale)|trans }}">{{ locale }}</a>
+                        <a href="{{ url }}" title="{{ translation }}">{{ locale }}</a>
                     {% endif %}
                 </li>
             {% endfor %}

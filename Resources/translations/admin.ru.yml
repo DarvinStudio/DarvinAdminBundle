@@ -123,6 +123,13 @@ layout:
         expand:   Показать меню
     title: DarvinCMS Версия %version%
 
+locale:
+    ar: Арабский
+    en: Английский
+    fr: Французский
+    ru: Русский
+    zh: Китайский
+
 log:
     action:
         index:

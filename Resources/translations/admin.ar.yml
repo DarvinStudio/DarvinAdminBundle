@@ -98,6 +98,12 @@ layout:
         collapse: 'انهيار القائمة'
         expand: 'توسيع القائمة'
     title: 'DarvinCMS الإصدار %version%'
+locale:
+    ar: العربية
+    en: 'اللغة الإنجليزية'
+    fr: الفرنسية
+    ru: الروسية
+    zh: الصينية
 log:
     action:
         index:

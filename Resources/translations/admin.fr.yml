@@ -98,6 +98,12 @@ layout:
         collapse: 'L''effondrement de menu'
         expand: 'Développez le menu'
     title: 'DarvinCMS Libération %version%'
+locale:
+    ar: Arabe
+    en: Anglais
+    fr: Français
+    ru: Russe
+    zh: Chinois
 log:
     action:
         index:

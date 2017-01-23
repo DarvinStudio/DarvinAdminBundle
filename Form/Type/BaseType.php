@@ -28,8 +28,6 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class BaseType extends AbstractFormType
 {
-    const BASE_TYPE_CLASS = __CLASS__;
-
     /**
      * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
      */
@@ -171,7 +169,7 @@ class BaseType extends AbstractFormType
             ->setAllowedTypes('action_type', 'string')
             ->setAllowedTypes('data_class', 'string')
             ->setAllowedTypes('field_filter', 'string')
-            ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
+            ->setAllowedTypes('metadata', Metadata::class);
     }
 
     /**

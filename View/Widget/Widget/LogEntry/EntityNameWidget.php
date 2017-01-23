@@ -73,7 +73,7 @@ class EntityNameWidget extends AbstractWidget
     protected function getAllowedEntityClasses()
     {
         return [
-            LogEntry::LOG_ENTRY_CLASS,
+            LogEntry::class,
         ];
     }
 

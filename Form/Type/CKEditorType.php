@@ -24,8 +24,6 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class CKEditorType extends AbstractType
 {
-    const CKEDITOR_TYPE_CLASS = __CLASS__;
-
     const CONFIG_NAME = 'darvin_admin';
 
     /**

@@ -66,7 +66,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
                     'form' => [
                         'options' => [
                             'label'      => false,
-                            'entry_type' => ObjectPermissionsType::OBJECT_PERMISSIONS_TYPE_CLASS,
+                            'entry_type' => ObjectPermissionsType::class,
                         ],
                     ],
                 ]

@@ -19,8 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FileType extends AbstractType
 {
-    const FILE_TYPE_CLASS = __CLASS__;
-
     /**
      * {@inheritdoc}
      */

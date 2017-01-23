@@ -26,13 +26,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FilterType extends AbstractFormType
 {
-    const FILTER_TYPE_CLASS = __CLASS__;
-
     /**
      * @var array
      */
     private static $fieldTypeChangeMap = [
-        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => TriStateCheckboxType::TRI_STATE_CHECKBOX_TYPE_CLASS,
+        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => TriStateCheckboxType::class,
         'Symfony\Component\Form\Extension\Core\Type\TextareaType' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
     ];
 
@@ -118,7 +116,7 @@ class FilterType extends AbstractFormType
                 'translation_domain'              => 'admin',
             ])
             ->setRequired('metadata')
-            ->setAllowedTypes('metadata', Metadata::METADATA_CLASS);
+            ->setAllowedTypes('metadata', Metadata::class);
     }
 
     /**

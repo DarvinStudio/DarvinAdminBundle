@@ -18,8 +18,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TriStateCheckboxType extends AbstractType
 {
-    const TRI_STATE_CHECKBOX_TYPE_CLASS = __CLASS__;
-
     /**
      * {@inheritdoc}
      */

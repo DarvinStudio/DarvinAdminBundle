@@ -29,7 +29,7 @@ class ConfigurationController extends Controller
      */
     public function editAction(Request $request)
     {
-        if (!$this->isGranted(Permission::EDIT, ParameterEntity::PARAMETER_ENTITY_CLASS)) {
+        if (!$this->isGranted(Permission::EDIT, ParameterEntity::class)) {
             throw $this->createAccessDeniedException();
         }
 
@@ -37,7 +37,7 @@ class ConfigurationController extends Controller
 
         $url = $this->generateUrl('darvin_admin_configuration');
 
-        $form = $this->createForm(ConfigurationsType::CONFIGURATIONS_TYPE_CLASS, $configurationPool, [
+        $form = $this->createForm(ConfigurationsType::class, $configurationPool, [
             'action'             => $url,
             'translation_domain' => 'admin',
         ])->handleRequest($request);

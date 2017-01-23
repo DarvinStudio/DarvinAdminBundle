@@ -102,7 +102,7 @@ class AdminFormFactory
             ]);
         }
 
-        return $this->genericFormFactory->create(BatchDeleteType::BATCH_DELETE_TYPE_CLASS, null, $options);
+        return $this->genericFormFactory->create(BatchDeleteType::class, null, $options);
     }
 
     /**
@@ -151,9 +151,7 @@ class AdminFormFactory
         ];
 
         $configuration = $meta->getConfiguration();
-        $type = !empty($configuration['form'][$actionType]['type'])
-            ? $configuration['form'][$actionType]['type']
-            : BaseType::BASE_TYPE_CLASS;
+        $type = !empty($configuration['form'][$actionType]['type']) ? $configuration['form'][$actionType]['type'] : BaseType::class;
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {
@@ -193,7 +191,7 @@ class AdminFormFactory
         $type = $configuration['form']['filter']['type'];
 
         if (empty($type)) {
-            $type = FilterType::FILTER_TYPE_CLASS;
+            $type = FilterType::class;
 
             $options = array_merge($options, [
                 'metadata'                        => $meta,
@@ -256,7 +254,7 @@ class AdminFormFactory
             }
         }
 
-        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::BASE_TYPE_CLASS, $entity, [
+        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::class, $entity, [
             'action_type'       => 'index',
             'data_class'        => $dataClass,
             'field_filter'      => $property,

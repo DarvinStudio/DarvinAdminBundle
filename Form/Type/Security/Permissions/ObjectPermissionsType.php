@@ -28,8 +28,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ObjectPermissionsType extends AbstractType
 {
-    const OBJECT_PERMISSIONS_TYPE_CLASS = __CLASS__;
-
     /**
      * @var \Darvin\UserBundle\Repository\UserRepository
      */
@@ -68,7 +66,7 @@ class ObjectPermissionsType extends AbstractType
             ])
             ->add('userPermissionsSet', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
                 'label'      => false,
-                'entry_type' => UserPermissionsType::USER_PERMISSIONS_TYPE_CLASS,
+                'entry_type' => UserPermissionsType::class,
             ])
             ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) use ($users) {
                 /** @var \Darvin\AdminBundle\Security\Permissions\ObjectPermissions $objectPermissions */
@@ -113,7 +111,7 @@ class ObjectPermissionsType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-            'data_class'    => ObjectPermissions::OBJECT_PERMISSIONS_CLASS,
+            'data_class'    => ObjectPermissions::class,
             'label_format'  => 'securable.%name%',
         ]);
     }

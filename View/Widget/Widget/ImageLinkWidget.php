@@ -61,13 +61,9 @@ class ImageLinkWidget extends AbstractWidget
             throw new WidgetException(sprintf('Image must be object, "%s" provided.', gettype($image)));
         }
         if (!$image instanceof AbstractImage) {
-            $message = sprintf(
-                'Image object "%s" must be instance of "%s".',
-                ClassUtils::getClass($image),
-                AbstractImage::ABSTRACT_IMAGE_CLASS
+            throw new WidgetException(
+                sprintf('Image object "%s" must be instance of "%s".', ClassUtils::getClass($image), AbstractImage::class)
             );
-
-            throw new WidgetException($message);
         }
         if (!$this->imageUrlBuilder->fileExists($image)) {
             return null;

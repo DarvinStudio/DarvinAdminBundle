@@ -20,8 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class UserPermissionsType extends AbstractType
 {
-    const USER_PERMISSIONS_TYPE_CLASS = __CLASS__;
-
     /**
      * {@inheritdoc}
      */
@@ -48,7 +46,7 @@ class UserPermissionsType extends AbstractType
     {
         $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-            'data_class'    => UserPermissions::USER_PERMISSIONS_CLASS,
+            'data_class'    => UserPermissions::class,
         ]);
     }
 

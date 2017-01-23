@@ -47,7 +47,7 @@ class SwitchUserWidget extends AbstractWidget
     protected function getAllowedEntityClasses()
     {
         return [
-            BaseUser::BASE_USER_CLASS,
+            BaseUser::class,
         ];
     }
 

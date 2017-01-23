@@ -91,11 +91,11 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $sections = [
             [
                 'alias'  => 'configuration',
-                'entity' => ParameterEntity::PARAMETER_ENTITY_CLASS,
+                'entity' => ParameterEntity::class,
             ],
             [
                 'alias'  => 'log',
-                'entity' => LogEntry::LOG_ENTRY_CLASS,
+                'entity' => LogEntry::class,
                 'config' => '@DarvinAdminBundle/Resources/config/admin/log.yml',
             ],
         ];

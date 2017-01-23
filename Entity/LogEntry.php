@@ -28,8 +28,6 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  */
 class LogEntry extends AbstractLogEntry
 {
-    const LOG_ENTRY_CLASS = __CLASS__;
-
     const ACTION_CREATE = 'create';
     const ACTION_REMOVE = 'remove';
     const ACTION_UPDATE = 'update';

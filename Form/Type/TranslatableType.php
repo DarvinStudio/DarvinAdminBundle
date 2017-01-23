@@ -19,8 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class TranslatableType extends AbstractType
 {
-    const TRANSLATABLE_TYPE_CLASS = __CLASS__;
-
     /**
      * @var string[]
      */

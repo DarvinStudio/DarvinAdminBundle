@@ -19,8 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class BatchDeleteType extends AbstractType
 {
-    const BATCH_DELETE_TYPE_CLASS = __CLASS__;
-
     /**
      * {@inheritdoc}
      */

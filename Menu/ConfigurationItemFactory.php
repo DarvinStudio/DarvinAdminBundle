@@ -45,7 +45,7 @@ class ConfigurationItemFactory implements ItemFactoryInterface
      */
     public function getItems()
     {
-        if (!$this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::PARAMETER_ENTITY_CLASS)) {
+        if (!$this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)) {
             return [];
         }
 

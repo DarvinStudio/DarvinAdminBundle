@@ -15,8 +15,6 @@ namespace Darvin\AdminBundle\Security\Permissions;
  */
 class UserPermissions implements \Serializable
 {
-    const USER_PERMISSIONS_CLASS = __CLASS__;
-
     /**
      * @var int
      */

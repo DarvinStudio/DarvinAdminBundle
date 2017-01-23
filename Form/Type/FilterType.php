@@ -15,6 +15,14 @@ use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
@@ -30,8 +38,8 @@ class FilterType extends AbstractFormType
      * @var array
      */
     private static $fieldTypeChangeMap = [
-        'Symfony\Component\Form\Extension\Core\Type\CheckboxType' => TriStateCheckboxType::class,
-        'Symfony\Component\Form\Extension\Core\Type\TextareaType' => 'Symfony\Component\Form\Extension\Core\Type\TextType',
+        CheckboxType::class => TriStateCheckboxType::class,
+        TextareaType::class => TextType::class,
     ];
 
     /**
@@ -79,7 +87,7 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields'], $meta);
 
         if (!empty($options['parent_entity_association_param'])) {
-            $builder->add($options['parent_entity_association_param'], 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+            $builder->add($options['parent_entity_association_param'], HiddenType::class, [
                 'label' => false,
             ]);
         }
@@ -188,17 +196,17 @@ class FilterType extends AbstractFormType
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {
-            case 'Symfony\Component\Form\Extension\Core\Type\DateType':
+            case DateType::class:
                 return [
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy',
                 ];
-            case 'Symfony\Component\Form\Extension\Core\Type\DateTimeType':
+            case DateTimeType::class:
                 return [
                     'widget' => 'single_text',
                     'format' => 'dd.MM.yyyy HH:mm',
                 ];
-            case 'Symfony\Bridge\Doctrine\Form\Type\EntityType':
+            case EntityType::class:
                 return [
                     'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
                         $qb = $er->createQueryBuilder('o');
@@ -210,7 +218,7 @@ class FilterType extends AbstractFormType
                         return $qb;
                     },
                 ];
-            case 'Symfony\Component\Form\Extension\Core\Type\TimeType':
+            case TimeType::class:
                 return [
                     'widget' => 'single_text',
                 ];

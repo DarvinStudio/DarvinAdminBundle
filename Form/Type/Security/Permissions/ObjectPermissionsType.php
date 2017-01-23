@@ -16,6 +16,8 @@ use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\UserBundle\Repository\UserRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -61,10 +63,10 @@ class ObjectPermissionsType extends AbstractType
         $users = $this->getUsers();
 
         $builder
-            ->add('objectClass', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+            ->add('objectClass', HiddenType::class, [
                 'label' => false,
             ])
-            ->add('userPermissionsSet', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
+            ->add('userPermissionsSet', CollectionType::class, [
                 'label'      => false,
                 'entry_type' => UserPermissionsType::class,
             ])

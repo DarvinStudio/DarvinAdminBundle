@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,13 +26,13 @@ class FileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('filename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+            ->add('filename', HiddenType::class, [
                 'label' => false,
                 'attr'  => [
                     'class' => 'filename',
                 ],
             ])
-            ->add('originalFilename', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+            ->add('originalFilename', HiddenType::class, [
                 'label' => false,
                 'attr'  => [
                     'class' => 'original_filename',

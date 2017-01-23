@@ -12,6 +12,9 @@ namespace Darvin\AdminBundle\Form\Type\Security\Permissions;
 
 use Darvin\AdminBundle\Security\Permissions\UserPermissions;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,12 +29,12 @@ class UserPermissionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userId', 'Symfony\Component\Form\Extension\Core\Type\HiddenType', [
+            ->add('userId', HiddenType::class, [
                 'label' => false,
             ])
-            ->add('permissions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
+            ->add('permissions', CollectionType::class, [
                 'label'         => false,
-                'entry_type'    => 'Symfony\Component\Form\Extension\Core\Type\CheckboxType',
+                'entry_type'    => CheckboxType::class,
                 'entry_options' => [
                     'label_format' => 'security.permission.%name%',
                     'required'     => false,

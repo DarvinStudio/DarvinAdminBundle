@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class BatchDeleteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('entities', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+        $builder->add('entities', EntityType::class, [
             'label'        => false,
             'class'        => $options['entity_class'],
             'choices'      => isset($options['entities']) ? $options['entities'] : null,

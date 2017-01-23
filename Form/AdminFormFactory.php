@@ -17,6 +17,9 @@ use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -155,7 +158,7 @@ class AdminFormFactory
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
         foreach ($submitButtons as $name) {
-            $builder->add($name, 'Symfony\Component\Form\Extension\Core\Type\SubmitType', [
+            $builder->add($name, SubmitType::class, [
                 'label' => self::$submitButtons[$name],
             ]);
         }
@@ -216,7 +219,7 @@ class AdminFormFactory
 
         $builder = $this->genericFormFactory->createNamedBuilder(
             $namePrefix.$id,
-            'Symfony\Component\Form\Extension\Core\Type\FormType',
+            FormType::class,
             [
                 'id' => $id,
             ],
@@ -225,7 +228,7 @@ class AdminFormFactory
                 'csrf_token_id'      => md5(__FILE__.ClassUtils::getClass($entity).$id),
                 'translation_domain' => 'admin',
             ]
-        )->add('id', 'Symfony\Component\Form\Extension\Core\Type\HiddenType');
+        )->add('id', HiddenType::class);
 
         return $builder->getForm();
     }

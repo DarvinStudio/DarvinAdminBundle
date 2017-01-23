@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Darvin\Utils\Strings\StringsUtil;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -48,7 +49,7 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
                 ->setPublic(false)
                 ->addTag('console.command');
 
-            if (is_subclass_of($class, 'Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand')) {
+            if (is_subclass_of($class, ContainerAwareCommand::class)) {
                 $definition->addMethodCall('setContainer', [
                     new Reference('service_container'),
                 ]);

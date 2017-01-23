@@ -11,6 +11,8 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Menu\Item;
+use Liip\ImagineBundle\Command\RemoveCacheCommand;
+use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -40,8 +42,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('cache_clear_command_classes')
                     ->prototype('scalar')->end()
                     ->defaultValue([
-                        'Liip\ImagineBundle\Command\RemoveCacheCommand',
-                        'Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand',
+                        CacheClearCommand::class,
+                        RemoveCacheCommand::class,
                     ])
                 ->end()
                 ->scalarNode('custom_logo')->defaultNull()->end()

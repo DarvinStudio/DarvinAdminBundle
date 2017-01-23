@@ -14,6 +14,8 @@ use Darvin\AdminBundle\Form\FormException;
 use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -92,7 +94,7 @@ class DropzoneType extends AbstractType
         $uploadablesField = $builder->getName();
 
         $builder
-            ->add('dropzone', 'Symfony\Component\Form\Extension\Core\Type\FormType', [
+            ->add('dropzone', FormType::class, [
                 'label'  => false,
                 'mapped' => false,
                 'attr'   => [
@@ -103,7 +105,7 @@ class DropzoneType extends AbstractType
                     'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
                 ],
             ])
-            ->add('files', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', [
+            ->add('files', CollectionType::class, [
                 'label'         => false,
                 'mapped'        => false,
                 'entry_type'    => FileType::class,

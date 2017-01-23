@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -48,7 +49,7 @@ class TranslatableType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('type', 'Symfony\Component\Form\Extension\Core\Type\TextType')
+            ->setDefault('type', TextType::class)
             ->setAllowedTypes('type', 'string');
     }
 

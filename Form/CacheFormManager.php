@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form;
 
 use Darvin\Utils\Service\ServiceProviderInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -52,15 +53,10 @@ class CacheFormManager
      */
     public function createClearForm()
     {
-        return $this->formFactory->createNamed(
-            'cache_clear',
-            'Symfony\Component\Form\Extension\Core\Type\FormType',
-            null,
-            [
-                'action'        => $this->router->generate('darvin_admin_cache_clear'),
-                'csrf_token_id' => md5(__FILE__),
-            ]
-        );
+        return $this->formFactory->createNamed('cache_clear', FormType::class, null, [
+            'action'        => $this->router->generate('darvin_admin_cache_clear'),
+            'csrf_token_id' => md5(__FILE__),
+        ]);
     }
 
     /**

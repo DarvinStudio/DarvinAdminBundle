@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Form\FormException;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -111,6 +112,6 @@ class SlugSuffixType extends AbstractType
      */
     public function getParent()
     {
-        return 'Symfony\Component\Form\Extension\Core\Type\TextType';
+        return TextType::class;
     }
 }

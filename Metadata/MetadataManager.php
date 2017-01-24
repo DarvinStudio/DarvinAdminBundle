@@ -203,9 +203,11 @@ class MetadataManager
             $parentMeta = $this->metadata[$parentEntity];
             $parentConfiguration = $parentMeta->getConfiguration();
 
-            foreach ($parentConfiguration['children'] as $childEntity) {
+            foreach ($parentConfiguration['children'] as $key => $childEntity) {
                 if (!isset($this->metadata[$childEntity])) {
-                    throw new MetadataException(sprintf('Unable to find metadata for entity "%s".', $childEntity));
+                    unset($parentConfiguration['children'][$key]);
+
+                    continue;
                 }
 
                 $childMeta = $this->metadata[$childEntity];

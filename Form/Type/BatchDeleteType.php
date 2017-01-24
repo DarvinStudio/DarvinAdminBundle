@@ -46,10 +46,8 @@ class BatchDeleteType extends AbstractType
             ])
             ->setRequired('entity_class')
             ->setDefined('entities')
-            ->setAllowedTypes([
-                'entities'     => 'array',
-                'entity_class' => 'string',
-            ]);
+            ->setAllowedTypes('entities', 'array')
+            ->setAllowedTypes('entity_class', 'string');
     }
 
     /**

@@ -10,13 +10,13 @@
 {%- endblock checkbox_widget -%}
 
 {%- block form_errors -%}
-    {% if errors|length > 0 %}
+    {%- if errors|length > 0 -%}
         <ul class="errors">
-            {% for error in errors %}
+            {%- for error in errors -%}
                 <li>{{ error.message }}</li>
-            {% endfor %}
+            {%- endfor -%}
         </ul>
-    {% endif %}
+    {%- endif -%}
 {%- endblock form_errors -%}
 
 {%- block form_label -%}{%- endblock -%}
@@ -24,13 +24,12 @@
 {%- block widget_attributes -%}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
     name="{{ full_name }}"
-    {%- if read_only and attr.readonly is not defined %} readonly="readonly"{% endif -%}
     {%- if disabled %} disabled="disabled"{% endif -%}
     {%- if required %} required="required"{% endif -%}
-    {%- for attrname, attrvalue in attr -%}
+    {%- for attrname, attrvalue in attr if 'readonly' != attrname -%}
         {{- " " -}}
         {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
         {%- elseif attrvalue is same as(true) -%}
             {{- attrname }}="{{ attrname }}"
         {%- elseif attrvalue is not same as(false) -%}
@@ -43,7 +42,7 @@
     {%- for attrname, attrvalue in attr -%}
         {{- " " -}}
         {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ attrvalue|trans({}, translation_domain) }}"
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
         {%- elseif attrvalue is same as(true) -%}
             {{- attrname }}="{{ attrname }}"
         {%- elseif attrvalue is not same as(false) -%}

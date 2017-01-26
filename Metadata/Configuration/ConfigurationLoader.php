@@ -60,7 +60,9 @@ class ConfigurationLoader
             throw new ConfigurationException('Configuration file pathname cannot be empty.');
         }
 
-        return $this->processConfiguration($this->getMergedConfig($pathname), $pathname);
+        $config = $this->getMergedConfig($pathname);
+
+        return $this->processConfiguration($config, $pathname);
     }
 
     /**
@@ -111,13 +113,68 @@ class ConfigurationLoader
 
             $hierarchy[] = $child = $this->getConfig($childRealPathname);
         }
-        foreach ($hierarchy as &$config) {
-            unset($config['extends']);
+        foreach ($hierarchy as $key => $config) {
+            unset($hierarchy[$key]['extends']);
         }
 
-        unset($config);
+        $merged = [];
 
-        return [call_user_func_array('array_replace_recursive', array_reverse($hierarchy))];
+        foreach (array_reverse($hierarchy) as $config) {
+            $merged = $this->mergeConfigs($merged, $config);
+        }
+
+        return [$merged];
+    }
+
+    /**
+     * @param array $first  First config
+     * @param array $second Second config
+     *
+     * @return array
+     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     */
+    private function mergeConfigs(array $first, array $second)
+    {
+        foreach ($second as $name => $value) {
+            if (0 === strpos($name, 'override~')) {
+                $name = preg_replace('/^override~/', '', $name);
+
+                if (!array_key_exists($name, $first)) {
+                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for overriding.', $name));
+                }
+                if (!is_array($first[$name])) {
+                    throw new ConfigurationException(
+                        sprintf('Unable to override parameter "%s": only array parameters can be overridden.', $name)
+                    );
+                }
+
+                $first[$name] = $second['override~'.$name];
+
+                continue;
+            }
+            if (0 === strpos($name, 'remove~')) {
+                $name = preg_replace('/^remove~/', '', $name);
+
+                if (!array_key_exists($name, $first)) {
+                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for removal.', $name));
+                }
+
+                unset($first[$name]);
+
+                continue;
+            }
+            if (!array_key_exists($name, $first)) {
+                $first[$name] = $value;
+
+                continue;
+            }
+
+            $first[$name] = is_array($first[$name]) && is_array($second[$name])
+                ? $this->mergeConfigs($first[$name], $second[$name])
+                : $second[$name];
+        }
+
+        return $first;
     }
 
     /**

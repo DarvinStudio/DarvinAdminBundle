@@ -48,6 +48,12 @@ dropzone:
     default_message: 落在这儿的文件上传
     file_too_big: '文件太大({{filesize}}MB)。 Max filesize:{{maxFilesize}}MB。'
     remove_file: 删除文件
+entity_name:
+    single:
+        configuration: 配置
+        image: 图像经理
+        log: 日志
+        translation: 翻译
 exception:
     403: 禁止
     404: 没有发现
@@ -155,11 +161,6 @@ search:
     form:
         placeholder: 搜索...
         submit: 搜索
-securable:
-    configuration: 配置
-    image: 图像经理
-    log: 日志
-    translation: 翻译
 security:
     action:
         login:

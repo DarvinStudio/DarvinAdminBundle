@@ -1,30 +1,30 @@
 action:
     delete:
-        confirm: Подтвердите удаление @trans_lower_genitive@
+        confirm: "Подтвердите удаление @trans_lower_genitive@"
         submit:  " Удалить @trans_lower_accusative@"
         success:
-            f: @trans@ успешно удалена
-            m: @trans@ успешно удален
-            n: @trans@ успешно удалено
+            f: "@trans@ успешно удалена"
+            m: "@trans@ успешно удален"
+            n: "@trans@ успешно удалено"
     edit:
         link: "   Редактировать @trans_lower_accusative@"
         success:
-            f: @trans@ успешно изменена
-            m: @trans@ успешно изменен
-            n: @trans@ успешно изменено
+            f: "@trans@ успешно изменена"
+            m: "@trans@ успешно изменен"
+            n: "@trans@ успешно изменено"
         title: "  Изменить @trans_lower_accusative@ «%entity%»"
     index:
         link:  " @trans_multiple@"
-        title: @trans_multiple@
+        title: "@trans_multiple@"
     new:
         link: "   Добавить @trans_lower_accusative@"
         success:
-            f: @trans@ успешно добавлена
-            m: @trans@ успешно добавлен
-            n: @trans@ успешно добавлено
+            f: "@trans@ успешно добавлена"
+            m: "@trans@ успешно добавлен"
+            n: "@trans@ успешно добавлено"
         title:
             f: "  Новая @trans_lower@"
             m: "  Новый @trans_lower@"
             n: "  Новое @trans_lower@"
     show:
-        title: @trans@ «%entity%»
+        title: "@trans@ «%entity%»"

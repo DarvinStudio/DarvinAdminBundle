@@ -48,6 +48,12 @@ dropzone:
     default_message: 'قطرة هنا لتحميل الملفات'
     file_too_big: 'الملف كبير جدا ({{حجم الملف}}MB). ماكس حجم الملف: {{maxFilesize}}ميجا بايت.'
     remove_file: 'إزالة الملف'
+entity_name:
+    single:
+        configuration: التكوين
+        image: 'صورة مدير'
+        log: سجل
+        translation: الترجمة
 exception:
     403: ممنوع
     404: 'لم يتم العثور على'
@@ -155,11 +161,6 @@ search:
     form:
         placeholder: 'البحث عن...'
         submit: البحث
-securable:
-    configuration: التكوين
-    image: 'صورة مدير'
-    log: سجل
-    translation: الترجمة
 security:
     action:
         login:

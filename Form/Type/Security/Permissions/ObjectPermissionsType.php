@@ -114,7 +114,7 @@ class ObjectPermissionsType extends AbstractType
         $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
             'data_class'    => ObjectPermissions::class,
-            'label_format'  => 'securable.%name%',
+            'label_format'  => 'entity_name.single.%name%',
         ]);
     }
 

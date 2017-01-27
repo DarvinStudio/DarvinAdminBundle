@@ -16,7 +16,7 @@
         <div class="searchable"
              data-source="{{ path('darvin_admin_search_results', {'entityName': entity_name, 'query': query}) }}"
              style="display: none;">
-            <h3 class="searchable_title">{{ ('searchable.' ~ entity_name)|trans }}</h3>
+            <h3 class="searchable_title">{{ ('entity_name.multiple.' ~ entity_name)|trans }}</h3>
             <div class="searchable_results"></div>
         </div>
     {% endfor %}

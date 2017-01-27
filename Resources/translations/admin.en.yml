@@ -56,6 +56,13 @@ dropzone:
     file_too_big:    "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."
     remove_file:     Remove file
 
+entity_name:
+    single:
+        configuration: Configuration
+        image:         Image manager
+        log:           Log
+        translation:   Translation
+
 exception:
     403: Forbidden
     404: Not found
@@ -189,12 +196,6 @@ search:
     form:
         placeholder: Search...
         submit:      Search
-
-securable:
-    configuration: Configuration
-    image:         Image manager
-    log:           Log
-    translation:   Translation
 
 security:
     action:

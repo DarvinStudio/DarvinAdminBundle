@@ -56,6 +56,13 @@ dropzone:
     file_too_big:    "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ."
     remove_file:     Удалить
 
+entity_name:
+    single:
+        configuration: Настройки
+        image:         Менеджер изображений
+        log:           Журнал
+        translation:   Перевод
+
 exception:
     403: Запрещено
     404: Не найдено
@@ -189,12 +196,6 @@ search:
     form:
         placeholder: Поиск...
         submit:      Искать
-
-securable:
-    configuration: Настройки
-    image:         Менеджер изображений
-    log:           Журнал
-    translation:   Перевод
 
 security:
     action:

@@ -64,7 +64,7 @@ class EntityNameWidget extends AbstractWidget
      */
     protected function createContent($logEntry, array $options, $property)
     {
-        return 'loggable.'.$this->getEntityName($logEntry->getObjectClass());
+        return 'entity_name.single.'.$this->getEntityName($logEntry->getObjectClass());
     }
 
     /**

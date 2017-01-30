@@ -163,6 +163,34 @@ class ConfigurationLoader
 
                 continue;
             }
+
+            preg_match('/^(after|before)~(.*)~(.*)$/', $name, $matches);
+
+            if (4 === count($matches)) {
+                list(, $position, $target, $name) = $matches;
+
+                if (!array_key_exists($target, $first)) {
+                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" to place %s it.', $target, $position));
+                }
+
+                $replacement = [];
+
+                foreach ($first as $n => $v) {
+                    if ('before' === $position && $n === $target) {
+                        $replacement[$name] = $value;
+                    }
+
+                    $replacement[$n] = $v;
+
+                    if ('after' === $position && $n === $target) {
+                        $replacement[$name] = $value;
+                    }
+                }
+
+                $first = $replacement;
+
+                continue;
+            }
             if (!array_key_exists($name, $first)) {
                 $first[$name] = $value;
 

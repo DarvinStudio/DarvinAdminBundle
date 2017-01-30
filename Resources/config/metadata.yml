@@ -57,6 +57,7 @@ services:
             - "@darvin_admin.cache.filesystem"
             - "@darvin_admin.metadata.pool"
             - "%darvin_admin.debug%"
+            - "%darvin_admin.entity_override%"
 
     darvin_admin.metadata.pool:
         class: "%darvin_admin.metadata.pool.class%"

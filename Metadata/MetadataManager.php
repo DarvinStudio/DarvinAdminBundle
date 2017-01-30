@@ -38,6 +38,11 @@ class MetadataManager
     /**
      * @var array
      */
+    private $entityOverride;
+
+    /**
+     * @var array
+     */
     private $checkedIfHasMetadataClasses;
 
     /**
@@ -51,15 +56,18 @@ class MetadataManager
     private $metadata;
 
     /**
-     * @param \Doctrine\Common\Cache\Cache              $cache         Cache
-     * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool  Metadata pool
-     * @param bool                                      $cacheDisabled Is cache disabled
+     * @param \Doctrine\Common\Cache\Cache              $cache          Cache
+     * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool   Metadata pool
+     * @param bool                                      $cacheDisabled  Is cache disabled
+     * @param array                                     $entityOverride Entity override configuration
      */
-    public function __construct(Cache $cache, MetadataPool $metadataPool, $cacheDisabled)
+    public function __construct(Cache $cache, MetadataPool $metadataPool, $cacheDisabled, array $entityOverride)
     {
         $this->cache = $cache;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
+        $this->entityOverride = $entityOverride;
+
         $this->checkedIfHasMetadataClasses = $this->metadata = [];
         $this->initialized = false;
     }
@@ -200,10 +208,17 @@ class MetadataManager
     private function buildTree(array $parentEntities)
     {
         foreach ($parentEntities as $parentEntity) {
+            if (isset($this->entityOverride[$parentEntity])) {
+                $parentEntity = $this->entityOverride[$parentEntity];
+            }
+
             $parentMeta = $this->metadata[$parentEntity];
             $parentConfiguration = $parentMeta->getConfiguration();
 
             foreach ($parentConfiguration['children'] as $key => $childEntity) {
+                if (isset($this->entityOverride[$childEntity])) {
+                    $childEntity = $this->entityOverride[$childEntity];
+                }
                 if (!isset($this->metadata[$childEntity])) {
                     unset($parentConfiguration['children'][$key]);
 

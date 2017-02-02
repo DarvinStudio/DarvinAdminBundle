@@ -6,7 +6,6 @@
 ```json
 {
     "require": {
-        "vich/uploader-bundle":             "1.0.*@dev",
         "darvinstudio/darvin-admin-bundle": "*"
     },
     "config": {

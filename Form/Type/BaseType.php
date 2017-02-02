@@ -13,14 +13,9 @@ namespace Darvin\AdminBundle\Form\Type;
 use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
@@ -39,11 +34,6 @@ class BaseType extends AbstractFormType
     private $formRegistry;
 
     /**
-     * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
-     */
-    private $propertyAccessor;
-
-    /**
      * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
      */
     private $translatableManager;
@@ -51,18 +41,15 @@ class BaseType extends AbstractFormType
     /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormRegistryInterface                   $formRegistry          Form registry
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface     $propertyAccessor      Property accessor
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
         FormRegistryInterface $formRegistry,
-        PropertyAccessorInterface $propertyAccessor,
         TranslatableManagerInterface $translatableManager
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->formRegistry = $formRegistry;
-        $this->propertyAccessor = $propertyAccessor;
         $this->translatableManager = $translatableManager;
     }
 
@@ -103,49 +90,6 @@ class BaseType extends AbstractFormType
 
             $this->addValidConstraint($fieldOptions);
             $builder->add($field, $fieldType, $fieldOptions);
-        }
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'filterEntityFields']);
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormEvent $event Form event
-     */
-    public function filterEntityFields(FormEvent $event)
-    {
-        foreach ($event->getForm()->all() as $name => $field) {
-            if (!$field->getConfig()->getType()->getInnerType() instanceof EntityType) {
-                continue;
-            }
-
-            $fieldOptions = $field->getConfig()->getOptions();
-
-            if (!empty($fieldOptions['query_builder'])) {
-                continue;
-            }
-
-            $entity = $event->getData();
-
-            /** @var \Doctrine\ORM\EntityManager $em */
-            $em = $fieldOptions['em'];
-            $doctrineMeta = $em->getClassMetadata($fieldOptions['class']);
-            $propertyAccessor = $this->propertyAccessor;
-
-            unset($fieldOptions['choice_list'], $fieldOptions['choice_loader']);
-
-            $fieldOptions['query_builder'] = function (EntityRepository $er) use ($doctrineMeta, $entity, $propertyAccessor) {
-                $qb = $er->createQueryBuilder('o');
-
-                if (empty($entity)) {
-                    return $qb;
-                }
-
-                $id = $propertyAccessor->getValue($entity, $doctrineMeta->getIdentifier()[0]);
-
-                return !empty($id) ? $qb->andWhere('o != :entity')->setParameter('entity', $entity) : $qb;
-            };
-
-            $event->getForm()->add($name, get_class($field->getConfig()->getType()->getInnerType()), $fieldOptions);
         }
     }
 

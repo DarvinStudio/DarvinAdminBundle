@@ -145,7 +145,7 @@ class BaseType extends AbstractFormType
                 return !empty($id) ? $qb->andWhere('o != :entity')->setParameter('entity', $entity) : $qb;
             };
 
-            $event->getForm()->add($name, $field->getConfig()->getType()->getName(), $fieldOptions);
+            $event->getForm()->add($name, get_class($field->getConfig()->getType()->getInnerType()), $fieldOptions);
         }
     }
 

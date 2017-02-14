@@ -42,12 +42,14 @@
 {%- endblock collection_widget -%}
 
 {%- block darvin_admin_dropzone_widget -%}
-    {% if form.vars.data %}
-        {% for image in form.vars.data if image.id and image_exists(image) %}
+    {% if form.vars.data and form.vars.data is not empty %}
+        <div class="images" data-sort-url="{{ path('darvin_image_image_sort') }}">
+            {% for image in form.vars.data if image.id and image_exists(image) %}
 
-            {% include 'DarvinAdminBundle:Form:image.html.twig' %}
+                {% include 'DarvinAdminBundle:Form:image.html.twig' %}
 
-        {% endfor %}
+            {% endfor %}
+        </div>
     {% endif %}
     {{ form_widget(form) }}
 {%- endblock -%}

@@ -13,8 +13,8 @@ $(document).ready(function () {
         var $image = $deleteLink.closest('.image');
 
         $.ajax({
-            type: 'post',
-            url:  $deleteLink.data('url')
+            url:  $deleteLink.data('url'),
+            type: 'post'
         }).done(function () {
             $image.remove();
 
@@ -24,4 +24,24 @@ $(document).ready(function () {
             });
         }).error(onAjaxError);
     });
+
+    var $sortable = $('.table_row .images[data-sort-url]');
+
+    if ($sortable.length) {
+        $sortable.sortable({
+            placeholder: 'ui-state-highlight',
+            update:      function () {
+                $.ajax({
+                    url:  $sortable.data('sort-url'),
+                    type: 'post',
+                    data: {
+                        ids: $sortable.find('.image[data-id]').map(function () {
+                            return $(this).data('id');
+                        }).get()
+                    }
+                }).error(onAjaxError);
+            }
+        });
+        $sortable.disableSelection();
+    }
 });

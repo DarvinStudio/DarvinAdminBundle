@@ -10,3 +10,27 @@ fm_elfinder:
                         driver:          LocalFileSystem
                         path:            "%upload_path%"
                         upload_max_size: "%upload_max_size_mb%M"
+                        upload_allow:
+                            - image/png
+                            - image/jpg
+                            - image/jpeg
+                            # MSO
+                            - application/vnd.ms-office
+                            # *.doc
+                            - application/msword
+                            # *.docx
+                            - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                            # *.xls
+                            - application/excel
+                            - application/vnd.ms-excel
+                            - application/x-excel
+                            - application/x-msexcel
+                            # *.xlsx
+                            - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                            # *.pdf
+                            - application/pdf
+                            # *.zip
+                            - application/x-compressed
+                            - application/x-zip-compressed
+                            - application/zip
+                            - multipart/x-zip

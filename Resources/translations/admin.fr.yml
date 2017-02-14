@@ -144,6 +144,8 @@ menu:
         pages:
             description: 'La Structure et les sections principales. <br>L''édition et la création.'
             title: 'Sections structurales'
+pagination:
+    show_all: 'Afficher tous les'
 property_forms:
     submit: 'Soumettre les modifications'
 range:

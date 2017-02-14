@@ -144,6 +144,8 @@ menu:
         pages:
             description: '结构和主要部分。 <br>编辑和创造。'
             title: 结构性的部分
+pagination:
+    show_all: '显示所有'
 property_forms:
     submit: 提出的变化
 range:

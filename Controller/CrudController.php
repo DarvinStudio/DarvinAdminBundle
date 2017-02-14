@@ -121,14 +121,11 @@ class CrudController extends Controller
         if ($this->configuration['pagination']['enabled']) {
             $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
+            $page = $request->query->get('page', 1);
+
             /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
-            $pagination = $this->getPaginator()->paginate(
-                $qb,
-                $request->query->get('page', 1),
-                $this->configuration['pagination']['items'],
-                $paginatorOptions
-            );
-            $entities = $pagination->getItems();
+            $pagination = $this->getPaginator()->paginate($qb, $page, $this->configuration['pagination']['items'], $paginatorOptions);
+            $entities = $page > 0 ? $pagination->getItems() : $qb->getQuery()->getResult();
             $entitiesCount = $pagination->getTotalItemCount();
         } else {
             $entities = $qb->getQuery()->getResult();

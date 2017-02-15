@@ -6,7 +6,6 @@ parameters:
 
     darvin_admin.asset.provider.scripts.compiled_asset_pathname: scripts/compiled/app.js
     darvin_admin.asset.provider.scripts.dev_asset_web_pathnames:
-          - bundles/darvinadmin/scripts/jquery/jquery.js
           - bundles/darvinadmin/scripts/jquery/ui/ui.js
           - bundles/darvinadmin/scripts/jquery/ui/datepicker-ru.js
           - bundles/darvinadmin/scripts/jquery/ui/timepicker-addon.js

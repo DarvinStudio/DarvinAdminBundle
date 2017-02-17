@@ -72,7 +72,6 @@ imports:
     # - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" } (раскомментировать при использовании "lexik/translation-bundle")
     - { resource: "@DarvinAdminBundle/Resources/config/app/liip_imagine.yml" }
     - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }
-    - { resource: "@DarvinImageBundle/Resources/config/app/vich_uploader.yml" }
 ```
 
 *либо копируем настройки из указанных выше файлов в случае необходимости их изменения*

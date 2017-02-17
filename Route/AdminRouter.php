@@ -10,10 +10,13 @@
 
 namespace Darvin\AdminBundle\Route;
 
+use Darvin\AdminBundle\Event\Router\RouteEvent;
+use Darvin\AdminBundle\Event\Router\RouterEvents;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -59,6 +62,11 @@ class AdminRouter
     ];
 
     /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $genericRouter;
@@ -89,17 +97,20 @@ class AdminRouter
     private $routeNames;
 
     /**
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher    Event dispatcher
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
+        EventDispatcherInterface $eventDispatcher,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor
     ) {
+        $this->eventDispatcher = $eventDispatcher;
         $this->genericRouter = $genericRouter;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
@@ -151,9 +162,14 @@ class AdminRouter
             );
         }
 
+        $name = $this->getRouteName($entityClass, $routeType);
         $this->getAdditionalParams($params, $entityClass, $routeType, $entity);
 
-        return $this->genericRouter->generate($this->getRouteName($entityClass, $routeType), $params, $referenceType);
+        $event = new RouteEvent($name, $routeType, $params, $referenceType, $entity, $entityClass);
+
+        $this->eventDispatcher->dispatch(RouterEvents::PRE_GENERATE, $event);
+
+        return $this->genericRouter->generate($name, $event->getParams(), $event->getReferenceType());
     }
 
     /**

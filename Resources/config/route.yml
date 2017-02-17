@@ -25,6 +25,7 @@ services:
     darvin_admin.router:
         class: "%darvin_admin.router.class%"
         arguments:
+            - "@event_dispatcher"
             - "@router"
             - "@darvin_admin.metadata.identifier_accessor"
             - "@darvin_admin.metadata.manager"

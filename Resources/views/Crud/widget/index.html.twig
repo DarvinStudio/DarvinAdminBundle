@@ -4,7 +4,7 @@
 {% set pagination_html = pagination ? knp_pagination_render(pagination, 'DarvinAdminBundle::pagination.html.twig') : null %}
 
 <div class="property_forms">
-    <div class="clearfix">
+    <div class="post_item_btn">
 
         {% block new_link %}
 
@@ -19,17 +19,15 @@
             %}
 
             {% if new_url %}
-                <div class="post_item_btn pull-left">
-                    <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
-                </div>
+                <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
             {% endif %}
         {% endblock %}
 
         {% block property_forms_submit %}
             {% if view.body.rows is not empty %}
-                <button class="property_forms_submit submit_edit pull-right" style="display: none;">
+                <a class="property_forms_submit save_edit" style="display: none;">
                     {% trans %}property_forms.submit{% endtrans %}
-                </button>
+                </a>
             {% endif %}
         {% endblock %}
 
@@ -70,7 +68,7 @@
         <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
     {% else %}
         <div class="scroll-pane horizontal-only">
-            <div class="section_table">
+            <div class="section_table valign_middle">
                 <table>
                     <thead>
                         <tr>
@@ -103,7 +101,7 @@
             {{ block('total_item_count') }}
 
         </div>
-        <div class="clearfix">
+        <div class="post_item_btn">
 
             {{ block('new_link') }}
 

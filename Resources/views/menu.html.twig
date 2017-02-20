@@ -13,7 +13,7 @@
 
             {% if item.sidebarColor %}
 
-                {% set gradient = 'radial-gradient(500px 500px at -250px -250px, ' ~ item.sidebarColor ~ ' 0%, rgba(255, 255, 255, 0) 100%)' %}
+                {% set gradient = 'radial-gradient(460px 140px at -230px -70px, ' ~ item.sidebarColor ~ ' 0%, rgba(255, 255, 255, 0) 100%)' %}
                 {% set styles = [
                     'background: ' ~ gradient,
                     'background: moz-' ~ gradient,
@@ -22,13 +22,11 @@
                 ] %}
 
             {% endif %}
-            <li{% if styles is not empty %} style="{{ styles|join('; ') }};"{% endif %}>
+            <li{% if item.children is not empty %} class="has-subcat"{% if styles is not empty %} style="{{ styles|join('; ') }};"{% endif %}{% endif %}>
                 {% if item.sidebarIcon %}
                     <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
                 {% endif %}
-                <a href="{{ item.indexUrl }}"{% if item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
-                    {{ item.indexTitle|trans }}
-                </a>
+                <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
                 {% if item.associatedObject
                     and utils_new_objects_countable(item.associatedObject)
                     and utils_count_new_objects(item.associatedObject)

@@ -75,7 +75,7 @@ homepage:
     action:
         homepage:
             link: 主页
-            title: DarvinCMS
+            title: 主页
 image:
     action:
         delete:

@@ -75,7 +75,7 @@ homepage:
     action:
         homepage:
             link: 'Page d''accueil'
-            title: DarvinCMS
+            title: 'Page d''accueil'
 image:
     action:
         delete:

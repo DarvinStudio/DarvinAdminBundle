@@ -42,10 +42,10 @@
         </noscript>
 
         {% block body %}
-            <div class="container-fluid">
+            <div class="header_wrap_top">
                 <div class="container-fluid header_wrap">
-                    <div class="row header">
-                        <div class="col-md-2 col-lg-2 header_left">
+                    <div class="row header top">
+                        <div class="col-md-3 col-lg-3 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
                                 {% if darvin_admin_custom_logo %}
                                     <img src="{{ asset(darvin_admin_custom_logo) }}"
@@ -58,7 +58,7 @@
                                 {% endif %}
                             </a>
                         </div>
-                        <div class="col-md-10 col-lg-10 header_right">
+                        <div class="col-md-9 col-lg-9 header_right">
                             <div class="container-fluid">
 
                                 {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
@@ -97,27 +97,35 @@
                                     </a>
                                 {% endfor %}
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wrapper">
+                <div class="container-fluid header_wrap">
+                    <div class="row header sub">
+                        <div class="col-md-12 col-lg-12 header_right">
                             <div class="container-fluid">
 
-                                {{ admin_cache_clear_form() }}
-
-                                {{ image_archive_build_form() }}
-
-                                <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
+                                {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
 
                                 {% if is_granted('view', app.user) %}
                                     <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
                                 {% else %}
                                     <span class="link_users">{{ app.user.email }}</span>
                                 {% endif %}
+
+                                <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
+
+                                {{ admin_cache_clear_form() }}
+
+                                {{ image_archive_build_form() }}
+
                                 {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                                     <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}" class="link_users">
                                         {% trans %}security.action.switch_user.back{% endtrans %}
                                     </a>
                                 {% endif %}
-
-                                {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
-
                             </div>
                         </div>
                     </div>

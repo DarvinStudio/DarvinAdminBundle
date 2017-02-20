@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-<form action="{{ path('darvin_admin_search') }}" method="get">
+<form action="{{ path('darvin_admin_search') }}" method="get" class="search_header">
     <input name="q"
            type="search"
            placeholder="{% trans %}search.form.placeholder{% endtrans %}"

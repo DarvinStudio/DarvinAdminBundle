@@ -7,14 +7,14 @@ services:
     darvin_admin.ckeditor.compact_form_type:
         class: "%darvin_admin.ckeditor.compact_form_type.class%"
         arguments:
-            - "@request_stack"
+            - "@darvin_utils.locale.provider"
         tags:
             - { name: form.type }
 
     darvin_admin.ckeditor.form_type:
         class: "%darvin_admin.ckeditor.form_type.class%"
         arguments:
-            - "@request_stack"
+            - "@darvin_utils.locale.provider"
             - "@router"
             - "@darvin_content.widget.pool"
             - "%darvin_admin.ckeditor.plugin_filename%"

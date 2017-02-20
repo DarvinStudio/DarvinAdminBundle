@@ -12,10 +12,10 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\CKEditor\AbstractCKEditorWidget;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
+use Darvin\Utils\Locale\LocaleProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -27,9 +27,9 @@ class CKEditorType extends AbstractType
     const CONFIG_NAME = 'darvin_admin';
 
     /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
+     * @var \Darvin\Utils\Locale\LocaleProviderInterface
      */
-    private $requestStack;
+    private $localeProvider;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
@@ -52,20 +52,20 @@ class CKEditorType extends AbstractType
     private $pluginsPath;
 
     /**
-     * @param \Symfony\Component\HttpFoundation\RequestStack   $requestStack   Request stack
+     * @param \Darvin\Utils\Locale\LocaleProviderInterface     $localeProvider Locale provider
      * @param \Symfony\Component\Routing\RouterInterface       $router         Router
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface $widgetPool     Widget pool
      * @param string                                           $pluginFilename Plugin filename
      * @param string                                           $pluginsPath    Plugins path
      */
     public function __construct(
-        RequestStack $requestStack,
+        LocaleProviderInterface $localeProvider,
         RouterInterface $router,
         WidgetPoolInterface $widgetPool,
         $pluginFilename,
         $pluginsPath
     ) {
-        $this->requestStack = $requestStack;
+        $this->localeProvider = $localeProvider;
         $this->router = $router;
         $this->widgetPool = $widgetPool;
         $this->pluginFilename = $pluginFilename;
@@ -120,11 +120,8 @@ class CKEditorType extends AbstractType
         if (isset($config['toolbar'])) {
             $config['toolbar'] = array_merge($config['toolbar'], [$extraPlugins]);
         }
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        if (!isset($config['language']) && !empty($request)) {
-            $config['language'] = $request->getLocale();
+        if (!isset($config['language'])) {
+            $config['language'] = $this->localeProvider->getCurrentLocale();
         }
 
         $view->vars['config'] = $config;
@@ -148,6 +145,6 @@ class CKEditorType extends AbstractType
      */
     public function getParent()
     {
-        return 'Ivory\CKEditorBundle\Form\Type\CKEditorType';
+        return \Ivory\CKEditorBundle\Form\Type\CKEditorType::class;
     }
 }

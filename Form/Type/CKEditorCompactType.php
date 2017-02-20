@@ -10,10 +10,10 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
+use Darvin\Utils\Locale\LocaleProviderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -24,16 +24,16 @@ class CKEditorCompactType extends AbstractType
     const CONFIG_NAME = 'darvin_admin_compact';
 
     /**
-     * @var \Symfony\Component\HttpFoundation\RequestStack
+     * @var \Darvin\Utils\Locale\LocaleProviderInterface
      */
-    private $requestStack;
+    private $localeProvider;
 
     /**
-     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack Request stack
+     * @param \Darvin\Utils\Locale\LocaleProviderInterface $localeProvider Locale provider
      */
-    public function __construct(RequestStack $requestStack)
+    public function __construct(LocaleProviderInterface $localeProvider)
     {
-        $this->requestStack = $requestStack;
+        $this->localeProvider = $localeProvider;
     }
 
     /**
@@ -43,19 +43,11 @@ class CKEditorCompactType extends AbstractType
     {
         $config = $view->vars['config'];
 
-        if (isset($config['language']) && !empty($config['language'])) {
-            return;
+        if (!isset($config['language'])) {
+            $config['language'] = $this->localeProvider->getCurrentLocale();
+
+            $view->vars['config'] = $config;
         }
-
-        $request = $this->requestStack->getCurrentRequest();
-
-        if (empty($request)) {
-            return;
-        }
-
-        $config['language'] = $request->getLocale();
-
-        $view->vars['config'] = $config;
     }
 
     /**
@@ -71,6 +63,6 @@ class CKEditorCompactType extends AbstractType
      */
     public function getParent()
     {
-        return 'Ivory\CKEditorBundle\Form\Type\CKEditorType';
+        return CKEditorType::class;
     }
 }

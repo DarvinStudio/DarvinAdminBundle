@@ -18,24 +18,9 @@
          {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
         <div class="filter_table container-fluid">
             {{ form_start(form) }}
-            <div class="clearfix">
-
-                {% set index = 1 %}
-
-                {% for field, attr in meta.configuration.form.filter.fields if form[field] is defined %}
-                    {% if form[field] is defined %}
-                        <div class="col-md-3">
-                            {{ form_row(form[field]) }}
-                        </div>
-                        {% if 0 == index % 4 %}
-                            </div><div class="clearfix">
-                        {% endif %}
-                    {% endif %}
-
-                    {% set index = index + 1 %}
-
-                {% endfor %}
-            </div>
+            {% for field, attr in meta.configuration.form.filter.fields if form[field] is defined %}
+                {{ form_row(form[field]) }}
+            {% endfor %}
             <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
             <a href="{{ form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
             {{ form_end(form) }}

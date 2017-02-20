@@ -86,8 +86,16 @@
                     <tbody>
                         {% for row in view.body.rows %}
                             <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
-                                {% for item in row.items %}
-                                    <td>{{ item.content|trans|raw }}</td>
+                                {% for name, item in row.items %}
+                                    <td>
+                                        {% if 'action_widgets' == name %}
+                                            <div class="edit_elements">
+                                                {{ item.content|raw }}
+                                            </div>
+                                        {% else %}
+                                            {{ item.content|trans|raw }}
+                                        {% endif %}
+                                    </td>
                                 {% endfor %}
                             </tr>
                         {% endfor %}

@@ -568,7 +568,7 @@ placeholder_text_multiple:Translator.trans("chosen.placeholder_text_multiple"),p
 $(document).ready(function(){$.extend($.colorbox.settings,{maxWidth:"90%",opacity:.7,scrolling:!1,trapFocus:!1});for(var b="current previous next close xhrError imgError slideshowStart slideshowStop".split(" "),c={},a=0;a<b.length;a++)c[b[a]]=Translator.trans("colorbox."+b[a]);var d;(d=function(a){$(a).on("click","a.colorbox_ajax[href]",function(a){a.preventDefault();a=$(this);var b=a.attr("href");b&&"#"!==b&&$.colorbox($.extend({},c,{href:b,title:a.attr("title")}))}).find(".colorbox").colorbox(c)})("body");
 $(document).on("searchComplete",function(a,b){d(b)})});
 
-$(document).ready(function(){$("input[data-max-chars]").each(function(){var a=$(this);a.counter({goal:a.data("max-chars"),msg:Translator.trans("interface.characters_left")})})});
+$(document).ready(function(){$("input[data-max-chars]").each(function(){var a=$(this);a.counter({goal:a.data("max-chars"),msg:Translator.trans("interface.characters_left")}).siblings('[id$="_counter"]:first').wrap('<div class="input_note"><p></p></div>')})});
 
 $(document).ready(function(){var a="en"!==LOCALE?LOCALE:"",b=$.extend({},$.datepicker.regional["undefined"!==typeof $.datepicker.regional[a]?a:""],$.timepicker.regional["undefined"!==typeof $.timepicker.regional[a]?a:""],{dateFormat:"dd.mm.yy"});(a=function(){["date","datetime","time"].map(function(a){$("input."+a)[a+"picker"](b)})})();$(document).bind("ajaxSuccess",a)});
 

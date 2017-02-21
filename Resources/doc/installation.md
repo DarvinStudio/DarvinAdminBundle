@@ -73,18 +73,6 @@ imports:
 
 *либо копируем настройки из указанных выше файлов в случае необходимости их изменения*
 
-- в этом же конфигурационном файле включаем требуемые расширения Doctrine:
-
-```yaml
-stof_doctrine_extensions:
-    orm:
-        default:
-            loggable:      true
-            sortable:      true
-            timestampable: true
-            tree:          true
-```
-
 - настраиваем остальные бандлы:
 
 ```yaml

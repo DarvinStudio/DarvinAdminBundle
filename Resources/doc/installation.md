@@ -1,13 +1,10 @@
 Установка
 =========
 
-**1. Добавляем бандл в секцию "require" файла composer.json и опцию "component-dir" в раздел "config" этого файла:**
+**1. Добавляем опцию "component-dir" в раздел "config" файла composer.json:**
 
 ```json
 {
-    "require": {
-        "darvinstudio/darvin-admin-bundle": "*"
-    },
     "config": {
         "component-dir": "web/assets/components"
     }
@@ -17,7 +14,7 @@
 **2. Устанавливаем бандл с помощью Composer, выполнив в консоли команду**
 
 ```shell
-$ php composer.phar update darvinstudio/darvin-admin-bundle
+$ php composer.phar require darvinstudio/darvin-admin-bundle:^5
 ```
 
 **3. Добавляем бандл и его зависимости в ядро приложения (обычно это файл "app/AppKernel.php"):**

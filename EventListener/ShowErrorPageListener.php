@@ -25,6 +25,11 @@ use Symfony\Component\Translation\TranslatorInterface;
 class ShowErrorPageListener
 {
     /**
+     * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
+     */
+    private $firewallMap;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
@@ -60,11 +65,7 @@ class ShowErrorPageListener
     private $defaultLocale;
 
     /**
-     * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
-     */
-    private $firewallMap;
-
-    /**
+     * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap $firewallMap   Firewall map
      * @param \Symfony\Component\Routing\RouterInterface          $router        Router
      * @param \Symfony\Component\Templating\EngineInterface       $templating    Templating
      * @param \Symfony\Component\Translation\TranslatorInterface  $translator    Translator
@@ -72,18 +73,18 @@ class ShowErrorPageListener
      * @param string                                              $homepageRoute Homepage route
      * @param string[]                                            $locales       Locales
      * @param string                                              $defaultLocale Default locale
-     * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap $firewallMap   Firewall map
      */
     public function __construct(
+        FirewallMap $firewallMap,
         RouterInterface $router,
         EngineInterface $templating,
         TranslatorInterface $translator,
         $firewallName,
         $homepageRoute,
         array $locales,
-        $defaultLocale,
-        FirewallMap $firewallMap = null
+        $defaultLocale
     ) {
+        $this->firewallMap = $firewallMap;
         $this->router = $router;
         $this->templating = $templating;
         $this->translator = $translator;
@@ -91,7 +92,6 @@ class ShowErrorPageListener
         $this->homepageRoute = $homepageRoute;
         $this->locales = $locales;
         $this->defaultLocale = $defaultLocale;
-        $this->firewallMap = $firewallMap;
     }
 
     /**
@@ -99,7 +99,7 @@ class ShowErrorPageListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if (empty($this->firewallMap)) {
+        if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;
         }
 

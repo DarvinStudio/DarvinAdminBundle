@@ -7,6 +7,7 @@ services:
     darvin_admin.error.show_error_page_listener:
         class: "%darvin_admin.error.show_error_page_listener.class%"
         arguments:
+            - "@security.firewall.map"
             - "@router"
             - "@templating"
             - "@translator"
@@ -14,6 +15,5 @@ services:
             - "%darvin_admin.error.show_error_page_listener.homepage_route%"
             - "%locales%"
             - "%locale%"
-            - "@?security.firewall.map"
         tags:
             - { name: kernel.event_listener, event: kernel.exception }

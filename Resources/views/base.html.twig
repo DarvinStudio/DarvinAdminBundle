@@ -1,7 +1,7 @@
 {%- set cookie_names = {
     sidebar: 'DARVINADMINSIDEBAR',
 } -%}
-{%- set flashes = app.session.flashBag.all -%}
+{%- set flashes        = app.session.flashBag.all -%}
 {%- set sidebar_active = app.request.cookies.get(cookie_names.sidebar) -%}
 
 {%- trans_default_domain 'admin' -%}
@@ -70,9 +70,9 @@
                                         'url':        path('darvin_admin_security_logout'),
                                     },
                                     'user.action.index.link': {
-                                        'accessible': is_granted('view', app.user),
+                                        'accessible': app.user and is_granted('view', app.user),
                                         'class':      'link_users',
-                                        'url':        admin_path(app.user, null, 'index'),
+                                        'url':        app.user ? admin_path(app.user, null, 'index') : null,
                                     },
                                     'configuration.action.edit.link': {
                                         'accessible': is_granted('edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
@@ -109,10 +109,12 @@
 
                                 {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
 
-                                {% if is_granted('view', app.user) %}
-                                    <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
-                                {% else %}
-                                    <span class="link_users">{{ app.user.email }}</span>
+                                {% if app.user %}
+                                    {% if is_granted('view', app.user) %}
+                                        <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
+                                    {% else %}
+                                        <span class="link_users">{{ app.user.email }}</span>
+                                    {% endif %}
                                 {% endif %}
 
                                 <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
@@ -132,19 +134,21 @@
                 </div>
                 <div class="main_wrap{% if sidebar_active %} active{% endif %}">
                     <div class="main">
-                        <div class="sidebar_wrap{% if sidebar_active %} active{% endif %}">
-                            <span id="sidebar_switcher"{% if sidebar_active %} class="active"{% endif %}>
-                                {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
-                            </span>
-                            <div class="sidebar_wrap_fix">
-                                <div class="sidebar">
+                        {% if app.user %}
+                            <div class="sidebar_wrap{% if sidebar_active %} active{% endif %}">
+                                <span id="sidebar_switcher"{% if sidebar_active %} class="active"{% endif %}>
+                                    {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
+                                </span>
+                                <div class="sidebar_wrap_fix">
+                                    <div class="sidebar">
 
-                                    {{ admin_menu() }}
+                                        {{ admin_menu() }}
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="content_wrap{% if app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
+                        {% endif %}
+                        <div class="content_wrap{% if app.user and app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
                             <div class="content">
 
                                 {% block breadcrumbs %}{% endblock %}

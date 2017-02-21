@@ -22,6 +22,8 @@ colorbox:
     slideshowStart: 开始幻灯片
     slideshowStop: 停止幻灯片
     xhrError: 这些内容未能载荷。
+common:
+    back: 回
 configuration:
     action:
         edit:

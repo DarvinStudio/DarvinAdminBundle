@@ -22,6 +22,8 @@ colorbox:
     slideshowStart: 'بدء عرض الشرائح'
     slideshowStop: 'إيقاف عرض الشرائح'
     xhrError: 'هذا المحتوى فشل في التحميل.'
+common:
+    back: 'مرة أخرى'
 configuration:
     action:
         edit:

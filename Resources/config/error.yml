@@ -1,0 +1,19 @@
+parameters:
+    darvin_admin.error.show_error_page_listener.class:          Darvin\AdminBundle\EventListener\ShowErrorPageListener
+    darvin_admin.error.show_error_page_listener.firewall_name:  admin_area
+    darvin_admin.error.show_error_page_listener.homepage_route: darvin_admin_homepage
+
+services:
+    darvin_admin.error.show_error_page_listener:
+        class: "%darvin_admin.error.show_error_page_listener.class%"
+        arguments:
+            - "@router"
+            - "@templating"
+            - "@translator"
+            - "%darvin_admin.error.show_error_page_listener.firewall_name%"
+            - "%darvin_admin.error.show_error_page_listener.homepage_route%"
+            - "%locales%"
+            - "%locale%"
+            - "@?security.firewall.map"
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

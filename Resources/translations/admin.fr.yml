@@ -22,6 +22,8 @@ colorbox:
     slideshowStart: 'démarrer le diaporama'
     slideshowStop: 'arrêter le diaporama'
     xhrError: 'Ce contenu a pas réussi à charger.'
+common:
+    back: De retour
 configuration:
     action:
         edit:

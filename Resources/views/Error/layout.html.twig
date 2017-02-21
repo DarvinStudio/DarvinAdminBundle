@@ -1,0 +1,11 @@
+{% extends 'DarvinAdminBundle::layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block content %}
+    {% if referer %}
+        <div class="post_item_btn">
+            <a href="{{ referer }}" class="back_to_list">{% trans %}common.back{% endtrans %}</a>
+        </div>
+    {% endif %}
+{% endblock %}

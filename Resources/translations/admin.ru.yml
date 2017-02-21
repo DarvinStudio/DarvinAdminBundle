@@ -26,6 +26,9 @@ colorbox:
     slideshowStop:  остановить слайд-шоу
     xhrError:       Не удалось загрузить содержимое.
 
+common:
+    back: Назад
+
 configuration:
     action:
         edit:

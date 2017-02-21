@@ -26,6 +26,9 @@ colorbox:
     slideshowStop:  stop slideshow
     xhrError:       This content failed to load.
 
+common:
+    back: Back
+
 configuration:
     action:
         edit:

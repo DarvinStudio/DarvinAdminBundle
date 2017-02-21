@@ -87,6 +87,11 @@ class AdminRouter
     private $propertyAccessor;
 
     /**
+     * @var array
+     */
+    private $entityOverride;
+
+    /**
      * @var bool
      */
     private $initialized;
@@ -102,19 +107,22 @@ class AdminRouter
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
+     * @param array                                                       $entityOverride     Entity override configuration
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
-        PropertyAccessorInterface $propertyAccessor
+        PropertyAccessorInterface $propertyAccessor,
+        array $entityOverride
     ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->genericRouter = $genericRouter;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
+        $this->entityOverride = $entityOverride;
 
         $this->initialized = false;
         $this->routeNames = [];
@@ -198,6 +206,9 @@ class AdminRouter
     {
         $this->init();
 
+        if (isset($this->entityOverride[$entityClass])) {
+            $entityClass = $this->entityOverride[$entityClass];
+        }
         if (isset($this->routeNames[$entityClass][$routeType])) {
             return $this->routeNames[$entityClass][$routeType];
         }

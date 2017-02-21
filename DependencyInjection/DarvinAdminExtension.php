@@ -66,7 +66,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             $loader->load($resource.'.yml');
         }
         if (!$container->getParameter('kernel.debug') && Kernel::MAJOR_VERSION >= 3 && Kernel::MINOR_VERSION >= 2) {
-            // Requires firewall config which was introduced in Symfony 3.2
+            // Requires firewall config introduced in Symfony 3.2
             $loader->load('error.yml');
         }
 

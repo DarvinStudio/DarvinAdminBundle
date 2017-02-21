@@ -4,6 +4,12 @@
 
 {% trans_default_domain 'admin' %}
 
+{%- block description -%}
+    {% if 'hidden' != block_prefixes[1] and (not form.parent or 'darvin_image_image' != form.parent.vars.block_prefixes[1]) %}
+        <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
+    {% endif %}
+{%- endblock description -%}
+
 {%- block button_attributes -%}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ name)|trim}) %}
     {{ parent() }}
@@ -13,12 +19,14 @@
     <div class="input_value">
         {{ parent() }}
     </div>
+    {{ block('description') }}
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
     <div class="input_value">
         {{ parent() }}
     </div>
+    {{ block('description') }}
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_expanded -%}
@@ -42,9 +50,9 @@
 {%- endblock collection_widget -%}
 
 {%- block darvin_admin_dropzone_widget -%}
-    {% if form.vars.data and form.vars.data is not empty %}
+    {% if data and data is not empty %}
         <div class="images" data-sort-url="{{ path('darvin_image_image_sort') }}">
-            {% for image in form.vars.data if image.id and image_exists(image) %}
+            {% for image in data if image.id and image_exists(image) %}
 
                 {% include 'DarvinAdminBundle:Form:image.html.twig' %}
 
@@ -52,7 +60,7 @@
         </div>
     {% endif %}
     {{ form_widget(form) }}
-{%- endblock -%}
+{%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_slug_suffix_widget -%}
 
@@ -105,11 +113,11 @@
         document.getElementById('{{ id }}_edit').style.display = 'inline';
         document.getElementById('{{ id }}_update').style.display = 'inline';
     </script>
-{%- endblock -%}
+{%- endblock darvin_admin_slug_suffix_widget -%}
 
 {%- block darvin_admin_translatable_widget -%}
     {{ block('a2lix_translations_widget') }}
-{%- endblock -%}
+{%- endblock darvin_admin_translatable_widget -%}
 
 {%- block darvin_image_image_row -%}
     <div class="table_row childless">
@@ -117,24 +125,25 @@
         {{ form_errors(form) }}
         {{ form_widget(form) }}
     </div>
-{%- endblock -%}
+{%- endblock darvin_image_image_row -%}
 
 {%- block darvin_image_image_widget -%}
     <div class="input_value">
-        {% if form.vars.data and image_exists(form.vars.data) %}
+        {% if data and image_exists(data) %}
 
             {% include 'DarvinAdminBundle:Form:image.html.twig' with {
-                'image': form.vars.data,
+                'image': data,
             } %}
 
         {% endif %}
         {{ form_widget(form) }}
     </div>
-{%- endblock -%}
+    {{ block('description') }}
+{%- endblock darvin_image_image_widget -%}
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}
-        {% set is_ckeditor = 'ckeditor' == block_prefixes.3|default %}
+        {% set is_ckeditor = 'ckeditor' == block_prefixes[3]|default %}
         {% if not is_ckeditor %}
             {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
         {% endif %}
@@ -168,13 +177,6 @@
     </div>
 {%- endblock form_row -%}
 
-{%- block form_widget -%}
-    {{ parent() }}
-    {% if not compound %}
-        <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
-    {% endif %}
-{%- endblock form_widget -%}
-
 {%- block form_widget_compound -%}
     <div class="compound">
         {{ parent() }}
@@ -185,18 +187,21 @@
     <div class="input_value">
         {{ parent() }}
     </div>
+    {{ block('description') }}
 {%- endblock form_widget_simple -%}
 
 {%- block radio_widget -%}
     <div class="input_value">
         {{ parent() }}
     </div>
+    {{ block('description') }}
 {%- endblock radio_widget -%}
 
 {%- block textarea_widget -%}
     <div class="input_value">
         {{ parent() }}
     </div>
+    {{ block('description') }}
 {%- endblock textarea_widget -%}
 
 {%- block vich_image_row -%}
@@ -204,7 +209,7 @@
         {{ form_label(form) }}
         {{ form_widget(form) }}
     </div>
-{%- endblock -%}
+{%- endblock vich_image_row -%}
 
 {%- block vich_image_widget -%}
     {% spaceless %}
@@ -220,9 +225,9 @@
             {% endif %}
         </div>
     {% endspaceless %}
-{%- endblock -%}
+{%- endblock vich_image_widget -%}
 
 {%- block widget_attributes -%}
-    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ block_prefixes[1])|trim}) %}
     {{ parent() }}
 {%- endblock widget_attributes -%}

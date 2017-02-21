@@ -48,7 +48,7 @@
                             <span class="note">{{ form_label(form._remember_me) }}</span>
                         </div>
                         {{ form_end(form) }}
-                        <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}">
+                        <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">
                             {% trans %}security.action.login.darvin_auth{% endtrans %}
                         </a>
                     </div>

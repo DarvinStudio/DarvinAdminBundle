@@ -170,9 +170,7 @@
 
 {%- block form_widget -%}
     {{ parent() }}
-    {% if disclaimer %}
-        <div class="description">{{ disclaimer|trans({}, translation_domain) }}</div>
-    {% endif %}
+    <div class="description">{% if disclaimer %}{{ disclaimer|trans({}, translation_domain) }}{% endif %}</div>
 {%- endblock form_widget -%}
 
 {%- block form_widget_compound -%}

@@ -9,8 +9,6 @@ parameters:
 
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
 
-    darvin_admin.form.type_extension.info.class: Darvin\AdminBundle\Form\Type\Extension\InfoExtension
-
 services:
     darvin_admin.form.factory:
         class: "%darvin_admin.form.factory.class%"
@@ -53,8 +51,3 @@ services:
             - "%locales%"
         tags:
             - { name: form.type }
-
-    darvin_admin.form.type_extension.info:
-        class: "%darvin_admin.form.type_extension.info.class%"
-        tags:
-            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }

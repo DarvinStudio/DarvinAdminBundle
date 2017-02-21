@@ -16,6 +16,7 @@ services:
         arguments:
             - "@darvin_admin.metadata.manager"
             - "@darvin_admin.security.configuration.pool"
+            - "%darvin_admin.entity_override%"
         tags:
             - { name: security.voter }
 

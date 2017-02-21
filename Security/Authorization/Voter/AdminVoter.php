@@ -37,6 +37,11 @@ class AdminVoter extends Voter
     /**
      * @var array
      */
+    private $entityOverride;
+
+    /**
+     * @var array
+     */
     private $supportedClasses;
 
     /**
@@ -52,11 +57,14 @@ class AdminVoter extends Voter
     /**
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                         $metadataManager           Metadata manager
      * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool $securityConfigurationPool Security configuration pool
+     * @param array                                                                $entityOverride            Entity override
      */
-    public function __construct(MetadataManager $metadataManager, SecurityConfigurationPool $securityConfigurationPool)
+    public function __construct(MetadataManager $metadataManager, SecurityConfigurationPool $securityConfigurationPool, array $entityOverride)
     {
         $this->metadataManager = $metadataManager;
         $this->securityConfigurationPool = $securityConfigurationPool;
+        $this->entityOverride = $entityOverride;
+
         $this->supportedClasses = $this->permissions = [];
         $this->initialized = false;
     }
@@ -150,6 +158,8 @@ class AdminVoter extends Voter
      */
     private function getClass($objectOrClass)
     {
-        return is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
+        $class = is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
+
+        return isset($this->entityOverride[$class]) ? $this->entityOverride[$class] : $class;
     }
 }

@@ -1,7 +1,9 @@
 {% trans_default_domain 'admin' %}
 
-<a class="colorbox_ajax{% if not text_link %} edit_element show{% endif %}"
-   href="{{ admin_path(entity, entity_class, 'show') }}"
-   title="{{ (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity}) }}">
-    {% if text_link %}{{ entity }}{% endif %}
+<a href="{{ admin_path(entity, entity_class, 'show') }}" class="colorbox_ajax{% if not text_link %} edit_element show{% endif %}">
+    {% if text_link %}
+        {{ entity }}
+    {% else %}
+        <span>{{ (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity}) }}</span>
+    {% endif %}
 </a>

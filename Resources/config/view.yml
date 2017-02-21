@@ -92,6 +92,7 @@ services:
             - [ setAdminRouter,        [ "@darvin_admin.router" ] ]
             - [ setEntityManager,      [ "@doctrine.orm.entity_manager" ] ]
             - [ setIdentifierAccessor, [ "@darvin_admin.metadata.identifier_accessor" ] ]
+            - [ setEntityOverride,     [ "%darvin_admin.entity_override%" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 

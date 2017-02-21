@@ -38,6 +38,11 @@ class ChildLinksWidget extends AbstractWidget
     private $identifierAccessor;
 
     /**
+     * @var array
+     */
+    private $entityOverride;
+
+    /**
      * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
      */
     public function setAdminRouter(AdminRouter $adminRouter)
@@ -62,11 +67,23 @@ class ChildLinksWidget extends AbstractWidget
     }
 
     /**
+     * @param array $entityOverride Entity override configuration
+     */
+    public function setEntityOverride(array $entityOverride)
+    {
+        $this->entityOverride = $entityOverride;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function createContent($entity, array $options, $property)
     {
         $childClass = $options['child_entity'];
+
+        if (isset($this->entityOverride[$childClass])) {
+            $childClass = $this->entityOverride[$childClass];
+        }
 
         $indexLink = $this->isGranted(Permission::VIEW, $childClass)
             && $this->adminRouter->isRouteExists($childClass, AdminRouter::TYPE_INDEX);

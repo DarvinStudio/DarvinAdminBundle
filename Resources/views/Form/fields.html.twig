@@ -170,7 +170,9 @@
 
 {%- block form_widget -%}
     {{ parent() }}
-    <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
+    {% if not compound %}
+        <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
+    {% endif %}
 {%- endblock form_widget -%}
 
 {%- block form_widget_compound -%}

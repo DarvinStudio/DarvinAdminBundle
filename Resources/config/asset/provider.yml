@@ -59,8 +59,6 @@ parameters:
         - bundles/darvinadmin/styles/colorbox.css
         - bundles/darvinadmin/styles/dropzone.css
 
-        - bundles/a2lixtranslationform/css/a2lix_translation_default.css
-
     darvin_admin.asset.provider.twig_extension.class: Darvin\AdminBundle\Twig\Extension\AssetProviderExtension
 
 services:

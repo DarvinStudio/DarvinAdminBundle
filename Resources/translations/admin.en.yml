@@ -167,8 +167,7 @@ log:
 menu:
     group:
         modules:
-            description: View orders, configure payment systems.
-            title:       Modules
+            title: Modules
         pages:
             description: Structure and main sections. <br>Editing and creating.
             title:       Structural sections

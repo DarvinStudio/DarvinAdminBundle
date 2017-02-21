@@ -139,7 +139,6 @@ log:
 menu:
     group:
         modules:
-            description: 查看订单、配置支付系统。
             title: 模块
         pages:
             description: '结构和主要部分。 <br>编辑和创造。'

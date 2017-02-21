@@ -139,7 +139,6 @@ log:
 menu:
     group:
         modules:
-            description: 'Voir les commandes, configurer des systèmes de paiement.'
             title: 'Les Modules de'
         pages:
             description: 'La Structure et les sections principales. <br>L''édition et la création.'

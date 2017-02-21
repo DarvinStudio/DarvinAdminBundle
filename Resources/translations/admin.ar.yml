@@ -139,7 +139,6 @@ log:
 menu:
     group:
         modules:
-            description: 'عرض أوامر تكوين أنظمة الدفع.'
             title: وحدات
         pages:
             description: 'هيكل أقسام رئيسية. <br>تحرير وإنشاء.'

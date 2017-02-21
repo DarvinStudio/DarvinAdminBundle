@@ -43,11 +43,10 @@
                                     {% endif %}
                                     <div class="name">
                                         <a href="{{ child.indexUrl }}">{{ child.indexTitle|trans }}</a>
+                                        {% if child.newUrl and child.newTitle %}
+                                            <a href="{{ child.newUrl }}" class="btn">{{ child.newTitle|trans }}</a>
+                                        {% endif %}
                                     </div>
-                                    {% if child.newUrl and child.newTitle %}
-                                        <div class="sep"></div>
-                                        <a href="{{ child.newUrl }}" class="btn">{{ child.newTitle|trans }}</a>
-                                    {% endif %}
                                 </div>
                             {% endfor %}
                         </div>

@@ -20,6 +20,7 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\HttpKernel\Kernel;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -85,6 +86,22 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
+        $fileLocator = new FileLocator(__DIR__.'/../Resources/config/app');
+
+        foreach ([
+            'a2lix_translation_form',
+            'bazinga_js_translation',
+            'fm_elfinder',
+            'hwi_oauth',
+            'ivory_ck_editor',
+            'lexik_translation',
+            'liip_imagine',
+            'oneup_uploader',
+        ] as $extension) {
+            if ($container->hasExtension($extension)) {
+                $container->prependExtensionConfig($extension, Yaml::parse(file_get_contents($fileLocator->locate($extension.'.yml')))[$extension]);
+            }
+        }
         if ($container->hasExtension('darvin_user')) {
             $container->prependExtensionConfig('darvin_user', [
                 'roles' => Roles::getRoles(),

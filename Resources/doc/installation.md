@@ -57,23 +57,7 @@ class AppKernel extends Kernel
 
 **4. Настраиваем бандл и его зависимости:**
 
-- импортируем настройки сторонних бандлов в главный конфигурационный файл приложения (обычно это "app/config/config.yml"):
-
-```yaml
-imports:
-    - { resource: "@DarvinAdminBundle/Resources/config/app/a2lix_translation_form.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/bazinga_js_translation.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/fm_elfinder.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/hwi_oauth.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/ivory_ck_editor.yml" }
-    # - { resource: "@DarvinAdminBundle/Resources/config/app/lexik_translation.yml" } (раскомментировать при использовании "lexik/translation-bundle")
-    - { resource: "@DarvinAdminBundle/Resources/config/app/liip_imagine.yml" }
-    - { resource: "@DarvinAdminBundle/Resources/config/app/oneup_uploader.yml" }
-```
-
-*либо копируем настройки из указанных выше файлов в случае необходимости их изменения*
-
-- настраиваем остальные бандлы:
+- настраиваем бандлы:
 
 ```yaml
 darvin_admin:

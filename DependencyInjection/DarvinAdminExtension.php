@@ -85,9 +85,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
-        $bundles = $container->getParameter('kernel.bundles');
-
-        if (isset($bundles['DarvinUserBundle'])) {
+        if ($container->hasExtension('darvin_user')) {
             $container->prependExtensionConfig('darvin_user', [
                 'roles' => Roles::getRoles(),
             ]);
@@ -104,6 +102,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 'config' => '@DarvinAdminBundle/Resources/config/admin/log.yml',
             ],
         ];
+
+        $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['LexikTranslationBundle'])) {
             $sections[] = [

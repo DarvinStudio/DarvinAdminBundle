@@ -184,9 +184,9 @@ size:
     height: 高度
     width: 宽
 slug_suffix:
-    edit: 编辑URL
-    reset: 重URL
-    update: 更新URL
+    edit: 编辑
+    reset: 重
+    update: 更新
 submit:
     edit: 提交和编辑
     index: 提交并转到索引页面

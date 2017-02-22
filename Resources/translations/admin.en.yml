@@ -224,9 +224,9 @@ size:
     width:  Width
 
 slug_suffix:
-    edit:   Edit URL
-    reset:  Reset URL
-    update: Update URL
+    edit:   Edit
+    reset:  Reset
+    update: Update
 
 submit:
     edit:  Submit and edit

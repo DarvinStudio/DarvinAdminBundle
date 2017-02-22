@@ -224,9 +224,9 @@ size:
     width:  Ширина
 
 slug_suffix:
-    edit:   Изменить ссылку
-    reset:  Сбросить ссылку
-    update: Сохранить ссылку
+    edit:   Изменить
+    reset:  Сбросить
+    update: Сохранить
 
 submit:
     edit:  Сохранить и редактировать

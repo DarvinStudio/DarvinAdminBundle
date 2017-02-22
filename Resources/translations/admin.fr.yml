@@ -184,9 +184,9 @@ size:
     height: Hauteur
     width: Largeur
 slug_suffix:
-    edit: 'Modifier l''URL'
-    reset: 'Réinitialiser URL'
-    update: 'Mettre à jour l''URL'
+    edit: Modifier
+    reset: 'Réinitialiser'
+    update: 'Mettre à jour'
 submit:
     edit: 'Soumettre et de modifier'
     index: 'Soumettre et allez à la page d''index'

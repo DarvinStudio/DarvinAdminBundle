@@ -184,9 +184,9 @@ size:
     height: ارتفاع
     width: العرض
 slug_suffix:
-    edit: 'تحرير URL'
-    reset: 'إعادة تعيين URL'
-    update: 'تحديث URL'
+    edit: 'تحرير'
+    reset: 'إعادة تعيين'
+    update: 'تحديث'
 submit:
     edit: 'تقديم وتحرير'
     index: 'تقديم و اذهب إلى صفحة الفهرس'

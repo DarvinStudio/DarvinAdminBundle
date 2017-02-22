@@ -169,6 +169,9 @@ class AdminRouter
                 sprintf('Route "%s" does not exist for entity "%s".', $routeType, $entityClass)
             );
         }
+        if (isset($this->entityOverride[$entityClass])) {
+            $entityClass = $this->entityOverride[$entityClass];
+        }
 
         $name = $this->getRouteName($entityClass, $routeType);
         $this->getAdditionalParams($params, $entityClass, $routeType, $entity);
@@ -188,10 +191,13 @@ class AdminRouter
      */
     public function isRouteExists($objectOrClass, $routeType)
     {
-        $routeName = $this->getRouteName(
-            is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass,
-            $routeType
-        );
+        $entityClass = is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
+
+        if (isset($this->entityOverride[$entityClass])) {
+            $entityClass = $this->entityOverride[$entityClass];
+        }
+
+        $routeName = $this->getRouteName($entityClass, $routeType);
 
         return !empty($routeName);
     }
@@ -206,9 +212,6 @@ class AdminRouter
     {
         $this->init();
 
-        if (isset($this->entityOverride[$entityClass])) {
-            $entityClass = $this->entityOverride[$entityClass];
-        }
         if (isset($this->routeNames[$entityClass][$routeType])) {
             return $this->routeNames[$entityClass][$routeType];
         }

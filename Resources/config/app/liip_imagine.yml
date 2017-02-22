@@ -3,7 +3,3 @@ liip_imagine:
         darvin_admin_ckeditor_widget:
             filters:
                 thumbnail: { size: [ 64, 64 ], mode: outbound }
-    resolvers:
-        default:
-            web_path:
-                cache_prefix: cache

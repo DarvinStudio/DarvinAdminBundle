@@ -68,7 +68,6 @@ ivory_ck_editor:
                 about,
                 bidi,
                 blockquote,
-                clipboard,
                 colorbutton,
                 colordialog,
                 contextmenu,

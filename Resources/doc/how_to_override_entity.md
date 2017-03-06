@@ -31,3 +31,5 @@ doctrine:
         resolve_target_entities:
             Darvin\ECommerceBundle\Entity\Product\ProductInterface: AppBundle\Entity\ECommerce\Product\AppProduct
 ```
+
+6. Необходимо заменить класс в поле "object_class" таблицы "content_slug_map" базы данных.

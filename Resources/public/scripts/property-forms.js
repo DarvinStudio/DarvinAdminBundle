@@ -1,10 +1,7 @@
 $(document).ready(function () {
-    var submitForm = function ($form, redirect) {
+    var submitForm = function ($form) {
         if ($form.data('submitted')) {
             return;
-        }
-        if ('undefined' === typeof redirect) {
-            redirect = true;
         }
 
         $form
@@ -18,8 +15,9 @@ $(document).ready(function () {
             url:   $form.attr('action')
         }).done(function (data) {
             var $formReplacement = $(data.form);
-            toggleButtons($formReplacement.find('.field'));
             $form.replaceWith($formReplacement);
+
+            toggleButtons($formReplacement.find('.field'));
 
             $(document).trigger('propertyFormSubmit', $formReplacement);
 
@@ -27,14 +25,6 @@ $(document).ready(function () {
                 text: Translator.trans(data.message),
                 type: data.success ? 'success' : 'error'
             });
-
-            if (!data.success || !redirect) {
-                return;
-            }
-
-            setTimeout(function () {
-                document.location.href = '';
-            }, $.noty.defaults.timeout);
         }).error(onAjaxError);
     };
 
@@ -80,7 +70,7 @@ $(document).ready(function () {
 
         $context
             .on('change', '.property_form input[type="checkbox"]', function () {
-                submitForm($(this).parents('form.property_form').first(), false);
+                submitForm($(this).parents('form.property_form').first());
             })
             .on('change', '.property_form .field[type!="checkbox"]', function () {
                 toggleButtons($(this));

@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -158,6 +160,14 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        $view->vars['toggle_enabled'] = $options['toggle_enabled'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
@@ -166,6 +176,7 @@ class DropzoneType extends AbstractType
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'toggle_enabled'         => false,
             ])
             ->setDefined([
                 'accepted_files',
@@ -175,6 +186,7 @@ class DropzoneType extends AbstractType
                 'uploadable_class',
             ])
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
+            ->setAllowedTypes('toggle_enabled', 'boolean')
             ->setAllowedTypes('uploadable_class', 'string');
     }
 

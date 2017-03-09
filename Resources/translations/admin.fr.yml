@@ -84,6 +84,12 @@ image:
             confirm: 'Confirmer la suppression de l''image'
             submit: Supprimer
             success: 'Image supprimé avec succès'
+        disable:
+            submit: 'Désactiver'
+            success: 'Image désactivé correctement'
+        enable:
+            submit: Activer
+            success: 'Image activée avec succès'
 image_size:
     darvin_admin:
         darvin_admin: Commune

@@ -1,29 +1,69 @@
 $(document).ready(function () {
-    $('body').on('click', '.image_delete[data-url]', function (e) {
-        e.preventDefault();
+    $('body')
+        .on('click', '.image_delete[data-url]', function (e) {
+            e.preventDefault();
 
-        var $deleteLink = $(this);
+            var $link = $(this);
 
-        if ($deleteLink.data('submitted') || !confirm(Translator.trans('image.action.delete.confirm'))) {
-            return;
-        }
+            if ($link.data('submitted') || !confirm(Translator.trans('image.action.delete.confirm'))) {
+                return;
+            }
 
-        $deleteLink.data('submitted', true);
+            $link.data('submitted', true);
 
-        var $image = $deleteLink.closest('.image');
+            var $image = $link.closest('.image');
 
-        $.ajax({
-            url:  $deleteLink.data('url'),
-            type: 'post'
-        }).done(function () {
-            $image.remove();
+            $.ajax({
+                url:  $link.data('url'),
+                type: 'post'
+            }).done(function () {
+                $image.remove();
 
-            noty({
-                text: Translator.trans('image.action.delete.success'),
-                type: 'success'
-            });
-        }).error(onAjaxError);
-    });
+                noty({
+                    text: Translator.trans('image.action.delete.success'),
+                    type: 'success'
+                });
+            }).fail(onAjaxError);
+        })
+        .on('click', '.image_toggle_enabled[data-disable-title][data-disable-url][data-enable-title][data-enable-url]', function (e) {
+            e.preventDefault();
+
+            var $link = $(this);
+
+            if ($link.hasClass('image_disable')) {
+                $.ajax({
+                    url:  $link.data('disable-url'),
+                    type: 'post'
+                }).done(function () {
+                    $link
+                        .removeClass('image_disable')
+                        .addClass('image_enable')
+                        .attr('title', $link.data('enable-title'));
+
+                    noty({
+                        text: Translator.trans('image.action.disable.success'),
+                        type: 'success'
+                    });
+                }).fail(onAjaxError);
+
+                return;
+            }
+
+            $.ajax({
+                url:  $link.data('enable-url'),
+                type: 'post'
+            }).done(function () {
+                $link
+                    .removeClass('image_enable')
+                    .addClass('image_disable')
+                    .attr('title', $link.data('disable-title'));
+
+                noty({
+                    text: Translator.trans('image.action.enable.success'),
+                    type: 'success'
+                });
+            }).fail(onAjaxError);
+        });
 
     var $sortable = $('.table_row .images[data-sort-url]');
 
@@ -39,7 +79,7 @@ $(document).ready(function () {
                             return $(this).data('id');
                         }).get()
                     }
-                }).error(onAjaxError);
+                }).fail(onAjaxError);
             }
         });
         $sortable.disableSelection();

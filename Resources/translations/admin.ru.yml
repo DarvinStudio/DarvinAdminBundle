@@ -103,6 +103,12 @@ image:
             confirm: Подтвердите удаление изображения
             submit:  Удалить
             success: Изображение успешно удалено
+        disable:
+            submit:  Скрыть
+            success: Изображение успешно скрыто
+        enable:
+            submit:  Показать
+            success: Изображение успешно активировано
 
 interface:
     actions:          Действия

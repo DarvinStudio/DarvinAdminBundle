@@ -84,6 +84,12 @@ image:
             confirm: 确认图像切除
             submit: 删除
             success: 图像成功地除去
+        disable:
+            submit: 禁用
+            success: 图像成功的障碍
+        enable:
+            submit: 启用
+            success: 图像成功启用
 image_size:
     darvin_admin:
         darvin_admin: 常见的

@@ -84,6 +84,12 @@ image:
             confirm: 'التأكد من إزالة الصورة'
             submit: إزالة
             success: 'صورة إزالة بنجاح'
+        disable:
+            submit: 'تعطيل'
+            success: 'الصورة بنجاح المعوقين'
+        enable:
+            submit: 'تمكين'
+            success: 'صورة تمكين بنجاح'
 image_size:
     darvin_admin:
         darvin_admin: المشتركة

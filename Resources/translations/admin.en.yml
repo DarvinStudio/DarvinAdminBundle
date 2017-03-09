@@ -99,6 +99,12 @@ image:
             confirm: Confirm image removal
             submit:  Remove
             success: Image successfully removed
+        disable:
+            submit:  Disable
+            success: Image successfully disabled
+        enable:
+            submit:  Enable
+            success: Image successfully enabled
 
 image_size:
     darvin_admin:

@@ -4,9 +4,21 @@
     <a class="colorbox" href="{{ image|image_original }}" rel="images" title="{{ image.name }}">
         <img src="{{ image|image_crop('darvin_admin') }}">
     </a>
-    <div class="image_delete_cont">
-        <a class="image_delete" data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}" href="#">
-            {% trans %}image.action.delete.submit{% endtrans %}
+    <div class="image_actions">
+        {% if toggle_enabled is defined and toggle_enabled %}
+            <a class="image_toggle_enabled image_{{ image.enabled ? 'disable' : 'enable' }}"
+               data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
+               data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+               data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
+               data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+               title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
+               href="#">
+            </a>
+        {% endif %}
+        <a class="image_delete"
+           data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+           title="{% trans %}image.action.delete.submit{% endtrans %}"
+           href="#">
         </a>
     </div>
 </div>

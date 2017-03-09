@@ -7,10 +7,16 @@ $(document).ready(function () {
         var $files = $dropzone.parents('form').first().find($dropzone.data('files') + '[data-prototype]');
         var filePrototype = $files.data('prototype');
 
+        var defaultMessage = Translator.trans('dropzone.default_message');
+
+        if ($dropzone.data('description')) {
+            defaultMessage += '<br><br><b>' + Translator.trans($dropzone.data('description')) + '</b>';
+        }
+
         var dropzone = new Dropzone('#' + $dropzone.attr('id'), {
             acceptedFiles:      $dropzone.data('accepted-files'),
             addRemoveLinks:     true,
-            dictDefaultMessage: Translator.trans('dropzone.default_message'),
+            dictDefaultMessage: defaultMessage,
             dictFileTooBig:     Translator.trans('dropzone.file_too_big'),
             dictRemoveFile:     Translator.trans('dropzone.remove_file'),
             filesizeBase:       1024,

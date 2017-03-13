@@ -262,6 +262,7 @@ class AdminFormFactory
             'data_class'        => $dataClass,
             'field_filter'      => $property,
             'metadata'          => $meta,
+            'required'          => false,
             'validation_groups' => [
                 'Default',
                 'AdminUpdateProperty',

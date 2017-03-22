@@ -376,12 +376,13 @@ class GenerateTranslationsCommand extends Command
         if (isset($doc['code'])) {
             return $cases;
         }
-
-        $doc['множественное'] = (array) $doc['множественное'];
+        if (isset($doc['множественное'])) {
+            $doc['множественное'] = (array) $doc['множественное'];
+            $cases['multiple'] = $doc['множественное']['И'];
+        }
 
         $cases['accusative'] = $doc['В'];
         $cases['genitive'] = $doc['Р'];
-        $cases['multiple'] = $doc['множественное']['И'];
 
         return $cases;
     }

@@ -30,18 +30,25 @@ class EntityNamer implements EntityNamerInterface
     private $sectionConfig;
 
     /**
+     * @var array
+     */
+    private $entityOverride;
+
+    /**
      * @var string[]
      */
     private $names;
 
     /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer   Object namer
-     * @param \Darvin\AdminBundle\Configuration\SectionConfiguration $sectionConfig Section configuration
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer    Object namer
+     * @param \Darvin\AdminBundle\Configuration\SectionConfiguration $sectionConfig  Section configuration
+     * @param array                                                  $entityOverride Entity override configuration
      */
-    public function __construct(ObjectNamerInterface $objectNamer, SectionConfiguration $sectionConfig)
+    public function __construct(ObjectNamerInterface $objectNamer, SectionConfiguration $sectionConfig, array $entityOverride)
     {
         $this->objectNamer = $objectNamer;
         $this->sectionConfig = $sectionConfig;
+        $this->entityOverride = $entityOverride;
 
         $this->names = [];
     }
@@ -67,6 +74,9 @@ class EntityNamer implements EntityNamerInterface
      */
     private function getName($class)
     {
+        if (isset($this->entityOverride[$class])) {
+            $class = $this->entityOverride[$class];
+        }
         if ($this->sectionConfig->hasSection($class)) {
             return $this->sectionConfig->getSection($class)->getAlias();
         }

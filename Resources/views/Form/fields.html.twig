@@ -66,59 +66,63 @@
 {%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_slug_suffix_widget -%}
+    {% if is_homepage %}
+        {{ form_widget(form) }}
+    {% else %}
 
-    {% set url_parts  = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
-    {% set url_prefix = url_parts[0] ~ slug_prefix %}
-    {% set url_suffix = url_parts[1] %}
-    {% set url_parts  = [url_prefix] %}
+        {% set url_parts  = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
+        {% set url_prefix = url_parts[0] ~ slug_prefix %}
+        {% set url_suffix = url_parts[1] %}
+        {% set url_parts  = [url_prefix] %}
 
-    {% if not slug %}
-        {% set url_parts = url_parts|merge(['___']) %}
-    {% endif %}
+        {% if not slug %}
+            {% set url_parts = url_parts|merge(['___']) %}
+        {% endif %}
 
-    {% set url_parts = url_parts|merge([url_suffix]) %}
+        {% set url_parts = url_parts|merge([url_suffix]) %}
 
-    {% set url = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') %}
+        {% set url = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') %}
 
-    <div class="input_value">
-        <div class="slug_suffix{% if not slug %} changed{% endif %}"
-             data-default-url="{{ url }}"
-             data-parent-select="{{ parent_select_selector }}"
-             data-parent-option-data-slug="{{ parent_option_data_slug }}"
-             data-url-prefix="{{ url_prefix }}"
-             data-url-suffix="{{ url_suffix }}">
-            <div class="link_widget" id="{{ id }}_link_widget">
-                <a href="{{ url }}" target="_blank">{{ url }}</a>
-                <button class="edit" id="{{ id }}_edit" type="button" style="display: none;">
-                    {% trans %}slug_suffix.edit{% endtrans %}
-                </button>
-
-                {% block reset_button %}
-                    <button class="reset" type="button" style="display: none;">
-                        {% trans %}slug_suffix.reset{% endtrans %}
+        <div class="input_value">
+            <div class="slug_suffix{% if not slug %} changed{% endif %}"
+                 data-default-url="{{ url }}"
+                 data-parent-select="{{ parent_select_selector }}"
+                 data-parent-option-data-slug="{{ parent_option_data_slug }}"
+                 data-url-prefix="{{ url_prefix }}"
+                 data-url-suffix="{{ url_suffix }}">
+                <div class="link_widget" id="{{ id }}_link_widget">
+                    <a href="{{ url }}" target="_blank">{{ url }}</a>
+                    <button class="edit" id="{{ id }}_edit" type="button" style="display: none;">
+                        {% trans %}slug_suffix.edit{% endtrans %}
                     </button>
-                {% endblock %}
 
-            </div>
-            <div class="form_widget" id="{{ id }}_form_widget">
-                <span class="url_prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
-                {{ form_widget(form, {'hide_description': true, 'attr': {'data-default': data}}) }}
-                <span class="url_suffix">{{ url_suffix }}</span>
-                <button class="update" id="{{ id }}_update" type="button" style="display: none;">
-                    {% trans %}slug_suffix.update{% endtrans %}
-                </button>
+                    {% block reset_button %}
+                        <button class="reset" type="button" style="display: none;">
+                            {% trans %}slug_suffix.reset{% endtrans %}
+                        </button>
+                    {% endblock %}
 
-                {{ block('reset_button') }}
+                </div>
+                <div class="form_widget" id="{{ id }}_form_widget">
+                    <span class="url_prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
+                    {{ form_widget(form, {'hide_description': true, 'attr': {'data-default': data}}) }}
+                    <span class="url_suffix">{{ url_suffix }}</span>
+                    <button class="update" id="{{ id }}_update" type="button" style="display: none;">
+                        {% trans %}slug_suffix.update{% endtrans %}
+                    </button>
 
+                    {{ block('reset_button') }}
+
+                </div>
             </div>
         </div>
-    </div>
-    {{ block('description') }}
-    <script>
-        document.getElementById('{{ id ~ (errors is empty ? '_form_widget' : '_link_widget') }}').style.display = 'none';
-        document.getElementById('{{ id }}_edit').style.display = 'inline';
-        document.getElementById('{{ id }}_update').style.display = 'inline';
-    </script>
+        {{ block('description') }}
+        <script>
+            document.getElementById('{{ id ~ (errors is empty ? '_form_widget' : '_link_widget') }}').style.display = 'none';
+            document.getElementById('{{ id }}_edit').style.display = 'inline';
+            document.getElementById('{{ id }}_update').style.display = 'inline';
+        </script>
+    {% endif %}
 {%- endblock darvin_admin_slug_suffix_widget -%}
 
 {%- block darvin_admin_translatable_widget -%}

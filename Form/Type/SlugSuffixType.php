@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Form\FormException;
+use Darvin\Utils\Homepage\HomepageRouterInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
@@ -25,6 +26,11 @@ use Symfony\Component\Routing\RouterInterface;
 class SlugSuffixType extends AbstractType
 {
     /**
+     * @var \Darvin\Utils\Homepage\HomepageRouterInterface
+     */
+    private $homepageRouter;
+
+    /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
     private $propertyAccessor;
@@ -35,11 +41,16 @@ class SlugSuffixType extends AbstractType
     private $router;
 
     /**
+     * @param \Darvin\Utils\Homepage\HomepageRouterInterface              $homepageRouter   Homepage router
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
      * @param \Symfony\Component\Routing\RouterInterface                  $router           Router
      */
-    public function __construct(PropertyAccessorInterface $propertyAccessor, RouterInterface $router)
-    {
+    public function __construct(
+        HomepageRouterInterface $homepageRouter,
+        PropertyAccessorInterface $propertyAccessor,
+        RouterInterface $router
+    ) {
+        $this->homepageRouter = $homepageRouter;
         $this->propertyAccessor = $propertyAccessor;
         $this->router = $router;
     }
@@ -49,22 +60,31 @@ class SlugSuffixType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
-        $route = $this->router->getRouteCollection()->get($options['route']);
+        $isHomepage = $this->homepageRouter->isHomepage($form->getParent()->getData());
 
-        if (empty($route)) {
-            throw new FormException(
-                sprintf('Unable to finish slug suffix form view: route "%s" does not exist.', $options['route'])
-            );
+        $routePath = $slug = $slugPrefix = null;
+
+        if (!$isHomepage) {
+            $route = $this->router->getRouteCollection()->get($options['route']);
+
+            if (empty($route)) {
+                throw new FormException(
+                    sprintf('Unable to finish slug suffix form view: route "%s" does not exist.', $options['route'])
+                );
+            }
+
+            $routePath = $route->getPath();
+
+            $slug = $this->propertyAccessor->getValue($form->getParent()->getData(), $options['slug_property']);
+            $slugSuffix = $form->getData();
+            $slugPrefix = !empty($slug) && !empty($slugSuffix)
+                ? preg_replace(sprintf('/%s$/', $slugSuffix), '', $slug)
+                : null;
         }
 
-        $slug = $this->propertyAccessor->getValue($form->getParent()->getData(), $options['slug_property']);
-        $slugSuffix = $form->getData();
-        $slugPrefix = !empty($slug) && !empty($slugSuffix)
-            ? preg_replace(sprintf('/%s$/', $slugSuffix), '', $slug)
-            : null;
-
         $view->vars = array_merge($view->vars, [
-            'route_path'  => $route->getPath(),
+            'is_homepage' => $isHomepage,
+            'route_path'  => $routePath,
             'slug'        => $slug,
             'slug_prefix' => $slugPrefix,
         ]);

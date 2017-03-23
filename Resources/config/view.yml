@@ -194,7 +194,8 @@ services:
         class:  "%darvin_admin.view.widget.public_link.class%"
         parent: darvin_admin.view.widget.abstract
         calls:
-            - [ setRouter, [ "@router" ] ]
+            - [ setHomepageRouter, [ "@darvin_utils.homepage.router" ] ]
+            - [ setRouter,         [ "@router" ] ]
         tags:
             - { name: darvin_admin.view_widget }
 

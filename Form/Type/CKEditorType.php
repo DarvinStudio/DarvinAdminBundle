@@ -77,6 +77,13 @@ class CKEditorType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
+        if (!isset($view->vars['config']['language'])) {
+            $view->vars['config']['language'] = $this->localeProvider->getCurrentLocale();
+        }
+        if ($options['disable_widgets']) {
+            return;
+        }
+
         $plugins = [
             'lineutils' => [
                 'path'     => $this->pluginsPath.'/lineutils/',
@@ -120,9 +127,6 @@ class CKEditorType extends AbstractType
         if (isset($config['toolbar'])) {
             $config['toolbar'] = array_merge($config['toolbar'], [$extraPlugins]);
         }
-        if (!isset($config['language'])) {
-            $config['language'] = $this->localeProvider->getCurrentLocale();
-        }
 
         $view->vars['config'] = $config;
 
@@ -137,7 +141,10 @@ class CKEditorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('config_name', self::CONFIG_NAME);
+        $resolver->setDefaults([
+            'config_name'     => self::CONFIG_NAME,
+            'disable_widgets' => false,
+        ]);
     }
 
     /**

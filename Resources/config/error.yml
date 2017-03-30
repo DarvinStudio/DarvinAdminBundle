@@ -8,6 +8,7 @@ services:
         class: "%darvin_admin.error.show_error_page_listener.class%"
         arguments:
             - "@security.firewall.map"
+            - "@logger"
             - "@router"
             - "@templating"
             - "@translator"

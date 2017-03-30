@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\EventListener;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +29,11 @@ class ShowErrorPageListener
      * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
      */
     private $firewallMap;
+
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
@@ -66,6 +72,7 @@ class ShowErrorPageListener
 
     /**
      * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap $firewallMap   Firewall map
+     * @param \Psr\Log\LoggerInterface                            $logger        Logger
      * @param \Symfony\Component\Routing\RouterInterface          $router        Router
      * @param \Symfony\Component\Templating\EngineInterface       $templating    Templating
      * @param \Symfony\Component\Translation\TranslatorInterface  $translator    Translator
@@ -76,6 +83,7 @@ class ShowErrorPageListener
      */
     public function __construct(
         FirewallMap $firewallMap,
+        LoggerInterface $logger,
         RouterInterface $router,
         EngineInterface $templating,
         TranslatorInterface $translator,
@@ -85,6 +93,7 @@ class ShowErrorPageListener
         $defaultLocale
     ) {
         $this->firewallMap = $firewallMap;
+        $this->logger = $logger;
         $this->router = $router;
         $this->templating = $templating;
         $this->translator = $translator;
@@ -120,6 +129,8 @@ class ShowErrorPageListener
         if (!$this->templating->exists($template)) {
             return;
         }
+
+        $this->logger->critical($exception->getMessage());
 
         $this->configureContexts($request);
 

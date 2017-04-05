@@ -106,16 +106,16 @@ security:
             pattern:  ^/admin/
             provider: user
             form_login:
-                check_path:                     darvin_admin_security_login_check
-                login_path:                     darvin_admin_security_login
-                default_target_path:            darvin_admin_homepage
-                always_use_default_target_path: true
-                csrf_token_id:                  "%secret%"
-                csrf_token_generator:           security.csrf.token_manager
-                remember_me:                    true
+                check_path:           darvin_admin_security_login_check
+                login_path:           darvin_admin_security_login
+                default_target_path:  darvin_admin_homepage
+                use_referer:          true
+                csrf_token_id:        "%secret%"
+                csrf_token_generator: security.csrf.token_manager
+                remember_me:          true
             remember_me:
                 name:     REMEMBERMEADMIN
-                lifetime: 31536000 # 1 year
+                lifetime: 43200 # 12 hours
                 secret:   "%secret%"
             logout:
                 csrf_token_id: "%secret%"
@@ -131,9 +131,9 @@ security:
                 failure_path: darvin_admin_security_login
                 oauth_user_provider:
                     service: darvin_admin.security.user_provider.oauth
-                default_target_path:            darvin_admin_homepage
-                always_use_default_target_path: true
-                check_path:                     darvin_admin_security_darvin_auth_login_check
+                default_target_path: darvin_admin_homepage
+                use_referer:         true
+                check_path:          darvin_admin_security_darvin_auth_login_check
             switch_user: true
 
     role_hierarchy:

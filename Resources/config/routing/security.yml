@@ -1,5 +1,6 @@
 darvin_admin_security_darvin_auth_login_check:
-    path: /login/darvin-auth/check
+    path:     /login/darvin-auth/check
+    defaults: { _remember_me: on }
 
 darvin_admin_security_login_check:
     path: /login/check

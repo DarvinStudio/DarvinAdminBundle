@@ -11,10 +11,9 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Menu\Item;
-use Liip\ImagineBundle\Command\RemoveCacheCommand;
-use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -39,13 +38,6 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addCKEditorNode())
                 ->append($this->addMenuNode())
                 ->append($this->addSectionsNode())
-                ->arrayNode('cache_clear_command_classes')
-                    ->prototype('scalar')->end()
-                    ->defaultValue([
-                        CacheClearCommand::class,
-                        RemoveCacheCommand::class,
-                    ])
-                ->end()
                 ->scalarNode('custom_logo')->defaultNull()->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('entity_override')->prototype('scalar')->end()->end()
@@ -58,7 +50,21 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('project')->isRequired()
                     ->children()
                         ->scalarNode('title')->cannotBeEmpty()->isRequired()->end()
-                        ->scalarNode('url')->cannotBeEmpty()->isRequired();
+                        ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('cache_clear_commands')
+                    ->prototype('array')
+                        ->children()
+                            ->scalarNode('class')->isRequired()
+                                ->validate()
+                                    ->ifTrue(function ($class) {
+                                        return $class !== Command::class && !in_array(Command::class, class_parents($class));
+                                    })
+                                    ->thenInvalid(sprintf('Cache clear command class %%s must be instance of "%s" or it\'s descendant.', Command::class))
+                                ->end()
+                            ->end()
+                            ->arrayNode('input')->normalizeKeys(false)->prototype('scalar');
 
         return $treeBuilder;
     }

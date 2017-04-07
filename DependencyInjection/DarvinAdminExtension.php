@@ -14,6 +14,8 @@ use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
+use Liip\ImagineBundle\Command\RemoveCacheCommand;
+use Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -130,8 +132,19 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->prependExtensionConfig('darvin_admin', [
-            'sections' => $sections,
-            'menu'     => [
+            'sections'             => $sections,
+            'cache_clear_commands' => [
+                [
+                    'class' => CacheClearCommand::class,
+                    'input' => [
+                        '--no-warmup' => true,
+                    ],
+                ],
+                [
+                    'class' => RemoveCacheCommand::class,
+                ],
+            ],
+            'menu' => [
                 'groups' => [
                     [
                         'name'   => 'modules',

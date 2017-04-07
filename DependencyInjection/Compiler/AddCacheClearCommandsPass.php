@@ -33,9 +33,9 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
             return;
         }
 
-        $cacheClearCommandClasses = $container->getParameter('darvin_admin.cache_clear_command_classes');
+        $cacheClearCommands = $container->getParameter('darvin_admin.cache_clear_commands');
 
-        if (empty($cacheClearCommandClasses)) {
+        if (empty($cacheClearCommands)) {
             return;
         }
 
@@ -43,7 +43,9 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
 
         $definitions = [];
 
-        foreach ($cacheClearCommandClasses as $class) {
+        foreach ($cacheClearCommands as $cacheClearCommand) {
+            $class = $cacheClearCommand['class'];
+
             $definition = new Definition($class);
             $definition
                 ->setPublic(false)
@@ -59,6 +61,7 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
 
             $cachesClearCommandDefinition->addMethodCall('addCacheClearCommand', [
                 new Reference($id),
+                $cacheClearCommand['input'],
             ]);
 
             $definitions[$id] = $definition;

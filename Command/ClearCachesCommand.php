@@ -22,7 +22,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ClearCachesCommand extends Command
 {
     /**
-     * @var \Symfony\Component\Console\Command\Command[]
+     * @var array
      */
     private $cacheClearCommands;
 
@@ -39,10 +39,11 @@ class ClearCachesCommand extends Command
 
     /**
      * @param \Symfony\Component\Console\Command\Command $cacheClearCommand Cache clear command
+     * @param array                                      $input             Input
      */
-    public function addCacheClearCommand(Command $cacheClearCommand)
+    public function addCacheClearCommand(Command $cacheClearCommand, array $input)
     {
-        $this->cacheClearCommands[] = $cacheClearCommand;
+        $this->cacheClearCommands[] = [$cacheClearCommand, $input];
     }
 
     /**
@@ -52,12 +53,11 @@ class ClearCachesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $commandInput = new ArrayInput([]);
-
-        foreach ($this->cacheClearCommands as $command) {
+        /** @var \Symfony\Component\Console\Command\Command $command */
+        foreach ($this->cacheClearCommands as list($command, $input)) {
             $io->comment(sprintf('Running "%s" command...', $command->getName()));
 
-            $result = $command->run($commandInput, $output);
+            $result = $command->run(new ArrayInput($input), $output);
 
             if ($result > 0) {
                 return $result;

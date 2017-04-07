@@ -87,8 +87,10 @@ class BaseType extends AbstractFormType
                     $fieldOptions = array_merge($guess->getOptions(), $fieldOptions);
                 }
             }
+            if ($meta->isAssociation($field)) {
+                $this->addValidConstraint($fieldOptions);
+            }
 
-            $this->addValidConstraint($fieldOptions);
             $builder->add($field, $fieldType, $fieldOptions);
         }
     }

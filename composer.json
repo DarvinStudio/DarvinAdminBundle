@@ -20,7 +20,7 @@
         "ocramius/proxy-manager":             "^1.0",
         "oneup/uploader-bundle":              "^1.7",
         "stof/doctrine-extensions-bundle":    "^1.2",
-        "vich/uploader-bundle":               "^1.4",
+        "vich/uploader-bundle":               "1.4.*",
         "willdurand/js-translation-bundle":   "^2.6",
 
         "darvinstudio/darvin-config-bundle":  "*",

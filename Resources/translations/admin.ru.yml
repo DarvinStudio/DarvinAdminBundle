@@ -32,9 +32,16 @@ common:
 configuration:
     action:
         edit:
+            heading:
+                common:   Настройки модулей
+                security: Права пользователей
             link:    Настройки
             submit:  Сохранить изменения
             success: Настройки успешно сохранены
+            title:   Настройки
+            toggle:
+                collapse: Скрыть
+                expand:   Раскрыть
     darvin_admin:
         parameter:
             image_sizes: Размеры изображений

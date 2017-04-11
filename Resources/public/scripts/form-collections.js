@@ -4,7 +4,7 @@ $(document).ready(function () {
         'delete': '<button class="collection_delete" type="button">' + Translator.trans('form_collections.delete') + '</button>'
     };
 
-    var $collections = $('form .collection:not([data-autoinit="0"])');
+    var $collections = $('form .collection[data-prototype]:not([data-autoinit="0"])');
 
     $collections.each(function () {
         var $collection = $(this);
@@ -44,6 +44,6 @@ $(document).ready(function () {
             $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {
-            $(this).parents('.table_row:first').remove();
+            $(this).closest('div').remove();
         });
 });

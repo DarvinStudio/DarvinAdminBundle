@@ -27,9 +27,16 @@ common:
 configuration:
     action:
         edit:
+            heading:
+                common: 'وحدات التكوين'
+                security: 'أذونات المستخدم'
             link: التكوين
             submit: 'إرسال التغييرات'
             success: 'التكوين بنجاح تحديث'
+            title: 'التكوين'
+            toggle:
+                collapse: 'انهيار'
+                expand: 'توسيع'
     darvin_admin:
         parameter:
             image_sizes: 'أحجام الصور'

@@ -27,9 +27,16 @@ common:
 configuration:
     action:
         edit:
+            heading:
+                common: 模块结构
+                security: 用户的权限
             link: 配置
             submit: 提出的变化
             success: 构成功地更新
+            title: 配置
+            toggle:
+                collapse: 崩溃
+                expand: 扩大
     darvin_admin:
         parameter:
             image_sizes: 图像大小

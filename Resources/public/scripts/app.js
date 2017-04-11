@@ -157,3 +157,51 @@ $(function() {
 });
 
 /**************************************************************/
+(function () {
+    var selector = '.btn_toggle[data-cookie][data-id][data-text-open][data-text-close]';
+
+    var toggle = function ($toggle, $item) {
+        $toggle.parent().next().slideToggle(100);
+        $toggle.toggleClass('is-open');
+        $item.toggleClass('is-open');
+
+        if ($item.hasClass('is-open')) {
+            $toggle.text($toggle.attr('data-text-open'));
+
+            return;
+        }
+
+        $toggle.text($toggle.attr('data-text-close'));
+    };
+
+    $('.main_options_item_container ' + selector).click(function () {
+        var $toggle = $(this);
+        var $item = $toggle.closest('.main_options_item');
+
+        toggle($toggle, $item);
+
+        var cookie = $.cookie($toggle.data('cookie'));
+        var expanded = 'undefined' !== typeof cookie ? cookie.split(',') : [];
+
+        if ($item.hasClass('is-open')) {
+            if (-1 === expanded.indexOf($toggle.data('id'))) {
+                expanded.push($toggle.data('id'));
+            }
+        } else {
+            expanded.splice(expanded.indexOf($toggle.data('id')), 1);
+
+            $item.find(selector + '[data-id!="' + $toggle.data('id') + '"].is-open').each(function () {
+                var $toggle = $(this);
+
+                toggle($toggle, $toggle.closest('.main_options_item'));
+
+                expanded.splice(expanded.indexOf($toggle.data('id')), 1);
+            });
+        }
+
+        $.cookie($toggle.data('cookie'), expanded.join(','), {
+            path: '/'
+        });
+    })
+})();
+/**************************************************************/

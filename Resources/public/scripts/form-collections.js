@@ -4,7 +4,7 @@ $(document).ready(function () {
         'delete': '<button class="collection_delete" type="button">' + Translator.trans('form_collections.delete') + '</button>'
     };
 
-    var $collections = $('form .collection:not([data-autoinit="0"])');
+    var $collections = $('form .collection[data-prototype]:not([data-autoinit="0"])');
 
     $collections.each(function () {
         var $collection = $(this);

@@ -33,6 +33,7 @@ parameters:
           - bundles/darvinadmin/scripts/batch-delete.js
           - bundles/darvinadmin/scripts/chosen-init.js
           - bundles/darvinadmin/scripts/colorbox-init.js
+          - bundles/darvinadmin/scripts/configuration.js
           - bundles/darvinadmin/scripts/counter-init.js
           - bundles/darvinadmin/scripts/date-time-pickers-init.js
           - bundles/darvinadmin/scripts/dropzone-init.js

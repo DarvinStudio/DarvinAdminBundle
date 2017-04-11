@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Configuration;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
+use Darvin\ConfigBundle\Configuration\ConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
@@ -50,7 +51,16 @@ class ConfigurationsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        foreach ($this->configurationPool->getAllConfigurations() as $configuration) {
+        $configurations = $this->configurationPool->getAllConfigurations();
+
+        uasort($configurations, function (ConfigurationInterface $a, ConfigurationInterface $b) {
+            $aIsSecurityConfig = $a instanceof SecurityConfigurationInterface;
+            $bIsSecurityConfig = $b instanceof SecurityConfigurationInterface;
+
+            return $aIsSecurityConfig && $bIsSecurityConfig ? 0 : ($aIsSecurityConfig ? 1 : -1);
+        });
+
+        foreach ($configurations as $configuration) {
             if ($configuration instanceof SecurableInterface
                 && !$this->accessibilityChecker->isAccessible($configuration)
             ) {

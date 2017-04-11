@@ -1,13 +1,191 @@
 {% extends 'DarvinAdminBundle::layout.html.twig' %}
 
+{% import _self as darvin_admin_configuration_edit %}
+
 {% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
+{% form_theme form _self %}
 
 {% trans_default_domain 'admin' %}
 
+{% macro form_row_heading(row) %}
+
+    {% set expanded_cookie = 'DARVINADMINCONFIGURATIONEXPANDED' %}
+    {% set expanded        = row.vars.id in app.request.cookies.get(expanded_cookie)|split(',') %}
+
+    <div class="heading">
+        <div class="name">{{ form_label(row) }}</div>
+        <div class="btn_toggle{% if expanded %} is-open{% endif %}"
+             data-text-open="{% trans %}configuration.action.edit.toggle.collapse{% endtrans %}"
+             data-text-close="{% trans %}configuration.action.edit.toggle.expand{% endtrans %}"
+             data-cookie="{{ expanded_cookie }}"
+             data-id="{{ row.vars.id }}">{{ ('configuration.action.edit.toggle.' ~ (expanded ? 'collapse' : 'expand'))|trans }}</div>
+    </div>
+{% endmacro %}
+
+{% macro form_row(row) %}
+
+    {% import 'DarvinAdminBundle:Configuration:edit.html.twig' as darvin_admin_configuration_edit %}
+
+    {% set expanded = row.vars.id in app.request.cookies.get('DARVINADMINCONFIGURATIONEXPANDED')|split(',') %}
+
+    <div class="main_options_item_container">
+        <div class="main_options_item{% if expanded %} is-open{% endif %}">
+            {{ darvin_admin_configuration_edit.form_row_heading(row) }}
+            <div class="content"{% if expanded %} style="display: block;"{% endif %}>
+                {% if row.children is not empty %}
+                    {% for child in row.children if
+                        child.vars.compound
+                        and 'hidden' != child.vars.block_prefixes[1]|default
+                        and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
+                    %}
+                        {{ darvin_admin_configuration_edit.form_row(child) }}
+                    {% endfor %}
+                {% endif %}
+                {% if not row.rendered %}
+                    <div class="content_type-table">
+                        {% for child in row %}
+                            {% if 'hidden' == child.vars.block_prefixes[1]|default %}
+                                {{ form_widget(child) }}
+                            {% else %}
+                                <div class="item">
+                                    {% if not child.vars.compound or ('collection' == child.vars.block_prefixes[1]|default and child.vars.allow_add) %}
+                                        <div class="name">{{ form_label(child) }}</div>
+                                    {% endif %}
+                                    <div class="val">
+                                        {{ form_widget(child, {'attr': {
+                                            'class':             child.vars.block_prefixes[1]|default,
+                                            'data-allow-add':    child.vars.allow_add|default,
+                                            'data-allow-delete': child.vars.allow_delete|default,
+                                        }}) }}
+                                    </div>
+                                    {{ form_errors(child) }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% set is_ckeditor = 'ckeditor' == block_prefixes[3]|default %}
+        {% if not is_ckeditor %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
+        {% endif %}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        {%- if 'collection' == form.parent.vars.block_prefixes[1]|default and form.parent.vars.allow_add -%}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+        {%- endif -%}
+        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if not is_ckeditor %}:{% endif %}
+        {%- if 'collection' == form.parent.vars.block_prefixes[1]|default and form.parent.vars.allow_add -%}
+            </label>
+        {%- endif -%}
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{% block breadcrumbs %}
+    {% include 'DarvinAdminBundle::breadcrumbs.html.twig' with {'crumbs': [
+        {
+            'title': 'homepage.action.homepage.link',
+            'url':   path('darvin_admin_homepage'),
+        },
+        {
+            'title': 'configuration.action.edit.link',
+        },
+    ]} %}
+{% endblock %}
+
+{% block heading %}{% trans %}configuration.action.edit.title{% endtrans %}{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit" class="submit_edit">{% trans %}configuration.action.edit.submit{% endtrans %}</button>
+
+    {% block submit %}
+        <div class="post_item_btn">
+            <button type="submit" class="submit_edit">{% trans %}configuration.action.edit.submit{% endtrans %}</button>
+        </div>
+    {% endblock %}
+
+    <div class="main_options_container">
+        <div class="main_options_block">
+
+            {% set first_common_config   = true %}
+            {% set first_security_config = true %}
+
+            {% for row in form if 'hidden' != row.vars.block_prefixes[1]|default %}
+                {% if not darvin_admin_is_security_configuration_form(row) %}
+                    {% if first_common_config %}
+                        <p class="heading">{% trans %}configuration.action.edit.heading.common{% endtrans %}</p>
+
+                        {% set first_common_config = false %}
+
+                    {% endif %}
+                    {{ darvin_admin_configuration_edit.form_row(row) }}
+                {% else %}
+                    {% if first_security_config %}
+                        </div><div class="main_options_block">
+                        <p class="heading">{% trans %}configuration.action.edit.heading.security{% endtrans %}</p>
+
+                        {% set first_security_config = false %}
+
+                    {% endif %}
+
+                    {% set row = row.permissions.children[row.permissions.children|keys[0]] %}
+
+                    <div class="main_options_item_container">
+                        <div class="main_options_item">
+                            {{ darvin_admin_configuration_edit.form_row_heading(row) }}
+                            <div class="content">
+                                <div class="content_type-list">
+                                    {% for user in row.userPermissionsSet.children %}
+                                        <div class="item">
+                                            <div class="value">
+                                                <input type="text" value="{{ form_label(user) }}">
+                                            </div>
+                                            <div class="btn_container permissions">
+                                                {% for permission in user.permissions %}
+                                                    <button type="button"
+                                                            class="permission {{ permission.vars.data ? 'btn_default' : 'btn_show_view' }}"
+                                                            data-checkbox="{{ permission.vars.id }}"
+                                                            data-class-checked="btn_default"
+                                                            data-class-unchecked="btn_show_view">
+                                                        {{ form_label(permission) }}
+                                                    </button>
+                                                    {{ form_widget(permission) }}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {{ block('submit') }}
+
     {{ form_end(form) }}
 {% endblock %}
 

@@ -2,8 +2,11 @@
 
 <div class="path">
     {% for crumb in crumbs %}
-        {% if crumb.url and crumb.url != app.request.requestUri %}
-            <a href="{{ crumb.url }}">{{ crumb.title|trans }}</a>
+
+        {% set url = crumb.url|default %}
+
+        {% if url and url != app.request.requestUri %}
+            <a href="{{ url }}">{{ crumb.title|trans }}</a>
         {% else %}
             <span>{{ crumb.title|trans }}</span>
         {% endif %}

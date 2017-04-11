@@ -32,9 +32,16 @@ common:
 configuration:
     action:
         edit:
+            heading:
+                common:   Module configuration
+                security: User permissions
             link:    Configuration
             submit:  Submit changes
             success: Configuration successfully updated
+            title:   Configuration
+            toggle:
+                collapse: Collapse
+                expand:   Expand
     darvin_admin:
         parameter:
             image_sizes: Image sizes

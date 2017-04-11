@@ -27,9 +27,16 @@ common:
 configuration:
     action:
         edit:
+            heading:
+                common: Les Modules de configuration
+                security: 'Les autorisations de l''utilisateur'
             link: Configuration
             submit: 'Soumettre les modifications'
             success: 'Configuration de la mise à jour avec succès'
+            title: Configuration
+            toggle:
+                collapse: 'Réduire'
+                expand: 'Développez'
     darvin_admin:
         parameter:
             image_sizes: 'Les tailles d''Image'

@@ -33,7 +33,7 @@ configuration:
     action:
         edit:
             heading:
-                common:   Module configuration
+                common:   Modules configuration
                 security: User permissions
             link:    Configuration
             submit:  Submit changes

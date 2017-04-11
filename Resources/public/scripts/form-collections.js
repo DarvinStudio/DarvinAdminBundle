@@ -44,6 +44,6 @@ $(document).ready(function () {
             $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {
-            $(this).parents('.table_row:first').remove();
+            $(this).closest('div').remove();
         });
 });

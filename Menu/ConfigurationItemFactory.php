@@ -56,7 +56,8 @@ class ConfigurationItemFactory implements ItemFactoryInterface
             ->setMainColor('#5a4fb6')
             ->setSidebarColor('#9482ee')
             ->setMainIcon('bundles/darvinadmin/images/admin/configuration_main.png')
-            ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png');
+            ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png')
+            ->setPosition(1000);
 
         return [
             $item,

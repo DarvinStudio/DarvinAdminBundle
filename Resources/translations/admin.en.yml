@@ -184,9 +184,6 @@ menu:
     group:
         modules:
             title: Modules
-        pages:
-            description: Structure and main sections. <br>Editing and creating.
-            title:       Structural sections
 
 pagination:
     show_all: Show all

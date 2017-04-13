@@ -155,9 +155,6 @@ menu:
     group:
         modules:
             title: وحدات
-        pages:
-            description: 'هيكل أقسام رئيسية. <br>تحرير وإنشاء.'
-            title: 'هيكلية أقسام'
 pagination:
     show_all: 'عرض كل'
 property_forms:

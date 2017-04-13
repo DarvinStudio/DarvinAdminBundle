@@ -234,6 +234,18 @@ class Metadata
     }
 
     /**
+     * @param array $configuration configuration
+     *
+     * @return Metadata
+     */
+    public function setConfiguration(array $configuration)
+    {
+        $this->configuration = $configuration;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getConfiguration()

@@ -10,8 +10,11 @@
 
 namespace Darvin\AdminBundle\Metadata;
 
+use Darvin\AdminBundle\Event\Metadata\MetadataEvent;
+use Darvin\AdminBundle\Event\Metadata\MetadataEvents;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Metadata manager
@@ -24,6 +27,11 @@ class MetadataManager
      * @var \Doctrine\Common\Cache\Cache
      */
     private $cache;
+
+    /**
+     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataPool
@@ -56,14 +64,21 @@ class MetadataManager
     private $metadata;
 
     /**
-     * @param \Doctrine\Common\Cache\Cache              $cache          Cache
-     * @param \Darvin\AdminBundle\Metadata\MetadataPool $metadataPool   Metadata pool
-     * @param bool                                      $cacheDisabled  Is cache disabled
-     * @param array                                     $entityOverride Entity override configuration
+     * @param \Doctrine\Common\Cache\Cache                                $cache           Cache
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher Event dispatcher
+     * @param \Darvin\AdminBundle\Metadata\MetadataPool                   $metadataPool    Metadata pool
+     * @param bool                                                        $cacheDisabled   Is cache disabled
+     * @param array                                                       $entityOverride  Entity override configuration
      */
-    public function __construct(Cache $cache, MetadataPool $metadataPool, $cacheDisabled, array $entityOverride)
-    {
+    public function __construct(
+        Cache $cache,
+        EventDispatcherInterface $eventDispatcher,
+        MetadataPool $metadataPool,
+        $cacheDisabled,
+        array $entityOverride
+    ) {
         $this->cache = $cache;
+        $this->eventDispatcher = $eventDispatcher;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
         $this->entityOverride = $entityOverride;
@@ -155,6 +170,10 @@ class MetadataManager
         }
 
         $this->buildTree(array_keys($this->metadata));
+
+        foreach ($this->metadata as $meta) {
+            $this->eventDispatcher->dispatch(MetadataEvents::LOADED, new MetadataEvent($meta));
+        }
 
         $this->initialized = true;
     }

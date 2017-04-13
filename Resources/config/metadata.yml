@@ -55,6 +55,7 @@ services:
         class: "%darvin_admin.metadata.manager.class%"
         arguments:
             - "@darvin_admin.cache.filesystem"
+            - "@event_dispatcher"
             - "@darvin_admin.metadata.pool"
             - "%darvin_admin.debug%"
             - "%darvin_admin.entity_override%"

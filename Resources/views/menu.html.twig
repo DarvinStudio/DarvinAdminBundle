@@ -26,7 +26,9 @@
                 {% if item.sidebarIcon %}
                     <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
                 {% endif %}
-                <a href="{{ item.indexUrl }}">{{ item.indexTitle|trans }}</a>
+                <a href="{{ item.indexUrl }}"{% if item.children is empty and item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
+                    {{ item.indexTitle|trans }}
+                </a>
                 {% if item.associatedObject
                     and utils_new_objects_countable(item.associatedObject)
                     and utils_count_new_objects(item.associatedObject)

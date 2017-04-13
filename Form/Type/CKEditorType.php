@@ -80,7 +80,7 @@ class CKEditorType extends AbstractType
         if (!isset($view->vars['config']['language'])) {
             $view->vars['config']['language'] = $this->localeProvider->getCurrentLocale();
         }
-        if ($options['disable_widgets']) {
+        if (!$options['enable_widgets']) {
             return;
         }
 
@@ -141,10 +141,13 @@ class CKEditorType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'config_name'     => self::CONFIG_NAME,
-            'disable_widgets' => false,
-        ]);
+        $resolver
+            ->setDefaults([
+                'config_name'    => self::CONFIG_NAME,
+                'enable_widgets' => false,
+            ])
+            ->setAllowedTypes('config_name', 'string')
+            ->setAllowedTypes('enable_widgets', 'boolean');
     }
 
     /**

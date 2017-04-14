@@ -89,6 +89,11 @@ class Item
     protected $children;
 
     /**
+     * @var int
+     */
+    protected $newObjectCount;
+
+    /**
      * @param string $name Name
      */
     public function __construct($name)
@@ -97,6 +102,7 @@ class Item
         $this->mainIcon = self::DEFAULT_MAIN_ICON;
         $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
         $this->children = [];
+        $this->newObjectCount = 0;
     }
 
     /**
@@ -373,5 +379,25 @@ class Item
     public function getChildren()
     {
         return $this->children;
+    }
+
+    /**
+     * @param int $newObjectCount newObjectCount
+     *
+     * @return Item
+     */
+    public function setNewObjectCount($newObjectCount)
+    {
+        $this->newObjectCount = $newObjectCount;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNewObjectCount()
+    {
+        return $this->newObjectCount;
     }
 }

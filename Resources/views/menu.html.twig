@@ -1,10 +1,10 @@
 {% trans_default_domain 'admin' %}
 
-{% import _self as menu %}
+{% import _self as darvin_admin_menu %}
 
 {% macro render(items) %}
 
-    {% import _self as menu %}
+    {% import _self as darvin_admin_menu %}
 
     <ul>
         {% for item in items %}
@@ -29,15 +29,14 @@
                 <a href="{{ item.indexUrl }}"{% if item.children is empty and item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
                     {{ item.indexTitle|trans }}
                 </a>
-                {% if item.associatedObject
-                    and utils_new_objects_countable(item.associatedObject)
-                    and utils_count_new_objects(item.associatedObject)
-                %}
-                    <a href="{{ item.indexUrl }}" class="count">{{ utils_count_new_objects(item.associatedObject) }}</a>
+                {% if item.newObjectCount
+                    or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject)
+                ) %}
+                    <a href="{{ item.indexUrl }}" class="count">{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</a>
                 {% endif %}
                 {% if item.children is not empty %}
 
-                    {{ menu.render(item.children) }}
+                    {{ darvin_admin_menu.render(item.children) }}
 
                 {% endif %}
             </li>
@@ -48,7 +47,7 @@
 {% if items is not empty %}
     <div class="left_menu">
 
-        {{ menu.render(items) }}
+        {{ darvin_admin_menu.render(items) }}
 
     </div>
 {% endif %}

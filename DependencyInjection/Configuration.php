@@ -112,6 +112,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
                             ->integerNode('position')->defaultNull()->end()
+                            ->scalarNode('associated_object')->defaultNull()->end()
                             ->arrayNode('colors')->addDefaultsIfNotSet()
                                 ->children()
                                     ->scalarNode('main')->defaultNull()->end()

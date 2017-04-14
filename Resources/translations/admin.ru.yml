@@ -46,8 +46,6 @@ configuration:
         parameter:
             image_sizes: Размеры изображений
         title: Настройки модуля «Панель администрирования»
-    menu:
-        description: Настройка и общие параметры скрипта, изменение количества записей на странице.
 
 crud:
     action:
@@ -184,9 +182,6 @@ menu:
     group:
         modules:
             title: Модули
-        pages:
-            description: Структура и основные разделы.<br>Редактирование и добавление.
-            title:       Структурные разделы
 
 pagination:
     show_all: Показать все

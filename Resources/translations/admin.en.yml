@@ -46,8 +46,6 @@ configuration:
         parameter:
             image_sizes: Image sizes
         title: The "Administration panel" module configuration
-    menu:
-        description: Script configuration and common settings, per page items count managing.
 
 crud:
     action:
@@ -184,9 +182,6 @@ menu:
     group:
         modules:
             title: Modules
-        pages:
-            description: Structure and main sections. <br>Editing and creating.
-            title:       Structural sections
 
 pagination:
     show_all: Show all

@@ -41,8 +41,6 @@ configuration:
         parameter:
             image_sizes: 'Les tailles d''Image'
         title: 'Le "panneau d''Administration" configuration du module'
-    menu:
-        description: 'Le Script de configuration et paramètres communs, par des éléments de page, comte de gestion.'
 crud:
     action:
         batch_delete:
@@ -155,9 +153,6 @@ menu:
     group:
         modules:
             title: 'Les Modules de'
-        pages:
-            description: 'La Structure et les sections principales. <br>L''édition et la création.'
-            title: 'Sections structurales'
 pagination:
     show_all: 'Afficher tous les'
 property_forms:

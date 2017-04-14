@@ -162,7 +162,8 @@ class Menu
             ->setMainColor($config['colors']['main'])
             ->setSidebarColor($config['colors']['sidebar'])
             ->setMainIcon($config['icons']['main'])
-            ->setSidebarIcon($config['icons']['sidebar']);
+            ->setSidebarIcon($config['icons']['sidebar'])
+            ->setAssociatedObject($config['associated_object']);
     }
 
     /**

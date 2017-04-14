@@ -40,7 +40,6 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addSectionsNode())
                 ->scalarNode('custom_logo')->defaultNull()->end()
                 ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
-                ->arrayNode('entity_override')->prototype('scalar')->end()->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->end()
@@ -70,7 +69,42 @@ class Configuration implements ConfigurationInterface
                                     ->thenInvalid(sprintf('Cache clear command class %%s must be instance of "%s" or it\'s descendant.', Command::class))
                                 ->end()
                             ->end()
-                            ->arrayNode('input')->normalizeKeys(false)->prototype('scalar');
+                            ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
+                        ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('entity_override')
+                    ->prototype('scalar')
+                        ->validate()
+                            ->ifTrue(function ($replacement) {
+                                return !class_exists($replacement);
+                            })
+                            ->thenInvalid('Replacement entity class %s does not exist.')
+                        ->end()
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function (array $entityOverride) {
+                            foreach ($entityOverride as $target => $replacement) {
+                                if (!class_exists($target)) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        })
+                        ->thenInvalid('Target entity class does not exist (%s).')
+                    ->end()
+                    ->validate()
+                        ->ifTrue(function (array $entityOverride) {
+                            foreach ($entityOverride as $target => $replacement) {
+                                if (!in_array($target, class_parents($replacement))) {
+                                    return true;
+                                }
+                            }
+
+                            return false;
+                        })
+                        ->thenInvalid('Replacement entity class must be descendant of target entity class (%s).');
 
         return $treeBuilder;
     }

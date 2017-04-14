@@ -30,8 +30,8 @@
                     {{ item.indexTitle|trans }}
                 </a>
                 {% if item.newObjectCount
-                    or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject)
-                ) %}
+                    or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject))
+                %}
                     <a href="{{ item.indexUrl }}" class="count">{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</a>
                 {% endif %}
                 {% if item.children is not empty %}

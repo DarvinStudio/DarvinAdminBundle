@@ -59,6 +59,12 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('class')->isRequired()
                                 ->validate()
                                     ->ifTrue(function ($class) {
+                                        return !class_exists($class);
+                                    })
+                                    ->thenInvalid('Cache clear command class %s does not exist.')
+                                ->end()
+                                ->validate()
+                                    ->ifTrue(function ($class) {
                                         return $class !== Command::class && !in_array(Command::class, class_parents($class));
                                     })
                                     ->thenInvalid(sprintf('Cache clear command class %%s must be instance of "%s" or it\'s descendant.', Command::class))

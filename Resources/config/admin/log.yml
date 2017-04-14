@@ -1,9 +1,5 @@
 menu:
-    colors:
-        main: "#8ea500"
-    icons:
-        main:    bundles/darvinadmin/images/admin/log_main.png
-        sidebar: bundles/darvinadmin/images/admin/log_sidebar.png
+    group: modules
 route_blacklist:
     - batch-delete
     - copy

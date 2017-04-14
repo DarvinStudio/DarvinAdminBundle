@@ -1,3 +1,5 @@
+menu:
+    group: modules
 route_blacklist:
     - batch-delete
     - copy

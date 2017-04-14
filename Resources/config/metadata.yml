@@ -26,6 +26,7 @@ services:
         class:  "%darvin_admin.metadata.configuration.loader.class%"
         public: false
         arguments:
+            - "@logger"
             - "@=service('service_container').getParameterBag()"
             - "%kernel.bundles%"
             - "%kernel.root_dir%"

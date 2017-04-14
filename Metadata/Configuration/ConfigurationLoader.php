@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -21,6 +22,11 @@ use Symfony\Component\Yaml\Yaml;
  */
 class ConfigurationLoader
 {
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
     /**
      * @var \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface
      */
@@ -37,12 +43,14 @@ class ConfigurationLoader
     private $rootDir;
 
     /**
+     * @param \Psr\Log\LoggerInterface                                                  $logger       Logger
      * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag Parameter bag
      * @param array                                                                     $bundles      List of bundles
      * @param string                                                                    $rootDir      Root directory
      */
-    public function __construct(ParameterBagInterface $parameterBag, array $bundles, $rootDir)
+    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, array $bundles, $rootDir)
     {
+        $this->logger = $logger;
         $this->parameterBag = $parameterBag;
         $this->bundles = $bundles;
         $this->rootDir = $rootDir;
@@ -140,7 +148,9 @@ class ConfigurationLoader
                 $name = preg_replace('/^override~/', '', $name);
 
                 if (!array_key_exists($name, $first)) {
-                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for overriding.', $name));
+                    $this->logger->warning(sprintf('Unable to find parameter "%s" for overriding.', $name));
+
+                    continue;
                 }
                 if (!is_array($first[$name])) {
                     throw new ConfigurationException(
@@ -156,7 +166,9 @@ class ConfigurationLoader
                 $name = preg_replace('/^remove~/', '', $name);
 
                 if (!array_key_exists($name, $first)) {
-                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for removal.', $name));
+                    $this->logger->warning(sprintf('Unable to find parameter "%s" for removal.', $name));
+
+                    continue;
                 }
 
                 unset($first[$name]);
@@ -170,7 +182,11 @@ class ConfigurationLoader
                 list(, $position, $target, $name) = $matches;
 
                 if (!array_key_exists($target, $first)) {
-                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" to place %s it.', $target, $position));
+                    $this->logger->warning(sprintf('Unable to find parameter "%s" to place %s it.', $target, $position));
+
+                    $first[$name] = $value;
+
+                    continue;
                 }
 
                 $replacement = [];

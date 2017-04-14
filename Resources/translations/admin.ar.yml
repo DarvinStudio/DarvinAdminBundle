@@ -41,8 +41,6 @@ configuration:
         parameter:
             image_sizes: 'أحجام الصور'
         title: '"إدارة الفريق" وحدة التكوين'
-    menu:
-        description: 'سيناريو تكوين الإعدادات الشائعة في عناصر الصفحة العد إدارة.'
 crud:
     action:
         batch_delete:

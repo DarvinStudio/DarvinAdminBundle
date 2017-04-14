@@ -41,8 +41,6 @@ configuration:
         parameter:
             image_sizes: 图像大小
         title: '"管理小组"模块结构'
-    menu:
-        description: 剧本配置和共同的设置，每页的项目数的管理。
 crud:
     action:
         batch_delete:

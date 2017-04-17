@@ -87,7 +87,15 @@
                         {% for row in view.body.rows %}
                             <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
                                 {% for name, item in row.items %}
-                                    <td>
+
+                                    {% set classes = [name] %}
+
+                                    {% if meta.mappings[name] is defined and meta.mappings[name].targetEntity is not defined %}
+
+                                        {% set classes = classes|merge([meta.mappings[name].type]) %}
+
+                                    {% endif %}
+                                    <td class="{{ classes|join(' ') }}">
                                         {% if 'action_widgets' == name %}
                                             <div class="edit_elements">
                                                 {{ item.content|raw }}

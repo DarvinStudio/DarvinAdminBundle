@@ -88,6 +88,29 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
+        if ($container->hasExtension('doctrine')) {
+            $resolveTargetEntities = [];
+
+            foreach ($container->getExtensionConfig('darvin_admin') as $config) {
+                if (!isset($config['entity_override'])) {
+                    continue;
+                }
+                foreach ($config['entity_override'] as $target => $replacement) {
+                    foreach (class_implements($target) as $interface) {
+                        if ($interface === $target.'Interface') {
+                            $resolveTargetEntities[$interface] = $replacement;
+                        }
+                    }
+                }
+            }
+
+            $container->prependExtensionConfig('doctrine', [
+                'orm' => [
+                    'resolve_target_entities' => $resolveTargetEntities,
+                ],
+            ]);
+        }
+
         $fileLocator = new FileLocator(__DIR__.'/../Resources/config/app');
 
         foreach ([

@@ -96,14 +96,24 @@ class ChildLinksWidget extends AbstractWidget
 
         $parentMeta = $this->metadataManager->getMetadata($entity);
 
-        if (!$parentMeta->hasChild($childClass)) {
-            throw new WidgetException(
-                sprintf('Entity "%s" is not child of entity "%s".', $childClass, $parentMeta->getEntityClass())
-            );
-        }
+        if ($parentMeta->hasChild($childClass)) {
+            $childMeta = $parentMeta->getChild($childClass);
+            $association = $childMeta->getAssociation();
+            $associationParam = $childMeta->getAssociationParameterName();
+            $childMeta = $childMeta->getMetadata();
+        } else {
+            $childMeta = $this->metadataManager->getMetadata($childClass);
+            $mappings = $parentMeta->getMappings();
 
-        $childMeta = $parentMeta->getChild($childClass);
-        $association = $childMeta->getAssociation();
+            if (!isset($mappings[$property]['mappedBy'])) {
+                throw new WidgetException(
+                    sprintf('Entity "%s" is not child of entity "%s".', $childClass, $parentMeta->getEntityClass())
+                );
+            }
+
+            $association = $mappings[$property]['mappedBy'];
+            $associationParam = sprintf('%s[%s]', $childMeta->getFilterFormTypeName(), $association);
+        }
 
         $parentId = $this->identifierAccessor->getValue($entity);
 
@@ -115,13 +125,13 @@ class ChildLinksWidget extends AbstractWidget
             ->getSingleScalarResult();
 
         return $this->render($options, [
-            'association_param'  => $childMeta->getAssociationParameterName(),
+            'association_param'  => $associationParam,
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
             'index_link'         => $indexLink,
             'new_link'           => $newLink,
             'parent_id'          => $parentId,
-            'translation_prefix' => $childMeta->getMetadata()->getBaseTranslationPrefix(),
+            'translation_prefix' => $childMeta->getBaseTranslationPrefix(),
         ]);
     }
 

@@ -88,11 +88,11 @@
                             <tr{% for name, value in row.attr %} {{ name }}="{{ value }}"{% endfor %}>
                                 {% for name, item in row.items %}
 
-                                    {% set classes = [name] %}
+                                    {% set classes = ['name_' ~ name] %}
 
                                     {% if meta.mappings[name] is defined and meta.mappings[name].targetEntity is not defined %}
 
-                                        {% set classes = classes|merge([meta.mappings[name].type]) %}
+                                        {% set classes = classes|merge(['type_' ~ meta.mappings[name].type]) %}
 
                                     {% endif %}
                                     <td class="{{ classes|join(' ') }}">

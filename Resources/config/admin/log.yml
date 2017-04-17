@@ -1,5 +1,7 @@
 menu:
     group: modules
+    icons:
+        main: bundles/darvinadmin/images/admin/log_main.png
 route_blacklist:
     - batch-delete
     - copy

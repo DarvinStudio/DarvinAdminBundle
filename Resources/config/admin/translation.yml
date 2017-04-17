@@ -1,6 +1,8 @@
 menu:
     group:    modules
     position: 10
+    icons:
+        main: bundles/darvinadmin/images/admin/translation_main.png
 route_blacklist:
     - batch-delete
     - copy

@@ -127,11 +127,50 @@ class ConfigurationLoader
 
         $merged = [];
 
-        foreach (array_reverse($hierarchy) as $config) {
+        foreach (array_reverse($hierarchy) as $key => $config) {
+            if (0 === $key) {
+                $config = $this->mergeConfigParams($config);
+            }
+
             $merged = $this->mergeConfigs($merged, $config);
         }
 
         return [$merged];
+    }
+
+    /**
+     * @param array $config Config
+     *
+     * @return array
+     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     */
+    private function mergeConfigParams(array $config)
+    {
+        foreach ($config as $name => $value) {
+            preg_match('/^extends~(.*)~(.*)$/', $name, $matches);
+
+            if (3 === count($matches)) {
+                if (!isset($config[$matches[1]])) {
+                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for extending.', $matches[1]));
+                }
+                if (!is_array($config[$matches[1]])) {
+                    throw new ConfigurationException(
+                        sprintf('Unable to extend parameter "%s": only array parameters can be extended.', $matches[1])
+                    );
+                }
+
+                $config[$matches[2]] = $this->mergeConfigs($config[$matches[1]], $value);
+
+                unset($config[$name]);
+
+                continue;
+            }
+            if (is_array($value)) {
+                $config[$name] = $this->mergeConfigParams($value);
+            }
+        }
+
+        return $config;
     }
 
     /**

@@ -147,7 +147,7 @@ class ConfigurationLoader
     private function mergeConfigParams(array $config)
     {
         foreach ($config as $name => $value) {
-            preg_match('/^extends~(.*)~(.*)$/', $name, $matches);
+            preg_match('/^extend~(.*)~(.*)$/', $name, $matches);
 
             if (3 === count($matches)) {
                 if (!isset($config[$matches[1]])) {

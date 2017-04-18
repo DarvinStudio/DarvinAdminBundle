@@ -183,7 +183,6 @@ security:
         switch_user:
             back: 'تبديل المستخدم'
             link: التبديل
-            title: 'تبديل المستخدم %entity%'
     permission:
         create_delete: 'إنشاء وإزالة'
         edit: تحرير

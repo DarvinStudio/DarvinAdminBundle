@@ -219,9 +219,8 @@ security:
         logout:
             link: Logout
         switch_user:
-            back:  Switch user back
-            link:  Switch
-            title: Switch user to %entity%
+            back: Switch user back
+            link: Switch
     permission:
         create_delete: Create and remove
         edit:          Edit

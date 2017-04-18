@@ -183,7 +183,6 @@ security:
         switch_user:
             back: 'Changer d''utilisateur arrière'
             link: Commutateur
-            title: 'Changer d''utilisateur pour %entity%'
     permission:
         create_delete: 'Créer et supprimer des'
         edit: Modifier

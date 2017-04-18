@@ -57,16 +57,27 @@ class EntityListWidget extends AbstractWidget
             }
         }
         if (empty($options['item_widget_alias'])) {
-            if (!isset($options['item_title_property'])) {
-                return $this->render($options, [
-                    'widgets' => $collection,
-                ]);
-            }
-
             $widgets = [];
 
+            if (!isset($options['item_title_property'])) {
+                foreach ($collection as $item) {
+                    $widgets[] = $item;
+
+                    if ($options['first_item_only']) {
+                        break;
+                    }
+                }
+
+                return $this->render($options, [
+                    'widgets' => $widgets,
+                ]);
+            }
             foreach ($collection as $item) {
                 $widgets[] = $this->getPropertyValue($item, $options['item_title_property']);
+
+                if ($options['first_item_only']) {
+                    break;
+                }
             }
 
             return $this->render($options, [
@@ -80,6 +91,10 @@ class EntityListWidget extends AbstractWidget
 
         foreach ($collection as $item) {
             $widgets[] = $widget->getContent($item, $options['item_widget_options']);
+
+            if ($options['first_item_only']) {
+                break;
+            }
         }
 
         return $this->render($options, [
@@ -96,6 +111,7 @@ class EntityListWidget extends AbstractWidget
 
         $resolver
             ->setDefaults([
+                'first_item_only'     => false,
                 'item_widget_alias'   => ShowLinkWidget::ALIAS,
                 'item_widget_options' => [
                     'text_link' => true,
@@ -106,6 +122,7 @@ class EntityListWidget extends AbstractWidget
                 'property',
             ])
             ->setAllowedTypes('item_title_property', 'string')
+            ->setAllowedTypes('first_item_only', 'boolean')
             ->setAllowedTypes('item_widget_alias', [
                 'null',
                 'string',

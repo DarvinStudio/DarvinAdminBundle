@@ -219,9 +219,8 @@ security:
         logout:
             link: Выйти
         switch_user:
-            back:  Вернуть пользователя
-            link:  Переключиться
-            title: Переключиться на пользователя «%entity%»
+            back: Вернуть пользователя
+            link: Переключиться
     permission:
         create_delete: Создание и удаление
         edit:          Редактирование

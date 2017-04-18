@@ -183,7 +183,6 @@ security:
         switch_user:
             back: 换用户回来
             link: 开关
-            title: '开户 %entity%'
     permission:
         create_delete: 创建和删除
         edit: 编辑

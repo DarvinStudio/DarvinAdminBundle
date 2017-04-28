@@ -140,7 +140,11 @@
                         {% set first_common_config = false %}
 
                     {% endif %}
-                    {{ darvin_admin_configuration_edit.form_row(row) }}
+                    {% if row.children is not empty %}
+                        {{ darvin_admin_configuration_edit.form_row(row) }}
+                    {% else %}
+                        {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
+                    {% endif %}
                 {% else %}
                     {% if first_security_config %}
                         </div><div class="main_options_block">

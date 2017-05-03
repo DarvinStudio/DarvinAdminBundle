@@ -147,7 +147,7 @@ $(function() {
                                 api.reinitialise();
                                 throttleTimeout = null;
                             },
-                            50
+                            150
                         );
                     }
                 }

@@ -67,7 +67,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('pagination')->addDefaultsIfNotSet()
                     ->children()
                         ->booleanNode('enabled')->defaultTrue()->end()
-                        ->integerNode('items')->defaultValue(10)->min(1)->end()
+                        ->integerNode('items')->defaultValue(50)->min(1)->end()
                     ->end()
                 ->end()
                 ->arrayNode('sorter')

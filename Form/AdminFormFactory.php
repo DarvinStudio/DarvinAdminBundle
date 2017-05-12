@@ -179,11 +179,15 @@ class AdminFormFactory
             return null;
         }
 
-        $actionRouteParams = !empty($parentEntityAssociationParam)
-            ? [
-                $parentEntityAssociationParam => $parentEntityId,
-            ]
-            : [];
+        $actionRouteParams = [
+            // Do not allow preserve filter data in URL event listener to work
+            $meta->getFilterFormTypeName() => [],
+        ];
+
+        if (!empty($parentEntityAssociationParam)) {
+            $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
+        }
+
         $action = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
 
         $options = [

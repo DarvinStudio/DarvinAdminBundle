@@ -1,6 +1,8 @@
 parameters:
     darvin_admin.route.loader.class: Darvin\AdminBundle\Route\RouteLoader
 
+    darvin_admin.route.preserve_filter_in_url_listener.class: Darvin\AdminBundle\EventListener\PreserveFilterInUrlListener
+
     darvin_admin.route.twig_extension.class: Darvin\AdminBundle\Twig\Extension\RouteExtension
 
     darvin_admin.router.class: Darvin\AdminBundle\Route\AdminRouter
@@ -13,6 +15,14 @@ services:
             - "@darvin_admin.metadata.manager"
         tags:
             - { name: routing.loader }
+
+    darvin_admin.route.preserve_filter_in_url_listener:
+        class: "%darvin_admin.route.preserve_filter_in_url_listener.class%"
+        arguments:
+            - "@darvin_admin.metadata.manager"
+            - "@request_stack"
+        tags:
+            - { name: kernel.event_listener, event: darvin_admin.router.pre_generate, method: preRouteGenerate }
 
     darvin_admin.route.twig_extension:
         class:  "%darvin_admin.route.twig_extension.class%"

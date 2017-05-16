@@ -2,8 +2,7 @@
 
 {% import _self as darvin_admin_configuration_edit %}
 
-{% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
-{% form_theme form _self %}
+{% form_theme form 'DarvinAdminBundle:Configuration:fields.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -56,11 +55,7 @@
                             <div class="name">{{ form_label(child) }}</div>
                         {% endif %}
                         <div class="val">
-                            {{ form_widget(child, {'attr': {
-                                'class':             child.vars.block_prefixes[1]|default,
-                                'data-allow-add':    child.vars.allow_add|default,
-                                'data-allow-delete': child.vars.allow_delete|default,
-                            }}) }}
+                            {{ form_widget(child) }}
                         </div>
                         {{ form_errors(child) }}
                     </div>
@@ -70,38 +65,6 @@
     {% endif %}
     {{ darvin_admin_configuration_edit.form_row_end() }}
 {% endmacro %}
-
-{%- block form_label -%}
-    {% if label is not same as(false) -%}
-        {% set is_ckeditor = 'ckeditor' == block_prefixes[3]|default %}
-        {% if not is_ckeditor %}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
-        {% endif %}
-        {% if not compound -%}
-            {% set label_attr = label_attr|merge({'for': id}) %}
-        {%- endif -%}
-        {% if required -%}
-            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
-        {%- endif -%}
-        {% if label is empty -%}
-            {%- if label_format is not empty -%}
-                {% set label = label_format|replace({
-                    '%name%': name,
-                    '%id%': id,
-                }) %}
-            {%- else -%}
-                {% set label = name|humanize %}
-            {%- endif -%}
-        {%- endif -%}
-        {%- if 'collection' == form.parent.vars.block_prefixes[1]|default and form.parent.vars.allow_add -%}
-            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-        {%- endif -%}
-        {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if not is_ckeditor %}:{% endif %}
-        {%- if 'collection' == form.parent.vars.block_prefixes[1]|default and form.parent.vars.allow_add -%}
-            </label>
-        {%- endif -%}
-    {%- endif -%}
-{%- endblock form_label -%}
 
 {% block breadcrumbs %}
     {% include 'DarvinAdminBundle::breadcrumbs.html.twig' with {'crumbs': [

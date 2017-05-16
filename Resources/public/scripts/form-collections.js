@@ -5,7 +5,7 @@ $(document).ready(function () {
     };
 
     var updateLabels = function ($collection) {
-        if ('undefined' !== typeof $collection.attr('data-allow-add')) {
+        if ($collection.data('allow-add')) {
             $collection.children().each(function (index) {
                 $(this).children('label:first').text(index + 1);
             });
@@ -17,12 +17,12 @@ $(document).ready(function () {
     $collections.each(function () {
         var $collection = $(this);
 
-        if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
+        if ($collection.data('allow-delete')) {
             $collection.children().each(function () {
                 $(this).append(buttons.delete);
             });
         }
-        if ('undefined' !== typeof $collection.attr('data-allow-add')) {
+        if ($collection.data('allow-add')) {
             updateLabels($collection);
 
             $collection.append(buttons.add);
@@ -38,7 +38,7 @@ $(document).ready(function () {
                 .replace(/__name__/g, $collection.data('index'));
             var $newElement = $(newElement);
 
-            if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
+            if ($collection.data('allow-delete')) {
                 $newElement.append(buttons.delete);
             }
 

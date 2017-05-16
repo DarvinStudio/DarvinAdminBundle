@@ -4,11 +4,18 @@ $(document).ready(function () {
         'delete': '<button class="collection_delete" type="button">' + Translator.trans('form_collections.delete') + '</button>'
     };
 
+    var updateLabels = function ($collection) {
+        if ('undefined' !== typeof $collection.attr('data-allow-add')) {
+            $collection.children().each(function (index) {
+                $(this).children('label:first').text(index + 1);
+            });
+        }
+    };
+
     var $collections = $('form .collection[data-prototype]:not([data-autoinit="0"])');
 
     $collections.each(function () {
         var $collection = $(this);
-        $collection.data('index', $collection.children().length);
 
         if ('undefined' !== typeof $collection.attr('data-allow-delete')) {
             $collection.children().each(function () {
@@ -16,18 +23,16 @@ $(document).ready(function () {
             });
         }
         if ('undefined' !== typeof $collection.attr('data-allow-add')) {
-            $collection
-                .append(buttons.add)
-                .children().each(function (index) {
-                    $(this).children('label').first().text(index + 1);
-                });
+            updateLabels($collection);
+
+            $collection.append(buttons.add);
         }
     });
 
     $('body')
         .on('click', 'form .collection[data-prototype] .collection_add', function () {
             var $addButton = $(this);
-            var $collection = $addButton.parents('.collection[data-prototype]').first();
+            var $collection = $addButton.closest('.collection[data-prototype]');
             var newElement = $collection.data('prototype')
                 .replace(/__name__label__/g, $collection.data('index') + 1)
                 .replace(/__name__/g, $collection.data('index'));
@@ -39,11 +44,18 @@ $(document).ready(function () {
 
             $addButton.before($newElement);
 
+            updateLabels($collection);
+
             $(document).trigger('formCollectionAdd', $newElement);
 
             $collection.data('index', $collection.data('index') + 1);
         })
         .on('click', 'form .collection .collection_delete', function () {
-            $(this).closest('div').remove();
+            var $deleteButton = $(this);
+            var $collection = $deleteButton.closest('.collection[data-prototype]');
+
+            $deleteButton.closest('div').remove();
+
+            updateLabels($collection);
         });
 });

@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\EventListener;
 
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Id\IdentityGenerator;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber as BaseTranslatableSubscriber;
@@ -131,6 +132,8 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
     {
         if (!$meta->hasField('id')) {
             (new ClassMetadataBuilder($meta))->createField('id', 'integer')->generatedValue('IDENTITY')->makePrimaryKey()->build();
+
+            $meta->setIdGenerator(new IdentityGenerator());
         }
         if (!$meta->hasAssociation('translatable')) {
             $translatable = $meta->getReflectionClass()->getMethod('getTranslatableEntityClass')->invoke(null);

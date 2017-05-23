@@ -33,6 +33,13 @@ darvin_admin:
 - "Darvin\ECommerceBundle\Entity\Product\Catalog" => "AppBundle\Entity\ECommerce\Product\AppCatalog";
 - "Darvin\PageBundle\Entity\Page" => "AppBundle\Entity\Page\AppPage".
 
+Проконтролировать, что класс подцепился, можно, посмотрев сгенерированное содержимое секции "entity_override"
+ конфигурации данного бандла с помощью
+
+```shell
+$ php app/console debug:config darvin_admin
+```
+
 5. Если заменяемый класс является переводом, необходимо переопределить его метод "getTranslatableEntityClass()", а также
  метод "getTranslationEntityClass()" переводимой сущности, тем самым установив корректную связь.
 

@@ -73,7 +73,7 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
-                ->arrayNode('entity_override')
+                ->arrayNode('entity_override')->useAttributeAsKey('target')
                     ->prototype('scalar')
                         ->validate()
                             ->ifTrue(function ($replacement) {

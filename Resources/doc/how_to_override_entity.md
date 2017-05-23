@@ -21,15 +21,19 @@ darvin_admin:
         Darvin\ECommerceBundle\Entity\Product\Product: AppBundle\Entity\ECommerce\Product\AppProduct
 ```
 
-5. Если заменяемая сущность выступает в роли "targetEntity" в маппинге, что легко определить по реализации интерфейса,
- соответствующего названию класса (см п. 2), необходимо указать замену класса в разделе "orm.resolve_target_entities" конфигурации
- бандла "DoctrineBundle":
+Замена будет добавлена автоматически, если FQCN заменяющего класса соответствует шаблону
+ "AppBundle\Entity\\{BUNDLE_NAME}\\{CLASS_NAMESPACE}\App{CLASS_NAME}", где:
 
-```yaml
-doctrine:
-    orm:
-        resolve_target_entities:
-            Darvin\ECommerceBundle\Entity\Product\ProductInterface: AppBundle\Entity\ECommerce\Product\AppProduct
-```
+- **BUNDLE_NAME** - название бандла заменяемой сущности без префикса "Darvin" и суффикса "Bundle", например, "ECommerce";
+- **CLASS_NAMESPACE** - неймспейс класса заменяемой сущности после части "Entity", например, "Product" (может отсутствовать);
+- **CLASS_NAME** - название класса заменяемой сущности с префиксом "App", например, "AppCatalog".
+
+Примеры:
+
+- "Darvin\ECommerceBundle\Entity\Product\Catalog" => "AppBundle\Entity\ECommerce\Product\AppCatalog";
+- "Darvin\PageBundle\Entity\Page" => "AppBundle\Entity\Page\AppPage".
+
+5. Если заменяемый класс является переводом, необходимо переопределить его метод "getTranslatableEntityClass()", а также
+ метод "getTranslationEntityClass()" переводимой сущности, тем самым установив корректную связь.
 
 6. Необходимо заменить класс в поле "object_class" таблицы "content_slug_map" базы данных.

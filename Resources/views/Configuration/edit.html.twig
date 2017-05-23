@@ -2,7 +2,6 @@
 
 {% import _self as darvin_admin_configuration_edit %}
 
-{% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
 {% form_theme form _self %}
 
 {% trans_default_domain 'admin' %}
@@ -56,11 +55,25 @@
                             <div class="name">{{ form_label(child) }}</div>
                         {% endif %}
                         <div class="val">
-                            {{ form_widget(child, {'attr': {
-                                'class':             child.vars.block_prefixes[1]|default,
-                                'data-allow-add':    child.vars.allow_add|default,
-                                'data-allow-delete': child.vars.allow_delete|default,
-                            }}) }}
+
+                            {% set attr = {
+                                'class': child.vars.block_prefixes[1]|default,
+                            } %}
+
+                            {% if 'collection' == child.vars.block_prefixes[1]|default %}
+
+                                {% set attr = attr|merge({
+                                    'data-allow-add':    +child.vars.allow_add,
+                                    'data-allow-delete': +child.vars.allow_delete,
+                                }) %}
+
+                                {% if child.vars.allow_add %}
+
+                                    {% set attr = attr|merge({'data-index': child.children is not empty ? max(child.children|keys) + 1 : 0}) %}
+
+                                {% endif %}
+                            {% endif %}
+                            {{ form_widget(child, {'attr': attr}) }}
                         </div>
                         {{ form_errors(child) }}
                     </div>
@@ -86,8 +99,8 @@
         {% if label is empty -%}
             {%- if label_format is not empty -%}
                 {% set label = label_format|replace({
-                    '%name%': name,
-                    '%id%': id,
+                '%name%': name,
+                '%id%': id,
                 }) %}
             {%- else -%}
                 {% set label = name|humanize %}

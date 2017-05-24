@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\View\Index;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
 use Darvin\AdminBundle\View\Index\Body\Body;
 use Darvin\AdminBundle\View\Index\Body\BodyRow;
@@ -95,27 +94,24 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form           Form
-     * @param object                                $entity         Entity
-     * @param string                                $entityClass    Entity class
-     * @param string                                $property       Property name
-     * @param array                                 $templateParams Template parameters
+     * @param \Symfony\Component\Form\FormInterface $form        Form
+     * @param object                                $entity      Entity
+     * @param string                                $entityClass Entity class
+     * @param string                                $property    Property name
      *
      * @return string
      */
-    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property, array $templateParams = [])
+    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property)
     {
         $formView = $form->createView();
 
-        $templateParams = array_merge([
+        return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', [
             'entity'         => $entity,
             'entity_class'   => $entityClass,
             'form'           => $formView,
             'original_value' => $formView->children[$property]->vars['value'],
             'property'       => $property,
-        ], $templateParams);
-
-        return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', $templateParams);
+        ]);
     }
 
     /**
@@ -171,8 +167,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $configuration = $meta->getConfiguration();
         $mappings = $meta->getMappings();
 
-        $propertyForms = $this->getPropertyForms($meta);
-
         foreach ($entities as $entity) {
             $bodyRow = new BodyRow($this->buildBodyRowAttr($entity, $meta));
 
@@ -192,13 +186,16 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                     continue;
                 }
-                if (isset($propertyForms[$field])) {
-                    $form = $propertyForms[$field];
-                    $form->setData($entity);
+                if (!$this->isPropertyViewField($meta, 'index', $field)
+                    || !array_key_exists($field, $configuration['form']['index']['fields'])
+                    || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
+                    || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
+                ) {
+                    $content = $this->getFieldContent($entity, $field, $attr, $mappings);
+                } else {
+                    $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
 
                     $content = $this->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
-                } else {
-                    $content = $this->getFieldContent($entity, $field, $attr, $mappings);
                 }
 
                 $bodyRow->addItem($field, new BodyRowItem($content));
@@ -279,35 +276,5 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 $row->addItem(null, new BodyRowItem());
             }
         }
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta Metadata
-     *
-     * @return \Symfony\Component\Form\FormInterface[]
-     */
-    private function getPropertyForms(Metadata $meta)
-    {
-        $forms = [];
-
-        if (!$this->authorizationChecker->isGranted(Permission::EDIT, $meta->getEntityClass())) {
-            return $forms;
-        }
-
-        $configuration = $meta->getConfiguration();
-
-        foreach ($configuration['view']['index']['fields'] as $field => $attr) {
-            if (!$this->isPropertyViewField($meta, 'index', $field)
-                || !array_key_exists($field, $configuration['form']['index']['fields'])
-                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
-                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
-            ) {
-                continue;
-            }
-
-            $forms[$field] = $this->adminFormFactory->createPropertyForm($meta, $field);
-        }
-
-        return $forms;
     }
 }

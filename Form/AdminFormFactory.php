@@ -244,7 +244,7 @@ class AdminFormFactory
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createPropertyForm(Metadata $meta, $property, $entity = null)
+    public function createPropertyForm(Metadata $meta, $property, $entity)
     {
         $dataClass = $meta->getEntityClass();
 

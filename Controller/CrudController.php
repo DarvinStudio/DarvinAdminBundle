@@ -324,28 +324,20 @@ class CrudController extends Controller
             new CrudControllerActionEvent($this->meta, __FUNCTION__)
         );
 
-        $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
+        $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity)->handleRequest($request);
 
-        $originalValue = $form->createView()->children[$property]->vars['value'];
+        $success = $form->isValid();
 
-        $formIsValid = $form->handleRequest($request)->isValid();
-
-        if ($formIsValid) {
+        if ($success) {
             $this->getEntityManager()->flush();
-        }
 
-        $formView = $form->createView();
-
-        if ($formIsValid) {
-            $originalValue = $formView->children[$property]->vars['value'];
+            $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
         }
 
         return new JsonResponse([
-            'form' => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property, [
-                'original_value' => $originalValue,
-            ]),
-            'message' => $formIsValid ? 'flash.success.update_property' : FlashNotifierInterface::MESSAGE_FORM_ERROR,
-            'success' => $formIsValid,
+            'form'    => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property),
+            'message' => $success ? 'flash.success.update_property' : FlashNotifierInterface::MESSAGE_FORM_ERROR,
+            'success' => $success,
         ]);
     }
 

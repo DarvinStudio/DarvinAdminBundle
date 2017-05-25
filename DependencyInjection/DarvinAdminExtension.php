@@ -131,7 +131,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             ];
         }
 
-        $container->prependExtensionConfig('darvin_admin', [
+        $container->prependExtensionConfig($this->getAlias(), [
             'sections'             => $sections,
             'cache_clear_commands' => [
                 [

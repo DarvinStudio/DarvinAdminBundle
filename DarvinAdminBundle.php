@@ -15,13 +15,13 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddAssetProvidersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddCacheClearCommandsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddResolveTargetEntitiesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateSecurityConfigurationsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\DetectEntityOverridesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceTranslatableSubscriberPass;
-use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -50,6 +50,8 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
             ->addCompilerPass(new ReplaceTranslatableSubscriberPass())
-            ->addCompilerPass(new DetectEntityOverridesPass(), PassConfig::TYPE_OPTIMIZE);
+            // Order is important
+            ->addCompilerPass(new DetectEntityOverridesPass())
+            ->addCompilerPass(new AddResolveTargetEntitiesPass());
     }
 }

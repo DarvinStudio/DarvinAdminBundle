@@ -15,6 +15,7 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddAssetProvidersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddCacheClearCommandsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\AddResolveTargetEntitiesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
@@ -48,7 +49,9 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new CreateControllersPass())
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
+            ->addCompilerPass(new ReplaceTranslatableSubscriberPass())
+            // Order is important
             ->addCompilerPass(new DetectEntityOverridesPass())
-            ->addCompilerPass(new ReplaceTranslatableSubscriberPass());
+            ->addCompilerPass(new AddResolveTargetEntitiesPass());
     }
 }

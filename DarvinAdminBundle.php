@@ -40,6 +40,10 @@ class DarvinAdminBundle extends Bundle
         parent::build($container);
 
         $container
+            // Order matters
+            ->addCompilerPass(new DetectEntityOverridesPass())
+            ->addCompilerPass(new AddResolveTargetEntitiesPass())
+
             ->addCompilerPass(new AddAssetCompilersPass())
             ->addCompilerPass(new AddAssetProvidersPass())
             ->addCompilerPass(new AddCacheClearCommandsPass())
@@ -49,9 +53,6 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new CreateControllersPass())
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
-            ->addCompilerPass(new ReplaceTranslatableSubscriberPass())
-            // Order is important
-            ->addCompilerPass(new DetectEntityOverridesPass())
-            ->addCompilerPass(new AddResolveTargetEntitiesPass());
+            ->addCompilerPass(new ReplaceTranslatableSubscriberPass());
     }
 }

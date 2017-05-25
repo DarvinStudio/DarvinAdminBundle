@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Detect entity overrides compiler pass
@@ -24,14 +23,16 @@ class DetectEntityOverridesPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $overrides = [];
+        $entityOverride = [];
 
-        foreach ($this->getSectionConfig($container)->getSections() as $section) {
-            if (0 !== strpos($section->getEntity(), 'Darvin\\')) {
+        foreach ($container->getParameter('darvin_admin.sections') as $section) {
+            $target = $section['entity'];
+
+            if (0 !== strpos($target, 'Darvin\\')) {
                 continue;
             }
 
-            preg_match('/^Darvin\\\(.*)Bundle\\\Entity\\\(.*)$/', $section->getEntity(), $matches);
+            preg_match('/^Darvin\\\(.*)Bundle\\\Entity\\\(.*)$/', $target, $matches);
 
             if (3 !== count($matches)) {
                 continue;
@@ -42,26 +43,17 @@ class DetectEntityOverridesPass implements CompilerPassInterface
             $parts[] = 'App'.$tail;
             $replacement = implode('\\', $parts);
 
-            if (!class_exists($replacement) || !in_array($section->getEntity(), class_parents($replacement))) {
+            if (!class_exists($replacement) || !in_array($target, class_parents($replacement))) {
                 continue;
             }
 
-            $overrides[$section->getEntity()] = $replacement;
+            $entityOverride[$target] = $replacement;
         }
-        if (!empty($overrides)) {
-            $container->prependExtensionConfig('darvin_admin', [
-                'entity_override' => $overrides,
-            ]);
+        if (!empty($entityOverride)) {
+            $container->setParameter(
+                'darvin_admin.entity_override',
+                array_merge($container->getParameter('darvin_admin.entity_override'), $entityOverride)
+            );
         }
-    }
-
-    /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
-     *
-     * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
-     */
-    private function getSectionConfig(ContainerInterface $container)
-    {
-        return $container->get('darvin_admin.configuration.section');
     }
 }

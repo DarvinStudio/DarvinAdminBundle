@@ -14,20 +14,22 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Add resolve target entities compiler pass
+ * Add resolve target entities to resolve target entity listener compiler pass
  */
 class AddResolveTargetEntitiesPass implements CompilerPassInterface
 {
+    const RESOLVE_TARGET_ENTITY_LISTENER_ID = 'doctrine.orm.listeners.resolve_target_entity';
+
     /**
      * {@inheritdoc}
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasExtension('doctrine')) {
+        if (!$container->hasDefinition(self::RESOLVE_TARGET_ENTITY_LISTENER_ID)) {
             return;
         }
 
-        $resolveTargetEntities = [];
+        $listenerDefinition = $container->getDefinition(self::RESOLVE_TARGET_ENTITY_LISTENER_ID);
 
         foreach ($container->getExtensionConfig('darvin_admin') as $config) {
             if (!isset($config['entity_override'])) {
@@ -36,17 +38,14 @@ class AddResolveTargetEntitiesPass implements CompilerPassInterface
             foreach ($config['entity_override'] as $target => $replacement) {
                 foreach (class_implements($target) as $interface) {
                     if ($interface === $target.'Interface') {
-                        $resolveTargetEntities[$interface] = $replacement;
+                        $listenerDefinition->addMethodCall('addResolveTargetEntity', [
+                            $interface,
+                            $replacement,
+                            [],
+                        ]);
                     }
                 }
             }
-        }
-        if (!empty($resolveTargetEntities)) {
-            $container->prependExtensionConfig('doctrine', [
-                'orm' => [
-                    'resolve_target_entities' => $resolveTargetEntities,
-                ],
-            ]);
         }
     }
 }

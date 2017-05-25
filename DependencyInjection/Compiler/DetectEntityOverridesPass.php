@@ -26,13 +26,12 @@ class DetectEntityOverridesPass implements CompilerPassInterface
     {
         $overrides = [];
 
-        /** @var \Doctrine\ORM\Mapping\ClassMetadata $meta */
-        foreach ($this->getEntityManager($container)->getMetadataFactory()->getAllMetadata() as $meta) {
-            if (0 !== strpos($meta->getName(), 'Darvin\\')) {
+        foreach ($this->getSectionConfig($container)->getSections() as $section) {
+            if (0 !== strpos($section->getEntity(), 'Darvin\\')) {
                 continue;
             }
 
-            preg_match('/^Darvin\\\(.*)Bundle\\\Entity\\\(.*)$/', $meta->getName(), $matches);
+            preg_match('/^Darvin\\\(.*)Bundle\\\Entity\\\(.*)$/', $section->getEntity(), $matches);
 
             if (3 !== count($matches)) {
                 continue;
@@ -43,11 +42,11 @@ class DetectEntityOverridesPass implements CompilerPassInterface
             $parts[] = 'App'.$tail;
             $replacement = implode('\\', $parts);
 
-            if (!class_exists($replacement) || !in_array($meta->getName(), class_parents($replacement))) {
+            if (!class_exists($replacement) || !in_array($section->getEntity(), class_parents($replacement))) {
                 continue;
             }
 
-            $overrides[$meta->getName()] = $replacement;
+            $overrides[$section->getEntity()] = $replacement;
         }
         if (!empty($overrides)) {
             $container->prependExtensionConfig('darvin_admin', [
@@ -59,10 +58,10 @@ class DetectEntityOverridesPass implements CompilerPassInterface
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
      *
-     * @return \Doctrine\ORM\EntityManager
+     * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private function getEntityManager(ContainerInterface $container)
+    private function getSectionConfig(ContainerInterface $container)
     {
-        return $container->get('doctrine.orm.entity_manager');
+        return $container->get('darvin_admin.configuration.section');
     }
 }

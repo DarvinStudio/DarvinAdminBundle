@@ -29,21 +29,22 @@ class AddResolveTargetEntitiesPass implements CompilerPassInterface
             return;
         }
 
+        $entityOverride = $container->getParameter('darvin_admin.entity_override');
+
+        if (empty($entityOverride)) {
+            return;
+        }
+
         $listenerDefinition = $container->getDefinition(self::RESOLVE_TARGET_ENTITY_LISTENER_ID);
 
-        foreach ($container->getExtensionConfig('darvin_admin') as $config) {
-            if (!isset($config['entity_override'])) {
-                continue;
-            }
-            foreach ($config['entity_override'] as $target => $replacement) {
-                foreach (class_implements($target) as $interface) {
-                    if ($interface === $target.'Interface') {
-                        $listenerDefinition->addMethodCall('addResolveTargetEntity', [
-                            $interface,
-                            $replacement,
-                            [],
-                        ]);
-                    }
+        foreach ($entityOverride as $target => $replacement) {
+            foreach (class_implements($target) as $interface) {
+                if ($interface === $target.'Interface') {
+                    $listenerDefinition->addMethodCall('addResolveTargetEntity', [
+                        $interface,
+                        $replacement,
+                        [],
+                    ]);
                 }
             }
         }

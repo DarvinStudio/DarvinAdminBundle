@@ -96,6 +96,9 @@ class MetadataManager
     {
         $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
 
+        if (isset($this->entityOverride[$entityClass])) {
+            $entityClass = $this->entityOverride[$entityClass];
+        }
         if (!isset($this->checkedIfHasMetadataClasses[$entityClass])) {
             $this->checkedIfHasMetadataClasses[$entityClass] = true;
 
@@ -131,6 +134,9 @@ class MetadataManager
 
         $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
 
+        if (isset($this->entityOverride[$entityClass])) {
+            $entityClass = $this->entityOverride[$entityClass];
+        }
         if (!isset($this->metadata[$entityClass])) {
             $childClass = $entityClass;
 

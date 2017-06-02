@@ -23,16 +23,19 @@
 
             {% endif %}
             <li{% if item.children is not empty %} class="has-subcat"{% if styles is not empty %} style="{{ styles|join('; ') }};"{% endif %}{% endif %}>
+
+                {% set url = item.indexUrl %}
+
                 {% if item.sidebarIcon %}
-                    <a href="{{ item.indexUrl }}" class="img"><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
+                    <a href="{{ url }}" class="img"{% if '#' == url %} onclick="return false;"{% endif %}><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
                 {% endif %}
-                <a href="{{ item.indexUrl }}"{% if not item.parentName and item.children is empty and item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}>
+                <a href="{{ url }}"{% if not item.parentName and item.children is empty and item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}{% if '#' == url %} onclick="return false;"{% endif %}>
                     {{ item.indexTitle|trans }}
                 </a>
                 {% if item.newObjectCount
                     or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject))
                 %}
-                    <a href="{{ item.indexUrl }}" class="count">{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</a>
+                    <a href="{{ url }}" class="count"{% if '#' == url %} onclick="return false;"{% endif %}>{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</a>
                 {% endif %}
                 {% if item.children is not empty %}
 

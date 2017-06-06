@@ -86,7 +86,7 @@ abstract class AbstractEntityToViewTransformer
      */
     protected function getFieldContent($entity, $fieldName, array $fieldAttr, array $mappings)
     {
-        if (!empty($fieldAttr['condition']) && !$this->expressionLanguage->evaluate($fieldAttr['condition'], ['entity' => $entity])) {
+        if ($this->isFieldContentHidden($fieldAttr, $entity)) {
             return null;
         }
         if (isset($fieldAttr['widget'])) {
@@ -150,5 +150,16 @@ abstract class AbstractEntityToViewTransformer
         $config = $meta->getConfiguration()['view'][$viewType]['fields'][$field];
 
         return !isset($config['widget']) && !isset($config['service']) && !isset($config['callback']);
+    }
+
+    /**
+     * @param array  $fieldAttr Field attributes
+     * @param object $entity    Entity
+     *
+     * @return bool
+     */
+    protected function isFieldContentHidden(array $fieldAttr, $entity)
+    {
+        return !empty($fieldAttr['condition']) && !$this->expressionLanguage->evaluate($fieldAttr['condition'], ['entity' => $entity]);
     }
 }

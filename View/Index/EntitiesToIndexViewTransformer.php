@@ -186,16 +186,21 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                     continue;
                 }
-                if (!$this->isPropertyViewField($meta, 'index', $field)
-                    || !array_key_exists($field, $configuration['form']['index']['fields'])
-                    || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
-                    || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
-                ) {
-                    $content = $this->getFieldContent($entity, $field, $attr, $mappings);
-                } else {
-                    $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
 
-                    $content = $this->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
+                $content = null;
+
+                if (!$this->isFieldContentHidden($attr, $entity)) {
+                    if (!$this->isPropertyViewField($meta, 'index', $field)
+                        || !array_key_exists($field, $configuration['form']['index']['fields'])
+                        || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
+                        || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
+                    ) {
+                        $content = $this->getFieldContent($entity, $field, $attr, $mappings);
+                    } else {
+                        $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
+
+                        $content = $this->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
+                    }
                 }
 
                 $bodyRow->addItem($field, new BodyRowItem($content));

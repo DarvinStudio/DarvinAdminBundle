@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -48,6 +49,11 @@ abstract class AbstractEntityToViewTransformer
     protected $widgetPool;
 
     /**
+     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage
+     */
+    private $expressionLanguage;
+
+    /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container             DI container
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager          $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor      Property accessor
@@ -66,6 +72,8 @@ abstract class AbstractEntityToViewTransformer
         $this->propertyAccessor = $propertyAccessor;
         $this->stringifier = $stringifier;
         $this->widgetPool = $widgetPool;
+
+        $this->expressionLanguage = new ExpressionLanguage();
     }
 
     /**
@@ -78,6 +86,9 @@ abstract class AbstractEntityToViewTransformer
      */
     protected function getFieldContent($entity, $fieldName, array $fieldAttr, array $mappings)
     {
+        if (!empty($fieldAttr['condition']) && !$this->expressionLanguage->evaluate($fieldAttr['condition'], ['entity' => $entity])) {
+            return null;
+        }
         if (isset($fieldAttr['widget'])) {
             $widgetAlias = $fieldAttr['widget']['alias'];
 

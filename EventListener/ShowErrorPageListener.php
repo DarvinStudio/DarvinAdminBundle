@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -121,10 +122,7 @@ class ShowErrorPageListener
             return;
         }
 
-        $template = sprintf(
-            'DarvinAdminBundle:Error:%d.html.twig',
-            $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : 500
-        );
+        $template = sprintf('DarvinAdminBundle:Error:%d.html.twig', $this->getStatusCode($exception));
 
         if (!$this->templating->exists($template)) {
             return;
@@ -180,5 +178,22 @@ class ShowErrorPageListener
         }
 
         return $this->defaultLocale;
+    }
+
+    /**
+     * @param \Exception $exception Exception
+     *
+     * @return int
+     */
+    private function getStatusCode(\Exception $exception)
+    {
+        if ($exception instanceof HttpExceptionInterface) {
+            return $exception->getStatusCode();
+        }
+        if ($exception instanceof AccessDeniedException) {
+            return 403;
+        }
+
+        return 500;
     }
 }

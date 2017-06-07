@@ -86,9 +86,6 @@ abstract class AbstractEntityToViewTransformer
      */
     protected function getFieldContent($entity, $fieldName, array $fieldAttr, array $mappings)
     {
-        if ($this->isFieldContentHidden($fieldAttr, $entity)) {
-            return null;
-        }
         if (isset($fieldAttr['widget'])) {
             $widgetAlias = $fieldAttr['widget']['alias'];
 

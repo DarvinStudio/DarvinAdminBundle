@@ -53,7 +53,9 @@ class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($configuration['view']['show']['fields'] as $field => $attr) {
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][show]')) {
+            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][show]')
+                || $this->isFieldContentHidden($attr, $entity)
+            ) {
                 continue;
             }
 

@@ -18,6 +18,8 @@ darvin_admin:
     ckeditor: # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина
         plugins_path:    /bundles/darvinadmin/scripts/ckeditor/plugins # Путь до каталога с плагинами
+    dashboard:
+        blacklist: [] # Черный список идентификаторов сервисов виджетов на главной странице панели администрирования
     project: # Конфигурация проекта
         title: ~ # Название проекта
         url:   ~ # URL проекта

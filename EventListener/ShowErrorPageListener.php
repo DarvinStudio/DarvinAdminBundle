@@ -114,6 +114,11 @@ class ShowErrorPageListener
         }
 
         $exception = $event->getException();
+
+        if ($exception instanceof AccessDeniedException) {
+            return;
+        }
+
         $request = $event->getRequest();
 
         $config = $this->firewallMap->getFirewallConfig($request);
@@ -189,9 +194,6 @@ class ShowErrorPageListener
     {
         if ($exception instanceof HttpExceptionInterface) {
             return $exception->getStatusCode();
-        }
-        if ($exception instanceof AccessDeniedException) {
-            return 403;
         }
 
         return 500;

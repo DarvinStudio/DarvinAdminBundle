@@ -43,10 +43,14 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
 
         $dashboardDefinition = $container->getDefinition(self::DASHBOARD_ID);
 
+        $blacklist = $container->getParameter('darvin_admin.dashboard.blacklist');
+
         foreach ($widgetIds as $id => $attr) {
-            $dashboardDefinition->addMethodCall('addWidget', [
-                new Reference($id),
-            ]);
+            if (!in_array($id, $blacklist)) {
+                $dashboardDefinition->addMethodCall('addWidget', [
+                    new Reference($id),
+                ]);
+            }
         }
     }
 }

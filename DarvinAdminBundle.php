@@ -30,7 +30,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class DarvinAdminBundle extends Bundle
 {
-    const VERSION = '5.9';
+    const VERSION = '5.10';
 
     /**
      * {@inheritdoc}

@@ -46,7 +46,7 @@
                 </label>
                 {{ form_start(batch_delete_form, {'attr': {
                     'class':        'batch_delete_form',
-                    'onsubmit':     'return confirm(' ~ 'crud.action.batch_delete.confirm'|trans|json_encode|raw ~ ');',
+                    'onsubmit':     'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
                     'autocomplete': 'off',
                 }}) }}
                 {{ form_widget(batch_delete_form) }}

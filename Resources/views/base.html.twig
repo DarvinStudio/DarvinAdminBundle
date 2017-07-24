@@ -209,7 +209,7 @@
                 {% for type, messages in flashes %}
                     {% for message in messages %}
                         noty({
-                            text: '{{ message|trans }}',
+                            text: '{{ message|trans|e('js') }}',
                             type: '{{ type }}'
                         });
                     {% endfor %}

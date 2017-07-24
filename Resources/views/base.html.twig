@@ -35,7 +35,7 @@
             {% for type, messages in flashes %}
                 <ul class="{{ type }}">
                     {% for message in messages %}
-                        <li>{{ message|trans|e('js') }}</li>
+                        <li>{{ message|trans }}</li>
                     {% endfor %}
                 </ul>
             {% endfor %}

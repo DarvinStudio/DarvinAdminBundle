@@ -67,8 +67,13 @@
     {% if view.body.rows is empty %}
         <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
     {% else %}
-        <div class="scroll-pane horizontal-only">
-            <div class="section_table valign_middle">
+        <div class="sly-container">
+		
+			<div class="scrollbar js-scrollbar">
+				<div class="handle"></div>
+			</div>
+							
+            <div class="section_table valign_middle sly-frame">
                 <table>
                     <thead>
                         <tr>
@@ -110,7 +115,12 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+			
+			<div class="scrollbar js-scrollbar">
+				<div class="handle"></div>
+			</div>
+			
+        </div> 
         <div class="clearfix">
             {{ pagination_html|raw }}
 

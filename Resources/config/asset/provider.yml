@@ -21,6 +21,7 @@ parameters:
           - bundles/darvinadmin/scripts/jquery/noty/noty.js
           - bundles/darvinadmin/scripts/jquery/noty/layouts/top.js
           - bundles/darvinadmin/scripts/jquery/noty/themes/bootstrap.js
+          - bundles/darvinadmin/scripts/jquery/sly.js
           - bundles/darvinadmin/scripts/jquery/word-and-character-counter.js
 
           - bundles/a2lixtranslationform/js/a2lix_translation_default.js

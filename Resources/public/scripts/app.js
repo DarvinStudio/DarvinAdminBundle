@@ -155,6 +155,68 @@ $(function() {
         }
     )
 });
+/**************************************************************/ 
+// настройки скролбара
+var slyOptions = {
+    horizontal: 1,
+    smart: 1,
+    mouseDragging: 1,
+    touchDragging: 1,
+    releaseSwing: 1,
+    scrollBar: $('.scrollbar'),
+    speed: 300,
+    activatePageOn: 'click',
+    scrollBy: 100,
+    dragHandle: 1,
+    dynamicHandle: 1,
+    clickBar: 1
+};
+
+// скрывает/показывает скрол бар, если он не нужен
+function switchScrollBar() {
+	var scrollbar = $('.js-scrollbar');
+	var handle = scrollbar.find('.handle');
+    var scrollbar_width = scrollbar.eq(0).width();
+    var handle_width = scrollbar.eq(0).find('.handle').width();
+    var content_width = $('.sly-container .section_table > table').width();
+
+    if(content_width > scrollbar_width){
+        if(scrollbar_width <= handle_width + 5 ){ // 5 - магическое число, чтобы нивелировать разницу ширин при ресайзе
+            scrollbar.css({'opacity':0});
+            handle.css({'display': 'none'});
+        } else {
+            scrollbar.css({'opacity':1});
+            handle.css({'display': 'block'});
+        }
+	} else {
+        scrollbar.css({'opacity':0});
+        handle.css({'display': 'none'});
+	}
+}
+// инициализация скролбара
+function initSly( container, options ) {
+	// для каждого контенера
+    $(container).each(function(){
+    	var $self = $(this);
+        var $frame = $self.find('.sly-frame');
+
+        var sly = new Sly( $frame, options, {
+            move: function () {
+                var scrollbar1_handle = $self.find('.scrollbar').eq(0).find('.handle');
+                var scrollbar2_handle = $self.find('.scrollbar').eq(1).find('.handle');
+                scrollbar2_handle.attr('style', scrollbar1_handle.attr('style'))
+            }
+		});
+
+        sly.init();
+        switchScrollBar();
+        $(window).resize(function() {
+            switchScrollBar();
+            sly.reload();
+        });
+    });
+}
+setTimeout(initSly, 1, $('.sly-container'), slyOptions);
 
 /**************************************************************/
 (function () {

@@ -35,7 +35,7 @@
             {% for type, messages in flashes %}
                 <ul class="{{ type }}">
                     {% for message in messages %}
-                        <li>{{ message|trans }}</li>
+                        <li>{{ message|trans|e('js') }}</li>
                     {% endfor %}
                 </ul>
             {% endfor %}
@@ -209,7 +209,7 @@
                 {% for type, messages in flashes %}
                     {% for message in messages %}
                         noty({
-                            text: '{{ message|trans }}',
+                            text: '{{ message|trans|e('js') }}',
                             type: '{{ type }}'
                         });
                     {% endfor %}

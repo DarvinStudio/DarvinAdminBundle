@@ -46,6 +46,7 @@ parameters:
           - bundles/darvinadmin/scripts/slug-suffix.js
           - bundles/darvinadmin/scripts/translations-sync.js
           - bundles/darvinadmin/scripts/tri-state-checkboxes.js
+          - bundles/darvinadmin/scripts/sly.js
 
           - bundles/darvinadmin/scripts/app.js
 

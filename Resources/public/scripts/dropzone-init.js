@@ -1,6 +1,6 @@
-$(document).ready(function () {
-    Dropzone.autoDiscover = false;
+Dropzone.autoDiscover = false;
 
+$(document).ready(function () {
     $('.dropzone[data-files][data-url]').each(function () {
         var $dropzone = $(this);
 

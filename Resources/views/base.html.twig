@@ -1,10 +1,12 @@
+{%- trans_default_domain 'admin' -%}
+
+{% block html %}
+
 {%- set cookie_names = {
     sidebar: 'DARVINADMINSIDEBAR',
 } -%}
 {%- set flashes        = app.session.flashBag.all -%}
 {%- set sidebar_active = app.request.cookies.get(cookie_names.sidebar) -%}
-
-{%- trans_default_domain 'admin' -%}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -220,3 +222,4 @@
 
     </body>
 </html>
+{% endblock %}

@@ -1,0 +1,25 @@
+{
+  "name": "jquery-word-and-character-counter-plugin",
+  "version": "2.5.1",
+  "homepage": "https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin",
+  "authors": [
+    "Wilkins F."
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "2.5.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.5.1",
+    "commit": "768bf8ef93508e6013f27d77629d32c8c32b8553"
+  },
+  "_source": "https://github.com/qwertypants/jQuery-Word-and-Character-Counter-Plugin.git",
+  "_target": "^2.5.1",
+  "_originalSource": "jquery-word-and-character-counter-plugin"
+}

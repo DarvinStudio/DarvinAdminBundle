@@ -1,0 +1,26 @@
+{
+  "name": "darvinstudio-darvin-admin-bundle",
+  "version": "5.10.0",
+  "description": "This bundle provides highly configurable admin panel for Symfony-based applications.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:DarvinStudio/DarvinAdminBundle.git"
+  },
+  "author": [
+    "Igor Nikolaev <igor.sv.n@gmail.com>",
+    "Lev Semin <lev@darvin-studio.ru>"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-expect-file": "0.0.7",
+    "gulp-image-embed": "0.0.2",
+    "gulp-uglify": "^3.0.0",
+    "gulp-uglifycss": "^1.0.8"
+  }
+}

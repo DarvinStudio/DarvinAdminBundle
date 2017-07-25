@@ -41,7 +41,6 @@ var scripts = [
             'Resources/public/scripts/images.js',
             'Resources/public/scripts/jscrollpane.js',
             'Resources/public/scripts/master-slave-inputs.js',
-            'Resources/public/scripts/noty-init.js',
             'Resources/public/scripts/property-forms.js',
             'Resources/public/scripts/search.js',
             'Resources/public/scripts/slug-suffix.js',
@@ -62,6 +61,8 @@ var styles = [
             }
         },
         src: [
+            'Resources/public/vendor/noty/lib/noty.css',
+
             'Resources/public/styles/bootstrap.css',
             'Resources/public/styles/bootstrap-chosen.css',
             'Resources/public/styles/jquery-jscrollpane.css',

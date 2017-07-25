@@ -21,11 +21,8 @@ $(document).ready(function () {
 
             $(document).trigger('propertyFormSubmit', $formReplacement);
 
-            noty({
-                text: Translator.trans(data.message),
-                type: data.success ? 'success' : 'error'
-            });
-        }).error(onAjaxError);
+            notify(data.message, data.success ? 'success' : 'error');
+        }).fail(onAjaxFail);
     };
 
     var toggleButtons = function ($field) {

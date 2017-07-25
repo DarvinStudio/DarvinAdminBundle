@@ -17,12 +17,8 @@ $(document).ready(function () {
             type: $form.attr('method'),
             url:  $form.attr('action')
         }).done(function (data) {
-            if (data.message) {
-                noty({
-                    text: Translator.trans(data.message),
-                    type: data.success ? 'success' : 'error'
-                });
-            }
+            notify(data.message, data.success ? 'success' : 'error');
+
             if (null === data.redirectUrl) {
                 $form.replaceWith(data.html);
 
@@ -31,7 +27,7 @@ $(document).ready(function () {
 
             setTimeout(function () {
                 document.location.href = data.redirectUrl;
-            }, $.noty.defaults.timeout);
-        }).error(onAjaxError);
+            }, NOTY_TIMEOUT);
+        }).fail(onAjaxFail);
     });
 });

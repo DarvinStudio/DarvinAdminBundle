@@ -212,10 +212,7 @@
 
                 {% for type, messages in flashes %}
                     {% for message in messages %}
-                        noty({
-                            text: '{{ message|trans|e('js') }}',
-                            type: '{{ type }}'
-                        });
+                        notify('{{ message }}', '{{ type }}');
                     {% endfor %}
                 {% endfor %}
             </script>

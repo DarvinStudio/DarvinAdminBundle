@@ -1,12 +1,19 @@
-var AJAX_LOADER = '<span class="ajax_loader"></span>';
+var AJAX_LOADER  = '<span class="ajax_loader"></span>';
+var NOTY_TIMEOUT = 2000;
 
-$(document).bind('ajaxComplete', function () {
-    $('.ajax_loader').remove();
+var notify = function (text, type) {
+    if (!text) {
+        return;
+    }
 
-    $('a, form').removeData('submitted');
-});
+    new Noty({
+        text:    Translator.trans(text),
+        type:    type || 'success',
+        timeout: NOTY_TIMEOUT
+    }).show();
+};
 
-var onAjaxError = function (jqXHR) {
+var onAjaxFail = function (jqXHR) {
     var message = 'exception.' + jqXHR.status;
     var translated = Translator.trans(message);
 
@@ -14,8 +21,11 @@ var onAjaxError = function (jqXHR) {
         translated = Translator.trans('exception.500');
     }
 
-    noty({
-        text: translated,
-        type: 'error'
-    });
+    notify(translated, 'error');
 };
+
+$(document).bind('ajaxComplete', function () {
+    $('.ajax_loader').remove();
+
+    $('a, form').removeData('submitted');
+});

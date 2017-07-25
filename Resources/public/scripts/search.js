@@ -32,10 +32,10 @@ $(document).ready(function () {
 
                 $results.html(html);
                 $(document).trigger('searchComplete', $results);
-            }).complete(function () {
+            }).always(function () {
                 clearInterval(interval);
                 pending = false;
-            }).error(onAjaxError);
+            }).fail(onAjaxFail);
         }, 100);
     });
 });

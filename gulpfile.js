@@ -8,20 +8,19 @@ var scripts = [
             }
         },
         src: [
-            'Resources/public/vendor/jquery-ui/jquery-ui.js',
-            'Resources/public/vendor/jquery-ui/ui/i18n/datepicker-ru.js',
-            'Resources/public/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
-            'Resources/public/vendor/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js',
-
-            'Resources/public/vendor/dropzone/dist/dropzone.js',
             'Resources/public/vendor/bootstrap/dist/js/bootstrap.js',
             'Resources/public/vendor/chosen/chosen.jquery.js',
+            'Resources/public/vendor/dropzone/dist/dropzone.js',
             'Resources/public/vendor/jquery-colorbox/jquery.colorbox.js',
-            'Resources/public/vendor/jquery.cookie/jquery.cookie.js',
             'Resources/public/vendor/jquery-mousewheel/jquery.mousewheel.js',
+            'Resources/public/vendor/jquery-ui/jquery-ui.js',
+            'Resources/public/vendor/jquery-ui/ui/i18n/datepicker-ru.js',
+            'Resources/public/vendor/jquery-word-and-character-counter-plugin/jquery.word-and-character-counter.js',
+            'Resources/public/vendor/jquery.cookie/jquery.cookie.js',
+            'Resources/public/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
+            'Resources/public/vendor/jqueryui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js',
             'Resources/public/vendor/noty/lib/noty.js',
             'Resources/public/vendor/sly/dist/sly.js',
-            'Resources/public/vendor/jquery-word-and-character-counter-plugin/jquery.word-and-character-counter.js',
 
             '../../../vendor/a2lix/translation-form-bundle/A2lix/TranslationFormBundle/Resources/public/js/a2lix_translation_default.js',
             '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
@@ -62,13 +61,13 @@ var styles = [
         },
         src: [
             'Resources/public/vendor/bootstrap/dist/css/bootstrap.css',
+            'Resources/public/vendor/dropzone/dist/dropzone.css',
             'Resources/public/vendor/jquery-colorbox/example4/colorbox.css',
             'Resources/public/vendor/jquery-ui/themes/smoothness/jquery-ui.css',
             'Resources/public/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
             'Resources/public/vendor/noty/lib/noty.css',
 
             'Resources/public/styles/bootstrap-chosen.css',
-            'Resources/public/styles/dropzone.css',
             'Resources/public/styles/jscrollpane.css'
         ]
     }

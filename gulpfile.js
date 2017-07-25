@@ -61,16 +61,15 @@ var styles = [
             }
         },
         src: [
+            'Resources/public/vendor/bootstrap/dist/css/bootstrap.css',
+            'Resources/public/vendor/jquery-colorbox/example4/colorbox.css',
+            'Resources/public/vendor/jquery-ui/themes/smoothness/jquery-ui.css',
+            'Resources/public/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
             'Resources/public/vendor/noty/lib/noty.css',
 
-            'Resources/public/styles/bootstrap.css',
             'Resources/public/styles/bootstrap-chosen.css',
-            'Resources/public/styles/jquery-jscrollpane.css',
-            'Resources/public/styles/jquery-ui.css',
-            'Resources/public/styles/jquery-ui-timepicker-addon.css',
-
-            'Resources/public/styles/colorbox.css',
-            'Resources/public/styles/dropzone.css'
+            'Resources/public/styles/dropzone.css',
+            'Resources/public/styles/jscrollpane.css'
         ]
     }
 ];

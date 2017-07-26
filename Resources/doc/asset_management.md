@@ -15,13 +15,13 @@ $ npm install
 Ищем нужный пакет:
 
 ```shell
-$ ./node_modules/bower/bin/bower search whatever
+$ node_modules/bower/bin/bower search whatever
 ```
 
 Устанавливаем его:
 
 ```shell
-$ ./node_modules/bower/bin/bower install whatever --save
+$ node_modules/bower/bin/bower install whatever --save
 ```
 
 Пакет будет установлен в "Resources/public/vendor". Добавляем скачанный пакет в репозиторий и коммитим его. Коммитим
@@ -37,13 +37,13 @@ $ ./node_modules/bower/bin/bower install whatever --save
 В процессе разработки запускаем процесс, который будет следить за изменениями в файлах и пересобирать dev-билды:
 
 ```shell
-$ ./node_modules/gulp/bin/gulp.js build && ./node_modules/gulp/bin/gulp.js watch
+$ node_modules/gulp/bin/gulp.js build && node_modules/gulp/bin/gulp.js watch
 ```
 
 После внесения всех требуемых изменений собираем продакшн-билды ресурсов:
 
 ```
-$ ./node_modules/gulp/bin/gulp.js build-prod 
+$ node_modules/gulp/bin/gulp.js build-prod 
 ```
 
 Коммитим их, о чем заботливо напомнит сценарий сборки.

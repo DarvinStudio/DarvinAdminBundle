@@ -10,10 +10,11 @@
     "type": "git",
     "url": "git@github.com:DarvinStudio/DarvinAdminBundle.git"
   },
-  "author": [
-    "Igor Nikolaev <igor.sv.n@gmail.com>",
-    "Lev Semin <lev@darvin-studio.ru>"
-  ],
+  "author": {
+    "name": "Darvin Studio",
+    "email": "info@darvin-studio.ru",
+    "url": "https://www.darvin-studio.ru"
+  },
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.8.0",

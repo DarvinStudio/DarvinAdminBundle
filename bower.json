@@ -3,8 +3,7 @@
   "description": "This bundle provides highly configurable admin panel for Symfony-based applications.",
   "main": "index.js",
   "authors": [
-    "Igor Nikolaev <igor.sv.n@gmail.com>",
-    "Lev Semin <lev@darvin-studio.ru>"
+    "Darvin Studio <info@darvin-studio.ru>"
   ],
   "license": "MIT",
   "keywords": [

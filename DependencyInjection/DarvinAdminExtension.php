@@ -43,7 +43,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         foreach ([
-            'asset/provider',
             'breadcrumbs',
             'cache',
             'ckeditor',
@@ -75,9 +74,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         $bundles = $container->getParameter('kernel.bundles');
 
-        if (isset($bundles['AsseticBundle']) && 'dev' === $container->getParameter('kernel.environment')) {
-            $loader->load('asset/compiler.yml');
-        }
         if (isset($bundles['LexikTranslationBundle'])) {
             $loader->load('translation.yml');
         }

@@ -29,9 +29,6 @@
         "darvinstudio/darvin-user-bundle":    "*",
         "darvinstudio/darvin-utils-bundle":   "*"
     },
-    "require-dev": {
-        "symfony/assetic-bundle": "^2.8"
-    },
     "suggest": {
         "lexik/translation-bundle": "Allows to manage translations"
     },

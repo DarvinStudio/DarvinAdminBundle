@@ -1,10 +1,12 @@
+{%- trans_default_domain 'admin' -%}
+
+{% block html %}
+
 {%- set cookie_names = {
     sidebar: 'DARVINADMINSIDEBAR',
 } -%}
 {%- set flashes        = app.session.flashBag.all -%}
 {%- set sidebar_active = app.request.cookies.get(cookie_names.sidebar) -%}
-
-{%- trans_default_domain 'admin' -%}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -22,13 +24,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block stylesheets %}
-            {% for asset in admin_assets('styles') %}
-                <link href="{{ asset(asset) }}" rel="stylesheet">
-            {% endfor %}
+            {% if app.debug %}
+                <link href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}" rel="stylesheet">
+            {% else %}
+                <link href="{{ asset('bundles/darvinadmin/build/app.css') }}" rel="stylesheet">
+            {% endif %}
             <link href="{{ asset(darvin_admin_visual_assets_path ~ '/styles/app.css') }}" rel="stylesheet">
         {% endblock %}
 
-        <script src="{{ asset('bundles/darvinadmin/scripts/jquery/jquery.min.js') }}"></script>
+        <script src="{{ asset('bundles/darvinadmin/vendor/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body>
         <noscript>
@@ -198,9 +202,11 @@
                 var LOCALE                   = '{{ app.request.locale }}';
                 var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin_yandex_translate_api_key }}';
             </script>
-            {% for asset in admin_assets('scripts') %}
-                <script src="{{ asset(asset) }}"></script>
-            {% endfor %}
+            {% if app.debug %}
+                <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
+            {% else %}
+                <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
+            {% endif %}
             <script src="{{ asset('bundles/ivoryckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
             <script>
@@ -208,10 +214,7 @@
 
                 {% for type, messages in flashes %}
                     {% for message in messages %}
-                        noty({
-                            text: '{{ message|trans|e('js') }}',
-                            type: '{{ type }}'
-                        });
+                        notify('{{ message }}', '{{ type }}');
                     {% endfor %}
                 {% endfor %}
             </script>
@@ -219,3 +222,4 @@
 
     </body>
 </html>
+{% endblock %}

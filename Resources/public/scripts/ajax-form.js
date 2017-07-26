@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('body').on('submit', 'form.ajax', function (e) {
+    $('body').on('submit', 'form.ajax[action][method]', function (e) {
         e.preventDefault();
 
         var $form = $(this);
@@ -13,21 +13,22 @@ $(document).ready(function () {
             .find('[type="submit"]').append(AJAX_LOADER);
 
         $.ajax({
-            data: $form.serialize(),
-            type: $form.attr('method'),
-            url:  $form.attr('action')
+            url:         $form.attr('action'),
+            type:        $form.attr('method'),
+            data:        new FormData($form[0]),
+            contentType: false,
+            processData: false
         }).done(function (data) {
             notify(data.message, data.success ? 'success' : 'error');
 
-            if (null === data.redirectUrl) {
+            if (data.html) {
                 $form.replaceWith(data.html);
-
-                return;
             }
-
-            setTimeout(function () {
-                document.location.href = data.redirectUrl;
-            }, NOTY_TIMEOUT);
+            if (data.redirectUrl) {
+                setTimeout(function () {
+                    document.location.href = data.redirectUrl;
+                }, NOTY_TIMEOUT);
+            }
         }).fail(onAjaxFail);
     });
 });

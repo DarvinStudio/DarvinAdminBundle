@@ -28,7 +28,7 @@ var scripts = [
             'Resources/public/scripts/globals.js',
             'Resources/public/scripts/yandex-translator.js',
 
-            'Resources/public/scripts/ajax-forms.js',
+            'Resources/public/scripts/ajax-form.js',
             'Resources/public/scripts/batch-delete.js',
             'Resources/public/scripts/chosen-init.js',
             'Resources/public/scripts/colorbox-init.js',

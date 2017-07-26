@@ -1,5 +1,5 @@
 var AJAX_LOADER  = '<span class="ajax_loader"></span>';
-var NOTY_TIMEOUT = 2000;
+var NOTY_TIMEOUT = 1500;
 
 var notify = function (text, type) {
     if (!text) {
@@ -9,6 +9,7 @@ var notify = function (text, type) {
     new Noty({
         text:    Translator.trans(text),
         type:    type || 'success',
+        theme:   'relax',
         timeout: NOTY_TIMEOUT
     }).show();
 };

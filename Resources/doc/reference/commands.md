@@ -1,11 +1,6 @@
 Консольные команды
 ==================
 
-## darvin:admin:assets:compile:
-
-- **что делает**: компилирует ресурсы (скрипты, стили) бандла;
-- **как использовать**: darvin:admin:assets:compile.
-
 ## darvin:admin:caches:clear:
 
 - **что делает**: выполняет команды очистки кэша Symfony и Imagine;

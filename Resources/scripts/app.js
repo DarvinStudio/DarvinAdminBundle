@@ -144,7 +144,8 @@ var slyOptions = {
     scrollBy: 100,
     dragHandle: 1,
     dynamicHandle: 1,
-    clickBar: 1
+    clickBar: 1,
+    scrollSource: ' '
 };
 
 // скрывает/показывает скрол бар, если он не нужен

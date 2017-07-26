@@ -81,6 +81,7 @@ var gutil      = require('gulp-util');
 var concat     = require('gulp-concat');
 var expect     = require('gulp-expect-file');
 var imageEmbed = require('gulp-image-embed');
+var stripDebug = require('gulp-strip-debug');
 var uglify     = require('gulp-uglify');
 var uglifyCSS  = require('gulp-uglifycss');
 
@@ -97,6 +98,7 @@ gulp
         scripts.forEach(function (scripts) {
             gulp.src(scripts.src)
                 .pipe(expect(scripts.src))
+                .pipe(stripDebug())
                 .pipe(concat(scripts.target.filename))
                 .pipe(uglify())
                 .pipe(gulp.dest(scripts.target.directory.prod));

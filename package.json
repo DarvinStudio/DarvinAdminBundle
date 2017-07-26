@@ -20,6 +20,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-expect-file": "0.0.7",
     "gulp-image-embed": "0.0.2",
+    "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^3.0.0",
     "gulp-uglifycss": "^1.0.8"
   }

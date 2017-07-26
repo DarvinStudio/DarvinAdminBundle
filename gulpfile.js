@@ -77,6 +77,7 @@ var config = {
 };
 
 var gulp       = require('gulp');
+var gutil      = require('gulp-util');
 var concat     = require('gulp-concat');
 var expect     = require('gulp-expect-file');
 var imageEmbed = require('gulp-image-embed');
@@ -99,6 +100,10 @@ gulp
                 .pipe(concat(scripts.target.filename))
                 .pipe(uglify())
                 .pipe(gulp.dest(scripts.target.directory.prod));
+
+            console.log(gutil.colors.yellow(
+                '\nDo not forget to commit the "' + [scripts.target.directory.prod, scripts.target.filename].join('/') + '" file :)\n'
+            ));
         });
     })
     .task('styles', function () {
@@ -119,6 +124,10 @@ gulp
                 }))
                 .pipe(concat(styles.target.filename))
                 .pipe(gulp.dest(styles.target.directory.prod));
+
+            console.log(gutil.colors.yellow(
+                '\nDo not forget to commit the "' + [styles.target.directory.prod, styles.target.filename].join('/') + '" file :)\n'
+            ));
         });
     })
     .task('build', ['scripts', 'styles'])

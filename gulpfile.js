@@ -25,27 +25,27 @@ var scripts = [
             '../../../vendor/a2lix/translation-form-bundle/A2lix/TranslationFormBundle/Resources/public/js/a2lix_translation_default.js',
             '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
 
-            'Resources/public/scripts/globals.js',
-            'Resources/public/scripts/yandex-translator.js',
+            'Resources/scripts/globals.js',
+            'Resources/scripts/yandex-translator.js',
 
-            'Resources/public/scripts/ajax-form.js',
-            'Resources/public/scripts/batch-delete.js',
-            'Resources/public/scripts/chosen-init.js',
-            'Resources/public/scripts/colorbox-init.js',
-            'Resources/public/scripts/configuration.js',
-            'Resources/public/scripts/counter-init.js',
-            'Resources/public/scripts/date-time-pickers-init.js',
-            'Resources/public/scripts/dropzone-init.js',
-            'Resources/public/scripts/form-collections.js',
-            'Resources/public/scripts/images.js',
-            'Resources/public/scripts/master-slave-inputs.js',
-            'Resources/public/scripts/property-forms.js',
-            'Resources/public/scripts/search.js',
-            'Resources/public/scripts/slug-suffix.js',
-            'Resources/public/scripts/translations-sync.js',
-            'Resources/public/scripts/tri-state-checkboxes.js',
+            'Resources/scripts/ajax-form.js',
+            'Resources/scripts/batch-delete.js',
+            'Resources/scripts/chosen-init.js',
+            'Resources/scripts/colorbox-init.js',
+            'Resources/scripts/configuration.js',
+            'Resources/scripts/counter-init.js',
+            'Resources/scripts/date-time-pickers-init.js',
+            'Resources/scripts/dropzone-init.js',
+            'Resources/scripts/form-collections.js',
+            'Resources/scripts/images.js',
+            'Resources/scripts/master-slave-inputs.js',
+            'Resources/scripts/property-forms.js',
+            'Resources/scripts/search.js',
+            'Resources/scripts/slug-suffix.js',
+            'Resources/scripts/translations-sync.js',
+            'Resources/scripts/tri-state-checkboxes.js',
 
-            'Resources/public/scripts/app.js'
+            'Resources/scripts/app.js'
         ]
     }
 ];

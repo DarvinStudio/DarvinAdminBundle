@@ -38,7 +38,6 @@ var scripts = [
             'Resources/public/scripts/dropzone-init.js',
             'Resources/public/scripts/form-collections.js',
             'Resources/public/scripts/images.js',
-            'Resources/public/scripts/jscrollpane.js',
             'Resources/public/scripts/master-slave-inputs.js',
             'Resources/public/scripts/property-forms.js',
             'Resources/public/scripts/search.js',
@@ -67,8 +66,7 @@ var styles = [
             'Resources/public/vendor/jqueryui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
             'Resources/public/vendor/noty/lib/noty.css',
 
-            'Resources/public/styles/bootstrap-chosen.css',
-            'Resources/public/styles/jscrollpane.css'
+            'Resources/public/styles/bootstrap-chosen.css'
         ]
     }
 ];

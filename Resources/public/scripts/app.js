@@ -170,25 +170,33 @@ function switchScrollBar() {
 }
 // инициализация скролбара
 function initSly( container, options ) {
-	// для каждого контенера
+    // для каждого контенера
     $(container).each(function(){
-    	var $self = $(this);
+        var $self = $(this);
         var $frame = $self.find('.sly-frame');
 
         var sly = new Sly( $frame, options, {
             move: function () {
-                var scrollbar1_handle = $self.find('.scrollbar').eq(0).find('.handle');
-                var scrollbar2_handle = $self.find('.scrollbar').eq(1).find('.handle');
-                scrollbar2_handle.attr('style', scrollbar1_handle.attr('style'))
+                scrollSync();
             }
-		});
+        });
 
         sly.init();
+        $('.sly-container .scrollbar').clone(true).appendTo('.sly-container');
+
+        scrollSync();
         switchScrollBar();
         $(window).resize(function() {
+            scrollSync();
             switchScrollBar();
             sly.reload();
         });
+
+        function scrollSync() {
+            var scrollbar1_handle = $self.find('.scrollbar').eq(0).find('.handle');
+            var scrollbar2_handle = $self.find('.scrollbar').eq(1).find('.handle');
+            scrollbar2_handle.attr('style', scrollbar1_handle.attr('style'))
+        }
     });
 }
 setTimeout(initSly, 1, $('.sly-container'), slyOptions);

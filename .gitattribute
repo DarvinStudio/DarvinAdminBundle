@@ -1,0 +1,3 @@
+Resources/public/build/* linguist-vendored
+Resources/public/build-dev/* linguist-vendored
+Resources/public/vendor/* linguist-vendored

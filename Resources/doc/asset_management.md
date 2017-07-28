@@ -40,7 +40,7 @@ $ node_modules/bower/bin/bower install whatever --save
 $ node_modules/gulp/bin/gulp.js build && node_modules/gulp/bin/gulp.js watch
 ```
 
-После внесения всех требуемых изменений собираем продакшн-билды ресурсов:
+После внесения всех требуемых изменений собираем ресурсы:
 
 ```
 $ node_modules/gulp/bin/gulp.js build-prod 

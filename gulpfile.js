@@ -94,7 +94,7 @@ gulp
                 .pipe(gulp.dest(scripts.target.directory.dev));
         });
     })
-    .task('scripts-prod', function () {
+    .task('scripts-prod', ['scripts'], function () {
         scripts.forEach(function (scripts) {
             gulp.src(scripts.src)
                 .pipe(expect(scripts.src))
@@ -103,9 +103,13 @@ gulp
                 .pipe(uglify())
                 .pipe(gulp.dest(scripts.target.directory.prod));
 
-            console.log(gutil.colors.yellow(
-                '\nDo not forget to commit the "' + [scripts.target.directory.prod, scripts.target.filename].join('/') + '" file :)\n'
-            ));
+            for (var key in scripts.target.directory) {
+                if (scripts.target.directory.hasOwnProperty(key)) {
+                    console.log(gutil.colors.yellow(
+                        'Do not forget to commit the "' + [scripts.target.directory[key], scripts.target.filename].join('/') + '" file :)'
+                    ));
+                }
+            }
         });
     })
     .task('styles', function () {
@@ -116,7 +120,7 @@ gulp
                 .pipe(gulp.dest(styles.target.directory.dev));
         });
     })
-    .task('styles-prod', function () {
+    .task('styles-prod', ['styles'], function () {
         styles.forEach(function (styles) {
             gulp.src(styles.src)
                 .pipe(expect(styles.src))
@@ -127,9 +131,13 @@ gulp
                 .pipe(concat(styles.target.filename))
                 .pipe(gulp.dest(styles.target.directory.prod));
 
-            console.log(gutil.colors.yellow(
-                '\nDo not forget to commit the "' + [styles.target.directory.prod, styles.target.filename].join('/') + '" file :)\n'
-            ));
+            for (var key in styles.target.directory) {
+                if (styles.target.directory.hasOwnProperty(key)) {
+                    console.log(gutil.colors.yellow(
+                        'Do not forget to commit the "' + [styles.target.directory[key], styles.target.filename].join('/') + '" file :)'
+                    ));
+                }
+            }
         });
     })
     .task('build', ['scripts', 'styles'])

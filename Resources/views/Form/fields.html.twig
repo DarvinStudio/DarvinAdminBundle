@@ -41,6 +41,12 @@
     </div>
 {%- endblock choice_widget_expanded -%}
 
+{%- block ckeditor_widget_extra -%}
+    ['i', 'span'].forEach(function (tag) {
+        CKEDITOR.dtd.$removeEmpty[tag] = false;
+    });
+{%- endblock -%}
+
 {%- block collection_widget -%}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' collection')|trim}) %}
     {% if allow_add %}

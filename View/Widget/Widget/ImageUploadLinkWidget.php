@@ -37,7 +37,10 @@ class ImageUploadLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        $url = $this->uploadStorage->resolveUri($entity, $options['file_property']);
+        $url = $this->uploadStorage->resolveUri(
+            $entity,
+            !empty($options['file_property']) ? $options['file_property'] : $property.'File'
+        );
 
         return $url
             ? $this->render($options, [
@@ -55,8 +58,11 @@ class ImageUploadLinkWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired('file_property')
-            ->setAllowedTypes('file_property', 'string');
+            ->setDefault('file_property', null)
+            ->setAllowedTypes('file_property', [
+                'string',
+                'null',
+            ]);
     }
 
     /**

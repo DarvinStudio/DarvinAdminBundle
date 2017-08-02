@@ -34088,7 +34088,7 @@ $(document).ready(function () {
 
                 $.colorbox($.extend({}, locale, {
                     href:  url,
-                    title: $link.attr('title')
+                    title: $link.attr('title') || $link.data('title')
                 }));
             })
             .find('.colorbox').colorbox(locale);

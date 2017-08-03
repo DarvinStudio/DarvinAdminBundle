@@ -33951,7 +33951,7 @@ $(document).ready(function () {
             if (data.html) {
                 $form.replaceWith(data.html);
             }
-            if (data.redirectUrl) {
+            if (null !== data.redirectUrl) {
                 setTimeout(function () {
                     document.location.href = data.redirectUrl;
                 }, NOTY_TIMEOUT);

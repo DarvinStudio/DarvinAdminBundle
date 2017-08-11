@@ -17,12 +17,9 @@ use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
@@ -58,18 +55,26 @@ class FilterType extends AbstractFormType
     private $translationJoiner;
 
     /**
+     * @var array
+     */
+    private $defaultFieldOptions;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager            $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormRegistryInterface                 $formRegistry          Form registry
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner     Translation joiner
+     * @param array                                                         $defaultFieldOptions   Default field options
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
         FormRegistryInterface $formRegistry,
-        TranslationJoinerInterface $translationJoiner
+        TranslationJoinerInterface $translationJoiner,
+        array $defaultFieldOptions
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->formRegistry = $formRegistry;
         $this->translationJoiner = $translationJoiner;
+        $this->defaultFieldOptions = $defaultFieldOptions;
     }
 
     /**
@@ -193,38 +198,24 @@ class FilterType extends AbstractFormType
      */
     private function getDefaultFieldOptions($fieldType)
     {
+        $options = isset($this->defaultFieldOptions[$fieldType]) ? $this->defaultFieldOptions[$fieldType] : [];
+
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {
-            case DateType::class:
-                return [
-                    'widget' => 'single_text',
-                    'format' => 'dd.MM.yyyy',
-                ];
-            case DateTimeType::class:
-                return [
-                    'widget' => 'single_text',
-                    'format' => 'dd.MM.yyyy HH:mm',
-                ];
             case EntityType::class:
-                return [
-                    'query_builder' => function (EntityRepository $er) use ($translationJoiner) {
-                        $qb = $er->createQueryBuilder('o');
+                $options['query_builder'] = function (EntityRepository $er) use ($translationJoiner) {
+                    $qb = $er->createQueryBuilder('o');
 
-                        if ($translationJoiner->isTranslatable($er->getClassName())) {
-                            $translationJoiner->joinTranslation($qb, true);
-                        }
+                    if ($translationJoiner->isTranslatable($er->getClassName())) {
+                        $translationJoiner->joinTranslation($qb, true);
+                    }
 
-                        return $qb;
-                    },
-                ];
-            case TimeType::class:
-                return [
-                    'widget' => 'single_text',
-                ];
-            default:
-                return [];
+                    return $qb;
+                };
         }
+
+        return $options;
     }
 
     /**

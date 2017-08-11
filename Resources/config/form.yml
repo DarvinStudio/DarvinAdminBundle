@@ -41,6 +41,7 @@ services:
             - "@darvin_admin.metadata.field_blacklist_manager"
             - "@form.registry"
             - "@darvin_content.translatable.manager"
+            - "%darvin_admin.form.default_field_options%"
         tags:
             - { name: form.type }
 
@@ -50,6 +51,7 @@ services:
             - "@darvin_admin.metadata.field_blacklist_manager"
             - "@form.registry"
             - "@darvin_content.translatable.translation_joiner"
+            - "%darvin_admin.form.default_field_options%"
         tags:
             - { name: form.type }
 

@@ -39,18 +39,26 @@ class BaseType extends AbstractFormType
     private $translatableManager;
 
     /**
+     * @var array
+     */
+    private $defaultFieldOptions;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormRegistryInterface                   $formRegistry          Form registry
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
+     * @param array                                                           $defaultFieldOptions   Default field options
      */
     public function __construct(
         FieldBlacklistManager $fieldBlacklistManager,
         FormRegistryInterface $formRegistry,
-        TranslatableManagerInterface $translatableManager
+        TranslatableManagerInterface $translatableManager,
+        array $defaultFieldOptions
     ) {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
         $this->formRegistry = $formRegistry;
         $this->translatableManager = $translatableManager;
+        $this->defaultFieldOptions = $defaultFieldOptions;
     }
 
     /**
@@ -86,6 +94,9 @@ class BaseType extends AbstractFormType
                     $fieldType = $guess->getType();
                     $fieldOptions = array_merge($guess->getOptions(), $fieldOptions);
                 }
+            }
+            if (isset($this->defaultFieldOptions[$fieldType])) {
+                $fieldOptions = array_merge($this->defaultFieldOptions[$fieldType], $fieldOptions);
             }
             if ($meta->isAssociation($field)) {
                 $this->addValidConstraint($fieldOptions);

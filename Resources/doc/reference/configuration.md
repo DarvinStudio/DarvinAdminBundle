@@ -29,6 +29,18 @@ darvin_admin:
         alias:  ~ # Псевдоним, если не задан, генерируется автоматически
         entity:   # Класс сущности, для администрирования которой создается раздел (обязательно)
         config: ~ # Путь до конфигурационного файла раздела, если не задан, то создается только конфигурация безопасности
+    form: # Конфигурация форм
+        default_field_options: # Опции полей по умолчанию
+            Symfony\Component\Form\Extension\Core\Type\CheckboxType:
+                required: false
+            Symfony\Component\Form\Extension\Core\Type\DateType:
+                widget: single_text
+                format: dd.MM.yyyy
+            Symfony\Component\Form\Extension\Core\Type\DateTimeType:
+                widget: single_text
+                format: 'dd.MM.yyyy HH:mm'
+            Symfony\Component\Form\Extension\Core\Type\TimeType:
+                widget: single_text
     menu: # Конфигурация меню
         groups: # Конфигурация групп элементов меню
 

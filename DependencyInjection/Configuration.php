@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->append($this->addCKEditorNode())
+                ->append($this->addFormNode())
                 ->append($this->addMenuNode())
                 ->append($this->addSectionsNode())
                 ->scalarNode('custom_logo')->defaultNull()->end()
@@ -124,6 +125,21 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
                 ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins');
+
+        return $rootNode;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     */
+    private function addFormNode()
+    {
+        $rootNode = (new TreeBuilder())->root('form');
+        $rootNode->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('default_field_options')
+                    ->prototype('array')
+                        ->prototype('variable');
 
         return $rootNode;
     }

@@ -20,6 +20,10 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Yaml\Yaml;
@@ -153,6 +157,24 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'main'    => 'bundles/darvinadmin/images/admin/modules_main.png',
                             'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
                         ],
+                    ],
+                ],
+            ],
+            'form' => [
+                'default_field_options' => [
+                    CheckboxType::class => [
+                        'required' => false,
+                    ],
+                    DateType::class => [
+                        'widget' => 'single_text',
+                        'format' => 'dd.MM.yyyy',
+                    ],
+                    DateTimeType::class => [
+                        'widget' => 'single_text',
+                        'format' => 'dd.MM.yyyy HH:mm',
+                    ],
+                    TimeType::class => [
+                        'widget' => 'single_text',
                     ],
                 ],
             ],

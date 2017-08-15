@@ -1,4 +1,10 @@
 action:
+    copy:
+        submit: " Копировать @trans_lower_accusative@"
+        success:
+            f: "@trans@ успешно скопирована"
+            m: "@trans@ успешно скопирован"
+            n: "@trans@ успешно скопировано"
     delete:
         confirm: "Подтвердите удаление @trans_lower_genitive@"
         submit:  " Удалить @trans_lower_accusative@"

@@ -1,6 +1,7 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'class': 'edit_element copy'}}) }}
 {{ form_widget(form) }}
-<button type="submit">{{ (translation_prefix ~ 'action.copy.submit')|trans }}</button>
+<button type="submit"></button>
+<span>{{ (translation_prefix ~ 'action.copy.submit')|trans }}</span>
 {{ form_end(form) }}

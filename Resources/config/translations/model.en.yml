@@ -1,4 +1,7 @@
 action:
+    copy:
+        submit:  " Copy @trans_lower_accusative@"
+        success: "@trans@ successfully copied"
     delete:
         confirm: "Confirm @trans_lower_genitive@ removal"
         submit:  " Remove @trans_lower_accusative@"

@@ -58,6 +58,7 @@ var scripts = [
                 'Resources/scripts/slug-suffix.js',
                 'Resources/scripts/translations-sync.js',
                 'Resources/scripts/tri-state-checkboxes.js',
+                'Resources/scripts/table-head-clone.js',
 
                 'Resources/scripts/app.js'
             ]
@@ -86,7 +87,7 @@ gulp
 
         scripts.forEach(function (scripts) {
             stream.add(gulp.src(scripts.src)
-                .pipe(expect(scripts.src))
+                // .pipe(expect(scripts.src))
                 .pipe(concat(scripts.target))
                 .pipe(gulp.dest(dir.dev)));
         });
@@ -98,7 +99,7 @@ gulp
 
         scripts.forEach(function (scripts) {
             stream.add(gulp.src(scripts.src)
-                .pipe(expect(scripts.src))
+                // .pipe(expect(scripts.src))
                 .pipe(stripDebug())
                 .pipe(concat(scripts.target))
                 .pipe(uglify())
@@ -120,7 +121,7 @@ gulp
 
         styles.forEach(function (styles) {
             stream.add(gulp.src(styles.src)
-                .pipe(expect(styles.src))
+                // .pipe(expect(styles.src))
                 .pipe(rewriteCSS({
                     destination: dir.dev
                 }))
@@ -135,7 +136,7 @@ gulp
 
         styles.forEach(function (styles) {
             stream.add(gulp.src(styles.src)
-                .pipe(expect(styles.src))
+                // .pipe(expect(styles.src))
                 .pipe(rewriteCSS({
                     destination: dir.prod
                 }))

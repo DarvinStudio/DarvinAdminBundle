@@ -34763,6 +34763,7 @@ $('.section_table').each(function(){
 	}
 	
 });
+
 /* показать/скрыть сайдбар */
 $('#sidebar_switcher').on('mousedown', function(){
 	var switch_btn = $('#sidebar_switcher');

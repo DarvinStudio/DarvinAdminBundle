@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
 
+    darvin_admin.form.handler.new_action_filter.class: Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler
+
     darvin_admin.form.twig_extension.class: Darvin\AdminBundle\Twig\Extension\FormExtension
 
     darvin_admin.form.type.base.class: Darvin\AdminBundle\Form\Type\BaseType
@@ -28,6 +30,12 @@ services:
             - "@darvin_utils.flash.notifier"
             - "@darvin_admin.metadata.manager"
             - "@validator"
+
+    darvin_admin.form.handler.new_action_filter:
+        class: "%darvin_admin.form.handler.new_action_filter.class%"
+        arguments:
+            - "@darvin_admin.form.factory"
+            - "@darvin_admin.metadata.manager"
 
     darvin_admin.form.twig_extension:
         class:  "%darvin_admin.form.twig_extension.class%"

@@ -199,6 +199,8 @@ class CrudController extends Controller
             $this->getTranslationsInitializer()->initializeTranslations($entity, $this->getParameter('darvin_admin.locales'));
         }
 
+        $this->getNewActionFilterFormHandler()->handleForm($entity, $request);
+
         $form = $this->getAdminFormFactory()->createEntityForm(
             $this->meta,
             $entity,
@@ -620,7 +622,7 @@ class CrudController extends Controller
      * @param \Symfony\Component\Form\FormInterface $form   Form
      * @param object                                $entity Entity
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function successRedirect(FormInterface $form, $entity)
     {
@@ -697,6 +699,12 @@ class CrudController extends Controller
     private function getFormHandler()
     {
         return $this->get('darvin_admin.form.handler');
+    }
+
+    /** @return \Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler */
+    private function getNewActionFilterFormHandler()
+    {
+        return $this->get('darvin_admin.form.handler.new_action_filter');
     }
 
     /** @return \Knp\Component\Pager\Paginator */

@@ -86,12 +86,14 @@ class FilterType extends AbstractFormType
         $configuration = $meta->getConfiguration();
 
         foreach ($configuration['form']['filter']['field_groups'] as $fields) {
-            $this->addFields($builder, $fields, $meta);
+            $this->addFields($builder, $fields, $meta, $options);
         }
 
-        $this->addFields($builder, $configuration['form']['filter']['fields'], $meta);
+        $this->addFields($builder, $configuration['form']['filter']['fields'], $meta, $options);
 
-        if (!empty($options['parent_entity_association_param'])) {
+        if (!empty($options['parent_entity_association_param'])
+            && (empty($options['fields']) || in_array($options['parent_entity_association_param'], $options['fields']))
+        ) {
             $builder->add($options['parent_entity_association_param'], HiddenType::class, [
                 'label' => false,
             ]);
@@ -122,6 +124,7 @@ class FilterType extends AbstractFormType
         $resolver
             ->setDefaults([
                 'csrf_protection'                 => false,
+                'fields'                          => [],
                 'method'                          => 'get',
                 'parent_entity_association_param' => null,
                 'parent_entity_id'                => null,
@@ -129,6 +132,7 @@ class FilterType extends AbstractFormType
                 'translation_domain'              => 'admin',
             ])
             ->setRequired('metadata')
+            ->setAllowedTypes('fields', 'array')
             ->setAllowedTypes('metadata', Metadata::class);
     }
 
@@ -144,14 +148,19 @@ class FilterType extends AbstractFormType
      * @param \Symfony\Component\Form\FormBuilderInterface $builder Form builder
      * @param array                                        $fields  Fields
      * @param \Darvin\AdminBundle\Metadata\Metadata        $meta    Metadata
+     * @param array                                        $options Options
      *
      * @throws \Darvin\AdminBundle\Form\FormException
      */
-    private function addFields(FormBuilderInterface $builder, array $fields, Metadata $meta)
+    private function addFields(FormBuilderInterface $builder, array $fields, Metadata $meta, array $options)
     {
         $mappings = $meta->getMappings();
 
         foreach ($fields as $field => $attr) {
+            if (!empty($options['fields']) && !in_array($field, $options['fields'])) {
+                continue;
+            }
+
             $property = preg_replace('/(From|To)$/', '', $field);
 
             if (!isset($mappings[$property])) {
@@ -167,13 +176,13 @@ class FilterType extends AbstractFormType
                 continue;
             }
 
-            $options = $this->resolveFieldOptionValues($attr['options']);
+            $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
             $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
                 ? $this->formRegistry->getTypeGuesser()->guessType($meta->getTranslationClass(), $property)
                 : $this->formRegistry->getTypeGuesser()->guessType($meta->getEntityClass(), $property);
-            $options = array_merge([
+            $fieldOptions = array_merge([
                 'required' => false,
-            ], $typeGuess->getOptions(), $options);
+            ], $typeGuess->getOptions(), $fieldOptions);
 
             if (!empty($attr['type'])) {
                 $type = $attr['type'];
@@ -184,10 +193,10 @@ class FilterType extends AbstractFormType
                     $type = self::$fieldTypeChangeMap[$type];
                 }
 
-                $options = array_merge($this->getDefaultFieldOptions($type), $options);
+                $fieldOptions = array_merge($this->getDefaultFieldOptions($type), $fieldOptions);
             }
 
-            $builder->add($field, $type, $options);
+            $builder->add($field, $type, $fieldOptions);
         }
     }
 

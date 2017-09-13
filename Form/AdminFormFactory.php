@@ -170,29 +170,27 @@ class AdminFormFactory
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta                         Metadata
      * @param string                                $parentEntityAssociationParam Parent entity association query parameter name
      * @param mixed                                 $parentEntityId               Parent entity ID
+     * @param array                                 $options                      Options
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null)
+    public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null, array $options = [])
     {
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
             return null;
         }
+        if (!array_key_exists('action', $options)) {
+            $actionRouteParams = [
+                // Do not allow preserve filter data in URL event listener to work
+                $meta->getFilterFormTypeName() => [],
+            ];
 
-        $actionRouteParams = [
-            // Do not allow preserve filter data in URL event listener to work
-            $meta->getFilterFormTypeName() => [],
-        ];
+            if (!empty($parentEntityAssociationParam)) {
+                $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
+            }
 
-        if (!empty($parentEntityAssociationParam)) {
-            $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
+            $options['action'] = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
         }
-
-        $action = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
-
-        $options = [
-            'action' => $action,
-        ];
 
         $configuration = $meta->getConfiguration();
         $type = $configuration['form']['filter']['type'];

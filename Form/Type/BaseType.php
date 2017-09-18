@@ -98,7 +98,9 @@ class BaseType extends AbstractFormType
             if (isset($this->defaultFieldOptions[$fieldType])) {
                 $fieldOptions = array_merge($this->defaultFieldOptions[$fieldType], $fieldOptions);
             }
-            if ($meta->isAssociation($field)) {
+            if ($this->translatableManager->isTranslatable($meta->getEntityClass())
+                && $field === $this->translatableManager->getTranslationsProperty()
+            ) {
                 $this->addValidConstraint($fieldOptions);
             }
 

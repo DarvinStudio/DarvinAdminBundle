@@ -157,6 +157,16 @@
     {{ block('description') }}
 {%- endblock darvin_image_image_widget -%}
 
+{%- block form_errors -%}
+    {% if errors is not empty %}
+        <ul class="input_value-error">
+            {% for error in errors %}
+                <li>{{ error.message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{%- endblock form_errors -%}
+
 {%- block form_label -%}
     {% if label is not same as(false) -%}
         {% set is_ckeditor = 'ckeditor' == block_prefixes[3]|default %}

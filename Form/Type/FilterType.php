@@ -92,7 +92,7 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields'], $meta, $options);
 
         if (!empty($options['parent_entity_association_param'])
-            && (empty($options['fields']) || in_array($options['parent_entity_association_param'], $options['fields']))
+            && (!is_array($options['fields']) || in_array($options['parent_entity_association_param'], $options['fields']))
         ) {
             $builder->add($options['parent_entity_association_param'], HiddenType::class, [
                 'label' => false,
@@ -124,7 +124,7 @@ class FilterType extends AbstractFormType
         $resolver
             ->setDefaults([
                 'csrf_protection'                 => false,
-                'fields'                          => [],
+                'fields'                          => null,
                 'method'                          => 'get',
                 'parent_entity_association_param' => null,
                 'parent_entity_id'                => null,
@@ -132,8 +132,11 @@ class FilterType extends AbstractFormType
                 'translation_domain'              => 'admin',
             ])
             ->setRequired('metadata')
-            ->setAllowedTypes('fields', 'array')
-            ->setAllowedTypes('metadata', Metadata::class);
+            ->setAllowedTypes('metadata', Metadata::class)
+            ->setAllowedTypes('fields', [
+                'array',
+                'null',
+            ]);
     }
 
     /**
@@ -157,7 +160,7 @@ class FilterType extends AbstractFormType
         $mappings = $meta->getMappings();
 
         foreach ($fields as $field => $attr) {
-            if (!empty($options['fields']) && !in_array($field, $options['fields'])) {
+            if (is_array($options['fields']) && !in_array($field, $options['fields'])) {
                 continue;
             }
 

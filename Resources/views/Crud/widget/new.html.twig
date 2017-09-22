@@ -3,7 +3,3 @@
 {% include 'DarvinAdminBundle:Crud/widget:form.html.twig' with {
     'field_groups': meta.configuration.form.new.field_groups,
 } %}
-
-{% if ajax_form %}
-    {{ form_javascript(form) }}
-{% endif %}

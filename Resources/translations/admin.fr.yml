@@ -54,6 +54,7 @@ dashboard:
 dropzone:
     default_message: 'Ici goutte fichiers à télécharger'
     file_too_big: 'Le fichier est trop gros ({{taille}}MO). Max taille du fichier: {{maxFilesize}}MO.'
+    invalid_file_type: 'Vous ne pouvez pas télécharger des fichiers de ce type.'
     remove_file: 'Suppression de fichier'
 entity_name:
     single:

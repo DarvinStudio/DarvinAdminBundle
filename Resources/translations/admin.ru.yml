@@ -60,9 +60,10 @@ dashboard:
     module_link: Перейти в модуль
 
 dropzone:
-    default_message: Поместите сюда файлы для загрузки
-    file_too_big:    "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ."
-    remove_file:     Удалить
+    default_message:   Поместите сюда файлы для загрузки
+    file_too_big:      "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ."
+    invalid_file_type: Вы не можете загружать файлы подобного типа.
+    remove_file:       Удалить
 
 entity_name:
     single:

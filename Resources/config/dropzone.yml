@@ -8,6 +8,7 @@ services:
             - "@oneup_uploader.templating.uploader_helper"
             - "@property_accessor"
             - "@vich_uploader.metadata_reader"
+            - "%darvin_image.constraints.mime_types%"
             - "%oneup_uploader.config%"
             - "%darvin_admin.upload_max_size_mb%"
         tags:

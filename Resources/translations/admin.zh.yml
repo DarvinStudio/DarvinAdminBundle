@@ -54,6 +54,7 @@ dashboard:
 dropzone:
     default_message: 落在这儿的文件上传
     file_too_big: '文件太大({{filesize}}MB)。 Max filesize:{{maxFilesize}}MB。'
+    invalid_file_type: '你不能上传文件的类型。'
     remove_file: 删除文件
 entity_name:
     single:

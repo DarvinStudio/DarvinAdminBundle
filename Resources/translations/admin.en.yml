@@ -60,9 +60,10 @@ dashboard:
     module_link: Go to module page
 
 dropzone:
-    default_message: Drop here files to upload
-    file_too_big:    "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."
-    remove_file:     Remove file
+    default_message:   Drop here files to upload
+    file_too_big:      "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."
+    invalid_file_type: You can't upload files of this type.
+    remove_file:       Remove file
 
 entity_name:
     single:

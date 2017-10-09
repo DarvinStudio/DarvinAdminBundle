@@ -31,7 +31,6 @@ use Vich\UploaderBundle\Metadata\MetadataReader;
  */
 class DropzoneType extends AbstractType
 {
-    const DEFAULT_ACCEPTED_FILES         = 'image/*';
     const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin';
 
     const OPTION_UPLOADABLE_FIELD = 'uploadable_field';
@@ -52,6 +51,11 @@ class DropzoneType extends AbstractType
     private $vichUploaderMetadataReader;
 
     /**
+     * @var string[]
+     */
+    private $acceptedFiles;
+
+    /**
      * @var array
      */
     private $oneupUploaderConfig;
@@ -65,6 +69,7 @@ class DropzoneType extends AbstractType
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
+     * @param string[]                                                    $acceptedFiles              Accepted files
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
      * @param int                                                         $uploadMaxSizeMB            Max upload file size in MB
      */
@@ -72,12 +77,14 @@ class DropzoneType extends AbstractType
         UploaderHelper $oneupUploaderHelper,
         PropertyAccessorInterface $propertyAccessor,
         MetadataReader $vichUploaderMetadataReader,
+        array $acceptedFiles,
         array $oneupUploaderConfig,
         $uploadMaxSizeMB
     ) {
         $this->oneupUploaderHelper = $oneupUploaderHelper;
         $this->propertyAccessor = $propertyAccessor;
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
+        $this->acceptedFiles = $acceptedFiles;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
         $this->uploadMaxSizeMB = $uploadMaxSizeMB;
     }
@@ -173,7 +180,7 @@ class DropzoneType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'accepted_files'         => self::DEFAULT_ACCEPTED_FILES,
+                'accepted_files'         => implode(',', $this->acceptedFiles),
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,

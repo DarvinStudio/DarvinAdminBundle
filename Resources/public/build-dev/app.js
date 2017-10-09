@@ -34172,14 +34172,15 @@ $(document).ready(function () {
         }
 
         var dropzone = new Dropzone('#' + $dropzone.attr('id'), {
-            acceptedFiles:      $dropzone.data('accepted-files'),
-            addRemoveLinks:     true,
-            dictDefaultMessage: defaultMessage,
-            dictFileTooBig:     Translator.trans('dropzone.file_too_big'),
-            dictRemoveFile:     Translator.trans('dropzone.remove_file'),
-            filesizeBase:       1024,
-            maxFilesize:        $dropzone.data('max-filesize'),
-            url:                $dropzone.data('url')
+            acceptedFiles:       $dropzone.data('accepted-files'),
+            addRemoveLinks:      true,
+            dictDefaultMessage:  defaultMessage,
+            dictFileTooBig:      Translator.trans('dropzone.file_too_big'),
+            dictInvalidFileType: Translator.trans('dropzone.invalid_file_type'),
+            dictRemoveFile:      Translator.trans('dropzone.remove_file'),
+            filesizeBase:        1024,
+            maxFilesize:         $dropzone.data('max-filesize'),
+            url:                 $dropzone.data('url')
         });
 
         dropzone

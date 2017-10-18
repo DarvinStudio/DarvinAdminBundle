@@ -60,7 +60,8 @@ class AppKernel extends Kernel
 
 ```yaml
 darvin_admin:
-    locales: "%locales%"
+    locales:            "%locales%"
+    upload_max_size_mb: "%upload_max_size_mb%"
     project:
         title: "%project_title%"
         url:   "%project_url%"

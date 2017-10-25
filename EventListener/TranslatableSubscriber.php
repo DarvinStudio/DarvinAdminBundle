@@ -107,7 +107,13 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
     private function mapTranslatable(ClassMetadata $meta)
     {
         if (!$meta->hasAssociation('translations')) {
-            $translation = $meta->getReflectionClass()->getMethod('getTranslationEntityClass')->invoke(null);
+            $class = $meta->getName();
+
+            if (isset($this->entityOverride[$class])) {
+                $class = $this->entityOverride[$class];
+            }
+
+            $translation = $class::getTranslationEntityClass();
 
             if (isset($this->entityOverride[$translation])) {
                 $translation = $this->entityOverride[$translation];
@@ -136,7 +142,13 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
             $meta->setIdGenerator(new IdentityGenerator());
         }
         if (!$meta->hasAssociation('translatable')) {
-            $translatable = $meta->getReflectionClass()->getMethod('getTranslatableEntityClass')->invoke(null);
+            $class = $meta->getName();
+
+            if (isset($this->entityOverride[$class])) {
+                $class = $this->entityOverride[$class];
+            }
+
+            $translatable = $class::getTranslatableEntityClass();
 
             if (isset($this->entityOverride[$translatable])) {
                 $translatable = $this->entityOverride[$translatable];

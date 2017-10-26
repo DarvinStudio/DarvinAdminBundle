@@ -2,13 +2,6 @@ boolean:
     0: 'Pas de'
     1: Oui
     indeterminate: Indéterminée
-cache:
-    action:
-        clear:
-            confirm: 'Confirmer cache de compensation'
-            error: 'Erreur s''est produite lors de cache de compensation. Essayez de nouveau plus tard'
-            submit: 'Vider le cache'
-            success: 'Cache effacé avec succès'
 chosen:
     no_results_text: 'Pas de résultats de match'
     placeholder_text_multiple: '---'

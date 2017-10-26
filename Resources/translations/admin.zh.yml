@@ -2,13 +2,6 @@ boolean:
     0: 没有
     1: 是的
     indeterminate: 不确定
-cache:
-    action:
-        clear:
-            confirm: 确认清除缓存
-            error: '错误发生在高速缓存结算。 稍后再试'
-            submit: 清除缓存
-            success: 缓成功地清除
 chosen:
     no_results_text: 无匹配结果
     placeholder_text_multiple: '---'

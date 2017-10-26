@@ -3,14 +3,6 @@ boolean:
     1:             Yes
     indeterminate: Indeterminate
 
-cache:
-    action:
-        clear:
-            confirm: Confirm cache clearing
-            error:   Error occurred during cache clearing. Try again later
-            submit:  Clear cache
-            success: Cache successfully cleared
-
 chosen:
     no_results_text:           No results match
     placeholder_text_multiple: ---

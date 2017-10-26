@@ -2,13 +2,6 @@ boolean:
     0: لا
     1: نعم
     indeterminate: 'غير محدد'
-cache:
-    action:
-        clear:
-            confirm: 'تأكيد مسح ذاكرة التخزين المؤقت'
-            error: 'حدث خطأ أثناء مسح ذاكرة التخزين المؤقت. حاول مرة أخرى في وقت لاحق'
-            submit: 'مسح ذاكرة التخزين المؤقت'
-            success: 'ذاكرة التخزين المؤقت مسح بنجاح'
 chosen:
     no_results_text: 'لا توجد نتائج المباراة'
     placeholder_text_multiple: '---'

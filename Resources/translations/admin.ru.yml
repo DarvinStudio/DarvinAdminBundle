@@ -3,14 +3,6 @@ boolean:
     1:             Да
     indeterminate: Не определено
 
-cache:
-    action:
-        clear:
-            confirm: Подтвердите очистку кэша
-            error:   При очистке кэша возникла ошибка. Повторите попытку позднее
-            submit:  Очистить кэш
-            success: Кэш успешно очищен
-
 chosen:
     no_results_text:           Нет результатов, соответствующих
     placeholder_text_multiple: ---

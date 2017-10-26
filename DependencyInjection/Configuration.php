@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\DependencyInjection;
 use Darvin\AdminBundle\Menu\Item;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -56,27 +55,6 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('title')->cannotBeEmpty()->isRequired()->end()
                         ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('cache_clear_commands')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('class')->isRequired()
-                                ->validate()
-                                    ->ifTrue(function ($class) {
-                                        return !class_exists($class);
-                                    })
-                                    ->thenInvalid('Cache clear command class %s does not exist.')
-                                ->end()
-                                ->validate()
-                                    ->ifTrue(function ($class) {
-                                        return $class !== Command::class && !in_array(Command::class, class_parents($class));
-                                    })
-                                    ->thenInvalid(sprintf('Cache clear command class %%s must be instance of "%s" or it\'s descendant.', Command::class))
-                                ->end()
-                            ->end()
-                            ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
-                        ->end()
                     ->end()
                 ->end()
                 ->arrayNode('entity_override')->useAttributeAsKey('target')

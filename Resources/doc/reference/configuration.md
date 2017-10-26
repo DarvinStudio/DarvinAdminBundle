@@ -12,9 +12,6 @@ darvin_admin:
     upload_max_size_mb:       2                             # Максимальный размер загружаемого файла
     visual_assets_path:       bundles/darvinadmin           # Путь до каталога с "визуальными" ресурсами (стили, изображения и т. д.)
     yandex_translate_api_key: ~                             # API-ключ сервиса "Яндекс.Переводчик"
-    cache_clear_command_classes: # Классы команд очистки кэша для команды "darvin:admin:caches:clear"
-        - Liip\ImagineBundle\Command\RemoveCacheCommand
-        - Symfony\Bundle\FrameworkBundle\Command\CacheClearCommand
     ckeditor: # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина
         plugins_path:    /bundles/darvinadmin/scripts/ckeditor/plugins # Путь до каталога с плагинами

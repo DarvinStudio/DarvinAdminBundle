@@ -41,7 +41,7 @@ $(document).ready(function () {
             $forms.find('.property_forms_submit').show();
         }
         if (1 != $form.attr('data-modified')) {
-            $form.find('.errors, [type="submit"], [type="reset"]').remove();
+            $form.find('[type="submit"], [type="reset"]').remove();
 
             return;
         }

@@ -138,8 +138,8 @@
 {%- block darvin_image_image_row -%}
     <div class="table_row childless">
         {{ form_label(form) }}
-        {{ form_errors(form) }}
         {{ form_widget(form) }}
+        {{ form_errors(form) }}
     </div>
 {%- endblock darvin_image_image_row -%}
 
@@ -198,8 +198,8 @@
 {%- block form_row -%}
     <div class="table_row{% if form.children is empty %} childless{% endif %}">
         {{ form_label(form) }}
-        {{ form_errors(form) }}
         {{ form_widget(form) }}
+        {{ form_errors(form) }}
     </div>
 {%- endblock form_row -%}
 

@@ -1,3 +1,4 @@
 darvin_admin_configuration:
-    path:     /
-    defaults: { _controller: darvin_admin.configuration.controller:editAction }
+    path:         /{type}/
+    defaults:     { _controller: darvin_admin.configuration.controller:editAction, type: common }
+    requirements: { type: common|security }

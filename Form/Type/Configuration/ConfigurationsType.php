@@ -27,6 +27,14 @@ use Symfony\Component\Validator\Constraints\Valid;
 class ConfigurationsType extends AbstractType
 {
     /**
+     * @var array
+     */
+    private static $interfaces = [
+        'common'   => null,
+        'security' => SecurityConfigurationInterface::class,
+    ];
+
+    /**
      * @var \Darvin\Utils\Security\Authorization\AccessibilityChecker
      */
     private $accessibilityChecker;
@@ -51,7 +59,24 @@ class ConfigurationsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $interface = self::$interfaces[$options['config_type']];
+
         $configurations = $this->configurationPool->getAllConfigurations();
+
+        foreach ($configurations as $key => $configuration) {
+            if (empty($interface)) {
+                foreach (self::$interfaces as $otherInterface) {
+                    if (!empty($otherInterface) && $configuration instanceof $otherInterface) {
+                        unset($configurations[$key]);
+                    }
+                }
+
+                continue;
+            }
+            if (!$configuration instanceof $interface) {
+                unset($configurations[$key]);
+            }
+        }
 
         uasort($configurations, function (ConfigurationInterface $a, ConfigurationInterface $b) {
             $aIsSecurityConfig = $a instanceof SecurityConfigurationInterface;
@@ -84,10 +109,14 @@ class ConfigurationsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-            'data_class'    => get_class($this->configurationPool),
-        ]);
+        $resolver
+            ->setDefaults([
+                'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
+                'data_class'    => get_class($this->configurationPool),
+            ])
+            ->setRequired('config_type')
+            ->setAllowedTypes('config_type', 'string')
+            ->setAllowedValues('config_type', array_keys(self::$interfaces));
     }
 
     /**

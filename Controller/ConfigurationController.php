@@ -23,11 +23,12 @@ class ConfigurationController extends Controller
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param string                                    $type    Configuration type
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function editAction(Request $request)
+    public function editAction(Request $request, $type)
     {
         if (!$this->isGranted(Permission::EDIT, ParameterEntity::class)) {
             throw $this->createAccessDeniedException();
@@ -35,10 +36,13 @@ class ConfigurationController extends Controller
 
         $configurationPool = $this->getConfigurationPool();
 
-        $url = $this->generateUrl('darvin_admin_configuration');
+        $url = $this->generateUrl('darvin_admin_configuration', [
+            'type' => $type,
+        ]);
 
         $form = $this->createForm(ConfigurationsType::class, $configurationPool, [
             'action'             => $url,
+            'config_type'        => $type,
             'translation_domain' => 'admin',
         ])->handleRequest($request);
 
@@ -55,7 +59,8 @@ class ConfigurationController extends Controller
         }
 
         return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', [
-            'form' => $form->createView(),
+            'current_type' => $type,
+            'form'         => $form->createView(),
         ]);
     }
 

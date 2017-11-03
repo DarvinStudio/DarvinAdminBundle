@@ -102,16 +102,19 @@ class FormHandler
      * @param object                                $entity         Entity
      * @param string                                $successMessage Success message
      *
-     * @return bool
+     * @return object|null
      */
     public function handleCopyForm(FormInterface $form, $entity, $successMessage = 'action.copy.success')
     {
-        $cloner = $this->cloner;
+        $cloner        = $this->cloner;
         $flashNotifier = $this->flashNotifier;
-        $validator = $this->validator;
+        $validator     = $this->validator;
 
-        return $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) use (
+        $copy = null;
+
+        $success = $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) use (
             $cloner,
+            &$copy,
             $flashNotifier,
             $validator
         ) {
@@ -132,6 +135,8 @@ class FormHandler
 
             return false;
         });
+
+        return $success ? $copy : null;
     }
 
     /**

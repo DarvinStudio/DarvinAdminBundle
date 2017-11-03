@@ -10,6 +10,11 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Event\Crud\CopiedEvent;
+use Darvin\AdminBundle\Event\Crud\CreatedEvent;
+use Darvin\AdminBundle\Event\Crud\CrudEvents;
+use Darvin\AdminBundle\Event\Crud\DeletedEvent;
+use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Event\CrudControllerActionEvent;
 use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
@@ -220,6 +225,8 @@ class CrudController extends Controller
             $em->persist($entity);
             $em->flush();
 
+            $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->getUser(), $entity));
+
             $html = '';
             $message = $this->meta->getBaseTranslationPrefix().'action.new.success';
         } else {
@@ -256,7 +263,11 @@ class CrudController extends Controller
 
         $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
-        $this->getFormHandler()->handleCopyForm($form, $entity);
+        $copy = $this->getFormHandler()->handleCopyForm($form, $entity);
+
+        if (!empty($copy)) {
+            $this->getEventDispatcher()->dispatch(CrudEvents::COPIED, new CopiedEvent($this->getUser(), $entity, $copy));
+        }
 
         $url = $request->headers->get(
             'referer',
@@ -280,6 +291,8 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
+        $entityBefore = clone $entity;
+
         $this->getEventDispatcher()->dispatch(
             Events::PRE_CRUD_CONTROLLER_ACTION,
             new CrudControllerActionEvent($this->meta, __FUNCTION__)
@@ -293,14 +306,18 @@ class CrudController extends Controller
             $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
-        return $this->getFormHandler()->handleEntityForm($form, 'action.edit.success')
-            ? $this->successRedirect($form, $entity)
-            : $this->renderResponse('edit', [
-                'entity'        => $entity,
-                'form'          => $form->createView(),
-                'meta'          => $this->meta,
-                'parent_entity' => $parentEntity,
-            ]);
+        if ($this->getFormHandler()->handleEntityForm($form, 'action.edit.success')) {
+            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getUser(), $entityBefore, $entity));
+
+            return $this->successRedirect($form, $entity);
+        }
+
+        return $this->renderResponse('edit', [
+            'entity'        => $entity,
+            'form'          => $form->createView(),
+            'meta'          => $this->meta,
+            'parent_entity' => $parentEntity,
+        ]);
     }
 
     /**
@@ -321,6 +338,8 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
+        $entityBefore = clone $entity;
+
         $this->getEventDispatcher()->dispatch(
             Events::PRE_CRUD_CONTROLLER_ACTION,
             new CrudControllerActionEvent($this->meta, __FUNCTION__)
@@ -332,6 +351,8 @@ class CrudController extends Controller
 
         if ($success) {
             $this->getEntityManager()->flush();
+
+            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getUser(), $entityBefore, $entity));
 
             $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
         }
@@ -398,12 +419,16 @@ class CrudController extends Controller
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 
-        $url = $this->getFormHandler()->handleDeleteForm($form, $entity)
-            ? $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
-            : $request->headers->get(
-                'referer',
-                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
-            );
+        if ($this->getFormHandler()->handleDeleteForm($form, $entity)) {
+            $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getUser(), $entity));
+
+            return $this->redirect($this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX));
+        }
+
+        $url = $request->headers->get(
+            'referer',
+            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+        );
 
         return $this->redirect($url);
     }
@@ -436,13 +461,21 @@ class CrudController extends Controller
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
             );
         }
+        if ($this->getFormHandler()->handleBatchDeleteForm($form, $entities)) {
+            $eventDispatcher = $this->getEventDispatcher();
+            $user            = $this->getUser();
 
-        $url = $this->getFormHandler()->handleBatchDeleteForm($form, $entities)
-            ? $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
-            : $request->headers->get(
-                'referer',
-                $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
-            );
+            foreach ($entities as $entity) {
+                $eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($user, $entity));
+            }
+
+            return $this->redirect($this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX));
+        }
+
+        $url = $request->headers->get(
+            'referer',
+            $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
+        );
 
         return $this->redirect($url);
     }

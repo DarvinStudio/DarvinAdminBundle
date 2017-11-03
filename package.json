@@ -1,6 +1,6 @@
 {
   "name": "darvinstudio-darvin-admin-bundle",
-  "version": "5.14",
+  "version": "5.15",
   "description": "This bundle provides highly configurable admin panel for Symfony-based applications.",
   "main": "index.js",
   "scripts": {

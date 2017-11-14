@@ -30,10 +30,6 @@ configuration:
             toggle:
                 collapse: 'Réduire'
                 expand: 'Développez'
-    darvin_admin:
-        parameter:
-            image_sizes: 'Les tailles d''Image'
-        title: 'Le "panneau d''Administration" configuration du module'
 crud:
     action:
         batch_delete:
@@ -89,9 +85,6 @@ image:
         enable:
             submit: Activer
             success: 'Image activée avec succès'
-image_size:
-    darvin_admin:
-        darvin_admin: Commune
 interface:
     actions: Actions
     characters_left: 'personnage(s) gauche'

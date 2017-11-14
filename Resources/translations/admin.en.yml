@@ -34,10 +34,6 @@ configuration:
             toggle:
                 collapse: Collapse
                 expand:   Expand
-    darvin_admin:
-        parameter:
-            image_sizes: Image sizes
-        title: The "Administration panel" module configuration
 
 crud:
     action:
@@ -103,10 +99,6 @@ image:
         enable:
             submit:  Enable
             success: Image successfully enabled
-
-image_size:
-    darvin_admin:
-        darvin_admin: Common
 
 interface:
     actions:          Actions

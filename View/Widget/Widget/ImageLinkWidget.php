@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Configuration\Configuration;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
@@ -85,12 +84,7 @@ class ImageLinkWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('filter_params', [
-                'size_name' => Configuration::IMAGE_SIZE_ADMIN,
-                'outbound'  => true,
-            ])
             ->setDefined('property')
-            ->setAllowedTypes('filter_params', 'array')
             ->setAllowedTypes('property', 'string');
     }
 }

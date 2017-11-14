@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 use Darvin\AdminBundle\Configuration\Configuration;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
-use Darvin\ImageBundle\UrlBuilder\Filter\ResizeFilter;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
@@ -71,13 +70,7 @@ class ImageLinkWidget extends AbstractWidget
 
         try {
             return $this->render($options, [
-                'filtered_url' => $this->imageUrlBuilder->buildUrlToFilter(
-                    $image,
-                    ResizeFilter::NAME,
-                    $options['filter_params']
-                ),
-                'name'         => $image->getName(),
-                'original_url' => $this->imageUrlBuilder->buildUrlToOriginal($image),
+                'image' => $image,
             ]);
         } catch (NotLoadableException $ex) {
             return null;

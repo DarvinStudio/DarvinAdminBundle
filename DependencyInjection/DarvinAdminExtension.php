@@ -54,7 +54,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'dropzone',
             'entity_namer',
             'form',
-            'image',
             'locale',
             'menu',
             'metadata',

@@ -34,10 +34,6 @@ configuration:
             toggle:
                 collapse: Скрыть
                 expand:   Раскрыть
-    darvin_admin:
-        parameter:
-            image_sizes: Размеры изображений
-        title: Настройки модуля «Панель администрирования»
 
 crud:
     action:
@@ -90,10 +86,6 @@ homepage:
         homepage:
             link:  Главная
             title: Главная страница
-
-image_size:
-    darvin_admin:
-        darvin_admin: Стандартный
 
 image:
     action:

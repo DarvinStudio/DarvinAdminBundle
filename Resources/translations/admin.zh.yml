@@ -30,10 +30,6 @@ configuration:
             toggle:
                 collapse: 崩溃
                 expand: 扩大
-    darvin_admin:
-        parameter:
-            image_sizes: 图像大小
-        title: '"管理小组"模块结构'
 crud:
     action:
         batch_delete:
@@ -89,9 +85,6 @@ image:
         enable:
             submit: 启用
             success: 图像成功启用
-image_size:
-    darvin_admin:
-        darvin_admin: 常见的
 interface:
     actions: 行动
     characters_left: character(s)离开

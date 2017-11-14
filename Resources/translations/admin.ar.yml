@@ -30,10 +30,6 @@ configuration:
             toggle:
                 collapse: 'انهيار'
                 expand: 'توسيع'
-    darvin_admin:
-        parameter:
-            image_sizes: 'أحجام الصور'
-        title: '"إدارة الفريق" وحدة التكوين'
 crud:
     action:
         batch_delete:
@@ -89,9 +85,6 @@ image:
         enable:
             submit: 'تمكين'
             success: 'صورة تمكين بنجاح'
-image_size:
-    darvin_admin:
-        darvin_admin: المشتركة
 interface:
     actions: الإجراءات
     characters_left: 'حرف(s) left'

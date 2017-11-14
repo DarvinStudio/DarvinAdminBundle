@@ -3,3 +3,6 @@ liip_imagine:
         darvin_admin_ckeditor_widget:
             filters:
                 thumbnail: { size: [ 64, 64 ], mode: outbound }
+        darvin_admin_thumb:
+            filters:
+                thumbnail: { size: [ 80, 80 ], mode: outbound }

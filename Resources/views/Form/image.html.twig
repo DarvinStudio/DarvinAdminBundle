@@ -2,7 +2,7 @@
 
 <div class="image" data-id="{{ image.id }}">
     <a class="colorbox" href="{{ image|image_original }}" rel="images" title="{{ image.name }}">
-        <img src="{{ image|image_crop('darvin_admin') }}">
+        <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}">
     </a>
     <div class="image_actions">
         {% if toggle_enabled is defined and toggle_enabled %}

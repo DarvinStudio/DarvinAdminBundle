@@ -247,7 +247,7 @@
             {% endif %}
 
             {% if download_uri is defined and download_uri %}
-                <a class="colorbox" href="{{ download_uri }}"><img src="{{ download_uri|admin_image_crop }}" alt="" /></a>
+                <a class="colorbox" href="{{ download_uri }}"><img src="{{ download_uri|imagine_filter('darvin_admin_thumb') }}" alt="" /></a>
             {% endif %}
         </div>
     {% endspaceless %}

@@ -14,10 +14,14 @@ use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
+use Darvin\ImageBundle\DarvinImageBundle;
+use Darvin\ImageBundle\Size\Size;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
 use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -107,6 +111,16 @@ class ConfigurationsType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
+        if (DarvinImageBundle::MAJOR_VERSION >= 6) {
+            $this->hideImageSizes($view);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
@@ -125,5 +139,41 @@ class ConfigurationsType extends AbstractType
     public function getBlockPrefix()
     {
         return 'darvin_admin_configurations';
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView $view Form view
+     */
+    private function hideImageSizes(FormView $view)
+    {
+        foreach ($view->children as $name => $configuration) {
+            if ('_token' === $name) {
+                continue;
+            }
+
+            $hideConfiguration = true;
+
+            foreach ($configuration->children as $parameter) {
+                $data = $parameter->vars['data'];
+
+                if (empty($data) || !is_array($data)) {
+                    $hideConfiguration = false;
+
+                    continue;
+                }
+                foreach ($data as $value) {
+                    if (!$value instanceof Size) {
+                        $hideConfiguration = false;
+
+                        continue 2;
+                    }
+                }
+
+                $parameter->vars['hidden'] = true;
+            }
+            if ($hideConfiguration) {
+                $configuration->vars['hidden'] = true;
+            }
+        }
     }
 }

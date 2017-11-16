@@ -21,7 +21,7 @@
     {% set expanded_cookie = 'DARVINADMINCONFIGURATIONEXPANDED' %}
     {% set expanded        = row.vars.id in app.request.cookies.get(expanded_cookie)|split(',') %}
 
-    <div class="main_options_item_container">
+    <div class="main_options_item_container"{% if row.vars.hidden|default %} style="display: none;"{% endif %}>
         <div class="main_options_item{% if expanded %} is-open{% endif %}">
             <div class="heading">
                 <div class="name">{{ form_label(row) }}</div>

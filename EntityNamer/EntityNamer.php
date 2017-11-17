@@ -74,6 +74,8 @@ class EntityNamer implements EntityNamerInterface
      */
     private function getName($class)
     {
+        $class = preg_replace('/(.*[^\\\]+)Interface$/', '$1', $class);
+
         if (isset($this->entityOverride[$class])) {
             $class = $this->entityOverride[$class];
         }

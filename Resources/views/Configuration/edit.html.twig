@@ -51,7 +51,12 @@
             and 'hidden' != child.vars.block_prefixes[1]|default
             and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
         %}
-            {{ this.form_row(child) }}
+            {% if 'darvin_admin_translatable' == child.vars.block_prefixes[1]|default %}
+                {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
+                {{ form_row(child) }}
+            {% else %}
+                {{ this.form_row(child) }}
+            {% endif %}
         {% endfor %}
     {% endif %}
     {% if not row.rendered %}

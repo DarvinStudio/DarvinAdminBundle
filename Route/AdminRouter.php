@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Event\Router\RouterEvents;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\Utils\Routing\RouteManagerInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -87,6 +88,11 @@ class AdminRouter
     private $propertyAccessor;
 
     /**
+     * @var \Darvin\Utils\Routing\RouteManagerInterface
+     */
+    private $routeManager;
+
+    /**
      * @var array
      */
     private $entityOverride;
@@ -107,6 +113,7 @@ class AdminRouter
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
+     * @param \Darvin\Utils\Routing\RouteManagerInterface                 $routeManager       Route manager
      * @param array                                                       $entityOverride     Entity override configuration
      */
     public function __construct(
@@ -115,6 +122,7 @@ class AdminRouter
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
+        RouteManagerInterface $routeManager,
         array $entityOverride
     ) {
         $this->eventDispatcher = $eventDispatcher;
@@ -122,6 +130,7 @@ class AdminRouter
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
+        $this->routeManager = $routeManager;
         $this->entityOverride = $entityOverride;
 
         $this->initialized = false;
@@ -311,19 +320,20 @@ class AdminRouter
 
         $this->initialized = true;
 
-        /** @var \Symfony\Component\Routing\Route $route */
-        foreach ($this->genericRouter->getRouteCollection() as $name => $route) {
-            if (!$route->hasOption(self::OPTION_ENTITY_CLASS) || !$route->hasOption(self::OPTION_ROUTE_TYPE)) {
+        foreach ($this->routeManager->getNames() as $name) {
+            if (!$this->routeManager->hasOption($name, self::OPTION_ENTITY_CLASS)
+                || !$this->routeManager->hasOption($name, self::OPTION_ROUTE_TYPE)
+            ) {
                 continue;
             }
 
-            $entityClass = $route->getOption(self::OPTION_ENTITY_CLASS);
+            $entityClass = $this->routeManager->getOption($name, self::OPTION_ENTITY_CLASS);
 
             if (!isset($this->routeNames[$entityClass])) {
                 $this->routeNames[$entityClass] = [];
             }
 
-            $this->routeNames[$entityClass][$route->getOption(self::OPTION_ROUTE_TYPE)] = $name;
+            $this->routeNames[$entityClass][$this->routeManager->getOption($name, self::OPTION_ROUTE_TYPE)] = $name;
         }
     }
 }

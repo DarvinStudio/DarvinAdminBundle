@@ -63,12 +63,6 @@ class PublicLinkWidget extends AbstractWidget
             }
         }
 
-        $route = $options['route'];
-
-        if (null === $this->router->getRouteCollection()->get($route)) {
-            throw new WidgetException(sprintf('Route "%s" does not exist.', $route));
-        }
-
         $parameters = [];
 
         foreach ($options['params'] as $paramName => $propertyPath) {
@@ -79,7 +73,7 @@ class PublicLinkWidget extends AbstractWidget
             $parameters[$paramName] = $this->getPropertyValue($entity, $propertyPath);
         }
         try {
-            $url = $this->router->generate($route, $parameters);
+            $url = $this->router->generate($options['route'], $parameters);
         } catch (ExceptionInterface $ex) {
             throw new WidgetException($ex->getMessage());
         }

@@ -7,6 +7,6 @@ services:
         arguments:
             - "@darvin_utils.homepage.router"
             - "@property_accessor"
-            - "@router"
+            - "@darvin_utils.routing.route_manager"
         tags:
             - { name: form.type }

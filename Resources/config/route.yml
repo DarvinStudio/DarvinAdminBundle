@@ -40,4 +40,5 @@ services:
             - "@darvin_admin.metadata.identifier_accessor"
             - "@darvin_admin.metadata.manager"
             - "@property_accessor"
+            - "@darvin_utils.routing.route_manager"
             - "%darvin_admin.entity_override%"

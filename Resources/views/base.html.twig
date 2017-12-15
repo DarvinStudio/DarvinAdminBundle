@@ -121,7 +121,7 @@
                                     {% endif %}
                                 {% endif %}
 
-                                <a href="{{ darvin_admin_project_url }}" class="link_site">{{ darvin_admin_project_title }}</a>
+                                <a href="{{ darvin_admin_project_url }}{{ app.request.baseUrl }}" class="link_site">{{ darvin_admin_project_title }}</a>
 
                                 {{ image_archive_build_form() }}
 

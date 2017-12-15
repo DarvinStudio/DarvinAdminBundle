@@ -52,7 +52,7 @@
                             {% trans %}security.action.login.darvin_auth{% endtrans %}
                         </a>
                     </div>
-                    <a href="{{ darvin_admin_project_url }}" class="site_name">{{ darvin_admin_project_title }}</a>
+                    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin_project_title }}</a>
                 </div>
                 <div class="version">
                     {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}

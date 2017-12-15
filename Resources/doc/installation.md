@@ -64,7 +64,6 @@ darvin_admin:
     upload_max_size_mb: "%upload_max_size_mb%"
     project:
         title: "%project_title%"
-        url:   "%project_url%"
 
 darvin_image:
     upload_path: "%image_upload_path%"
@@ -157,7 +156,6 @@ image_upload_path: files/images
 mailer_from: noreply@example.com
 
 project_title: Example
-project_url:   http://example.com
 
 upload_path:        files/uploads
 upload_max_size_mb: 2

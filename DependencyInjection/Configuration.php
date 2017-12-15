@@ -54,7 +54,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('project')->isRequired()
                     ->children()
                         ->scalarNode('title')->cannotBeEmpty()->isRequired()->end()
-                        ->scalarNode('url')->cannotBeEmpty()->isRequired()->end()
+                        ->scalarNode('url')->defaultNull()->end()
                     ->end()
                 ->end()
                 ->arrayNode('entity_override')->useAttributeAsKey('target')

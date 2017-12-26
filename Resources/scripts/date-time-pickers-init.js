@@ -10,11 +10,15 @@ $(document).ready(function () {
     });
 
     var init;
-    (init = function () {
+    (init = function (context) {
         ['date', 'datetime', 'time'].map(function (type) {
-            $('input.' + type)[type + 'picker'](options);
+            $(context || 'body').find('input.' + type)[type + 'picker'](options);
         });
     })();
 
-    $(document).bind('ajaxSuccess', init);
+    $(document)
+        .on('ajaxSuccess', init)
+        .on('formCollectionAdd', function (e, $newElement) {
+            init($newElement);
+        });
 });

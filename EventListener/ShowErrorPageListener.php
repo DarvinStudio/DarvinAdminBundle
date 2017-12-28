@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\EventListener;
 
 use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -133,7 +134,10 @@ class ShowErrorPageListener
             return;
         }
 
-        $this->logger->critical($exception->getMessage());
+        $this->logger->log(
+            $exception instanceof HttpExceptionInterface ? LogLevel::ERROR : LogLevel::CRITICAL,
+            $exception->getMessage()
+        );
 
         $this->configureContexts($request);
 

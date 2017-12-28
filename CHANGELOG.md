@@ -5,3 +5,5 @@
 5.16.8: Init date-time-pickers after adding new element to form collection.
 
 5.16.9: Enable show error page event listener only if firewall pattern not equals "^/".
+
+5.16.10: Show error page event listener: log HTTP exceptions with "error" level instead of "critical".

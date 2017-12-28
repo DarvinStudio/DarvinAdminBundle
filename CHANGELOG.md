@@ -3,3 +3,5 @@
 5.16.7: Deprecate "project.url" bundle configuration parameter which is no more needed.
 
 5.16.8: Init date-time-pickers after adding new element to form collection.
+
+5.16.9: Enable show error page event listener only if firewall pattern not equals "^/".

@@ -33,6 +33,21 @@ use Symfony\Component\Yaml\Yaml;
  */
 class DarvinAdminExtension extends Extension implements PrependExtensionInterface
 {
+    const FIREWALL_NAME = 'admin_area';
+
+    /**
+     * @var bool
+     */
+    private $showErrorPageListenerEnabled;
+
+    /**
+     * Extension constructor.
+     */
+    public function __construct()
+    {
+        $this->showErrorPageListenerEnabled = false;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -68,8 +83,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         ] as $resource) {
             $loader->load($resource.'.yml');
         }
-        if (!$container->getParameter('kernel.debug') && Kernel::MAJOR_VERSION >= 3 && Kernel::MINOR_VERSION >= 2) {
-            // Requires firewall config introduced in Symfony 3.2
+        if ($this->showErrorPageListenerEnabled) {
             $loader->load('error.yml');
         }
 
@@ -85,6 +99,17 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
+        if (!$container->getParameter('kernel.debug') && Kernel::MAJOR_VERSION >= 3 && Kernel::MINOR_VERSION >= 2) {
+            // Requires firewall config introduced in Symfony 3.2
+            foreach ($container->getExtensionConfig('security') as $config) {
+                if (isset($config['firewalls'][self::FIREWALL_NAME])) {
+                    $firewallConfig = $config['firewalls'][self::FIREWALL_NAME];
+
+                    $this->showErrorPageListenerEnabled = isset($firewallConfig['pattern']) && '^/' !== $firewallConfig['pattern'];
+                }
+            }
+        }
+
         $fileLocator = new FileLocator(__DIR__.'/../Resources/config/app');
 
         foreach ([

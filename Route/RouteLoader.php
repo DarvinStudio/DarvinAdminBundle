@@ -28,17 +28,11 @@ class RouteLoader extends Loader
     private $metadataManager;
 
     /**
-     * @var bool
-     */
-    private $loaded;
-
-    /**
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
      */
     public function __construct(MetadataManager $metadataManager)
     {
         $this->metadataManager = $metadataManager;
-        $this->loaded = false;
     }
 
     /**
@@ -46,10 +40,6 @@ class RouteLoader extends Loader
      */
     public function load($resource, $type = null)
     {
-        if ($this->loaded) {
-            throw new RouteException(sprintf('Do not add route loader "%s" twice.', self::RESOURCE_TYPE));
-        }
-
         $routes = new RouteCollection();
 
         $routeGenerator = new CrudRouteGenerator();
@@ -57,8 +47,6 @@ class RouteLoader extends Loader
         foreach ($this->metadataManager->getAllMetadata() as $entityClass => $meta) {
             $routes->addCollection($routeGenerator->generate($entityClass, $meta));
         }
-
-        $this->loaded = true;
 
         return $routes;
     }

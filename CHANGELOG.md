@@ -9,3 +9,5 @@
 5.16.10: Show error page event listener: log HTTP exceptions with "error" level instead of "critical".
 
 5.16.11: Do not check if admin routing is already loaded (for compatibility with "jms/i18n-routing-bundle").
+
+5.16.12: Fix case API URL in the translations generate command.

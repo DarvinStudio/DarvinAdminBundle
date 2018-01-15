@@ -30,7 +30,7 @@ use Symfony\Component\Yaml\Yaml;
 class GenerateTranslationsCommand extends Command
 {
     const CASE_API_TIMEOUT = 3;
-    const CASE_API_URL     = 'http://api.morpher.ru/WebService.asmx/GetXml?s=';
+    const CASE_API_URL     = 'https://ws3.morpher.ru/russian/declension?s=';
 
     const DEFAULT_GENDER      = 'Male';
     const DEFAULT_YAML_INDENT = 4;

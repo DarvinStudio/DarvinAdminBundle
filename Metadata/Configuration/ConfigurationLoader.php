@@ -290,6 +290,8 @@ class ConfigurationLoader
      */
     private function resolveRealPathname($pathname, $allowOverride = false)
     {
+        $pathname = $this->parameterBag->resolveValue($pathname);
+
         if (0 !== strpos($pathname, '@')) {
             return $pathname;
         }

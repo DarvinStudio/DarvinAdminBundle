@@ -11,3 +11,5 @@
 5.16.11: Do not check if admin routing is already loaded (for compatibility with "jms/i18n-routing-bundle").
 
 5.16.12: Fix case API URL in the translations generate command.
+
+5.16.13: Resolve parameters in admin section configuration file's pathname.

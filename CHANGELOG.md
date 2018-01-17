@@ -13,3 +13,5 @@
 5.16.12: Fix case API URL in the translations generate command.
 
 5.16.13: Resolve parameters in admin section configuration file's pathname.
+
+5.17.0: Enable RTL mode in CKEditor according to translation entity's locale.

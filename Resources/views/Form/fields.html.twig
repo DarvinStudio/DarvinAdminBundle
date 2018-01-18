@@ -46,11 +46,9 @@
         CKEDITOR.dtd.$removeEmpty[tag] = false;
     });
 
-    if (CKEDITOR.lang.rtl['{{ locale }}']) {
-        CKEDITOR.on('instanceReady', function () {
-            CKEDITOR.instances['{{ id }}'].config.contentsLangDirection = 'rtl';
-        });
-    }
+    CKEDITOR.on('instanceReady', function () {
+        CKEDITOR.instances['{{ id }}'].config.contentsLangDirection = CKEDITOR.lang.rtl['{{ locale }}'] ? 'rtl' : 'ltr';
+    });
 {%- endblock -%}
 
 {%- block collection_widget -%}

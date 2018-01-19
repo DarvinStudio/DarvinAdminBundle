@@ -355,7 +355,7 @@ class GenerateTranslationsCommand extends Command
             return $cases;
         }
 
-        $xml = @file_get_contents(self::CASE_API_URL.$word, null, stream_context_create([
+        $xml = @file_get_contents(self::CASE_API_URL.urlencode($word), null, stream_context_create([
             'http' => [
                 'timeout' => self::CASE_API_TIMEOUT,
             ],

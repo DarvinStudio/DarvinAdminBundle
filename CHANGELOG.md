@@ -15,3 +15,5 @@
 5.16.13: Resolve parameters in admin section configuration file's pathname.
 
 5.17.0: Enable RTL mode in CKEditor according to translation entity's locale.
+
+5.17.2: Apply "urlencode()" to word for case API in the translations generate command.

@@ -17,3 +17,5 @@
 5.17.0: Enable RTL mode in CKEditor according to translation entity's locale.
 
 5.17.2: Apply "urlencode()" to word for case API in the translations generate command.
+
+5.17.3: Remove CKEditor extra plugins from plugin blacklist.

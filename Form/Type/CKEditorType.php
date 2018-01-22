@@ -96,6 +96,8 @@ class CKEditorType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
+        $this->removeExtraPluginsFromBlacklist($view);
+
         $view->vars['locale'] = $this->getLocale($form);
 
         if (!isset($view->vars['config']['language'])) {
@@ -203,5 +205,22 @@ class CKEditorType extends AbstractType
         }
 
         return $this->propertyAccessor->getValue($entity, $this->translatableManager->getTranslationLocaleProperty());
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView $view Form view
+     */
+    private function removeExtraPluginsFromBlacklist(FormView $view)
+    {
+        $config = $view->vars['config'];
+
+        if (!isset($config['extraPlugins']) || !isset($config['removePlugins'])) {
+            return;
+        }
+
+        $extraPlugins  = array_map('trim', explode(',', $config['extraPlugins']));
+        $removePlugins = array_map('trim', explode(',', $config['removePlugins']));
+
+        $view->vars['config']['removePlugins'] = implode(',', array_diff($removePlugins, $extraPlugins));
     }
 }

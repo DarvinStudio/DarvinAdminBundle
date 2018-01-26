@@ -67,7 +67,9 @@ abstract class AbstractFormType extends AbstractType
     private function setLabels(array $fields, $translationPrefix)
     {
         foreach ($fields as $name => $field) {
-            if (null === $field->vars['label']) {
+            if (!(null !== $field->vars['label']
+                || (null !== $field->vars['label_format'] && null !== $field->parent->vars['label_format']))
+            ) {
                 $field->vars['label'] = $translationPrefix.StringsUtil::toUnderscore($name);
             }
             if (!empty($field->children)) {

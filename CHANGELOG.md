@@ -19,3 +19,5 @@
 5.17.2: Apply "urlencode()" to word for case API in the translations generate command.
 
 5.17.3: Remove CKEditor extra plugins from plugin blacklist.
+
+5.17.4: Abstract form type: do not set field label if "label_format" option is provided.

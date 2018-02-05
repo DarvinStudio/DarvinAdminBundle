@@ -10,7 +10,7 @@
                     {% for item in view.items %}
                         <tr>
                             <th>{{ item.label|trans }}:</th>
-                            <td>{{ item.content ? item.content|trans|raw : '-' }}</td>
+                            <td>{{ item.content is sameas(null) or item.content is sameas('') ? '-' : item.content|trans|raw }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>

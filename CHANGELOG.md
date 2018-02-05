@@ -21,3 +21,5 @@
 5.17.3: Remove CKEditor extra plugins from plugin blacklist.
 
 5.17.4: Abstract form type: do not set field label if "label_format" option is provided.
+
+5.17.5: More strict item content emptiness checking in the CRUD show widget template.

@@ -23,3 +23,17 @@
 5.17.4: Abstract form type: do not set field label if "label_format" option is provided.
 
 5.17.5: More strict item content emptiness checking in the CRUD show widget template.
+
+5.18.0: Add "readable_enum" view widget which passes property value to the Twig filter with the same name from
+ "fresh/doctrine-enum-bundle". Usage example:
+ 
+```yaml
+view:
+    show:
+        fields:
+            userType:
+                widget:
+                    alias: readable_enum
+                    options:
+                        enum_type: UserType
+```

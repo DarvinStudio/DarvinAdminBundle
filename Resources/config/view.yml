@@ -23,6 +23,7 @@ parameters:
     darvin_admin.view.widget.log_entry.entity_name.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\EntityNameWidget
     darvin_admin.view.widget.photo_gallery.class: Darvin\AdminBundle\View\Widget\Widget\PhotoGalleryWidget
     darvin_admin.view.widget.public_link.class: Darvin\AdminBundle\View\Widget\Widget\PublicLinkWidget
+    darvin_admin.view.widget.readable_enum.class: Darvin\AdminBundle\View\Widget\Widget\ReadableEnumWidget
     darvin_admin.view.widget.show_link.class: Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget
     darvin_admin.view.widget.simple_link.class: Darvin\AdminBundle\View\Widget\Widget\SimpleLinkWidget
     darvin_admin.view.widget.simple_list.class: Darvin\AdminBundle\View\Widget\Widget\SimpleListWidget
@@ -205,6 +206,12 @@ services:
         calls:
             - [ setHomepageRouter, [ "@darvin_utils.homepage.router" ] ]
             - [ setRouter,         [ "@router" ] ]
+        tags:
+            - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.readable_enum:
+        class:  "%darvin_admin.view.widget.readable_enum.class%"
+        parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }
 

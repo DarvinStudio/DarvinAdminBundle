@@ -37,3 +37,5 @@ view:
                     options:
                         enum_type: UserType
 ```
+
+5.18.1: Duplicate CRUD form submit buttons at top of form.

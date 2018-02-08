@@ -1,10 +1,25 @@
+{% import _self as this %}
+
 {% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
+{% macro submit(form) %}
+    <div class="table_view_content">
+        {% for row in form if 'submit' == row.vars.block_prefixes[1] %}
+            {{ form_row(row) }}
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% set submit = this.submit(form) %}
+
 <div class="edit_container">
     {{ form_errors(form) }}
     {{ form_start(form, {'attr': ajax_form is defined and ajax_form ? {'class': 'ajax'} : {}}) }}
+    <div class="table_view_content">
+        {{ submit }}
+    </div>
     {% for name, fields in field_groups %}
         <div class="edit_block spoiler_container">
             <div class="edit_header spoiler_links">
@@ -23,6 +38,7 @@
     {% endfor %}
     <div class="table_view_content">
         {{ form_rest(form) }}
+        {{ submit }}
     </div>
     {{ form_end(form) }}
 </div>

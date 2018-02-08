@@ -4,18 +4,10 @@
 
 {% trans_default_domain 'admin' %}
 
-{%- block description -%}
-    {% if 'hidden' != block_prefixes[1]
-        and (hide_description is not defined or not hide_description
-        and (not form.parent or 'darvin_image_image' != form.parent.vars.block_prefixes[1])
-    ) %}
-        <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
-    {% endif %}
-{%- endblock description -%}
-
 {%- block button_attributes -%}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ name)|trim}) %}
-    {{ parent() }}
+    {% if id %}id="{{ id }}" {% endif %}name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif -%}
+    {{ block('attributes') }}
 {%- endblock button_attributes -%}
 
 {%- block checkbox_widget -%}
@@ -161,6 +153,15 @@
     {{ block('description') }}
 {%- endblock darvin_image_image_widget -%}
 
+{%- block description -%}
+    {% if 'hidden' != block_prefixes[1]
+        and (hide_description is not defined or not hide_description
+        and (not form.parent or 'darvin_image_image' != form.parent.vars.block_prefixes[1])
+    ) %}
+        <div class="description">{% if description %}{{ description|trans({}, translation_domain) }}{% endif %}</div>
+    {% endif %}
+{%- endblock description -%}
+
 {%- block form_errors -%}
     {% if errors is not empty %}
         <ul class="input_value-error">
@@ -226,6 +227,11 @@
     </div>
     {{ block('description') }}
 {%- endblock radio_widget -%}
+
+{%- block submit_widget -%}
+    {% set id = null %}
+    {{ parent() }}
+{%- endblock submit_widget -%}
 
 {%- block textarea_widget -%}
     <div class="input_value">

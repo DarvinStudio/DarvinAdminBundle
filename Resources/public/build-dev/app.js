@@ -34343,8 +34343,10 @@ $(document).ready(function () {
     }
 });
 
-$(document).ready(function () {
-    var showSlave = function ($master, showOn) {
+$(function () {
+    var selector = '[data-master][data-show-on]';
+
+    var isSlaveVisible = function ($master, showOn) {
         if ($master.is(':checkbox')) {
             return (+$master.is(':checked')).toString() === showOn;
         }
@@ -34366,22 +34368,25 @@ $(document).ready(function () {
 
         return $.isArray(showOn) ? showOn.indexOf(value) >= 0 : value === showOn;
     };
-    var toggleSlaveContainer = function ($slaveContainer, $master, showOn) {
-        $master.val() && showSlave($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
+    var toggleSlave = function ($slaveContainer, $master, showOn) {
+        $master.val() && isSlaveVisible($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
 
         if ($slaveContainer.is('option')) {
-            $slaveContainer.closest('select').trigger('chosen:updated');
+            var $options = $slaveContainer.closest('select').find('option' + selector);
+
+            if ($options.index($slaveContainer) + 1 === $options.length) {
+                $slaveContainer.closest('select').trigger('chosen:updated');
+            }
         }
     };
 
-    $('.slave_input').each(function () {
+    $(selector).each(function () {
         var $slave = $(this);
 
-        var $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
+        var masterSelector  = $slave.data('master') + ':first',
+            showOn          = $slave.data('show-on'),
+            $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
 
-        var masterSelector = $slave.data('master');
-
-        var showOn = $slave.data('show-on');
         showOn = $.isArray(showOn)
             ? showOn.map(function (item) {
                 return item.toString();
@@ -34389,17 +34394,17 @@ $(document).ready(function () {
             : showOn.toString();
 
         var $context = $slave.closest('[class*="_a2lix_translationsFields-"]');
-        var $master = $context.find(masterSelector).first();
+        var $master = $context.find(masterSelector);
 
         if (!$master.length) {
             $context = $slave.closest('form');
-            $master = $context.find(masterSelector).first();
+            $master = $context.find(masterSelector);
         }
 
-        toggleSlaveContainer($slaveContainer, $master, showOn);
+        toggleSlave($slaveContainer, $master, showOn);
 
         $context.on('change', masterSelector, function () {
-            toggleSlaveContainer($slaveContainer, $(this), showOn);
+            toggleSlave($slaveContainer, $(this), showOn);
         });
     });
 });

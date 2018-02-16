@@ -41,3 +41,5 @@ view:
 5.18.1: Duplicate CRUD form submit buttons at top of form.
 
 5.18.2: Optimize master-slave inputs JS.
+
+5.18.3: Remove redundant configurations sorting from configurations form type.

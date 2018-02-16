@@ -81,14 +81,6 @@ class ConfigurationsType extends AbstractType
                 unset($configurations[$key]);
             }
         }
-
-        uasort($configurations, function (ConfigurationInterface $a, ConfigurationInterface $b) {
-            $aIsSecurityConfig = $a instanceof SecurityConfigurationInterface;
-            $bIsSecurityConfig = $b instanceof SecurityConfigurationInterface;
-
-            return $aIsSecurityConfig && $bIsSecurityConfig ? 0 : ($aIsSecurityConfig ? 1 : -1);
-        });
-
         foreach ($configurations as $configuration) {
             if ($configuration instanceof SecurableInterface
                 && !$this->accessibilityChecker->isAccessible($configuration)

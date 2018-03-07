@@ -43,3 +43,19 @@ view:
 5.18.2: Optimize master-slave inputs JS.
 
 5.18.3: Remove redundant configurations sorting from configurations form type.
+
+5.19.0: 
+
+- Disable descendant checkboxes in tree if ancestor checkbox is not checked.
+
+- Allow to reload page after property form submit. Usage example:
+
+```yaml
+form:
+    index:
+        fields:
+            position:
+                options:
+                    attr:
+                        data-reload-page: 1
+```

@@ -168,7 +168,7 @@ class CrudController extends Controller
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
             'view'              => $view,
-        ]);
+        ], $request->isXmlHttpRequest());
     }
 
     /**

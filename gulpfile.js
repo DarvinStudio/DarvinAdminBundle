@@ -49,6 +49,7 @@ var scripts = [
                 'Resources/scripts/configuration.js',
                 'Resources/scripts/counter-init.js',
                 'Resources/scripts/date-time-pickers-init.js',
+                'Resources/scripts/disable-descendants.js',
                 'Resources/scripts/dropzone-init.js',
                 'Resources/scripts/form-collections.js',
                 'Resources/scripts/images.js',

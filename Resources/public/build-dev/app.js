@@ -34160,6 +34160,39 @@ $(document).ready(function () {
         });
 });
 
+$(function () {
+    var selector = '.type_boolean.name_enabled input[type="checkbox"]:first';
+
+    var init;
+    (init = function () {
+        $('.property_forms .section_table table').find('tr[data-level]').each(function () {
+            var $row = $(this);
+
+            var $checkbox = $row.find(selector),
+                level     = $row.data('level');
+
+            if (!$checkbox.length) {
+                return;
+            }
+            if ($row.next('tr[data-level="' + (level + 1) + '"]').length) {
+                $checkbox.data('reload-page', 1);
+            }
+            if (level < 2 || $checkbox.is(':checked')) {
+                return;
+            }
+
+            var $parent = $row.prevAll('tr[data-level="' + (level - 1) + '"]:first').find(selector);
+
+            $checkbox.removeAttr('disabled');
+
+            if (!$parent.is(':checked') || $parent.is(':disabled')) {
+                $checkbox.attr('disabled', 'disabled');
+            }
+        });
+    })();
+    $(document).on('ajaxSuccess', init);
+});
+
 Dropzone.autoDiscover = false;
 
 $(document).ready(function () {
@@ -34410,7 +34443,7 @@ $(function () {
 });
 
 $(document).ready(function () {
-    var submitForm = function ($form) {
+    var submitForm = function ($form, reloadPage) {
         if ($form.data('submitted')) {
             return;
         }
@@ -34433,6 +34466,12 @@ $(document).ready(function () {
             $(document).trigger('propertyFormSubmit', $formReplacement);
 
             notify(data.message, data.success ? 'success' : 'error');
+
+            if (reloadPage && !$formReplacement.closest('.property_forms').parent('.searchable_results').length) {
+                $.ajax().done(function (html) {
+                    $formReplacement.closest('.section_table').replaceWith($(html).find('.section_table:first'));
+                }).fail(onAjaxFail);
+            }
         }).fail(onAjaxFail);
     };
 
@@ -34441,10 +34480,10 @@ $(document).ready(function () {
             return;
         }
 
-        var $form = $field.parents('.property_form').first();
+        var $form = $field.closest('.property_form');
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
-        var $forms = $form.parents('.property_forms').first();
+        var $forms = $form.closest('.property_forms');
 
         if (1 != $form.attr('data-modified') && !$forms.find('form.property_form[data-modified="1"]').length) {
             $forms.find('.property_forms_submit').hide();
@@ -34466,25 +34505,23 @@ $(document).ready(function () {
 
     var init;
     (init = function (context) {
-        if ('undefined' === typeof context) {
-            context = 'body';
-        }
-
-        var $context = $(context);
+        var $context = $(context || 'body');
 
         $context.find('.property_form .field[type!="checkbox"]').each(function () {
             toggleButtons($(this));
         });
 
         $context
-            .on('change', '.property_form input[type="checkbox"]', function () {
-                submitForm($(this).parents('form.property_form').first());
-            })
             .on('change', '.property_form .field[type!="checkbox"]', function () {
                 toggleButtons($(this));
             })
             .on('keyup', '.property_form input', function () {
                 toggleButtons($(this));
+            })
+            .on('change', '.property_form input[type="checkbox"]', function () {
+                var $checkbox = $(this);
+
+                submitForm($checkbox.closest('form.property_form'), $checkbox.data('reload-page'));
             })
             .on('click', '.property_form [type="reset"]', function (e) {
                 e.preventDefault();
@@ -34496,11 +34533,25 @@ $(document).ready(function () {
                     .trigger('change');
             })
             .on('click', '.property_forms .property_forms_submit', function () {
-                $(this).parents('.property_forms').first().find('form.property_form[data-modified="1"]').submit();
+                var $forms     = $(this).closest('.property_forms').find('form.property_form[data-modified="1"]'),
+                    reloadPage = false;
+
+                $forms.each(function (i) {
+                    var $form = $(this);
+
+                    if (!reloadPage && $form.find('input, select').data('reload-page')) {
+                        reloadPage = true;
+                    }
+
+                    submitForm($form, i === $forms.length - 1 ? reloadPage : false);
+                });
             })
             .on('submit', 'form.property_form', function (e) {
                 e.preventDefault();
-                submitForm($(this));
+
+                var $form = $(this);
+
+                submitForm($form, $form.find('input, select').data('reload-page'));
             });
     })();
 

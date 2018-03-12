@@ -103,13 +103,28 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
      */
     public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property)
     {
-        $formView = $form->createView();
+        $view = $form->createView();
+
+        $value = $view->children[$property]->vars['value'];
+
+        if (is_array($value)) {
+            $parts = [];
+
+            /** @var \Symfony\Component\Form\ChoiceList\View\ChoiceView $choice */
+            foreach ($view->children[$property]->vars['choices'] as $choice) {
+                if (in_array($choice->value, $value)) {
+                    $parts[] = $choice->value;
+                }
+            }
+
+            $value = json_encode($parts);
+        }
 
         return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', [
             'entity'         => $entity,
             'entity_class'   => $entityClass,
-            'form'           => $formView,
-            'original_value' => $formView->children[$property]->vars['value'],
+            'form'           => $view,
+            'original_value' => $value,
             'property'       => $property,
         ]);
     }

@@ -59,3 +59,5 @@ form:
                     attr:
                         data-reload-page: 1
 ```
+
+5.19.2: Allow property forms with array values.

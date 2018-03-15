@@ -27,7 +27,7 @@ class SearchController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $query = $request->query->get('q');
+        $query = htmlspecialchars($request->query->get('q'));
 
         $queryMinLength = $this->getParameter('darvin_admin.search_query_min_length');
 

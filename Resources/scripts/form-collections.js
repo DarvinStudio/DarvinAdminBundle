@@ -12,21 +12,27 @@ $(document).ready(function () {
         }
     };
 
-    var $collections = $('form .collection[data-prototype]:not([data-autoinit="0"])');
+    var init;
+    (init = function (context) {
+        var $collections = $(context || 'body').find('.collection[data-prototype]:not([data-autoinit="0"])');
 
-    $collections.each(function () {
-        var $collection = $(this);
+        $collections.each(function () {
+            var $collection = $(this);
 
-        if ($collection.data('allow-delete')) {
-            $collection.children().each(function () {
-                $(this).append(buttons.delete);
-            });
-        }
-        if ($collection.data('allow-add')) {
-            updateLabels($collection);
+            if ($collection.data('allow-delete')) {
+                $collection.children().each(function () {
+                    $(this).append(buttons.delete);
+                });
+            }
+            if ($collection.data('allow-add')) {
+                updateLabels($collection);
 
-            $collection.append(buttons.add);
-        }
+                $collection.append(buttons.add);
+            }
+        });
+    })();
+    $(document).on('formCollectionAdd', function (e, $newElement) {
+        init($newElement);
     });
 
     $('body')

@@ -63,3 +63,5 @@ form:
 5.19.2: Allow property forms with array values.
 
 5.19.3: Escape search query.
+
+5.19.4: Make form collections script recursive.

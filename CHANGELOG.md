@@ -65,3 +65,5 @@ form:
 5.19.3: Escape search query.
 
 5.19.4: Make form collections script recursive.
+
+5.19.5: Make property form errors more verbose.

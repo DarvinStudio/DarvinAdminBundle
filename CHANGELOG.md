@@ -67,3 +67,5 @@ form:
 5.19.4: Make form collections script recursive.
 
 5.19.5: Make property form errors more verbose.
+
+5.19.6: Fix recursive form collections.

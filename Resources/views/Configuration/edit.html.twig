@@ -80,6 +80,7 @@
                                 {% set attr = attr|merge({
                                     'data-allow-add':    +child.vars.allow_add,
                                     'data-allow-delete': +child.vars.allow_delete,
+                                    'data-name':         child.vars.name,
                                 }) %}
 
                                 {% if child.vars.allow_add %}

@@ -34214,9 +34214,9 @@ $(document).ready(function () {
     });
 });
 
-$(document).ready(function () {
+$(function () {
     var buttons = {
-        add:      '<button class="collection_add" type="button">' + Translator.trans('form_collections.add') + '</button>',
+        'add':    '<button class="collection_add" type="button">' + Translator.trans('form_collections.add') + '</button>',
         'delete': '<button class="collection_delete" type="button">' + Translator.trans('form_collections.delete') + '</button>'
     };
 
@@ -34230,9 +34230,7 @@ $(document).ready(function () {
 
     var init;
     (init = function (context) {
-        var $collections = $(context || 'body').find('.collection[data-prototype]:not([data-autoinit="0"])');
-
-        $collections.each(function () {
+        $(context || 'body').find('.collection[data-prototype]:not([data-autoinit="0"])').each(function () {
             var $collection = $(this);
 
             if ($collection.data('allow-delete')) {
@@ -34247,38 +34245,46 @@ $(document).ready(function () {
             }
         });
     })();
-    $(document).on('formCollectionAdd', function (e, $newElement) {
-        init($newElement);
+    $(document).on('formCollectionAdd', function (e, item) {
+        init(item);
     });
 
     $('body')
+        .on('click', 'form .collection .collection_delete', function () {
+            var $button = $(this);
+
+            // Fetch collection node before (!) item removal
+            var $collection = $button.closest('.collection[data-prototype]');
+
+            $button.closest('.collection_item').remove();
+
+            updateLabels($collection);
+        })
         .on('click', 'form .collection[data-prototype] .collection_add', function () {
-            var $addButton = $(this);
-            var $collection = $addButton.closest('.collection[data-prototype]');
-            var newElement = $collection.data('prototype')
-                .replace(/__name__label__/g, $collection.data('index') + 1)
-                .replace(/__name__/g, $collection.data('index'));
-            var $newElement = $(newElement);
+            var $button = $(this);
+
+            var $collection = $button.closest('.collection[data-prototype]');
+
+            var index = $collection.data('index'),
+                name  = $collection.data('name') || '';
+
+            var item = $collection.data('prototype')
+                .replace(new RegExp(name + '___name__', 'g'), name + '_' + index)
+                .replace(new RegExp('\\[' + name + '\\]\\[__name__\\]', 'g'), '[' + name + '][' + index + ']');
+
+            var $item = $(item).addClass('collection_item');
 
             if ($collection.data('allow-delete')) {
-                $newElement.append(buttons.delete);
+                $item.append(buttons.delete);
             }
 
-            $addButton.before($newElement);
+            $button.before($item);
 
             updateLabels($collection);
 
-            $(document).trigger('formCollectionAdd', $newElement);
+            $(document).trigger('formCollectionAdd', $item);
 
-            $collection.data('index', $collection.data('index') + 1);
-        })
-        .on('click', 'form .collection .collection_delete', function () {
-            var $deleteButton = $(this);
-            var $collection = $deleteButton.closest('.collection[data-prototype]');
-
-            $deleteButton.closest('div').remove();
-
-            updateLabels($collection);
+            $collection.data('index', index + 1);
         });
 });
 

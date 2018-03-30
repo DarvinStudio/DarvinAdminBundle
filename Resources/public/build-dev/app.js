@@ -34256,7 +34256,7 @@ $(function () {
             // Fetch collection node before (!) item removal
             var $collection = $button.closest('.collection[data-prototype]');
 
-            $button.closest('.collection_item').remove();
+            $button.closest('div').remove();
 
             updateLabels($collection);
         })
@@ -34272,7 +34272,7 @@ $(function () {
                 .replace(new RegExp(name + '___name__', 'g'), name + '_' + index)
                 .replace(new RegExp('\\[' + name + '\\]\\[__name__\\]', 'g'), '[' + name + '][' + index + ']');
 
-            var $item = $(item).addClass('collection_item');
+            var $item = $(item);
 
             if ($collection.data('allow-delete')) {
                 $item.append(buttons.delete);

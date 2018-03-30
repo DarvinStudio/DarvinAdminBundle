@@ -24,9 +24,11 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -349,17 +351,39 @@ class CrudController extends Controller
 
         $success = $form->isValid();
 
+        $message = 'flash.success.update_property';
+
         if ($success) {
             $this->getEntityManager()->flush();
 
             $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getUser(), $entityBefore, $entity));
 
             $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
+        } else {
+            $prefix     = $this->meta->getEntityTranslationPrefix();
+            $translator = $this->getTranslator();
+
+            $message = implode('<br>', array_map(function (FormError $error) use ($prefix, $translator) {
+                $message = $error->getMessage();
+
+                /** @var \Symfony\Component\Validator\ConstraintViolation $cause */
+                $cause = $error->getCause();
+
+                $translation = preg_replace('/^data\./', $prefix, StringsUtil::toUnderscore($cause->getPropertyPath()));
+
+                $translated = $translator->trans($translation, [], 'admin');
+
+                if ($translated !== $translation) {
+                    $message = sprintf('%s: %s', $translated, $message);
+                }
+
+                return $message;
+            }, iterator_to_array($form->getErrors(true))));
         }
 
         return new JsonResponse([
             'form'    => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property),
-            'message' => $success ? 'flash.success.update_property' : FlashNotifierInterface::MESSAGE_FORM_ERROR,
+            'message' => $message,
             'success' => $success,
         ]);
     }
@@ -768,6 +792,12 @@ class CrudController extends Controller
     private function getTranslationJoiner()
     {
         return $this->get('darvin_content.translatable.translation_joiner');
+    }
+
+    /** @return \Symfony\Component\Translation\TranslatorInterface */
+    private function getTranslator()
+    {
+        return $this->get('translator');
     }
 
     /** @return \Darvin\ContentBundle\Translatable\TranslationsInitializer */

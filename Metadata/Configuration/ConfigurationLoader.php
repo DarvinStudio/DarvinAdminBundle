@@ -251,10 +251,18 @@ class ConfigurationLoader
 
                 continue;
             }
+            if (!is_array($first[$name]) || !is_array($second[$name])) {
+                $first[$name] = $second[$name];
 
-            $first[$name] = is_array($first[$name]) && is_array($second[$name])
-                ? $this->mergeConfigs($first[$name], $second[$name])
-                : $second[$name];
+                continue;
+            }
+            if ($this->isIndexed($first[$name]) && $this->isIndexed($second[$name])) {
+                $first[$name] = array_merge($first[$name], $second[$name]);
+
+                continue;
+            }
+
+            $first[$name] = $this->mergeConfigs($first[$name], $second[$name]);
         }
 
         return $first;
@@ -318,5 +326,19 @@ class ConfigurationLoader
         }
 
         return $pathname;
+    }
+
+    /**
+     * @param array $array Array
+     *
+     * @return bool
+     */
+    private function isIndexed(array $array)
+    {
+        if (empty($array)) {
+            return true;
+        }
+
+        return array_keys($array) === range(0, count($array) - 1);
     }
 }

@@ -69,3 +69,29 @@ form:
 5.19.5: Make property form errors more verbose.
 
 5.19.6: Fix recursive form collections.
+
+5.19.8: Admin section configuration loader: proper merging of indexed arrays. For example you have
+
+```yaml
+a: [ b ]
+```
+
+in first config and
+
+```yaml
+a: [ c ]
+```
+
+in second. Now result config will contain
+
+```yaml
+a: [ b, c ]
+```
+
+instead of
+
+```yaml
+a: [ c ]
+```
+
+before.

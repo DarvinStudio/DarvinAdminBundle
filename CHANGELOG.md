@@ -95,3 +95,9 @@ a: [ c ]
 ```
 
 before.
+
+5.20.0:
+
+- migrate from Bower to NPM;
+
+- do not limit countable inputs.

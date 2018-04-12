@@ -102,7 +102,6 @@ image:
 
 interface:
     actions:          Действия
-    characters_left:  символов осталось
     empty_list:       Список пуст
     total_item_count: "Всего объектов: <strong>%count%</strong>"
 
@@ -224,6 +223,10 @@ submit:
     edit:  Сохранить и редактировать
     index: Сохранить и вернуться к списку
     new:   Сохранить и добавить еще
+
+textcounter:
+    count_down_text:     <p><span>%d</span> символов осталось</p>
+    count_overflow_text: <p>лимит превышен на <span>%d</span></p>
 
 translation:
     action:

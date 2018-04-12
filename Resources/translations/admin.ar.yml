@@ -87,7 +87,6 @@ image:
             success: 'صورة تمكين بنجاح'
 interface:
     actions: الإجراءات
-    characters_left: 'حرف(s) left'
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود: %count%'
 layout:
@@ -185,6 +184,9 @@ submit:
     edit: 'تقديم وتحرير'
     index: 'تقديم و اذهب إلى صفحة الفهرس'
     new: 'تقديم وخلق'
+textcounter:
+    count_down_text: '<p>الأحرف المتبقية <span>%d</span></p>'
+    count_overflow_text: '<p><span>%d</span> تجاوز حد من قبل</p>'
 translation:
     action:
         index:

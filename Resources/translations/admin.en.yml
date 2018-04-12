@@ -102,7 +102,6 @@ image:
 
 interface:
     actions:          Actions
-    characters_left:  character(s) left
     empty_list:       List is empty
     total_item_count: "Total items: %count%"
 
@@ -224,6 +223,10 @@ submit:
     edit:  Submit and edit
     index: Submit and go to index page
     new:   Submit and create
+
+textcounter:
+    count_down_text:     <p><span>%d</span> character(s) remaining</p>
+    count_overflow_text: <p>limit exceeded by <span>%d</span></p>
 
 translation:
     action:

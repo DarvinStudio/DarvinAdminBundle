@@ -9,7 +9,7 @@ var notify = function (text, type) {
     new Noty({
         text:    Translator.trans(text),
         type:    type || 'success',
-        theme:   'relax',
+        theme:   'bootstrap-v3',
         timeout: NOTY_TIMEOUT
     }).show();
 };

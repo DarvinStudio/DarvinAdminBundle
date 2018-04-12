@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Counter Test</title>
+	<script
+	  src="http://code.jquery.com/jquery-3.2.1.min.js"
+	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+	  crossorigin="anonymous"></script>
+	<script src="textcounter.js"></script>
+</head>
+<body>
+	<textarea id="counter"></textarea>
+	<script>
+	$('#counter').textcounter({
+		max: 20,
+		countDownText: "%d characters remaining",
+		stopInputAtMaximum: false,
+		countOverflow: true,
+		countOverflowContainerClass: "whee"
+	});
+	</script>
+</body>
+</html>

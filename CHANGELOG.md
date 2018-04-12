@@ -96,4 +96,8 @@ a: [ c ]
 
 before.
 
-5.19.9: Do not limit countable inputs.
+5.20.0:
+
+- migrate from Bower to NPM;
+
+- do not limit countable inputs.

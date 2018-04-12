@@ -87,7 +87,6 @@ image:
             success: 图像成功启用
 interface:
     actions: 行动
-    characters_left: character(s)离开
     empty_list: 表是空的
     total_item_count: '总项目： %count%'
 layout:
@@ -185,6 +184,9 @@ submit:
     edit: 提交和编辑
     index: 提交并转到索引页面
     new: 提交，并创造
+textcounter:
+    count_down_text: '<p><span>%d</span> 剩下的人物</p>'
+    count_overflow_text: '<p>限制超过了 <span>%d</span></p>'
 translation:
     action:
         index:

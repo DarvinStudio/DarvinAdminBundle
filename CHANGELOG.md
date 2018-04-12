@@ -95,3 +95,5 @@ a: [ c ]
 ```
 
 before.
+
+5.19.9: Do not limit countable inputs.

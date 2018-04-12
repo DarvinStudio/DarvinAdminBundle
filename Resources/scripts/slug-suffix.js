@@ -63,10 +63,15 @@ $(document).ready(function () {
 
         updateWidget($widget);
 
-        $widget.find('.form_widget input').counter({
-            count:  'up',
-            goal:   'sky',
-            target: $widget.find('.form_widget .input_value')
+        // $widget.find('.form_widget input').counter({
+        //     count:  'up',
+        //     goal:   'sky',
+        //     target: $widget.find('.form_widget .input_value')
+        // });
+        $widget.find('.form_widget input').textcounter({
+            countSpaces: true,
+            counterText: '%d',
+            max:         -1
         });
         $form.on('change', $widget.data('parent-select'), function () {
             updateWidget($widget);

@@ -87,7 +87,6 @@ image:
             success: 'Image activée avec succès'
 interface:
     actions: Actions
-    characters_left: 'personnage(s) gauche'
     empty_list: 'La liste est vide'
     total_item_count: 'Nombre Total d''éléments: %count%'
 layout:
@@ -185,6 +184,9 @@ submit:
     edit: 'Soumettre et de modifier'
     index: 'Soumettre et allez à la page d''index'
     new: 'Soumettre et créer'
+textcounter:
+    count_down_text: '<p><span>%d</span> caractères restants</p>'
+    count_overflow_text: '<p>limite dépassée par <span>%d</span></p>'
 translation:
     action:
         index:

@@ -75,13 +75,13 @@ const scripts = [
 // Tasks
 gulp
     // Common
-    .task('vendor', require('./gulp/tasks/vendor')(gulp))
+    .task('vendor', require('./Resources/gulp/tasks/vendor')(gulp))
     // Dev
-    .task('scripts', require('./gulp/tasks/scripts')(gulp, dir, scripts))
-    .task('styles', require('./gulp/tasks/styles')(gulp, dir, styles))
+    .task('scripts', require('./Resources/gulp/tasks/scripts')(gulp, dir, scripts))
+    .task('styles', require('./Resources/gulp/tasks/styles')(gulp, dir, styles))
     .task('build', gulpSequence('vendor', ['scripts', 'styles']))
-    .task('watch', ['build'], require('./gulp/tasks/watch')(gulp, scripts, styles))
+    .task('watch', ['build'], require('./Resources/gulp/tasks/watch')(gulp, scripts, styles))
     // Prod
-    .task('scripts-prod', ['scripts'], require('./gulp/tasks/scripts-prod')(gulp, dir, scripts))
-    .task('styles-prod', ['styles'], require('./gulp/tasks/styles-prod')(gulp, dir, styles))
+    .task('scripts-prod', ['scripts'], require('./Resources/gulp/tasks/scripts-prod')(gulp, dir, scripts))
+    .task('styles-prod', ['styles'], require('./Resources/gulp/tasks/styles-prod')(gulp, dir, styles))
     .task('build-prod', gulpSequence('vendor', ['scripts-prod', 'styles-prod']));

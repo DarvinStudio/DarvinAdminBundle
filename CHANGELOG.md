@@ -133,3 +133,5 @@ form:
                     image_width:      640
                     image_height:     480
 ```
+
+5.20.3: CRUD index action: render batch delete form only if batch delete view widget is enabled.

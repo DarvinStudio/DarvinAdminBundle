@@ -21,6 +21,7 @@ use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
@@ -151,6 +152,7 @@ class CrudController extends Controller
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
             && $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
+            && isset($this->configuration['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
         }

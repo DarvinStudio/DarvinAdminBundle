@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
 use Darvin\AdminBundle\Form\FormException;
+use Darvin\ImageBundle\Size\SizeDescriber;
 use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +23,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
@@ -66,12 +68,18 @@ class DropzoneType extends AbstractType
     private $uploadMaxSizeMB;
 
     /**
+     * @var \Darvin\ImageBundle\Size\SizeDescriber|null
+     */
+    private $imageSizeDescriber;
+
+    /**
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
      * @param string[]                                                    $acceptedFiles              Accepted files
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
      * @param int                                                         $uploadMaxSizeMB            Max upload file size in MB
+     * @param \Darvin\ImageBundle\Size\SizeDescriber|null                 $imageSizeDescriber         Image size describer
      */
     public function __construct(
         UploaderHelper $oneupUploaderHelper,
@@ -79,7 +87,8 @@ class DropzoneType extends AbstractType
         MetadataReader $vichUploaderMetadataReader,
         array $acceptedFiles,
         array $oneupUploaderConfig,
-        $uploadMaxSizeMB
+        $uploadMaxSizeMB,
+        SizeDescriber $imageSizeDescriber = null
     ) {
         $this->oneupUploaderHelper = $oneupUploaderHelper;
         $this->propertyAccessor = $propertyAccessor;
@@ -87,6 +96,7 @@ class DropzoneType extends AbstractType
         $this->acceptedFiles = $acceptedFiles;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
         $this->uploadMaxSizeMB = $uploadMaxSizeMB;
+        $this->imageSizeDescriber = $imageSizeDescriber;
     }
 
     /**
@@ -97,9 +107,9 @@ class DropzoneType extends AbstractType
         $this->validateOptions($options);
 
         $propertyAccessor = $this->propertyAccessor;
-        $tmpDir = $this->oneupUploaderConfig['mappings'][$options['oneup_uploader_mapping']]['storage']['directory'];
-        $uploadableClass = $options['uploadable_class'];
-        $uploadableField = $this->getUploadableField($options);
+        $tmpDir           = $this->oneupUploaderConfig['mappings'][$options['oneup_uploader_mapping']]['storage']['directory'];
+        $uploadableClass  = $options['uploadable_class'];
+        $uploadableField  = $this->getUploadableField($options);
         $uploadablesField = $builder->getName();
 
         $builder
@@ -178,14 +188,27 @@ class DropzoneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $defaults = [
+            'accepted_files'         => implode(',', $this->acceptedFiles),
+            'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
+            'mapped'                 => false,
+            'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+            'toggle_enabled'         => false,
+            'image_filters'          => [],
+            'image_width'            => 0,
+            'image_height'           => 0,
+        ];
+
+        if (!empty($this->imageSizeDescriber)) {
+            $imageSizeDescriber = $this->imageSizeDescriber;
+
+            $defaults['description'] = function (Options $options) use ($imageSizeDescriber) {
+                return $imageSizeDescriber->describeSize($options['image_filters'], $options['image_width'], $options['image_height']);
+            };
+        }
+
         $resolver
-            ->setDefaults([
-                'accepted_files'         => implode(',', $this->acceptedFiles),
-                'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
-                'mapped'                 => false,
-                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-                'toggle_enabled'         => false,
-            ])
+            ->setDefaults($defaults)
             ->setDefined([
                 'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
@@ -195,7 +218,13 @@ class DropzoneType extends AbstractType
             ])
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
             ->setAllowedTypes('toggle_enabled', 'boolean')
-            ->setAllowedTypes('uploadable_class', 'string');
+            ->setAllowedTypes('uploadable_class', 'string')
+            ->setAllowedTypes('image_filters', [
+                'array',
+                'string',
+            ])
+            ->setAllowedTypes('image_width', 'integer')
+            ->setAllowedTypes('image_height', 'integer');
     }
 
     /**

@@ -11,5 +11,6 @@ services:
             - "%darvin_image.constraints.mime_types%"
             - "%oneup_uploader.config%"
             - "%darvin_admin.upload_max_size_mb%"
+            - "@?darvin_image.size.describer"
         tags:
             - { name: form.type }

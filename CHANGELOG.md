@@ -103,3 +103,33 @@ before.
 - do not limit countable inputs.
 
 5.20.1: Move Gulp tasks to the resources directory.
+
+5.20.2: Dropzone form type: added options "image_filters", "image_width" and "image_height", which help to generate
+ recommended image size description. "image_filters" can be string or array containing Imagine filter set name(s). If
+ multiple Imagine filters are provided, filter with biggest thumbnail size will be used. "image_width" and "image_height"
+ have higher priority than "image_filters".
+ 
+Admin section configuration examples:
+
+```yaml
+form:
+    edit:
+        fields:
+            photos:
+                type: Darvin\AdminBundle\Form\Type\Dropzone\DropzoneType
+                options:
+                    uploadable_class: AppBundle\Entity\PostImage
+                    image_filters:    [ post_image, post_photo ]
+```
+
+```yaml
+form:
+    edit:
+        fields:
+            photos:
+                type: Darvin\AdminBundle\Form\Type\Dropzone\DropzoneType
+                options:
+                    uploadable_class: AppBundle\Entity\PostImage
+                    image_width:      640
+                    image_height:     480
+```

@@ -181,6 +181,7 @@ slug_suffix:
     reset: 重
     update: 更新
 submit:
+    common: 提交
     edit: 提交和编辑
     index: 提交并转到索引页面
     new: 提交，并创造

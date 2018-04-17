@@ -17,9 +17,11 @@
 <div class="edit_container">
     {{ form_errors(form) }}
     {{ form_start(form, {'attr': ajax_form is defined and ajax_form ? {'class': 'ajax'} : {}}) }}
-    <div class="table_view_content">
-        {{ submit }}
-    </div>
+    {% if show_top_buttons is not defined or show_top_buttons %}
+        <div class="table_view_content">
+            {{ submit }}
+        </div>
+    {% endif %}
     {% for name, fields in field_groups %}
         <div class="edit_block spoiler_container">
             <div class="edit_header spoiler_links">

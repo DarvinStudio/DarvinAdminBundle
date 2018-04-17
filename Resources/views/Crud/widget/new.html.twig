@@ -1,5 +1,6 @@
 {% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
 
 {% include 'DarvinAdminBundle:Crud/widget:form.html.twig' with {
-    'field_groups': meta.configuration.form.new.field_groups,
+    'field_groups':     meta.configuration.form.new.field_groups,
+    'show_top_buttons': not ajax_form,
 } %}

@@ -143,3 +143,5 @@ form:
 - give common name to single submit button;
 
 - do not show top buttons in the new form widget on CRUD index page.
+
+5.20.5: Sort criteria detector: sort tree entities by level first.

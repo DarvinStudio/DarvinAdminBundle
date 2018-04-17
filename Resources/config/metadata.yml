@@ -82,3 +82,4 @@ services:
             - "@doctrine.orm.entity_manager"
             - "@darvin_admin.metadata.manager"
             - "@stof_doctrine_extensions.listener.sortable"
+            - "@stof_doctrine_extensions.listener.tree"

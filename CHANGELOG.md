@@ -135,3 +135,11 @@ form:
 ```
 
 5.20.3: CRUD index action: render batch delete form only if batch delete view widget is enabled.
+
+5.20.4:
+
+- move new form widget on CRUD index page above the list;
+
+- give common name to single submit button;
+
+- do not show top buttons in the new form widget on CRUD index page.

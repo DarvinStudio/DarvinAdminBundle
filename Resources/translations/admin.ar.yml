@@ -181,6 +181,7 @@ slug_suffix:
     reset: 'إعادة تعيين'
     update: 'تحديث'
 submit:
+    common: 'تقدم'
     edit: 'تقديم وتحرير'
     index: 'تقديم و اذهب إلى صفحة الفهرس'
     new: 'تقديم وخلق'

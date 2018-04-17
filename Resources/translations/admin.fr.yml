@@ -181,6 +181,7 @@ slug_suffix:
     reset: 'Réinitialiser'
     update: 'Mettre à jour'
 submit:
+    common: Soumettre
     edit: 'Soumettre et de modifier'
     index: 'Soumettre et allez à la page d''index'
     new: 'Soumettre et créer'

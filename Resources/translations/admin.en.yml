@@ -220,9 +220,10 @@ slug_suffix:
     update: Update
 
 submit:
-    edit:  Submit and edit
-    index: Submit and go to index page
-    new:   Submit and create
+    common: Submit
+    edit:   Submit and edit
+    index:  Submit and go to index page
+    new:    Submit and create
 
 textcounter:
     count_down_text:     <p><span>%d</span> character(s) remaining</p>

@@ -154,12 +154,16 @@ class AdminFormFactory
         ];
 
         $configuration = $meta->getConfiguration();
+
         $type = !empty($configuration['form'][$actionType]['type']) ? $configuration['form'][$actionType]['type'] : BaseType::class;
+
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
+
+        $buttonCount = count($submitButtons);
 
         foreach ($submitButtons as $name) {
             $builder->add($name, SubmitType::class, [
-                'label' => self::$submitButtons[$name],
+                'label' => 1 === $buttonCount ? 'submit.common' : self::$submitButtons[$name],
             ]);
         }
 

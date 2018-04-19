@@ -65,6 +65,9 @@ flash:
         form: 'شكل الأخطاء المكتشفة. اصلاحها وإعادة تشكيل'
     success:
         update_property: 'قيمة تحديثها بنجاح'
+form:
+    file:
+        description: 'ماكس حجم الملف: %حجم%MB'
 form_collections:
     add: إضافة
     delete: إزالة

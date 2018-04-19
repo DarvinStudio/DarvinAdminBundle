@@ -1,4 +1,6 @@
 parameters:
+    darvin_admin.form.description_file_type_extension.class: Darvin\AdminBundle\Form\Extension\DescriptionFileTypeExtension
+
     darvin_admin.form.factory.class: Darvin\AdminBundle\Form\AdminFormFactory
 
     darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
@@ -14,6 +16,14 @@ parameters:
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
 
 services:
+    darvin_admin.form.description_file_type_extension:
+        class: "%darvin_admin.form.description_file_type_extension.class%"
+        arguments:
+            - "@translator"
+            - "%darvin_admin.upload_max_size_mb%"
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FileType }
+
     darvin_admin.form.factory:
         class: "%darvin_admin.form.factory.class%"
         arguments:

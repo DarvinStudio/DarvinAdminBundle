@@ -65,6 +65,9 @@ flash:
         form: '形成的错误检测。 解决这些问题，并重新提交形式'
     success:
         update_property: 值的成功更新
+form:
+    file:
+        description: 'Max文件的尺寸:%的大小%MB'
 form_collections:
     add: 添加
     delete: 删除

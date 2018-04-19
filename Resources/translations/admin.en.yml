@@ -77,6 +77,10 @@ flash:
     success:
         update_property: Value successfully updated
 
+form:
+    file:
+        description: "Max file size: %size%MB"
+
 form_collections:
     add:    Add
     delete: Remove

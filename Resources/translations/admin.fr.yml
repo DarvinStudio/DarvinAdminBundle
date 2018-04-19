@@ -65,6 +65,9 @@ flash:
         form: 'Des erreurs détectées. Les corriger et de soumettre à nouveau le formulaire'
     success:
         update_property: 'La valeur mise à jour avec succès'
+form:
+    file:
+        description: 'Taille maximale de fichier: %taille%MB'
 form_collections:
     add: Ajouter
     delete: Supprimer

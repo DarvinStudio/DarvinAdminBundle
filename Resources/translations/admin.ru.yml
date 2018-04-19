@@ -77,6 +77,10 @@ flash:
     success:
         update_property: Значение успешно изменено
 
+form:
+    file:
+        description: "Максимальный размер файла: %size%МБ"
+
 form_collections:
     add:    Добавить
     delete: Удалить

@@ -197,20 +197,20 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
 
                 $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
             }
-            foreach ($configuration['view']['index']['fields'] as $field => $attr) {
+            foreach ($configuration['view']['index']['fields'] as $field => $params) {
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                     continue;
                 }
 
                 $content = null;
 
-                if (!$this->isFieldContentHidden($attr, $entity)) {
+                if (!$this->isFieldContentHidden($params, $entity)) {
                     if (!$this->isPropertyViewField($meta, 'index', $field)
                         || !array_key_exists($field, $configuration['form']['index']['fields'])
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
                     ) {
-                        $content = $this->getFieldContent($entity, $field, $attr, $mappings);
+                        $content = $this->getFieldContent($entity, $field, $params, $mappings);
                     } else {
                         $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
 
@@ -218,7 +218,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
                     }
                 }
 
-                $bodyRow->addItem($field, new BodyRowItem($content));
+                $bodyRow->addItem($field, new BodyRowItem($content, $this->buildBodyRowItemAttr($field, $params['attr'], $meta)));
             }
 
             $body->addRow($bodyRow);
@@ -242,6 +242,28 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         foreach ($meta->getConfiguration()['index_view_row_attr'] as $property) {
             $attr['data-'.$property] = $this->propertyAccessor->getValue($entity, $property);
         }
+
+        return $attr;
+    }
+
+    /**
+     * @param string                                $field Field name
+     * @param array                                 $attr  Base HTML attributes
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta  Metadata
+     *
+     * @return array
+     */
+    private function buildBodyRowItemAttr($field, array $attr, Metadata $meta)
+    {
+        $class = 'name_'.$field;
+
+        $mappings = $meta->getMappings();
+
+        if (isset($mappings[$field]) && !isset($mappings[$field]['targetEntity'])) {
+            $class .= ' type_'.$mappings[$field]['type'];
+        }
+
+        $attr['class'] = trim(isset($attr['class']) ? $attr['class'].' '.$class : $class);
 
         return $attr;
     }

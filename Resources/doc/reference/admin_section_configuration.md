@@ -122,8 +122,9 @@ view: # Конфигурация уровня представления
             some_field_name: # Поле
 
                 # Прототип
-                condition: ~ # Условие вывода содержимого поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in entity.getRoles()")
-                callback:    # Callback
+                condition: ~  # Условие вывода содержимого поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in entity.getRoles()")
+                attr:      {} # HTML атрибуты ячейки таблицы
+                callback:     # Callback
                     class:      # Требуется, класс
                     method:     # Требуется, статический метод
                     options: {} # Опции

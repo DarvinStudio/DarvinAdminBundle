@@ -145,3 +145,16 @@ form:
 - do not show top buttons in the new form widget on CRUD index page.
 
 5.20.5: Sort criteria detector: sort tree entities by level first.
+
+5.20.6: Allow to configure HTML attributes of index view table cell.
+ 
+Admin section configuration example:
+
+```yaml
+view:
+    index:
+        fields:
+            text:
+                attr:
+                    class: text
+```

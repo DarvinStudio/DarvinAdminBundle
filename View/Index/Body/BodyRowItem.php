@@ -21,11 +21,18 @@ class BodyRowItem
     private $content;
 
     /**
-     * @param string $content Content
+     * @var array
      */
-    public function __construct($content = null)
+    private $attr;
+
+    /**
+     * @param string $content Content
+     * @param array  $attr    HTML attributes
+     */
+    public function __construct($content = null, array $attr = [])
     {
         $this->content = $content;
+        $this->attr = $attr;
     }
 
     /**
@@ -34,5 +41,13 @@ class BodyRowItem
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttr()
+    {
+        return $this->attr;
     }
 }

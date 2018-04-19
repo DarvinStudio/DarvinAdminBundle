@@ -158,3 +158,5 @@ view:
                 attr:
                     class: text
 ```
+
+5.20.7: Do not toggle compound property form buttons.

@@ -105,19 +105,23 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
     {
         $view = $form->createView();
 
-        $value = $view->children[$property]->vars['value'];
+        $value = null;
 
-        if (is_array($value)) {
-            $parts = [];
+        if (!$view->children[$property]->vars['compound']) {
+            $value = $view->children[$property]->vars['value'];
 
-            /** @var \Symfony\Component\Form\ChoiceList\View\ChoiceView $choice */
-            foreach ($view->children[$property]->vars['choices'] as $choice) {
-                if (in_array($choice->value, $value)) {
-                    $parts[] = $choice->value;
+            if (is_array($value)) {
+                $parts = [];
+
+                /** @var \Symfony\Component\Form\ChoiceList\View\ChoiceView $choice */
+                foreach ($view->children[$property]->vars['choices'] as $choice) {
+                    if (in_array($choice->value, $value)) {
+                        $parts[] = $choice->value;
+                    }
                 }
-            }
 
-            $value = json_encode($parts);
+                $value = json_encode($parts);
+            }
         }
 
         return $this->templating->render('DarvinAdminBundle:Widget/index/property_form:form.html.twig', [

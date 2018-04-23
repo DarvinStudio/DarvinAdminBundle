@@ -162,3 +162,5 @@ view:
 5.20.7: Do not toggle compound property form buttons.
 
 5.20.8: Render max file size description in file type admin form fields.
+
+5.20.9: Translation sync JS: translate all fields (not only required).

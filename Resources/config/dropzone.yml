@@ -7,6 +7,7 @@ services:
         arguments:
             - "@oneup_uploader.templating.uploader_helper"
             - "@property_accessor"
+            - "@translator"
             - "@vich_uploader.metadata_reader"
             - "%darvin_image.constraints.mime_types%"
             - "%oneup_uploader.config%"

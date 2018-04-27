@@ -164,3 +164,5 @@ view:
 5.20.8: Render max file size description in file type admin form fields.
 
 5.20.9: Translation sync JS: translate all fields (not only required).
+
+5.20.10: Render max file size description in Dropzone form.

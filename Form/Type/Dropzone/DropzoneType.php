@@ -23,9 +23,9 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
 
 /**
@@ -46,6 +46,11 @@ class DropzoneType extends AbstractType
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
     private $propertyAccessor;
+
+    /**
+     * @var \Symfony\Component\Translation\TranslatorInterface
+     */
+    private $translator;
 
     /**
      * @var \Vich\UploaderBundle\Metadata\MetadataReader
@@ -75,6 +80,7 @@ class DropzoneType extends AbstractType
     /**
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
+     * @param \Symfony\Component\Translation\TranslatorInterface          $translator                 Translator
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
      * @param string[]                                                    $acceptedFiles              Accepted files
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
@@ -84,6 +90,7 @@ class DropzoneType extends AbstractType
     public function __construct(
         UploaderHelper $oneupUploaderHelper,
         PropertyAccessorInterface $propertyAccessor,
+        TranslatorInterface $translator,
         MetadataReader $vichUploaderMetadataReader,
         array $acceptedFiles,
         array $oneupUploaderConfig,
@@ -92,6 +99,7 @@ class DropzoneType extends AbstractType
     ) {
         $this->oneupUploaderHelper = $oneupUploaderHelper;
         $this->propertyAccessor = $propertyAccessor;
+        $this->translator = $translator;
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
         $this->acceptedFiles = $acceptedFiles;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
@@ -111,6 +119,23 @@ class DropzoneType extends AbstractType
         $uploadableClass  = $options['uploadable_class'];
         $uploadableField  = $this->getUploadableField($options);
         $uploadablesField = $builder->getName();
+
+        if (null === $options['description']) {
+            $options['description'] = $this->imageSizeDescriber->describeSize(
+                $options['image_filters'],
+                $options['image_width'],
+                $options['image_height'],
+                $options['uploadable_class']
+            );
+
+            if (!empty($options['description'])) {
+                $options['description'] .= '<br>';
+            }
+
+            $options['description'] .= $this->translator->trans('form.file.description', [
+                '%size%' => $this->uploadMaxSizeMB,
+            ], 'admin');
+        }
 
         $builder
             ->add('dropzone', FormType::class, [
@@ -188,27 +213,17 @@ class DropzoneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $defaults = [
-            'accepted_files'         => implode(',', $this->acceptedFiles),
-            'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
-            'mapped'                 => false,
-            'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-            'toggle_enabled'         => false,
-            'image_filters'          => [],
-            'image_width'            => 0,
-            'image_height'           => 0,
-        ];
-
-        if (!empty($this->imageSizeDescriber)) {
-            $imageSizeDescriber = $this->imageSizeDescriber;
-
-            $defaults['description'] = function (Options $options) use ($imageSizeDescriber) {
-                return $imageSizeDescriber->describeSize($options['image_filters'], $options['image_width'], $options['image_height']);
-            };
-        }
-
         $resolver
-            ->setDefaults($defaults)
+            ->setDefaults([
+                'accepted_files'         => implode(',', $this->acceptedFiles),
+                'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
+                'mapped'                 => false,
+                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'toggle_enabled'         => false,
+                'image_filters'          => [],
+                'image_width'            => 0,
+                'image_height'           => 0,
+            ])
             ->setDefined([
                 'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
@@ -221,6 +236,7 @@ class DropzoneType extends AbstractType
             ->setAllowedTypes('uploadable_class', 'string')
             ->setAllowedTypes('image_filters', [
                 'array',
+                'null',
                 'string',
             ])
             ->setAllowedTypes('image_width', 'integer')

@@ -7,19 +7,21 @@
     <div class="post_item_btn">
 
         {% block new_link %}
+            {% if not meta.configuration.index_view_new_form %}
 
-            {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('create_delete', meta.entityClass)
-                ? admin_path(
-                    null,
-                    meta.entityClass,
-                    'new',
-                    association_param ? {(association_param): parent_entity_id} : {}
-                )
-                : null
-            %}
+                {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('create_delete', meta.entityClass)
+                    ? admin_path(
+                        null,
+                        meta.entityClass,
+                        'new',
+                        association_param ? {(association_param): parent_entity_id} : {}
+                    )
+                    : null
+                %}
 
-            {% if new_url %}
-                <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+                {% if new_url %}
+                    <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+                {% endif %}
             {% endif %}
         {% endblock %}
 

@@ -166,3 +166,5 @@ view:
 5.20.9: Translation sync JS: translate all fields (not only required).
 
 5.20.10: Render max file size description in Dropzone form.
+
+5.20.11: Do not render new action button in index view if index view new form is enabled.

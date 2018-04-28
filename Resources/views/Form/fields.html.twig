@@ -62,7 +62,7 @@
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
     <script>
         $(function () {
-            ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-noconflict');
+            ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-min-noconflict');
             var editor = ace.edit('{{ id }}', JSON.parse('{{ config|json_encode|e('js') }}'));
             editor.setShowPrintMargin(false);
             editor.renderer.on('afterRender', function () {

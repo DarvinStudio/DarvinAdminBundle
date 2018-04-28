@@ -58,6 +58,27 @@
     {{ parent() }}
 {%- endblock collection_widget -%}
 
+{%- block darvin_admin_ace_editor_widget -%}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <script>
+        $(function () {
+            ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-noconflict');
+            var editor = ace.edit('{{ id }}', JSON.parse('{{ config|json_encode|e('js') }}'));
+            editor.setShowPrintMargin(false);
+            editor.renderer.on('afterRender', function () {
+                $(editor.container)
+                {%- for name, value in attr -%}
+                    .attr('{{ name }}', '{{ value }}')
+                {%- endfor -%}
+                {%- for name, value in style -%}
+                    .css({'{{ name }}': '{{ value }}'})
+                {%- endfor -%}
+                ;
+            });
+        });
+    </script>
+{%- endblock darvin_admin_ace_editor_widget -%}
+
 {%- block darvin_admin_dropzone_widget -%}
     {% if data and data is not empty %}
         <div class="images" data-sort-url="{{ path('darvin_image_image_sort') }}">
@@ -178,8 +199,8 @@
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}
-        {% set is_ckeditor = 'ckeditor' == block_prefixes[3]|default %}
-        {% if not is_ckeditor %}
+        {% set is_editor = block_prefixes[3]|default in ['ckeditor', 'darvin_admin_ace_editor'] %}
+        {% if not is_editor %}
             {% set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' name')|trim}) %}
         {% endif %}
         {% if not compound -%}
@@ -199,7 +220,7 @@
             {%- endif -%}
         {%- endif -%}
         <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
-            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if not is_ckeditor %}:{% endif %}
+            {{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}{% if not is_editor %}:{% endif %}
         </label>
     {%- endif -%}
 {%- endblock form_label -%}

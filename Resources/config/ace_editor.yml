@@ -1,0 +1,15 @@
+parameters:
+    darvin_admin.ace_editor.form_type.class: Darvin\AdminBundle\Form\Type\AceEditorType
+
+services:
+    darvin_admin.ace_editor.form_type:
+        class: "%darvin_admin.ace_editor.form_type.class%"
+        arguments:
+            -
+                minLines: 15
+                maxLines: 15
+                theme:    ace/theme/github
+            -
+                width: 98.5%
+        tags:
+            - { name: form.type }

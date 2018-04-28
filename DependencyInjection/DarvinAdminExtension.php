@@ -60,6 +60,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         foreach ([
+            'ace_editor',
             'breadcrumbs',
             'cache',
             'ckeditor',

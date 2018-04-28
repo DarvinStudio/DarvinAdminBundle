@@ -13,7 +13,7 @@ const scripts = [
         {
             target: 'app.js',
             src:    [
-                'Resources/public/node_modules/ace-builds/src-noconflict/ace.js',
+                'Resources/public/node_modules/ace-builds/src-min-noconflict/ace.js',
                 'Resources/public/node_modules/bootstrap/dist/js/bootstrap.js',
                 'Resources/public/node_modules/chosen-js/chosen.jquery.js',
                 'Resources/public/node_modules/dropzone/dist/dropzone.js',
@@ -73,7 +73,7 @@ const scripts = [
         }
     ],
     vendorFilter = {
-        'ace-builds': 'ace-builds/src-noconflict/*'
+        'ace-builds': 'ace-builds/src-min-noconflict/*'
     };
 
 // Tasks

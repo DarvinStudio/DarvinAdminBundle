@@ -168,3 +168,19 @@ view:
 5.20.10: Render max file size description in Dropzone form.
 
 5.20.11: Do not render new action button in index view if index view new form is enabled.
+
+5.21.0: Integrate Ace editor. Usage example:
+
+```yaml
+form:
+    edit:
+        fields:
+            label:
+                type: Darvin\AdminBundle\Form\Type\AceEditorType
+                options:
+                    config:
+                        mode:  ace/mode/javascript
+                        theme: ace/theme/dracula
+                    style:
+                        width: 50%
+```

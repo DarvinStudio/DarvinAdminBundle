@@ -13,6 +13,7 @@ const scripts = [
         {
             target: 'app.js',
             src:    [
+                'Resources/public/node_modules/ace-builds/src-noconflict/ace.js',
                 'Resources/public/node_modules/bootstrap/dist/js/bootstrap.js',
                 'Resources/public/node_modules/chosen-js/chosen.jquery.js',
                 'Resources/public/node_modules/dropzone/dist/dropzone.js',
@@ -70,12 +71,15 @@ const scripts = [
                 'Resources/public/node_modules/noty/lib/themes/bootstrap-v3.css'
             ]
         }
-    ];
+    ],
+    vendorFilter = {
+        'ace-builds': 'ace-builds/src-noconflict/*'
+    };
 
 // Tasks
 gulp
     // Common
-    .task('vendor', require('./Resources/gulp/tasks/vendor')(gulp))
+    .task('vendor', require('./Resources/gulp/tasks/vendor')(gulp, vendorFilter))
     // Dev
     .task('scripts', require('./Resources/gulp/tasks/scripts')(gulp, dir, scripts))
     .task('styles', require('./Resources/gulp/tasks/styles')(gulp, dir, styles))

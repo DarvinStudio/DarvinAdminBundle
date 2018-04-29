@@ -118,7 +118,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'bazinga_js_translation',
             'fm_elfinder',
             'hwi_oauth',
-            'ivory_ck_editor',
+            'fos_ck_editor',
             'lexik_translation',
             'liip_imagine',
             'oneup_uploader',

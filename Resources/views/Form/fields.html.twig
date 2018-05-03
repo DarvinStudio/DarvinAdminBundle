@@ -60,12 +60,18 @@
 
 {%- block darvin_admin_ace_editor_widget -%}
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <div id="{{ id }}_ace_editor"></div>
     <script>
         $(function () {
             ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-min-noconflict');
-            var editor = ace.edit('{{ id }}', JSON.parse('{{ config|json_encode|e('js') }}')),
-                ready  = false;
+            var $textarea = $('#{{ id }}').hide(),
+                editor    = ace.edit('{{ id }}_ace_editor', JSON.parse('{{ config|json_encode|e('js') }}')),
+                ready     = false;
             editor.setShowPrintMargin(false);
+            editor.session.setValue($textarea.val());
+            editor.session.on('change', function () {
+                $textarea.val(editor.session.getValue());
+            });
             editor.renderer.on('afterRender', function () {
                 if (ready) {
                     return;

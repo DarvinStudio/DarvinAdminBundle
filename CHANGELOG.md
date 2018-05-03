@@ -184,3 +184,7 @@ form:
                     style:
                         width: 50%
 ```
+
+5.21.1:
+
+- optimize initialization of the Ace editor.

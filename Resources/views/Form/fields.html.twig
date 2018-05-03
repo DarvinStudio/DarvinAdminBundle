@@ -63,9 +63,13 @@
     <script>
         $(function () {
             ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-min-noconflict');
-            var editor = ace.edit('{{ id }}', JSON.parse('{{ config|json_encode|e('js') }}'));
+            var editor = ace.edit('{{ id }}', JSON.parse('{{ config|json_encode|e('js') }}')),
+                ready  = false;
             editor.setShowPrintMargin(false);
             editor.renderer.on('afterRender', function () {
+                if (ready) {
+                    return;
+                }
                 $(editor.container)
                 {%- for name, value in attr -%}
                     .attr('{{ name }}', '{{ value }}')
@@ -74,6 +78,7 @@
                     .css({'{{ name }}': '{{ value }}'})
                 {%- endfor -%}
                 ;
+                ready = true;
             });
         });
     </script>

@@ -184,3 +184,9 @@ form:
                     style:
                         width: 50%
 ```
+
+5.21.1:
+
+- optimize initialization of the Ace editor;
+
+- replace deprecated "sameas" with "same as" in templates.

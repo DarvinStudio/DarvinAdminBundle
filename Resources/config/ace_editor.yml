@@ -10,6 +10,6 @@ services:
                 maxLines: 15
                 theme:    ace/theme/github
             -
-                width: 98.5%
+                margin: 0 20px
         tags:
             - { name: form.type }

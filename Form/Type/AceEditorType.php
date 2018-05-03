@@ -57,8 +57,9 @@ class AceEditorType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'config' => [],
-                'style'  => [],
+                'config'   => [],
+                'style'    => [],
+                'required' => false,
             ])
             ->setAllowedTypes('config', 'array')
             ->setAllowedTypes('style', 'array');

@@ -142,6 +142,8 @@ menu:
     group:
         modules:
             title: وحدات
+        seo:
+            title: 'كبار المسئولين الاقتصاديين-وحدات'
 pagination:
     show_all: 'عرض كل'
 property_forms:

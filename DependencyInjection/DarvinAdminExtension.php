@@ -170,6 +170,18 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
                         ],
                     ],
+                    [
+                        'name'     => 'seo',
+                        'position' => 500,
+                        'colors'   => [
+                            'main'    => '#ca9e26',
+                            'sidebar' => '#ca9e26',
+                        ],
+                        'icons' => [
+                            'main'    => 'bundles/darvinadmin/images/admin/modules_main.png',
+                            'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
+                        ],
+                    ],
                 ],
             ],
             'form' => [

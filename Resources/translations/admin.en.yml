@@ -170,6 +170,8 @@ menu:
     group:
         modules:
             title: Modules
+        seo:
+            title: SEO-modules
 
 pagination:
     show_all: Show all

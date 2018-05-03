@@ -190,3 +190,5 @@ form:
 - optimize initialization of the Ace editor;
 
 - replace deprecated "sameas" with "same as" in templates.
+
+5.21.2: Add "seo" menu group.

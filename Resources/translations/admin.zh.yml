@@ -142,6 +142,8 @@ menu:
     group:
         modules:
             title: 模块
+        seo:
+            title: 搜索引擎优化模块
 pagination:
     show_all: '显示所有'
 property_forms:

@@ -142,6 +142,8 @@ menu:
     group:
         modules:
             title: 'Les Modules de'
+        seo:
+            title: SEO-modules
 pagination:
     show_all: 'Afficher tous les'
 property_forms:

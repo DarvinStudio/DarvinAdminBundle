@@ -187,4 +187,6 @@ form:
 
 5.21.1:
 
-- optimize initialization of the Ace editor.
+- optimize initialization of the Ace editor;
+
+- replace deprecated "sameas" with "same as" in templates.

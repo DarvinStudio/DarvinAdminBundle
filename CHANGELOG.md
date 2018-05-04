@@ -192,3 +192,5 @@ form:
 - replace deprecated "sameas" with "same as" in templates.
 
 5.21.2: Add "seo" menu group.
+
+5.21.4: Update CRUD index HTML.

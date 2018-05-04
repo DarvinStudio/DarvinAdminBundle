@@ -16,8 +16,10 @@
 
     {% endif %}
     {% if new_form_widget %}
-        <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
-        {{ new_form_widget|raw }}
+        <div class="index-new-form">
+            <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+            {{ new_form_widget|raw }}
+        </div>
     {% endif %}
 
     {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}

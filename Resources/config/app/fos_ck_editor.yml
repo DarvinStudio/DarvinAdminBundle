@@ -23,7 +23,6 @@ fos_ck_editor:
                 bidi,
                 blockquote,
                 colordialog,
-                contextmenu,
                 dialogadvtab,
                 div,
                 elementspath,
@@ -50,7 +49,6 @@ fos_ck_editor:
                 smiley,
                 stylescombo,
                 tab,
-                tabletools,
                 templates,
                 wsc
         darvin_admin_compact:
@@ -69,7 +67,6 @@ fos_ck_editor:
                 blockquote,
                 colorbutton,
                 colordialog,
-                contextmenu,
                 dialogadvtab,
                 div,
                 elementspath,
@@ -108,6 +105,5 @@ fos_ck_editor:
                 stylescombo,
                 tab,
                 table,
-                tabletools,
                 templates,
                 wsc

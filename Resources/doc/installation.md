@@ -199,19 +199,26 @@ framework:
 - чтобы задействовать файлы переводов чистим кэш с помощью команды
 
 ```shell
-$ php app/console cache:clear
+$ php bin/console cache:clear
 ```
 
 - обновляем схему базы данных, выполнив команду
 
 ```shell
-$ php app/console doctrine:schema:update --force
+$ php bin/console doctrine:schema:update --force
+```
+
+- устанавливаем CKEditor
+
+```shell
+$ php bin/console ckeditor:install
+$ php bin/console assets:install --symlink web
 ```
 
 - создаем пользователя, выполнив
 
 ```shell
-$ php app/console darvin:user:create admin@example.com admin
+$ php bin/console darvin:user:create admin@example.com admin
 ```
 
 *в диалоге выбора роли пользователя выбираем "ROLE_SUPERADMIN"*

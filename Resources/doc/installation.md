@@ -32,7 +32,7 @@ class AppKernel extends Kernel
             new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
             new FM\ElfinderBundle\FMElfinderBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
+            new FOS\CKEditorBundle\FOSCKEditorBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
             new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
             // new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(), (раскомментировать при использовании "lexik/translation-bundle")

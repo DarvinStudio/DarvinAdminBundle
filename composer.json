@@ -13,7 +13,7 @@
     ],
     "require": {
         "a2lix/translation-form-bundle":      "^2.1",
-        "egeloen/ckeditor-bundle":            "^4.0",
+        "friendsofsymfony/ckeditor-bundle": "dev-master",
         "helios-ag/fm-elfinder-bundle":       "^6.2",
         "knplabs/knp-paginator-bundle":       "^2.5",
         "ocramius/proxy-manager":             "^1.0",

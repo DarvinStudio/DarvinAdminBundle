@@ -205,7 +205,7 @@
             {% else %}
                 <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
             {% endif %}
-            <script src="{{ asset('bundles/ivoryckeditor/ckeditor.js') }}"></script>
+            <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
             <script>
                 Translator.locale = '{{ app.request.locale }}';

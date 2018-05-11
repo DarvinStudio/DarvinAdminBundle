@@ -14,7 +14,7 @@
     "require": {
         "a2lix/translation-form-bundle":    "^2.1",
         "friendsofsymfony/ckeditor-bundle": "^1.0",
-        "helios-ag/fm-elfinder-bundle":     "^6.2",
+        "helios-ag/fm-elfinder-bundle":     "^8.0",
         "knplabs/knp-paginator-bundle":     "^2.5",
         "ocramius/proxy-manager":           "^1.0",
         "oneup/uploader-bundle":            "^1.7",

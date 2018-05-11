@@ -194,3 +194,5 @@ form:
 5.21.2: Add "seo" menu group.
 
 5.21.4: Update CRUD index HTML.
+
+5.21.9: Upgrade elFinder bundle.

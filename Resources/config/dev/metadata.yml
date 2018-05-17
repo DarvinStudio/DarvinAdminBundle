@@ -1,0 +1,12 @@
+parameters:
+    darvin_admin.metadata.configuration.debug_command.class: Darvin\AdminBundle\Command\DebugConfigCommand
+    darvin_admin.metadata.configuration.debug_command.name:  "darvin:admin:debug:config"
+
+services:
+    darvin_admin.metadata.configuration.debug_command:
+        class: "%darvin_admin.metadata.configuration.debug_command.class%"
+        arguments:
+            - "%darvin_admin.metadata.configuration.debug_command.name%"
+            - "@darvin_admin.metadata.manager"
+        tags:
+            - { name: console.command }

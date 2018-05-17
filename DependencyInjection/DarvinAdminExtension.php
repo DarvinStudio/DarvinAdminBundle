@@ -77,12 +77,20 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'search',
             'security',
             'slug_suffix',
-            'translation_generator',
             'twig',
             'uploader',
             'view',
         ] as $resource) {
             $loader->load($resource.'.yml');
+        }
+        if ('dev' === $container->getParameter('kernel.environment')) {
+            foreach ([
+                'metadata',
+                'translation_generator',
+                'view',
+            ] as $resource) {
+                $loader->load(sprintf('dev/%s.yml', $resource));
+            }
         }
         if ($this->showErrorPageListenerEnabled) {
             $loader->load('error.yml');

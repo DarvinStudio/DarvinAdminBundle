@@ -1,0 +1,12 @@
+parameters:
+    darvin_admin.view.widget.list_command.class: Darvin\AdminBundle\Command\ListViewWidgetsCommand
+    darvin_admin.view.widget.list_command.name:  darvin:admin:widget:list
+
+services:
+    darvin_admin.view.widget.list_command:
+        class: "%darvin_admin.view.widget.list_command.class%"
+        arguments:
+            - "%darvin_admin.view.widget.list_command.name%"
+            - "@darvin_admin.view.widget.pool"
+        tags:
+            - { name: console.command }

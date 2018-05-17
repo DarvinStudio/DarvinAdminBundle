@@ -1,9 +1,6 @@
 parameters:
     darvin_admin.metadata.abstract.class: Darvin\AdminBundle\Metadata\Metadata
 
-    darvin_admin.metadata.configuration.debug_command.class: Darvin\AdminBundle\Command\DebugConfigCommand
-    darvin_admin.metadata.configuration.debug_command.name:  "darvin:admin:debug:config"
-
     darvin_admin.metadata.configuration.loader.class: Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader
 
     darvin_admin.metadata.factory.class: Darvin\AdminBundle\Metadata\MetadataFactory
@@ -24,14 +21,6 @@ services:
         factory:  [ "@darvin_admin.metadata.factory", createMetadata ]
         abstract: true
         public:   false
-
-    darvin_admin.metadata.configuration.debug_command:
-        class: "%darvin_admin.metadata.configuration.debug_command.class%"
-        arguments:
-            - "%darvin_admin.metadata.configuration.debug_command.name%"
-            - "@darvin_admin.metadata.manager"
-        tags:
-            - { name: console.command }
 
     darvin_admin.metadata.configuration.loader:
         class:  "%darvin_admin.metadata.configuration.loader.class%"

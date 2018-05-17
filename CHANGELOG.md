@@ -196,3 +196,5 @@ form:
 5.21.4: Update CRUD index HTML.
 
 5.21.9: Upgrade elFinder bundle.
+
+5.21.10: Init commands only in "dev" environment.

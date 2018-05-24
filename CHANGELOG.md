@@ -198,3 +198,5 @@ form:
 5.21.9: Upgrade elFinder bundle.
 
 5.21.10: Init commands only in "dev" environment.
+
+5.21.11: Use index widget template from section configuration.

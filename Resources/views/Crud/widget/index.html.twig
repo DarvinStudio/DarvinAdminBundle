@@ -25,6 +25,8 @@
             {% endif %}
         {% endblock %}
 
+        {% block extra_controls %}{% endblock %}
+
         {% block property_forms_submit %}
             {% if view.body.rows is not empty %}
                 <a class="property_forms_submit save_edit" style="display: none;">

@@ -22,6 +22,6 @@
         </div>
     {% endif %}
 
-    {% include 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
+    {% include meta.configuration.view.index.template ?: 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
 
 {% endblock %}

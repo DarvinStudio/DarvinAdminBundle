@@ -200,3 +200,5 @@ form:
 5.21.10: Init commands only in "dev" environment.
 
 5.21.11: Use index widget template from section configuration.
+
+5.21.12: Property form JS: disable cache while reloading page.

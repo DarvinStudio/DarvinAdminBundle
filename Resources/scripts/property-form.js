@@ -24,7 +24,9 @@ $(document).ready(function () {
             notify(data.message, data.success ? 'success' : 'error');
 
             if (reloadPage && !$formReplacement.closest('.property_forms').parent('.searchable_results').length) {
-                $.ajax().done(function (html) {
+                $.ajax({
+                    cache: false
+                }).done(function (html) {
                     $formReplacement.closest('.section_table').replaceWith($(html).find('.section_table:first'));
                 }).fail(onAjaxFail);
             }

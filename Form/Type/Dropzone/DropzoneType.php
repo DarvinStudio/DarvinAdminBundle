@@ -120,7 +120,7 @@ class DropzoneType extends AbstractType
         $uploadableField  = $this->getUploadableField($options);
         $uploadablesField = $builder->getName();
 
-        if (null === $options['description']) {
+        if (!empty($this->imageSizeDescriber) && null === $options['description']) {
             $options['description'] = $this->imageSizeDescriber->describeSize(
                 $options['image_filters'],
                 $options['image_width'],

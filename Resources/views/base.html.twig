@@ -212,7 +212,7 @@
 
                 {% for type, messages in flashes %}
                     {% for message in messages %}
-                        notify('{{ message }}', '{{ type }}');
+                        notify('{{ message|e('js') }}', '{{ type }}');
                     {% endfor %}
                 {% endfor %}
             </script>

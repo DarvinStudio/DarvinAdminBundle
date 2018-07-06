@@ -71,9 +71,7 @@
                         {% endif %}
                         <div class="val">
 
-                            {% set attr = {
-                                'class': child.vars.block_prefixes[1]|default,
-                            } %}
+                            {% set attr = {} %}
 
                             {% if 'collection' == child.vars.block_prefixes[1]|default %}
 
@@ -93,6 +91,11 @@
                                 {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
                                 {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
                             {% else %}
+
+                                {% set attr = attr|merge({
+                                    'class': child.vars.block_prefixes[1]|default,
+                                }) %}
+
                                 {{ form_widget(child, {'attr': attr}) }}
                             {% endif %}
                         </div>

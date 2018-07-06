@@ -206,3 +206,5 @@ form:
 5.21.14: Escape flash messages for Javascript.
 
 5.21.15: Allow to use Ace editor in configuration forms.
+
+5.21.17: Configure default options of "public_link" view widget.

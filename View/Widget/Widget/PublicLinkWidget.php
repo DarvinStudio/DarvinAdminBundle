@@ -91,9 +91,11 @@ class PublicLinkWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired([
-                'params',
-                'route',
+            ->setDefaults([
+                'route'  => 'darvin_content_show',
+                'params' => [
+                    'slug' => null,
+                ],
             ])
             ->setAllowedTypes('params', 'array')
             ->setAllowedTypes('route', 'string');

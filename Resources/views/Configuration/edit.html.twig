@@ -89,7 +89,12 @@
 
                                 {% endif %}
                             {% endif %}
-                            {{ form_widget(child, {'attr': attr}) }}
+                            {% if 'darvin_admin_ace_editor' == child.vars.block_prefixes[3]|default %}
+                                {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
+                                {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
+                            {% else %}
+                                {{ form_widget(child, {'attr': attr}) }}
+                            {% endif %}
                         </div>
                         {{ form_errors(child) }}
                     </div>

@@ -125,6 +125,7 @@ class ChildLinksWidget extends AbstractWidget
             ->getSingleScalarResult();
 
         return $this->render($options, [
+            'association'        => $association,
             'association_param'  => $associationParam,
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,

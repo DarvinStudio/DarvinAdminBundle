@@ -217,12 +217,13 @@ class DropzoneType extends AbstractType
             ->setDefaults([
                 'accepted_files'         => implode(',', $this->acceptedFiles),
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
-                'mapped'                 => false,
-                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-                'toggle_enabled'         => false,
+                'error_bubbling'         => false,
                 'image_filters'          => [],
                 'image_width'            => 0,
                 'image_height'           => 0,
+                'mapped'                 => false,
+                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'toggle_enabled'         => false,
             ])
             ->setDefined([
                 'accepted_files',

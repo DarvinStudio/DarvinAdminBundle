@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
 
 /**
@@ -206,6 +207,30 @@ class DropzoneType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['toggle_enabled'] = $options['toggle_enabled'];
+
+        /** @var \Symfony\Component\Form\FormError $error */
+        foreach ($view->vars['errors'] as $error) {
+            $cause = $error->getCause();
+
+            if (!$cause instanceof ConstraintViolationInterface) {
+                continue;
+            }
+
+            $file = $cause->getInvalidValue();
+
+            if (!$file instanceof UploadedFile) {
+                continue;
+            }
+            foreach ($view->children['files'] as $key => $field) {
+                $data = $field->vars['data'];
+
+                if ($data['filename'] === $file->getFilename() && $data['originalFilename'] === $file->getClientOriginalName()) {
+                    unset($view->children['files'][$key]);
+
+                    @unlink($file->getPathname());
+                }
+            }
+        }
     }
 
     /**

@@ -9,7 +9,7 @@ services:
             - "@property_accessor"
             - "@translator"
             - "@vich_uploader.metadata_reader"
-            - "%darvin_image.constraints.mime_types%"
+            - "%darvin_image.constraints%"
             - "%oneup_uploader.config%"
             - "%darvin_admin.upload_max_size_mb%"
             - "@?darvin_image.size.describer"

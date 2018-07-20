@@ -26,6 +26,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
 
 /**
@@ -58,9 +59,9 @@ class DropzoneType extends AbstractType
     private $vichUploaderMetadataReader;
 
     /**
-     * @var string[]
+     * @var array
      */
-    private $acceptedFiles;
+    private $constraints;
 
     /**
      * @var array
@@ -82,7 +83,7 @@ class DropzoneType extends AbstractType
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Symfony\Component\Translation\TranslatorInterface          $translator                 Translator
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
-     * @param string[]                                                    $acceptedFiles              Accepted files
+     * @param array                                                       $constraints                Constraints
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
      * @param int                                                         $uploadMaxSizeMB            Max upload file size in MB
      * @param \Darvin\ImageBundle\Size\SizeDescriber|null                 $imageSizeDescriber         Image size describer
@@ -92,7 +93,7 @@ class DropzoneType extends AbstractType
         PropertyAccessorInterface $propertyAccessor,
         TranslatorInterface $translator,
         MetadataReader $vichUploaderMetadataReader,
-        array $acceptedFiles,
+        array $constraints,
         array $oneupUploaderConfig,
         $uploadMaxSizeMB,
         SizeDescriber $imageSizeDescriber = null
@@ -101,7 +102,7 @@ class DropzoneType extends AbstractType
         $this->propertyAccessor = $propertyAccessor;
         $this->translator = $translator;
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
-        $this->acceptedFiles = $acceptedFiles;
+        $this->constraints = $constraints;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
         $this->uploadMaxSizeMB = $uploadMaxSizeMB;
         $this->imageSizeDescriber = $imageSizeDescriber;
@@ -137,18 +138,26 @@ class DropzoneType extends AbstractType
             ], 'admin');
         }
 
+        $attr = [
+            'class'               => 'dropzone',
+            'data-accepted-files' => $options['accepted_files'],
+            'data-description'    => $options['description'],
+            'data-files'          => '.files',
+            'data-max-filesize'   => $this->uploadMaxSizeMB,
+            'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
+        ];
+
+        foreach ($this->constraints as $name => $value) {
+            if (is_scalar($value)) {
+                $attr[sprintf('data-constraint-%s', str_replace('_', '-', $name))] = $value;
+            }
+        }
+
         $builder
             ->add('dropzone', FormType::class, [
                 'label'  => false,
                 'mapped' => false,
-                'attr'   => [
-                    'class'               => 'dropzone',
-                    'data-accepted-files' => $options['accepted_files'],
-                    'data-description'    => $options['description'],
-                    'data-files'          => '.files',
-                    'data-max-filesize'   => $this->uploadMaxSizeMB,
-                    'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
-                ],
+                'attr'   => $attr,
             ])
             ->add('files', CollectionType::class, [
                 'label'         => false,
@@ -206,6 +215,30 @@ class DropzoneType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['toggle_enabled'] = $options['toggle_enabled'];
+
+        /** @var \Symfony\Component\Form\FormError $error */
+        foreach ($view->vars['errors'] as $error) {
+            $cause = $error->getCause();
+
+            if (!$cause instanceof ConstraintViolationInterface) {
+                continue;
+            }
+
+            $file = $cause->getInvalidValue();
+
+            if (!$file instanceof UploadedFile) {
+                continue;
+            }
+            foreach ($view->children['files'] as $key => $field) {
+                $data = $field->vars['data'];
+
+                if ($data['filename'] === $file->getFilename() && $data['originalFilename'] === $file->getClientOriginalName()) {
+                    unset($view->children['files'][$key]);
+
+                    @unlink($file->getPathname());
+                }
+            }
+        }
     }
 
     /**
@@ -215,14 +248,15 @@ class DropzoneType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'accepted_files'         => implode(',', $this->acceptedFiles),
+                'accepted_files'         => implode(',', $this->constraints['mime_types']),
                 'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
-                'mapped'                 => false,
-                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-                'toggle_enabled'         => false,
+                'error_bubbling'         => false,
                 'image_filters'          => [],
                 'image_width'            => 0,
                 'image_height'           => 0,
+                'mapped'                 => false,
+                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'toggle_enabled'         => false,
             ])
             ->setDefined([
                 'accepted_files',

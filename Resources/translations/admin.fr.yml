@@ -16,20 +16,20 @@ colorbox:
     slideshowStop: 'arrêter le diaporama'
     xhrError: 'Ce contenu a pas réussi à charger.'
 common:
-    back: De retour
+    back: 'De retour'
 configuration:
     action:
         edit:
             heading:
-                common: Les Modules de configuration
+                common: 'Les Modules de configuration'
                 security: 'Les autorisations de l''utilisateur'
             link: Configuration
             submit: 'Soumettre les modifications'
             success: 'Configuration de la mise à jour avec succès'
             title: Configuration
             toggle:
-                collapse: 'Réduire'
-                expand: 'Développez'
+                collapse: 'L''effondrement'
+                expand: Développez
 crud:
     action:
         batch_delete:
@@ -44,6 +44,7 @@ dropzone:
     default_message: 'Ici goutte fichiers à télécharger'
     file_too_big: 'Le fichier est trop gros ({{taille}}MO). Max taille du fichier: {{maxFilesize}}MO.'
     invalid_file_type: 'Vous ne pouvez pas télécharger des fichiers de ce type.'
+    reject_dimensions: 'La taille d''image maximale %max_width%x%max_height%px dépassé.'
     remove_file: 'Suppression de fichier'
 entity_name:
     single:
@@ -67,7 +68,7 @@ flash:
         update_property: 'La valeur mise à jour avec succès'
 form:
     file:
-        description: 'Taille maximale de fichier: %taille%MB'
+        description: 'Taille maximale de fichier: %size%MO'
 form_collections:
     add: Ajouter
     delete: Supprimer
@@ -83,7 +84,7 @@ image:
             submit: Supprimer
             success: 'Image supprimé avec succès'
         disable:
-            submit: 'Désactiver'
+            submit: Désactiver
             success: 'Image désactivé correctement'
         enable:
             submit: Activer
@@ -159,7 +160,7 @@ search:
     action:
         index:
             heading: 'La recherche pour "%query%"'
-            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+            query_too_short: "La requête est trop court, min longueur est %min_length% symbole | La requête est trop court, min longueur est %min_length% symboles | La requête est trop court, min longueur est %min_length%symboles\n"
     form:
         placeholder: Recherche...
         submit: Recherche
@@ -183,15 +184,15 @@ size:
     width: Largeur
 slug_suffix:
     edit: Modifier
-    reset: 'Réinitialiser'
-    update: 'Mettre à jour'
+    reset: Réinitialiser
+    update: 'Mise à jour'
 submit:
     common: Soumettre
     edit: 'Soumettre et de modifier'
     index: 'Soumettre et allez à la page d''index'
     new: 'Soumettre et créer'
 textcounter:
-    count_down_text: '<p><span>%d</span> caractères restants</p>'
+    count_down_text: '<p><span>%d</span> caractère(s) restant</p>'
     count_overflow_text: '<p>limite dépassée par <span>%d</span></p>'
 translation:
     action:

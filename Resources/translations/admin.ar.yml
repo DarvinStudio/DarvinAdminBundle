@@ -26,10 +26,10 @@ configuration:
             link: التكوين
             submit: 'إرسال التغييرات'
             success: 'التكوين بنجاح تحديث'
-            title: 'التكوين'
+            title: التكوين
             toggle:
-                collapse: 'انهيار'
-                expand: 'توسيع'
+                collapse: انهيار
+                expand: توسيع
 crud:
     action:
         batch_delete:
@@ -44,6 +44,7 @@ dropzone:
     default_message: 'قطرة هنا لتحميل الملفات'
     file_too_big: 'الملف كبير جدا ({{حجم الملف}}MB). ماكس حجم الملف: {{maxFilesize}}ميجا بايت.'
     invalid_file_type: 'لا يمكنك تحميل الملفات من هذا النوع.'
+    reject_dimensions: 'ماكس حجم الصورة %max_width%x%max_height%px تجاوز.'
     remove_file: 'إزالة الملف'
 entity_name:
     single:
@@ -67,7 +68,7 @@ flash:
         update_property: 'قيمة تحديثها بنجاح'
 form:
     file:
-        description: 'ماكس حجم الملف: %حجم%MB'
+        description: 'ماكس حجم الملف: %size%MB'
 form_collections:
     add: إضافة
     delete: إزالة
@@ -83,10 +84,10 @@ image:
             submit: إزالة
             success: 'صورة إزالة بنجاح'
         disable:
-            submit: 'تعطيل'
+            submit: تعطيل
             success: 'الصورة بنجاح المعوقين'
         enable:
-            submit: 'تمكين'
+            submit: تمكين
             success: 'صورة تمكين بنجاح'
 interface:
     actions: الإجراءات
@@ -159,7 +160,7 @@ search:
     action:
         index:
             heading: 'البحث عن "%query%"'
-            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+            query_too_short: "الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز\n"
     form:
         placeholder: 'البحث عن...'
         submit: البحث
@@ -182,17 +183,17 @@ size:
     height: ارتفاع
     width: العرض
 slug_suffix:
-    edit: 'تحرير'
+    edit: تحرير
     reset: 'إعادة تعيين'
-    update: 'تحديث'
+    update: التحديث
 submit:
-    common: 'تقدم'
+    common: تقدم
     edit: 'تقديم وتحرير'
     index: 'تقديم و اذهب إلى صفحة الفهرس'
     new: 'تقديم وخلق'
 textcounter:
-    count_down_text: '<p>الأحرف المتبقية <span>%d</span></p>'
-    count_overflow_text: '<p><span>%d</span> تجاوز حد من قبل</p>'
+    count_down_text: '<p><span>%d</span> حرف(s) المتبقية</p>'
+    count_overflow_text: '<p>تجاوز حد من <span>%d</span></p>'
 translation:
     action:
         index:

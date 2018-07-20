@@ -210,3 +210,5 @@ form:
 5.21.17: Configure default options of "public_link" view widget.
 
 5.21.18: Pass association to the "child_links" view widget template.
+
+5.21.19: Dropzone: validate image dimensions on client-side.

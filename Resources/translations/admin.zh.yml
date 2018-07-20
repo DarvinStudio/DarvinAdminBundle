@@ -43,7 +43,8 @@ dashboard:
 dropzone:
     default_message: 落在这儿的文件上传
     file_too_big: '文件太大({{filesize}}MB)。 Max filesize:{{maxFilesize}}MB。'
-    invalid_file_type: '你不能上传文件的类型。'
+    invalid_file_type: 你不能上传文件的类型。
+    reject_dimensions: '最大的图像大小 %max_width%x%max_height%px超过。'
     remove_file: 删除文件
 entity_name:
     single:
@@ -67,7 +68,7 @@ flash:
         update_property: 值的成功更新
 form:
     file:
-        description: 'Max文件的尺寸:%的大小%MB'
+        description: '最大的文件大小： %size%MB'
 form_collections:
     add: 添加
     delete: 删除
@@ -145,7 +146,7 @@ menu:
         seo:
             title: 搜索引擎优化模块
 pagination:
-    show_all: '显示所有'
+    show_all: 显示所有
 property_forms:
     submit: 提出的变化
 range:
@@ -159,7 +160,7 @@ search:
     action:
         index:
             heading: '搜寻"%query%"'
-            query_too_short: "Query is too short, min length is %min_length% symbol | Query is too short, min length is %min_length% symbols | Query is too short, min length is %min_length% symbols\n"
+            query_too_short: "查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length%符号\n"
     form:
         placeholder: 搜索...
         submit: 搜索
@@ -183,7 +184,7 @@ size:
     width: 宽
 slug_suffix:
     edit: 编辑
-    reset: 重
+    reset: 重置
     update: 更新
 submit:
     common: 提交
@@ -191,7 +192,7 @@ submit:
     index: 提交并转到索引页面
     new: 提交，并创造
 textcounter:
-    count_down_text: '<p><span>%d</span> 剩下的人物</p>'
+    count_down_text: '<p><span>%d</span> character(s)剩余的</p>'
     count_overflow_text: '<p>限制超过了 <span>%d</span></p>'
 translation:
     action:

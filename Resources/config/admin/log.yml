@@ -22,7 +22,7 @@ form:
             action:
                 type: choice
                 options:
-                    choices: [ Darvin\AdminBundle\Entity\LogEntry, getActions ]
+                    choices: [ Darvin\AdminBundle\Entity\LogEntry, getActionChoices ]
             loggedAtFrom: ~
             loggedAtTo:   ~
             objectClass:

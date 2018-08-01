@@ -74,9 +74,9 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return array
      */
-    public static function getActions()
+    public static function getActionChoices()
     {
-        return self::$actions;
+        return array_flip(self::$actions);
     }
 
     /**

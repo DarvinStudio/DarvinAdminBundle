@@ -121,54 +121,20 @@ class DropzoneType extends AbstractType
         $uploadableField  = $this->getUploadableField($options);
         $uploadablesField = $builder->getName();
 
-        if (!empty($this->imageSizeDescriber) && null === $options['description']) {
-            $options['description'] = $this->imageSizeDescriber->describeSize(
-                $options['image_filters'],
-                $options['image_width'],
-                $options['image_height'],
-                $options['uploadable_class']
-            );
-
-            if (!empty($options['description'])) {
-                $options['description'] .= '<br>';
-            }
-
-            $options['description'] .= $this->translator->trans('form.file.description', [
-                '%size%' => $this->uploadMaxSizeMB,
-            ], 'admin');
-        }
-
-        $attr = [
-            'class'               => 'dropzone',
-            'data-accepted-files' => $options['accepted_files'],
-            'data-description'    => $options['description'],
-            'data-files'          => '.files',
-            'data-max-filesize'   => $this->uploadMaxSizeMB,
-            'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
-        ];
-
-        foreach ($this->constraints as $name => $value) {
-            if (is_scalar($value)) {
-                $attr[sprintf('data-constraint-%s', str_replace('_', '-', $name))] = $value;
-            }
-        }
-
         $builder
             ->add('dropzone', FormType::class, [
                 'label'  => false,
                 'mapped' => false,
-                'attr'   => $attr,
             ])
             ->add('files', CollectionType::class, [
                 'label'         => false,
                 'mapped'        => false,
-                'entry_type'    => FileType::class,
                 'allow_add'     => true,
+                'entry_type'    => FileType::class,
                 'entry_options' => [
                     'label' => false,
                 ],
                 'attr' => [
-                    'class'         => 'files',
                     'data-autoinit' => 0,
                 ],
             ])
@@ -215,6 +181,40 @@ class DropzoneType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['toggle_enabled'] = $options['toggle_enabled'];
+
+        if (!empty($this->imageSizeDescriber) && null === $options['description']) {
+            $options['description'] = $this->imageSizeDescriber->describeSize(
+                $options['image_filters'],
+                $options['image_width'],
+                $options['image_height'],
+                $options['uploadable_class']
+            );
+
+            if (!empty($options['description'])) {
+                $options['description'] .= '<br>';
+            }
+
+            $options['description'] .= $this->translator->trans('form.file.description', [
+                '%size%' => $this->uploadMaxSizeMB,
+            ], 'admin');
+        }
+
+        $attr = [
+            'class'               => 'dropzone',
+            'data-accepted-files' => $options['accepted_files'],
+            'data-description'    => $options['description'],
+            'data-files'          => $view->children['files']->vars['id'],
+            'data-max-filesize'   => $this->uploadMaxSizeMB,
+            'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
+        ];
+
+        foreach ($this->constraints as $name => $value) {
+            if (is_scalar($value)) {
+                $attr[sprintf('data-constraint-%s', str_replace('_', '-', $name))] = $value;
+            }
+        }
+
+        $view->children['dropzone']->vars['attr'] = array_merge($view->children['dropzone']->vars['attr'], $attr);
 
         /** @var \Symfony\Component\Form\FormError $error */
         foreach ($view->vars['errors'] as $error) {

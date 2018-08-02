@@ -6,7 +6,8 @@ $(function () {
 
         var options = $dropzone.data();
 
-        var $files = $dropzone.parents('form').first().find(options.files + '[data-prototype]');
+        var $files = $dropzone.closest('form').find('#' + options.files + '[data-prototype]');
+
         var filePrototype = $files.data('prototype');
 
         var defaultMessage = Translator.trans('dropzone.default_message');

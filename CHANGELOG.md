@@ -214,3 +214,5 @@ form:
 5.21.19: Dropzone: validate image dimensions on client-side.
 
 5.21.20: Fix action filter in log admin section.
+
+5.21.21: Fix multiple Dropzone initialization.

@@ -216,3 +216,5 @@ form:
 5.21.20: Fix action filter in log admin section.
 
 5.21.21: Fix multiple Dropzone initialization.
+
+5.21.22: Add "options" option to the translatable form type.

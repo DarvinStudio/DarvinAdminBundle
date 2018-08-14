@@ -39,7 +39,7 @@ class TranslatableType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->locales as $locale) {
-            $builder->add($locale, $options['type']);
+            $builder->add($locale, $options['type'], $options['options']);
         }
     }
 
@@ -49,8 +49,12 @@ class TranslatableType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver
-            ->setDefault('type', TextType::class)
-            ->setAllowedTypes('type', 'string');
+            ->setDefaults([
+                'type'    => TextType::class,
+                'options' => [],
+            ])
+            ->setAllowedTypes('type', 'string')
+            ->setAllowedTypes('options', 'array');
     }
 
     /**

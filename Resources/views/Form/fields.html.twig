@@ -251,10 +251,14 @@
 {%- endblock form_widget_compound -%}
 
 {%- block form_widget_simple -%}
-    <div class="input_value">
+    {% if 'hidden' == type|default %}
         {{ parent() }}
-    </div>
-    {{ block('description') }}
+    {% else %}
+        <div class="input_value">
+            {{ parent() }}
+        </div>
+        {{ block('description') }}
+    {% endif %}
 {%- endblock form_widget_simple -%}
 
 {%- block radio_widget -%}

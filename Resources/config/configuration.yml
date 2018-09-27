@@ -6,6 +6,9 @@ parameters:
     darvin_admin.configuration.section.class: Darvin\AdminBundle\Configuration\SectionConfiguration
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.configuration.configurations_form_type:
         class: "%darvin_admin.configuration.configurations_form_type.class%"
         arguments:

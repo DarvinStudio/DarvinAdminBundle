@@ -61,12 +61,12 @@ class AppKernel extends Kernel
 ```yaml
 darvin_admin:
     locales:            "%locales%"
-    upload_max_size_mb: "%upload_max_size_mb%"
+    upload_max_size_mb: "%env(resolve:UPLOAD_MAX_SIZE_MB)%"
     project:
         title: "%project_title%"
 
 darvin_image:
-    upload_path: "%image_upload_path%"
+    upload_path: "%env(resolve:IMAGE_UPLOAD_PATH)%"
     
 darvin_utils:
     mailer:
@@ -109,15 +109,15 @@ security:
                 login_path:           darvin_admin_security_login
                 default_target_path:  darvin_admin_homepage
                 use_referer:          true
-                csrf_token_id:        "%secret%"
+                csrf_token_id:        "%kernel.secret%"
                 csrf_token_generator: security.csrf.token_manager
                 remember_me:          true
             remember_me:
                 name:     REMEMBERMEADMIN
                 lifetime: 43200 # 12 hours
-                secret:   "%secret%"
+                secret:   "%kernel.secret%"
             logout:
-                csrf_token_id: "%secret%"
+                csrf_token_id: "%kernel.secret%"
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
                 # handlers:

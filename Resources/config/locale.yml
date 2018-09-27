@@ -2,6 +2,9 @@ parameters:
     darvin_admin.locale.form_type.class: Darvin\AdminBundle\Form\Type\LocaleType
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.locale.form_type:
         class: "%darvin_admin.locale.form_type.class%"
         arguments:

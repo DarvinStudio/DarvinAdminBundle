@@ -2,6 +2,9 @@ parameters:
     darvin_admin.crud.controller.class: Darvin\AdminBundle\Controller\CrudController
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.crud.controller:
         class:    "%darvin_admin.crud.controller.class%"
         abstract: true

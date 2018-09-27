@@ -12,10 +12,10 @@ namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\ConfigBundle\DependencyInjection\Compiler\AddConfigurationsPass;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -39,7 +39,7 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $definitions[$section->getSecurityConfigId()] = (new DefinitionDecorator(self::PARENT_ID))
+            $definitions[$section->getSecurityConfigId()] = (new ChildDefinition(self::PARENT_ID))
                 ->setArguments([
                     $section->getSecurityConfigName(),
                     $section->getAlias(),

@@ -16,6 +16,9 @@ parameters:
     darvin_admin.metadata.sort_criteria_detector.class: Darvin\AdminBundle\Metadata\SortCriteriaDetector
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.metadata.abstract:
         class:    "%darvin_admin.metadata.abstract.class%"
         factory:  [ "@darvin_admin.metadata.factory", createMetadata ]

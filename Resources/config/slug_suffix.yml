@@ -2,6 +2,9 @@ parameters:
     darvin_admin.slug_suffix.form_type.class: Darvin\AdminBundle\Form\Type\SlugSuffixType
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.slug_suffix.form_type:
         class: "%darvin_admin.slug_suffix.form_type.class%"
         arguments:

@@ -10,6 +10,9 @@ parameters:
     darvin_admin.security.user_provider.oauth.class: Darvin\AdminBundle\Security\User\OAuthUserProvider
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.security.authorization_voter:
         class:  "%darvin_admin.security.authorization_voter.class%"
         public: false
@@ -39,3 +42,4 @@ services:
     darvin_admin.security.user_provider.oauth:
         class:  "%darvin_admin.security.user_provider.oauth.class%"
         parent: darvin_user.security.user_provider.oauth
+        public: true

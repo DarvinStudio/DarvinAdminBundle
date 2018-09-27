@@ -16,6 +16,9 @@ parameters:
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.form.description_file_type_extension:
         class: "%darvin_admin.form.description_file_type_extension.class%"
         arguments:

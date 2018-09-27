@@ -2,6 +2,9 @@ parameters:
     darvin_admin.searcher.class: Darvin\AdminBundle\Search\Searcher
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.searcher:
         class: "%darvin_admin.searcher.class%"
         arguments:

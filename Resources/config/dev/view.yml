@@ -3,6 +3,9 @@ parameters:
     darvin_admin.view.widget.list_command.name:  darvin:admin:widget:list
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.view.widget.list_command:
         class: "%darvin_admin.view.widget.list_command.class%"
         arguments:

@@ -10,10 +10,10 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
 /**
  * Create controllers compiler pass
@@ -30,7 +30,7 @@ class CreateControllersPass implements CompilerPassInterface
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $definitions[$section->getControllerId()] = (new DefinitionDecorator(self::PARENT_ID))
+            $definitions[$section->getControllerId()] = (new ChildDefinition(self::PARENT_ID))
                 ->addArgument($section->getEntity());
         }
 

@@ -3,6 +3,9 @@ parameters:
     darvin_admin.metadata.configuration.debug_command.name:  "darvin:admin:debug:config"
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.metadata.configuration.debug_command:
         class: "%darvin_admin.metadata.configuration.debug_command.class%"
         arguments:

@@ -2,6 +2,9 @@ parameters:
     darvin_admin.breadcrumbs.twig_extension.class: Darvin\AdminBundle\Twig\Extension\BreadcrumbsExtension
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.breadcrumbs.twig_extension:
         class:  "%darvin_admin.breadcrumbs.twig_extension.class%"
         public: false

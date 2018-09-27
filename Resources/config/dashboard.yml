@@ -4,6 +4,9 @@ parameters:
     darvin_admin.dashboard.widget.abstract.class: Darvin\AdminBundle\Dashboard\AbstractDashboardWidget
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.dashboard:
         class: "%darvin_admin.dashboard.class%"
         arguments:

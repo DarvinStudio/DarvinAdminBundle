@@ -2,6 +2,9 @@ parameters:
     darvin_admin.cache.filesystem.class: Doctrine\Common\Cache\FilesystemCache
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.cache.filesystem:
         class:  "%darvin_admin.cache.filesystem.class%"
         public: false

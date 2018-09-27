@@ -11,10 +11,10 @@
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Darvin\AdminBundle\Metadata\MetadataPool;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -39,7 +39,7 @@ class CreateMetadataPass implements CompilerPassInterface
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
             if (null !== $section->getConfig()) {
-                $definitions[$section->getMetadataId()] = (new DefinitionDecorator(self::PARENT_ID))
+                $definitions[$section->getMetadataId()] = (new ChildDefinition(self::PARENT_ID))
                     ->setArguments([
                         $section->getAlias(),
                         $section->getEntity(),

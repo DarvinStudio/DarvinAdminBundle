@@ -8,6 +8,9 @@ parameters:
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.menu:
         class:  "%darvin_admin.menu.class%"
         public: false

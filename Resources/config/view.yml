@@ -34,6 +34,9 @@ parameters:
     darvin_admin.view.widget.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ViewWidgetExtension
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.view.entity_transformer.abstract:
         class:    "%darvin_admin.view.entity_transformer.abstract.class%"
         abstract: true
@@ -47,6 +50,7 @@ services:
     darvin_admin.view.entity_transformer.index:
         class:  "%darvin_admin.view.entity_transformer.index.class%"
         parent: darvin_admin.view.entity_transformer.abstract
+        public: true
         calls:
             - [ setAdminFormFactory,     [ "@darvin_admin.form.factory" ] ]
             - [ setAuthorizationChecker, [ "@security.authorization_checker" ] ]
@@ -55,6 +59,7 @@ services:
     darvin_admin.view.entity_transformer.show:
         class:  "%darvin_admin.view.entity_transformer.show.class%"
         parent: darvin_admin.view.entity_transformer.abstract
+        public: true
         calls:
             - [ setEventDispatcher, [ "@event_dispatcher" ] ]
 
@@ -71,6 +76,7 @@ services:
     darvin_admin.view.widget.actions:
         class:  "%darvin_admin.view.widget.actions.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
@@ -79,6 +85,7 @@ services:
     darvin_admin.view.widget.batch_delete:
         class:  "%darvin_admin.view.widget.batch_delete.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
@@ -87,6 +94,7 @@ services:
     darvin_admin.view.widget.child_links:
         class:  "%darvin_admin.view.widget.child_links.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminRouter,        [ "@darvin_admin.router" ] ]
             - [ setEntityManager,      [ "@doctrine.orm.entity_manager" ] ]
@@ -98,12 +106,14 @@ services:
     darvin_admin.view.widget.compound_list:
         class:  "%darvin_admin.view.widget.compound_list.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.copy_form:
         class:  "%darvin_admin.view.widget.copy_form.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminFormFactory,        [ "@darvin_admin.form.factory" ] ]
             - [ setAdminRouter,             [ "@darvin_admin.router" ] ]
@@ -114,6 +124,7 @@ services:
     darvin_admin.view.widget.delete_form:
         class:  "%darvin_admin.view.widget.delete_form.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
             - [ setAdminRouter,      [ "@darvin_admin.router" ] ]
@@ -123,6 +134,7 @@ services:
     darvin_admin.view.widget.edit_link:
         class:  "%darvin_admin.view.widget.edit_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
@@ -131,6 +143,7 @@ services:
     darvin_admin.view.widget.email_link:
         class:  "%darvin_admin.view.widget.email_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -143,6 +156,7 @@ services:
     darvin_admin.view.widget.entity_list:
         class:  "%darvin_admin.view.widget.entity_list.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
         tags:
@@ -151,6 +165,7 @@ services:
     darvin_admin.view.widget.file_upload_link:
         class:  "%darvin_admin.view.widget.file_upload_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
         tags:
@@ -159,6 +174,7 @@ services:
     darvin_admin.view.widget.image_link:
         class:  "%darvin_admin.view.widget.image_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
         tags:
@@ -167,6 +183,7 @@ services:
     darvin_admin.view.widget.image_upload_link:
         class:  "%darvin_admin.view.widget.image_upload_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
         tags:
@@ -175,6 +192,7 @@ services:
     darvin_admin.view.widget.log_entry.data:
         class:  "%darvin_admin.view.widget.log_entry.data.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]
             - [ setObjectNamer,   [ "@darvin_utils.object_namer" ] ]
@@ -185,6 +203,7 @@ services:
     darvin_admin.view.widget.log_entry.entity_name:
         class:  "%darvin_admin.view.widget.log_entry.entity_name.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setObjectNamer,         [ "@darvin_utils.object_namer" ] ]
             - [ setTranslatableManager, [ "@darvin_content.translatable.manager" ] ]
@@ -194,12 +213,14 @@ services:
     darvin_admin.view.widget.photo_gallery:
         class:  "%darvin_admin.view.widget.photo_gallery.class%"
         parent: darvin_admin.view.widget.entity_list
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.public_link:
         class:  "%darvin_admin.view.widget.public_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setHomepageRouter, [ "@darvin_utils.homepage.router" ] ]
             - [ setRouter,         [ "@router" ] ]
@@ -209,12 +230,14 @@ services:
     darvin_admin.view.widget.readable_enum:
         class:  "%darvin_admin.view.widget.readable_enum.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.show_link:
         class:  "%darvin_admin.view.widget.show_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         calls:
             - [ setAdminRouter, [ "@darvin_admin.router" ] ]
         tags:
@@ -223,18 +246,21 @@ services:
     darvin_admin.view.widget.simple_link:
         class:  "%darvin_admin.view.widget.simple_link.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.simple_list:
         class:  "%darvin_admin.view.widget.simple_list.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.switch_user:
         class:  "%darvin_admin.view.widget.switch_user.class%"
         parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 

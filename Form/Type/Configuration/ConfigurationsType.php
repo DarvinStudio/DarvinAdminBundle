@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Form\Type\Configuration;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
-use Darvin\ConfigBundle\Configuration\ConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
 use Darvin\ImageBundle\DarvinImageBundle;

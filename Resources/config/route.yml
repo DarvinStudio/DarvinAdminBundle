@@ -8,6 +8,9 @@ parameters:
     darvin_admin.router.class: Darvin\AdminBundle\Route\AdminRouter
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.route.loader:
         class:  "%darvin_admin.route.loader.class%"
         public: false

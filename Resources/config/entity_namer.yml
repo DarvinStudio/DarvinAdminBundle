@@ -2,6 +2,9 @@ parameters:
     darvin_admin.entity_namer.class: Darvin\AdminBundle\EntityNamer\EntityNamer
 
 services:
+    _defaults:
+        public: true
+
     darvin_admin.entity_namer:
         class: "%darvin_admin.entity_namer.class%"
         arguments:

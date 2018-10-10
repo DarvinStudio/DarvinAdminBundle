@@ -106,7 +106,7 @@ class SlugSuffixType extends AbstractType
         $resolver
             ->setDefaults([
                 'slug_property'           => 'slug',
-                'route'                   => 'darvin_content_content_show',
+                'route'                   => 'darvin_content_show',
                 'route_param_slug'        => 'slug',
                 'parent_select_selector'  => '.parent',
                 'parent_option_data_slug' => 'slug',

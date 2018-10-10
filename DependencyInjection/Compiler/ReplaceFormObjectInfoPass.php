@@ -10,19 +10,20 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\AdminBundle\Form\ObjectInfo;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Replace form manipulator compiler pass
+ * Replace form object info compiler pass
  */
-class ReplaceFormManipulatorPass implements CompilerPassInterface
+class ReplaceFormObjectInfoPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        $container->setAlias('a2lix_auto_form.manipulator.default', 'darvin_admin.form.manipulator');
+        $container->getDefinition('a2lix_auto_form.object_info.doctrine_orm_info')->setClass(ObjectInfo::class);
     }
 }

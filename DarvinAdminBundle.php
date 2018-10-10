@@ -18,8 +18,9 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateSecurityConfigurationsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\DetectEntityOverridesPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormManipulatorPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceTranslatableSubscriberPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\SwitchFormManipulatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -48,7 +49,8 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new CreateControllersPass())
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
-            ->addCompilerPass(new ReplaceFormManipulatorPass())
-            ->addCompilerPass(new ReplaceTranslatableSubscriberPass());
+            ->addCompilerPass(new ReplaceFormObjectInfoPass())
+            ->addCompilerPass(new ReplaceTranslatableSubscriberPass())
+            ->addCompilerPass(new SwitchFormManipulatorPass());
     }
 }

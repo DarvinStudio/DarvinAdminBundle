@@ -23,7 +23,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -108,8 +107,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container)
     {
-        if (!$container->getParameter('kernel.debug') && Kernel::MAJOR_VERSION >= 3 && Kernel::MINOR_VERSION >= 2) {
-            // Requires firewall config introduced in Symfony 3.2
+        if (!$container->getParameter('kernel.debug')) {
             foreach ($container->getExtensionConfig('security') as $config) {
                 if (isset($config['firewalls'][self::FIREWALL_NAME])) {
                     $firewallConfig = $config['firewalls'][self::FIREWALL_NAME];

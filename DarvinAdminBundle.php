@@ -12,12 +12,10 @@ namespace Darvin\AdminBundle;
 
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\AddResolveTargetEntitiesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateSecurityConfigurationsPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\DetectEntityOverridesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceTranslatableSubscriberPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\SwitchFormManipulatorPass;
@@ -39,10 +37,6 @@ class DarvinAdminBundle extends Bundle
         parent::build($container);
 
         $container
-            // Order matters
-            ->addCompilerPass(new DetectEntityOverridesPass())
-            ->addCompilerPass(new AddResolveTargetEntitiesPass())
-
             ->addCompilerPass(new AddDashboardWidgetsPass())
             ->addCompilerPass(new AddMenuItemFactoriesPass())
             ->addCompilerPass(new AddViewWidgetsPass())

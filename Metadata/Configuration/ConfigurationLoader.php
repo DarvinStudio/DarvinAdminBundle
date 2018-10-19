@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
+use Darvin\Utils\Strings\StringsUtil;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
@@ -40,20 +41,20 @@ class ConfigurationLoader
     /**
      * @var string
      */
-    private $rootDir;
+    private $projectDir;
 
     /**
      * @param \Psr\Log\LoggerInterface                                                  $logger       Logger
      * @param \Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface $parameterBag Parameter bag
      * @param array                                                                     $bundles      List of bundles
-     * @param string                                                                    $rootDir      Root directory
+     * @param string                                                                    $projectDir   Project directory
      */
-    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, array $bundles, $rootDir)
+    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, array $bundles, $projectDir)
     {
         $this->logger = $logger;
         $this->parameterBag = $parameterBag;
         $this->bundles = $bundles;
-        $this->rootDir = $rootDir;
+        $this->projectDir = $projectDir;
     }
 
     /**
@@ -312,9 +313,14 @@ class ConfigurationLoader
 
             if ($allowOverride) {
                 $parts = explode('/', $path);
+                array_shift($parts);
+                array_shift($parts);
 
                 if (!empty($parts)) {
-                    $overridden = implode('/', array_merge([$this->rootDir, array_shift($parts), $name], $parts));
+                    $overridden = implode('/', array_merge(
+                        [$this->projectDir, 'config', array_shift($parts), StringsUtil::toUnderscore(preg_replace('/Bundle$/', '', $name))],
+                        $parts
+                    ));
 
                     if (file_exists($overridden)) {
                         return $overridden;

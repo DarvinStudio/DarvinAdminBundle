@@ -32,7 +32,7 @@ services:
             - "@logger"
             - "@=service('service_container').getParameterBag()"
             - "%kernel.bundles%"
-            - "%kernel.root_dir%"
+            - "%kernel.project_dir%"
 
     darvin_admin.metadata.factory:
         class:  "%darvin_admin.metadata.factory.class%"

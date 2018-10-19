@@ -38,7 +38,7 @@ class DetectEntityOverridesPass implements CompilerPassInterface
                 continue;
             }
 
-            $parts = array_merge(['AppBundle', 'Entity', $matches[1]], explode('\\', $matches[2]));
+            $parts = array_merge(['App', 'Entity', $matches[1]], explode('\\', $matches[2]));
             $tail = array_pop($parts);
             $parts[] = 'App'.$tail;
             $replacement = implode('\\', $parts);

@@ -25,6 +25,6 @@ services:
     darvin_admin.configuration.section:
         class: "%darvin_admin.configuration.section.class%"
         arguments:
+            - "@darvin_utils.orm.entity_resolver"
             - "@darvin_utils.object_namer"
             - "%darvin_admin.sections%"
-            - "%darvin_admin.entity_override%"

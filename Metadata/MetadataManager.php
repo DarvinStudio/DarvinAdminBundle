@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -12,8 +12,8 @@ namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Event\Metadata\MetadataEvent;
 use Darvin\AdminBundle\Event\Metadata\MetadataEvents;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\Common\Cache\Cache;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -26,147 +26,141 @@ class MetadataManager
     /**
      * @var \Doctrine\Common\Cache\Cache
      */
-    private $cache;
+    protected $cache;
+
+    /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    protected $entityResolver;
 
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataPool
      */
-    private $metadataPool;
+    protected $metadataPool;
 
     /**
      * @var bool
      */
-    private $cacheDisabled;
+    protected $cacheDisabled;
 
     /**
      * @var array
      */
-    private $entityOverride;
-
-    /**
-     * @var array
-     */
-    private $checkedIfHasMetadataClasses;
+    protected $checkedIfHasMetadataClasses;
 
     /**
      * @var bool
      */
-    private $initialized;
+    protected $initialized;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]
      */
-    private $metadata;
+    protected $metadata;
 
     /**
      * @param \Doctrine\Common\Cache\Cache                                $cache           Cache
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver  Entity resolver
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher Event dispatcher
      * @param \Darvin\AdminBundle\Metadata\MetadataPool                   $metadataPool    Metadata pool
      * @param bool                                                        $cacheDisabled   Is cache disabled
-     * @param array                                                       $entityOverride  Entity override configuration
      */
     public function __construct(
         Cache $cache,
+        EntityResolverInterface $entityResolver,
         EventDispatcherInterface $eventDispatcher,
         MetadataPool $metadataPool,
-        $cacheDisabled,
-        array $entityOverride
+        $cacheDisabled
     ) {
         $this->cache = $cache;
+        $this->entityResolver = $entityResolver;
         $this->eventDispatcher = $eventDispatcher;
         $this->metadataPool = $metadataPool;
         $this->cacheDisabled = $cacheDisabled;
-        $this->entityOverride = $entityOverride;
 
         $this->checkedIfHasMetadataClasses = $this->metadata = [];
         $this->initialized = false;
     }
 
     /**
-     * @param mixed $entityOrClass Entity or class
+     * @param object|string $entity Entity
      *
      * @return bool
      */
-    public function hasMetadata($entityOrClass)
+    public function hasMetadata($entity): bool
     {
-        $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
+        $class = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
 
-        if (isset($this->entityOverride[$entityClass])) {
-            $entityClass = $this->entityOverride[$entityClass];
-        }
-        if (!isset($this->checkedIfHasMetadataClasses[$entityClass])) {
-            $this->checkedIfHasMetadataClasses[$entityClass] = true;
+        if (!isset($this->checkedIfHasMetadataClasses[$class])) {
+            $this->checkedIfHasMetadataClasses[$class] = true;
 
             try {
-                $this->getMetadata($entityClass);
+                $this->getMetadata($class);
             } catch (MetadataException $ex) {
-                $this->checkedIfHasMetadataClasses[$entityClass] = false;
+                $this->checkedIfHasMetadataClasses[$class] = false;
             }
         }
 
-        return $this->checkedIfHasMetadataClasses[$entityClass];
+        return $this->checkedIfHasMetadataClasses[$class];
     }
 
     /**
-     * @param mixed $entityOrClass Entity or class
+     * @param object|string $entity Entity
      *
      * @return array
      */
-    public function getConfiguration($entityOrClass)
+    public function getConfiguration($entity): array
     {
-        return $this->getMetadata($entityOrClass)->getConfiguration();
+        return $this->getMetadata($entity)->getConfiguration();
     }
 
     /**
-     * @param mixed $entityOrClass Entity or class
+     * @param object|string $entity Entity
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function getMetadata($entityOrClass)
+    public function getMetadata($entity): Metadata
     {
         $this->init();
 
-        $entityClass = is_object($entityOrClass) ? ClassUtils::getClass($entityOrClass) : $entityOrClass;
+        $class = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
 
-        if (isset($this->entityOverride[$entityClass])) {
-            $entityClass = $this->entityOverride[$entityClass];
-        }
-        if (!isset($this->metadata[$entityClass])) {
-            $childClass = $entityClass;
+        if (!isset($this->metadata[$class])) {
+            $child = $class;
 
-            while ($parentClass = get_parent_class($childClass)) {
-                if (isset($this->metadata[$parentClass])) {
-                    $this->metadata[$entityClass] = $this->metadata[$parentClass];
+            while ($parent = get_parent_class($child)) {
+                if (isset($this->metadata[$parent])) {
+                    $this->metadata[$class] = $this->metadata[$parent];
 
-                    return $this->metadata[$parentClass];
+                    return $this->metadata[$parent];
                 }
 
-                $childClass = $parentClass;
+                $child = $parent;
             }
 
-            throw new MetadataException(sprintf('Unable to get metadata for class "%s".', $entityClass));
+            throw new MetadataException(sprintf('Unable to get metadata for class "%s".', $class));
         }
 
-        return $this->metadata[$entityClass];
+        return $this->metadata[$class];
     }
 
     /**
      * @return \Darvin\AdminBundle\Metadata\Metadata[]
      */
-    public function getAllMetadata()
+    public function getAllMetadata(): array
     {
         $this->init();
 
         return $this->metadata;
     }
 
-    private function init()
+    final protected function init()
     {
         if ($this->initialized) {
             return;
@@ -184,7 +178,10 @@ class MetadataManager
         $this->initialized = true;
     }
 
-    private function initAndCache()
+    /**
+     * @throws \Darvin\AdminBundle\Metadata\MetadataException
+     */
+    final protected function initAndCache()
     {
         $this->metadata = $this->metadataPool->getAllMetadata();
 
@@ -202,7 +199,7 @@ class MetadataManager
     /**
      * @return bool
      */
-    private function initFromCache()
+    final protected function initFromCache(): bool
     {
         if ($this->cacheDisabled) {
             return false;
@@ -226,52 +223,51 @@ class MetadataManager
     }
 
     /**
-     * @param array $parentEntities Parent entity classes
+     * @param array $parents Parent entity classes
      *
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    private function buildTree(array $parentEntities)
+    final protected function buildTree(array $parents)
     {
-        foreach ($parentEntities as $parentEntity) {
-            if (isset($this->entityOverride[$parentEntity])) {
-                $parentEntity = $this->entityOverride[$parentEntity];
-            }
+        foreach ($parents as $parent) {
+            $parent = $this->entityResolver->resolve($parent);
 
-            $parentMeta = $this->metadata[$parentEntity];
-            $parentConfiguration = $parentMeta->getConfiguration();
+            $parentMeta = $this->metadata[$parent];
 
-            foreach ($parentConfiguration['children'] as $key => $childEntity) {
-                if (isset($this->entityOverride[$childEntity])) {
-                    $childEntity = $this->entityOverride[$childEntity];
-                }
-                if (!isset($this->metadata[$childEntity])) {
-                    unset($parentConfiguration['children'][$key]);
+            $parentConfig = $parentMeta->getConfiguration();
+
+            foreach ($parentConfig['children'] as $key => $child) {
+                $child = $this->entityResolver->resolve($child);
+
+                if (!isset($this->metadata[$child])) {
+                    unset($parentConfig['children'][$key]);
 
                     continue;
                 }
 
-                $childMeta = $this->metadata[$childEntity];
                 $associated = false;
+                $childMeta  = $this->metadata[$child];
 
                 foreach ($childMeta->getMappings() as $property => $mapping) {
                     if (!$childMeta->isAssociation($property)
-                        || ($mapping['targetEntity'] !== $parentEntity && !in_array($mapping['targetEntity'], class_parents($parentEntity)))
+                        || ($mapping['targetEntity'] !== $parent && !in_array($mapping['targetEntity'], class_parents($parent)))
                     ) {
                         continue;
                     }
 
                     $childMeta->setParent(new AssociatedMetadata($property, $parentMeta));
                     $parentMeta->addChild(new AssociatedMetadata($property, $childMeta));
+
                     $associated = true;
                 }
                 if (!$associated) {
                     throw new MetadataException(
-                        sprintf('Entity "%s" is not associated with entity "%s".', $childEntity, $parentEntity)
+                        sprintf('Entity "%s" is not associated with entity "%s".', $child, $parent)
                     );
                 }
             }
 
-            $this->buildTree($parentConfiguration['children']);
+            $this->buildTree($parentConfig['children']);
         }
     }
 }

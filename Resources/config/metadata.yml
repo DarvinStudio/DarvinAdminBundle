@@ -20,58 +20,58 @@ services:
         public: true
 
     darvin_admin.metadata.abstract:
-        class:    "%darvin_admin.metadata.abstract.class%"
-        factory:  [ "@darvin_admin.metadata.factory", createMetadata ]
+        class:    '%darvin_admin.metadata.abstract.class%'
+        factory:  [ '@darvin_admin.metadata.factory', createMetadata ]
         abstract: true
         public:   false
 
     darvin_admin.metadata.configuration.loader:
-        class:  "%darvin_admin.metadata.configuration.loader.class%"
+        class:  '%darvin_admin.metadata.configuration.loader.class%'
         public: false
         arguments:
-            - "@logger"
-            - "@=service('service_container').getParameterBag()"
-            - "%kernel.bundles%"
-            - "%kernel.project_dir%"
+            - '@logger'
+            - '@=service("service_container").getParameterBag()'
+            - '%kernel.bundles%'
+            - '%kernel.project_dir%'
 
     darvin_admin.metadata.factory:
-        class:  "%darvin_admin.metadata.factory.class%"
+        class:  '%darvin_admin.metadata.factory.class%'
         public: false
         arguments:
-            - "@darvin_admin.metadata.configuration.loader"
-            - "@doctrine.orm.entity_manager"
-            - "@darvin_content.translatable.manager"
+            - '@darvin_admin.metadata.configuration.loader'
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_content.translatable.manager'
 
     darvin_admin.metadata.field_blacklist_manager:
-        class:  "%darvin_admin.metadata.field_blacklist_manager.class%"
+        class:  '%darvin_admin.metadata.field_blacklist_manager.class%'
         public: false
         arguments:
-            - "@security.authorization_checker"
-            - "@property_accessor"
+            - '@security.authorization_checker'
+            - '@property_accessor'
 
     darvin_admin.metadata.identifier_accessor:
-        class: "%darvin_admin.metadata.identifier_accessor.class%"
+        class: '%darvin_admin.metadata.identifier_accessor.class%'
         arguments:
-            - "@darvin_admin.metadata.manager"
-            - "@property_accessor"
+            - '@darvin_admin.metadata.manager'
+            - '@property_accessor'
 
     darvin_admin.metadata.manager:
-        class: "%darvin_admin.metadata.manager.class%"
+        class: '%darvin_admin.metadata.manager.class%'
         arguments:
-            - "@darvin_admin.cache.filesystem"
-            - "@event_dispatcher"
-            - "@darvin_admin.metadata.pool"
-            - "%darvin_admin.debug%"
-            - "%darvin_admin.entity_override%"
+            - '@darvin_admin.cache.filesystem'
+            - '@darvin_utils.orm.entity_resolver'
+            - '@event_dispatcher'
+            - '@darvin_admin.metadata.pool'
+            - '%darvin_admin.debug%'
 
     darvin_admin.metadata.pool:
-        class: "%darvin_admin.metadata.pool.class%"
+        class: '%darvin_admin.metadata.pool.class%'
         lazy:  true
 
     darvin_admin.metadata.sort_criteria_detector:
-        class: "%darvin_admin.metadata.sort_criteria_detector.class%"
+        class: '%darvin_admin.metadata.sort_criteria_detector.class%'
         arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@darvin_admin.metadata.manager"
-            - "@stof_doctrine_extensions.listener.sortable"
-            - "@stof_doctrine_extensions.listener.tree"
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_admin.metadata.manager'
+            - '@stof_doctrine_extensions.listener.sortable'
+            - '@stof_doctrine_extensions.listener.tree'

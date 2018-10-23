@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Metadata;
 use Darvin\AdminBundle\Event\Metadata\MetadataEvent;
 use Darvin\AdminBundle\Event\Metadata\MetadataEvents;
 use Darvin\Utils\ORM\EntityResolverInterface;
-use Doctrine\Common\Cache\Cache;
+use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -21,12 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class MetadataManager
 {
-    const CACHE_ID = 'darvinAdminMetadata';
-
-    /**
-     * @var \Doctrine\Common\Cache\Cache
-     */
-    protected $cache;
+    private const CACHE_KEY = 'metadata';
 
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
@@ -44,9 +39,9 @@ class MetadataManager
     protected $metadataPool;
 
     /**
-     * @var bool
+     * @var \Psr\SimpleCache\CacheInterface|null
      */
-    protected $cacheDisabled;
+    protected $cache;
 
     /**
      * @var array
@@ -64,24 +59,21 @@ class MetadataManager
     protected $metadata;
 
     /**
-     * @param \Doctrine\Common\Cache\Cache                                $cache           Cache
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver  Entity resolver
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher Event dispatcher
      * @param \Darvin\AdminBundle\Metadata\MetadataPool                   $metadataPool    Metadata pool
-     * @param bool                                                        $cacheDisabled   Is cache disabled
+     * @param \Psr\SimpleCache\CacheInterface|null                        $cache           Cache
      */
     public function __construct(
-        Cache $cache,
         EntityResolverInterface $entityResolver,
         EventDispatcherInterface $eventDispatcher,
         MetadataPool $metadataPool,
-        $cacheDisabled
+        CacheInterface $cache = null
     ) {
-        $this->cache = $cache;
         $this->entityResolver = $entityResolver;
         $this->eventDispatcher = $eventDispatcher;
         $this->metadataPool = $metadataPool;
-        $this->cacheDisabled = $cacheDisabled;
+        $this->cache = $cache;
 
         $this->checkedIfHasMetadataClasses = $this->metadata = [];
         $this->initialized = false;
@@ -185,13 +177,7 @@ class MetadataManager
     {
         $this->metadata = $this->metadataPool->getAllMetadata();
 
-        if ($this->cacheDisabled) {
-            return;
-        }
-
-        $serialized = serialize($this->metadata);
-
-        if (!$this->cache->save(self::CACHE_ID, $serialized)) {
+        if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $this->metadata)) {
             throw new MetadataException('Unable to cache metadata.');
         }
     }
@@ -201,23 +187,17 @@ class MetadataManager
      */
     final protected function initFromCache(): bool
     {
-        if ($this->cacheDisabled) {
+        if (empty($this->cache)) {
             return false;
         }
 
-        $cached = $this->cache->fetch(self::CACHE_ID);
+        $metadata = $this->cache->get(self::CACHE_KEY);
 
-        if (false === $cached) {
+        if (null === $metadata) {
             return false;
         }
 
-        $unserialized = @unserialize($cached);
-
-        if (!is_array($unserialized)) {
-            return false;
-        }
-
-        $this->metadata = $unserialized;
+        $this->metadata = $metadata;
 
         return true;
     }

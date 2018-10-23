@@ -1,0 +1,20 @@
+parameters:
+    darvin_admin.cache.filesystem.class:     Symfony\Component\Cache\Simple\FilesystemCache
+    darvin_admin.cache.filesystem.namespace: darvin_admin
+    darvin_admin.cache.filesystem.lifetime:  0
+
+services:
+    _defaults:
+        public: true
+
+    darvin_admin.cache:
+        alias:  darvin_admin.cache.filesystem
+        public: false
+
+    darvin_admin.cache.filesystem:
+        class:  '%darvin_admin.cache.filesystem.class%'
+        public: false
+        arguments:
+            - '%darvin_admin.cache.filesystem.namespace%'
+            - '%darvin_admin.cache.filesystem.lifetime%'
+            - '%kernel.cache_dir%'

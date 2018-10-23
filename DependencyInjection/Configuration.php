@@ -39,7 +39,6 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addMenuNode())
                 ->append($this->addSectionsNode())
                 ->scalarNode('custom_logo')->defaultNull()->end()
-                ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
                 ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
                 ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->end()

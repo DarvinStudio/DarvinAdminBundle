@@ -61,7 +61,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         foreach ([
             'ace_editor',
             'breadcrumbs',
-            'cache',
             'ckeditor',
             'configuration',
             'crud',
@@ -82,14 +81,25 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         ] as $resource) {
             $loader->load($resource.'.yml');
         }
-        if ('dev' === $container->getParameter('kernel.environment')) {
-            foreach ([
-                'metadata',
-                'translation_generator',
-                'view',
-            ] as $resource) {
-                $loader->load(sprintf('dev/%s.yml', $resource));
-            }
+        switch ($container->getParameter('kernel.environment')) {
+            case 'dev':
+                foreach ([
+                    'metadata',
+                    'translation_generator',
+                    'view',
+                ] as $resource) {
+                    $loader->load(sprintf('dev/%s.yml', $resource));
+                }
+
+                break;
+            case 'prod':
+                foreach ([
+                    'cache',
+                ] as $resource) {
+                    $loader->load(sprintf('prod/%s.yml', $resource));
+                }
+
+                break;
         }
         if ($this->showErrorPageListenerEnabled) {
             $loader->load('error.yml');

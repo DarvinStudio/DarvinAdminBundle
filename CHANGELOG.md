@@ -220,3 +220,5 @@ form:
 5.21.22: Add "options" option to the translatable form type.
 
 5.21.23: Do not wrap hidden inputs with any containers.
+
+6.0.0: Replace Doctrine cache with Symfony cache.

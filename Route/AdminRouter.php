@@ -287,10 +287,13 @@ class AdminRouter
             throw new RouteException($message);
         }
 
-        $parentEntity = $this->propertyAccessor->getValue($entity, $association);
+        $parent = $this->propertyAccessor->getValue($entity, $association);
 
+        if (empty($parent)) {
+            return null;
+        }
         try {
-            return $this->identifierAccessor->getValue($parentEntity);
+            return $this->identifierAccessor->getValue($parent);
         } catch (MetadataException $ex) {
             throw new RouteException(
                 sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())

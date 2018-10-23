@@ -173,6 +173,6 @@ class AdminVoter extends Voter
      */
     final protected function getClass($object)
     {
-        return $this->entityResolver->resolve(is_object($object) ? get_class($object) : $object);
+        return $this->entityResolver->resolve(is_object($object) ? get_class($object) : (string)$object);
     }
 }

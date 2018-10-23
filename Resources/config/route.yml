@@ -12,36 +12,36 @@ services:
         public: true
 
     darvin_admin.route.loader:
-        class:  "%darvin_admin.route.loader.class%"
+        class:  '%darvin_admin.route.loader.class%'
         public: false
         arguments:
-            - "@darvin_admin.metadata.manager"
+            - '@darvin_admin.metadata.manager'
         tags:
             - { name: routing.loader }
 
     darvin_admin.route.preserve_filter_in_url_listener:
-        class: "%darvin_admin.route.preserve_filter_in_url_listener.class%"
+        class: '%darvin_admin.route.preserve_filter_in_url_listener.class%'
         arguments:
-            - "@darvin_admin.metadata.manager"
-            - "@request_stack"
+            - '@darvin_admin.metadata.manager'
+            - '@request_stack'
         tags:
             - { name: kernel.event_listener, event: darvin_admin.router.pre_generate, method: preRouteGenerate }
 
     darvin_admin.route.twig_extension:
-        class:  "%darvin_admin.route.twig_extension.class%"
+        class:  '%darvin_admin.route.twig_extension.class%'
         public: false
         arguments:
-            - "@darvin_admin.router"
+            - '@darvin_admin.router'
         tags:
             - { name: twig.extension }
 
     darvin_admin.router:
-        class: "%darvin_admin.router.class%"
+        class: '%darvin_admin.router.class%'
         arguments:
-            - "@event_dispatcher"
-            - "@router"
-            - "@darvin_admin.metadata.identifier_accessor"
-            - "@darvin_admin.metadata.manager"
-            - "@property_accessor"
-            - "@darvin_utils.routing.route_manager"
-            - "%darvin_admin.entity_override%"
+            - '@darvin_utils.orm.entity_resolver'
+            - '@event_dispatcher'
+            - '@router'
+            - '@darvin_admin.metadata.identifier_accessor'
+            - '@darvin_admin.metadata.manager'
+            - '@property_accessor'
+            - '@darvin_utils.routing.route_manager'

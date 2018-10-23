@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Event\Router\RouterEvents;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -63,6 +64,11 @@ class AdminRouter
     ];
 
     /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    private $entityResolver;
+
+    /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     private $eventDispatcher;
@@ -93,11 +99,6 @@ class AdminRouter
     private $routeManager;
 
     /**
-     * @var array
-     */
-    private $entityOverride;
-
-    /**
      * @var bool
      */
     private $initialized;
@@ -108,30 +109,30 @@ class AdminRouter
     private $routeNames;
 
     /**
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver     Entity resolver
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher    Event dispatcher
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      * @param \Darvin\Utils\Routing\RouteManagerInterface                 $routeManager       Route manager
-     * @param array                                                       $entityOverride     Entity override configuration
      */
     public function __construct(
+        EntityResolverInterface $entityResolver,
         EventDispatcherInterface $eventDispatcher,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
-        RouteManagerInterface $routeManager,
-        array $entityOverride
+        RouteManagerInterface $routeManager
     ) {
+        $this->entityResolver = $entityResolver;
         $this->eventDispatcher = $eventDispatcher;
         $this->genericRouter = $genericRouter;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
         $this->routeManager = $routeManager;
-        $this->entityOverride = $entityOverride;
 
         $this->initialized = false;
         $this->routeNames = [];
@@ -178,9 +179,8 @@ class AdminRouter
                 sprintf('Route "%s" does not exist for entity "%s".', $routeType, $entityClass)
             );
         }
-        if (isset($this->entityOverride[$entityClass])) {
-            $entityClass = $this->entityOverride[$entityClass];
-        }
+
+        $entityClass = $this->entityResolver->resolve($entityClass);
 
         $name = $this->getRouteName($entityClass, $routeType);
         $this->getAdditionalParams($params, $entityClass, $routeType, $entity);
@@ -200,11 +200,7 @@ class AdminRouter
      */
     public function isRouteExists($objectOrClass, $routeType)
     {
-        $entityClass = is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
-
-        if (isset($this->entityOverride[$entityClass])) {
-            $entityClass = $this->entityOverride[$entityClass];
-        }
+        $entityClass = $this->entityResolver->resolve(is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass);
 
         $routeName = $this->getRouteName($entityClass, $routeType);
 

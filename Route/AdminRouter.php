@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -171,7 +171,7 @@ class AdminRouter
 
         $name = $this->getRouteName($class, $routeType);
 
-        $this->collectAdditionalParams($params, $class, $routeType, $entity);
+        $params = array_merge($params, $this->getExtraParams($params, $class, $routeType, $entity));
 
         $event = new RouteEvent($name, $routeType, $params, $referenceType, $entity, $class);
 
@@ -232,13 +232,16 @@ class AdminRouter
      * @param string $routeType Route type
      * @param object $entity    Entity
      *
+     * @return array
      * @throws \Darvin\AdminBundle\Route\RouteException
      */
-    final protected function collectAdditionalParams(array &$params, string $class, string $routeType, $entity = null): void
+    final protected function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
     {
+        $extra = [];
+
         if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
             try {
-                $params['id'] = $this->identifierAccessor->getValue($entity);
+                $extra['id'] = $this->identifierAccessor->getValue($entity);
             } catch (MetadataException $ex) {
                 throw new RouteException(
                     sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())
@@ -249,13 +252,13 @@ class AdminRouter
         $meta = $this->metadataManager->getMetadata($class);
 
         if (!$meta->hasParent() || !in_array($routeType, self::REQUIRE_PARENT_ID)) {
-            return;
+            return $extra;
         }
 
         $associationParam = $meta->getParent()->getAssociationParameterName();
 
         if (isset($params[$associationParam])) {
-            return;
+            return $extra;
         }
         if (empty($entity)) {
             throw new RouteException(
@@ -263,7 +266,9 @@ class AdminRouter
             );
         }
 
-        $params[$associationParam] = $this->getParentId($entity, $meta->getParent()->getAssociation(), $routeType);
+        $extra[$associationParam] = $this->getParentId($entity, $meta->getParent()->getAssociation(), $routeType);
+
+        return $extra;
     }
 
     /**

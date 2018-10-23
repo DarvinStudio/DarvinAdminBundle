@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,14 +34,14 @@ class ChildLinksWidget extends AbstractWidget
     private $em;
 
     /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    private $entityResolver;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
     private $identifierAccessor;
-
-    /**
-     * @var array
-     */
-    private $entityOverride;
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
@@ -59,6 +60,14 @@ class ChildLinksWidget extends AbstractWidget
     }
 
     /**
+     * @param \Darvin\Utils\ORM\EntityResolverInterface $entityResolver Entity resolver
+     */
+    public function setEntityResolver(EntityResolverInterface $entityResolver)
+    {
+        $this->entityResolver = $entityResolver;
+    }
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
      */
     public function setIdentifierAccessor(IdentifierAccessor $identifierAccessor)
@@ -67,23 +76,11 @@ class ChildLinksWidget extends AbstractWidget
     }
 
     /**
-     * @param array $entityOverride Entity override configuration
-     */
-    public function setEntityOverride(array $entityOverride)
-    {
-        $this->entityOverride = $entityOverride;
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function createContent($entity, array $options, $property)
     {
-        $childClass = $options['child_entity'];
-
-        if (isset($this->entityOverride[$childClass])) {
-            $childClass = $this->entityOverride[$childClass];
-        }
+        $childClass = $this->entityResolver->resolve($options['child_entity']);
 
         $indexLink = $this->isGranted(Permission::VIEW, $childClass)
             && $this->adminRouter->exists($childClass, AdminRouter::TYPE_INDEX);

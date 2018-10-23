@@ -21,7 +21,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class MetadataManager
 {
-    private const CACHE_KEY = 'metadata';
+    protected const CACHE_KEY = 'metadata';
 
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
@@ -44,17 +44,17 @@ class MetadataManager
     protected $cache;
 
     /**
+     * @var \Darvin\AdminBundle\Metadata\Metadata[]
+     */
+    protected $childMetadata;
+
+    /**
      * @var array
      */
-    protected $checkedIfHasMetadataClasses;
+    protected $hasMetadata;
 
     /**
-     * @var bool
-     */
-    protected $initialized;
-
-    /**
-     * @var \Darvin\AdminBundle\Metadata\Metadata[]
+     * @var \Darvin\AdminBundle\Metadata\Metadata[]|null
      */
     protected $metadata;
 
@@ -75,8 +75,8 @@ class MetadataManager
         $this->metadataPool = $metadataPool;
         $this->cache = $cache;
 
-        $this->checkedIfHasMetadataClasses = $this->metadata = [];
-        $this->initialized = false;
+        $this->childMetadata = $this->hasMetadata = [];
+        $this->metadata = null;
     }
 
     /**
@@ -88,17 +88,18 @@ class MetadataManager
     {
         $class = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
 
-        if (!isset($this->checkedIfHasMetadataClasses[$class])) {
-            $this->checkedIfHasMetadataClasses[$class] = true;
+        if (!isset($this->hasMetadata[$class])) {
+            $metadata = null;
 
             try {
-                $this->getMetadata($class);
+                $metadata = $this->getMetadata($class);
             } catch (MetadataException $ex) {
-                $this->checkedIfHasMetadataClasses[$class] = false;
             }
+
+            $this->hasMetadata[$class] = !empty($metadata);
         }
 
-        return $this->checkedIfHasMetadataClasses[$class];
+        return $this->hasMetadata[$class];
     }
 
     /**
@@ -119,114 +120,90 @@ class MetadataManager
      */
     public function getMetadata($entity): Metadata
     {
-        $this->init();
+        $class    = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
+        $metadata = $this->getAllMetadata();
 
-        $class = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
-
-        if (!isset($this->metadata[$class])) {
-            $child = $class;
-
-            while ($parent = get_parent_class($child)) {
-                if (isset($this->metadata[$parent])) {
-                    $this->metadata[$class] = $this->metadata[$parent];
-
-                    return $this->metadata[$parent];
-                }
-
-                $child = $parent;
-            }
-
-            throw new MetadataException(sprintf('Unable to get metadata for class "%s".', $class));
+        if (isset($metadata[$class])) {
+            return $metadata[$class];
+        }
+        if (isset($this->childMetadata[$class])) {
+            return $this->childMetadata[$class];
         }
 
-        return $this->metadata[$class];
+        $child = $class;
+
+        while ($parent = get_parent_class($child)) {
+            if (isset($metadata[$parent])) {
+                $this->childMetadata[$class] = $metadata[$parent];
+
+                return $this->childMetadata[$class];
+            }
+
+            $child = $parent;
+        }
+
+        throw new MetadataException(sprintf('Unable to get metadata for class "%s".', $class));
     }
 
     /**
      * @return \Darvin\AdminBundle\Metadata\Metadata[]
+     *
+     * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
     public function getAllMetadata(): array
     {
-        $this->init();
+        if (null === $this->metadata) {
+            $metadata = null;
+
+            if (!empty($this->cache)) {
+                $metadata = $this->cache->get(self::CACHE_KEY);
+            }
+            if (null === $metadata) {
+                $metadata = $this->metadataPool->getAllMetadata();
+
+                if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $metadata)) {
+                    throw new MetadataException('Unable to cache metadata.');
+                }
+            }
+
+            $this->buildTree($metadata, array_keys($metadata));
+
+            foreach ($metadata as $meta) {
+                $this->eventDispatcher->dispatch(MetadataEvents::LOADED, new MetadataEvent($meta));
+            }
+
+            $this->metadata = $metadata;
+        }
 
         return $this->metadata;
     }
 
-    final protected function init()
-    {
-        if ($this->initialized) {
-            return;
-        }
-        if (!$this->initFromCache()) {
-            $this->initAndCache();
-        }
-
-        $this->buildTree(array_keys($this->metadata));
-
-        foreach ($this->metadata as $meta) {
-            $this->eventDispatcher->dispatch(MetadataEvents::LOADED, new MetadataEvent($meta));
-        }
-
-        $this->initialized = true;
-    }
-
     /**
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
-     */
-    final protected function initAndCache()
-    {
-        $this->metadata = $this->metadataPool->getAllMetadata();
-
-        if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $this->metadata)) {
-            throw new MetadataException('Unable to cache metadata.');
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    final protected function initFromCache(): bool
-    {
-        if (empty($this->cache)) {
-            return false;
-        }
-
-        $metadata = $this->cache->get(self::CACHE_KEY);
-
-        if (null === $metadata) {
-            return false;
-        }
-
-        $this->metadata = $metadata;
-
-        return true;
-    }
-
-    /**
-     * @param array $parents Parent entity classes
+     * @param \Darvin\AdminBundle\Metadata\Metadata[] $metadata Metadata
+     * @param string[]                                $parents  Parent entity classes
      *
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    final protected function buildTree(array $parents)
+    final protected function buildTree(array $metadata, array $parents)
     {
         foreach ($parents as $parent) {
             $parent = $this->entityResolver->resolve($parent);
 
-            $parentMeta = $this->metadata[$parent];
+            $parentMeta = $metadata[$parent];
 
             $parentConfig = $parentMeta->getConfiguration();
 
             foreach ($parentConfig['children'] as $key => $child) {
                 $child = $this->entityResolver->resolve($child);
 
-                if (!isset($this->metadata[$child])) {
+                if (!isset($metadata[$child])) {
                     unset($parentConfig['children'][$key]);
 
                     continue;
                 }
 
                 $associated = false;
-                $childMeta  = $this->metadata[$child];
+                $childMeta  = $metadata[$child];
 
                 foreach ($childMeta->getMappings() as $property => $mapping) {
                     if (!$childMeta->isAssociation($property)
@@ -247,7 +224,7 @@ class MetadataManager
                 }
             }
 
-            $this->buildTree($parentConfig['children']);
+            $this->buildTree($metadata, $parentConfig['children']);
         }
     }
 }

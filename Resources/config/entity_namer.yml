@@ -6,8 +6,8 @@ services:
         public: true
 
     darvin_admin.entity_namer:
-        class: "%darvin_admin.entity_namer.class%"
+        class: '%darvin_admin.entity_namer.class%'
         arguments:
-            - "@darvin_utils.object_namer"
-            - "@darvin_admin.configuration.section"
-            - "%darvin_admin.entity_override%"
+            - '@darvin_utils.orm.entity_resolver'
+            - '@darvin_utils.object_namer'
+            - '@darvin_admin.configuration.section'

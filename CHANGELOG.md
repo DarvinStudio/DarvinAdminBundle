@@ -221,4 +221,8 @@ form:
 
 5.21.23: Do not wrap hidden inputs with any containers.
 
-6.0.0: Replace Doctrine cache with Symfony cache.
+6.0.0:
+
+- Replace Doctrine cache with Symfony cache.
+
+- Remove redundant log entry custom entity repository.

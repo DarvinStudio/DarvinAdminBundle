@@ -18,7 +18,7 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
 /**
  * Log entry
  *
- * @ORM\Entity(repositoryClass="Darvin\AdminBundle\Repository\LogEntryRepository")
+ * @ORM\Entity(repositoryClass="Gedmo\Loggable\Entity\Repository\LogEntryRepository")
  * @ORM\Table(name="log", indexes={
  *      @ORM\Index(name="log_class_lookup_idx",   columns={"object_class"}),
  *      @ORM\Index(name="log_date_lookup_idx",    columns={"logged_at"}),

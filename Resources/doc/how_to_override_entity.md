@@ -13,16 +13,7 @@
  таблицы дискриминаторов (не забудьте обновить дискриминаторы уже созданных сущностей в таблице базы данных, как правило
  это поле "dtype", пример значения - "AppProduct" - "appproduct").
 
-4. Нужно обозначить замену класса в разделе "entity_override" конфигурации бандла "DarvinAdminBundle":
-
-```yaml
-darvin_admin:
-    entity_override:
-        Darvin\ECommerceBundle\Entity\Product\Product: AppBundle\Entity\ECommerce\Product\AppProduct
-```
-
-Замена будет добавлена автоматически, если FQCN заменяющего класса соответствует шаблону
- "AppBundle\Entity\\{BUNDLE_NAME}\\{CLASS_NAMESPACE}\App{CLASS_NAME}", где:
+4. FQCN заменяющего класса должен соответствовать шаблону "App\Entity\{BUNDLE_NAME}\{CLASS_NAMESPACE}\App{CLASS_NAME}", где:
 
 - **BUNDLE_NAME** - название бандла заменяемой сущности без префикса "Darvin" и суффикса "Bundle", например, "ECommerce";
 - **CLASS_NAMESPACE** - неймспейс класса заменяемой сущности после части "Entity", например, "Product" (может отсутствовать);

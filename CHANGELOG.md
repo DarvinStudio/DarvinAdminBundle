@@ -226,3 +226,5 @@ form:
 - Replace Doctrine cache with Symfony cache.
 
 - Remove redundant log entry custom entity repository.
+
+- Remove "project.url" and "entity_override" parameters.

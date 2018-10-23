@@ -52,42 +52,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('project')->isRequired()
                     ->children()
-                        ->scalarNode('title')->cannotBeEmpty()->isRequired()->end()
-                        ->scalarNode('url')->defaultNull()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('entity_override')->useAttributeAsKey('target')
-                    ->prototype('scalar')
-                        ->validate()
-                            ->ifTrue(function ($replacement) {
-                                return !class_exists($replacement);
-                            })
-                            ->thenInvalid('Replacement entity class %s does not exist.')
-                        ->end()
-                    ->end()
-                    ->validate()
-                        ->ifTrue(function (array $entityOverride) {
-                            foreach ($entityOverride as $target => $replacement) {
-                                if (!class_exists($target)) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        })
-                        ->thenInvalid('Target entity class does not exist (%s).')
-                    ->end()
-                    ->validate()
-                        ->ifTrue(function (array $entityOverride) {
-                            foreach ($entityOverride as $target => $replacement) {
-                                if (!in_array($target, class_parents($replacement))) {
-                                    return true;
-                                }
-                            }
-
-                            return false;
-                        })
-                        ->thenInvalid('Replacement entity class must be descendant of target entity class (%s).');
+                        ->scalarNode('title')->cannotBeEmpty()->isRequired();
 
         return $treeBuilder;
     }

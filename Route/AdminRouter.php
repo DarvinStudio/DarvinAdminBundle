@@ -199,7 +199,7 @@ class AdminRouter
      *
      * @return string
      */
-    final protected function getRouteName(string $class, string $routeType): string
+    final protected function getRouteName(string $class, string $routeType): ?string
     {
         $names = $this->getRouteNames();
 
@@ -271,7 +271,7 @@ class AdminRouter
      * @param string $association Association name
      * @param string $routeType   Route type
      *
-     * @return int
+     * @return mixed
      * @throws \Darvin\AdminBundle\Route\RouteException
      */
     final protected function getParentId($entity, string $association, string $routeType)

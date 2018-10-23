@@ -80,7 +80,7 @@ class ChildLinksWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        $childClass = $this->entityResolver->resolve($options['child_entity']);
+        $childClass = $this->entityResolver->resolve($options['child']);
 
         $indexLink = $this->isGranted(Permission::VIEW, $childClass)
             && $this->adminRouter->exists($childClass, AdminRouter::TYPE_INDEX);
@@ -141,7 +141,7 @@ class ChildLinksWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setRequired('child_entity')
-            ->setAllowedTypes('child_entity', 'string');
+            ->setRequired('child')
+            ->setAllowedTypes('child', 'string');
     }
 }

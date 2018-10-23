@@ -47,7 +47,7 @@ class EditLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_EDIT)
+        return $this->adminRouter->exists($entity, AdminRouter::TYPE_EDIT)
             ? $this->render($options, [
                 'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),

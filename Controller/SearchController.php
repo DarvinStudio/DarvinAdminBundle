@@ -66,7 +66,7 @@ class SearchController extends Controller
 
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $meta->getEntityClass())
-            && $this->getAdminRouter()->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_BATCH_DELETE)
+            && $this->getAdminRouter()->exists($meta->getEntityClass(), AdminRouter::TYPE_BATCH_DELETE)
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $entities)->createView();
         }

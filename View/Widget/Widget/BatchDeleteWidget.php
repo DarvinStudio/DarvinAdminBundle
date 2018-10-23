@@ -49,7 +49,7 @@ class BatchDeleteWidget extends AbstractWidget
     {
         $meta = $this->metadataManager->getMetadata($entity);
 
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_BATCH_DELETE)
+        return $this->adminRouter->exists($entity, AdminRouter::TYPE_BATCH_DELETE)
             ? $this->render($options, [
                 'entity'             => $entity,
                 'identifier'         => $meta->getIdentifier(),

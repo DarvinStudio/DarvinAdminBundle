@@ -151,7 +151,7 @@ class CrudController extends Controller
 
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
-            && $this->getAdminRouter()->isRouteExists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
+            && $this->getAdminRouter()->exists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
             && isset($this->configuration['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
@@ -624,7 +624,7 @@ class CrudController extends Controller
         $adminRouter = $this->getAdminRouter();
 
         foreach (self::$submitButtonRedirects as $submitButton => $routeType) {
-            if ($adminRouter->isRouteExists($this->entityClass, $routeType)) {
+            if ($adminRouter->exists($this->entityClass, $routeType)) {
                 $submitButtons[] = $submitButton;
             }
         }

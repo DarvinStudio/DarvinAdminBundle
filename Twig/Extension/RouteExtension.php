@@ -37,7 +37,7 @@ class RouteExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction('admin_path', [$this->adminRouter, 'generate']),
-            new \Twig_SimpleFunction('admin_route_exists', [$this->adminRouter, 'isRouteExists']),
+            new \Twig_SimpleFunction('admin_route_exists', [$this->adminRouter, 'exists']),
             new \Twig_SimpleFunction('admin_url', [$this->adminRouter, 'generateAbsolute']),
         ];
     }

@@ -17,7 +17,6 @@ use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -28,22 +27,19 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class AdminRouter
 {
-    const OPTION_ENTITY_CLASS = 'admin_entity_class';
-    const OPTION_ROUTE_TYPE   = 'admin_route_type';
+    public const OPTION_ENTITY_CLASS = 'admin_entity_class';
+    public const OPTION_ROUTE_TYPE   = 'admin_route_type';
 
-    const TYPE_BATCH_DELETE    = 'batch-delete';
-    const TYPE_COPY            = 'copy';
-    const TYPE_DELETE          = 'delete';
-    const TYPE_EDIT            = 'edit';
-    const TYPE_INDEX           = 'index';
-    const TYPE_NEW             = 'new';
-    const TYPE_SHOW            = 'show';
-    const TYPE_UPDATE_PROPERTY = 'update-property';
+    public const TYPE_BATCH_DELETE    = 'batch-delete';
+    public const TYPE_COPY            = 'copy';
+    public const TYPE_DELETE          = 'delete';
+    public const TYPE_EDIT            = 'edit';
+    public const TYPE_INDEX           = 'index';
+    public const TYPE_NEW             = 'new';
+    public const TYPE_SHOW            = 'show';
+    public const TYPE_UPDATE_PROPERTY = 'update-property';
 
-    /**
-     * @var array
-     */
-    private static $typesRequiringId = [
+    protected const REQUIRE_ID = [
         self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
@@ -51,10 +47,7 @@ class AdminRouter
         self::TYPE_UPDATE_PROPERTY,
     ];
 
-    /**
-     * @var array
-     */
-    private static $typesRequiringParentId = [
+    protected const REQUIRE_PARENT_ID = [
         self::TYPE_BATCH_DELETE,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
@@ -66,47 +59,42 @@ class AdminRouter
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    private $entityResolver;
+    protected $entityResolver;
 
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    private $eventDispatcher;
+    protected $eventDispatcher;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
-    private $genericRouter;
+    protected $genericRouter;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
-    private $identifierAccessor;
+    protected $identifierAccessor;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
-    private $metadataManager;
+    protected $metadataManager;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
-    private $propertyAccessor;
+    protected $propertyAccessor;
 
     /**
      * @var \Darvin\Utils\Routing\RouteManagerInterface
      */
-    private $routeManager;
+    protected $routeManager;
 
     /**
-     * @var bool
+     * @var array|null
      */
-    private $initialized;
-
-    /**
-     * @var array
-     */
-    private $routeNames;
+    protected $routeNames;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver     Entity resolver
@@ -134,26 +122,25 @@ class AdminRouter
         $this->propertyAccessor = $propertyAccessor;
         $this->routeManager = $routeManager;
 
-        $this->initialized = false;
-        $this->routeNames = [];
+        $this->routeNames = null;
     }
 
     /**
-     * @param object $entity      Entity
-     * @param string $entityClass Entity class
-     * @param string $routeType   Route type
-     * @param array  $params      Parameters
+     * @param object $entity    Entity
+     * @param string $class     Entity class
+     * @param string $routeType Route type
+     * @param array  $params    Parameters
      *
      * @return string
      */
-    public function generateAbsolute($entity = null, $entityClass = null, $routeType = self::TYPE_SHOW, array $params = [])
+    public function generateAbsolute($entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = []): string
     {
-        return $this->generate($entity, $entityClass, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->generate($entity, $class, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
      * @param object $entity        Entity
-     * @param string $entityClass   Entity class
+     * @param string $class         Entity class
      * @param string $routeType     Route type
      * @param array  $params        Parameters
      * @param mixed  $referenceType Reference type
@@ -163,29 +150,30 @@ class AdminRouter
      */
     public function generate(
         $entity = null,
-        $entityClass = null,
-        $routeType = self::TYPE_SHOW,
+        ?string $class = null,
+        string $routeType = self::TYPE_SHOW,
         array $params = [],
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
-    ) {
-        if (empty($entity) && empty($entityClass)) {
+    ): string {
+        if (empty($entity) && empty($class)) {
             throw new RouteException('Entity or entity class must be provided.');
         }
-        if (empty($entityClass)) {
-            $entityClass = ClassUtils::getClass($entity);
+        if (empty($class)) {
+            $class = get_class($entity);
         }
-        if (!$this->isRouteExists($entityClass, $routeType)) {
+        if (!$this->exists($class, $routeType)) {
             throw new RouteException(
-                sprintf('Route "%s" does not exist for entity "%s".', $routeType, $entityClass)
+                sprintf('Route "%s" does not exist for entity "%s".', $routeType, $class)
             );
         }
 
-        $entityClass = $this->entityResolver->resolve($entityClass);
+        $class = $this->entityResolver->resolve($class);
 
-        $name = $this->getRouteName($entityClass, $routeType);
-        $this->getAdditionalParams($params, $entityClass, $routeType, $entity);
+        $name = $this->getRouteName($class, $routeType);
 
-        $event = new RouteEvent($name, $routeType, $params, $referenceType, $entity, $entityClass);
+        $this->collectAdditionalParams($params, $class, $routeType, $entity);
+
+        $event = new RouteEvent($name, $routeType, $params, $referenceType, $entity, $class);
 
         $this->eventDispatcher->dispatch(RouterEvents::PRE_GENERATE, $event);
 
@@ -193,41 +181,43 @@ class AdminRouter
     }
 
     /**
-     * @param mixed  $objectOrClass Entity object or class
-     * @param string $routeType     Route type
+     * @param object|string $entity    Entity
+     * @param string        $routeType Route type
      *
      * @return bool
      */
-    public function isRouteExists($objectOrClass, $routeType)
+    public function exists($entity, string $routeType): bool
     {
-        $entityClass = $this->entityResolver->resolve(is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass);
+        $name = $this->getRouteName($this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity), $routeType);
 
-        $routeName = $this->getRouteName($entityClass, $routeType);
-
-        return !empty($routeName);
+        return !empty($name);
     }
 
     /**
-     * @param string $entityClass Entity class
-     * @param string $routeType   Route type
+     * @param string $class     Entity class
+     * @param string $routeType Route type
      *
      * @return string
      */
-    private function getRouteName($entityClass, $routeType)
+    final protected function getRouteName(string $class, string $routeType): string
     {
-        $this->init();
+        $names = $this->getRouteNames();
 
-        if (isset($this->routeNames[$entityClass][$routeType])) {
-            return $this->routeNames[$entityClass][$routeType];
+        if (isset($names[$class][$routeType])) {
+            return $names[$class][$routeType];
         }
 
-        $child = $entityClass;
+        $child = $class;
 
         while ($parent = get_parent_class($child)) {
-            if (isset($this->routeNames[$parent][$routeType])) {
-                $this->routeNames[$entityClass][$routeType] = $this->routeNames[$parent][$routeType];
+            if (isset($names[$parent][$routeType])) {
+                if (!isset($this->routeNames[$class])) {
+                    $this->routeNames[$class] = [];
+                }
 
-                return $this->routeNames[$entityClass][$routeType];
+                $this->routeNames[$class][$routeType] = $names[$parent][$routeType];
+
+                return $names[$parent][$routeType];
             }
 
             $child = $parent;
@@ -237,16 +227,16 @@ class AdminRouter
     }
 
     /**
-     * @param array  $params      Parameters
-     * @param string $entityClass Entity class
-     * @param string $routeType   Route type
-     * @param object $entity      Entity
+     * @param array  $params    Parameters
+     * @param string $class     Entity class
+     * @param string $routeType Route type
+     * @param object $entity    Entity
      *
      * @throws \Darvin\AdminBundle\Route\RouteException
      */
-    private function getAdditionalParams(array &$params, $entityClass, $routeType, $entity = null)
+    final protected function collectAdditionalParams(array &$params, string $class, string $routeType, $entity = null): void
     {
-        if (in_array($routeType, self::$typesRequiringId) && !isset($params['id']) && !empty($entity)) {
+        if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
             try {
                 $params['id'] = $this->identifierAccessor->getValue($entity);
             } catch (MetadataException $ex) {
@@ -256,9 +246,9 @@ class AdminRouter
             }
         }
 
-        $meta = $this->metadataManager->getMetadata($entityClass);
+        $meta = $this->metadataManager->getMetadata($class);
 
-        if (!$meta->hasParent() || !in_array($routeType, self::$typesRequiringParentId)) {
+        if (!$meta->hasParent() || !in_array($routeType, self::REQUIRE_PARENT_ID)) {
             return;
         }
 
@@ -269,11 +259,11 @@ class AdminRouter
         }
         if (empty($entity)) {
             throw new RouteException(
-                sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $entityClass, $associationParam)
+                sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $class, $associationParam)
             );
         }
 
-        $params[$associationParam] = $this->getParentEntityId($entity, $meta->getParent()->getAssociation(), $routeType);
+        $params[$associationParam] = $this->getParentId($entity, $meta->getParent()->getAssociation(), $routeType);
     }
 
     /**
@@ -284,12 +274,12 @@ class AdminRouter
      * @return int
      * @throws \Darvin\AdminBundle\Route\RouteException
      */
-    private function getParentEntityId($entity, $association, $routeType)
+    final protected function getParentId($entity, string $association, string $routeType)
     {
         if (!$this->propertyAccessor->isReadable($entity, $association)) {
             $message = sprintf(
                 'Property "%s::$%s" required to generate URL or path for route "%s" is not readable.',
-                ClassUtils::getClass($entity),
+                get_class($entity),
                 $association,
                 $routeType
             );
@@ -308,28 +298,31 @@ class AdminRouter
         }
     }
 
-    private function init()
+    /**
+     * @return array
+     */
+    final protected function getRouteNames(): array
     {
-        if ($this->initialized) {
-            return;
+        if (null === $this->routeNames) {
+            $this->routeNames = [];
+
+            foreach ($this->routeManager->getNames() as $name) {
+                if (!$this->routeManager->hasOption($name, self::OPTION_ENTITY_CLASS)
+                    || !$this->routeManager->hasOption($name, self::OPTION_ROUTE_TYPE)
+                ) {
+                    continue;
+                }
+
+                $class = $this->routeManager->getOption($name, self::OPTION_ENTITY_CLASS);
+
+                if (!isset($this->routeNames[$class])) {
+                    $this->routeNames[$class] = [];
+                }
+
+                $this->routeNames[$class][$this->routeManager->getOption($name, self::OPTION_ROUTE_TYPE)] = $name;
+            }
         }
 
-        $this->initialized = true;
-
-        foreach ($this->routeManager->getNames() as $name) {
-            if (!$this->routeManager->hasOption($name, self::OPTION_ENTITY_CLASS)
-                || !$this->routeManager->hasOption($name, self::OPTION_ROUTE_TYPE)
-            ) {
-                continue;
-            }
-
-            $entityClass = $this->routeManager->getOption($name, self::OPTION_ENTITY_CLASS);
-
-            if (!isset($this->routeNames[$entityClass])) {
-                $this->routeNames[$entityClass] = [];
-            }
-
-            $this->routeNames[$entityClass][$this->routeManager->getOption($name, self::OPTION_ROUTE_TYPE)] = $name;
-        }
+        return $this->routeNames;
     }
 }

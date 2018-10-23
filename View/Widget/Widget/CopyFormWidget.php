@@ -75,7 +75,7 @@ class CopyFormWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        if (!$this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_COPY)) {
+        if (!$this->adminRouter->exists($entity, AdminRouter::TYPE_COPY)) {
             return null;
         }
 

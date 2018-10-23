@@ -86,9 +86,9 @@ class ChildLinksWidget extends AbstractWidget
         }
 
         $indexLink = $this->isGranted(Permission::VIEW, $childClass)
-            && $this->adminRouter->isRouteExists($childClass, AdminRouter::TYPE_INDEX);
+            && $this->adminRouter->exists($childClass, AdminRouter::TYPE_INDEX);
         $newLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
-            && $this->adminRouter->isRouteExists($childClass, AdminRouter::TYPE_NEW);
+            && $this->adminRouter->exists($childClass, AdminRouter::TYPE_NEW);
 
         if (!$indexLink && !$newLink) {
             return null;

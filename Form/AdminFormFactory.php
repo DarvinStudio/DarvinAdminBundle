@@ -180,7 +180,7 @@ class AdminFormFactory
      */
     public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null, array $options = [])
     {
-        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->isRouteExists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
+        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->exists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
             return null;
         }
         if (!array_key_exists('action', $options)) {

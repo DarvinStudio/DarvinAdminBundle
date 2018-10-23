@@ -55,7 +55,7 @@ class ShowLinkWidget extends AbstractWidget
             }
         }
 
-        return $this->adminRouter->isRouteExists($entity, AdminRouter::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
+        return $this->adminRouter->exists($entity, AdminRouter::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
             ? $this->render($options, [
                 'entity'             => $entity,
                 'text_link'          => $options['text_link'],

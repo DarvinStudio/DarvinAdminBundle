@@ -184,7 +184,7 @@ class MetadataManager
      *
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    final protected function buildTree(array $metadata, array $parents)
+    final protected function buildTree(array $metadata, array $parents): void
     {
         foreach ($parents as $parent) {
             $parent = $this->entityResolver->resolve($parent);

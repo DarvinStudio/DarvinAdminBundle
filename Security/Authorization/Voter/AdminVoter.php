@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
-use Doctrine\Common\Util\ClassUtils;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -25,77 +25,73 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class AdminVoter extends Voter
 {
     /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    protected $entityResolver;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
-    private $metadataManager;
+    protected $metadataManager;
 
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
      */
-    private $securityConfigurationPool;
+    protected $securityConfigurationPool;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private $entityOverride;
+    protected $permissions;
 
     /**
-     * @var array
+     * @var array|null
      */
-    private $supportedClasses;
+    protected $supportedClasses;
 
     /**
-     * @var array
-     */
-    private $permissions;
-
-    /**
-     * @var bool
-     */
-    private $initialized;
-
-    /**
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                            $entityResolver            Entity resolver
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                         $metadataManager           Metadata manager
      * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool $securityConfigurationPool Security configuration pool
-     * @param array                                                                $entityOverride            Entity override
      */
-    public function __construct(MetadataManager $metadataManager, SecurityConfigurationPool $securityConfigurationPool, array $entityOverride)
-    {
+    public function __construct(
+        EntityResolverInterface $entityResolver,
+        MetadataManager $metadataManager,
+        SecurityConfigurationPool $securityConfigurationPool
+    ) {
+        $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
         $this->securityConfigurationPool = $securityConfigurationPool;
-        $this->entityOverride = $entityOverride;
 
-        $this->supportedClasses = $this->permissions = [];
-        $this->initialized = false;
+        $this->permissions = $this->supportedClasses = null;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function voteOnAttribute($attribute, $objectOrClass, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
 
         if (!$user instanceof BaseUser) {
             return false;
         }
-        if ($this->metadataManager->hasMetadata($objectOrClass)
-            && $this->metadataManager->getConfiguration($objectOrClass)['oauth_only']
+        if ($this->metadataManager->hasMetadata($subject)
+            && $this->metadataManager->getConfiguration($subject)['oauth_only']
             && !$token instanceof OAuthToken
         ) {
             return false;
         }
 
-        $this->init();
+        $class       = $this->getClass($subject);
+        $permissions = $this->getPermissions();
 
-        $class = $this->getClass($objectOrClass);
-
-        if (isset($this->permissions[$class][$user->getId()][$attribute])) {
-            return $this->permissions[$class][$user->getId()][$attribute];
+        if (isset($permissions[$class][$user->getId()][$attribute])) {
+            return $permissions[$class][$user->getId()][$attribute];
         }
-        foreach (class_parents($class) as $parentClass) {
-            if (isset($this->permissions[$parentClass][$user->getId()][$attribute])) {
-                return $this->permissions[$parentClass][$user->getId()][$attribute];
+        foreach (class_parents($class) as $parent) {
+            if (isset($permissions[$parent][$user->getId()][$attribute])) {
+                return $permissions[$parent][$user->getId()][$attribute];
             }
         }
 
@@ -107,20 +103,19 @@ class AdminVoter extends Voter
     /**
      * {@inheritdoc}
      */
-    protected function supports($attribute, $objectOrClass)
+    protected function supports($attribute, $subject)
     {
         if (!in_array($attribute, Permission::getAllPermissions())) {
             return false;
         }
 
-        $this->init();
+        $class            = $this->getClass($subject);
+        $supportedClasses = $this->getSupportedClasses();
 
-        $class = $this->getClass($objectOrClass);
-
-        if (in_array($class, $this->supportedClasses)) {
+        if (isset($supportedClasses[$class])) {
             return true;
         }
-        foreach ($this->supportedClasses as $supportedClass) {
+        foreach ($supportedClasses as $supportedClass) {
             if (is_subclass_of($class, $supportedClass)) {
                 return true;
             }
@@ -129,37 +124,55 @@ class AdminVoter extends Voter
         return false;
     }
 
-    private function init()
+    /**
+     * @return array
+     */
+    final protected function getPermissions()
     {
-        if ($this->initialized) {
-            return;
-        }
-        foreach ($this->securityConfigurationPool->getAllConfigurations() as $configuration) {
-            foreach ($configuration->getPermissions() as $objectPermissions) {
-                $objectClass = $objectPermissions->getObjectClass();
+        if (null === $this->permissions) {
+            $this->permissions = [];
 
-                $this->supportedClasses[] = $objectClass;
+            foreach ($this->securityConfigurationPool->getAllConfigurations() as $config) {
+                foreach ($config->getPermissions() as $objectPermissions) {
+                    $class = $objectPermissions->getObjectClass();
 
-                $this->permissions[$objectClass] = [];
+                    $this->permissions[$class] = [];
 
-                foreach ($objectPermissions->getUserPermissionsSet() as $userPermissions) {
-                    $this->permissions[$objectClass][$userPermissions->getUserId()] = $userPermissions->getPermissions();
+                    foreach ($objectPermissions->getUserPermissionsSet() as $userPermissions) {
+                        $this->permissions[$class][$userPermissions->getUserId()] = $userPermissions->getPermissions();
+                    }
                 }
             }
         }
 
-        $this->initialized = true;
+        return $this->permissions;
     }
 
     /**
-     * @param mixed $objectOrClass Object or class
+     * @return string[]
+     */
+    final protected function getSupportedClasses()
+    {
+        if (null === $this->supportedClasses) {
+            $this->supportedClasses = [];
+
+            foreach ($this->securityConfigurationPool->getAllConfigurations() as $config) {
+                foreach ($config->getPermissions() as $objectPermissions) {
+                    $this->supportedClasses[$objectPermissions->getObjectClass()] = $objectPermissions->getObjectClass();
+                }
+            }
+        }
+
+        return $this->supportedClasses;
+    }
+
+    /**
+     * @param object|string $object Object
      *
      * @return string
      */
-    private function getClass($objectOrClass)
+    final protected function getClass($object)
     {
-        $class = is_object($objectOrClass) ? ClassUtils::getClass($objectOrClass) : $objectOrClass;
-
-        return isset($this->entityOverride[$class]) ? $this->entityOverride[$class] : $class;
+        return $this->entityResolver->resolve(is_object($object) ? get_class($object) : $object);
     }
 }

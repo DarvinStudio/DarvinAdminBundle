@@ -14,32 +14,32 @@ services:
         public: true
 
     darvin_admin.security.authorization_voter:
-        class:  "%darvin_admin.security.authorization_voter.class%"
+        class:  '%darvin_admin.security.authorization_voter.class%'
         public: false
         arguments:
-            - "@darvin_admin.metadata.manager"
-            - "@darvin_admin.security.configuration.pool"
-            - "%darvin_admin.entity_override%"
+            - '@darvin_utils.orm.entity_resolver'
+            - '@darvin_admin.metadata.manager'
+            - '@darvin_admin.security.configuration.pool'
         tags:
             - { name: security.voter }
 
     darvin_admin.security.configuration.abstract:
-        class:    "%darvin_admin.security.configuration.abstract.class%"
+        class:    '%darvin_admin.security.configuration.abstract.class%'
         abstract: true
         public:   false
 
     darvin_admin.security.configuration.pool:
-        class:  "%darvin_admin.security.configuration.pool.class%"
+        class:  '%darvin_admin.security.configuration.pool.class%'
         public: false
 
     darvin_admin.security.form_type.object_permissions:
-        class: "%darvin_admin.security.form_type.object_permissions.class%"
+        class: '%darvin_admin.security.form_type.object_permissions.class%'
         arguments:
-            - "@darvin_user.user.repository"
+            - '@darvin_user.user.repository'
         tags:
             - { name: form.type }
 
     darvin_admin.security.user_provider.oauth:
-        class:  "%darvin_admin.security.user_provider.oauth.class%"
+        class:  '%darvin_admin.security.user_provider.oauth.class%'
         parent: darvin_user.security.user_provider.oauth
         public: true

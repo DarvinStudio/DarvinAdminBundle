@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 use Darvin\AdminBundle\EventListener\TranslatableSubscriber;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Replace translatable event subscriber compiler pass
@@ -29,7 +30,7 @@ class ReplaceTranslatableSubscriberPass implements CompilerPassInterface
         if ($container->hasDefinition(self::ID)) {
             $container->getDefinition(self::ID)
                 ->setClass(TranslatableSubscriber::class)
-                ->addArgument('%darvin_admin.entity_override%');
+                ->addArgument(new Reference('darvin_utils.orm.entity_resolver'));
         }
     }
 }

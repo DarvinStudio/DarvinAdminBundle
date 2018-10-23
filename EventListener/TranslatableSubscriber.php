@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\EventListener;
 
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Id\IdentityGenerator;
 use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
@@ -48,9 +49,9 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
     private $translationFetchMode;
 
     /**
-     * @var array
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    private $entityOverride;
+    private $entityResolver;
 
     /**
      * {@inheritdoc}
@@ -63,7 +64,7 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
         $translationTrait,
         $translatableFetchMode,
         $translationFetchMode,
-        array $entityOverride
+        EntityResolverInterface $entityResolver
     ) {
         parent::__construct(
             $classAnalyzer,
@@ -82,7 +83,7 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
         $this->translatableFetchMode = constant(ClassMetadata::class.'::FETCH_'.$translatableFetchMode);
         $this->translationFetchMode  = constant(ClassMetadata::class.'::FETCH_'.$translationFetchMode);
 
-        $this->entityOverride = $entityOverride;
+        $this->entityResolver = $entityResolver;
     }
 
     /**
@@ -107,21 +108,11 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
     private function mapTranslatable(ClassMetadata $meta)
     {
         if (!$meta->hasAssociation('translations')) {
-            $class = $meta->getName();
-
-            if (isset($this->entityOverride[$class])) {
-                $class = $this->entityOverride[$class];
-            }
-
-            $translation = $class::getTranslationEntityClass();
-
-            if (isset($this->entityOverride[$translation])) {
-                $translation = $this->entityOverride[$translation];
-            }
+            $class = $this->entityResolver->resolve($meta->getName());
 
             $meta->mapOneToMany([
                 'fieldName'     => 'translations',
-                'targetEntity'  => $translation,
+                'targetEntity'  => $this->entityResolver->resolve($class::{'getTranslationEntityClass'}()),
                 'mappedBy'      => 'translatable',
                 'cascade'       => ['persist', 'merge', 'remove'],
                 'orphanRemoval' => true,
@@ -142,21 +133,11 @@ class TranslatableSubscriber extends BaseTranslatableSubscriber
             $meta->setIdGenerator(new IdentityGenerator());
         }
         if (!$meta->hasAssociation('translatable')) {
-            $class = $meta->getName();
-
-            if (isset($this->entityOverride[$class])) {
-                $class = $this->entityOverride[$class];
-            }
-
-            $translatable = $class::getTranslatableEntityClass();
-
-            if (isset($this->entityOverride[$translatable])) {
-                $translatable = $this->entityOverride[$translatable];
-            }
+            $class = $this->entityResolver->resolve($meta->getName());
 
             $meta->mapManyToOne([
                 'fieldName'    => 'translatable',
-                'targetEntity' => $translatable,
+                'targetEntity' => $this->entityResolver->resolve($class::{'getTranslatableEntityClass'}()),
                 'inversedBy'   => 'translations',
                 'cascade'      => ['persist', 'merge'],
                 'fetch'        => $this->translationFetchMode,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -15,7 +15,7 @@ namespace Darvin\AdminBundle\Security\Configuration;
  */
 class SecurityConfigurationPool
 {
-    const ADD_METHOD = 'addConfiguration';
+    public const ADD_METHOD = 'addConfiguration';
 
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
@@ -32,22 +32,16 @@ class SecurityConfigurationPool
 
     /**
      * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface $configuration Security configuration
-     *
-     * @throws \Darvin\AdminBundle\Security\Configuration\ConfigurationException
      */
-    public function addConfiguration(SecurityConfigurationInterface $configuration)
+    public function addConfiguration(SecurityConfigurationInterface $configuration): void
     {
-        if (isset($this->configurations[$configuration->getName()])) {
-            throw new ConfigurationException(sprintf('Configuration "%s" already added.', $configuration->getName()));
-        }
-
         $this->configurations[$configuration->getName()] = $configuration;
     }
 
     /**
      * @return \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
      */
-    public function getAllConfigurations()
+    public function getAllConfigurations(): array
     {
         return $this->configurations;
     }

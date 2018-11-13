@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -18,34 +18,29 @@ use Darvin\UserBundle\Entity\BaseUser;
  */
 final class Permission
 {
-    const CREATE_DELETE = 'create_delete';
-    const EDIT          = 'edit';
-    const VIEW          = 'view';
-
-    /**
-     * @var string[]
-     */
-    private static $permissions = [
-        self::CREATE_DELETE,
-        self::EDIT,
-        self::VIEW,
-    ];
+    public const CREATE_DELETE = 'admin_create_delete';
+    public const EDIT          = 'admin_edit';
+    public const VIEW          = 'admin_view';
 
     /**
      * @param \Darvin\UserBundle\Entity\BaseUser $user User
      *
-     * @return string[]
+     * @return array
      */
-    public static function getDefaultPermissions(BaseUser $user)
+    public static function getDefaultPermissions(BaseUser $user): array
     {
-        return array_fill_keys(self::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
+        return array_fill_keys(static::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
     }
 
     /**
      * @return string[]
      */
-    public static function getAllPermissions()
+    public static function getAllPermissions(): array
     {
-        return self::$permissions;
+        return [
+            static::CREATE_DELETE,
+            static::EDIT,
+            static::VIEW,
+        ];
     }
 }

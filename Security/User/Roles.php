@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -15,24 +15,19 @@ namespace Darvin\AdminBundle\Security\User;
  */
 final class Roles
 {
-    const ROLE_ADMIN      = 'ROLE_ADMIN';
-    const ROLE_GUESTADMIN = 'ROLE_GUESTADMIN';
-    const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
-
-    /**
-     * @var string[]
-     */
-    private static $roles = [
-        self::ROLE_ADMIN,
-        self::ROLE_GUESTADMIN,
-        self::ROLE_SUPERADMIN,
-    ];
+    public const ROLE_ADMIN      = 'ROLE_ADMIN';
+    public const ROLE_GUESTADMIN = 'ROLE_GUESTADMIN';
+    public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
 
     /**
      * @return string[]
      */
-    public static function getRoles()
+    public static function getRoles(): array
     {
-        return self::$roles;
+        return [
+            static::ROLE_ADMIN,
+            static::ROLE_GUESTADMIN,
+            static::ROLE_SUPERADMIN,
+        ];
     }
 }

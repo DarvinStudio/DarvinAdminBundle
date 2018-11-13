@@ -61,9 +61,8 @@ class AppKernel extends Kernel
 ```yaml
 darvin_admin:
     locales:            "%locales%"
+    project_title:      "%project_title%"
     upload_max_size_mb: "%env(resolve:UPLOAD_MAX_SIZE_MB)%"
-    project:
-        title: "%project_title%"
 
 darvin_image:
     upload_path: "%env(resolve:IMAGE_UPLOAD_PATH)%"

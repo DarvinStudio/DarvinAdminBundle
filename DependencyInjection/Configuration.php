@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Menu\Item;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -24,7 +25,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('darvin_admin');
@@ -38,21 +39,17 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addFormNode())
                 ->append($this->addMenuNode())
                 ->append($this->addSectionsNode())
-                ->scalarNode('custom_logo')->defaultNull()->end()
-                ->arrayNode('locales')->prototype('scalar')->end()->cannotBeEmpty()->isRequired()->end()
-                ->integerNode('search_query_min_length')->min(1)->defaultValue(3)->end()
-                ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->end()
-                ->integerNode('upload_max_size_mb')->defaultValue(2)->end()
-                ->scalarNode('visual_assets_path')->defaultValue('bundles/darvinadmin')->cannotBeEmpty()->end()
+                ->scalarNode('frontend_path')->defaultValue('bundles/darvinadmin')->cannotBeEmpty()->end()
+                ->arrayNode('locales')->prototype('scalar')->end()->isRequired()->requiresAtLeastOneElement()->end()
+                ->scalarNode('logo')->defaultNull()->end()
+                ->scalarNode('project_title')->isRequired()->cannotBeEmpty()->end()
+                ->integerNode('search_query_min_length')->defaultValue(3)->min(1)->end()
+                ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->cannotBeEmpty()->end()
+                ->integerNode('upload_max_size_mb')->defaultValue(2)->min(1)->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('blacklist')->prototype('scalar')->end()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('project')->isRequired()
-                    ->children()
-                        ->scalarNode('title')->cannotBeEmpty()->isRequired();
+                        ->arrayNode('blacklist')->prototype('scalar');
 
         return $treeBuilder;
     }
@@ -60,13 +57,13 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
      */
-    private function addCKEditorNode()
+    private function addCKEditorNode(): NodeDefinition
     {
         $rootNode = (new TreeBuilder())->root('ckeditor');
         $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('plugin_filename')->defaultValue('plugin.js')->end()
-                ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins');
+                ->scalarNode('plugin_filename')->defaultValue('plugin.js')->cannotBeEmpty()->end()
+                ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->cannotBeEmpty();
 
         return $rootNode;
     }
@@ -74,7 +71,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
      */
-    private function addFormNode()
+    private function addFormNode(): NodeDefinition
     {
         $rootNode = (new TreeBuilder())->root('form');
         $rootNode->addDefaultsIfNotSet()
@@ -89,7 +86,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
      */
-    private function addSectionsNode()
+    private function addSectionsNode(): NodeDefinition
     {
         $rootNode = (new TreeBuilder())->root('sections');
         $rootNode
@@ -105,7 +102,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
      */
-    private function addMenuNode()
+    private function addMenuNode(): NodeDefinition
     {
         $rootNode = (new TreeBuilder())->root('menu');
         $rootNode->addDefaultsIfNotSet()
@@ -124,8 +121,8 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->arrayNode('icons')->addDefaultsIfNotSet()
                                 ->children()
-                                    ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
-                                    ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->end();
+                                    ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->cannotBeEmpty()->end()
+                                    ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->cannotBeEmpty();
 
         return $rootNode;
     }

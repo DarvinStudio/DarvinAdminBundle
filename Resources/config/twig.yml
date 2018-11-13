@@ -9,8 +9,8 @@ services:
         class:  '%darvin_admin.twig.globals.class%'
         public: false
         arguments:
-            - '%darvin_admin.visual_assets_path%'
+            - '%darvin_admin.frontend_path%'
             - '%darvin_admin.locales%'
-            - '%darvin_admin.project.title%'
-            - '%darvin_admin.custom_logo%'
+            - '%darvin_admin.project_title%'
+            - '%darvin_admin.logo%'
             - '%darvin_admin.yandex_translate_api_key%'

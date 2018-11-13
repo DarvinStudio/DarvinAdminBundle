@@ -3,22 +3,19 @@
 
 ```yaml
 darvin_admin:
-    custom_logo:              ~                             # Путь до кастомного логотипа (будет передан в Twig-функцию "asset()")
-    debug:                    %kernel.debug%                # Включен ли режим отладки
+    frontend_path:            bundles/darvinadmin           # Путь до каталога с "визуальными" ресурсами (стили, изображения и т. д.)
     locales:                                                # Локали (обязательно)
+    logo:                     ~                             # Путь до кастомного логотипа (будет передан в Twig-функцию "asset()")
+    project_title:            ~                             # Название проекта
     search_query_min_length:  3                             # Минимальная длина поискового запроса
     translations_model_dir:   Resources/config/translations # Путь до каталога с моделями переводов
     upload_max_size_mb:       2                             # Максимальный размер загружаемого файла
-    visual_assets_path:       bundles/darvinadmin           # Путь до каталога с "визуальными" ресурсами (стили, изображения и т. д.)
     yandex_translate_api_key: ~                             # API-ключ сервиса "Яндекс.Переводчик"
     ckeditor: # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина
         plugins_path:    /bundles/darvinadmin/scripts/ckeditor/plugins # Путь до каталога с плагинами
     dashboard:
         blacklist: [] # Черный список идентификаторов сервисов виджетов на главной странице панели администрирования
-    project: # Конфигурация проекта
-        title: ~ # Название проекта
-        url:   ~ # URL проекта
     sections: # [Разделы администрирования](../admin_section_adding.md)
 
         # Прототип

@@ -1,18 +1,16 @@
 parameters:
-    darvin_admin.twig.globals_extension.class: Darvin\AdminBundle\Twig\Extension\GlobalsExtension
+    darvin_admin.twig.globals.class: Darvin\AdminBundle\Twig\Globals
 
 services:
     _defaults:
         public: true
 
-    darvin_admin.twig.globals_extension:
-        class:  "%darvin_admin.twig.globals_extension.class%"
+    darvin_admin.twig.globals:
+        class:  '%darvin_admin.twig.globals.class%'
         public: false
         arguments:
-            - "%darvin_admin.custom_logo%"
-            - "%darvin_admin.locales%"
-            - "%darvin_admin.project.title%"
-            - "%darvin_admin.visual_assets_path%"
-            - "%darvin_admin.yandex_translate_api_key%"
-        tags:
-            - { name: twig.extension }
+            - '%darvin_admin.visual_assets_path%'
+            - '%darvin_admin.locales%'
+            - '%darvin_admin.project.title%'
+            - '%darvin_admin.custom_logo%'
+            - '%darvin_admin.yandex_translate_api_key%'

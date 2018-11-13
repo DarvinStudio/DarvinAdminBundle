@@ -13,10 +13,10 @@
 
                 <div class="block">
                     <span class="logo">
-                        {% if darvin_admin_custom_logo %}
-                            <img src="{{ asset(darvin_admin_custom_logo) }}">
+                        {% if darvin_admin.logo %}
+                            <img src="{{ asset(darvin_admin.logo) }}">
                         {% else %}
-                            <img src="{{ asset(darvin_admin_visual_assets_path ~ '/images/logo_auth.png') }}" alt="">
+                            <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_auth.png') }}" alt="">
     						<span>{% trans %}layout.logo{% endtrans %}</span>
                         {% endif %}
                     </span>
@@ -52,7 +52,7 @@
                             {% trans %}security.action.login.darvin_auth{% endtrans %}
                         </a>
                     </div>
-                    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin_project_title }}</a>
+                    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>
                 </div>
                 <div class="version">
                     {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}

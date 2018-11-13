@@ -1,10 +1,10 @@
 {% trans_default_domain 'admin' %}
 
-{% if darvin_admin_locales|length > 1 %}
+{% if darvin_admin.locales|length > 1 %}
     <div class="lang_switcher">
         <span>{% trans %}layout.locale_switcher.title{% endtrans %}</span>
         <ul>
-            {% for locale in darvin_admin_locales %}
+            {% for locale in darvin_admin.locales %}
 
                 {% set translation = ('locale.' ~ locale)|trans({}, 'admin', locale) %}
 

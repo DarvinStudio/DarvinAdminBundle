@@ -1,0 +1,3 @@
+twig:
+    globals:
+        darvin_admin: '@darvin_admin.twig.globals'

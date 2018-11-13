@@ -138,6 +138,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'lexik_translation',
             'liip_imagine',
             'oneup_uploader',
+            'twig',
         ] as $extension) {
             if ($container->hasExtension($extension)) {
                 $container->prependExtensionConfig($extension, Yaml::parse(file_get_contents($fileLocator->locate($extension.'.yml')))[$extension]);

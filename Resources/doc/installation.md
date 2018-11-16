@@ -62,10 +62,10 @@ class AppKernel extends Kernel
 darvin_admin:
     locales:            "%locales%"
     project_title:      "%project_title%"
-    upload_max_size_mb: "%env(resolve:UPLOAD_MAX_SIZE_MB)%"
+    upload_max_size_mb: "%env(int:UPLOAD_MAX_SIZE_MB)%"
 
 darvin_image:
-    upload_path: "%env(resolve:IMAGE_UPLOAD_PATH)%"
+    upload_path: "%env(IMAGE_UPLOAD_PATH)%"
     
 darvin_utils:
     mailer:

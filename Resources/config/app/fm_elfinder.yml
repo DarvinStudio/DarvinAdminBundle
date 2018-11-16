@@ -9,7 +9,7 @@ fm_elfinder:
                     uploads:
                         driver:          LocalFileSystem
                         path:            "%env(resolve:UPLOAD_PATH)%"
-                        upload_max_size: "%env(resolve:UPLOAD_MAX_SIZE_MB)%M"
+                        upload_max_size: "%env(int:resolve:UPLOAD_MAX_SIZE_MB)%M"
                         upload_allow:
                             - image/png
                             - image/jpg

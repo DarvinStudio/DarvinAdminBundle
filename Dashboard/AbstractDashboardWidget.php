@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -41,7 +41,7 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequiredPermissions()
+    public function getRequiredPermissions(): array
     {
         return [];
     }
@@ -49,7 +49,7 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return null;
     }

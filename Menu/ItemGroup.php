@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -18,7 +18,7 @@ class ItemGroup extends Item
     /**
      * {@inheritdoc}
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         parent::__construct($name);
 

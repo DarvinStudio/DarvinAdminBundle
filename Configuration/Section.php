@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -26,7 +26,7 @@ class Section
     private $entity;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $config;
 
@@ -51,11 +51,11 @@ class Section
     private $securityConfigName;
 
     /**
-     * @param string $alias  Alias
-     * @param string $entity Entity
-     * @param string $config Config
+     * @param string      $alias  Alias
+     * @param string      $entity Entity
+     * @param string|null $config Config
      */
-    public function __construct($alias, $entity, $config)
+    public function __construct(string $alias, string $entity, ?string $config = null)
     {
         $this->alias = $alias;
         $this->entity = $entity;
@@ -70,7 +70,7 @@ class Section
     /**
      * @return string
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return $this->alias;
     }
@@ -78,15 +78,15 @@ class Section
     /**
      * @return string
      */
-    public function getEntity()
+    public function getEntity(): string
     {
         return $this->entity;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getConfig()
+    public function getConfig(): ?string
     {
         return $this->config;
     }
@@ -94,7 +94,7 @@ class Section
     /**
      * @return string
      */
-    public function getControllerId()
+    public function getControllerId(): string
     {
         return $this->controllerId;
     }
@@ -102,7 +102,7 @@ class Section
     /**
      * @return string
      */
-    public function getMetadataId()
+    public function getMetadataId(): string
     {
         return $this->metadataId;
     }
@@ -110,7 +110,7 @@ class Section
     /**
      * @return string
      */
-    public function getSecurityConfigId()
+    public function getSecurityConfigId(): string
     {
         return $this->securityConfigId;
     }
@@ -118,7 +118,7 @@ class Section
     /**
      * @return string
      */
-    public function getSecurityConfigName()
+    public function getSecurityConfigName(): string
     {
         return $this->securityConfigName;
     }

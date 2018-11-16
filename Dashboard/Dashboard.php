@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -30,7 +30,7 @@ class Dashboard implements DashboardInterface
     /**
      * @var bool
      */
-    private $widgetsFiltered;
+    private $filtered;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
@@ -38,52 +38,40 @@ class Dashboard implements DashboardInterface
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->authorizationChecker = $authorizationChecker;
+
         $this->widgets = [];
-        $this->widgetsFiltered = false;
+        $this->filtered = false;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface $widget Widget
+     */
+    public function addWidget(DashboardWidgetInterface $widget): void
+    {
+        $this->widgets[$widget->getName()] = $widget;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addWidget(DashboardWidgetInterface $widget)
+    public function getWidgets(): array
     {
-        $widgetName = $widget->getName();
+        if (!$this->filtered) {
+            foreach ($this->widgets as $key => $widget) {
+                foreach ($widget->getRequiredPermissions() as $class => $permissions) {
+                    foreach ($permissions as $permission) {
+                        if (!$this->authorizationChecker->isGranted($permission, $class)) {
+                            unset($this->widgets[$key]);
 
-        if (isset($this->widgets[$widgetName])) {
-            throw new DashboardException(sprintf('Dashboard widget "%s" already added.', $widgetName));
-        }
-
-        $this->widgets[$widgetName] = $widget;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getWidgets()
-    {
-        $this->filterWidgets();
-
-        return $this->widgets;
-    }
-
-    private function filterWidgets()
-    {
-        if ($this->widgetsFiltered) {
-            return;
-        }
-        foreach ($this->widgets as $name => $widget) {
-            $requiredPermissions = $widget->getRequiredPermissions();
-
-            if (empty($requiredPermissions)) {
-                continue;
-            }
-            foreach ($requiredPermissions as $objectClass => $permissions) {
-                if (!$this->authorizationChecker->isGranted($permissions, $objectClass)) {
-                    unset($this->widgets[$name]);
+                            continue 3;
+                        }
+                    }
                 }
             }
+
+            $this->filtered = true;
         }
 
-        $this->widgetsFiltered = true;
+        return $this->widgets;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -16,12 +16,7 @@ namespace Darvin\AdminBundle\Dashboard;
 interface DashboardInterface
 {
     /**
-     * @param \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface $widget Dashboard widget
-     */
-    public function addWidget(DashboardWidgetInterface $widget);
-
-    /**
      * @return \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
      */
-    public function getWidgets();
+    public function getWidgets(): array;
 }

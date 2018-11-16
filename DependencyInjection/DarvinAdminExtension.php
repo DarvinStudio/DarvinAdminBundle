@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -32,7 +32,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class DarvinAdminExtension extends Extension implements PrependExtensionInterface
 {
-    const FIREWALL_NAME = 'admin_area';
+    private const FIREWALL_NAME = 'admin_area';
 
     /**
      * @var bool
@@ -50,7 +50,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     /**
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $this->mergeSectionConfigs($configs);
 
@@ -115,7 +115,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     /**
      * {@inheritdoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         if (!$container->getParameter('kernel.debug')) {
             foreach ($container->getExtensionConfig('security') as $config) {
@@ -225,7 +225,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     /**
      * @param array $configs Section configurations
      */
-    private function mergeSectionConfigs(array &$configs)
+    private function mergeSectionConfigs(array &$configs): void
     {
         foreach ($configs as $configKey => $config) {
             if (!isset($config['sections'])) {

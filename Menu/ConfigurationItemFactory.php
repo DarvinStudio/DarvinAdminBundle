@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -45,22 +45,16 @@ class ConfigurationItemFactory implements ItemFactoryInterface
      */
     public function getItems(): iterable
     {
-        if (!$this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)) {
-            return [];
+        if ($this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)) {
+            yield (new Item('configuration'))
+                ->setIndexTitle('configuration.action.edit.link')
+                ->setIndexUrl($this->router->generate('darvin_admin_configuration'))
+                ->setDescription('configuration.menu.description')
+                ->setMainColor('#516fd0')
+                ->setSidebarColor('#9a8efe')
+                ->setMainIcon('bundles/darvinadmin/images/admin/configuration_main.png')
+                ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png')
+                ->setPosition(1000);
         }
-
-        $item = (new Item('configuration'))
-            ->setIndexTitle('configuration.action.edit.link')
-            ->setIndexUrl($this->router->generate('darvin_admin_configuration'))
-            ->setDescription('configuration.menu.description')
-            ->setMainColor('#516fd0')
-            ->setSidebarColor('#9a8efe')
-            ->setMainIcon('bundles/darvinadmin/images/admin/configuration_main.png')
-            ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png')
-            ->setPosition(1000);
-
-        return [
-            $item,
-        ];
     }
 }

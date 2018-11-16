@@ -28,7 +28,6 @@ const scripts = [
                 'Resources/public/node_modules/noty/lib/noty.js',
                 'Resources/public/node_modules/sly-scrolling/dist/sly.js',
 
-                '../../../vendor/a2lix/translation-form-bundle/Resources/public/js/a2lix_translation_default.js',
                 '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
 
                 'Resources/scripts/globals.js',
@@ -50,6 +49,7 @@ const scripts = [
                 'Resources/scripts/slug-suffix.js',
                 'Resources/scripts/table-head-clone.js',
                 'Resources/scripts/textcounter.js',
+                'Resources/scripts/translation-form.js',
                 'Resources/scripts/translation-sync.js',
                 'Resources/scripts/tri-state-checkbox.js',
 

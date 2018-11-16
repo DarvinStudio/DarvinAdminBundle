@@ -98,7 +98,7 @@ class Menu
                 }
             }
 
-            $this->sortItems($items);
+            $items = $this->sortItems($items);
 
             foreach ($items as $item) {
                 if (!$item->hasParent()) {
@@ -123,7 +123,7 @@ class Menu
                 }
             }
 
-            $this->sortItems($items);
+            $items = $this->sortItems($items);
 
             $this->items = $items;
         }
@@ -132,15 +132,15 @@ class Menu
     }
 
     /**
-     * @param string $name            Name
-     * @param int    $defaultPosition Default position
+     * @param string   $name            Name
+     * @param int|null $defaultPosition Default position
      *
      * @return \Darvin\AdminBundle\Menu\ItemGroup
      */
-    private function createItemGroup($name, $defaultPosition)
+    private function createItemGroup(string $name, ?int $defaultPosition): ItemGroup
     {
-        $group = (new ItemGroup($name))
-            ->setPosition($defaultPosition);
+        $group = new ItemGroup($name);
+        $group->setPosition($defaultPosition);
 
         if (!isset($this->groupsConfig[$name])) {
             return $group;
@@ -152,32 +152,36 @@ class Menu
             $group->setPosition($config['position']);
         }
 
-        return $group
+        $group
             ->setMainColor($config['colors']['main'])
             ->setSidebarColor($config['colors']['sidebar'])
             ->setMainIcon($config['icons']['main'])
             ->setSidebarIcon($config['icons']['sidebar'])
             ->setAssociatedObject($config['associated_object']);
+
+        return $group;
     }
 
     /**
      * @param \Darvin\AdminBundle\Menu\Item[] $items Menu items
+     *
+     * @return \Darvin\AdminBundle\Menu\Item[]
      */
-    private function sortItems(array &$items)
+    private function sortItems(array $items): array
     {
-        if (empty($items)) {
-            return;
+        if (!empty($items)) {
+            $defaultPos = max(array_map(function (Item $item) {
+                return $item->getPosition();
+            }, $items)) + 1;
+
+            uasort($items, function (Item $a, Item $b) use ($defaultPos) {
+                $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
+                $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
+
+                return $posA === $posB ? 0 : ($posA > $posB ? 1 : -1);
+            });
         }
 
-        $defaultPos = max(array_map(function (Item $item) {
-            return $item->getPosition();
-        }, $items)) + 1;
-
-        uasort($items, function (Item $a, Item $b) use ($defaultPos) {
-            $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
-            $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
-
-            return $posA === $posB ? 0 : ($posA > $posB ? 1 : -1);
-        });
+        return $items;
     }
 }

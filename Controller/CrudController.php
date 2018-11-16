@@ -463,7 +463,7 @@ class CrudController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \Darvin\AdminBundle\Controller\ControllerException
+     * @throws \RuntimeException
      */
     public function batchDeleteAction(Request $request)
     {
@@ -483,7 +483,7 @@ class CrudController extends Controller
             $entities = $entities->toArray();
         }
         if (empty($entities)) {
-            throw new ControllerException(
+            throw new \RuntimeException(
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
             );
         }

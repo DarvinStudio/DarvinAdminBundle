@@ -61,12 +61,12 @@ class ConfigurationLoader
      * @param string $pathname Configuration file pathname
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \InvalidArgumentException
      */
     public function load($pathname)
     {
         if (empty($pathname)) {
-            throw new ConfigurationException('Configuration file pathname cannot be empty.');
+            throw new \InvalidArgumentException('Configuration file pathname cannot be empty.');
         }
 
         $config = $this->getMergedConfig($pathname);
@@ -79,7 +79,7 @@ class ConfigurationLoader
      * @param string $pathname Configuration file pathname
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \RuntimeException
      */
     private function processConfiguration(array $config, $pathname)
     {
@@ -88,7 +88,7 @@ class ConfigurationLoader
         try {
             return $this->parameterBag->resolveValue($processor->processConfiguration(new Configuration(), $config));
         } catch (InvalidConfigurationException $ex) {
-            throw new ConfigurationException(
+            throw new \RuntimeException(
                 sprintf('Configuration file "%s" is invalid: "%s".', $pathname, $ex->getMessage())
             );
         }
@@ -98,7 +98,7 @@ class ConfigurationLoader
      * @param string $pathname Configuration file pathname
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \RuntimeException
      */
     private function getMergedConfig($pathname)
     {
@@ -114,7 +114,7 @@ class ConfigurationLoader
             $parentRealPathname = $this->resolveRealPathname($parentPathname, $parentPathname !== $childPathname);
 
             if ($parentRealPathname === $childRealPathname) {
-                throw new ConfigurationException(sprintf('Configuration file "%s" tried to extend itself.', $childRealPathname));
+                throw new \RuntimeException(sprintf('Configuration file "%s" tried to extend itself.', $childRealPathname));
             }
 
             $childPathname = $parentPathname;
@@ -143,7 +143,7 @@ class ConfigurationLoader
      * @param array $config Config
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \RuntimeException
      */
     private function mergeConfigParams(array $config)
     {
@@ -152,10 +152,10 @@ class ConfigurationLoader
 
             if (3 === count($matches)) {
                 if (!isset($config[$matches[1]])) {
-                    throw new ConfigurationException(sprintf('Unable to find parameter "%s" for extending.', $matches[1]));
+                    throw new \RuntimeException(sprintf('Unable to find parameter "%s" for extending.', $matches[1]));
                 }
                 if (!is_array($config[$matches[1]])) {
-                    throw new ConfigurationException(
+                    throw new \RuntimeException(
                         sprintf('Unable to extend parameter "%s": only array parameters can be extended.', $matches[1])
                     );
                 }
@@ -179,7 +179,7 @@ class ConfigurationLoader
      * @param array $second Second config
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \RuntimeException
      */
     private function mergeConfigs(array $first, array $second)
     {
@@ -193,7 +193,7 @@ class ConfigurationLoader
                     continue;
                 }
                 if (!is_array($first[$name])) {
-                    throw new ConfigurationException(
+                    throw new \RuntimeException(
                         sprintf('Unable to override parameter "%s": only array parameters can be overridden.', $name)
                     );
                 }
@@ -273,19 +273,19 @@ class ConfigurationLoader
      * @param string $pathname Configuration file pathname
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Metadata\Configuration\ConfigurationException
+     * @throws \RuntimeException
      */
     private function getConfig($pathname)
     {
         $content = file_get_contents($pathname);
 
         if (false === $content) {
-            throw new ConfigurationException(sprintf('Unable to get content of configuration file "%s".', $pathname));
+            throw new \RuntimeException(sprintf('Unable to get content of configuration file "%s".', $pathname));
         }
         try {
             return (array) Yaml::parse($content);
         } catch (ParseException $ex) {
-            throw new ConfigurationException(
+            throw new \RuntimeException(
                 sprintf('Unable to parse configuration file "%s": "%s".', $pathname, $ex->getMessage())
             );
         }

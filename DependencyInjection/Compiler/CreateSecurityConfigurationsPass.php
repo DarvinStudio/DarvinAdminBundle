@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
+use Darvin\AdminBundle\Configuration\SectionConfiguration;
 use Darvin\ConfigBundle\DependencyInjection\Compiler\AddConfigurationsPass;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -23,40 +23,30 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CreateSecurityConfigurationsPass implements CompilerPassInterface
 {
-    const PARENT_ID = 'darvin_admin.security.configuration.abstract';
-
-    const POOL_ID = 'darvin_admin.security.configuration.pool';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::POOL_ID)) {
-            return;
-        }
-
         $definitions = [];
+        $pool        = $container->getDefinition('darvin_admin.security.configuration.pool');
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $definitions[$section->getSecurityConfigId()] = (new ChildDefinition(self::PARENT_ID))
-                ->setArguments([
-                    $section->getSecurityConfigName(),
-                    $section->getAlias(),
-                    $section->getEntity(),
-                ]);
+            $definition = new ChildDefinition('darvin_admin.security.configuration.abstract');
+            $definition->setArguments([
+                $section->getSecurityConfigName(),
+                $section->getAlias(),
+                $section->getEntity(),
+            ]);
+
+            $definitions[$section->getSecurityConfigId()] = $definition;
+
+            $pool->addMethodCall('addConfiguration', [new Reference($section->getSecurityConfigId())]);
         }
 
         $container->addDefinitions($definitions);
 
-        $poolDefinition = $container->getDefinition(self::POOL_ID);
-
-        foreach ($definitions as $id => $definition) {
-            $poolDefinition->addMethodCall(SecurityConfigurationPool::ADD_METHOD, [
-                new Reference($id),
-            ]);
-        }
-
+        // TODO: Use compiler pass priorities.
         (new AddConfigurationsPass())->addConfigurations($container, array_keys($definitions));
     }
 
@@ -65,7 +55,7 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
      *
      * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private function getSectionConfiguration(ContainerInterface $container)
+    private function getSectionConfiguration(ContainerInterface $container): SectionConfiguration
     {
         return $container->get('darvin_admin.configuration.section');
     }

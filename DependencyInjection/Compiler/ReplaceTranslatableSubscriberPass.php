@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -20,12 +20,12 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ReplaceTranslatableSubscriberPass implements CompilerPassInterface
 {
-    const ID = 'knp.doctrine_behaviors.translatable_subscriber';
+    private const ID = 'knp.doctrine_behaviors.translatable_subscriber';
 
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition(self::ID)) {
             $container->getDefinition(self::ID)

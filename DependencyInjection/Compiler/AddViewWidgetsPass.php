@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -19,31 +19,15 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddViewWidgetsPass implements CompilerPassInterface
 {
-    const POOL_ID = 'darvin_admin.view.widget.pool';
-
-    const TAG_VIEW_WIDGET = 'darvin_admin.view_widget';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::POOL_ID)) {
-            return;
-        }
+        $pool = $container->getDefinition('darvin_admin.view.widget.pool');
 
-        $widgetIds = $container->findTaggedServiceIds(self::TAG_VIEW_WIDGET);
-
-        if (empty($widgetIds)) {
-            return;
-        }
-
-        $poolDefinition = $container->getDefinition(self::POOL_ID);
-
-        foreach ($widgetIds as $id => $attr) {
-            $poolDefinition->addMethodCall('addWidget', [
-                new Reference($id),
-            ]);
+        foreach (array_keys($container->findTaggedServiceIds('darvin_admin.view_widget')) as $id) {
+            $pool->addMethodCall('addWidget', [new Reference($id)]);
         }
     }
 }

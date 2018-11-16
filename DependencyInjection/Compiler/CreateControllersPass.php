@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\AdminBundle\Configuration\SectionConfiguration;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -20,18 +21,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class CreateControllersPass implements CompilerPassInterface
 {
-    const PARENT_ID = 'darvin_admin.crud.controller';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $definitions = [];
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            $definitions[$section->getControllerId()] = (new ChildDefinition(self::PARENT_ID))
-                ->addArgument($section->getEntity());
+            $definition = new ChildDefinition('darvin_admin.crud.controller');
+            $definition->addArgument($section->getEntity());
+
+            $definitions[$section->getControllerId()] = $definition;
         }
 
         $container->addDefinitions($definitions);
@@ -42,7 +43,7 @@ class CreateControllersPass implements CompilerPassInterface
      *
      * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private function getSectionConfiguration(ContainerInterface $container)
+    private function getSectionConfiguration(ContainerInterface $container): SectionConfiguration
     {
         return $container->get('darvin_admin.configuration.section');
     }

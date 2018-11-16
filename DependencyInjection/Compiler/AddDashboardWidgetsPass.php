@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -20,36 +20,25 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddDashboardWidgetsPass implements CompilerPassInterface
 {
-    const DASHBOARD_ID = 'darvin_admin.dashboard';
-
-    const TAG_DASHBOARD_WIDGET = 'darvin_admin.dashboard_widget';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::DASHBOARD_ID)) {
+        $ids = $container->findTaggedServiceIds('darvin_admin.dashboard_widget');
+
+        if (empty($ids)) {
             return;
         }
 
-        $widgetIds = $container->findTaggedServiceIds(self::TAG_DASHBOARD_WIDGET);
+        (new TaggedServiceIdsSorter())->sort($ids);
 
-        if (empty($widgetIds)) {
-            return;
-        }
-
-        (new TaggedServiceIdsSorter())->sort($widgetIds);
-
-        $dashboardDefinition = $container->getDefinition(self::DASHBOARD_ID);
-
+        $dashboard = $container->getDefinition('darvin_admin.dashboard');
         $blacklist = $container->getParameter('darvin_admin.dashboard.blacklist');
 
-        foreach ($widgetIds as $id => $attr) {
+        foreach (array_keys($ids) as $id) {
             if (!in_array($id, $blacklist)) {
-                $dashboardDefinition->addMethodCall('addWidget', [
-                    new Reference($id),
-                ]);
+                $dashboard->addMethodCall('addWidget', [new Reference($id)]);
             }
         }
     }

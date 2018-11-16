@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\AdminBundle\Metadata\MetadataPool;
+use Darvin\AdminBundle\Configuration\SectionConfiguration;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -22,42 +22,33 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class CreateMetadataPass implements CompilerPassInterface
 {
-    const PARENT_ID = 'darvin_admin.metadata.abstract';
-
-    const POOL_ID = 'darvin_admin.metadata.pool';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::POOL_ID)) {
-            return;
-        }
-
         $definitions = [];
+        $pool        = $container->getDefinition('darvin_admin.metadata.pool');
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
-            if (null !== $section->getConfig()) {
-                $definitions[$section->getMetadataId()] = (new ChildDefinition(self::PARENT_ID))
-                    ->setArguments([
-                        $section->getAlias(),
-                        $section->getEntity(),
-                        $section->getConfig(),
-                        $section->getControllerId(),
-                    ]);
+            if (null === $section->getConfig()) {
+                continue;
             }
+
+            $definition = new ChildDefinition('darvin_admin.metadata.abstract');
+            $definition->setArguments([
+                $section->getAlias(),
+                $section->getEntity(),
+                $section->getConfig(),
+                $section->getControllerId(),
+            ]);
+
+            $definitions[$section->getMetadataId()] = $definition;
+
+            $pool->addMethodCall('addMetadata', [new Reference($section->getMetadataId())]);
         }
 
         $container->addDefinitions($definitions);
-
-        $poolDefinition = $container->getDefinition(self::POOL_ID);
-
-        foreach ($definitions as $id => $definition) {
-            $poolDefinition->addMethodCall(MetadataPool::ADD_METHOD, [
-                new Reference($id),
-            ]);
-        }
     }
 
     /**
@@ -65,7 +56,7 @@ class CreateMetadataPass implements CompilerPassInterface
      *
      * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    private function getSectionConfiguration(ContainerInterface $container)
+    private function getSectionConfiguration(ContainerInterface $container): SectionConfiguration
     {
         return $container->get('darvin_admin.configuration.section');
     }

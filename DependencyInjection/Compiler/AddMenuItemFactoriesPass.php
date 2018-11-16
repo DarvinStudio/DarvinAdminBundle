@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -19,25 +19,15 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddMenuItemFactoriesPass implements CompilerPassInterface
 {
-    const MENU_ID = 'darvin_admin.menu';
-
-    const TAG_MENU_ITEM_FACTORY = 'darvin_admin.menu_item_factory';
-
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::MENU_ID)) {
-            return;
-        }
+        $menu = $container->getDefinition('darvin_admin.menu');
 
-        $menuDefinition = $container->getDefinition(self::MENU_ID);
-
-        foreach ($container->findTaggedServiceIds(self::TAG_MENU_ITEM_FACTORY) as $id => $attr) {
-            $menuDefinition->addMethodCall('addItemFactory', [
-                new Reference($id),
-            ]);
+        foreach (array_keys($container->findTaggedServiceIds('darvin_admin.menu_item_factory')) as $id) {
+            $menu->addMethodCall('addItemFactory', [new Reference($id)]);
         }
     }
 }

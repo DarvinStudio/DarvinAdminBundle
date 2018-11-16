@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -20,5 +20,5 @@ interface EntityNamerInterface
      *
      * @return string
      */
-    public function name($entityOrClass);
+    public function name($entityOrClass): string;
 }

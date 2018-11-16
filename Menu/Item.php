@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -24,37 +24,37 @@ class Item
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $indexTitle;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $newTitle;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $indexUrl;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $newUrl;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $description;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $mainColor;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $sidebarColor;
 
@@ -69,17 +69,17 @@ class Item
     protected $sidebarIcon;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $position;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $associatedObject;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $parentName;
 
@@ -96,9 +96,10 @@ class Item
     /**
      * @param string $name Name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
+
         $this->mainIcon = self::DEFAULT_MAIN_ICON;
         $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
         $this->children = [];
@@ -108,7 +109,7 @@ class Item
     /**
      * @return bool
      */
-    public function hasParent()
+    public function hasParent(): bool
     {
         return !empty($this->parentName);
     }
@@ -116,17 +117,17 @@ class Item
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $indexTitle indexTitle
+     * @param string|null $indexTitle indexTitle
      *
      * @return Item
      */
-    public function setIndexTitle($indexTitle)
+    public function setIndexTitle(?string $indexTitle): Item
     {
         $this->indexTitle = $indexTitle;
 
@@ -134,19 +135,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIndexTitle()
+    public function getIndexTitle(): ?string
     {
         return $this->indexTitle;
     }
 
     /**
-     * @param string $newTitle newTitle
+     * @param string|null $newTitle newTitle
      *
      * @return Item
      */
-    public function setNewTitle($newTitle)
+    public function setNewTitle(?string $newTitle): Item
     {
         $this->newTitle = $newTitle;
 
@@ -154,19 +155,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNewTitle()
+    public function getNewTitle(): ?string
     {
         return $this->newTitle;
     }
 
     /**
-     * @param string $indexUrl indexUrl
+     * @param string|null $indexUrl indexUrl
      *
      * @return Item
      */
-    public function setIndexUrl($indexUrl)
+    public function setIndexUrl(?string $indexUrl): Item
     {
         $this->indexUrl = $indexUrl;
 
@@ -174,19 +175,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getIndexUrl()
+    public function getIndexUrl(): ?string
     {
         return $this->indexUrl;
     }
 
     /**
-     * @param string $newUrl newUrl
+     * @param string|null $newUrl newUrl
      *
      * @return Item
      */
-    public function setNewUrl($newUrl)
+    public function setNewUrl(?string $newUrl): Item
     {
         $this->newUrl = $newUrl;
 
@@ -194,19 +195,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getNewUrl()
+    public function getNewUrl(): ?string
     {
         return $this->newUrl;
     }
 
     /**
-     * @param string $description description
+     * @param string|null $description description
      *
      * @return Item
      */
-    public function setDescription($description)
+    public function setDescription(?string $description): Item
     {
         $this->description = $description;
 
@@ -214,19 +215,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $mainColor mainColor
+     * @param string|null $mainColor mainColor
      *
      * @return Item
      */
-    public function setMainColor($mainColor)
+    public function setMainColor(?string $mainColor): Item
     {
         $this->mainColor = $mainColor;
 
@@ -234,19 +235,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMainColor()
+    public function getMainColor(): ?string
     {
         return $this->mainColor;
     }
 
     /**
-     * @param string $sidebarColor sidebarColor
+     * @param string|null $sidebarColor sidebarColor
      *
      * @return Item
      */
-    public function setSidebarColor($sidebarColor)
+    public function setSidebarColor(?string $sidebarColor): Item
     {
         $this->sidebarColor = $sidebarColor;
 
@@ -254,9 +255,9 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSidebarColor()
+    public function getSidebarColor(): ?string
     {
         return $this->sidebarColor;
     }
@@ -266,7 +267,7 @@ class Item
      *
      * @return Item
      */
-    public function setMainIcon($mainIcon)
+    public function setMainIcon(string $mainIcon): Item
     {
         $this->mainIcon = $mainIcon;
 
@@ -276,7 +277,7 @@ class Item
     /**
      * @return string
      */
-    public function getMainIcon()
+    public function getMainIcon(): string
     {
         return $this->mainIcon;
     }
@@ -286,7 +287,7 @@ class Item
      *
      * @return Item
      */
-    public function setSidebarIcon($sidebarIcon)
+    public function setSidebarIcon(string $sidebarIcon): Item
     {
         $this->sidebarIcon = $sidebarIcon;
 
@@ -296,17 +297,17 @@ class Item
     /**
      * @return string
      */
-    public function getSidebarIcon()
+    public function getSidebarIcon(): string
     {
         return $this->sidebarIcon;
     }
 
     /**
-     * @param int $position position
+     * @param int|null $position position
      *
      * @return Item
      */
-    public function setPosition($position)
+    public function setPosition(?int $position): Item
     {
         $this->position = $position;
 
@@ -314,19 +315,19 @@ class Item
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
     /**
-     * @param string $associatedObject associatedObject
+     * @param string|null $associatedObject associatedObject
      *
      * @return Item
      */
-    public function setAssociatedObject($associatedObject)
+    public function setAssociatedObject(?string $associatedObject): Item
     {
         $this->associatedObject = $associatedObject;
 
@@ -334,19 +335,19 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAssociatedObject()
+    public function getAssociatedObject(): ?string
     {
         return $this->associatedObject;
     }
 
     /**
-     * @param string $parentName parentName
+     * @param string|null $parentName parentName
      *
      * @return Item
      */
-    public function setParentName($parentName)
+    public function setParentName(?string $parentName): Item
     {
         $this->parentName = $parentName;
 
@@ -354,9 +355,9 @@ class Item
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getParentName()
+    public function getParentName(): ?string
     {
         return $this->parentName;
     }
@@ -366,7 +367,7 @@ class Item
      *
      * @return Item
      */
-    public function addChild(Item $child)
+    public function addChild(Item $child): Item
     {
         $this->children[] = $child;
 
@@ -376,7 +377,7 @@ class Item
     /**
      * @return \Darvin\AdminBundle\Menu\Item[]
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -386,7 +387,7 @@ class Item
      *
      * @return Item
      */
-    public function setNewObjectCount($newObjectCount)
+    public function setNewObjectCount(int $newObjectCount): Item
     {
         $this->newObjectCount = $newObjectCount;
 
@@ -396,7 +397,7 @@ class Item
     /**
      * @return int
      */
-    public function getNewObjectCount()
+    public function getNewObjectCount(): int
     {
         return $this->newObjectCount;
     }

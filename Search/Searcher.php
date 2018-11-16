@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -83,9 +83,9 @@ class Searcher
      * @param string $query      Search query
      *
      * @return object[]
-     * @throws \Darvin\AdminBundle\Search\SearchException
+     * @throws \RuntimeException
      */
-    public function search($entityName, $query)
+    public function search(string $entityName, string $query): array
     {
         $meta = $this->getSearchableEntityMeta($entityName);
 
@@ -102,14 +102,14 @@ class Searcher
                 'non_strict_comparison_fields' => $searchableFields,
             ], false);
         } catch (FiltererException $ex) {
-            throw new SearchException(
+            throw new \RuntimeException(
                 sprintf('Unable to search for "%s" entities: "%s".', $meta->getEntityClass(), $ex->getMessage())
             );
         }
         try {
             return $qb->getQuery()->getResult();
         } catch (QueryException $ex) {
-            throw new SearchException(
+            throw new \RuntimeException(
                 sprintf('Unable to search for "%s" entities: "%s".', $meta->getEntityClass(), $ex->getMessage())
             );
         }
@@ -119,14 +119,14 @@ class Searcher
      * @param string $entityName Entity name
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
-     * @throws \Darvin\AdminBundle\Search\SearchException
+     * @throws \InvalidArgumentException
      */
-    public function getSearchableEntityMeta($entityName)
+    public function getSearchableEntityMeta(string $entityName): Metadata
     {
         $allMeta = $this->getSearchableEntitiesMeta();
 
         if (!isset($allMeta[$entityName])) {
-            throw new SearchException(sprintf('Entity "%s" is not searchable.', $entityName));
+            throw new \InvalidArgumentException(sprintf('Entity "%s" is not searchable.', $entityName));
         }
 
         return $allMeta[$entityName];
@@ -135,7 +135,7 @@ class Searcher
     /**
      * @return string[]
      */
-    public function getSearchableEntityNames()
+    public function getSearchableEntityNames(): array
     {
         return array_keys($this->getSearchableEntitiesMeta());
     }
@@ -145,7 +145,7 @@ class Searcher
      *
      * @return bool
      */
-    public function isSearchable($entityName)
+    public function isSearchable(string $entityName): bool
     {
         $allMeta = $this->getSearchableEntitiesMeta();
 
@@ -155,7 +155,7 @@ class Searcher
     /**
      * @return \Darvin\AdminBundle\Metadata\Metadata[]
      */
-    private function getSearchableEntitiesMeta()
+    private function getSearchableEntitiesMeta(): array
     {
         if (null === $this->searchableEntitiesMeta) {
             $this->searchableEntitiesMeta = [];
@@ -183,7 +183,7 @@ class Searcher
      *
      * @return string[]
      */
-    private function getSearchableFields(Metadata $meta)
+    private function getSearchableFields(Metadata $meta): array
     {
         $config = $meta->getConfiguration();
 

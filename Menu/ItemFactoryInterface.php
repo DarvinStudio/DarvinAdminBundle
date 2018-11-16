@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\Menu;
 interface ItemFactoryInterface
 {
     /**
-     * @return \Darvin\AdminBundle\Menu\Item[]
+     * @return iterable|\Darvin\AdminBundle\Menu\Item[]
      */
-    public function getItems();
+    public function getItems(): iterable;
 }

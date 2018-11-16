@@ -43,7 +43,7 @@ class ConfigurationItemFactory implements ItemFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getItems()
+    public function getItems(): iterable
     {
         if (!$this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)) {
             return [];

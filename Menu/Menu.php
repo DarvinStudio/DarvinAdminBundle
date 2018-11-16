@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -48,32 +48,26 @@ class Menu
         $this->groupsConfig = array_combine(array_map(function (array $config) {
             return $config['name'];
         }, $groupsConfig), $groupsConfig);
+
         $this->itemFactories = [];
+
         $this->items = null;
     }
 
     /**
      * @param \Darvin\AdminBundle\Menu\ItemFactoryInterface $itemFactory Menu item factory
-     *
-     * @throws \Darvin\AdminBundle\Menu\MenuException
      */
-    public function addItemFactory(ItemFactoryInterface $itemFactory)
+    public function addItemFactory(ItemFactoryInterface $itemFactory): void
     {
-        $class = get_class($itemFactory);
-
-        if (isset($this->itemFactories[$class])) {
-            throw new MenuException(sprintf('Item factory "%s" already added to menu.', $class));
-        }
-
-        $this->itemFactories[$class] = $itemFactory;
+        $this->itemFactories[get_class($itemFactory)] = $itemFactory;
     }
 
     /**
      * @return \Darvin\AdminBundle\Menu\Item[]
      *
-     * @throws \Darvin\AdminBundle\Menu\MenuException
+     * @throws \RuntimeException
      */
-    public function getItems()
+    public function getItems(): array
     {
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
@@ -82,7 +76,7 @@ class Menu
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
                     if (isset($items[$item->getName()])) {
-                        throw new MenuException(sprintf('Menu item "%s" already exists.', $item->getName()));
+                        throw new \RuntimeException(sprintf('Menu item "%s" already exists.', $item->getName()));
                     }
                     if (null === $item->getIndexUrl() && null === $item->getNewUrl()) {
                         $skipped[$item->getName()] = true;

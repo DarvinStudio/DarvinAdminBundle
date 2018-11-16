@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -56,17 +56,11 @@ class ItemFactory implements ItemFactoryInterface
      */
     public function getItems(): iterable
     {
-        $items = [];
-
         foreach ($this->metadataManager->getAllMetadata() as $meta) {
-            $config = $meta->getConfiguration();
-
-            if (!$meta->hasParent() && !$config['menu']['skip']) {
-                $items[$meta->getEntityName()] = $this->createItemFromMetadata($meta);
+            if (!$meta->hasParent() && !$meta->getConfiguration()['menu']['skip']) {
+                yield $this->createItemFromMetadata($meta);
             }
         }
-
-        return $items;
     }
 
     /**
@@ -74,12 +68,13 @@ class ItemFactory implements ItemFactoryInterface
      *
      * @return \Darvin\AdminBundle\Menu\Item
      */
-    private function createItemFromMetadata(Metadata $meta)
+    private function createItemFromMetadata(Metadata $meta): Item
     {
-        $config = $meta->getConfiguration();
+        $config      = $meta->getConfiguration();
         $entityClass = $meta->getEntityClass();
 
-        $item = (new Item($meta->getEntityName()))
+        $item = new Item($meta->getEntityName());
+        $item
             ->setIndexTitle($meta->getBaseTranslationPrefix().'action.index.link')
             ->setNewTitle($meta->getBaseTranslationPrefix().'action.new.link')
             ->setDescription($meta->getBaseTranslationPrefix().'menu.description')

@@ -12,6 +12,8 @@
         }
     ],
     "require": {
+        "ext-fileinfo": "*",
+
         "a2lix/translation-form-bundle":    "^3.0",
         "friendsofsymfony/ckeditor-bundle": "^1.1",
         "helios-ag/fm-elfinder-bundle":     "^8.0",

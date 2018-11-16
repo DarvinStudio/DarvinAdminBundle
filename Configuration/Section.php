@@ -61,9 +61,9 @@ class Section
         $this->entity = $entity;
         $this->config = $config;
 
-        $this->controllerId = sprintf('darvin_admin.section.%s.controller', $alias);
-        $this->metadataId = sprintf('darvin_admin.section.%s.metadata', $alias);
-        $this->securityConfigId = sprintf('darvin_admin.section.%s.security_configuration', $alias);
+        $this->controllerId       = sprintf('darvin_admin.section.%s.controller', $alias);
+        $this->metadataId         = sprintf('darvin_admin.section.%s.metadata', $alias);
+        $this->securityConfigId   = sprintf('darvin_admin.section.%s.security_configuration', $alias);
         $this->securityConfigName = sprintf('darvin_admin_%s_security', $alias);
     }
 

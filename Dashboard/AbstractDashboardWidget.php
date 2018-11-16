@@ -41,7 +41,7 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getRequiredPermissions(): array
+    public function getRequiredPermissions(): iterable
     {
         return [];
     }

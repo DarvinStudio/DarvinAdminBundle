@@ -26,9 +26,9 @@ interface DashboardWidgetInterface
     public function getModuleUrl(): ?string;
 
     /**
-     * @return array Key - object class, value - permissions
+     * @return iterable Key - object class, value - permissions
      */
-    public function getRequiredPermissions(): array;
+    public function getRequiredPermissions(): iterable;
 
     /**
      * @return string

@@ -40,6 +40,7 @@ class Dashboard implements DashboardInterface
         $this->authorizationChecker = $authorizationChecker;
 
         $this->widgets = [];
+
         $this->filtered = false;
     }
 
@@ -54,7 +55,7 @@ class Dashboard implements DashboardInterface
     /**
      * {@inheritdoc}
      */
-    public function getWidgets(): array
+    public function getWidgets(): iterable
     {
         if (!$this->filtered) {
             foreach ($this->widgets as $key => $widget) {

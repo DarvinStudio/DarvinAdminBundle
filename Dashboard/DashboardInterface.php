@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\Dashboard;
 interface DashboardInterface
 {
     /**
-     * @return \Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
+     * @return iterable|\Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
      */
-    public function getWidgets(): array;
+    public function getWidgets(): iterable;
 }

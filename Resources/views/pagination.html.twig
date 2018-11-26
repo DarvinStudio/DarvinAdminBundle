@@ -1,30 +1,17 @@
-{#
-/**
- * @file
- * Twitter Bootstrap v3 Sliding pagination control implementation.
- *
- * View that can be used with the pagination module
- * from the Twitter Bootstrap CSS Toolkit
- * http://getbootstrap.com/components/#pagination
- *
- * @author Pablo Díez <pablodip@gmail.com>
- * @author Jan Sorgalla <jsorgalla@gmail.com>
- * @author Artem Ponomarenko <imenem@inbox.ru>
- * @author Artem Zabelin <artjomzabelin@gmail.com>
- * @author Igor Nikolaev <igor.sv.n@gmail.com>
- */
-#}
+{% trans_default_domain 'admin' %}
+
+{% set page = app.request.query.get(pageParameterName) %}
 
 {% if pageCount > 1 %}
     <ul class="pagination">
 
         {% if previous is defined %}
             <li>
-                <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">&laquo;&nbsp;{{ 'Previous'|trans }}</a>
+                <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">{% trans %}pagination.previous{% endtrans %}</a>
             </li>
         {% else %}
             <li class="disabled">
-                <span>&laquo;&nbsp;{{ 'Previous'|trans }}</span>
+                <span>{% trans %}pagination.previous{% endtrans %}</span>
             </li>
         {% endif %}
 
@@ -73,25 +60,23 @@
             </li>
         {% endif %}
 
-        {% set page = app.request.query.get(pageParameterName) %}
-
         {% if page is not same as(null) and page <= 0 %}
             <li class="active">
-                <span>{{ 'pagination.show_all'|trans({}, 'admin') }}</span>
+                <span>{% trans %}pagination.show_all{% endtrans %}</span>
             </li>
         {% else %}
             <li>
-                <a href="{{ path(route, query|merge({(pageParameterName): 0})) }}">{{ 'pagination.show_all'|trans({}, 'admin') }}</a>
+                <a href="{{ path(route, query|merge({(pageParameterName): 0})) }}">{% trans %}pagination.show_all{% endtrans %}</a>
             </li>
         {% endif %}
 
         {% if next is defined and page > 0 %}
             <li>
-                <a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">{{ 'Next'|trans }}&nbsp;&raquo;</a>
+                <a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">{% trans %}pagination.next{% endtrans %}</a>
             </li>
         {% else %}
             <li class="disabled">
-                <span>{{ 'Next'|trans }}&nbsp;&raquo;</span>
+                <span>{% trans %}pagination.next{% endtrans %}</span>
             </li>
         {% endif %}
     </ul>

@@ -175,6 +175,8 @@ menu:
             title: SEO-modules
 
 pagination:
+    next:     'Next&nbsp;&raquo;'
+    previous: '&laquo;&nbsp;Previous'
     show_all: Show all
 
 property_forms:

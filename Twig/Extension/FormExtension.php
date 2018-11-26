@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -12,19 +12,21 @@ namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
 use Symfony\Component\Form\FormView;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Form Twig extension
  */
-class FormExtension extends \Twig_Extension
+class FormExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction('darvin_admin_is_security_configuration_form', [$this, 'isSecurityConfigurationForm']),
+            new TwigFunction('darvin_admin_is_security_configuration_form', [$this, 'isSecurityConfigurationForm']),
         ];
     }
 
@@ -33,7 +35,7 @@ class FormExtension extends \Twig_Extension
      *
      * @return bool
      */
-    public function isSecurityConfigurationForm(FormView $form)
+    public function isSecurityConfigurationForm(FormView $form): bool
     {
         return $form->vars['data'] instanceof SecurityConfigurationInterface;
     }

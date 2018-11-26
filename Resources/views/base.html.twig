@@ -1,23 +1,16 @@
-{%- trans_default_domain 'admin' -%}
+{% trans_default_domain 'admin' %}
 
-{% block html %}
+{% set cookie_names = {
+    'sidebar': 'DARVINADMINSIDEBAR',
+} %}
 
-{%- set cookie_names = {
-    sidebar: 'DARVINADMINSIDEBAR',
-} -%}
-{%- set flashes        = app.session.flashBag.all -%}
-{%- set sidebar_active = app.request.cookies.get(cookie_names.sidebar) -%}
+{% set flashes           = app.flashes %}
+{% set sidebar_is_active = app.request.cookies.get(cookie_names.sidebar) %}
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ app.request.locale }}">
     <head>
-        <title>
-
-            {%- block title -%}
-                {% trans with {'%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}layout.title{% endtrans %}
-            {%- endblock -%}
-
-        </title>
+        <title>{% block title %}{% trans with {'%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}layout.title{% endtrans %}{% endblock %}</title>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="format-detection" content="telephone=no">
@@ -25,25 +18,16 @@
 
         {% block stylesheets %}
             {% if app.debug %}
-                <link href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}" rel="stylesheet">
+                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}">
             {% else %}
-                <link href="{{ asset('bundles/darvinadmin/build/app.css') }}" rel="stylesheet">
+                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build/app.css') }}">
             {% endif %}
-            <link href="{{ asset(darvin_admin.frontendPath ~ '/styles/app.css') }}" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/styles/app.css') }}">
         {% endblock %}
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body>
-        <noscript>
-            {% for type, messages in flashes %}
-                <ul class="{{ type }}">
-                    {% for message in messages %}
-                        <li>{{ message|trans }}</li>
-                    {% endfor %}
-                </ul>
-            {% endfor %}
-        </noscript>
 
         {% block body %}
             <div class="header_wrap_top">
@@ -52,12 +36,9 @@
                         <div class="col-md-3 col-lg-3 header_left">
                             <a href="{{ path('darvin_admin_homepage') }}" class="logo">
                                 {% if darvin_admin.logo %}
-                                    <img src="{{ asset(darvin_admin.logo) }}"
-                                         title="{% trans %}homepage.action.homepage.link{% endtrans %}"
-                                         height="64">
+                                    <img src="{{ asset(darvin_admin.logo) }}" alt="" height="64">
                                 {% else %}
-                                    <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_cms.png') }}"
-                                         title="{% trans %}homepage.action.homepage.link{% endtrans %}"/>
+                                    <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_cms.png') }}" alt="">
                                     <span>{% trans %}layout.logo{% endtrans %}</span>
                                 {% endif %}
                             </a>
@@ -65,27 +46,27 @@
                         <div class="col-md-9 col-lg-9 header_right">
                             <div class="container-fluid">
 
-                                {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
+                                {% include '@DarvinAdmin/locale_switcher.html.twig' %}
 
-                                {% set menu = {
+                                {% for title, attr in {
                                     'security.action.logout.link': {
                                         'accessible': true,
                                         'class':      'logout',
                                         'url':        path('darvin_admin_security_logout'),
                                     },
                                     'user.action.index.link': {
-                                        'accessible': app.user and is_granted('view', app.user),
+                                        'accessible': app.user and is_granted('admin_view', app.user),
                                         'class':      'link_users',
                                         'url':        app.user ? admin_path(app.user, null, 'index') : null,
                                     },
                                     'configuration.action.edit.link': {
-                                        'accessible': is_granted('edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
+                                        'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
                                         'class':      'link_main_option',
                                         'url':        path('darvin_admin_configuration'),
                                     },
                                     'translation.action.index.link': {
                                         'accessible': admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                            and is_granted('view', 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation')
+                                            and is_granted('admin_view', 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation')
                                         ,
                                         'class': 'link_translete_manager',
                                         'url':   admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
@@ -93,10 +74,8 @@
                                             : null
                                         ,
                                     },
-                                } %}
-
-                                {% for title, attr in menu if attr.accessible %}
-                                    <a href="{{ attr.url }}"{% if attr.class|default %} class="{{ attr.class }}"{% endif %}>
+                                } if attr.accessible %}
+                                    <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
                                         {{ title|trans }}
                                     </a>
                                 {% endfor %}
@@ -114,7 +93,7 @@
                                 {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
 
                                 {% if app.user %}
-                                    {% if is_granted('view', app.user) %}
+                                    {% if is_granted('admin_view', app.user) %}
                                         <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
                                     {% else %}
                                         <span class="link_users">{{ app.user.email }}</span>
@@ -134,12 +113,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="main_wrap{% if sidebar_active %} active{% endif %}">
+                <div class="main_wrap{% if sidebar_is_active %} active{% endif %}">
                     <div class="main">
                         {% if app.user %}
-                            <div class="sidebar_wrap{% if sidebar_active %} active{% endif %}">
-                                <span id="sidebar_switcher"{% if sidebar_active %} class="active"{% endif %}>
-                                    {{ (sidebar_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
+                            <div class="sidebar_wrap{% if sidebar_is_active %} active{% endif %}">
+                                <span id="sidebar_switcher"{% if sidebar_is_active %} class="active"{% endif %}>
+                                    {{ (sidebar_is_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
                                 </span>
                                 <div class="sidebar_wrap_fix">
                                     <div class="sidebar">
@@ -186,7 +165,7 @@
                                 {% trans %}layout.footer.phone_numbers{% endtrans %}
                             </div>
 
-                            {% include 'DarvinAdminBundle::locale_switcher.html.twig' %}
+                            {% include '@DarvinAdmin/locale_switcher.html.twig' %}
 
                         </div>
                     </div>
@@ -207,17 +186,16 @@
             {% endif %}
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
-            <script>
-                Translator.locale = '{{ app.request.locale }}';
-
-                {% for type, messages in flashes %}
-                    {% for message in messages %}
-                        notify('{{ message|e('js') }}', '{{ type }}');
+            {% if flashes is not empty %}
+                <script>
+                    {% for type, messages in flashes %}
+                        {% for message in messages %}
+                            notify('{{ message|e('js') }}', '{{ type }}');
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            </script>
+                </script>
+            {% endif %}
         {% endblock %}
 
     </body>
 </html>
-{% endblock %}

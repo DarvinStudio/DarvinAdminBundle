@@ -49,9 +49,9 @@ dashboard:
 
 dropzone:
     default_message:   Поместите сюда файлы для загрузки
-    file_too_big:      "Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ."
+    file_too_big:      'Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.'
     invalid_file_type: Вы не можете загружать файлы подобного типа.
-    reject_dimensions: "Превышен максимальный размер изображения %max_width%x%max_height%px."
+    reject_dimensions: 'Превышен максимальный размер изображения %max_width%x%max_height%px.'
     remove_file:       Удалить
 
 entity_name:
@@ -80,7 +80,7 @@ flash:
 
 form:
     file:
-        description: "Максимальный размер файла: %size%МБ"
+        description: 'Максимальный размер файла: %size%МБ'
 
 form_collections:
     add:    Добавить
@@ -108,7 +108,7 @@ image:
 interface:
     actions:          Действия
     empty_list:       Список пуст
-    total_item_count: "Всего объектов: <strong>%count%</strong>"
+    total_item_count: 'Всего объектов: <strong>%count%</strong>'
 
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Версия %version%

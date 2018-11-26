@@ -146,7 +146,7 @@ class AdminRouter
      * @param mixed  $referenceType Reference type
      *
      * @return string
-     * @throws \Darvin\AdminBundle\Route\RouteException
+     * @throws \InvalidArgumentException
      */
     public function generate(
         $entity = null,
@@ -156,13 +156,13 @@ class AdminRouter
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
         if (empty($entity) && empty($class)) {
-            throw new RouteException('Entity or entity class must be provided.');
+            throw new \InvalidArgumentException('Entity or entity class must be provided.');
         }
         if (empty($class)) {
             $class = get_class($entity);
         }
         if (!$this->exists($class, $routeType)) {
-            throw new RouteException(
+            throw new \InvalidArgumentException(
                 sprintf('Route "%s" does not exist for entity "%s".', $routeType, $class)
             );
         }
@@ -233,7 +233,8 @@ class AdminRouter
      * @param object $entity    Entity
      *
      * @return array
-     * @throws \Darvin\AdminBundle\Route\RouteException
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     final protected function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
     {
@@ -243,7 +244,7 @@ class AdminRouter
             try {
                 $extra['id'] = $this->identifierAccessor->getValue($entity);
             } catch (MetadataException $ex) {
-                throw new RouteException(
+                throw new \RuntimeException(
                     sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())
                 );
             }
@@ -261,7 +262,7 @@ class AdminRouter
             return $extra;
         }
         if (empty($entity)) {
-            throw new RouteException(
+            throw new \InvalidArgumentException(
                 sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $class, $associationParam)
             );
         }
@@ -277,7 +278,7 @@ class AdminRouter
      * @param string $routeType   Route type
      *
      * @return mixed
-     * @throws \Darvin\AdminBundle\Route\RouteException
+     * @throws \RuntimeException
      */
     final protected function getParentId($entity, string $association, string $routeType)
     {
@@ -289,7 +290,7 @@ class AdminRouter
                 $routeType
             );
 
-            throw new RouteException($message);
+            throw new \RuntimeException($message);
         }
 
         $parent = $this->propertyAccessor->getValue($entity, $association);
@@ -300,7 +301,7 @@ class AdminRouter
         try {
             return $this->identifierAccessor->getValue($parent);
         } catch (MetadataException $ex) {
-            throw new RouteException(
+            throw new \RuntimeException(
                 sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())
             );
         }

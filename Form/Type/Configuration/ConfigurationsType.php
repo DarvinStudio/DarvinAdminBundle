@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -13,14 +13,10 @@ namespace Darvin\AdminBundle\Form\Type\Configuration;
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
-use Darvin\ImageBundle\DarvinImageBundle;
-use Darvin\ImageBundle\Size\Size;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
 use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -29,10 +25,7 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class ConfigurationsType extends AbstractType
 {
-    /**
-     * @var array
-     */
-    private static $interfaces = [
+    private const INTERFACES = [
         'common'   => null,
         'security' => SecurityConfigurationInterface::class,
     ];
@@ -60,15 +53,14 @@ class ConfigurationsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $interface = static::$interfaces[$options['config_type']];
-
         $configurations = $this->configurationPool->getAllConfigurations();
+        $interface      = static::INTERFACES[$options['config_type']];
 
         foreach ($configurations as $key => $configuration) {
             if (empty($interface)) {
-                foreach (static::$interfaces as $otherInterface) {
+                foreach (static::INTERFACES as $otherInterface) {
                     if (!empty($otherInterface) && $configuration instanceof $otherInterface) {
                         unset($configurations[$key]);
                     }
@@ -81,20 +73,18 @@ class ConfigurationsType extends AbstractType
             }
         }
         foreach ($configurations as $configuration) {
-            if ($configuration instanceof SecurableInterface
-                && !$this->accessibilityChecker->isAccessible($configuration)
-            ) {
+            if ($configuration instanceof SecurableInterface && !$this->accessibilityChecker->isAccessible($configuration)) {
                 continue;
             }
 
             $builder->add($configuration->getName(), ConfigurationType::class, [
+                'configuration' => $configuration,
+                'constraints'   => new Valid(),
+                'data_class'    => get_class($configuration),
                 'label'         => $configuration instanceof SecurityConfigurationInterface
                     ? false
                     : sprintf('configuration.%s.title', $configuration->getName())
                 ,
-                'configuration' => $configuration,
-                'constraints'   => new Valid(),
-                'data_class'    => get_class($configuration),
             ]);
         }
     }
@@ -102,17 +92,7 @@ class ConfigurationsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-        if (DarvinImageBundle::MAJOR_VERSION >= 6) {
-            $this->hideImageSizes($view);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -121,50 +101,14 @@ class ConfigurationsType extends AbstractType
             ])
             ->setRequired('config_type')
             ->setAllowedTypes('config_type', 'string')
-            ->setAllowedValues('config_type', array_keys(static::$interfaces));
+            ->setAllowedValues('config_type', array_keys(static::INTERFACES));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_configurations';
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormView $view Form view
-     */
-    private function hideImageSizes(FormView $view)
-    {
-        foreach ($view->children as $name => $configuration) {
-            if ('_token' === $name) {
-                continue;
-            }
-
-            $hideConfiguration = true;
-
-            foreach ($configuration->children as $parameter) {
-                $data = $parameter->vars['data'];
-
-                if (empty($data) || !is_array($data)) {
-                    $hideConfiguration = false;
-
-                    continue;
-                }
-                foreach ($data as $value) {
-                    if (!$value instanceof Size) {
-                        $hideConfiguration = false;
-
-                        continue 2;
-                    }
-                }
-
-                $parameter->vars['hidden'] = true;
-            }
-            if ($hideConfiguration) {
-                $configuration->vars['hidden'] = true;
-            }
-        }
     }
 }

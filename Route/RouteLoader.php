@@ -55,6 +55,6 @@ class RouteLoader extends Loader
      */
     public function supports($resource, $type = null): bool
     {
-        return self::RESOURCE_TYPE === $type;
+        return static::RESOURCE_TYPE === $type;
     }
 }

@@ -192,8 +192,8 @@ class FilterType extends AbstractFormType
             } else {
                 $type = $typeGuess->getType();
 
-                if (isset(self::$fieldTypeChangeMap[$type])) {
-                    $type = self::$fieldTypeChangeMap[$type];
+                if (isset(static::$fieldTypeChangeMap[$type])) {
+                    $type = static::$fieldTypeChangeMap[$type];
                 }
 
                 $fieldOptions = array_merge($this->getDefaultFieldOptions($type), $fieldOptions);

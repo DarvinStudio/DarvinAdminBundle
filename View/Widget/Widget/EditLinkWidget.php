@@ -39,7 +39,7 @@ class EditLinkWidget extends AbstractWidget
      */
     public function getAlias()
     {
-        return self::ALIAS;
+        return static::ALIAS;
     }
 
     /**

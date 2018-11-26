@@ -623,7 +623,7 @@ class CrudController extends Controller
 
         $adminRouter = $this->getAdminRouter();
 
-        foreach (self::$submitButtonRedirects as $submitButton => $routeType) {
+        foreach (static::$submitButtonRedirects as $submitButton => $routeType) {
             if ($adminRouter->exists($this->entityClass, $routeType)) {
                 $submitButtons[] = $submitButton;
             }
@@ -686,9 +686,9 @@ class CrudController extends Controller
     private function successRedirect(FormInterface $form, $entity)
     {
         foreach ($form->all() as $name => $child) {
-            if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::$submitButtonRedirects[$name])) {
+            if ($child instanceof ClickableInterface && $child->isClicked() && isset(static::$submitButtonRedirects[$name])) {
                 return $this->redirect(
-                    $this->getAdminRouter()->generate($entity, $this->entityClass, self::$submitButtonRedirects[$name])
+                    $this->getAdminRouter()->generate($entity, $this->entityClass, static::$submitButtonRedirects[$name])
                 );
             }
         }

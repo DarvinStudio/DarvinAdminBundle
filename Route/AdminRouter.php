@@ -240,7 +240,7 @@ class AdminRouter
     {
         $extra = [];
 
-        if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
+        if (in_array($routeType, static::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
             try {
                 $extra['id'] = $this->identifierAccessor->getValue($entity);
             } catch (MetadataException $ex) {
@@ -252,7 +252,7 @@ class AdminRouter
 
         $meta = $this->metadataManager->getMetadata($class);
 
-        if (!$meta->hasParent() || !in_array($routeType, self::REQUIRE_PARENT_ID)) {
+        if (!$meta->hasParent() || !in_array($routeType, static::REQUIRE_PARENT_ID)) {
             return $extra;
         }
 
@@ -316,19 +316,19 @@ class AdminRouter
             $this->routeNames = [];
 
             foreach ($this->routeManager->getNames() as $name) {
-                if (!$this->routeManager->hasOption($name, self::OPTION_ENTITY_CLASS)
-                    || !$this->routeManager->hasOption($name, self::OPTION_ROUTE_TYPE)
+                if (!$this->routeManager->hasOption($name, static::OPTION_ENTITY_CLASS)
+                    || !$this->routeManager->hasOption($name, static::OPTION_ROUTE_TYPE)
                 ) {
                     continue;
                 }
 
-                $class = $this->routeManager->getOption($name, self::OPTION_ENTITY_CLASS);
+                $class = $this->routeManager->getOption($name, static::OPTION_ENTITY_CLASS);
 
                 if (!isset($this->routeNames[$class])) {
                     $this->routeNames[$class] = [];
                 }
 
-                $this->routeNames[$class][$this->routeManager->getOption($name, self::OPTION_ROUTE_TYPE)] = $name;
+                $this->routeNames[$class][$this->routeManager->getOption($name, static::OPTION_ROUTE_TYPE)] = $name;
             }
         }
 

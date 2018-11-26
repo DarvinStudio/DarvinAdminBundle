@@ -149,8 +149,8 @@ class GenerateTranslationsCommand extends Command
             ->setDescription('Generates translations using entity class doc comments.')
             ->setDefinition([
                 new InputArgument('entity', InputArgument::REQUIRED),
-                new InputArgument('yaml_indent', InputArgument::OPTIONAL, '', self::DEFAULT_YAML_INDENT),
-                new InputArgument('yaml_inline', InputArgument::OPTIONAL, '', self::DEFAULT_YAML_INLINE),
+                new InputArgument('yaml_indent', InputArgument::OPTIONAL, '', static::DEFAULT_YAML_INDENT),
+                new InputArgument('yaml_inline', InputArgument::OPTIONAL, '', static::DEFAULT_YAML_INLINE),
             ]);
     }
 
@@ -164,7 +164,7 @@ class GenerateTranslationsCommand extends Command
         $entity = $input->getArgument('entity');
         $yamlIndent = $input->getArgument('yaml_indent');
         $yamlInline = $input->getArgument('yaml_inline');
-        $gender = $io->choice('Choose gender', self::$genders, self::DEFAULT_GENDER);
+        $gender = $io->choice('Choose gender', static::$genders, static::DEFAULT_GENDER);
         $locale = count($this->locales) > 1
             ? $io->choice('Choose locale', $this->locales, $this->defaultLocale)
             : $this->defaultLocale;
@@ -187,7 +187,7 @@ class GenerateTranslationsCommand extends Command
 
         $entityTranslatable = $this->translatableManager->isTranslatable($meta->getName());
 
-        $parseDocComments = !in_array($locale, self::$ignoreDocCommentLocales);
+        $parseDocComments = !in_array($locale, static::$ignoreDocCommentLocales);
 
         $translations = [
             $entityName => $this->getModel($locale),
@@ -225,7 +225,7 @@ class GenerateTranslationsCommand extends Command
             '@trans_lower_accusative@' => $startsWithAcronym ? $cases['accusative'] : StringsUtil::lowercaseFirst($cases['accusative']),
             '@trans_lower_genitive@'   => $startsWithAcronym ? $cases['genitive'] : StringsUtil::lowercaseFirst($cases['genitive']),
             '@trans_multiple@'         => $cases['multiple'],
-        ], array_keys(self::$genders), $gender);
+        ], array_keys(static::$genders), $gender);
     }
 
     /**
@@ -280,8 +280,8 @@ class GenerateTranslationsCommand extends Command
             $mappings = $meta->getAssociationMappings();
             $mapping = isset($mappings[$property]) ? $mappings[$property] : $meta->getFieldMapping($property);
 
-            if (in_array($mapping['type'], self::$rangeDataTypes) && !in_array($property, $meta->getIdentifier())) {
-                foreach (self::$rangeSuffixes as $suffix => $suffixTranslation) {
+            if (in_array($mapping['type'], static::$rangeDataTypes) && !in_array($property, $meta->getIdentifier())) {
+                foreach (static::$rangeSuffixes as $suffix => $suffixTranslation) {
                     $translations[$propertyUnderscore.$suffix] = sprintf(
                         '%s (%s)',
                         $translation,
@@ -355,9 +355,9 @@ class GenerateTranslationsCommand extends Command
             return $cases;
         }
 
-        $xml = @file_get_contents(self::CASE_API_URL.urlencode($word), null, stream_context_create([
+        $xml = @file_get_contents(static::CASE_API_URL.urlencode($word), null, stream_context_create([
             'http' => [
-                'timeout' => self::CASE_API_TIMEOUT,
+                'timeout' => static::CASE_API_TIMEOUT,
             ],
         ]));
 

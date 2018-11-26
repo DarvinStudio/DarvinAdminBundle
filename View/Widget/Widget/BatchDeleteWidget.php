@@ -39,7 +39,7 @@ class BatchDeleteWidget extends AbstractWidget
      */
     public function getAlias()
     {
-        return self::ALIAS;
+        return static::ALIAS;
     }
 
     /**

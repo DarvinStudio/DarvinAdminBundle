@@ -166,7 +166,7 @@ class CKEditorType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'config_name'    => self::CONFIG_NAME,
+                'config_name'    => static::CONFIG_NAME,
                 'enable_widgets' => false,
             ])
             ->setAllowedTypes('config_name', 'string')

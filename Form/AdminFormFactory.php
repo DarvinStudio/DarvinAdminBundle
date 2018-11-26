@@ -163,7 +163,7 @@ class AdminFormFactory
 
         foreach ($submitButtons as $name) {
             $builder->add($name, SubmitType::class, [
-                'label' => 1 === $buttonCount ? 'submit.common' : self::$submitButtons[$name],
+                'label' => 1 === $buttonCount ? 'submit.common' : static::$submitButtons[$name],
             ]);
         }
 

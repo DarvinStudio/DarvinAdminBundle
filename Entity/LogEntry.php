@@ -68,7 +68,7 @@ class LogEntry extends AbstractLogEntry
      */
     public function getActionName()
     {
-        return isset(self::$actions[$this->action]) ? self::$actions[$this->action] : $this->action;
+        return isset(static::$actions[$this->action]) ? static::$actions[$this->action] : $this->action;
     }
 
     /**
@@ -76,7 +76,7 @@ class LogEntry extends AbstractLogEntry
      */
     public static function getActionChoices()
     {
-        return array_flip(self::$actions);
+        return array_flip(static::$actions);
     }
 
     /**

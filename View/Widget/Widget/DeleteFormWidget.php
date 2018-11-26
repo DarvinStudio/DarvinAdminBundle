@@ -53,7 +53,7 @@ class DeleteFormWidget extends AbstractWidget
      */
     public function getAlias()
     {
-        return self::ALIAS;
+        return static::ALIAS;
     }
 
     /**

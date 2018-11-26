@@ -121,8 +121,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         if (!$container->getParameter('kernel.debug')) {
             foreach ($container->getExtensionConfig('security') as $config) {
-                if (isset($config['firewalls'][self::FIREWALL_NAME])) {
-                    $firewallConfig = $config['firewalls'][self::FIREWALL_NAME];
+                if (isset($config['firewalls'][static::FIREWALL_NAME])) {
+                    $firewallConfig = $config['firewalls'][static::FIREWALL_NAME];
 
                     $this->showErrorPageListenerEnabled = isset($firewallConfig['pattern']) && '^/' !== $firewallConfig['pattern'];
                 }

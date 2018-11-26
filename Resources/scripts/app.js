@@ -11,13 +11,13 @@ $('#sidebar_switcher').on('mousedown', function(){
 	if(switch_btn.hasClass('active')){
 		switch_btn.text(Translator.trans('layout.menu.collapse'));
 		sidebar_wrap.removeClass('noactive');
-        $.cookie(COOKIE_SIDEBAR, 1, {
+        $.cookie($('body').data('cookie-sidebar'), 1, {
             path: '/'
         });
 	} else {
 		switch_btn.text(Translator.trans('layout.menu.expand'));
 		sidebar_wrap.addClass('noactive');
-        $.cookie(COOKIE_SIDEBAR, 0, {
+        $.cookie($('body').data('cookie-sidebar'), 0, {
             path: '/'
         });
 	}

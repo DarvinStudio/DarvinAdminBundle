@@ -232,3 +232,5 @@ form:
 - Upload Dropzone temporary files to /tmp instead of cache dir.
 
 - Title-case translations.
+
+- Replace global JS variables with data attributes.

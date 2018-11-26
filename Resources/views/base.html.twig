@@ -6,6 +6,11 @@
 
 {% set flashes           = app.flashes %}
 {% set sidebar_is_active = app.request.cookies.get(cookie_names.sidebar) %}
+{% set data_attr         = {
+    'cookie_sidebar': cookie_names.sidebar,
+    'locale':         app.request.locale,
+    'trans_api_key':  darvin_admin.yandexTranslateApiKey,
+} %}
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="{{ app.request.locale }}">
@@ -27,7 +32,7 @@
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
-    <body>
+    <body{% for name, value in data_attr if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endfor %}>
 
         {% block body %}
             <div class="header_wrap_top">
@@ -174,11 +179,6 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script>
-                var COOKIE_SIDEBAR           = '{{ cookie_names.sidebar }}';
-                var LOCALE                   = '{{ app.request.locale }}';
-                var YANDEX_TRANSLATE_API_KEY = '{{ darvin_admin.yandexTranslateApiKey }}';
-            </script>
             {% if app.debug %}
                 <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
             {% else %}

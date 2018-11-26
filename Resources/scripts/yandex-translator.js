@@ -1,19 +1,18 @@
 var YandexTranslator = (function () {
+    var key = $('body').data('trans-api-key');
+
     return {
         translate: function (text, from, to, successCallback) {
-            if ('undefined' === typeof YANDEX_TRANSLATE_API_KEY || '' === YANDEX_TRANSLATE_API_KEY) {
-                console.log('Non empty "YANDEX_TRANSLATE_API_KEY" variable must be defined, skip translating.');
-
+            if (!key) {
                 successCallback(text);
 
                 return;
             }
 
-            var lang = from + '-' + to;
-            var url = 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + YANDEX_TRANSLATE_API_KEY + '&text=' + text + '&lang=' + lang;
+            var lang = [from, to].join('-');
 
             $.ajax({
-                url: url
+                url: 'https://translate.yandex.net/api/v1.5/tr.json/translate?key=' + key + '&text=' + text + '&lang=' + lang
             }).done(function (response) {
                 if (200 !== response.code) {
                     console.log(response);

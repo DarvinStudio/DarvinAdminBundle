@@ -42,7 +42,7 @@ dashboard:
     module_link: 去页模块
 dropzone:
     default_message: 落在这儿的文件上传
-    file_too_big: '文件太大({{filesize}}MB)。 Max filesize:{{maxFilesize}}MB。'
+    file_too_big: '文件太大({{filesize}}MB)。 Max Filesize:{{maxFilesize}}MB。'
     invalid_file_type: 你不能上传文件的类型。
     reject_dimensions: '最大的图像大小 %max_width%x%max_height%px超过。'
     remove_file: 删除文件
@@ -94,12 +94,12 @@ interface:
     empty_list: 表是空的
     total_item_count: '总项目： %count%'
 layout:
-    copyright: '©2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
+    copyright: '©2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>科夫罗夫市</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7(4922)32-32-32</a>\n</div>\n"
+        phone_numbers: "<div Class=\"phone\">\n    <span>科夫罗夫市</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7(4922)32-32-32</a>\n</div>\n"
         support:
             label: 技术支持
-            email: support@darvin-studio.ru
+            email: Support@darvin-Studio.ru
     locale_switcher:
         title: 目前的语言：
     logo: 内容管理系统
@@ -146,6 +146,8 @@ menu:
         seo:
             title: 搜索引擎优化模块
 pagination:
+    next: '下一个"'
+    previous: '"以前'
     show_all: 显示所有
 property_forms:
     submit: 提出的变化
@@ -192,7 +194,7 @@ submit:
     index: 提交并转到索引页面
     new: 提交，并创造
 textcounter:
-    count_down_text: '<p><span>%d</span> character(s)剩余的</p>'
+    count_down_text: '<p><span>%d</span> Character(s)剩余的</p>'
     count_overflow_text: '<p>限制超过了 <span>%d</span></p>'
 translation:
     action:

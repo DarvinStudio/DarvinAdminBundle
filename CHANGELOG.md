@@ -230,3 +230,5 @@ form:
 - Remove "project.url" and "entity_override" parameters.
 
 - Upload Dropzone temporary files to /tmp instead of cache dir.
+
+- Title-case translations.

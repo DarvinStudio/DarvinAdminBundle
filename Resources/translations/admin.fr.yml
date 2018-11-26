@@ -3,29 +3,29 @@ boolean:
     1: Oui
     indeterminate: Indéterminée
 chosen:
-    no_results_text: 'Pas de résultats de match'
+    no_results_text: 'Pas De Résultats De Match'
     placeholder_text_multiple: '---'
     placeholder_text_single: '---'
 colorbox:
-    close: fermer
-    current: 'image {current} de {total}'
-    imgError: 'Cette image pas réussi à charger.'
-    next: prochaine
-    previous: précédente
-    slideshowStart: 'démarrer le diaporama'
-    slideshowStop: 'arrêter le diaporama'
-    xhrError: 'Ce contenu a pas réussi à charger.'
+    close: Fermer
+    current: 'Image {current} de {total}'
+    imgError: 'Cette Image pas réussi à Charger.'
+    next: Prochaine
+    previous: Précédente
+    slideshowStart: 'Démarrer Le Diaporama'
+    slideshowStop: 'Arrêter Le Diaporama'
+    xhrError: 'Ce Contenu a pas réussi à Charger.'
 common:
     back: 'De retour'
 configuration:
     action:
         edit:
             heading:
-                common: 'Les Modules de configuration'
-                security: 'Les autorisations de l''utilisateur'
+                common: 'Les Modules De Configuration'
+                security: 'Les Autorisations De L''Utilisateur'
             link: Configuration
-            submit: 'Soumettre les modifications'
-            success: 'Configuration de la mise à jour avec succès'
+            submit: 'Soumettre Les Modifications'
+            success: 'Configuration De La Mise À Jour Avec Succès'
             title: Configuration
             toggle:
                 collapse: 'L''effondrement'
@@ -33,42 +33,42 @@ configuration:
 crud:
     action:
         batch_delete:
-            check: 'De vérifier pour la suppression'
-            confirm: 'Confirmer la suppression des éléments sélectionnés'
-            select_all: 'Vérifiez tous pour l''enlèvement'
-            submit: 'Supprimer la sélection'
-            success: 'Les éléments sélectionnés supprimé avec succès'
+            check: 'De vérifier pour la Suppression'
+            confirm: 'Confirmer La Suppression Des Éléments Sélectionnés'
+            select_all: 'Vérifiez Tous pour l''Enlèvement'
+            submit: 'Supprimer La Sélection'
+            success: 'Les Éléments Sélectionnés Supprimé Avec Succès'
 dashboard:
-    module_link: 'Aller à la page du module'
+    module_link: 'Aller à la Page du Module'
 dropzone:
-    default_message: 'Ici goutte fichiers à télécharger'
-    file_too_big: 'Le fichier est trop gros ({{taille}}MO). Max taille du fichier: {{maxFilesize}}MO.'
-    invalid_file_type: 'Vous ne pouvez pas télécharger des fichiers de ce type.'
-    reject_dimensions: 'La taille d''image maximale %max_width%x%max_height%px dépassé.'
-    remove_file: 'Suppression de fichier'
+    default_message: 'Ici goutte Fichiers à Télécharger'
+    file_too_big: 'Le fichier Est Trop Gros ({{taille}}MO). Max Taille du fichier: {{maxFilesize}}MO.'
+    invalid_file_type: 'Vous ne Pouvez pas Télécharger des Fichiers de Ce Type.'
+    reject_dimensions: 'La Taille D''Image Maximale %max_width%x%max_height%px Dépassé.'
+    remove_file: 'Suppression De Fichier'
 entity_name:
     single:
         configuration: Configuration
-        image: 'Gestionnaire d''Image'
+        image: 'Gestionnaire D''Image'
         log: Journal
         translation: Traduction
 exception:
     403: Interdit
-    404: 'Pas trouvé'
-    500: 'Erreur interne du serveur'
+    404: 'Pas Trouvé'
+    500: 'Erreur Interne Du Serveur'
 filter:
-    title: 'Filtre de Table'
-    description: 'Les paramètres du filtre à l''aide de filtre'
+    title: 'Filtre De Table'
+    description: 'Les Paramètres Du Filtre À L''Aide De Filtre'
     reset: Réinitialiser
-    submit: 'Appliquer le filtre'
+    submit: 'Appliquer Le Filtre'
 flash:
     error:
-        form: 'Des erreurs détectées. Les corriger et de soumettre à nouveau le formulaire'
+        form: 'Des Erreurs Détectées. Les corriger et de soumettre à nouveau le Formulaire'
     success:
-        update_property: 'La valeur mise à jour avec succès'
+        update_property: 'La Valeur Mise À Jour Avec Succès'
 form:
     file:
-        description: 'Taille maximale de fichier: %size%MO'
+        description: 'Taille Maximale De Fichier: %size%MO'
 form_collections:
     add: Ajouter
     delete: Supprimer
@@ -80,32 +80,32 @@ homepage:
 image:
     action:
         delete:
-            confirm: 'Confirmer la suppression de l''image'
+            confirm: 'Confirmer La Suppression De L''Image'
             submit: Supprimer
-            success: 'Image supprimé avec succès'
+            success: 'Image Supprimé Avec Succès'
         disable:
             submit: Désactiver
-            success: 'Image désactivé correctement'
+            success: 'Image Désactivé Correctement'
         enable:
             submit: Activer
-            success: 'Image activée avec succès'
+            success: 'Image Activée Avec Succès'
 interface:
     actions: Actions
-    empty_list: 'La liste est vide'
-    total_item_count: 'Nombre Total d''éléments: %count%'
+    empty_list: 'La Liste Est Vide'
+    total_item_count: 'Nombre Total D''Éléments: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
+    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>Kovrov ville</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>La ville de Vladimir</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        phone_numbers: "<div Class=\"phone\">\n    <span>Kovrov Ville</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>La Ville De Vladimir</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
         support:
-            label: 'Le support technique'
-            email: support@darvin-studio.ru
+            label: 'Le Support Technique'
+            email: Support@darvin-Studio.ru
     locale_switcher:
-        title: 'Langage courant:'
-    logo: 'Système de gestion de contenu'
+        title: 'Langage Courant:'
+    logo: 'Système De Gestion De Contenu'
     menu:
-        collapse: 'L''effondrement de menu'
-        expand: 'Développez le menu'
+        collapse: 'L''Effondrement De Menu'
+        expand: 'Développez Le Menu'
     title: 'DarvinCMS Libération %version%'
 locale:
     ar: Arabe
@@ -119,8 +119,8 @@ log:
             link: Journal
             title: Journal
         show:
-            link: 'Vue de l''entrée'
-            title: 'Entrée de journal à partir de %entity%'
+            link: 'Vue De L''Entrée'
+            title: 'Entrée De Journal À Partir De %entity%'
     entity:
         action: Action
         action_name: Action
@@ -135,7 +135,7 @@ log:
         object: Objet
         object_class: Objet
         object_id: 'ID de l''objet'
-        object_name: 'Nom de l''objet'
+        object_name: 'Nom De L''Objet'
         user: 'L''utilisateur'
         username: 'Nom d''utilisateur'
         version: Version
@@ -144,39 +144,41 @@ menu:
         modules:
             title: 'Les Modules de'
         seo:
-            title: SEO-modules
+            title: SEO-Modules
 pagination:
-    show_all: 'Afficher tous les'
+    next: 'Prochaine »'
+    previous: '« Précédent'
+    show_all: 'Afficher Tous Les'
 property_forms:
-    submit: 'Soumettre les modifications'
+    submit: 'Soumettre Les Modifications'
 range:
-    from: 'à partir de'
+    from: 'À partir de'
     to: pour
 role:
     admin: Administrateur
-    guestadmin: 'Administrateur invité'
-    superadmin: 'Super administrateur'
+    guestadmin: 'Administrateur Invité'
+    superadmin: 'Super Administrateur'
 search:
     action:
         index:
             heading: 'La recherche pour "%query%"'
-            query_too_short: "La requête est trop court, min longueur est %min_length% symbole | La requête est trop court, min longueur est %min_length% symboles | La requête est trop court, min longueur est %min_length%symboles\n"
+            query_too_short: "La Requête Est Trop Court, Min Longueur Est %min_length% Symbole | La Requête Est Trop Court, Min Longueur Est %min_length% Symboles | La Requête Est Trop Court, Min Longueur Est %min_length%Symboles\n"
     form:
         placeholder: Recherche...
         submit: Recherche
 security:
     action:
         login:
-            darvin_auth: 'Connectez-vous en utilisant Darvin Auth'
+            darvin_auth: 'Connectez-vous en Utilisant Darvin Auth'
             submit: 'Signe dans'
             version: 'Libération %number%'
         logout:
             link: Déconnexion
         switch_user:
-            back: 'Changer d''utilisateur arrière'
+            back: 'Changer D''Utilisateur Arrière'
             link: Commutateur
     permission:
-        create_delete: 'Créer et supprimer des'
+        create_delete: 'Créer et Supprimer des'
         edit: Modifier
         view: Vue
 size:
@@ -188,12 +190,12 @@ slug_suffix:
     update: 'Mise à jour'
 submit:
     common: Soumettre
-    edit: 'Soumettre et de modifier'
-    index: 'Soumettre et allez à la page d''index'
-    new: 'Soumettre et créer'
+    edit: 'Soumettre et de Modifier'
+    index: 'Soumettre et Allez à la Page d''Index'
+    new: 'Soumettre et Créer'
 textcounter:
-    count_down_text: '<p><span>%d</span> caractère(s) restant</p>'
-    count_overflow_text: '<p>limite dépassée par <span>%d</span></p>'
+    count_down_text: '<p><span>%d</span> Caractère(s) Restant</p>'
+    count_overflow_text: '<p>limite Dépassée par <span>%d</span></p>'
 translation:
     action:
         index:

@@ -94,12 +94,12 @@ interface:
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
+    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        phone_numbers: "<div Class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
         support:
             label: 'الدعم الفني'
-            email: support@darvin-studio.ru
+            email: Support@darvin-Studio.ru
     locale_switcher:
         title: 'اللغة الحالية:'
     logo: 'نظام إدارة المحتوى'
@@ -146,6 +146,8 @@ menu:
         seo:
             title: 'كبار المسئولين الاقتصاديين-وحدات'
 pagination:
+    next: 'التالي "'
+    previous: '"السابق'
     show_all: 'عرض كل'
 property_forms:
     submit: 'إرسال التغييرات'

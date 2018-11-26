@@ -293,7 +293,7 @@
             {{ form_widget(form.file, {'required': false}) }}
             {{ form_errors(form) }}
             {% if form.delete is defined %}
-                {{ form_row(form.delete) }}
+                {{ form_row(form.delete, {'translation_domain': 'VichUploaderBundle'}) }}
             {% endif %}
 
             {% if download_uri is defined and download_uri %}

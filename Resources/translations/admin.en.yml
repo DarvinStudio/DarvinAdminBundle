@@ -1,253 +1,211 @@
 boolean:
-    0:             No
-    1:             Yes
+    0: 'No'
+    1: 'Yes'
     indeterminate: Indeterminate
-
 chosen:
-    no_results_text:           No results match
-    placeholder_text_multiple: ---
-    placeholder_text_single:   ---
-
+    no_results_text: 'No Results Match'
+    placeholder_text_multiple: '---'
+    placeholder_text_single: '---'
 colorbox:
-    close:          close
-    current:        image {current} of {total}
-    imgError:       This image failed to load.
-    next:           next
-    previous:       previous
-    slideshowStart: start slideshow
-    slideshowStop:  stop slideshow
-    xhrError:       This content failed to load.
-
+    close: Close
+    current: 'Image {current} of {total}'
+    imgError: 'This Image Failed to Load.'
+    next: Next
+    previous: Previous
+    slideshowStart: 'Start Slideshow'
+    slideshowStop: 'Stop Slideshow'
+    xhrError: 'This Content Failed to Load.'
 common:
     back: Back
-
 configuration:
     action:
         edit:
             heading:
-                common:   Modules configuration
-                security: User permissions
-            link:    Configuration
-            submit:  Submit changes
-            success: Configuration successfully updated
-            title:   Configuration
+                common: 'Modules Configuration'
+                security: 'User Permissions'
+            link: Configuration
+            submit: 'Submit Changes'
+            success: 'Configuration Successfully Updated'
+            title: Configuration
             toggle:
                 collapse: Collapse
-                expand:   Expand
-
+                expand: Expand
 crud:
     action:
         batch_delete:
-            check:      Check for removal
-            confirm:    Confirm selected items removal
-            select_all: Check all for removal
-            submit:     Remove selected
-            success:    Selected items successfully removed
-
+            check: 'Check for Removal'
+            confirm: 'Confirm Selected Items Removal'
+            select_all: 'Check All for Removal'
+            submit: 'Remove Selected'
+            success: 'Selected Items Successfully Removed'
 dashboard:
-    module_link: Go to module page
-
+    module_link: 'Go to Module Page'
 dropzone:
-    default_message:   Drop here files to upload
-    file_too_big:      "File is too big ({{filesize}}MB). Max filesize: {{maxFilesize}}MB."
-    invalid_file_type: You can't upload files of this type.
-    reject_dimensions: "Max image size %max_width%x%max_height%px exceeded."
-    remove_file:       Remove file
-
+    default_message: 'Drop Here Files to Upload'
+    file_too_big: 'File Is Too Big ({{filesize}}MB). Max Filesize: {{maxFilesize}}MB.'
+    invalid_file_type: 'You Can''t Upload Files of This Type.'
+    reject_dimensions: 'Max Image Size %max_width%x%max_height%px Exceeded.'
+    remove_file: 'Remove File'
 entity_name:
     single:
         configuration: Configuration
-        image:         Image manager
-        log:           Log
-        translation:   Translation
-
+        image: 'Image Manager'
+        log: Log
+        translation: Translation
 exception:
     403: Forbidden
-    404: Not found
-    500: Internal server error
-
+    404: 'Not Found'
+    500: 'Internal Server Error'
 filter:
-    title:       Table filter
-    description: Filter parameters using filter
-    reset:       Reset
-    submit:      Apply filter
-
+    title: 'Table Filter'
+    description: 'Filter Parameters Using Filter'
+    reset: Reset
+    submit: 'Apply Filter'
 flash:
     error:
-        form: Form errors detected. Fix them and resubmit form
+        form: 'Form Errors Detected. Fix Them and Resubmit Form'
     success:
-        update_property: Value successfully updated
-
+        update_property: 'Value Successfully Updated'
 form:
     file:
-        description: "Max file size: %size%MB"
-
+        description: 'Max File Size: %size%MB'
 form_collections:
-    add:    Add
+    add: Add
     delete: Remove
-
 homepage:
     action:
         homepage:
-            link:  Homepage
+            link: Homepage
             title: Homepage
-
 image:
     action:
         delete:
-            confirm: Confirm image removal
-            submit:  Remove
-            success: Image successfully removed
+            confirm: 'Confirm Image Removal'
+            submit: Remove
+            success: 'Image Successfully Removed'
         disable:
-            submit:  Disable
-            success: Image successfully disabled
+            submit: Disable
+            success: 'Image Successfully Disabled'
         enable:
-            submit:  Enable
-            success: Image successfully enabled
-
+            submit: Enable
+            success: 'Image Successfully Enabled'
 interface:
-    actions:          Actions
-    empty_list:       List is empty
-    total_item_count: "Total items: %count%"
-
+    actions: Actions
+    empty_list: 'List Is Empty'
+    total_item_count: 'Total Items: %count%'
 layout:
-    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%
+    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%'
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>Kovrov city</span>
-                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>Vladimir city</span>
-                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
-            </div>
+        phone_numbers: "<div Class=\"phone\">\n    <span>Kovrov City</span>\n    <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>Vladimir City</span>\n    <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
         support:
-            label: Technical support
-            email: support@darvin-studio.ru
+            label: 'Technical Support'
+            email: Support@darvin-Studio.ru
     locale_switcher:
-        title: Current language:
-    logo: Content management system
+        title: 'Current Language:'
+    logo: 'Content Management System'
     menu:
-        collapse: Collapse menu
-        expand:   Expand menu
-    title: DarvinCMS Release %version%
-
+        collapse: 'Collapse Menu'
+        expand: 'Expand Menu'
+    title: 'DarvinCMS Release %version%'
 locale:
     ar: Arabic
     en: English
     fr: French
     ru: Russian
     zh: Chinese
-
 log:
     action:
         index:
-            link:  Log
+            link: Log
             title: Log
         show:
-            link:  View entry
-            title: Log entry from %entity%
+            link: 'View Entry'
+            title: 'Log Entry From %entity%'
     entity:
-        action:      Action
+        action: Action
         action_name: Action
         actions:
             create: Creating
             remove: Removal
             update: Updating
-        data:           Data
-        logged_at:      Logged at
-        logged_at_from: Logged at (from)
-        logged_at_to:   Logged at (to)
-        object:         Object
-        object_class:   Object
-        object_id:      Object ID
-        object_name:    Object name
-        user:           User
-        username:       Username
-        version:        Version
-
+        data: Data
+        logged_at: 'Logged at'
+        logged_at_from: 'Logged at (from)'
+        logged_at_to: 'Logged at (to)'
+        object: Object
+        object_class: Object
+        object_id: 'Object ID'
+        object_name: 'Object Name'
+        user: User
+        username: Username
+        version: Version
 menu:
     group:
         modules:
             title: Modules
         seo:
-            title: SEO-modules
-
+            title: SEO-Modules
 pagination:
-    next:     'Next&nbsp;&raquo;'
+    next: 'Next&nbsp;&raquo;'
     previous: '&laquo;&nbsp;Previous'
-    show_all: Show all
-
+    show_all: 'Show All'
 property_forms:
-    submit: Submit changes
-
+    submit: 'Submit Changes'
 range:
-    from: from
-    to:   to
-
+    from: From
+    to: to
 role:
-    admin:       Administrator
-    guestadmin:  Guest administrator
-    superadmin:  Super administrator
-
+    admin: Administrator
+    guestadmin: 'Guest Administrator'
+    superadmin: 'Super Administrator'
 search:
     action:
         index:
-            heading: Searching for "%query%"
-            query_too_short: >
-                Query is too short, min length is %min_length% symbol |
-                Query is too short, min length is %min_length% symbols |
-                Query is too short, min length is %min_length% symbols
+            heading: 'Searching for "%query%"'
+            query_too_short: "Query Is Too Short, Min Length Is %min_length% Symbol | Query Is Too Short, Min Length Is %min_length% Symbols | Query Is Too Short, Min Length Is %min_length% Symbols\n"
     form:
         placeholder: Search...
-        submit:      Search
-
+        submit: Search
 security:
     action:
         login:
-            darvin_auth: Sign in using Darvin Auth
-            submit:      Sign in
-            version:     Release %number%
+            darvin_auth: 'Sign in Using Darvin Auth'
+            submit: 'Sign in'
+            version: 'Release %number%'
         logout:
             link: Logout
         switch_user:
-            back: Switch user back
+            back: 'Switch User Back'
             link: Switch
     permission:
-        create_delete: Create and remove
-        edit:          Edit
-        view:          View
-
+        create_delete: 'Create and Remove'
+        edit: Edit
+        view: View
 size:
     height: Height
-    width:  Width
-
+    width: Width
 slug_suffix:
-    edit:   Edit
-    reset:  Reset
+    edit: Edit
+    reset: Reset
     update: Update
-
 submit:
     common: Submit
-    edit:   Submit and edit
-    index:  Submit and go to index page
-    new:    Submit and create
-
+    edit: 'Submit and Edit'
+    index: 'Submit and Go to Index Page'
+    new: 'Submit and Create'
 textcounter:
-    count_down_text:     <p><span>%d</span> character(s) remaining</p>
-    count_overflow_text: <p>limit exceeded by <span>%d</span></p>
-
+    count_down_text: '<p><span>%d</span> Character(s) Remaining</p>'
+    count_overflow_text: '<p>limit Exceeded by <span>%d</span></p>'
 translation:
     action:
         index:
-            link:  Translations
+            link: Translations
             title: Translations
     entity:
         content: Translation
-        locale:  Locale
+        locale: Locale
         trans_unit:
             domain: Domain
-        updated_at:      Updated at
-        updated_at_from: Updated at (from)
-        updated_at_to:   Updated at (to)
+        updated_at: 'Updated at'
+        updated_at_from: 'Updated at (from)'
+        updated_at_to: 'Updated at (to)'

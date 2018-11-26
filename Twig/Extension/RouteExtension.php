@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -11,11 +11,13 @@
 namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Route\AdminRouter;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Route Twig extension
  */
-class RouteExtension extends \Twig_Extension
+class RouteExtension extends AbstractExtension
 {
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
@@ -33,12 +35,14 @@ class RouteExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): iterable
     {
-        return [
-            new \Twig_SimpleFunction('admin_path', [$this->adminRouter, 'generate']),
-            new \Twig_SimpleFunction('admin_route_exists', [$this->adminRouter, 'exists']),
-            new \Twig_SimpleFunction('admin_url', [$this->adminRouter, 'generateAbsolute']),
-        ];
+        foreach ([
+            'admin_path'         => 'generate',
+            'admin_route_exists' => 'exists',
+            'admin_url'          => 'generateAbsolute',
+        ] as $name => $method) {
+            yield new TwigFunction($name, [$this->adminRouter, $method]);
+        }
     }
 }

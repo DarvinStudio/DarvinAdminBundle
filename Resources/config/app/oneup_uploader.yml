@@ -1,6 +1,6 @@
 oneup_uploader:
     mappings:
-        darvin:
+        darvin_admin:
             frontend: dropzone
             storage:
-                directory: "%kernel.cache_dir%/files"
+                directory: '%darvin_admin.tmp_dir%/dropzone'

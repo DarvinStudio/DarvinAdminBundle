@@ -117,6 +117,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container): void
     {
+        $container->setParameter('darvin_admin.tmp_dir', sprintf('%s/darvin/admin', sys_get_temp_dir()));
+
         if (!$container->getParameter('kernel.debug')) {
             foreach ($container->getExtensionConfig('security') as $config) {
                 if (isset($config['firewalls'][self::FIREWALL_NAME])) {

@@ -34,7 +34,7 @@ use Vich\UploaderBundle\Metadata\MetadataReader;
  */
 class DropzoneType extends AbstractType
 {
-    const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin';
+    const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin_admin';
 
     const OPTION_UPLOADABLE_FIELD = 'uploadable_field';
 

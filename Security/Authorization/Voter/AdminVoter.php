@@ -27,27 +27,27 @@ class AdminVoter extends Voter
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    protected $entityResolver;
+    private $entityResolver;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
-    protected $metadataManager;
+    private $metadataManager;
 
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
      */
-    protected $securityConfigurationPool;
+    private $securityConfigurationPool;
 
     /**
      * @var array|null
      */
-    protected $permissions;
+    private $permissions;
 
     /**
      * @var array|null
      */
-    protected $supportedClasses;
+    private $supportedClasses;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                            $entityResolver            Entity resolver
@@ -127,7 +127,7 @@ class AdminVoter extends Voter
     /**
      * @return array
      */
-    final protected function getPermissions()
+    private function getPermissions()
     {
         if (null === $this->permissions) {
             $this->permissions = [];
@@ -151,7 +151,7 @@ class AdminVoter extends Voter
     /**
      * @return string[]
      */
-    final protected function getSupportedClasses()
+    private function getSupportedClasses()
     {
         if (null === $this->supportedClasses) {
             $this->supportedClasses = [];
@@ -171,7 +171,7 @@ class AdminVoter extends Voter
      *
      * @return string
      */
-    final protected function getClass($object)
+    private function getClass($object)
     {
         return $this->entityResolver->resolve(is_object($object) ? get_class($object) : (string)$object);
     }

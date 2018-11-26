@@ -22,22 +22,22 @@ class EntityNamer implements EntityNamerInterface
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    protected $entityResolver;
+    private $entityResolver;
 
     /**
      * @var \Darvin\Utils\ObjectNamer\ObjectNamerInterface
      */
-    protected $objectNamer;
+    private $objectNamer;
 
     /**
      * @var \Darvin\AdminBundle\Configuration\SectionConfiguration
      */
-    protected $sectionConfig;
+    private $sectionConfig;
 
     /**
      * @var array
      */
-    protected $names;
+    private $names;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface              $entityResolver Entity resolver
@@ -72,7 +72,7 @@ class EntityNamer implements EntityNamerInterface
      *
      * @return string
      */
-    final protected function getName(string $class): string
+    private function getName(string $class): string
     {
         $class = $this->entityResolver->resolve($class);
 

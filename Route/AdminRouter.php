@@ -39,7 +39,7 @@ class AdminRouter
     public const TYPE_SHOW            = 'show';
     public const TYPE_UPDATE_PROPERTY = 'update-property';
 
-    protected const REQUIRE_ID = [
+    private const REQUIRE_ID = [
         self::TYPE_COPY,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
@@ -47,7 +47,7 @@ class AdminRouter
         self::TYPE_UPDATE_PROPERTY,
     ];
 
-    protected const REQUIRE_PARENT_ID = [
+    private const REQUIRE_PARENT_ID = [
         self::TYPE_BATCH_DELETE,
         self::TYPE_DELETE,
         self::TYPE_EDIT,
@@ -59,42 +59,42 @@ class AdminRouter
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    protected $entityResolver;
+    private $entityResolver;
 
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
-    protected $genericRouter;
+    private $genericRouter;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
      */
-    protected $identifierAccessor;
+    private $identifierAccessor;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
      */
-    protected $metadataManager;
+    private $metadataManager;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
-    protected $propertyAccessor;
+    private $propertyAccessor;
 
     /**
      * @var \Darvin\Utils\Routing\RouteManagerInterface
      */
-    protected $routeManager;
+    private $routeManager;
 
     /**
      * @var array|null
      */
-    protected $routeNames;
+    private $routeNames;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver     Entity resolver
@@ -199,7 +199,7 @@ class AdminRouter
      *
      * @return string
      */
-    final protected function getRouteName(string $class, string $routeType): ?string
+    private function getRouteName(string $class, string $routeType): ?string
     {
         $names = $this->getRouteNames();
 
@@ -236,7 +236,7 @@ class AdminRouter
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    final protected function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
+    private function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
     {
         $extra = [];
 
@@ -280,7 +280,7 @@ class AdminRouter
      * @return mixed
      * @throws \RuntimeException
      */
-    final protected function getParentId($entity, string $association, string $routeType)
+    private function getParentId($entity, string $association, string $routeType)
     {
         if (!$this->propertyAccessor->isReadable($entity, $association)) {
             $message = sprintf(
@@ -310,7 +310,7 @@ class AdminRouter
     /**
      * @return array
      */
-    final protected function getRouteNames(): array
+    private function getRouteNames(): array
     {
         if (null === $this->routeNames) {
             $this->routeNames = [];

@@ -21,22 +21,22 @@ class SectionConfiguration
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    protected $entityResolver;
+    private $entityResolver;
 
     /**
      * @var \Darvin\Utils\ObjectNamer\ObjectNamerInterface
      */
-    protected $objectNamer;
+    private $objectNamer;
 
     /**
      * @var array
      */
-    protected $config;
+    private $config;
 
     /**
      * @var \Darvin\AdminBundle\Configuration\Section[]|null
      */
-    protected $sections;
+    private $sections;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface      $entityResolver Entity resolver

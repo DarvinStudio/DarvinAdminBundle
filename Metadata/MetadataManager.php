@@ -21,42 +21,42 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class MetadataManager
 {
-    protected const CACHE_KEY = 'metadata';
+    private const CACHE_KEY = 'metadata';
 
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
      */
-    protected $entityResolver;
+    private $entityResolver;
 
     /**
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
-    protected $eventDispatcher;
+    private $eventDispatcher;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataPool
      */
-    protected $metadataPool;
+    private $metadataPool;
 
     /**
      * @var \Psr\SimpleCache\CacheInterface|null
      */
-    protected $cache;
+    private $cache;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]
      */
-    protected $childMetadata;
+    private $childMetadata;
 
     /**
      * @var array
      */
-    protected $hasMetadata;
+    private $hasMetadata;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]|null
      */
-    protected $metadata;
+    private $metadata;
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver  Entity resolver
@@ -184,7 +184,7 @@ class MetadataManager
      *
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    final protected function buildTree(array $metadata, array $parents): void
+    private function buildTree(array $metadata, array $parents): void
     {
         foreach ($parents as $parent) {
             $parent = $this->entityResolver->resolve($parent);

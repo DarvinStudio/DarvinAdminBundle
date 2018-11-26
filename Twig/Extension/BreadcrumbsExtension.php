@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -16,11 +16,14 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Breadcrumbs Twig extension
  */
-class BreadcrumbsExtension extends \Twig_Extension
+class BreadcrumbsExtension extends AbstractExtension
 {
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouter
@@ -71,68 +74,55 @@ class BreadcrumbsExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction(
-                'admin_breadcrumbs',
-                [$this, 'renderCrumbs'],
-                [
-                    'is_safe'           => ['html'],
-                    'needs_environment' => true,
-                ]
-            ),
+            new TwigFunction('admin_breadcrumbs', [$this, 'renderCrumbs'], [
+                'needs_environment' => true,
+                'is_safe'           => ['html'],
+            ]),
         ];
     }
 
     /**
-     * @param \Twig_Environment                     $environment  Environment
+     * @param \Twig\Environment                     $environment  Environment
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
-     * @param object                                $parentEntity Parent entity
-     * @param string                                $heading      Page heading
-     * @param string                                $template     Template
+     * @param object|null                           $parentEntity Parent entity
+     * @param string|null                           $heading      Page heading
      *
      * @return string
      */
-    public function renderCrumbs(
-        \Twig_Environment $environment,
-        Metadata $meta,
-        $parentEntity = null,
-        $heading = null,
-        $template = 'DarvinAdminBundle::breadcrumbs.html.twig'
-    ) {
-        $crumbs = $this->getEntityCrumbs($meta, $parentEntity);
-
+    public function renderCrumbs(Environment $environment, Metadata $meta, $parentEntity = null, ?string $heading = null): string
+    {
+        $crumbs = $this->createCrumbs($meta, $parentEntity);
         $config = $meta->getConfiguration();
 
         if ($config['menu']['group']) {
-            $this->addCrumb($crumbs, 'menu.group.'.$config['menu']['group'].'.title');
+            $crumbs[] = $this->createCrumb('menu.group.'.$config['menu']['group'].'.title');
         }
 
-        $this->addCrumb($crumbs, 'homepage.action.homepage.link', $this->genericRouter->generate('darvin_admin_homepage'));
+        $crumbs[] = $this->createCrumb('homepage.action.homepage.link', $this->genericRouter->generate('darvin_admin_homepage'));
 
         $crumbs = array_reverse($crumbs);
 
         if (!empty($heading)) {
-            $this->addCrumb($crumbs, $heading);
+            $crumbs[] = $this->createCrumb($heading);
         }
 
-        return $environment->render($template, [
+        return $environment->render('DarvinAdminBundle::breadcrumbs.html.twig', [
             'crumbs' => $crumbs,
         ]);
     }
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
-     * @param object                                $parentEntity Parent entity
+     * @param object|null                           $parentEntity Parent entity
      *
      * @return array
      */
-    private function getEntityCrumbs(Metadata $meta, $parentEntity = null)
+    private function createCrumbs(Metadata $meta, $parentEntity = null): array
     {
-        $crumbs = [];
-
-        $this->addEntityIndexCrumb($crumbs, $meta, $parentEntity);
+        $crumbs = [$this->createIndexCrumb($meta, $parentEntity)];
 
         if (empty($parentEntity)) {
             return $crumbs;
@@ -140,50 +130,54 @@ class BreadcrumbsExtension extends \Twig_Extension
 
         $parentMeta = $this->metadataManager->getMetadata($parentEntity);
 
-        $this->addEntityCrumbs($crumbs, $parentMeta, $parentEntity);
+        $crumbs = array_merge($crumbs, $this->createEntityCrumbs($parentMeta, $parentEntity));
 
         $childEntity = $parentEntity;
-        $childMeta = $parentMeta;
+        $childMeta   = $parentMeta;
 
         /** @var \Darvin\AdminBundle\Metadata\AssociatedMetadata $parent */
         while ($parent = $childMeta->getParent()) {
             $parentEntity = $this->propertyAccessor->getValue($childEntity, $parent->getAssociation());
-            $parentMeta = $parent->getMetadata();
+            $parentMeta   = $parent->getMetadata();
 
-            $this->addEntityCrumbs($crumbs, $parentMeta, $parentEntity);
+            $crumbs = array_merge($crumbs, $this->createEntityCrumbs($parentMeta, $parentEntity));
 
             $childEntity = $parentEntity;
-            $childMeta = $parentMeta;
+            $childMeta   = $parentMeta;
         }
 
         return $crumbs;
     }
 
     /**
-     * @param array                                 $crumbs Breadcrumbs
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata
      * @param object                                $entity Entity
+     *
+     * @return array
      */
-    private function addEntityCrumbs(array &$crumbs, Metadata $meta, $entity)
+    private function createEntityCrumbs(Metadata $meta, $entity): array
     {
+        $url    = null;
         $config = $meta->getConfiguration();
 
-        $url = !empty($config['breadcrumbs_route'])
-            ? $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_route'])
-            : null;
+        if (!empty($config['breadcrumbs_route'])) {
+            $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_route']);
+        }
 
-        $this->addCrumb($crumbs, (string) $entity, $url);
-
-        $this->addEntityIndexCrumb($crumbs, $meta, null, $entity);
+        return [
+            $this->createCrumb((string)$entity, $url),
+            $this->createIndexCrumb($meta, null, $entity),
+        ];
     }
 
     /**
-     * @param array                                 $crumbs       Breadcrumbs
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta         Metadata
-     * @param object                                $parentEntity Parent entity
-     * @param object                                $entity       Entity
+     * @param object|null                           $parentEntity Parent entity
+     * @param object|null                           $entity       Entity
+     *
+     * @return array
      */
-    private function addEntityIndexCrumb(array &$crumbs, Metadata $meta, $parentEntity = null, $entity = null)
+    private function createIndexCrumb(Metadata $meta, $parentEntity = null, $entity = null): array
     {
         $params = [];
 
@@ -191,19 +185,21 @@ class BreadcrumbsExtension extends \Twig_Extension
             $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getValue($parentEntity);
         }
 
-        $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $params);
-
-        $this->addCrumb($crumbs, $meta->getBaseTranslationPrefix().'action.index.link', $url);
+        return $this->createCrumb(
+            $meta->getBaseTranslationPrefix().'action.index.link',
+            $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $params)
+        );
     }
 
     /**
-     * @param array  $crumbs Breadcrumbs
-     * @param string $title  Title
-     * @param string $url    URL
+     * @param string      $title Title
+     * @param string|null $url   URL
+     *
+     * @return array
      */
-    private function addCrumb(array &$crumbs, $title, $url = null)
+    private function createCrumb(string $title, ?string $url = null): array
     {
-        $crumbs[] = [
+        return [
             'title' => $title,
             'url'   => $url,
         ];

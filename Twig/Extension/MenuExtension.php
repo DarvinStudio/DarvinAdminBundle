@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -11,11 +11,14 @@
 namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Menu\Menu;
+use Twig\Environment;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Menu Twig extension
  */
-class MenuExtension extends \Twig_Extension
+class MenuExtension extends AbstractExtension
 {
     /**
      * @var \Darvin\AdminBundle\Menu\Menu
@@ -33,27 +36,23 @@ class MenuExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_SimpleFunction(
-                'admin_menu',
-                [$this, 'renderMenu'],
-                [
-                    'is_safe'           => ['html'],
-                    'needs_environment' => true,
-                ]
-            ),
+            new TwigFunction('admin_menu', [$this, 'renderMenu'], [
+                'needs_environment' => true,
+                'is_safe'           => ['html'],
+            ]),
         ];
     }
 
     /**
-     * @param \Twig_Environment $environment Twig environment
+     * @param \Twig\Environment $environment Twig environment
      * @param string            $template    Template
      *
      * @return string
      */
-    public function renderMenu(\Twig_Environment $environment, $template = 'DarvinAdminBundle::menu.html.twig')
+    public function renderMenu(Environment $environment, string $template = 'DarvinAdminBundle::menu.html.twig'): string
     {
         return $environment->render($template, [
             'items' => $this->menu->getItems(),

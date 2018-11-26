@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -10,12 +10,15 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
+use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Service\ServiceProviderInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * View widget Twig extension
  */
-class ViewWidgetExtension extends \Twig_Extension
+class ViewWidgetExtension extends AbstractExtension
 {
     /**
      * @var \Darvin\Utils\Service\ServiceProviderInterface
@@ -33,23 +36,19 @@ class ViewWidgetExtension extends \Twig_Extension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): iterable
     {
-        $functions = [];
-
         foreach ($this->getWidgetPool()->getWidgets() as $alias => $widget) {
-            $functions[] = new \Twig_SimpleFunction('admin_widget_'.$alias, [$widget, 'getContent'], [
+            yield new TwigFunction(sprintf('admin_widget_%s', $alias), [$widget, 'getContent'], [
                 'is_safe' => ['html'],
             ]);
         }
-
-        return $functions;
     }
 
     /**
      * @return \Darvin\AdminBundle\View\Widget\WidgetPool
      */
-    private function getWidgetPool()
+    private function getWidgetPool(): WidgetPool
     {
         return $this->widgetPoolProvider->getService();
     }

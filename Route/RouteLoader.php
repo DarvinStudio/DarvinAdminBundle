@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -20,7 +20,7 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class RouteLoader extends Loader
 {
-    const RESOURCE_TYPE = 'darvin_admin';
+    private const RESOURCE_TYPE = 'darvin_admin';
 
     /**
      * @var \Darvin\AdminBundle\Metadata\MetadataManager
@@ -38,14 +38,13 @@ class RouteLoader extends Loader
     /**
      * {@inheritdoc}
      */
-    public function load($resource, $type = null)
+    public function load($resource, $type = null): RouteCollection
     {
-        $routes = new RouteCollection();
+        $routes    = new RouteCollection();
+        $generator = new CrudRouteGenerator();
 
-        $routeGenerator = new CrudRouteGenerator();
-
-        foreach ($this->metadataManager->getAllMetadata() as $entityClass => $meta) {
-            $routes->addCollection($routeGenerator->generate($entityClass, $meta));
+        foreach ($this->metadataManager->getAllMetadata() as $class => $meta) {
+            $routes->addCollection($generator->generate($class, $meta));
         }
 
         return $routes;
@@ -54,7 +53,7 @@ class RouteLoader extends Loader
     /**
      * {@inheritdoc}
      */
-    public function supports($resource, $type = null)
+    public function supports($resource, $type = null): bool
     {
         return self::RESOURCE_TYPE === $type;
     }

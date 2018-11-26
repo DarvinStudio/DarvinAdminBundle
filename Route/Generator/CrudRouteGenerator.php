@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -20,10 +20,7 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class CrudRouteGenerator implements RouteGeneratorInterface
 {
-    /**
-     * @var array
-     */
-    private static $model = [
+    private const MODEL = [
         AdminRouter::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
@@ -108,14 +105,13 @@ class CrudRouteGenerator implements RouteGeneratorInterface
     /**
      * {@inheritdoc}
      */
-    public function generate($entityClass, Metadata $meta)
+    public function generate(string $entityClass, Metadata $meta): RouteCollection
     {
         $routes = new RouteCollection();
+        $config = $meta->getConfiguration();
 
-        $configuration = $meta->getConfiguration();
-
-        foreach (self::$model as $routeType => $attr) {
-            if (in_array($routeType, $configuration['route_blacklist'])) {
+        foreach (static::MODEL as $routeType => $attr) {
+            if (in_array($routeType, $config['route_blacklist'])) {
                 continue;
             }
 

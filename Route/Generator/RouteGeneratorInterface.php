@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Route\Generator;
 
 use Darvin\AdminBundle\Metadata\Metadata;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Route generator
@@ -23,5 +24,5 @@ interface RouteGeneratorInterface
      *
      * @return \Symfony\Component\Routing\RouteCollection
      */
-    public function generate($entityClass, Metadata $meta);
+    public function generate(string $entityClass, Metadata $meta): RouteCollection;
 }

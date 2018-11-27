@@ -34,7 +34,6 @@ const scripts = [
                 'Resources/scripts/globals.js',
                 'Resources/scripts/yandex-translator.js',
 
-                'Resources/scripts/ajax-form.js',
                 'Resources/scripts/batch-delete.js',
                 'Resources/scripts/chosen.js',
                 'Resources/scripts/colorbox.js',
@@ -42,6 +41,7 @@ const scripts = [
                 'Resources/scripts/date-time-picker.js',
                 'Resources/scripts/disable-descendants.js',
                 'Resources/scripts/dropzone.js',
+                'Resources/scripts/form.js',
                 'Resources/scripts/form-collection.js',
                 'Resources/scripts/image.js',
                 'Resources/scripts/master-slave.js',

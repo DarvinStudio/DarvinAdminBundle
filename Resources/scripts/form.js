@@ -1,8 +1,8 @@
-$(document).ready(function () {
-    $('body').on('submit', 'form.ajax[action][method]', function (e) {
+$(() => {
+    $('body').on('submit', 'form.js-ajax[action][method]', (e) => {
         e.preventDefault();
 
-        var $form = $(this);
+        let $form = $(e.currentTarget);
 
         if ($form.data('submitted')) {
             return;
@@ -18,17 +18,19 @@ $(document).ready(function () {
             data:        new FormData($form[0]),
             contentType: false,
             processData: false
-        }).done(function (data) {
+        }).done((data) => {
             notify(data.message, data.success ? 'success' : 'error');
 
             if (data.html) {
                 $form.replaceWith(data.html);
             }
             if (null !== data.redirectUrl) {
-                setTimeout(function () {
+                setTimeout(() => {
                     document.location.href = data.redirectUrl;
                 }, NOTY_TIMEOUT);
             }
+        }).always(() => {
+            $form.removeData('submitted');
         }).fail(onAjaxFail);
     });
 });

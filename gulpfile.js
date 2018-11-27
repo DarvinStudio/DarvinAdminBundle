@@ -52,7 +52,7 @@ const scripts = [
                 'Resources/scripts/textcounter.js',
                 'Resources/scripts/translation-form.js',
                 'Resources/scripts/translation-sync.js',
-                'Resources/scripts/tri-state-checkbox.js',
+                'Resources/scripts/tri-state.js',
 
                 'Resources/scripts/app.js'
             ]

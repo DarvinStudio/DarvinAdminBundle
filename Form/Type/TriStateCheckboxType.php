@@ -33,7 +33,7 @@ class TriStateCheckboxType extends AbstractType
             'expanded'          => true,
             'placeholder'       => 'boolean.indeterminate',
             'attr'              => [
-                'class' => 'tri_state_checkbox',
+                'class' => 'js-tri-state',
             ],
         ]);
     }

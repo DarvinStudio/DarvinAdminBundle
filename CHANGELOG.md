@@ -234,3 +234,5 @@ form:
 - Title-case translations.
 
 - Replace global JS variables with data attributes.
+
+- Use Babel.

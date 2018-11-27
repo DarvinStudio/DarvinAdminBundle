@@ -1,4 +1,5 @@
-const concat     = require('gulp-concat'),
+const babel      = require('gulp-babel'),
+      concat     = require('gulp-concat'),
       filesExist = require('files-exist'),
       gutil      = require('gulp-util'),
       include    = require('gulp-include'),
@@ -11,13 +12,21 @@ module.exports = (gulp, dir, scripts) => {
         let stream = merge();
 
         scripts.forEach((scripts) => {
-            stream.add(gulp.src(filesExist(scripts.src))
+            stream.add(gulp.src(filesExist(scripts.vendor)));
+            stream.add(
+                gulp.src(filesExist(scripts.src))
+                    .pipe(babel({
+                        presets: ['es2015'],
+                        plugins: ['transform-es2015-template-literals']
+                    }))
+            );
+            stream
                 .pipe(include())
                 .on('error', console.log)
                 .pipe(stripDebug())
                 .pipe(concat(scripts.target))
                 .pipe(uglify())
-                .pipe(gulp.dest(dir.prod)));
+                .pipe(gulp.dest(dir.prod));
 
             for (let key in dir) {
                 if (dir.hasOwnProperty(key)) {

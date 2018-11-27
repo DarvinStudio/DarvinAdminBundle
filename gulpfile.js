@@ -12,7 +12,7 @@ const dir = {
 const scripts = [
         {
             target: 'app.js',
-            src:    [
+            vendor: [
                 'Resources/public/node_modules/ace-builds/src-min-noconflict/ace.js',
                 'Resources/public/node_modules/bootstrap/dist/js/bootstrap.js',
                 'Resources/public/node_modules/chosen-js/chosen.jquery.js',
@@ -28,8 +28,9 @@ const scripts = [
                 'Resources/public/node_modules/noty/lib/noty.js',
                 'Resources/public/node_modules/sly-scrolling/dist/sly.js',
 
-                '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js',
-
+                '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js'
+            ],
+            src: [
                 'Resources/scripts/globals.js',
                 'Resources/scripts/yandex-translator.js',
 

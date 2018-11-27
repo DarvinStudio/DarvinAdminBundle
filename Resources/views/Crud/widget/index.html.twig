@@ -9,7 +9,7 @@
         {% block new_link %}
             {% if not meta.configuration.index_view_new_form %}
 
-                {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('create_delete', meta.entityClass)
+                {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass)
                     ? admin_path(
                         null,
                         meta.entityClass,

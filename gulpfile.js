@@ -54,7 +54,7 @@ const scripts = [
                 'Resources/scripts/translation-sync.js',
                 'Resources/scripts/tri-state.js',
 
-                'Resources/scripts/app.js'
+                'Resources/scripts/main.js'
             ]
         }
     ],

@@ -5,39 +5,37 @@ $(() => {
         submit:    '.js-property-submit'
     };
 
-    const toggle = (fields) => {
-        $(fields).each((i, field) => {
-            let $field = $(field);
+    const toggle = (field) => {
+        let $field = $(field);
 
-            if ('undefined' === typeof $field.data('original-value')) {
-                return;
-            }
+        if ('undefined' === typeof $field.data('original-value')) {
+            return;
+        }
 
-            let $form = $field.closest(SELECTOR.form);
+        let $form = $field.closest(SELECTOR.form);
 
-            let $container = $form.closest(SELECTOR.container);
+        let $container = $form.closest(SELECTOR.container);
 
-            let $submit = $container.find(SELECTOR.submit);
+        let $submit = $container.find(SELECTOR.submit);
 
-            $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
+        $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
-            $submit.show();
+        $submit.show();
 
-            if (1 !== parseInt($form.attr('data-modified')) && !$container.find(SELECTOR.form + '[data-modified="1"]').length) {
-                $submit.hide();
-            }
-            if (1 !== parseInt($form.attr('data-modified'))) {
-                $form.find('[type="submit"], [type="reset"]').remove();
+        if (1 !== parseInt($form.attr('data-modified')) && !$container.find(SELECTOR.form + '[data-modified="1"]').length) {
+            $submit.hide();
+        }
+        if (1 !== parseInt($form.attr('data-modified'))) {
+            $form.find('[type="submit"], [type="reset"]').remove();
 
-                return;
-            }
-            if (!$form.find('[type="submit"]').length) {
-                $form.append('<button type="submit">o</button>');
-            }
-            if (!$form.find('[type="reset"]').length) {
-                $form.append('<button type="reset">x</button>');
-            }
-        });
+            return;
+        }
+        if (!$form.find('[type="submit"]').length) {
+            $form.append('<button type="submit">o</button>');
+        }
+        if (!$form.find('[type="reset"]').length) {
+            $form.append('<button type="reset">x</button>');
+        }
     };
 
     let init;
@@ -95,10 +93,14 @@ $(() => {
     })();
 
     $(document)
-        .on('app.html', (e, args) => {
-            toggle(args.$html.find(SELECTOR.form + ' .js-property-field[type!="checkbox"]'));
-        })
         .on('searchComplete', (e, results) => {
             init(results);
+        })
+        .on('app.html', (e, args) => {
+            let $form = args.$html.find(SELECTOR.form);
+
+            if (1 === $form.length) {
+                toggle($form.find('.js-property-field[type!="checkbox"]:first'));
+            }
         });
 });

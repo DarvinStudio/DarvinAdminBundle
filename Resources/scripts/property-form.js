@@ -1,45 +1,9 @@
 $(() => {
     const SELECTOR = {
-        container: '.js-property-forms',
+        container: '.js-property-forms:first',
         form:      'form.js-property',
         submit:    '.js-property-submit'
     };
-
-    /*
-    var submitForm = function ($form, reloadPage) {
-        if ($form.data('submitted')) {
-            return;
-        }
-
-        $form
-            .data('submitted', true)
-            .append(AJAX_LOADER);
-
-        $.ajax({
-            async: false,
-            data:  $form.serialize(),
-            type:  'post',
-            url:   $form.attr('action')
-        }).done(function (data) {
-            var $formReplacement = $(data.form);
-            $form.replaceWith($formReplacement);
-
-            toggleButtons($formReplacement.find('.field'));
-
-            $(document).trigger('propertyFormSubmit', $formReplacement);
-
-            App.notify(data.message, data.success ? 'success' : 'error');
-
-            if (reloadPage && !$formReplacement.closest(SELECTOR.container).parent('.searchable_results').length) {
-                $.ajax({
-                    cache: false
-                }).done(function (html) {
-                    $formReplacement.closest('.section_table').replaceWith($(html).find('.section_table:first'));
-                }).fail(App.onAjaxFail);
-            }
-        }).fail(App.onAjaxFail);
-    };
-    */
 
     const toggle = (field) => {
         let $field = $(field);
@@ -78,12 +42,12 @@ $(() => {
     (init = (context) => {
         let $context = $(context || 'body');
 
-        $context.find(SELECTOR.form + ' .field[type!="checkbox"]').each((i, field) => {
+        $context.find(SELECTOR.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
             toggle(field);
         });
 
         $context
-            .on('change', SELECTOR.form + ' .field[type!="checkbox"]', (e) => {
+            .on('change', SELECTOR.form + ' .js-property-field[type!="checkbox"]', (e) => {
                 toggle(e.currentTarget);
             })
             .on('keyup', SELECTOR.form + ' input', (e) => {
@@ -92,7 +56,7 @@ $(() => {
             .on('submit', SELECTOR.form, (e) => {
                 let $form = $(e.currentTarget);
 
-                $form.data('reload-page', $form.find('.field').data('reload-page'));
+                $form.data('reload-page', $form.find('.js-property-field:first').data('reload-page'));
             })
             .on('change', SELECTOR.form + ' input[type="checkbox"]', (e) => {
                 let $checkbox = $(e.currentTarget);
@@ -104,7 +68,7 @@ $(() => {
             .on('click', SELECTOR.form + ' [type="reset"]', (e) => {
                 e.preventDefault();
 
-                let $field = $(e.currentTarget).siblings('.field');
+                let $field = $(e.currentTarget).siblings('.js-property-field:first');
 
                 $field
                     .val($field.data('original-value'))
@@ -128,7 +92,13 @@ $(() => {
             });
     })();
 
-    $(document).on('searchComplete', (e, results) => {
-        init(results);
-    });
+    $(document)
+        .on('app.form.submit', (e, args) => {
+            if (args.$form.is(SELECTOR.form)) {
+                toggle(args.$form.find('.js-property-field:first'));
+            }
+        })
+        .on('searchComplete', (e, results) => {
+            init(results);
+        });
 });

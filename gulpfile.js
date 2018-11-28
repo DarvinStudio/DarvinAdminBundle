@@ -45,6 +45,7 @@ const scripts = [
                 'Resources/scripts/form-collection.js',
                 'Resources/scripts/image.js',
                 'Resources/scripts/master-slave.js',
+                'Resources/scripts/novalidate.js',
                 'Resources/scripts/property-form.js',
                 'Resources/scripts/search.js',
                 'Resources/scripts/slug-suffix.js',

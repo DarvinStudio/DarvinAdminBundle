@@ -21,10 +21,14 @@ $(() => {
             contentType: false,
             processData: false
         }).done((data) => {
+            $(document).trigger('app.form.submit', {
+                $form: $form
+            });
+
             App.notify(data.message, data.success ? 'success' : 'error');
             App.redirect(data.redirectUrl);
 
-            if (options.reloadPage) {
+            if (data.success && options.reloadPage) {
                 App.startPreloading('form');
 
                 $.ajax({

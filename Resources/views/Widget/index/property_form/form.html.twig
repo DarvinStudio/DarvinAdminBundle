@@ -1,16 +1,15 @@
 {% form_theme form 'DarvinAdminBundle:Widget/index/property_form:fields.html.twig' %}
 
+{% set property_form = attribute(form, property) %}
+
 {{ form_start(form, {
     'action': admin_path(entity, entity_class, 'update-property', {'property': property}),
     'attr':   {'class': 'js-ajax js-property'},
 }) }}
-
-{% set property_form = attribute(form, property) %}
-
 {{ form_errors(property_form) }}
 {{ form_widget(property_form, {'attr': {
     'autocomplete':        'off',
-    'class':               ('field ' ~ property_form.vars.attr.class|default)|trim,
+    'class':               ('js-property-field ' ~ property_form.vars.attr.class|default)|trim,
     'data-original-value': original_value,
 }}) }}
 {{ form_end(form) }}

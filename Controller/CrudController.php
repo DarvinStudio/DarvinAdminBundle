@@ -368,15 +368,17 @@ class CrudController extends Controller
             $message = implode('<br>', array_map(function (FormError $error) use ($prefix, $translator) {
                 $message = $error->getMessage();
 
-                /** @var \Symfony\Component\Validator\ConstraintViolation $cause */
+                /** @var \Symfony\Component\Validator\ConstraintViolation|null $cause */
                 $cause = $error->getCause();
 
-                $translation = preg_replace('/^data\./', $prefix, StringsUtil::toUnderscore($cause->getPropertyPath()));
+                if (!empty($cause)) {
+                    $translation = preg_replace('/^data\./', $prefix, StringsUtil::toUnderscore($cause->getPropertyPath()));
 
-                $translated = $translator->trans($translation, [], 'admin');
+                    $translated = $translator->trans($translation, [], 'admin');
 
-                if ($translated !== $translation) {
-                    $message = sprintf('%s: %s', $translated, $message);
+                    if ($translated !== $translation) {
+                        $message = sprintf('%s: %s', $translated, $message);
+                    }
                 }
 
                 return $message;

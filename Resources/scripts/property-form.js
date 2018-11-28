@@ -1,10 +1,11 @@
-$(document).ready(function () {
-    var SELECTOR = {
+$(() => {
+    const SELECTOR = {
         container: '.js-property-forms',
         form:      'form.js-property',
         submit:    '.js-property-submit'
     };
 
+    /*
     var submitForm = function ($form, reloadPage) {
         if ($form.data('submitted')) {
             return;
@@ -38,23 +39,29 @@ $(document).ready(function () {
             }
         }).fail(onAjaxFail);
     };
+    */
 
-    var toggleButtons = function ($field) {
+    const toggle = (field) => {
+        let $field = $(field);
+
         if ('undefined' === typeof $field.data('original-value')) {
             return;
         }
 
-        var $form = $field.closest(SELECTOR.form);
+        let $form = $field.closest(SELECTOR.form);
+
+        let $container = $form.closest(SELECTOR.container);
+
+        let $submit = $container.find(SELECTOR.submit);
+
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
-        var $forms = $form.closest(SELECTOR.container);
+        $submit.show();
 
-        if (1 != $form.attr('data-modified') && !$forms.find(SELECTOR.form + '[data-modified="1"]').length) {
-            $forms.find(SELECTOR.submit).hide();
-        } else {
-            $forms.find(SELECTOR.submit).show();
+        if (1 !== parseInt($form.attr('data-modified')) && !$container.find(SELECTOR.form + '[data-modified="1"]').length) {
+            $submit.hide();
         }
-        if (1 != $form.attr('data-modified')) {
+        if (1 !== parseInt($form.attr('data-modified'))) {
             $form.find('[type="submit"], [type="reset"]').remove();
 
             return;
@@ -67,59 +74,61 @@ $(document).ready(function () {
         }
     };
 
-    var init;
-    (init = function (context) {
-        var $context = $(context || 'body');
+    let init;
+    (init = (context) => {
+        let $context = $(context || 'body');
 
-        $context.find(SELECTOR.form + ' .field[type!="checkbox"]').each(function () {
-            toggleButtons($(this));
+        $context.find(SELECTOR.form + ' .field[type!="checkbox"]').each((i, field) => {
+            toggle(field);
         });
 
         $context
-            .on('change', SELECTOR.form + ' .field[type!="checkbox"]', function () {
-                toggleButtons($(this));
+            .on('change', SELECTOR.form + ' .field[type!="checkbox"]', (e) => {
+                toggle(e.currentTarget);
             })
-            .on('keyup', SELECTOR.form + ' input', function () {
-                toggleButtons($(this));
+            .on('keyup', SELECTOR.form + ' input', (e) => {
+                toggle(e.currentTarget);
             })
-            .on('change', SELECTOR.form + ' input[type="checkbox"]', function () {
-                var $checkbox = $(this);
+            .on('submit', SELECTOR.form, (e) => {
+                let $form = $(e.currentTarget);
 
-                submitForm($checkbox.closest(SELECTOR.form), $checkbox.data('reload-page'));
+                $form.data('reload-page', $form.find('.field').data('reload-page'));
             })
-            .on('click', SELECTOR.form + ' [type="reset"]', function (e) {
+            .on('change', SELECTOR.form + ' input[type="checkbox"]', (e) => {
+                let $checkbox = $(e.currentTarget);
+
+                $checkbox.closest(SELECTOR.form)
+                    .data('reload-page', $checkbox.data('reload-page'))
+                    .trigger('submit');
+            })
+            .on('click', SELECTOR.form + ' [type="reset"]', (e) => {
                 e.preventDefault();
 
-                var $field = $(this).siblings('.field');
+                let $field = $(e.currentTarget).siblings('.field');
 
                 $field
                     .val($field.data('original-value'))
                     .trigger('change');
             })
-            .on('click', [SELECTOR.container, SELECTOR.submit].join(' '), function () {
-                var $forms     = $(this).closest(SELECTOR.container).find(SELECTOR.form + '[data-modified="1"]'),
+            .on('click', [SELECTOR.container, SELECTOR.submit].join(' '), (e) => {
+                let $forms     = $(e.currentTarget).closest(SELECTOR.container).find(SELECTOR.form + '[data-modified="1"]'),
                     reloadPage = false;
 
-                $forms.each(function (i) {
-                    var $form = $(this);
+                $forms.each((i, form) => {
+                    let $form = $(form);
 
                     if (!reloadPage && $form.find('input, select').data('reload-page')) {
                         reloadPage = true;
                     }
 
-                    submitForm($form, i === $forms.length - 1 ? reloadPage : false);
+                    $form
+                        .data('reload-page', i === $forms.length - 1 ? reloadPage : false)
+                        .trigger('submit');
                 });
-            })
-            .on('submit', SELECTOR.form, function (e) {
-                e.preventDefault();
-
-                var $form = $(this);
-
-                submitForm($form, $form.find('input, select').data('reload-page'));
             });
     })();
 
-    $(document).on('searchComplete', function (e, results) {
+    $(document).on('searchComplete', (e, results) => {
         init(results);
     });
 });

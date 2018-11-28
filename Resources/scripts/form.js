@@ -4,7 +4,9 @@ $(() => {
 
         let $form = $(e.currentTarget);
 
-        if ($form.data('submitted')) {
+        let options = $form.data();
+
+        if (options.submitted) {
             return;
         }
 
@@ -21,10 +23,16 @@ $(() => {
         }).done((data) => {
             notify(data.message, data.success ? 'success' : 'error');
 
-            if (data.html) {
+            if (options.reloadPage) {
+                $.ajax({
+                    cache: false
+                }).done(function (html) {
+                    $form.closest('.section_table').replaceWith($(html).find('.section_table:first'));
+                }).fail(onAjaxFail);
+            } else if (data.html) {
                 $form.replaceWith(data.html);
             }
-            if (null !== data.redirectUrl) {
+            if (data.redirectUrl) {
                 setTimeout(() => {
                     document.location.href = data.redirectUrl;
                 }, NOTY_TIMEOUT);

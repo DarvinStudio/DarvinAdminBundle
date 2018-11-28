@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('body')
         .on('change', 'input[type="checkbox"].batch_delete_check[data-id]', function () {
             var $check = $(this);
-            var $context = $check.closest('.property_forms');
+            var $context = $check.closest('.js-property-forms');
             var $checkAll = $context.find('input[type="checkbox"].batch_delete_check_all');
             var $form = $context.find('form.batch_delete_form');
             var $submit = $form.find('[type="submit"]:first');
@@ -27,7 +27,7 @@ $(document).ready(function () {
         .on('change', 'input[type="checkbox"].batch_delete_check_all', function () {
             var checked = this.checked;
 
-            $(this).closest('.property_forms').find('input[type="checkbox"].batch_delete_check').each(function () {
+            $(this).closest('.js-property-forms').find('input[type="checkbox"].batch_delete_check').each(function () {
                 this.checked = checked;
 
                 $(this).trigger('change');

@@ -3,7 +3,7 @@ $(function () {
 
     var init;
     (init = function () {
-        $('.property_forms .section_table table').find('tr[data-level]').each(function () {
+        $('.js-property-forms .section_table table').find('tr[data-level]').each(function () {
             var $row = $(this);
 
             var $checkbox = $row.find(selector),

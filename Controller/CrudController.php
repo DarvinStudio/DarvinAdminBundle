@@ -384,7 +384,7 @@ class CrudController extends Controller
         }
 
         return new JsonResponse([
-            'form'    => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property),
+            'html'    => $this->getEntitiesToIndexViewTransformer()->renderPropertyForm($form, $entity, $this->entityClass, $property),
             'message' => $message,
             'success' => $success,
         ]);

@@ -2,7 +2,7 @@
 
 {{ form_start(form, {
     'action': admin_path(entity, entity_class, 'update-property', {'property': property}),
-    'attr':   {'class': 'js-property'},
+    'attr':   {'class': 'js-ajax js-property'},
 }) }}
 
 {% set property_form = attribute(form, property) %}

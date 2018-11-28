@@ -27,7 +27,7 @@ const App = (() => {
             notify(translated, 'error');
         },
         redirect: (url) => {
-            if (url) {
+            if ('undefined' !== typeof url && null !== url) {
                 setTimeout(() => {
                     document.location.href = url;
                 }, NOTIFICATION_TIMEOUT);

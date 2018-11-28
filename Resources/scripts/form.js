@@ -30,7 +30,13 @@ $(() => {
                 $.ajax({
                     cache: false
                 }).done((html) => {
-                    $form.closest('.section_table').replaceWith($(html).find('.section_table:first'));
+                    let $content = $form.closest('.section_table');
+
+                    if (!$content.length) {
+                        $content = $('.section_table:first');
+                    }
+
+                    $content.replaceWith($(html).find('.section_table:first'));
                 }).always(() => {
                     App.stopPreloading('form');
                 }).fail(App.onAjaxFail);

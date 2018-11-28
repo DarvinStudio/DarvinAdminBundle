@@ -238,7 +238,7 @@ class CrudController extends Controller
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($isXmlHttpRequest) {
-            return new AjaxResponse($html, $success, $message, [], $success ? '' : null);
+            return new AjaxResponse($html, $success, $message);
         }
 
         $this->getFlashNotifier()->done($success, $message);

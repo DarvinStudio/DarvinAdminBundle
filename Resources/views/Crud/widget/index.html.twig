@@ -3,7 +3,7 @@
 {% set pagination      = pagination|default %}
 {% set pagination_html = pagination ? knp_pagination_render(pagination, 'DarvinAdminBundle::pagination.html.twig') : null %}
 
-<div class="property_forms">
+<div class="js-property-forms">
     <div class="post_item_btn">
 
         {% block new_link %}
@@ -29,7 +29,7 @@
 
         {% block property_forms_submit %}
             {% if view.body.rows is not empty %}
-                <a class="property_forms_submit save_edit" style="display: none;">
+                <a class="js-property-submit save_edit" style="display: none;">
                     {% trans %}property_forms.submit{% endtrans %}
                 </a>
             {% endif %}

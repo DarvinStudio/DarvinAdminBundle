@@ -1,4 +1,10 @@
 $(document).ready(function () {
+    var SELECTOR = {
+        container: '.js-property-forms',
+        form:      'form.js-property',
+        submit:    '.js-property-submit'
+    };
+
     var submitForm = function ($form, reloadPage) {
         if ($form.data('submitted')) {
             return;
@@ -23,7 +29,7 @@ $(document).ready(function () {
 
             notify(data.message, data.success ? 'success' : 'error');
 
-            if (reloadPage && !$formReplacement.closest('.property_forms').parent('.searchable_results').length) {
+            if (reloadPage && !$formReplacement.closest(SELECTOR.container).parent('.searchable_results').length) {
                 $.ajax({
                     cache: false
                 }).done(function (html) {
@@ -38,15 +44,15 @@ $(document).ready(function () {
             return;
         }
 
-        var $form = $field.closest('.property_form');
+        var $form = $field.closest(SELECTOR.form);
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
-        var $forms = $form.closest('.property_forms');
+        var $forms = $form.closest(SELECTOR.container);
 
-        if (1 != $form.attr('data-modified') && !$forms.find('form.property_form[data-modified="1"]').length) {
-            $forms.find('.property_forms_submit').hide();
+        if (1 != $form.attr('data-modified') && !$forms.find(SELECTOR.form + '[data-modified="1"]').length) {
+            $forms.find(SELECTOR.submit).hide();
         } else {
-            $forms.find('.property_forms_submit').show();
+            $forms.find(SELECTOR.submit).show();
         }
         if (1 != $form.attr('data-modified')) {
             $form.find('[type="submit"], [type="reset"]').remove();
@@ -65,23 +71,23 @@ $(document).ready(function () {
     (init = function (context) {
         var $context = $(context || 'body');
 
-        $context.find('.property_form .field[type!="checkbox"]').each(function () {
+        $context.find(SELECTOR.form + ' .field[type!="checkbox"]').each(function () {
             toggleButtons($(this));
         });
 
         $context
-            .on('change', '.property_form .field[type!="checkbox"]', function () {
+            .on('change', SELECTOR.form + ' .field[type!="checkbox"]', function () {
                 toggleButtons($(this));
             })
-            .on('keyup', '.property_form input', function () {
+            .on('keyup', SELECTOR.form + ' input', function () {
                 toggleButtons($(this));
             })
-            .on('change', '.property_form input[type="checkbox"]', function () {
+            .on('change', SELECTOR.form + ' input[type="checkbox"]', function () {
                 var $checkbox = $(this);
 
-                submitForm($checkbox.closest('form.property_form'), $checkbox.data('reload-page'));
+                submitForm($checkbox.closest(SELECTOR.form), $checkbox.data('reload-page'));
             })
-            .on('click', '.property_form [type="reset"]', function (e) {
+            .on('click', SELECTOR.form + ' [type="reset"]', function (e) {
                 e.preventDefault();
 
                 var $field = $(this).siblings('.field');
@@ -90,8 +96,8 @@ $(document).ready(function () {
                     .val($field.data('original-value'))
                     .trigger('change');
             })
-            .on('click', '.property_forms .property_forms_submit', function () {
-                var $forms     = $(this).closest('.property_forms').find('form.property_form[data-modified="1"]'),
+            .on('click', [SELECTOR.container, SELECTOR.submit].join(' '), function () {
+                var $forms     = $(this).closest(SELECTOR.container).find(SELECTOR.form + '[data-modified="1"]'),
                     reloadPage = false;
 
                 $forms.each(function (i) {
@@ -104,7 +110,7 @@ $(document).ready(function () {
                     submitForm($form, i === $forms.length - 1 ? reloadPage : false);
                 });
             })
-            .on('submit', 'form.property_form', function (e) {
+            .on('submit', SELECTOR.form, function (e) {
                 e.preventDefault();
 
                 var $form = $(this);

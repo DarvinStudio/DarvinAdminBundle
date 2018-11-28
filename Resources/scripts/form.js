@@ -12,7 +12,7 @@ $(() => {
 
         $form.data('submitted', true);
 
-        App.preload();
+        App.startPreloading();
 
         $.ajax({
             url:         $form.attr('action'),
@@ -25,10 +25,14 @@ $(() => {
             App.redirect(data.redirectUrl);
 
             if (options.reloadPage) {
+                App.startPreloading('form');
+
                 $.ajax({
                     cache: false
                 }).done((html) => {
                     $form.closest('.section_table').replaceWith($(html).find('.section_table:first'));
+                }).always(() => {
+                    App.stopPreloading('form');
                 }).fail(App.onAjaxFail);
 
                 return;

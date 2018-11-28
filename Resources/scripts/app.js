@@ -26,21 +26,32 @@ const App = (() => {
 
             notify(translated, 'error');
         },
-        preload: () => {
-            $('body').append(PRELOADER);
-        },
         redirect: (url) => {
             if (url) {
                 setTimeout(() => {
                     document.location.href = url;
                 }, NOTIFICATION_TIMEOUT);
             }
+        },
+        startPreloading: (tag) => {
+            $('body').append($(PRELOADER).data('tag', tag || 'app'));
+        },
+        stopPreloading: (tag) => {
+            tag = tag || 'app';
+
+            $('.preloader').each((i, preloader) => {
+                let $preloader = $(preloader);
+
+                if ($preloader.data('tag') === tag) {
+                    $preloader.remove();
+                }
+            });
         }
     };
 })();
 
 $(document).on('ajaxComplete', () => {
-    $('.preloader').remove();
+    App.stopPreloading();
 
     $('a, form').removeData('submitted');
 });

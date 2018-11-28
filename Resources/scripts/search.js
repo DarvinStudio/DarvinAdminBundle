@@ -18,7 +18,7 @@ $(document).ready(function () {
 
             pending = true;
 
-            App.preload();
+            App.startPreloading();
 
             $searchable.show();
 

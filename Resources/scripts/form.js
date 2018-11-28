@@ -21,10 +21,6 @@ $(() => {
             contentType: false,
             processData: false
         }).done((data) => {
-            $(document).trigger('app.form.submit', {
-                $form: $form
-            });
-
             App.notify(data.message, data.success ? 'success' : 'error');
             App.redirect(data.redirectUrl);
 
@@ -42,7 +38,13 @@ $(() => {
                 return;
             }
             if (data.html) {
-                $form.replaceWith(data.html);
+                let $html = $(data.html);
+
+                $form.replaceWith($html);
+
+                $(document).trigger('app.html', {
+                    $html: $html.parent()
+                });
             }
         }).always(() => {
             $form.removeData('submitted');

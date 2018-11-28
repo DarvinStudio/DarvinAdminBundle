@@ -108,7 +108,7 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
         $value = null;
 
         if (!$view->children[$property]->vars['compound']) {
-            $value = $view->children[$property]->vars['value'];
+            $value = $this->propertyAccessor->getValue($entity, $property);
 
             if (is_array($value)) {
                 $parts = [];

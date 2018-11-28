@@ -31,7 +31,7 @@ const scripts = [
                 '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js'
             ],
             src: [
-                'Resources/scripts/globals.js',
+                'Resources/scripts/app.js',
                 'Resources/scripts/yandex-translator.js',
 
                 'Resources/scripts/batch-delete.js',

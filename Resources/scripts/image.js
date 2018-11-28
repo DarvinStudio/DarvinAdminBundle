@@ -19,8 +19,8 @@ $(document).ready(function () {
             }).done(function () {
                 $image.remove();
 
-                notify('image.action.delete.success');
-            }).fail(onAjaxFail);
+                App.notify('image.action.delete.success');
+            }).fail(App.onAjaxFail);
         })
         .on('click', '.image_toggle_enabled[data-disable-title][data-disable-url][data-enable-title][data-enable-url]', function (e) {
             e.preventDefault();
@@ -37,8 +37,8 @@ $(document).ready(function () {
                         .addClass('image_enable')
                         .attr('title', $link.data('enable-title'));
 
-                    notify('image.action.disable.success');
-                }).fail(onAjaxFail);
+                    App.notify('image.action.disable.success');
+                }).fail(App.onAjaxFail);
 
                 return;
             }
@@ -52,8 +52,8 @@ $(document).ready(function () {
                     .addClass('image_disable')
                     .attr('title', $link.data('disable-title'));
 
-                notify('image.action.enable.success');
-            }).fail(onAjaxFail);
+                App.notify('image.action.enable.success');
+            }).fail(App.onAjaxFail);
         });
 
     var $sortable = $('.table_row .images[data-sort-url]');
@@ -70,7 +70,7 @@ $(document).ready(function () {
                             return $(this).data('id');
                         }).get()
                     }
-                }).fail(onAjaxFail);
+                }).fail(App.onAjaxFail);
             }
         });
         $sortable.disableSelection();

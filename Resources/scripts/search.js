@@ -17,7 +17,10 @@ $(document).ready(function () {
             }
 
             pending = true;
-            $searchable.show().find('.searchable_title').append(AJAX_LOADER);
+
+            App.preload();
+
+            $searchable.show();
 
             $.ajax({
                 url: $searchable.data('source')
@@ -35,7 +38,7 @@ $(document).ready(function () {
             }).always(function () {
                 clearInterval(interval);
                 pending = false;
-            }).fail(onAjaxFail);
+            }).fail(App.onAjaxFail);
         }, 100);
     });
 });

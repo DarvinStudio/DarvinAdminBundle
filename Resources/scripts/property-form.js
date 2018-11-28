@@ -28,16 +28,16 @@ $(() => {
 
             $(document).trigger('propertyFormSubmit', $formReplacement);
 
-            notify(data.message, data.success ? 'success' : 'error');
+            App.notify(data.message, data.success ? 'success' : 'error');
 
             if (reloadPage && !$formReplacement.closest(SELECTOR.container).parent('.searchable_results').length) {
                 $.ajax({
                     cache: false
                 }).done(function (html) {
                     $formReplacement.closest('.section_table').replaceWith($(html).find('.section_table:first'));
-                }).fail(onAjaxFail);
+                }).fail(App.onAjaxFail);
             }
-        }).fail(onAjaxFail);
+        }).fail(App.onAjaxFail);
     };
     */
 

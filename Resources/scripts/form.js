@@ -10,9 +10,9 @@ $(() => {
             return;
         }
 
-        $form
-            .data('submitted', true)
-            .find('[type="submit"]').append(AJAX_LOADER);
+        $form.data('submitted', true);
+
+        App.preload();
 
         $.ajax({
             url:         $form.attr('action'),
@@ -21,24 +21,23 @@ $(() => {
             contentType: false,
             processData: false
         }).done((data) => {
-            notify(data.message, data.success ? 'success' : 'error');
+            App.notify(data.message, data.success ? 'success' : 'error');
+            App.redirect(data.redirectUrl);
 
             if (options.reloadPage) {
                 $.ajax({
                     cache: false
-                }).done(function (html) {
+                }).done((html) => {
                     $form.closest('.section_table').replaceWith($(html).find('.section_table:first'));
-                }).fail(onAjaxFail);
-            } else if (data.html) {
-                $form.replaceWith(data.html);
+                }).fail(App.onAjaxFail);
+
+                return;
             }
-            if (data.redirectUrl) {
-                setTimeout(() => {
-                    document.location.href = data.redirectUrl;
-                }, NOTY_TIMEOUT);
+            if (data.html) {
+                $form.replaceWith(data.html);
             }
         }).always(() => {
             $form.removeData('submitted');
-        }).fail(onAjaxFail);
+        }).fail(App.onAjaxFail);
     });
 });

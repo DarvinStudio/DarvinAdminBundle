@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{% set title = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity}) %}
+{% set title = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
 
 <a href="{{ admin_path(entity, entity_class, 'show') }}"
    data-title="{{ title }}"

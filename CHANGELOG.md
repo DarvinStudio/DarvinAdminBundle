@@ -223,6 +223,8 @@ form:
 
 5.21.24: Init Dropzone on form collection add.
 
+5.21.25: Translate entity passed to translation string.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

@@ -118,8 +118,13 @@ class CrudController extends Controller
                     $qb->addOrderBy('o.'.$sort, $order);
                 }
             } else {
-                $sortFields = array_keys($sortCriteria);
-                $paginatorOptions['defaultSortFieldName'] = 'o.'.$sortFields[0];
+                $sortField = array_keys($sortCriteria)[0];
+
+                if (false === strpos($sortField, '.')) {
+                    $sortField = sprintf('o.%s', $sortField);
+                }
+
+                $paginatorOptions['defaultSortFieldName'] = $sortField;
                 $paginatorOptions['defaultSortDirection'] = reset($sortCriteria);
             }
         }

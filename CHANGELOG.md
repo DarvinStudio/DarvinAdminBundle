@@ -222,3 +222,5 @@ form:
 5.21.23: Do not wrap hidden inputs with any containers.
 
 5.21.24: Init Dropzone on form collection add.
+
+5.21.25: Translate entity passed to translation string.

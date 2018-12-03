@@ -225,6 +225,8 @@ form:
 
 5.21.25: Translate entity passed to translation string.
 
+5.21.26: CRUD index action: allow to sort by association's property.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

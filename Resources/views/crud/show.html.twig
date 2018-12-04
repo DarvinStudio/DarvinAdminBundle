@@ -1,4 +1,4 @@
-{% extends 'DarvinAdminBundle::layout.html.twig' %}
+{% extends '@DarvinAdmin/layout.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -8,4 +8,4 @@
 
 {% block heading %}{{ heading }}{% endblock %}
 
-{% block content %}{% include meta.configuration.view.show.template ?: 'DarvinAdminBundle:Crud/widget:show.html.twig' %}{% endblock %}
+{% block content %}{% include meta.configuration.view.show.template ?: '@DarvinAdmin/crud/widget/show.html.twig' %}{% endblock %}

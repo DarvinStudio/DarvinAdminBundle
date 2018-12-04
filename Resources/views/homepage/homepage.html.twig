@@ -1,4 +1,4 @@
-{% extends 'DarvinAdminBundle::layout.html.twig' %}
+{% extends '@DarvinAdmin/layout.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -7,7 +7,7 @@
 {% block content %}
     <div class="main_menu_wrap">
 
-        {{ admin_menu('DarvinAdminBundle:Homepage:menu.html.twig') }}
+        {{ admin_menu('@DarvinAdmin/homepage/menu.html.twig') }}
 
     </div>
     {% for name, widget in dashboard.widgets %}

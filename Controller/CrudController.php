@@ -679,7 +679,7 @@ class CrudController extends Controller
     {
         $template = $widget && !empty($this->configuration['view'][$viewType]['template'])
             ? $this->configuration['view'][$viewType]['template']
-            : sprintf('DarvinAdminBundle:Crud%s:%s.html.twig', $widget ? '/widget' : '', $viewType);
+            : sprintf('@DarvinAdmin/crud%s/%s.html.twig', $widget ? '/widget' : '', $viewType);
 
         return $this->renderView($template, $templateParams);
     }

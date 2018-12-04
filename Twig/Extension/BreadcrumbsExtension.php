@@ -109,7 +109,7 @@ class BreadcrumbsExtension extends AbstractExtension
             $crumbs[] = $this->createCrumb($heading);
         }
 
-        return $environment->render('DarvinAdminBundle::breadcrumbs.html.twig', [
+        return $environment->render('@DarvinAdmin/breadcrumbs.html.twig', [
             'crumbs' => $crumbs,
         ]);
     }

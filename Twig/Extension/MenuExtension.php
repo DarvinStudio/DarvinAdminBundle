@@ -52,7 +52,7 @@ class MenuExtension extends AbstractExtension
      *
      * @return string
      */
-    public function renderMenu(Environment $environment, string $template = 'DarvinAdminBundle::menu.html.twig'): string
+    public function renderMenu(Environment $environment, string $template = '@DarvinAdmin/menu.html.twig'): string
     {
         return $environment->render($template, [
             'items' => $this->menu->getItems(),

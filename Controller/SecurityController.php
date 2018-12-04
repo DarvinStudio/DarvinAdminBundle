@@ -33,7 +33,7 @@ class SecurityController extends Controller
 
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        return $this->render('DarvinAdminBundle:Security:login.html.twig', [
+        return $this->render('@DarvinAdmin/security/login.html.twig', [
             'error' => !empty($error) ? $error->getMessage() : null,
             'form'  => $form->createView(),
         ]);

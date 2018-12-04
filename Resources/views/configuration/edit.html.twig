@@ -1,4 +1,4 @@
-{% extends 'DarvinAdminBundle::layout.html.twig' %}
+{% extends '@DarvinAdmin/layout.html.twig' %}
 
 {% import _self as this %}
 
@@ -42,7 +42,7 @@
 
 {% macro form_row(row) %}
 
-    {% import 'DarvinAdminBundle:Configuration:edit.html.twig' as this %}
+    {% import '@DarvinAdmin/configuration/edit.html.twig' as this %}
 
     {{ this.form_row_start(row) }}
     {% if row.children is not empty %}
@@ -52,7 +52,7 @@
             and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
         %}
             {% if 'darvin_admin_translatable' == child.vars.block_prefixes[1]|default %}
-                {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
+                {% form_theme child '@DarvinAdmin/form/fields.html.twig' %}
                 {{ form_row(child) }}
             {% else %}
                 {{ this.form_row(child) }}
@@ -88,7 +88,7 @@
                                 {% endif %}
                             {% endif %}
                             {% if 'darvin_admin_ace_editor' == child.vars.block_prefixes[3]|default %}
-                                {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
+                                {% form_theme child '@DarvinAdmin/form/fields.html.twig' %}
                                 {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
                             {% else %}
 
@@ -141,7 +141,7 @@
 {%- endblock form_label -%}
 
 {% block breadcrumbs %}
-    {% include 'DarvinAdminBundle::breadcrumbs.html.twig' with {'crumbs': [
+    {% include '@DarvinAdmin/breadcrumbs.html.twig' with {'crumbs': [
         {
             'title': 'homepage.action.homepage.link',
             'url':   path('darvin_admin_homepage'),

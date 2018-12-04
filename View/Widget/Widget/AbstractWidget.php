@@ -130,7 +130,7 @@ abstract class AbstractWidget implements WidgetInterface
      */
     protected function getDefaultTemplate()
     {
-        return sprintf('DarvinAdminBundle:Widget:%s.html.twig', $this->getAlias());
+        return sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
     }
 
     /**

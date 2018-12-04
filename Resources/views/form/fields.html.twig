@@ -1,6 +1,6 @@
 {% extends 'form_div_layout.html.twig' %}
 
-{% use 'VichUploaderBundle:Form:fields.html.twig' %}
+{% use '@VichUploader/Form/fields.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -95,7 +95,7 @@
         <div class="images" data-sort-url="{{ path('darvin_image_image_sort') }}">
             {% for image in data if image.id and image_exists(image) %}
 
-                {% include 'DarvinAdminBundle:Form:image.html.twig' %}
+                {% include '@DarvinAdmin/form/image.html.twig' %}
 
             {% endfor %}
         </div>
@@ -179,7 +179,7 @@
     <div class="input_value">
         {% if data and image_exists(data) %}
 
-            {% include 'DarvinAdminBundle:Form:image.html.twig' with {
+            {% include '@DarvinAdmin/form/image.html.twig' with {
                 'image': data,
             } %}
 

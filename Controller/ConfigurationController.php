@@ -58,7 +58,7 @@ class ConfigurationController extends Controller
             $this->getFlashNotifier()->formError();
         }
 
-        return $this->render('DarvinAdminBundle:Configuration:edit.html.twig', [
+        return $this->render('@DarvinAdmin/configuration/edit.html.twig', [
             'current_type' => $type,
             'form'         => $form->createView(),
         ]);

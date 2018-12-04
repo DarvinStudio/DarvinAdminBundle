@@ -95,7 +95,7 @@
                         <div class="col-md-12 col-lg-12 header_right">
                             <div class="container-fluid">
 
-                                {% include 'DarvinAdminBundle:Search/widget:form.html.twig' %}
+                                {% include '@DarvinAdmin/search/widget/form.html.twig' %}
 
                                 {% if app.user %}
                                     {% if is_granted('admin_view', app.user) %}

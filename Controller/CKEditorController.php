@@ -33,7 +33,7 @@ class CKEditorController extends Controller
             throw $this->createNotFoundException($ex->getMessage());
         }
 
-        $response = $this->render('DarvinAdminBundle:CKEditor:plugin.js.twig', [
+        $response = $this->render('@DarvinAdmin/ck_editor/plugin.js.twig', [
             'icon'   => $this->getWidgetIcon($widget),
             'widget' => $widget,
         ]);

@@ -128,7 +128,7 @@ class ShowErrorPageListener
             return;
         }
 
-        $template = sprintf('DarvinAdminBundle:Error:%d.html.twig', $this->getStatusCode($exception));
+        $template = sprintf('@DarvinAdmin/error/%d.html.twig', $this->getStatusCode($exception));
 
         if (!$this->templating->exists($template)) {
             return;

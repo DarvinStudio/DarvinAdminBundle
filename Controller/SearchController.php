@@ -35,7 +35,7 @@ class SearchController extends Controller
 
         $entityNames = $queryTooShort ? [] : $this->getSearcher()->getSearchableEntityNames();
 
-        return $this->render('DarvinAdminBundle:Search:index.html.twig', [
+        return $this->render('@DarvinAdmin/search/index.html.twig', [
             'entity_names'     => $entityNames,
             'query'            => $query,
             'query_min_length' => $queryMinLength,
@@ -73,7 +73,7 @@ class SearchController extends Controller
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($meta, $entities);
 
-        return $this->render('DarvinAdminBundle:Search/widget:results.html.twig', [
+        return $this->render('@DarvinAdmin/search/widget/results.html.twig', [
             'batch_delete_form' => $batchDeleteForm,
             'entities_count'    => count($entities),
             'meta'              => $meta,

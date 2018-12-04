@@ -1,4 +1,4 @@
-{% extends 'DarvinAdminBundle::layout.html.twig' %}
+{% extends '@DarvinAdmin/layout.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -9,7 +9,7 @@
 {% block content %}
     {% if filter_form %}
 
-        {% include 'DarvinAdminBundle:Crud/widget/filter:form.html.twig' with {
+        {% include '@DarvinAdmin/crud/widget/filter/form.html.twig' with {
             'field_groups': meta.configuration.form.filter.field_groups,
             'form':         filter_form,
         } %}
@@ -22,6 +22,6 @@
         </div>
     {% endif %}
 
-    {% include meta.configuration.view.index.template ?: 'DarvinAdminBundle:Crud/widget:index.html.twig' %}
+    {% include meta.configuration.view.index.template ?: '@DarvinAdmin/crud/widget/index.html.twig' %}
 
 {% endblock %}

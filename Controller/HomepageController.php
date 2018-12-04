@@ -22,7 +22,7 @@ class HomepageController extends Controller
      */
     public function homepageAction()
     {
-        return $this->render('DarvinAdminBundle:Homepage:homepage.html.twig', [
+        return $this->render('@DarvinAdmin/homepage/homepage.html.twig', [
             'dashboard' => $this->getDashboard(),
         ]);
     }

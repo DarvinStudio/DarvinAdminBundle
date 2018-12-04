@@ -1,6 +1,6 @@
-{% extends 'DarvinAdminBundle::layout.html.twig' %}
+{% extends '@DarvinAdmin/layout.html.twig' %}
 
-{% form_theme form 'DarvinAdminBundle:Form:fields.html.twig' %}
+{% form_theme form '@DarvinAdmin/form/fields.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -10,4 +10,4 @@
 
 {% block heading %}{{ heading }}{% endblock %}
 
-{% block content %}{% include 'DarvinAdminBundle:Crud/widget:new.html.twig' %}{% endblock %}
+{% block content %}{% include '@DarvinAdmin/crud/widget/new.html.twig' %}{% endblock %}

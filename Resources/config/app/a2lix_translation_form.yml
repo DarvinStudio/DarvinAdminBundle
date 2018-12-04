@@ -1,4 +1,4 @@
 a2lix_translation_form:
     default_locale: "%locale%"
     locales:        "%locales%"
-    templating:     DarvinAdminBundle::translations.html.twig
+    templating:     "@DarvinAdmin/translations.html.twig"

@@ -107,7 +107,7 @@ layout:
             </div>
         support:
             label: 'Technical Support'
-            email: Support@darvin-Studio.ru
+            email: support@darvin-studio.ru
     locale_switcher:
         title: 'Current Language:'
     logo: 'Content Management System'

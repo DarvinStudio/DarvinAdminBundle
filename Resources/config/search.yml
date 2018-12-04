@@ -6,10 +6,10 @@ services:
         public: true
 
     darvin_admin.searcher:
-        class: "%darvin_admin.searcher.class%"
+        class: '%darvin_admin.searcher.class%'
         arguments:
-            - "@security.authorization_checker"
-            - "@doctrine.orm.entity_manager"
-            - "@darvin_content.filterer"
-            - "@darvin_admin.metadata.manager"
-            - "@darvin_content.translatable.translation_joiner"
+            - '@security.authorization_checker'
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_content.filterer'
+            - '@darvin_admin.metadata.manager'
+            - '@darvin_content.translatable.translation_joiner'

@@ -94,9 +94,17 @@ interface:
     empty_list: 'La Liste Est Vide'
     total_item_count: 'Nombre Total D''Éléments: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
     footer:
-        phone_numbers: "<div Class=\"phone\">\n    <span>Kovrov Ville</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>La Ville De Vladimir</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        phone_numbers: >
+            <div class="phone">
+                <span>Kovrov Ville</span>
+                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+            </div>
+            <div class="phone">
+                <span>La Ville De Vladimir</span>
+                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+            </div>
         support:
             label: 'Le Support Technique'
             email: Support@darvin-Studio.ru
@@ -162,7 +170,10 @@ search:
     action:
         index:
             heading: 'La recherche pour "%query%"'
-            query_too_short: "La Requête Est Trop Court, Min Longueur Est %min_length% Symbole | La Requête Est Trop Court, Min Longueur Est %min_length% Symboles | La Requête Est Trop Court, Min Longueur Est %min_length%Symboles\n"
+            query_too_short: >
+                La Requête Est Trop Court, Min Longueur Est %min_length% Symbole |
+                La Requête Est Trop Court, Min Longueur Est %min_length% Symboles |
+                La Requête Est Trop Court, Min Longueur Est %min_length%Symboles
     form:
         placeholder: Recherche...
         submit: Recherche

@@ -12,35 +12,35 @@ services:
         public: true
 
     darvin_admin.menu:
-        class:  "%darvin_admin.menu.class%"
+        class:  '%darvin_admin.menu.class%'
         public: false
         arguments:
-            - "@security.authorization_checker"
-            - "%darvin_admin.menu.groups%"
+            - '@security.authorization_checker'
+            - '%darvin_admin.menu.groups%'
 
     darvin_admin.menu.configuration_item_factory:
-        class:  "%darvin_admin.menu.configuration_item_factory.class%"
+        class:  '%darvin_admin.menu.configuration_item_factory.class%'
         public: false
         arguments:
-            - "@security.authorization_checker"
-            - "@router"
+            - '@security.authorization_checker'
+            - '@router'
         tags:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.item_factory:
-        class:  "%darvin_admin.menu.item_factory.class%"
+        class:  '%darvin_admin.menu.item_factory.class%'
         public: false
         arguments:
-            - "@darvin_admin.router"
-            - "@security.authorization_checker"
-            - "@darvin_admin.metadata.manager"
+            - '@darvin_admin.router'
+            - '@security.authorization_checker'
+            - '@darvin_admin.metadata.manager'
         tags:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.twig_extension:
-        class:  "%darvin_admin.menu.twig_extension.class%"
+        class:  '%darvin_admin.menu.twig_extension.class%'
         public: false
         arguments:
-            - "@darvin_admin.menu"
+            - '@darvin_admin.menu'
         tags:
             - { name: twig.extension }

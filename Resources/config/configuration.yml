@@ -10,21 +10,21 @@ services:
         public: true
 
     darvin_admin.configuration.configurations_form_type:
-        class: "%darvin_admin.configuration.configurations_form_type.class%"
+        class: '%darvin_admin.configuration.configurations_form_type.class%'
         arguments:
-            - "@darvin_utils.security.accessibility_checker"
-            - "@darvin_config.configuration.pool"
+            - '@darvin_utils.security.accessibility_checker'
+            - '@darvin_config.configuration.pool'
         tags:
             - { name: form.type }
 
     darvin_admin.configuration.controller:
-        class: "%darvin_admin.configuration.controller.class%"
+        class: '%darvin_admin.configuration.controller.class%'
         calls:
-            - [ setContainer, [ "@service_container" ] ]
+            - [ setContainer, [ '@service_container' ] ]
 
     darvin_admin.configuration.section:
-        class: "%darvin_admin.configuration.section.class%"
+        class: '%darvin_admin.configuration.section.class%'
         arguments:
-            - "@darvin_utils.orm.entity_resolver"
-            - "@darvin_utils.object_namer"
-            - "%darvin_admin.sections%"
+            - '@darvin_utils.orm.entity_resolver'
+            - '@darvin_utils.object_namer'
+            - '%darvin_admin.sections%'

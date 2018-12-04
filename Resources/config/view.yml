@@ -38,241 +38,241 @@ services:
         public: true
 
     darvin_admin.view.entity_transformer.abstract:
-        class:    "%darvin_admin.view.entity_transformer.abstract.class%"
+        class:    '%darvin_admin.view.entity_transformer.abstract.class%'
         abstract: true
         arguments:
-            - "@service_container"
-            - "@darvin_admin.metadata.field_blacklist_manager"
-            - "@property_accessor"
-            - "@darvin_utils.stringifier.doctrine"
-            - "@darvin_admin.view.widget.pool"
+            - '@service_container'
+            - '@darvin_admin.metadata.field_blacklist_manager'
+            - '@property_accessor'
+            - '@darvin_utils.stringifier.doctrine'
+            - '@darvin_admin.view.widget.pool'
 
     darvin_admin.view.entity_transformer.index:
-        class:  "%darvin_admin.view.entity_transformer.index.class%"
+        class:  '%darvin_admin.view.entity_transformer.index.class%'
         parent: darvin_admin.view.entity_transformer.abstract
         public: true
         calls:
-            - [ setAdminFormFactory,     [ "@darvin_admin.form.factory" ] ]
-            - [ setAuthorizationChecker, [ "@security.authorization_checker" ] ]
-            - [ setTemplating,           [ "@templating" ] ]
+            - [ setAdminFormFactory,     [ '@darvin_admin.form.factory' ] ]
+            - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
+            - [ setTemplating,           [ '@templating' ] ]
 
     darvin_admin.view.entity_transformer.show:
-        class:  "%darvin_admin.view.entity_transformer.show.class%"
+        class:  '%darvin_admin.view.entity_transformer.show.class%'
         parent: darvin_admin.view.entity_transformer.abstract
         public: true
         calls:
-            - [ setEventDispatcher, [ "@event_dispatcher" ] ]
+            - [ setEventDispatcher, [ '@event_dispatcher' ] ]
 
     darvin_admin.view.widget.abstract:
-        class:    "%darvin_admin.view.widget.abstract.class%"
+        class:    '%darvin_admin.view.widget.abstract.class%'
         abstract: true
         public:   false
         arguments:
-            - "@security.authorization_checker"
-            - "@darvin_admin.metadata.manager"
-            - "@property_accessor"
-            - "@templating"
+            - '@security.authorization_checker'
+            - '@darvin_admin.metadata.manager'
+            - '@property_accessor'
+            - '@templating'
 
     darvin_admin.view.widget.actions:
-        class:  "%darvin_admin.view.widget.actions.class%"
+        class:  '%darvin_admin.view.widget.actions.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
+            - [ setWidgetPool, [ '@darvin_admin.view.widget.pool' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.batch_delete:
-        class:  "%darvin_admin.view.widget.batch_delete.class%"
+        class:  '%darvin_admin.view.widget.batch_delete.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
+            - [ setAdminRouter, [ '@darvin_admin.router' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.child_links:
-        class:  "%darvin_admin.view.widget.child_links.class%"
+        class:  '%darvin_admin.view.widget.child_links.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminRouter,        [ "@darvin_admin.router" ] ]
-            - [ setEntityManager,      [ "@doctrine.orm.entity_manager" ] ]
-            - [ setEntityResolver,     [ "@darvin_utils.orm.entity_resolver" ] ]
-            - [ setIdentifierAccessor, [ "@darvin_admin.metadata.identifier_accessor" ] ]
+            - [ setAdminRouter,        [ '@darvin_admin.router' ] ]
+            - [ setEntityManager,      [ '@doctrine.orm.entity_manager' ] ]
+            - [ setEntityResolver,     [ '@darvin_utils.orm.entity_resolver' ] ]
+            - [ setIdentifierAccessor, [ '@darvin_admin.metadata.identifier_accessor' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.compound_list:
-        class:  "%darvin_admin.view.widget.compound_list.class%"
+        class:  '%darvin_admin.view.widget.compound_list.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.copy_form:
-        class:  "%darvin_admin.view.widget.copy_form.class%"
+        class:  '%darvin_admin.view.widget.copy_form.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminFormFactory,        [ "@darvin_admin.form.factory" ] ]
-            - [ setAdminRouter,             [ "@darvin_admin.router" ] ]
-            - [ setExtendedMetadataFactory, [ "@darvin_utils.mapping.metadata_factory" ] ]
+            - [ setAdminFormFactory,        [ '@darvin_admin.form.factory' ] ]
+            - [ setAdminRouter,             [ '@darvin_admin.router' ] ]
+            - [ setExtendedMetadataFactory, [ '@darvin_utils.mapping.metadata_factory' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.delete_form:
-        class:  "%darvin_admin.view.widget.delete_form.class%"
+        class:  '%darvin_admin.view.widget.delete_form.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminFormFactory, [ "@darvin_admin.form.factory" ] ]
-            - [ setAdminRouter,      [ "@darvin_admin.router" ] ]
+            - [ setAdminFormFactory, [ '@darvin_admin.form.factory' ] ]
+            - [ setAdminRouter,      [ '@darvin_admin.router' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.edit_link:
-        class:  "%darvin_admin.view.widget.edit_link.class%"
+        class:  '%darvin_admin.view.widget.edit_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
+            - [ setAdminRouter, [ '@darvin_admin.router' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.email_link:
-        class:  "%darvin_admin.view.widget.email_link.class%"
+        class:  '%darvin_admin.view.widget.email_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.empty_widget:
-        class:  "%darvin_admin.view.widget.empty_widget.class%"
+        class:  '%darvin_admin.view.widget.empty_widget.class%'
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.entity_list:
-        class:  "%darvin_admin.view.widget.entity_list.class%"
+        class:  '%darvin_admin.view.widget.entity_list.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setWidgetPool, [ "@darvin_admin.view.widget.pool" ] ]
+            - [ setWidgetPool, [ '@darvin_admin.view.widget.pool' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.file_upload_link:
-        class:  "%darvin_admin.view.widget.file_upload_link.class%"
+        class:  '%darvin_admin.view.widget.file_upload_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
+            - [ setUploadStorage, [ '@vich_uploader.storage' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.image_link:
-        class:  "%darvin_admin.view.widget.image_link.class%"
+        class:  '%darvin_admin.view.widget.image_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setImageUrlBuilder, [ "@darvin_image.url_builder.builder" ] ]
+            - [ setImageUrlBuilder, [ '@darvin_image.url_builder.builder' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.image_upload_link:
-        class:  "%darvin_admin.view.widget.image_upload_link.class%"
+        class:  '%darvin_admin.view.widget.image_upload_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setUploadStorage, [ "@vich_uploader.storage" ] ]
+            - [ setUploadStorage, [ '@vich_uploader.storage' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.log_entry.data:
-        class:  "%darvin_admin.view.widget.log_entry.data.class%"
+        class:  '%darvin_admin.view.widget.log_entry.data.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]
-            - [ setObjectNamer,   [ "@darvin_utils.object_namer" ] ]
-            - [ setStringifier,   [ "@darvin_utils.stringifier.doctrine" ] ]
+            - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
+            - [ setObjectNamer,   [ '@darvin_utils.object_namer' ] ]
+            - [ setStringifier,   [ '@darvin_utils.stringifier.doctrine' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.log_entry.entity_name:
-        class:  "%darvin_admin.view.widget.log_entry.entity_name.class%"
+        class:  '%darvin_admin.view.widget.log_entry.entity_name.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setObjectNamer,         [ "@darvin_utils.object_namer" ] ]
-            - [ setTranslatableManager, [ "@darvin_content.translatable.manager" ] ]
+            - [ setObjectNamer,         [ '@darvin_utils.object_namer' ] ]
+            - [ setTranslatableManager, [ '@darvin_content.translatable.manager' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.photo_gallery:
-        class:  "%darvin_admin.view.widget.photo_gallery.class%"
+        class:  '%darvin_admin.view.widget.photo_gallery.class%'
         parent: darvin_admin.view.widget.entity_list
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.public_link:
-        class:  "%darvin_admin.view.widget.public_link.class%"
+        class:  '%darvin_admin.view.widget.public_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setHomepageRouter, [ "@darvin_utils.homepage.router" ] ]
-            - [ setRouter,         [ "@router" ] ]
+            - [ setHomepageRouter, [ '@darvin_utils.homepage.router' ] ]
+            - [ setRouter,         [ '@router' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.readable_enum:
-        class:  "%darvin_admin.view.widget.readable_enum.class%"
+        class:  '%darvin_admin.view.widget.readable_enum.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.show_link:
-        class:  "%darvin_admin.view.widget.show_link.class%"
+        class:  '%darvin_admin.view.widget.show_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         calls:
-            - [ setAdminRouter, [ "@darvin_admin.router" ] ]
+            - [ setAdminRouter, [ '@darvin_admin.router' ] ]
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.simple_link:
-        class:  "%darvin_admin.view.widget.simple_link.class%"
+        class:  '%darvin_admin.view.widget.simple_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.simple_list:
-        class:  "%darvin_admin.view.widget.simple_list.class%"
+        class:  '%darvin_admin.view.widget.simple_list.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.switch_user:
-        class:  "%darvin_admin.view.widget.switch_user.class%"
+        class:  '%darvin_admin.view.widget.switch_user.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
 
     darvin_admin.view.widget.pool:
-        class: "%darvin_admin.view.widget.pool.class%"
+        class: '%darvin_admin.view.widget.pool.class%'
         tags:
             - { name: darvin_utils.providable }
 
     darvin_admin.view.widget.twig_extension:
-        class:  "%darvin_admin.view.widget.twig_extension.class%"
+        class:  '%darvin_admin.view.widget.twig_extension.class%'
         public: false
         arguments:
-            - "@darvin_admin.view.widget.pool.provider"
+            - '@darvin_admin.view.widget.pool.provider'
         tags:
             - { name: twig.extension }

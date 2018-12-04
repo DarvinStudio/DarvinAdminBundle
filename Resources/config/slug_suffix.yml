@@ -6,10 +6,10 @@ services:
         public: true
 
     darvin_admin.slug_suffix.form_type:
-        class: "%darvin_admin.slug_suffix.form_type.class%"
+        class: '%darvin_admin.slug_suffix.form_type.class%'
         arguments:
-            - "@darvin_utils.homepage.router"
-            - "@property_accessor"
-            - "@darvin_utils.routing.route_manager"
+            - '@darvin_utils.homepage.router'
+            - '@property_accessor'
+            - '@darvin_utils.routing.route_manager'
         tags:
             - { name: form.type }

@@ -1,21 +1,21 @@
 action:
     copy:
-        submit:  " Copy @trans_lower_accusative@"
-        success: "@trans@ successfully copied"
+        submit:  ' Copy @trans_lower_accusative@'
+        success: '@trans@ successfully copied'
     delete:
-        confirm: "Confirm @trans_lower_genitive@ removal"
-        submit:  " Remove @trans_lower_accusative@"
-        success: "@trans@ successfully removed"
+        confirm: 'Confirm @trans_lower_genitive@ removal'
+        submit:  ' Remove @trans_lower_accusative@'
+        success: '@trans@ successfully removed'
     edit:
-        link:    "   Edit @trans_lower_accusative@"
-        success: "@trans@ successfully updated"
-        title:   "  Edit @trans_lower_accusative@ \"%entity%\""
+        link:    '   Edit @trans_lower_accusative@'
+        success: '@trans@ successfully updated'
+        title:   '  Edit @trans_lower_accusative@ "%entity%"'
     index:
-        link:  " @trans_multiple@s"
-        title: "@trans_multiple@s"
+        link:  ' @trans_multiple@s'
+        title: '@trans_multiple@s'
     new:
-        link:    "   Create @trans_lower_accusative@"
-        success: "@trans@ successfully created"
-        title:   "  New @trans_lower@"
+        link:    '   Create @trans_lower_accusative@'
+        success: '@trans@ successfully created'
+        title:   '  New @trans_lower@'
     show:
-        title: "@trans@ \"%entity%\""
+        title: '@trans@ "%entity%"'

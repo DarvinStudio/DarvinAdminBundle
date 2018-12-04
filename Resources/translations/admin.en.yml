@@ -94,9 +94,17 @@ interface:
     empty_list: 'List Is Empty'
     total_item_count: 'Total Items: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%'
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%'
     footer:
-        phone_numbers: "<div Class=\"phone\">\n    <span>Kovrov City</span>\n    <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>Vladimir City</span>\n    <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        phone_numbers: >
+            <div class="phone">
+                <span>Kovrov City</span>
+                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+            </div>
+            <div class="phone">
+                <span>Vladimir City</span>
+                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+            </div>
         support:
             label: 'Technical Support'
             email: Support@darvin-Studio.ru
@@ -162,7 +170,10 @@ search:
     action:
         index:
             heading: 'Searching for "%query%"'
-            query_too_short: "Query Is Too Short, Min Length Is %min_length% Symbol | Query Is Too Short, Min Length Is %min_length% Symbols | Query Is Too Short, Min Length Is %min_length% Symbols\n"
+            query_too_short: >
+                Query Is Too Short, Min Length Is %min_length% Symbol |
+                Query Is Too Short, Min Length Is %min_length% Symbols |
+                Query Is Too Short, Min Length Is %min_length% Symbols
     form:
         placeholder: Search...
         submit: Search

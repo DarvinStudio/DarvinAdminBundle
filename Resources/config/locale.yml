@@ -6,8 +6,8 @@ services:
         public: true
 
     darvin_admin.locale.form_type:
-        class: "%darvin_admin.locale.form_type.class%"
+        class: '%darvin_admin.locale.form_type.class%'
         arguments:
-            - "%locales%"
+            - '%locales%'
         tags:
             - { name: form.type }

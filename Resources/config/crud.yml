@@ -6,9 +6,9 @@ services:
         public: true
 
     darvin_admin.crud.controller:
-        class:    "%darvin_admin.crud.controller.class%"
+        class:    '%darvin_admin.crud.controller.class%'
         abstract: true
         arguments:
-            - "@darvin_admin.metadata.manager"
+            - '@darvin_admin.metadata.manager'
         calls:
-            - [ setContainer, [ "@service_container" ] ]
+            - [ setContainer, [ '@service_container' ] ]

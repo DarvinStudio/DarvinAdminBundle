@@ -1,5 +1,5 @@
 lexik_translation:
     fallback_locale:
         - en
-        - "%locale%"
-    managed_locales: "%locales%"
+        - '%locale%'
+    managed_locales: '%locales%'

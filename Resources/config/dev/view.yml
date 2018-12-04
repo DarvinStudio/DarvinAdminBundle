@@ -7,9 +7,9 @@ services:
         public: true
 
     darvin_admin.view.widget.list_command:
-        class: "%darvin_admin.view.widget.list_command.class%"
+        class: '%darvin_admin.view.widget.list_command.class%'
         arguments:
-            - "%darvin_admin.view.widget.list_command.name%"
-            - "@darvin_admin.view.widget.pool"
+            - '%darvin_admin.view.widget.list_command.name%'
+            - '@darvin_admin.view.widget.pool'
         tags:
             - { name: console.command }

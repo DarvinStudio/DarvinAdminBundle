@@ -1,7 +1,7 @@
 darvin_admin_search_results:
     path:         /{entityName}/{query}
     defaults:     { _controller: DarvinAdminBundle:Search:results }
-    requirements: { entityName: "[0-9a-z_]+", query: .+ }
+    requirements: { entityName: '[0-9a-z_]+', query: .+ }
     methods:      [ get ]
     condition:    request.isXmlHttpRequest()
 

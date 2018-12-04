@@ -94,9 +94,17 @@ interface:
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود: %count%'
 layout:
-    copyright: '© 2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
+    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
     footer:
-        phone_numbers: "<div Class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7 (4922) 32-32-32</a>\n</div>\n"
+        phone_numbers: >
+            <div class="phone">
+                <span>مدينة كوفروف</span>
+                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
+            </div>
+            <div class="phone">
+                <span>فلاديمير المدينة</span>
+                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+            </div>
         support:
             label: 'الدعم الفني'
             email: Support@darvin-Studio.ru
@@ -162,7 +170,7 @@ search:
     action:
         index:
             heading: 'البحث عن "%query%"'
-            query_too_short: "الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز\n"
+            query_too_short: 'الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز'
     form:
         placeholder: 'البحث عن...'
         submit: البحث

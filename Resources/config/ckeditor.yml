@@ -8,21 +8,21 @@ services:
         public: true
 
     darvin_admin.ckeditor.compact_form_type:
-        class: "%darvin_admin.ckeditor.compact_form_type.class%"
+        class: '%darvin_admin.ckeditor.compact_form_type.class%'
         arguments:
-            - "@darvin_utils.locale.provider"
+            - '@darvin_utils.locale.provider'
         tags:
             - { name: form.type }
 
     darvin_admin.ckeditor.form_type:
-        class: "%darvin_admin.ckeditor.form_type.class%"
+        class: '%darvin_admin.ckeditor.form_type.class%'
         arguments:
-            - "@darvin_utils.locale.provider"
-            - "@property_accessor"
-            - "@router"
-            - "@darvin_content.translatable.manager"
-            - "@darvin_content.widget.pool"
-            - "%darvin_admin.ckeditor.plugin_filename%"
-            - "%darvin_admin.ckeditor.plugins_path%"
+            - '@darvin_utils.locale.provider'
+            - '@property_accessor'
+            - '@router'
+            - '@darvin_content.translatable.manager'
+            - '@darvin_content.widget.pool'
+            - '%darvin_admin.ckeditor.plugin_filename%'
+            - '%darvin_admin.ckeditor.plugins_path%'
         tags:
             - { name: form.type }

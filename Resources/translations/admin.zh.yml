@@ -96,7 +96,15 @@ interface:
 layout:
     copyright: '©2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
     footer:
-        phone_numbers: "<div Class=\"phone\">\n    <span>科夫罗夫市</span>\n <a Href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div Class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a Href=\"tel:+7 (4922) 32-32-32\">+7(4922)32-32-32</a>\n</div>\n"
+        phone_numbers: >
+            <div class="phone">
+                <span>科夫罗夫市</span>
+                <a href="tel:+7 (49232) 4-16-14">+7(49232)4-16-14</a>
+            </div>
+            <div class="phone">
+                <span>弗拉基米尔城市</span>
+                <a href="tel:+7 (4922) 32-32-32">+7(4922)32-32-32</a>
+            </div>
         support:
             label: 技术支持
             email: Support@darvin-Studio.ru
@@ -162,7 +170,10 @@ search:
     action:
         index:
             heading: '搜寻"%query%"'
-            query_too_short: "查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length%符号\n"
+            query_too_short: >
+                查询太短，分的长度 %min_length% 符号 |
+                查询太短，分的长度 %min_length% 符号 |
+                查询太短，分的长度 %min_length%符号
     form:
         placeholder: 搜索...
         submit: 搜索

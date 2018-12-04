@@ -6,13 +6,13 @@ services:
         public: true
 
     darvin_admin.breadcrumbs.twig_extension:
-        class:  "%darvin_admin.breadcrumbs.twig_extension.class%"
+        class:  '%darvin_admin.breadcrumbs.twig_extension.class%'
         public: false
         arguments:
-            - "@darvin_admin.router"
-            - "@router"
-            - "@darvin_admin.metadata.identifier_accessor"
-            - "@darvin_admin.metadata.manager"
-            - "@property_accessor"
+            - '@darvin_admin.router'
+            - '@router'
+            - '@darvin_admin.metadata.identifier_accessor'
+            - '@darvin_admin.metadata.manager'
+            - '@property_accessor'
         tags:
             - { name: twig.extension }

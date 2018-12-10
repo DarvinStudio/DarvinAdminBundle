@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -15,8 +15,8 @@ namespace Darvin\AdminBundle\Event\Crud;
  */
 final class CrudEvents
 {
-    const COPIED  = 'darvin_admin.crud.copied';
-    const CREATED = 'darvin_admin.crud.created';
-    const DELETED = 'darvin_admin.crud.deleted';
-    const UPDATED = 'darvin_admin.crud.updated';
+    public const COPIED  = 'darvin_admin.crud.copied';
+    public const CREATED = 'darvin_admin.crud.created';
+    public const DELETED = 'darvin_admin.crud.deleted';
+    public const UPDATED = 'darvin_admin.crud.updated';
 }

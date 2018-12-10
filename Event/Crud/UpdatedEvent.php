@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Event\Crud;
 
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
 
 /**
@@ -28,13 +29,14 @@ class UpdatedEvent extends AbstractEvent
     private $entityAfter;
 
     /**
-     * @param \Darvin\UserBundle\Entity\BaseUser $user         User
-     * @param object                             $entityBefore Entity before
-     * @param object                             $entityAfter  Entity after
+     * @param \Darvin\AdminBundle\Metadata\Metadata $metadata     Metadata
+     * @param \Darvin\UserBundle\Entity\BaseUser    $user         User
+     * @param object                                $entityBefore Entity before
+     * @param object                                $entityAfter  Entity after
      */
-    public function __construct(BaseUser $user, $entityBefore, $entityAfter)
+    public function __construct(Metadata $metadata, BaseUser $user, $entityBefore, $entityAfter)
     {
-        parent::__construct($user);
+        parent::__construct($metadata, $user);
 
         $this->entityBefore = $entityBefore;
         $this->entityAfter = $entityAfter;

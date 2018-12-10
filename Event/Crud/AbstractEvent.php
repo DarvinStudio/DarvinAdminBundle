@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Event\Crud;
 
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -19,22 +20,37 @@ use Symfony\Component\EventDispatcher\Event;
 abstract class AbstractEvent extends Event
 {
     /**
-     * @var \Darvin\UserBundle\Entity\BaseUser
+     * @var \Darvin\AdminBundle\Metadata\Metadata
      */
-    private $user;
+    protected $metadata;
 
     /**
-     * @param \Darvin\UserBundle\Entity\BaseUser $user User
+     * @var \Darvin\UserBundle\Entity\BaseUser
      */
-    public function __construct(BaseUser $user)
+    protected $user;
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
+     * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
+     */
+    public function __construct(Metadata $metadata, BaseUser $user)
     {
+        $this->metadata = $metadata;
         $this->user = $user;
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    public function getMetadata(): Metadata
+    {
+        return $this->metadata;
     }
 
     /**
      * @return \Darvin\UserBundle\Entity\BaseUser
      */
-    public function getUser()
+    public function getUser(): BaseUser
     {
         return $this->user;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -8,21 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Event;
+namespace Darvin\AdminBundle\Event\Crud\Controller;
 
+use Darvin\AdminBundle\Event\Crud\AbstractEvent;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Symfony\Component\EventDispatcher\Event;
+use Darvin\UserBundle\Entity\BaseUser;
 
 /**
- * CRUD controller action event
+ * CRUD controller event
  */
-class CrudControllerActionEvent extends Event
+class ControllerEvent extends AbstractEvent
 {
-    /**
-     * @var \Darvin\AdminBundle\Metadata\Metadata
-     */
-    private $metadata;
-
     /**
      * @var string
      */
@@ -30,26 +26,20 @@ class CrudControllerActionEvent extends Event
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
+     * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
      * @param string                                $action   CRUD controller action
      */
-    public function __construct(Metadata $metadata, $action)
+    public function __construct(Metadata $metadata, BaseUser $user, string $action)
     {
-        $this->metadata = $metadata;
-        $this->action = $action;
-    }
+        parent::__construct($metadata, $user);
 
-    /**
-     * @return \Darvin\AdminBundle\Metadata\Metadata
-     */
-    public function getMetadata()
-    {
-        return $this->metadata;
+        $this->action = $action;
     }
 
     /**
      * @return string
      */
-    public function getAction()
+    public function getAction(): string
     {
         return $this->action;
     }

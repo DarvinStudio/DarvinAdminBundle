@@ -10,13 +10,13 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
+use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CopiedEvent;
 use Darvin\AdminBundle\Event\Crud\CreatedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
-use Darvin\AdminBundle\Event\CrudControllerActionEvent;
-use Darvin\AdminBundle\Event\Events;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
@@ -88,10 +88,7 @@ class CrudController extends Controller
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $filterForm = $this->meta->isFilterFormEnabled()
             ? $this->getAdminFormFactory()->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request)
@@ -192,10 +189,7 @@ class CrudController extends Controller
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $isXmlHttpRequest = $request->isXmlHttpRequest();
 
@@ -234,7 +228,7 @@ class CrudController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->getUser(), $entity));
+            $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
 
             $html = '';
             $message = $this->meta->getBaseTranslationPrefix().'action.new.success';
@@ -265,17 +259,14 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
         $copy = $this->getFormHandler()->handleCopyForm($form, $entity);
 
         if (!empty($copy)) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::COPIED, new CopiedEvent($this->getUser(), $entity, $copy));
+            $this->getEventDispatcher()->dispatch(CrudEvents::COPIED, new CopiedEvent($this->meta, $this->getUser(), $entity, $copy));
         }
 
         $url = $request->headers->get(
@@ -302,10 +293,7 @@ class CrudController extends Controller
 
         $entityBefore = clone $entity;
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createEntityForm(
             $this->meta,
@@ -316,7 +304,7 @@ class CrudController extends Controller
         )->handleRequest($request);
 
         if ($this->getFormHandler()->handleEntityForm($form, 'action.edit.success')) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getUser(), $entityBefore, $entity));
+            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
 
             return $this->successRedirect($form, $entity);
         }
@@ -349,10 +337,7 @@ class CrudController extends Controller
 
         $entityBefore = clone $entity;
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity)->handleRequest($request);
 
@@ -363,7 +348,7 @@ class CrudController extends Controller
         if ($success) {
             $this->getEntityManager()->flush();
 
-            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getUser(), $entityBefore, $entity));
+            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
 
             $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity);
         } else {
@@ -411,10 +396,7 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         try {
             $this->getCustomObjectLoader()->loadCustomObjects($entity);
@@ -445,15 +427,12 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 
         if ($this->getFormHandler()->handleDeleteForm($form, $entity)) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getUser(), $entity));
+            $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
 
             return $this->redirect($this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX));
         }
@@ -478,10 +457,7 @@ class CrudController extends Controller
 
         $this->getParentEntityDefinition($request);
 
-        $this->getEventDispatcher()->dispatch(
-            Events::PRE_CRUD_CONTROLLER_ACTION,
-            new CrudControllerActionEvent($this->meta, __FUNCTION__)
-        );
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
         $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
         $entities = $form->get('entities')->getData();
@@ -499,7 +475,7 @@ class CrudController extends Controller
             $user            = $this->getUser();
 
             foreach ($entities as $entity) {
-                $eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($user, $entity));
+                $eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $user, $entity));
             }
 
             return $this->redirect($this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX));

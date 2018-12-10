@@ -259,7 +259,7 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
 
@@ -293,7 +293,7 @@ class CrudController extends Controller
 
         $entityBefore = clone $entity;
 
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         $form = $this->getAdminFormFactory()->createEntityForm(
             $this->meta,
@@ -337,7 +337,7 @@ class CrudController extends Controller
 
         $entityBefore = clone $entity;
 
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         $form = $this->getAdminFormFactory()->createPropertyForm($this->meta, $property, $entity)->handleRequest($request);
 
@@ -396,7 +396,7 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         try {
             $this->getCustomObjectLoader()->loadCustomObjects($entity);
@@ -427,7 +427,7 @@ class CrudController extends Controller
 
         $entity = $this->getEntity($id);
 
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
+        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 

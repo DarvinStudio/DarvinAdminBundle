@@ -60,8 +60,6 @@ services:
         class:  '%darvin_admin.view.entity_transformer.show.class%'
         parent: darvin_admin.view.entity_transformer.abstract
         public: true
-        calls:
-            - [ setEventDispatcher, [ '@event_dispatcher' ] ]
 
     darvin_admin.view.widget.abstract:
         class:    '%darvin_admin.view.widget.abstract.class%'

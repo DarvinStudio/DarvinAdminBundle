@@ -25,15 +25,22 @@ class ControllerEvent extends AbstractEvent
     private $action;
 
     /**
+     * @var object|null
+     */
+    private $entity;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
      * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
      * @param string                                $action   CRUD controller action
+     * @param object|null                           $entity   Entity
      */
-    public function __construct(Metadata $metadata, BaseUser $user, string $action)
+    public function __construct(Metadata $metadata, BaseUser $user, string $action, $entity = null)
     {
         parent::__construct($metadata, $user);
 
         $this->action = $action;
+        $this->entity = $entity;
     }
 
     /**
@@ -42,5 +49,13 @@ class ControllerEvent extends AbstractEvent
     public function getAction(): string
     {
         return $this->action;
+    }
+
+    /**
+     * @return object|null
+     */
+    public function getEntity()
+    {
+        return $this->entity;
     }
 }

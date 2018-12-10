@@ -227,6 +227,12 @@ form:
 
 5.21.26: CRUD index action: allow to sort by association's property.
 
+5.22.0:
+ 
+- Preserve filter data in URL without events.
+
+- Do not preserve filter data in menu URLs.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

@@ -38,7 +38,7 @@ $(() => {
                         $content = $html;
                     }
 
-                    $('#js-content').replaceWith($content);
+                    $('#js-content').html($content);
 
                     $(document).trigger('app.html', {
                         $html: $content

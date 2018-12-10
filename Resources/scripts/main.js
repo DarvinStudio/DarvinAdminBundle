@@ -75,9 +75,13 @@ var checkboxesInit;
 	$(this).after("<span></span>")
  });
 })();
-$(document).on('formCollectionAdd', function (e, form) {
-    checkboxesInit(form);
-});
+$(document)
+    .on('app.html', function (e, args) {
+        checkboxesInit(args.$html);
+    })
+    .on('formCollectionAdd', function (e, form) {
+        checkboxesInit(form);
+    });
 
  
  jQuery(document).ready(function(){

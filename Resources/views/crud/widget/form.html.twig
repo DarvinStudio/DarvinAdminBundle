@@ -16,7 +16,7 @@
 
 <div class="edit_container">
     {{ form_errors(form) }}
-    {{ form_start(form, {'attr': ajax_form is defined and ajax_form ? {'class': 'js-ajax', 'data-reload-page': 1} : {}}) }}
+    {{ form_start(form, {'attr': ajax_form is defined and ajax_form ? {'class': 'js-ajax', 'data-reload-page': 1, 'data-target': '.edit_container'} : {}}) }}
     {% if show_top_buttons is not defined or show_top_buttons %}
         <div class="table_view_content">
             {{ submit }}

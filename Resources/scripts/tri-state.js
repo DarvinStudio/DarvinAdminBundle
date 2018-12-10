@@ -19,12 +19,19 @@ $(() => {
             .find('input')[index].checked = false;
     };
 
-    $('.js-tri-state').each((i, checkbox) => {
-        let $checkbox = $(checkbox);
+    let init;
+    (init = (context) => {
+        $(context || 'body').find('.js-tri-state').each((i, checkbox) => {
+            let $checkbox = $(checkbox);
 
-        $checkbox.addClass('ready').find(':not(input)').remove();
+            $checkbox.addClass('ready').find(':not(input)').remove();
 
-        check($checkbox, $checkbox.find('input:checked').index());
+            check($checkbox, $checkbox.find('input:checked').index());
+        });
+    })();
+
+    $(document).on('app.html', (e, args) => {
+        init(args.$html);
     });
 
     $('body').on('click', '.js-tri-state', (e) => {

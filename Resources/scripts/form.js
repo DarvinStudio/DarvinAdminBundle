@@ -30,13 +30,19 @@ $(() => {
                 $.ajax({
                     cache: false
                 }).done((html) => {
-                    let $content = $form.closest('.section_table');
+                    let $html = $(html);
+
+                    let $content = $html.find('#js-content');
 
                     if (!$content.length) {
-                        $content = $('.section_table:first');
+                        $content = $html;
                     }
 
-                    $content.replaceWith($(html).find('.section_table:first'));
+                    $('#js-content').replaceWith($content);
+
+                    $(document).trigger('app.html', {
+                        $html: $content
+                    });
                 }).always(() => {
                     App.stopPreloading('form');
                 }).fail(App.onAjaxFail);
@@ -44,13 +50,23 @@ $(() => {
                 return;
             }
             if (data.html) {
-                let $html = $(data.html);
+                let $html   = $(data.html),
+                    $target = $form;
 
-                $form.replaceWith($html);
+                if (options.target) {
+                    $target = $form.closest(options.target);
 
-                $(document).trigger('app.html', {
-                    $html: $html.parent()
-                });
+                    if (!$target.length) {
+                        $target = $(options.target + ':first');
+                    }
+                }
+                if ($target.length) {
+                    $target.replaceWith($html);
+
+                    $(document).trigger('app.html', {
+                        $html: $html.parent()
+                    });
+                }
             }
         }).always(() => {
             $form.removeData('submitted');

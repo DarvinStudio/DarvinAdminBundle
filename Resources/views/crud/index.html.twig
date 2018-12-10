@@ -6,22 +6,4 @@
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
-{% block content %}
-    {% if filter_form %}
-
-        {% include '@DarvinAdmin/crud/widget/filter/form.html.twig' with {
-            'field_groups': meta.configuration.form.filter.field_groups,
-            'form':         filter_form,
-        } %}
-
-    {% endif %}
-    {% if new_form_widget %}
-        <div class="index-new-form">
-            <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
-            {{ new_form_widget|raw }}
-        </div>
-    {% endif %}
-
-    {% include meta.configuration.view.index.template ?: '@DarvinAdmin/crud/widget/index.html.twig' %}
-
-{% endblock %}
+{% block content %}{% include meta.configuration.view.index.template ?: '@DarvinAdmin/crud/_index.html.twig' %}{% endblock %}

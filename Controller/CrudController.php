@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -645,19 +645,25 @@ class CrudController extends Controller
     }
 
     /**
-     * @param string $viewType       View type
-     * @param array  $templateParams Template parameters
-     * @param bool   $widget         Whether to render widget
+     * @param string $type   Template type
+     * @param array  $params Template parameters
+     * @param bool   $widget Whether to render widget
      *
      * @return string
      */
-    private function renderTemplate($viewType, array $templateParams = [], $widget = false)
+    private function renderTemplate(string $type, array $params = [], bool $widget = false): string
     {
-        $template = $widget && !empty($this->configuration['view'][$viewType]['template'])
-            ? $this->configuration['view'][$viewType]['template']
-            : sprintf('@DarvinAdmin/crud%s/%s.html.twig', $widget ? '/widget' : '', $viewType);
+        $template = $this->configuration['view'][$type]['template'];
 
-        return $this->renderView($template, $templateParams);
+        if ($widget) {
+            if (!empty($template)) {
+                return $this->renderView($template, $params);
+            }
+
+            $type = sprintf('_%s', $type);
+        }
+
+        return $this->renderView(sprintf('@DarvinAdmin/crud/%s.html.twig', $type), $params);
     }
 
     /**

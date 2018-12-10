@@ -1,8 +1,22 @@
 {% trans_default_domain 'admin' %}
 
-{% set pagination      = pagination|default %}
-{% set pagination_html = pagination ? knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') : null %}
+{% set pagination          = pagination|default %}
+{% set pagination_rendered = pagination ? knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') : null %}
 
+{% if filter_form %}
+
+    {% include '@DarvinAdmin/crud/widget/filter/form.html.twig' with {
+        'field_groups': meta.configuration.form.filter.field_groups,
+        'form':         filter_form,
+    } %}
+
+{% endif %}
+{% if new_form_widget %}
+    <div class="index-new-form">
+        <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+        {{ new_form_widget|raw }}
+    </div>
+{% endif %}
 <div class="js-property-forms">
     <div class="post_item_btn">
 
@@ -37,7 +51,7 @@
 
     </div>
     <div class="clearfix">
-        {{ pagination_html|raw }}
+        {{ pagination_rendered|raw }}
         {% if batch_delete_form %}
             <div>
                 <label for="batch_delete_check_all_{{ meta.entityName }}">
@@ -110,7 +124,7 @@
             </div>
         </div>
         <div class="clearfix">
-            {{ pagination_html|raw }}
+            {{ pagination_rendered|raw }}
             {{ block('total_item_count') }}
         </div>
         <div class="post_item_btn">

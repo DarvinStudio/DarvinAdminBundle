@@ -68,19 +68,18 @@ $('body').on('mousedown', '.spoiler_links', function(){
 });
 
 /* фикс чекбоксов без нужной вёртски*/
-var checkboxesInit;
-(checkboxesInit = function (context) {
- $(context || 'body').find('.input_value input[type="checkbox"]').each(function(){
+var checkboxInit = function (context) {
+ $(context).find('.input_value input[type="checkbox"]').each(function(){
 	$(this).wrap("<label></label>").wrap("<span class='checkbox'></span>");
 	$(this).after("<span></span>")
  });
-})();
+};
 $(document)
     .on('app.html', function (e, args) {
-        checkboxesInit(args.$html);
+        checkboxInit(args.$html);
     })
     .on('formCollectionAdd', function (e, form) {
-        checkboxesInit(form);
+        checkboxInit(form);
     });
 
  

@@ -31,7 +31,6 @@ const scripts = [
                 '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js'
             ],
             src: [
-                'Resources/scripts/app.js',
                 'Resources/scripts/yandex-translator.js',
 
                 'Resources/scripts/batch-delete.js',
@@ -55,7 +54,9 @@ const scripts = [
                 'Resources/scripts/translation-sync.js',
                 'Resources/scripts/tri-state.js',
 
-                'Resources/scripts/main.js'
+                'Resources/scripts/main.js',
+
+                'Resources/scripts/app.js'
             ]
         }
     ],

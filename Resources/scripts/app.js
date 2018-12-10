@@ -50,6 +50,12 @@ const App = (() => {
     };
 })();
 
+$(() => {
+    $(document).trigger('app.html', {
+        $html: $('body')
+    });
+});
+
 $(document).on('ajaxComplete', () => {
     App.stopPreloading();
 

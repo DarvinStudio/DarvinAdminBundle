@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -94,12 +95,12 @@ class ItemFactory implements ItemFactoryInterface
         if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
             && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_INDEX)
         ) {
-            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX));
+            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
         }
         if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entityClass)
             && $this->adminRouter->isRouteExists($entityClass, AdminRouter::TYPE_NEW)
         ) {
-            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_NEW));
+            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_NEW, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
         }
 
         return $item;

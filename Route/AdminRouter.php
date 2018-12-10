@@ -10,14 +10,12 @@
 
 namespace Darvin\AdminBundle\Route;
 
-use Darvin\AdminBundle\Event\Router\RouteEvent;
-use Darvin\AdminBundle\Event\Router\RouterEvents;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\Utils\Routing\RouteManagerInterface;
 use Doctrine\Common\Util\ClassUtils;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -63,11 +61,6 @@ class AdminRouter
     ];
 
     /**
-     * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $genericRouter;
@@ -86,6 +79,11 @@ class AdminRouter
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
     private $propertyAccessor;
+
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
 
     /**
      * @var \Darvin\Utils\Routing\RouteManagerInterface
@@ -108,28 +106,28 @@ class AdminRouter
     private $routeNames;
 
     /**
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher    Event dispatcher
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
+     * @param \Symfony\Component\HttpFoundation\RequestStack              $requestStack       Request stack
      * @param \Darvin\Utils\Routing\RouteManagerInterface                 $routeManager       Route manager
      * @param array                                                       $entityOverride     Entity override configuration
      */
     public function __construct(
-        EventDispatcherInterface $eventDispatcher,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
+        RequestStack $requestStack,
         RouteManagerInterface $routeManager,
         array $entityOverride
     ) {
-        $this->eventDispatcher = $eventDispatcher;
         $this->genericRouter = $genericRouter;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;
+        $this->requestStack = $requestStack;
         $this->routeManager = $routeManager;
         $this->entityOverride = $entityOverride;
 
@@ -138,24 +136,26 @@ class AdminRouter
     }
 
     /**
-     * @param object $entity      Entity
-     * @param string $entityClass Entity class
-     * @param string $routeType   Route type
-     * @param array  $params      Parameters
+     * @param object $entity         Entity
+     * @param string $entityClass    Entity class
+     * @param string $routeType      Route type
+     * @param array  $params         Parameters
+     * @param bool   $preserveFilter Whether to preserve filter data
      *
      * @return string
      */
-    public function generateAbsolute($entity = null, $entityClass = null, $routeType = self::TYPE_SHOW, array $params = [])
+    public function generateAbsolute($entity = null, $entityClass = null, $routeType = self::TYPE_SHOW, array $params = [], $preserveFilter = true)
     {
-        return $this->generate($entity, $entityClass, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->generate($entity, $entityClass, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL, $preserveFilter);
     }
 
     /**
-     * @param object $entity        Entity
-     * @param string $entityClass   Entity class
-     * @param string $routeType     Route type
-     * @param array  $params        Parameters
-     * @param mixed  $referenceType Reference type
+     * @param object $entity         Entity
+     * @param string $entityClass    Entity class
+     * @param string $routeType      Route type
+     * @param array  $params         Parameters
+     * @param mixed  $referenceType  Reference type
+     * @param bool   $preserveFilter Whether to preserve filter data
      *
      * @return string
      * @throws \Darvin\AdminBundle\Route\RouteException
@@ -165,7 +165,8 @@ class AdminRouter
         $entityClass = null,
         $routeType = self::TYPE_SHOW,
         array $params = [],
-        $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+        $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH,
+        $preserveFilter = true
     ) {
         if (empty($entity) && empty($entityClass)) {
             throw new RouteException('Entity or entity class must be provided.');
@@ -185,11 +186,11 @@ class AdminRouter
         $name = $this->getRouteName($entityClass, $routeType);
         $this->getAdditionalParams($params, $entityClass, $routeType, $entity);
 
-        $event = new RouteEvent($name, $routeType, $params, $referenceType, $entity, $entityClass);
+        if ($preserveFilter) {
+            $this->preserveFilter($params, $entityClass);
+        }
 
-        $this->eventDispatcher->dispatch(RouterEvents::PRE_GENERATE, $event);
-
-        return $this->genericRouter->generate($name, $event->getParams(), $event->getReferenceType());
+        return $this->genericRouter->generate($name, $params, $referenceType);
     }
 
     /**
@@ -278,6 +279,33 @@ class AdminRouter
         }
 
         $params[$associationParam] = $this->getParentEntityId($entity, $meta->getParent()->getAssociation(), $routeType);
+    }
+
+    /**
+     * @param array  $params      Parameters
+     * @param string $entityClass Entity class
+     */
+    private function preserveFilter(array &$params, $entityClass)
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (empty($request)) {
+            return;
+        }
+
+        $param = $this->metadataManager->getMetadata($entityClass)->getFilterFormTypeName();
+
+        if ((isset($params[$param]) && is_array($params[$param])) || !$request->query->has($param)) {
+            return;
+        }
+
+        $filterData = $request->query->get($param);
+
+        if (!is_array($filterData)) {
+            return;
+        }
+
+        $params[$param] = $filterData;
     }
 
     /**

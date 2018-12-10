@@ -25,7 +25,7 @@ $('#sidebar_switcher').on('mousedown', function(){
 });
 
 /* спойлер */
-$('.spoiler_links').on('mousedown', function(){
+$('body').on('mousedown', '.spoiler_links', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');
     var body = spoiler_container.find('.spoiler_body');
     if (body.css("display")=="none")

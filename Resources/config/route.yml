@@ -39,9 +39,9 @@ services:
         class: '%darvin_admin.router.class%'
         arguments:
             - '@darvin_utils.orm.entity_resolver'
-            - '@event_dispatcher'
             - '@router'
             - '@darvin_admin.metadata.identifier_accessor'
             - '@darvin_admin.metadata.manager'
             - '@property_accessor'
+            - '@request_stack'
             - '@darvin_utils.routing.route_manager'

@@ -220,34 +220,36 @@ class CrudController extends Controller
         if (!$form->isSubmitted()) {
             return new Response($this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest()));
         }
+        if (!$form->isValid()) {
+            if (!$request->isXmlHttpRequest()) {
+                $this->getFlashNotifier()->formError();
+            }
 
-        $html        = null;
-        $message     = null;
-        $redirectUrl = null;
-        $success     = $form->isValid();
-
-        if ($success) {
-            $em = $this->getEntityManager();
-            $em->persist($entity);
-            $em->flush();
-
-            $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
-
-            $message = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
-            $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
-        } else {
             $html = $this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest());
-            $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
+
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($html, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            }
+
+            return new Response($html);
         }
+
+        $em = $this->getEntityManager();
+        $em->persist($entity);
+        $em->flush();
+
+        $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
+
+        $message     = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
+        $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
+
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($html, $success, $message, [], $redirectUrl);
+            return new AjaxResponse(null, true, $message, [], $redirectUrl);
         }
 
-        $this->getFlashNotifier()->done($success, $message);
+        $this->getFlashNotifier()->success($message);
 
-        return $success
-            ? $this->successRedirect($form, $entity)
-            : new Response($this->renderNewTemplate($form, $parentEntity, $widget));
+        return $this->redirect($redirectUrl);
     }
 
     /**
@@ -309,32 +311,34 @@ class CrudController extends Controller
         if (!$form->isSubmitted()) {
             return new Response($this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest()));
         }
+        if (!$form->isValid()) {
+            if (!$request->isXmlHttpRequest()) {
+                $this->getFlashNotifier()->formError();
+            }
 
-        $html        = null;
-        $message     = null;
-        $redirectUrl = null;
-        $success     = $form->isValid();
-
-        if ($success) {
-            $this->getEntityManager()->flush();
-
-            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
-
-            $message = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
-            $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
-        } else {
             $html = $this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest());
-            $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
+
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($html, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            }
+
+            return new Response($html);
         }
+
+        $this->getEntityManager()->flush();
+
+        $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
+
+        $message     = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
+        $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
+
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($html, $success, $message, [], $redirectUrl);
+            return new AjaxResponse(null, true, $message, [], $redirectUrl);
         }
 
-        $this->getFlashNotifier()->done($success, $message);
+        $this->getFlashNotifier()->success($message);
 
-        return $success
-            ? $this->successRedirect($form, $entity)
-            : new Response($this->renderEditTemplate($entity, $form, $parentEntity));
+        return $this->redirect($redirectUrl);
     }
 
     /**

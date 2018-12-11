@@ -42,10 +42,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class CrudController extends Controller
 {
-    /**
-     * @var array
-     */
-    private static $submitButtonRedirects = [
+    private const SUBMIT_BUTTON_REDIRECTS = [
         AdminFormFactory::SUBMIT_EDIT  => AdminRouter::TYPE_EDIT,
         AdminFormFactory::SUBMIT_INDEX => AdminRouter::TYPE_INDEX,
         AdminFormFactory::SUBMIT_NEW   => AdminRouter::TYPE_NEW,
@@ -258,7 +255,7 @@ class CrudController extends Controller
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 
-        $entity = $this->getEntity($id);
+        $entity = $this->findEntity($id);
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
@@ -290,7 +287,7 @@ class CrudController extends Controller
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
-        $entity = $this->getEntity($id);
+        $entity = $this->findEntity($id);
 
         $entityBefore = clone $entity;
 
@@ -334,7 +331,7 @@ class CrudController extends Controller
 
         $this->checkPermission(Permission::EDIT);
 
-        $entity = $this->getEntity($id);
+        $entity = $this->findEntity($id);
 
         $entityBefore = clone $entity;
 
@@ -395,7 +392,7 @@ class CrudController extends Controller
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
-        $entity = $this->getEntity($id);
+        $entity = $this->findEntity($id);
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
@@ -426,7 +423,7 @@ class CrudController extends Controller
 
         $this->getParentEntityDefinition($request);
 
-        $entity = $this->getEntity($id);
+        $entity = $this->findEntity($id);
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
@@ -548,51 +545,22 @@ class CrudController extends Controller
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
-     * @return array
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getParentEntityDefinition(Request $request)
-    {
-        if (!$this->meta->hasParent()) {
-            return array_fill(0, 4, null);
-        }
-
-        $associationParam = $this->meta->getParent()->getAssociationParameterName();
-        $id = (int) $request->query->get($associationParam);
-
-        if (empty($id)) {
-            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
-        }
-
-        return [
-            $this->getEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
-            $this->meta->getParent()->getAssociation(),
-            $associationParam,
-            $id,
-        ];
-    }
-
-    /**
-     * @param int    $id          Entity ID
-     * @param string $entityClass Entity class
+     * @param int    $id    Entity ID
+     * @param string $class Entity class
      *
      * @return object
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    private function getEntity($id, $entityClass = null)
+    private function findEntity($id, ?string $class = null)
     {
-        if (empty($entityClass)) {
-            $entityClass = $this->entityClass;
+        if (empty($class)) {
+            $class = $this->entityClass;
         }
 
-        $entity = $this->getEntityManager()->find($entityClass, $id);
+        $entity = $this->getEntityManager()->find($class, $id);
 
         if (empty($entity)) {
-            throw $this->createNotFoundException(
-                sprintf('Unable to find entity "%s" by ID "%d".', $entityClass, $id)
-            );
+            throw $this->createNotFoundException(sprintf('Unable to find entity "%s" by ID "%s".', $class, $id));
         }
 
         return $entity;
@@ -601,19 +569,46 @@ class CrudController extends Controller
     /**
      * @return array
      */
-    private function getEntityFormSubmitButtons()
+    private function getEntityFormSubmitButtons(): array
     {
-        $submitButtons = [];
+        $buttons = [];
+        $router  = $this->getAdminRouter();
 
-        $adminRouter = $this->getAdminRouter();
-
-        foreach (static::$submitButtonRedirects as $submitButton => $routeType) {
-            if ($adminRouter->exists($this->entityClass, $routeType)) {
-                $submitButtons[] = $submitButton;
+        foreach (static::SUBMIT_BUTTON_REDIRECTS as $button => $routeType) {
+            if ($router->exists($this->entityClass, $routeType)) {
+                $buttons[] = $button;
             }
         }
 
-        return $submitButtons;
+        return $buttons;
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
+     * @return array
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    private function getParentEntityDefinition(Request $request): array
+    {
+        if (!$this->meta->hasParent()) {
+            return array_fill(0, 4, null);
+        }
+
+        $associationParam = $this->meta->getParent()->getAssociationParameterName();
+
+        $id = $request->query->get($associationParam);
+
+        if (empty($id)) {
+            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
+        }
+
+        return [
+            $this->findEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
+            $this->meta->getParent()->getAssociation(),
+            $associationParam,
+            $id,
+        ];
     }
 
     /**
@@ -623,7 +618,7 @@ class CrudController extends Controller
      *
      * @return string
      */
-    private function renderNewTemplate($widget, FormInterface $form, $parentEntity)
+    private function renderNewTemplate(bool $widget, FormInterface $form, $parentEntity): string
     {
         return $this->renderTemplate('new', [
             'ajax_form'     => $widget,
@@ -640,7 +635,7 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse($viewType, array $templateParams = [], $widget = false)
+    private function renderResponse(string $viewType, array $templateParams = [], bool $widget = false): Response
     {
         return new Response($this->renderTemplate($viewType, $templateParams, $widget));
     }
@@ -673,17 +668,22 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    private function successRedirect(FormInterface $form, $entity)
+    private function successRedirect(FormInterface $form, $entity): RedirectResponse
     {
+        $url = null;
+
         foreach ($form->all() as $name => $child) {
-            if ($child instanceof ClickableInterface && $child->isClicked() && isset(static::$submitButtonRedirects[$name])) {
-                return $this->redirect(
-                    $this->getAdminRouter()->generate($entity, $this->entityClass, static::$submitButtonRedirects[$name])
-                );
+            if ($child instanceof ClickableInterface && $child->isClicked() && isset(static::SUBMIT_BUTTON_REDIRECTS[$name])) {
+                $url = $this->getAdminRouter()->generate($entity, $this->entityClass, static::SUBMIT_BUTTON_REDIRECTS[$name]);
+
+                break;
             }
         }
+        if (empty($url)) {
+            $url = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT);
+        }
 
-        return $this->redirect($this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT));
+        return $this->redirect($url);
     }
 
 

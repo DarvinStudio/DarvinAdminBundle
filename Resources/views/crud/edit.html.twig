@@ -1,7 +1,5 @@
 {% extends '@DarvinAdmin/layout.html.twig' %}
 
-{% form_theme form '@DarvinAdmin/form/fields.html.twig' %}
-
 {% trans_default_domain 'admin' %}
 
 {% set heading = (meta.baseTranslationPrefix ~ 'action.edit.title')|trans({'%entity%': entity|trans}) %}
@@ -10,11 +8,4 @@
 
 {% block heading %}{{ heading }}{% endblock %}
 
-{% block content %}
-    {{ admin_widget_actions(entity, {'view_type': 'edit'}) }}
-
-    {% include '@DarvinAdmin/crud/_form.html.twig' with {
-        'field_groups': meta.configuration.form.edit.field_groups,
-    } %}
-
-{% endblock %}
+{% block content %}{% include '@DarvinAdmin/crud/_edit.html.twig' %}{% endblock %}

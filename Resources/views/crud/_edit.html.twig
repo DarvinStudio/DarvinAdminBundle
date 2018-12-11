@@ -1,0 +1,3 @@
+{{ admin_widget_actions(entity, {'view_type': 'edit'}) }}
+
+{% include '@DarvinAdmin/crud/_form.html.twig' with {'field_groups': meta.configuration.form.edit.field_groups} %}

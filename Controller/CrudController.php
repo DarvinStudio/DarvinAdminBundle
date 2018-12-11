@@ -306,18 +306,35 @@ class CrudController extends Controller
             $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
-        if ($this->getFormHandler()->handleEntityForm($form, 'action.edit.success')) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
-
-            return $this->successRedirect($form, $entity);
+        if (!$form->isSubmitted()) {
+            return new Response($this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest()));
         }
 
-        return $this->renderResponse('edit', [
-            'entity'        => $entity,
-            'form'          => $form->createView(),
-            'meta'          => $this->meta,
-            'parent_entity' => $parentEntity,
-        ]);
+        $html        = null;
+        $message     = null;
+        $redirectUrl = null;
+        $success     = $form->isValid();
+
+        if ($success) {
+            $this->getEntityManager()->flush();
+
+            $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
+
+            $message = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
+            $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
+        } else {
+            $html = $this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest());
+            $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
+        }
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse($html, $success, $message, [], $redirectUrl);
+        }
+
+        $this->getFlashNotifier()->done($success, $message);
+
+        return $success
+            ? $this->successRedirect($form, $entity)
+            : new Response($this->renderEditTemplate($entity, $form, $parentEntity));
     }
 
     /**
@@ -618,8 +635,26 @@ class CrudController extends Controller
     }
 
     /**
+     * @param object                                $entity       Entity
+     * @param \Symfony\Component\Form\FormInterface $form         Form
+     * @param object|null                           $parentEntity Parent entity
+     * @param bool                                  $partial      Whether to render partial
+     *
+     * @return string
+     */
+    private function renderEditTemplate($entity, FormInterface $form, $parentEntity, bool $partial = false): string
+    {
+        return $this->renderTemplate('edit', [
+            'entity'        => $entity,
+            'form'          => $form->createView(),
+            'meta'          => $this->meta,
+            'parent_entity' => $parentEntity,
+        ], $partial);
+    }
+
+    /**
      * @param \Symfony\Component\Form\FormInterface $form         Entity form
-     * @param object                                $parentEntity Parent entity
+     * @param object|null                           $parentEntity Parent entity
      * @param bool                                  $widget       Is widget
      * @param bool                                  $partial      Whether to render partial
      *

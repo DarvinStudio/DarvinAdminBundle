@@ -27,6 +27,7 @@ use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
@@ -493,7 +494,7 @@ class CrudController extends Controller
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function getIndexQueryBuilder($locale, array $filterFormData = null)
+    private function getIndexQueryBuilder(string $locale, array $filterFormData = null): QueryBuilder
     {
         $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
 
@@ -504,17 +505,17 @@ class CrudController extends Controller
 
             $qb->addSelect($alias)->leftJoin($join, $alias);
         }
-
-        $translationJoiner = $this->getTranslationJoiner();
-
-        if ($translationJoiner->isTranslatable($this->entityClass)) {
-            $translationJoiner->joinTranslation($qb, true, $locale);
+        if ($this->getTranslationJoiner()->isTranslatable($this->entityClass)) {
+            $this->getTranslationJoiner()->joinTranslation($qb, true, $locale);
         }
         if (empty($filterFormData)) {
             return $qb;
         }
 
-        $filtererOptions = ['non_strict_comparison_fields' => []];
+        $filtererOptions = [
+            'non_strict_comparison_fields' => [],
+        ];
+
         $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
             foreach ($fields as $field => $attr) {
                 if (!$attr['compare_strict']) {
@@ -522,6 +523,7 @@ class CrudController extends Controller
                 }
             }
         };
+
         $getNonStrictComparisonFields($this->configuration['form']['filter']['fields']);
         array_map($getNonStrictComparisonFields, $this->configuration['form']['filter']['field_groups']);
 

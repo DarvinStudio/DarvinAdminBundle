@@ -1,4 +1,8 @@
 $(() => {
+    const SELECTOR = {
+        form: 'form.js-ajax'
+    };
+
     const replaceContent = (html) => {
         let $html = $(html);
 
@@ -15,90 +19,98 @@ $(() => {
         });
     };
 
-    $('body').on('submit', 'form.js-ajax', (e) => {
-        e.preventDefault();
+    $('body')
+        .on('click', SELECTOR.form + ' [type="submit"][name]', (e) => {
+            let $submit = $(e.currentTarget);
 
-        let $form = $(e.currentTarget);
+            $submit.closest(SELECTOR.form).append('<input name="' + $submit.attr('name') + '" type="hidden">');
+        })
+        .on('submit', SELECTOR.form, (e) => {
+            e.preventDefault();
 
-        let options = $form.data();
+            let $form = $(e.currentTarget);
 
-        if (options.submitted) {
-            return;
-        }
+            let options = $form.data();
 
-        $form.data('submitted', true);
+            if (options.submitted) {
+                return;
+            }
 
-        App.startPreloading();
+            $form.data('submitted', true);
 
-        let url  = $form.attr('action') || options.url || '',
-            type = ($form.attr('method') || 'get').toLowerCase();
+            App.startPreloading();
 
-        let params = {
-            url:  url,
-            type: type
-        };
+            let url  = $form.attr('action') || options.url || '',
+                type = ($form.attr('method') || 'get').toLowerCase();
 
-        if ('get' === type || 'undefined' === typeof FormData) {
-            params.data = $form.serialize();
-        } else {
-            $.extend(params, {
-                data:        new FormData($form[0]),
-                contentType: false,
-                processData: false
-            });
-        }
+            let params = {
+                url:  url,
+                type: type
+            };
 
-        $.ajax(params).done((data) => {
-            if ('get' === type && 'undefined' !== typeof history) {
-                let parts = [location.origin, location.pathname];
+            if ('get' === type || 'undefined' === typeof FormData) {
+                params.data = $form.serialize();
+            } else {
+                $.extend(params, {
+                    data:        new FormData($form[0]),
+                    contentType: false,
+                    processData: false
+                });
+            }
 
-                if (params.data) {
-                    parts.push('?', params.data);
+            $.ajax(params).done((data) => {
+                if ('get' === type && 'undefined' !== typeof history) {
+                    let parts = [location.origin, location.pathname];
+
+                    if (params.data) {
+                        parts.push('?', params.data);
+                    }
+
+                    history.pushState(null, null, parts.join(''));
+                }
+                if (!$.isPlainObject(data)) {
+                    replaceContent(data);
+
+                    return;
                 }
 
-                history.pushState(null, null, parts.join(''));
-            }
-            if (!$.isPlainObject(data)) {
-                replaceContent(data);
+                App.notify(data.message, data.success ? 'success' : 'error');
 
-                return;
-            }
+                if (data.success && options.reloadPage) {
+                    App.startPreloading('form');
 
-            App.notify(data.message, data.success ? 'success' : 'error');
-            App.redirect(data.redirectUrl);
+                    $.ajax({
+                        cache: false
+                    }).done(replaceContent).always(() => {
+                        App.stopPreloading('form');
+                    }).fail(App.onAjaxFail);
 
-            if (data.success && options.reloadPage) {
-                App.startPreloading('form');
+                    return;
+                }
 
-                $.ajax({
-                    cache: false
-                }).done(replaceContent).always(() => {
-                    App.stopPreloading('form');
-                }).fail(App.onAjaxFail);
+                App.redirect(data.redirectUrl);
 
-                return;
-            }
-            if (data.html) {
-                let $html   = $(data.html),
-                    $target = $form;
+                if (data.html) {
+                    let $html   = $(data.html),
+                        $target = $form;
 
-                if (options.target) {
-                    $target = $form.closest(options.target);
+                    if (options.target) {
+                        $target = $form.closest(options.target);
 
-                    if (!$target.length) {
-                        $target = $(options.target + ':first');
+                        if (!$target.length) {
+                            $target = $(options.target + ':first');
+                        }
+                    }
+                    if ($target.length) {
+                        $target.replaceWith($html);
+
+                        $(document).trigger('app.html', {
+                            $html: $html.parent()
+                        });
                     }
                 }
-                if ($target.length) {
-                    $target.replaceWith($html);
-
-                    $(document).trigger('app.html', {
-                        $html: $html.parent()
-                    });
-                }
-            }
-        }).always(() => {
-            $form.removeData('submitted');
-        }).fail(App.onAjaxFail);
+            }).always(() => {
+                $form.removeData('submitted');
+            }).fail(App.onAjaxFail);
     });
 });

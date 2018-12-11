@@ -178,13 +178,13 @@ class CrudController extends Controller
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param bool                                      $widget  Whether to render widget
+     * @param bool                                      $widget  Is widget
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request, $widget = false)
     {
-        if ($request->query->has('widget')) {
+        if ((bool)$request->query->get('widget')) {
             $widget = true;
         }
 
@@ -212,16 +212,19 @@ class CrudController extends Controller
             $entity,
             'new',
             $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW, [
-                'widget' => true,
+                'widget' => $widget,
             ]),
             $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
         if (!$form->isSubmitted()) {
-            return new Response($this->renderNewTemplate($widget, $form, $parentEntity));
+            return new Response($this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest()));
         }
 
-        $success = $form->isValid();
+        $html        = null;
+        $message     = null;
+        $redirectUrl = null;
+        $success     = $form->isValid();
 
         if ($success) {
             $em = $this->getEntityManager();
@@ -230,21 +233,21 @@ class CrudController extends Controller
 
             $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
 
-            $html = '';
-            $message = $this->meta->getBaseTranslationPrefix().'action.new.success';
+            $message = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
+            $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
         } else {
-            $html = $this->renderNewTemplate($widget, $form, $parentEntity);
+            $html = $this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest());
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($html, $success, $message);
+            return new AjaxResponse($html, $success, $message, [], $redirectUrl);
         }
 
         $this->getFlashNotifier()->done($success, $message);
 
         return $success
             ? $this->successRedirect($form, $entity)
-            : new Response($this->renderNewTemplate($widget, $form, $parentEntity));
+            : new Response($this->renderNewTemplate($form, $parentEntity, $widget));
     }
 
     /**
@@ -615,46 +618,51 @@ class CrudController extends Controller
     }
 
     /**
-     * @param bool                                  $widget       Whether to render widget
      * @param \Symfony\Component\Form\FormInterface $form         Entity form
      * @param object                                $parentEntity Parent entity
+     * @param bool                                  $widget       Is widget
+     * @param bool                                  $partial      Whether to render partial
      *
      * @return string
      */
-    private function renderNewTemplate(bool $widget, FormInterface $form, $parentEntity): string
+    private function renderNewTemplate(FormInterface $form, $parentEntity, bool $widget, bool $partial = false): string
     {
+        if ($widget) {
+            $partial = true;
+        }
+
         return $this->renderTemplate('new', [
             'form'          => $form->createView(),
             'is_widget'     => $widget,
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,
-        ], $widget);
+        ], $partial);
     }
 
     /**
      * @param string $viewType       View type
      * @param array  $templateParams Template parameters
-     * @param bool   $widget         Whether to render widget
+     * @param bool   $partial        Whether to render partial
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse(string $viewType, array $templateParams = [], bool $widget = false): Response
+    private function renderResponse(string $viewType, array $templateParams = [], bool $partial = false): Response
     {
-        return new Response($this->renderTemplate($viewType, $templateParams, $widget));
+        return new Response($this->renderTemplate($viewType, $templateParams, $partial));
     }
 
     /**
-     * @param string $type   Template type
-     * @param array  $params Template parameters
-     * @param bool   $widget Whether to render widget
+     * @param string $type    Template type
+     * @param array  $params  Template parameters
+     * @param bool   $partial Whether to render partial
      *
      * @return string
      */
-    private function renderTemplate(string $type, array $params = [], bool $widget = false): string
+    private function renderTemplate(string $type, array $params = [], bool $partial = false): string
     {
         $template = $this->configuration['view'][$type]['template'];
 
-        if ($widget) {
+        if ($partial) {
             if (!empty($template)) {
                 return $this->renderView($template, $params);
             }

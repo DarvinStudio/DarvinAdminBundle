@@ -92,7 +92,6 @@ class SlugSuffixType extends AbstractType
             'route',
             'route_param_slug',
             'parent_select_selector',
-            'parent_option_data_slug',
         ] as $option) {
             $view->vars[$option] = $options[$option];
         }
@@ -105,12 +104,11 @@ class SlugSuffixType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'slug_property'           => 'slug',
-                'route'                   => 'darvin_content_show',
-                'route_param_slug'        => 'slug',
-                'parent_select_selector'  => '.parent',
-                'parent_option_data_slug' => 'slug',
-                'required'                => false,
+                'slug_property'          => 'slug',
+                'route'                  => 'darvin_content_show',
+                'route_param_slug'       => 'slug',
+                'parent_select_selector' => '.parent',
+                'required'               => false,
             ])
             ->setAllowedTypes('slug_property', 'string')
             ->setAllowedTypes('route', 'string')

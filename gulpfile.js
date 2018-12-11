@@ -47,7 +47,7 @@ const scripts = [
                 'Resources/scripts/novalidate.js',
                 'Resources/scripts/property-form.js',
                 'Resources/scripts/search.js',
-                'Resources/scripts/slug-suffix.js',
+                'Resources/scripts/slug.js',
                 'Resources/scripts/table-head-clone.js',
                 'Resources/scripts/textcounter.js',
                 'Resources/scripts/translation-form.js',

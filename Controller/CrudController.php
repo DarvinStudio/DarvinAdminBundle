@@ -241,7 +241,7 @@ class CrudController extends Controller
         $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
 
         $message     = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
+        $redirectUrl = $this->successRedirect($form, $entity);
 
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse(null, true, $message, [], $redirectUrl);
@@ -330,10 +330,17 @@ class CrudController extends Controller
         $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
 
         $message     = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->successRedirect($form, $entity)->getTargetUrl();
+        $redirectUrl = $this->successRedirect($form, $entity);
 
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse(null, true, $message, [], $redirectUrl);
+            $html = null;
+
+            if ($redirectUrl === $request->getRequestUri()) {
+                $html        = $this->renderEditTemplate($entity, $form, $parentEntity, true);
+                $redirectUrl = null;
+            }
+
+            return new AjaxResponse($html, true, $message, [], $redirectUrl);
         }
 
         $this->getFlashNotifier()->success($message);
@@ -716,24 +723,17 @@ class CrudController extends Controller
      * @param \Symfony\Component\Form\FormInterface $form   Form
      * @param object                                $entity Entity
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return string
      */
-    private function successRedirect(FormInterface $form, $entity): RedirectResponse
+    private function successRedirect(FormInterface $form, $entity): string
     {
-        $url = null;
-
         foreach ($form->all() as $name => $child) {
             if ($child instanceof ClickableInterface && $child->isClicked() && isset(static::SUBMIT_BUTTON_REDIRECTS[$name])) {
-                $url = $this->getAdminRouter()->generate($entity, $this->entityClass, static::SUBMIT_BUTTON_REDIRECTS[$name]);
-
-                break;
+                return $this->getAdminRouter()->generate($entity, $this->entityClass, static::SUBMIT_BUTTON_REDIRECTS[$name]);
             }
         }
-        if (empty($url)) {
-            $url = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT);
-        }
 
-        return $this->redirect($url);
+        return $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT);
     }
 
 

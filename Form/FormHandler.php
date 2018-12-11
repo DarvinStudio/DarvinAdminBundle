@@ -140,39 +140,6 @@ class FormHandler
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form           Delete form
-     * @param object                                $entity         Entity
-     * @param string                                $successMessage Success message
-     *
-     * @return bool
-     */
-    public function handleDeleteForm(FormInterface $form, $entity, $successMessage = 'action.delete.success')
-    {
-        return $this->handleForm($form, $entity, $successMessage, function ($entity, EntityManager $em) {
-            $em->remove($entity);
-            $em->flush();
-
-            return true;
-        });
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form           Entity form
-     * @param string                                $successMessage Success message
-     *
-     * @return bool
-     */
-    public function handleEntityForm(FormInterface $form, $successMessage)
-    {
-        return $this->handleForm($form, $form->getData(), $successMessage, function ($entity, EntityManager $em) {
-            $em->persist($entity);
-            $em->flush();
-
-            return true;
-        });
-    }
-
-    /**
      * @param \Symfony\Component\Form\FormInterface $form                  Form
      * @param object                                $entity                Entity
      * @param string                                $successMessage        Success message

@@ -450,7 +450,7 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction(Request $request, $id): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 
@@ -462,18 +462,42 @@ class CrudController extends Controller
 
         $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
 
-        if ($this->getFormHandler()->handleDeleteForm($form, $entity)) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
+        if (!$form->isValid()) {
+            $message = implode(PHP_EOL, array_map(function (FormError $error) {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
 
-            return $this->redirect($this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX));
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($this->renderView('@DarvinAdmin/widget/delete_form.html.twig', [
+                    'form'               => $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->createView(),
+                    'translation_prefix' => $this->meta->getBaseTranslationPrefix(),
+                ]), false, $message);
+            }
+
+            $this->getFlashNotifier()->error($message);
+
+            return $this->redirect($request->headers->get(
+                'referer',
+                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+            ));
         }
 
-        $url = $request->headers->get(
-            'referer',
-            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
-        );
+        $em = $this->getEntityManager();
+        $em->remove($entity);
+        $em->flush();
 
-        return $this->redirect($url);
+        $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
+
+        $message     = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
+        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX);
+
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse(null, true, $message, [], $redirectUrl);
+        }
+
+        $this->getFlashNotifier()->success($message);
+
+        return $this->redirect($redirectUrl);
     }
 
     /**

@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'edit_element delete'}}) }}
+{{ form_start(form, {'attr': {'class': 'edit_element delete js-ajax', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
 <button type="submit" onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans }}');"></button>
 <span>{{ (translation_prefix ~ 'action.delete.submit')|trans }}</span>

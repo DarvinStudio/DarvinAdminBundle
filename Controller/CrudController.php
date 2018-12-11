@@ -184,19 +184,18 @@ class CrudController extends Controller
      */
     public function newAction(Request $request, $widget = false)
     {
+        if ($request->query->has('widget')) {
+            $widget = true;
+        }
+
         $this->checkPermission(Permission::CREATE_DELETE);
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
-        $isXmlHttpRequest = $request->isXmlHttpRequest();
-
-        if ($isXmlHttpRequest) {
-            $widget = true;
-        }
-
         $entityClass = $this->entityClass;
+
         $entity = new $entityClass();
 
         if ($this->meta->hasParent()) {
@@ -212,7 +211,9 @@ class CrudController extends Controller
             $this->meta,
             $entity,
             'new',
-            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW),
+            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW, [
+                'widget' => true,
+            ]),
             $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
@@ -235,7 +236,7 @@ class CrudController extends Controller
             $html = $this->renderNewTemplate($widget, $form, $parentEntity);
             $message = FlashNotifierInterface::MESSAGE_FORM_ERROR;
         }
-        if ($isXmlHttpRequest) {
+        if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($html, $success, $message);
         }
 
@@ -623,8 +624,8 @@ class CrudController extends Controller
     private function renderNewTemplate(bool $widget, FormInterface $form, $parentEntity): string
     {
         return $this->renderTemplate('new', [
-            'ajax_form'     => $widget,
             'form'          => $form->createView(),
+            'is_widget'     => $widget,
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,
         ], $widget);

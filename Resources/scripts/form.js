@@ -32,7 +32,7 @@ $(() => {
 
             let options = $form.data();
 
-            if (options.submitted) {
+            if (options.submitted || options.redirecting) {
                 return;
             }
 
@@ -87,9 +87,9 @@ $(() => {
 
                     return;
                 }
-
-                App.redirect(data.redirectUrl);
-
+                if (App.redirect(data.redirectUrl)) {
+                    $form.data('redirecting', true);
+                }
                 if (data.html) {
                     let $html   = $(data.html),
                         $target = $form;

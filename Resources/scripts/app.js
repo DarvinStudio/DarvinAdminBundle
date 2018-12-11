@@ -31,7 +31,11 @@ const App = (() => {
                 setTimeout(() => {
                     document.location.href = url;
                 }, NOTIFICATION_TIMEOUT);
+
+                return true;
             }
+
+            return false;
         },
         startPreloading: (tag) => {
             $('body').append($(PRELOADER).data('tag', tag || 'app'));

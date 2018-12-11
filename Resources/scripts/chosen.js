@@ -1,8 +1,16 @@
-$(document).ready(function () {
-    var SCROLL_SPEED = -1 !== navigator.userAgent.indexOf('Firefox') ? 10 : 1;
+$(() => {
+    const SCROLL_SPEED = -1 !== navigator.userAgent.indexOf('Firefox') ? 10 : 1;
+    const OPTIONS      = {
+        allow_single_deselect:     true,
+        no_results_text:           Translator.trans('chosen.no_results_text'),
+        placeholder_text_multiple: Translator.trans('chosen.placeholder_text_multiple'),
+        placeholder_text_single:   Translator.trans('chosen.placeholder_text_single'),
+        search_contains:           true
+    };
 
-    var searchResultsMousewheel = function (e) {
-        var delta;
+    // It must be the "function" to get proper "this"!
+    const searchResultsMousewheel = function (e) {
+        let delta;
 
         if (e.originalEvent) {
             delta = e.originalEvent.deltaY || -e.originalEvent.wheelDelta || e.originalEvent.detail;
@@ -16,35 +24,28 @@ $(document).ready(function () {
         return this.search_results.scrollTop(delta * (e.type === 'DOMMouseScroll' ? 40 : SCROLL_SPEED) + this.search_results.scrollTop());
     };
 
-    var init;
-    (init = function (context) {
-        $(context || 'body').find('select:visible').each(function () {
-            $(this)
-                .chosen({
-                    allow_single_deselect:     true,
-                    no_results_text:           Translator.trans('chosen.no_results_text'),
-                    placeholder_text_multiple: Translator.trans('chosen.placeholder_text_multiple'),
-                    placeholder_text_single:   Translator.trans('chosen.placeholder_text_single'),
-                    search_contains:           true
-                })
-                .change(function () {
-                    $(this).trigger('chosen:updated');
+    const init = (context) => {
+        $(context).find('select:visible').each((i, select) => {
+            $(select)
+                .chosen(OPTIONS)
+                .change((e) => {
+                    $(e.currentTarget).trigger('chosen:updated');
                 })
                 .data('chosen').search_results_mousewheel = searchResultsMousewheel;
         });
-    })();
+    };
 
     $(document)
-        .on('formCollectionAdd', function (e, form) {
+        .on('app.html', (e, args) => {
+            init(args.$html);
+        })
+        .on('formCollectionAdd', (e, form) => {
             init(form);
         })
-        .on('propertyFormSubmit', function (e, form) {
-            init(form);
-        })
-        .on('searchComplete', function (e, results) {
+        .on('searchComplete', (e, results) => {
             init(results);
         })
-        .on('spoilerOpen', function (e, spoiler) {
+        .on('spoilerOpen', (e, spoiler) => {
             init(spoiler);
         });
 });

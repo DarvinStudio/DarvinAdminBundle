@@ -22,6 +22,7 @@ use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouter;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
+use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
@@ -468,10 +469,7 @@ class CrudController extends Controller
             }, iterator_to_array($form->getErrors(true))));
 
             if ($request->isXmlHttpRequest()) {
-                return new AjaxResponse($this->renderView('@DarvinAdmin/widget/delete_form.html.twig', [
-                    'form'               => $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->createView(),
-                    'translation_prefix' => $this->meta->getBaseTranslationPrefix(),
-                ]), false, $message);
+                return new AjaxResponse($this->getViewWidgetPool()->getWidget(DeleteFormWidget::ALIAS)->getContent($entity), false, $message);
             }
 
             $this->getFlashNotifier()->error($message);
@@ -876,5 +874,11 @@ class CrudController extends Controller
     private function getUserQueryBuilderFilterer()
     {
         return $this->get('darvin_utils.user.query_builder_filterer');
+    }
+
+    /** @return \Darvin\AdminBundle\View\Widget\WidgetPool */
+    private function getViewWidgetPool()
+    {
+        return $this->get('darvin_admin.view.widget.pool');
     }
 }

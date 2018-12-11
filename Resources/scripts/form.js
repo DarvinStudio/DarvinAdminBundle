@@ -1,5 +1,21 @@
 $(() => {
-    $('body').on('submit', 'form.js-ajax[action][method]', (e) => {
+    const replaceContent = (html) => {
+        let $html = $(html);
+
+        let $content = $html.find('#js-content');
+
+        if (!$content.length) {
+            $content = $html;
+        }
+
+        $('#js-content').html($content);
+
+        $(document).trigger('app.html', {
+            $html: $content
+        });
+    };
+
+    $('body').on('submit', 'form.js-ajax', (e) => {
         e.preventDefault();
 
         let $form = $(e.currentTarget);
@@ -14,13 +30,40 @@ $(() => {
 
         App.startPreloading();
 
-        $.ajax({
-            url:         $form.attr('action'),
-            type:        $form.attr('method'),
-            data:        new FormData($form[0]),
-            contentType: false,
-            processData: false
-        }).done((data) => {
+        let url  = $form.attr('action') || options.url || '',
+            type = ($form.attr('method') || 'get').toLowerCase();
+
+        let params = {
+            url:  url,
+            type: type
+        };
+
+        if ('get' === type || 'undefined' === typeof FormData) {
+            params.data = $form.serialize();
+        } else {
+            $.extend(params, {
+                data:        new FormData($form[0]),
+                contentType: false,
+                processData: false
+            });
+        }
+
+        $.ajax(params).done((data) => {
+            if ('get' === type && 'undefined' !== typeof history) {
+                let parts = [location.origin, location.pathname];
+
+                if (params.data) {
+                    parts.push('?', params.data);
+                }
+
+                history.pushState(null, null, parts.join(''));
+            }
+            if (!$.isPlainObject(data)) {
+                replaceContent(data);
+
+                return;
+            }
+
             App.notify(data.message, data.success ? 'success' : 'error');
             App.redirect(data.redirectUrl);
 
@@ -29,21 +72,7 @@ $(() => {
 
                 $.ajax({
                     cache: false
-                }).done((html) => {
-                    let $html = $(html);
-
-                    let $content = $html.find('#js-content');
-
-                    if (!$content.length) {
-                        $content = $html;
-                    }
-
-                    $('#js-content').html($content);
-
-                    $(document).trigger('app.html', {
-                        $html: $content
-                    });
-                }).always(() => {
+                }).done(replaceContent).always(() => {
                     App.stopPreloading('form');
                 }).fail(App.onAjaxFail);
 

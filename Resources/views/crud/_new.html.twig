@@ -1,6 +1,6 @@
 {% form_theme form '@DarvinAdmin/form/fields.html.twig' %}
 
-{% include '@DarvinAdmin/crud/widget/form.html.twig' with {
+{% include '@DarvinAdmin/crud/_form.html.twig' with {
     'field_groups':     meta.configuration.form.new.field_groups,
     'show_top_buttons': not ajax_form,
 } %}

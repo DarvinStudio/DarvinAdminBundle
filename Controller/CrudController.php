@@ -68,7 +68,7 @@ class CrudController extends Controller
      * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
      * @param string                                       $entityClass     Entity class
      */
-    public function __construct(MetadataManager $metadataManager, $entityClass)
+    public function __construct(MetadataManager $metadataManager, string $entityClass)
     {
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
@@ -182,7 +182,7 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request, $widget = false)
+    public function newAction(Request $request, bool $widget = false): Response
     {
         if ((bool)$request->query->get('widget')) {
             $widget = true;
@@ -286,7 +286,7 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, $id)
+    public function editAction(Request $request, $id): Response
     {
         $this->checkPermission(Permission::EDIT);
 

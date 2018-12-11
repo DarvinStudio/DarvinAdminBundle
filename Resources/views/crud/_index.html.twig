@@ -76,7 +76,7 @@
 
         {% block total_item_count %}
             {% if view.body.rows is not empty %}
-                <span class="pull-right">{% trans with {'%count%': entities_count} %}interface.total_item_count{% endtrans %}</span>
+                <span class="pull-right">{% trans with {'%count%': entity_count} %}interface.total_item_count{% endtrans %}</span>
             {% endif %}
         {% endblock %}
 

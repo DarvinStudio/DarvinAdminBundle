@@ -82,17 +82,19 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
-        $this->checkIfUserHasPermission(Permission::VIEW);
+        $this->checkPermission(Permission::VIEW);
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
 
-        $filterForm = $this->meta->isFilterFormEnabled()
-            ? $this->getAdminFormFactory()->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request)
-            : null;
+        $filterForm = null;
+
+        if ($this->meta->isFilterFormEnabled()) {
+            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request);
+        }
 
         $qb = $this->getIndexQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
 
@@ -103,11 +105,13 @@ class CrudController extends Controller
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
+        $batchDeleteForm  = null;
+        $newFormWidget    = null;
+        $sortCriteria     = $this->getSortCriteriaDetector()->detect($this->entityClass);
+        $pagination       = null;
         $paginatorOptions = [
             'wrap-queries' => true,
         ];
-
-        $sortCriteria = $this->getSortCriteriaDetector()->detect($this->entityClass);
 
         if (!empty($sortCriteria)) {
             if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$this->configuration['pagination']['enabled']) {
@@ -125,9 +129,6 @@ class CrudController extends Controller
                 $paginatorOptions['defaultSortDirection'] = reset($sortCriteria);
             }
         }
-
-        $pagination = null;
-
         if ($this->configuration['pagination']['enabled']) {
             $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
@@ -135,11 +136,13 @@ class CrudController extends Controller
 
             /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
             $pagination = $this->getPaginator()->paginate($qb, $page, $this->configuration['pagination']['items'], $paginatorOptions);
-            $entities = $page > 0 ? $pagination->getItems() : $qb->getQuery()->getResult();
-            $entitiesCount = $pagination->getTotalItemCount();
+
+            $entities    = $page > 0 ? $pagination->getItems() : $qb->getQuery()->getResult();
+            $entityCount = $pagination->getTotalItemCount();
         } else {
             $entities = $qb->getQuery()->getResult();
-            $entitiesCount = count($entities);
+
+            $entityCount = count($entities);
         }
         if (isset($this->configuration['sorter'])) {
             $entities = $this->get($this->configuration['sorter']['id'])->{$this->configuration['sorter']['method']}($entities);
@@ -148,9 +151,6 @@ class CrudController extends Controller
             $this->getCustomObjectLoader()->loadCustomObjects($entities);
         } catch (CustomObjectException $ex) {
         }
-
-        $batchDeleteForm = null;
-
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
             && $this->getAdminRouter()->exists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
@@ -158,15 +158,16 @@ class CrudController extends Controller
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
         }
-
-        $newFormWidget = $this->configuration['index_view_new_form'] ? $this->newAction($request, true)->getContent() : null;
+        if ($this->configuration['index_view_new_form']) {
+            $newFormWidget = $this->newAction($request, true)->getContent();
+        }
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
 
         return $this->renderResponse('index', [
             'association_param' => $associationParam,
             'batch_delete_form' => $batchDeleteForm,
-            'entities_count'    => $entitiesCount,
+            'entity_count'      => $entityCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
             'new_form_widget'   => $newFormWidget,
@@ -185,7 +186,7 @@ class CrudController extends Controller
      */
     public function newAction(Request $request, $widget = false)
     {
-        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+        $this->checkPermission(Permission::CREATE_DELETE);
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
@@ -255,7 +256,7 @@ class CrudController extends Controller
      */
     public function copyAction(Request $request, $id)
     {
-        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+        $this->checkPermission(Permission::CREATE_DELETE);
 
         $entity = $this->getEntity($id);
 
@@ -285,7 +286,7 @@ class CrudController extends Controller
      */
     public function editAction(Request $request, $id)
     {
-        $this->checkIfUserHasPermission(Permission::EDIT);
+        $this->checkPermission(Permission::EDIT);
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
@@ -331,7 +332,7 @@ class CrudController extends Controller
             throw new BadRequestHttpException('Only XMLHttpRequests are allowed.');
         }
 
-        $this->checkIfUserHasPermission(Permission::EDIT);
+        $this->checkPermission(Permission::EDIT);
 
         $entity = $this->getEntity($id);
 
@@ -390,7 +391,7 @@ class CrudController extends Controller
      */
     public function showAction(Request $request, $id)
     {
-        $this->checkIfUserHasPermission(Permission::VIEW);
+        $this->checkPermission(Permission::VIEW);
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
@@ -421,7 +422,7 @@ class CrudController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+        $this->checkPermission(Permission::CREATE_DELETE);
 
         $this->getParentEntityDefinition($request);
 
@@ -453,7 +454,7 @@ class CrudController extends Controller
      */
     public function batchDeleteAction(Request $request)
     {
-        $this->checkIfUserHasPermission(Permission::CREATE_DELETE);
+        $this->checkPermission(Permission::CREATE_DELETE);
 
         $this->getParentEntityDefinition($request);
 
@@ -537,7 +538,7 @@ class CrudController extends Controller
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    private function checkIfUserHasPermission($permission)
+    private function checkPermission(string $permission): void
     {
         if (!$this->isGranted($permission, $this->entityClass)) {
             throw $this->createAccessDeniedException(

@@ -18,6 +18,11 @@ $(() => {
             $html: $content
         });
     };
+    const replaceUrl = (url) => {
+        if ('undefined' !== typeof history) {
+            history.pushState(null, null, [location.origin, url].join(''));
+        }
+    };
 
     $('body')
         .on('click', SELECTOR.form + ' [type="submit"][name]', (e) => {
@@ -59,14 +64,14 @@ $(() => {
             }
 
             $.ajax(params).done((data) => {
-                if ('get' === type && 'undefined' !== typeof history) {
-                    let parts = [location.origin, location.pathname];
+                if ('get' === type) {
+                    let parts = [location.pathname];
 
                     if (params.data) {
                         parts.push('?', params.data);
                     }
 
-                    history.pushState(null, null, parts.join(''));
+                    replaceUrl(parts.join(''));
                 }
                 if (!$.isPlainObject(data)) {
                     replaceContent(data);
@@ -79,9 +84,14 @@ $(() => {
                 if (data.success && options.reloadPage) {
                     App.startPreloading('form');
 
+                    let pageUrl = data.redirectUrl || '';
+
                     $.ajax({
+                        url:   pageUrl,
                         cache: false
                     }).done(replaceContent).always(() => {
+                        replaceUrl(pageUrl);
+
                         App.stopPreloading('form');
                     }).fail(App.onAjaxFail);
 

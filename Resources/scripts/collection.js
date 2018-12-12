@@ -10,7 +10,7 @@ $(() => {
 
             this.buttons = {};
 
-            for (let name of classes) {
+            for (let name in classes) {
                 this.buttons[name] = '<button class="' + classes[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
             }
 

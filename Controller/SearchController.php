@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
-use Darvin\AdminBundle\Search\Searcher;
+use Darvin\AdminBundle\Search\SearcherInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -110,9 +110,9 @@ class SearchController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Search\Searcher
+     * @return \Darvin\AdminBundle\Search\SearcherInterface
      */
-    private function getSearcher(): Searcher
+    private function getSearcher(): SearcherInterface
     {
         return $this->get('darvin_admin.searcher');
     }

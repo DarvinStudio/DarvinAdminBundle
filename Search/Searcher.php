@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * Searcher
  */
-class Searcher
+class Searcher implements SearcherInterface
 {
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
@@ -79,11 +79,7 @@ class Searcher
     }
 
     /**
-     * @param string $entityName Entity name
-     * @param string $query      Search query
-     *
-     * @return object[]
-     * @throws \RuntimeException
+     * {@inheritdoc}
      */
     public function search(string $entityName, string $query): array
     {
@@ -116,10 +112,7 @@ class Searcher
     }
 
     /**
-     * @param string $entityName Entity name
-     *
-     * @return \Darvin\AdminBundle\Metadata\Metadata
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function getSearchableEntityMeta(string $entityName): Metadata
     {
@@ -133,7 +126,7 @@ class Searcher
     }
 
     /**
-     * @return string[]
+     * {@inheritdoc}
      */
     public function getSearchableEntityNames(): array
     {
@@ -141,9 +134,7 @@ class Searcher
     }
 
     /**
-     * @param string $entityName Entity name
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isSearchable(string $entityName): bool
     {

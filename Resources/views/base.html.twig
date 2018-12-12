@@ -94,8 +94,14 @@
                     <div class="row header sub">
                         <div class="col-md-12 col-lg-12 header_right">
                             <div class="container-fluid">
-
-                                {% include '@DarvinAdmin/search/widget/form.html.twig' %}
+                                <form action="{{ path('darvin_admin_search') }}" method="get" class="search_header">
+                                    <input name="q"
+                                           type="search"
+                                           placeholder="{% trans %}search.form.placeholder{% endtrans %}"
+                                           required="required"
+                                           {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
+                                    <button type="submit">{% trans %}search.form.submit{% endtrans %}</button>
+                                </form>
 
                                 {% if app.user %}
                                     {% if is_granted('admin_view', app.user) %}

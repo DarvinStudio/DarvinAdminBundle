@@ -22,45 +22,56 @@
     {% endif %}
 {% endblock %}
 
-{% set pagination          = pagination|default %}
+{% if pagination is not defined %}
+
+    {% set pagination = null %}
+
+{% endif %}
+
 {% set pagination_rendered = pagination ? knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') : null %}
 
-{% if filter_form %}
+{% block filter_form %}
+    {% if filter_form %}
 
-    {% form_theme filter_form _self %}
+        {% form_theme filter_form _self %}
 
-    <div class="index_modul filter spoiler_container">
-        <div class="index_modul_header">
-            <div class="index_modul_header_content spoiler_links">
-                <div class="spoiler_arrow"></div>
-                <div class="index_modul_icon"></div>
-                <div class="index_modul_name">
-                    <p class="tit">{% trans %}filter.title{% endtrans %}</p>
-                    <p>{% trans %}filter.description{% endtrans %}</p>
+        <div class="index_modul filter spoiler_container">
+            <div class="index_modul_header">
+                <div class="index_modul_header_content spoiler_links">
+                    <div class="spoiler_arrow"></div>
+                    <div class="index_modul_icon"></div>
+                    <div class="index_modul_name">
+                        <p class="tit">{% trans %}filter.title{% endtrans %}</p>
+                        <p>{% trans %}filter.description{% endtrans %}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="index_modul_content spoiler_body"
+                 data-cookie="DARVINADMINFILTER"
+                 {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
+                <div class="filter_table container-fluid">
+                    {{ form_start(filter_form, {'attr': {'class': 'js-ajax'}}) }}
+                    {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
+                        {{ form_row(filter_form[field]) }}
+                    {% endfor %}
+                    <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
+                    <a href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
+                    {{ form_end(filter_form) }}
                 </div>
             </div>
         </div>
-        <div class="index_modul_content spoiler_body"
-             data-cookie="DARVINADMINFILTER"
-             {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
-            <div class="filter_table container-fluid">
-                {{ form_start(filter_form, {'attr': {'class': 'js-ajax'}}) }}
-                {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
-                    {{ form_row(filter_form[field]) }}
-                {% endfor %}
-                <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
-                <a href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
-                {{ form_end(filter_form) }}
-            </div>
+    {% endif %}
+{% endblock %}
+
+{% block new_form %}
+    {% if new_form %}
+        <div class="index-new-form">
+            <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+            {{ new_form|raw }}
         </div>
-    </div>
-{% endif %}
-{% if new_form_widget %}
-    <div class="index-new-form">
-        <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
-        {{ new_form_widget|raw }}
-    </div>
-{% endif %}
+    {% endif %}
+{% endblock %}
+
 <div class="js-property-forms">
     <div class="post_item_btn">
 

@@ -105,7 +105,7 @@ class CrudController extends Controller
         }
 
         $batchDeleteForm  = null;
-        $newFormWidget    = null;
+        $newForm          = null;
         $sortCriteria     = $this->getSortCriteriaDetector()->detect($this->entityClass);
         $pagination       = null;
         $paginatorOptions = [
@@ -158,7 +158,7 @@ class CrudController extends Controller
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
         }
         if ($this->configuration['index_view_new_form']) {
-            $newFormWidget = $this->newAction($request, true)->getContent();
+            $newForm = $this->newAction($request, true)->getContent();
         }
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
@@ -169,7 +169,7 @@ class CrudController extends Controller
             'entity_count'      => $entityCount,
             'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
             'meta'              => $this->meta,
-            'new_form_widget'   => $newFormWidget,
+            'new_form'          => $newForm,
             'pagination'        => $pagination,
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,

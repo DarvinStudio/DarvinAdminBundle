@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016-2018, Darvin Studio
@@ -10,10 +10,14 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
+use Darvin\AdminBundle\Search\Searcher;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Search controller
@@ -25,7 +29,7 @@ class SearchController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $query = htmlspecialchars($request->query->get('q'));
 
@@ -50,7 +54,7 @@ class SearchController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function resultsAction($entityName, $query)
+    public function resultsAction(string $entityName, string $query): Response
     {
         $searcher = $this->getSearcher();
 
@@ -73,9 +77,9 @@ class SearchController extends Controller
 
         $view = $this->getEntitiesToIndexViewTransformer()->transform($meta, $entities);
 
-        return $this->render('@DarvinAdmin/search/widget/results.html.twig', [
+        return $this->render('@DarvinAdmin/search/_results.html.twig', [
             'batch_delete_form' => $batchDeleteForm,
-            'entities_count'    => count($entities),
+            'entity_count'      => count($entities),
             'meta'              => $meta,
             'view'              => $view,
         ]);
@@ -84,7 +88,7 @@ class SearchController extends Controller
     /**
      * @return \Darvin\AdminBundle\Form\AdminFormFactory
      */
-    private function getAdminFormFactory()
+    private function getAdminFormFactory(): AdminFormFactory
     {
         return $this->get('darvin_admin.form.factory');
     }
@@ -92,7 +96,7 @@ class SearchController extends Controller
     /**
      * @return \Darvin\AdminBundle\Route\AdminRouterInterface
      */
-    private function getAdminRouter()
+    private function getAdminRouter(): AdminRouterInterface
     {
         return $this->get('darvin_admin.router');
     }
@@ -100,7 +104,7 @@ class SearchController extends Controller
     /**
      * @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
      */
-    private function getEntitiesToIndexViewTransformer()
+    private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
     {
         return $this->get('darvin_admin.view.entity_transformer.index');
     }
@@ -108,7 +112,7 @@ class SearchController extends Controller
     /**
      * @return \Darvin\AdminBundle\Search\Searcher
      */
-    private function getSearcher()
+    private function getSearcher(): Searcher
     {
         return $this->get('darvin_admin.searcher');
     }

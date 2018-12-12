@@ -1,5 +1,5 @@
 $(() => {
-    const SELECTOR = {
+    const SELECTORS = {
         form: 'form.js-ajax'
     };
 
@@ -25,12 +25,12 @@ $(() => {
     };
 
     $('body')
-        .on('click', SELECTOR.form + ' [type="submit"][name]', (e) => {
+        .on('click', SELECTORS.form + ' [type="submit"][name]', (e) => {
             let $submit = $(e.currentTarget);
 
-            $submit.closest(SELECTOR.form).append('<input name="' + $submit.attr('name') + '" type="hidden">');
+            $submit.closest(SELECTORS.form).append('<input name="' + $submit.attr('name') + '" type="hidden">');
         })
-        .on('submit', SELECTOR.form, (e) => {
+        .on('submit', SELECTORS.form, (e) => {
             e.preventDefault();
 
             let $form = $(e.currentTarget);

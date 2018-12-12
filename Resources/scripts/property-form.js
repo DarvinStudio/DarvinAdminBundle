@@ -1,5 +1,5 @@
 $(() => {
-    const SELECTOR = {
+    const SELECTORS = {
         container: '.js-property-forms:first',
         form:      'form.js-property',
         submit:    '.js-property-submit'
@@ -12,17 +12,17 @@ $(() => {
             return;
         }
 
-        let $form = $field.closest(SELECTOR.form);
+        let $form = $field.closest(SELECTORS.form);
 
-        let $container = $form.closest(SELECTOR.container);
+        let $container = $form.closest(SELECTORS.container);
 
-        let $submit = $container.find(SELECTOR.submit);
+        let $submit = $container.find(SELECTORS.submit);
 
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
         $submit.show();
 
-        if (1 !== parseInt($form.attr('data-modified')) && !$container.find(SELECTOR.form + '[data-modified="1"]').length) {
+        if (1 !== parseInt($form.attr('data-modified')) && !$container.find(SELECTORS.form + '[data-modified="1"]').length) {
             $submit.hide();
         }
         if (1 !== parseInt($form.attr('data-modified'))) {
@@ -39,7 +39,7 @@ $(() => {
     };
 
     const init = (context) => {
-        $(context).find(SELECTOR.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
+        $(context).find(SELECTORS.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
             toggle(field);
         });
     };
@@ -53,25 +53,25 @@ $(() => {
         });
 
     $('body')
-        .on('change', SELECTOR.form + ' .js-property-field[type!="checkbox"]', (e) => {
+        .on('change', SELECTORS.form + ' .js-property-field[type!="checkbox"]', (e) => {
             toggle(e.currentTarget);
         })
-        .on('keyup', SELECTOR.form + ' input', (e) => {
+        .on('keyup', SELECTORS.form + ' input', (e) => {
             toggle(e.currentTarget);
         })
-        .on('submit', SELECTOR.form, (e) => {
+        .on('submit', SELECTORS.form, (e) => {
             let $form = $(e.currentTarget);
 
             $form.data('reload-page', $form.find('.js-property-field:first').data('reload-page'));
         })
-        .on('change', SELECTOR.form + ' input[type="checkbox"]', (e) => {
+        .on('change', SELECTORS.form + ' input[type="checkbox"]', (e) => {
             let $checkbox = $(e.currentTarget);
 
-            $checkbox.closest(SELECTOR.form)
+            $checkbox.closest(SELECTORS.form)
                 .data('reload-page', $checkbox.data('reload-page'))
                 .trigger('submit');
         })
-        .on('click', SELECTOR.form + ' [type="reset"]', (e) => {
+        .on('click', SELECTORS.form + ' [type="reset"]', (e) => {
             e.preventDefault();
 
             let $field = $(e.currentTarget).siblings('.js-property-field:first');
@@ -80,8 +80,8 @@ $(() => {
                 .val($field.data('original-value'))
                 .trigger('change');
         })
-        .on('click', [SELECTOR.container, SELECTOR.submit].join(' '), (e) => {
-            let $forms     = $(e.currentTarget).closest(SELECTOR.container).find(SELECTOR.form + '[data-modified="1"]'),
+        .on('click', [SELECTORS.container, SELECTORS.submit].join(' '), (e) => {
+            let $forms     = $(e.currentTarget).closest(SELECTORS.container).find(SELECTORS.form + '[data-modified="1"]'),
                 reloadPage = false;
 
             $forms.each((i, form) => {

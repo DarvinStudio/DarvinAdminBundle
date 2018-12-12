@@ -8,6 +8,10 @@ chosen:
     placeholder_text_multiple: ---
     placeholder_text_single:   ---
 
+collection:
+    add:    Добавить
+    delete: Удалить
+
 colorbox:
     close:          закрыть
     current:        изображение {current} из {total}
@@ -81,10 +85,6 @@ flash:
 form:
     file:
         description: 'Максимальный размер файла: %size%МБ'
-
-form_collections:
-    add:    Добавить
-    delete: Удалить
 
 homepage:
     action:

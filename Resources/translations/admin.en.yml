@@ -6,6 +6,9 @@ chosen:
     no_results_text: 'No Results Match'
     placeholder_text_multiple: '---'
     placeholder_text_single: '---'
+collection:
+    add: Add
+    delete: Remove
 colorbox:
     close: Close
     current: 'Image {current} of {total}'
@@ -69,9 +72,6 @@ flash:
 form:
     file:
         description: 'Max File Size: %size%MB'
-form_collections:
-    add: Add
-    delete: Remove
 homepage:
     action:
         homepage:

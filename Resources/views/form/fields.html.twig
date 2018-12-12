@@ -44,7 +44,7 @@
 {%- endblock -%}
 
 {%- block collection_widget -%}
-    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' collection')|trim}) %}
+    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' js-collection')|trim}) %}
     {% if allow_add %}
         {% set attr = attr|merge({
             'data-allow-add': 1,

@@ -19,7 +19,7 @@ $(() => {
         });
     };
     const replaceUrl = (url) => {
-        if ('undefined' !== typeof history) {
+        if (url && 'undefined' !== typeof history) {
             history.pushState(null, null, [location.origin, url].join(''));
         }
     };
@@ -81,7 +81,7 @@ $(() => {
 
                 App.notify(data.message, data.success ? 'success' : 'error');
 
-                if (data.success && options.reloadPage) {
+                if (data.success && options.reloadPage && !$('#js-content').data('not-reloadable')) {
                     App.startPreloading('form');
 
                     let pageUrl = data.redirectUrl || '';

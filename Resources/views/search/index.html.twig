@@ -4,6 +4,8 @@
 
 {% block heading %}{% trans with {'%query%': query} %}search.action.index.heading{% endtrans %}{% endblock %}
 
+{% block content_attr %}data-not-reloadable="1"{% endblock %}
+
 {% block content %}
     {% if query_too_short %}
         <h3 class="text-danger">

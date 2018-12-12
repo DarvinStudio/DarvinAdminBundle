@@ -2,11 +2,11 @@ const App = (() => {
     const NOTIFICATION_TIMEOUT = 1500;
     const PRELOADER            = '<div class="preloader">';
 
-    const notify = (text, type) => {
+    const notify = (text, type = 'success') => {
         if (text) {
             new Noty({
                 text:    Translator.trans(text),
-                type:    type || 'success',
+                type:    type,
                 theme:   'bootstrap-v3',
                 timeout: NOTIFICATION_TIMEOUT
             }).show();
@@ -37,12 +37,10 @@ const App = (() => {
 
             return false;
         },
-        startPreloading: (tag) => {
-            $('body').append($(PRELOADER).data('tag', tag || 'app'));
+        startPreloading: (tag = 'app') => {
+            $('body').append($(PRELOADER).data('tag', tag));
         },
-        stopPreloading: (tag) => {
-            tag = tag || 'app';
-
+        stopPreloading: (tag = 'app') => {
             $('.preloader').each((i, preloader) => {
                 let $preloader = $(preloader);
 

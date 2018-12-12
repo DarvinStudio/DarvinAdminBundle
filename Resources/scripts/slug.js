@@ -12,7 +12,7 @@ $(() => {
 
     let SELECTORS = {};
 
-    for (let name in CLASSES) {
+    for (let name of CLASSES) {
         SELECTORS[name] = '.' + CLASSES[name];
     }
 

@@ -10,7 +10,7 @@ $(() => {
 
             this.buttons = {};
 
-            for (let name in classes) {
+            for (let name of classes) {
                 this.buttons[name] = '<button class="' + classes[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
             }
 
@@ -101,9 +101,9 @@ $(() => {
 
     $(document).on('app.html', (e, args) => {
         args.$html.find('.js-collection[data-prototype]').each((i, node) => {
-            let init = $(node).data('autoinit');
+            let autoInit = $(node).data('autoinit');
 
-            if ('undefined' === typeof init || init) {
+            if ('undefined' === typeof autoInit || autoInit) {
                 new Collection(node);
             }
         });

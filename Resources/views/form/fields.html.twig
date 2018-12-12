@@ -48,7 +48,7 @@
     {% if allow_add %}
         {% set attr = attr|merge({
             'data-allow-add': 1,
-            'data-index':     form.children is not empty ? max(form.children|keys) + 1 : 0,
+            'data-index':     form.children is not empty ? max(form.children|keys)|number_format + 1 : 0,
             'data-name':      name,
         }) %}
     {% endif %}

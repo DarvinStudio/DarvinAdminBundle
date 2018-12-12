@@ -15,9 +15,9 @@ $(() => {
             }
 
             this
-                .updateLabels()
+                .createAddButton()
                 .createDeleteButtons(this.getItems())
-                .createAddButton();
+                .updateLabels();
         }
 
         createAddButton() {
@@ -95,7 +95,7 @@ $(() => {
         }
 
         getItems() {
-            return this.$collection.children();
+            return this.$collection.children().filter(':not(button)');
         }
     }
 

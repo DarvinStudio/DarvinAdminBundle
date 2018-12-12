@@ -22,9 +22,5 @@ $(function () {
         });
     })();
 
-    $(document)
-        .on('ajaxSuccess', init)
-        .on('formCollectionAdd', function (e, $newElement) {
-            init($newElement);
-        });
+    $(document).on('ajaxSuccess', init);
 });

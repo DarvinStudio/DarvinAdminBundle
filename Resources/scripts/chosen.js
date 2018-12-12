@@ -39,13 +39,7 @@ $(() => {
         .on('app.html', (e, args) => {
             init(args.$html);
         })
-        .on('formCollectionAdd', (e, form) => {
-            init(form);
-        })
-        .on('searchComplete', (e, results) => {
-            init(results);
-        })
-        .on('spoilerOpen', (e, spoiler) => {
-            init(spoiler);
+        .on('app.spoiler.open', (e, args) => {
+            init(args.$spoiler);
         });
 });

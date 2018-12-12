@@ -38,7 +38,9 @@ $('body').on('mousedown', '.spoiler_links', function(){
             });
         }
 
-        $(document).trigger('spoilerOpen', body);
+        $(document).trigger('app.spoiler.open', {
+            $spoiler: body
+        });
 	} else {
         body.hide('normal');
         if ('undefined' !== typeof body.data('cookie')) {
@@ -68,19 +70,12 @@ $('body').on('mousedown', '.spoiler_links', function(){
 });
 
 /* фикс чекбоксов без нужной вёртски*/
-var checkboxInit = function (context) {
- $(context).find('.input_value input[type="checkbox"]').each(function(){
-	$(this).wrap("<label></label>").wrap("<span class='checkbox'></span>");
-	$(this).after("<span></span>")
- });
-};
-$(document)
-    .on('app.html', function (e, args) {
-        checkboxInit(args.$html);
-    })
-    .on('formCollectionAdd', function (e, form) {
-        checkboxInit(form);
+$(document).on('app.html', function (e, args) {
+    args.$html.find('.input_value input[type="checkbox"]').each(function(){
+        $(this).wrap("<label></label>").wrap("<span class='checkbox'></span>");
+        $(this).after("<span></span>")
     });
+});
 
  
  jQuery(document).ready(function(){

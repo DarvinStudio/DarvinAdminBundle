@@ -38,19 +38,11 @@ $(() => {
         }
     };
 
-    const init = (context) => {
-        $(context).find(SELECTORS.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
+    $(document).on('app.html', (e, args) => {
+        args.$html.find(SELECTORS.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
             toggle(field);
         });
-    };
-
-    $(document)
-        .on('app.html', (e, args) => {
-            init(args.$html);
-        })
-        .on('searchComplete', (e, results) => {
-            init(results);
-        });
+    });
 
     $('body')
         .on('change', SELECTORS.form + ' .js-property-field[type!="checkbox"]', (e) => {

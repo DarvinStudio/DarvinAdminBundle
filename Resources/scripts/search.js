@@ -37,7 +37,9 @@ $(() => {
 
                 $results.html(html);
 
-                $(document).trigger('searchComplete', $results);
+                $(document).trigger('app.html', {
+                    $html: $results
+                });
             }).always(() => {
                 clearInterval(interval);
 

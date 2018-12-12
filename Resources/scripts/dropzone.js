@@ -71,7 +71,4 @@ $(function () {
             });
         });
     })();
-    $(document).on('formCollectionAdd', function (e, $item) {
-        init($item);
-    });
 });

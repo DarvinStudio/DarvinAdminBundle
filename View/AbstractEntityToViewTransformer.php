@@ -119,7 +119,7 @@ abstract class AbstractEntityToViewTransformer
      * @param object                                $entity   Entity
      * @param string                                $viewType View type
      *
-     * @throws \Darvin\AdminBundle\View\ViewException
+     * @throws \RuntimeException
      */
     protected function validateConfiguration(Metadata $meta, $entity, $viewType)
     {
@@ -130,7 +130,7 @@ abstract class AbstractEntityToViewTransformer
                 continue;
             }
             if (!$this->propertyAccessor->isReadable($entity, $field)) {
-                throw new ViewException(sprintf('Property "%s::$%s" is not readable.', $meta->getEntityClass(), $field));
+                throw new \RuntimeException(sprintf('Property "%s::$%s" is not readable.', $meta->getEntityClass(), $field));
             }
         }
     }

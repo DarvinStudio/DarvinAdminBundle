@@ -72,7 +72,6 @@ class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
      * @param array                                 $entities Entities
      *
      * @return \Darvin\AdminBundle\View\Index\IndexView
-     * @throws \Darvin\AdminBundle\View\ViewException
      */
     public function transform(Metadata $meta, array $entities)
     {

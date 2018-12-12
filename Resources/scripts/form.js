@@ -20,7 +20,7 @@ $(() => {
     };
     const replaceUrl = (url) => {
         if (url && 'undefined' !== typeof history) {
-            history.pushState(null, null, [location.origin, url].join(''));
+            history.pushState(null, null, url);
         }
     };
 

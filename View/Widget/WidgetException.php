@@ -10,12 +10,10 @@
 
 namespace Darvin\AdminBundle\View\Widget;
 
-use Darvin\AdminBundle\Exception\DarvinAdminException;
-
 /**
  * View widget exception
  */
-class WidgetException extends DarvinAdminException
+class WidgetException extends \Exception
 {
 
 }

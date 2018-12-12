@@ -10,12 +10,10 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\AdminBundle\Exception\DarvinAdminException;
-
 /**
  * Form exception
  */
-class FormException extends DarvinAdminException
+class FormException extends \Exception
 {
 
 }

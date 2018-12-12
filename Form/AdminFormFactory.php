@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -42,7 +42,7 @@ class AdminFormFactory
     ];
 
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
@@ -62,13 +62,13 @@ class AdminFormFactory
     private $propertyAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter        Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
      * @param \Symfony\Component\Form\FormFactoryInterface                $genericFormFactory Generic form factory
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
-        AdminRouter $adminRouter,
+        AdminRouterInterface $adminRouter,
         FormFactoryInterface $genericFormFactory,
         IdentifierAccessor $identifierAccessor,
         PropertyAccessorInterface $propertyAccessor
@@ -100,7 +100,7 @@ class AdminFormFactory
 
         if (!empty($entities)) {
             $options = array_merge($options, [
-                'action'   => $this->adminRouter->generate(reset($entities), $entityClass, AdminRouter::TYPE_BATCH_DELETE),
+                'action'   => $this->adminRouter->generate(reset($entities), $entityClass, AdminRouterInterface::TYPE_BATCH_DELETE),
                 'entities' => $entities,
             ]);
         }
@@ -116,7 +116,7 @@ class AdminFormFactory
      */
     public function createCopyForm($entity, $entityClass)
     {
-        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouter::TYPE_COPY));
+        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_COPY));
     }
 
     /**
@@ -127,7 +127,7 @@ class AdminFormFactory
      */
     public function createDeleteForm($entity, $entityClass)
     {
-        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouter::TYPE_DELETE));
+        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_DELETE));
     }
 
     /**
@@ -180,7 +180,7 @@ class AdminFormFactory
      */
     public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null, array $options = [])
     {
-        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->exists($meta->getEntityClass(), AdminRouter::TYPE_INDEX)) {
+        if (!$meta->isFilterFormEnabled() || !$this->adminRouter->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
             return null;
         }
         if (!array_key_exists('action', $options)) {
@@ -193,7 +193,7 @@ class AdminFormFactory
                 $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
             }
 
-            $options['action'] = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $actionRouteParams);
+            $options['action'] = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX, $actionRouteParams);
         }
 
         $configuration = $meta->getConfiguration();

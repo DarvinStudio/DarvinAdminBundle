@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\Utils\ORM\EntityResolverInterface;
@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ChildLinksWidget extends AbstractWidget
 {
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
@@ -44,9 +44,9 @@ class ChildLinksWidget extends AbstractWidget
     private $identifierAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouter $adminRouter)
+    public function setAdminRouter(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -83,9 +83,9 @@ class ChildLinksWidget extends AbstractWidget
         $childClass = $this->entityResolver->resolve($options['child']);
 
         $indexLink = $this->isGranted(Permission::VIEW, $childClass)
-            && $this->adminRouter->exists($childClass, AdminRouter::TYPE_INDEX);
+            && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_INDEX);
         $newLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
-            && $this->adminRouter->exists($childClass, AdminRouter::TYPE_NEW);
+            && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_NEW);
 
         if (!$indexLink && !$newLink) {
             return null;

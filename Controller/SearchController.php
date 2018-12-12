@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,7 +66,7 @@ class SearchController extends Controller
 
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $meta->getEntityClass())
-            && $this->getAdminRouter()->exists($meta->getEntityClass(), AdminRouter::TYPE_BATCH_DELETE)
+            && $this->getAdminRouter()->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_BATCH_DELETE)
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $entities)->createView();
         }
@@ -90,7 +90,7 @@ class SearchController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Route\AdminRouter
+     * @return \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private function getAdminRouter()
     {

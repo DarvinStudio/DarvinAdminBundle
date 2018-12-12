@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Route\Generator;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -21,7 +21,7 @@ use Symfony\Component\Routing\RouteCollection;
 class CrudRouteGenerator implements RouteGeneratorInterface
 {
     private const MODEL = [
-        AdminRouter::TYPE_UPDATE_PROPERTY => [
+        AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
             '%s:updatePropertyAction',
@@ -33,7 +33,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'post',
             ],
         ],
-        AdminRouter::TYPE_COPY => [
+        AdminRouterInterface::TYPE_COPY => [
             '%s_copy',
             '%s/{id}/copy',
             '%s:copyAction',
@@ -44,7 +44,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'post',
             ],
         ],
-        AdminRouter::TYPE_DELETE => [
+        AdminRouterInterface::TYPE_DELETE => [
             '%s_delete',
             '%s/{id}/delete',
             '%s:deleteAction',
@@ -55,7 +55,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'post',
             ],
         ],
-        AdminRouter::TYPE_EDIT => [
+        AdminRouterInterface::TYPE_EDIT => [
             '%s_edit',
             '%s/{id}/edit',
             '%s:editAction',
@@ -64,7 +64,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
             ],
             [],
         ],
-        AdminRouter::TYPE_SHOW => [
+        AdminRouterInterface::TYPE_SHOW => [
             '%s_show',
             '%s/{id}/show',
             '%s:showAction',
@@ -75,7 +75,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'get',
             ],
         ],
-        AdminRouter::TYPE_BATCH_DELETE => [
+        AdminRouterInterface::TYPE_BATCH_DELETE => [
             '%s_batch_delete',
             '%s/batch-delete',
             '%s:batchDeleteAction',
@@ -84,14 +84,14 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 'post',
             ],
         ],
-        AdminRouter::TYPE_NEW => [
+        AdminRouterInterface::TYPE_NEW => [
             '%s_new',
             '%s/new',
             '%s:newAction',
             [],
             [],
         ],
-        AdminRouter::TYPE_INDEX => [
+        AdminRouterInterface::TYPE_INDEX => [
             '%s',
             '%s/',
             '%s:indexAction',
@@ -122,8 +122,8 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 ],
                 $attr[3],
                 [
-                    AdminRouter::OPTION_ENTITY_CLASS => $entityClass,
-                    AdminRouter::OPTION_ROUTE_TYPE   => $routeType,
+                    AdminRouterInterface::OPTION_ENTITY_CLASS => $entityClass,
+                    AdminRouterInterface::OPTION_ROUTE_TYPE   => $routeType,
                 ],
                 '',
                 [],

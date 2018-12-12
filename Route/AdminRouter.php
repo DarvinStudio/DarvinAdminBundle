@@ -23,35 +23,23 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * Admin router
  */
-class AdminRouter
+class AdminRouter implements AdminRouterInterface
 {
-    public const OPTION_ENTITY_CLASS = 'admin_entity_class';
-    public const OPTION_ROUTE_TYPE   = 'admin_route_type';
-
-    public const TYPE_BATCH_DELETE    = 'batch-delete';
-    public const TYPE_COPY            = 'copy';
-    public const TYPE_DELETE          = 'delete';
-    public const TYPE_EDIT            = 'edit';
-    public const TYPE_INDEX           = 'index';
-    public const TYPE_NEW             = 'new';
-    public const TYPE_SHOW            = 'show';
-    public const TYPE_UPDATE_PROPERTY = 'update-property';
-
     private const REQUIRE_ID = [
-        self::TYPE_COPY,
-        self::TYPE_DELETE,
-        self::TYPE_EDIT,
-        self::TYPE_SHOW,
-        self::TYPE_UPDATE_PROPERTY,
+        AdminRouterInterface::TYPE_COPY,
+        AdminRouterInterface::TYPE_DELETE,
+        AdminRouterInterface::TYPE_EDIT,
+        AdminRouterInterface::TYPE_SHOW,
+        AdminRouterInterface::TYPE_UPDATE_PROPERTY,
     ];
 
     private const REQUIRE_PARENT_ID = [
-        self::TYPE_BATCH_DELETE,
-        self::TYPE_DELETE,
-        self::TYPE_EDIT,
-        self::TYPE_INDEX,
-        self::TYPE_NEW,
-        self::TYPE_SHOW,
+        AdminRouterInterface::TYPE_BATCH_DELETE,
+        AdminRouterInterface::TYPE_DELETE,
+        AdminRouterInterface::TYPE_EDIT,
+        AdminRouterInterface::TYPE_INDEX,
+        AdminRouterInterface::TYPE_NEW,
+        AdminRouterInterface::TYPE_SHOW,
     ];
 
     /**
@@ -124,34 +112,20 @@ class AdminRouter
     }
 
     /**
-     * @param object $entity         Entity
-     * @param string $class          Entity class
-     * @param string $routeType      Route type
-     * @param array  $params         Parameters
-     * @param bool   $preserveFilter Whether to preserve filter data
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function generateAbsolute($entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string
+    public function generateAbsolute($entity = null, ?string $class = null, string $routeType = AdminRouterInterface::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string
     {
         return $this->generate($entity, $class, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL, $preserveFilter);
     }
 
     /**
-     * @param object $entity         Entity
-     * @param string $class          Entity class
-     * @param string $routeType      Route type
-     * @param array  $params         Parameters
-     * @param mixed  $referenceType  Reference type
-     * @param bool   $preserveFilter Whether to preserve filter data
-     *
-     * @return string
-     * @throws \InvalidArgumentException
+     * {@inheritdoc}
      */
     public function generate(
         $entity = null,
         ?string $class = null,
-        string $routeType = self::TYPE_SHOW,
+        string $routeType = AdminRouterInterface::TYPE_SHOW,
         array $params = [],
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH,
         bool $preserveFilter = true
@@ -182,10 +156,7 @@ class AdminRouter
     }
 
     /**
-     * @param object|string $entity    Entity
-     * @param string        $routeType Route type
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function exists($entity, string $routeType): bool
     {
@@ -347,19 +318,19 @@ class AdminRouter
             $this->routeNames = [];
 
             foreach ($this->routeManager->getNames() as $name) {
-                if (!$this->routeManager->hasOption($name, static::OPTION_ENTITY_CLASS)
-                    || !$this->routeManager->hasOption($name, static::OPTION_ROUTE_TYPE)
+                if (!$this->routeManager->hasOption($name, AdminRouterInterface::OPTION_ENTITY_CLASS)
+                    || !$this->routeManager->hasOption($name, AdminRouterInterface::OPTION_ROUTE_TYPE)
                 ) {
                     continue;
                 }
 
-                $class = $this->routeManager->getOption($name, static::OPTION_ENTITY_CLASS);
+                $class = $this->routeManager->getOption($name, AdminRouterInterface::OPTION_ENTITY_CLASS);
 
                 if (!isset($this->routeNames[$class])) {
                     $this->routeNames[$class] = [];
                 }
 
-                $this->routeNames[$class][$this->routeManager->getOption($name, static::OPTION_ROUTE_TYPE)] = $name;
+                $this->routeNames[$class][$this->routeManager->getOption($name, AdminRouterInterface::OPTION_ROUTE_TYPE)] = $name;
             }
         }
 

@@ -11,7 +11,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 
 /**
@@ -22,14 +22,14 @@ class BatchDeleteWidget extends AbstractWidget
     const ALIAS = 'batch_delete';
 
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouter $adminRouter)
+    public function setAdminRouter(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -49,7 +49,7 @@ class BatchDeleteWidget extends AbstractWidget
     {
         $meta = $this->metadataManager->getMetadata($entity);
 
-        return $this->adminRouter->exists($entity, AdminRouter::TYPE_BATCH_DELETE)
+        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_BATCH_DELETE)
             ? $this->render($options, [
                 'entity'             => $entity,
                 'identifier'         => $meta->getIdentifier(),

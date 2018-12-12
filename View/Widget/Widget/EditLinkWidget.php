@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,14 +22,14 @@ class EditLinkWidget extends AbstractWidget
     const ALIAS = 'edit_link';
 
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouter $adminRouter)
+    public function setAdminRouter(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -47,7 +47,7 @@ class EditLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->exists($entity, AdminRouter::TYPE_EDIT)
+        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_EDIT)
             ? $this->render($options, [
                 'entity'             => $entity,
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,14 +20,14 @@ use Twig\TwigFunction;
 class RouteExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function __construct(AdminRouter $adminRouter)
+    public function __construct(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }

@@ -19,7 +19,7 @@ use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\MetadataManager;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
@@ -45,9 +45,9 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class CrudController extends Controller
 {
     private const SUBMIT_BUTTON_REDIRECTS = [
-        AdminFormFactory::SUBMIT_EDIT  => AdminRouter::TYPE_EDIT,
-        AdminFormFactory::SUBMIT_INDEX => AdminRouter::TYPE_INDEX,
-        AdminFormFactory::SUBMIT_NEW   => AdminRouter::TYPE_NEW,
+        AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
+        AdminFormFactory::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
+        AdminFormFactory::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
     ];
 
     /**
@@ -152,7 +152,7 @@ class CrudController extends Controller
         }
         if (!empty($entities)
             && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
-            && $this->getAdminRouter()->exists($this->entityClass, AdminRouter::TYPE_BATCH_DELETE)
+            && $this->getAdminRouter()->exists($this->entityClass, AdminRouterInterface::TYPE_BATCH_DELETE)
             && isset($this->configuration['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
         ) {
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
@@ -212,7 +212,7 @@ class CrudController extends Controller
             $this->meta,
             $entity,
             'new',
-            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouter::TYPE_NEW, [
+            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouterInterface::TYPE_NEW, [
                 'widget' => $widget,
             ]),
             $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getEntityFormSubmitButtons()
@@ -277,7 +277,7 @@ class CrudController extends Controller
 
         $url = $request->headers->get(
             'referer',
-            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX)
         );
 
         return new RedirectResponse($url);
@@ -305,7 +305,7 @@ class CrudController extends Controller
             $this->meta,
             $entity,
             'edit',
-            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT),
+            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT),
             $this->getEntityFormSubmitButtons()
         )->handleRequest($request);
 
@@ -476,7 +476,7 @@ class CrudController extends Controller
 
             return $this->redirect($request->headers->get(
                 'referer',
-                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX)
+                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX)
             ));
         }
 
@@ -487,7 +487,7 @@ class CrudController extends Controller
         $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
 
         $message     = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_INDEX);
+        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX);
 
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse(null, true, $message, [], $redirectUrl);
@@ -531,12 +531,12 @@ class CrudController extends Controller
                 $eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $user, $entity));
             }
 
-            return $this->redirect($this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX));
+            return $this->redirect($this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX));
         }
 
         $url = $request->headers->get(
             'referer',
-            $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouter::TYPE_INDEX)
+            $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX)
         );
 
         return $this->redirect($url);
@@ -755,7 +755,7 @@ class CrudController extends Controller
             }
         }
 
-        return $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouter::TYPE_EDIT);
+        return $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT);
     }
 
 
@@ -768,7 +768,7 @@ class CrudController extends Controller
         return $this->get('darvin_admin.form.factory');
     }
 
-    /** @return \Darvin\AdminBundle\Route\AdminRouter */
+    /** @return \Darvin\AdminBundle\Route\AdminRouterInterface */
     private function getAdminRouter()
     {
         return $this->get('darvin_admin.router');

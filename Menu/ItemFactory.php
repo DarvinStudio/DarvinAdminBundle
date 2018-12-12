@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Menu;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class ItemFactory implements ItemFactoryInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
@@ -38,12 +38,12 @@ class ItemFactory implements ItemFactoryInterface
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter                                        $adminRouter          Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface                               $adminRouter          Admin router
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
      */
     public function __construct(
-        AdminRouter $adminRouter,
+        AdminRouterInterface $adminRouter,
         AuthorizationCheckerInterface $authorizationChecker,
         MetadataManager $metadataManager
     ) {
@@ -88,14 +88,14 @@ class ItemFactory implements ItemFactoryInterface
             ->setParentName($config['menu']['group']);
 
         if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
-            && $this->adminRouter->exists($entityClass, AdminRouter::TYPE_INDEX)
+            && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_INDEX)
         ) {
-            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
         }
         if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entityClass)
-            && $this->adminRouter->exists($entityClass, AdminRouter::TYPE_NEW)
+            && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_NEW)
         ) {
-            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouter::TYPE_NEW, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_NEW, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
         }
 
         return $item;

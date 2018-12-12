@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Twig\Extension;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Metadata\MetadataManager;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
@@ -26,7 +26,7 @@ use Twig\TwigFunction;
 class BreadcrumbsExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
@@ -51,14 +51,14 @@ class BreadcrumbsExtension extends AbstractExtension
     private $propertyAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter                       $adminRouter        Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
-        AdminRouter $adminRouter,
+        AdminRouterInterface $adminRouter,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
         MetadataManager $metadataManager,
@@ -187,7 +187,7 @@ class BreadcrumbsExtension extends AbstractExtension
 
         return $this->createCrumb(
             $meta->getBaseTranslationPrefix().'action.index.link',
-            $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouter::TYPE_INDEX, $params)
+            $this->adminRouter->generate($entity, $meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX, $params)
         );
     }
 

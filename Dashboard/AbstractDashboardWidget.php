@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Dashboard;
 
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -19,7 +19,7 @@ use Symfony\Component\Templating\EngineInterface;
 abstract class AbstractDashboardWidget implements DashboardWidgetInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     protected $adminRouter;
 
@@ -29,10 +29,10 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     protected $templating;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter         $adminRouter Admin router
-     * @param \Symfony\Component\Templating\EngineInterface $templating  Templating
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
+     * @param \Symfony\Component\Templating\EngineInterface  $templating  Templating
      */
-    public function __construct(AdminRouter $adminRouter, EngineInterface $templating)
+    public function __construct(AdminRouterInterface $adminRouter, EngineInterface $templating)
     {
         $this->adminRouter = $adminRouter;
         $this->templating = $templating;

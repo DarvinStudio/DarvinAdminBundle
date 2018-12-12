@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
 use Darvin\AdminBundle\Menu\Item;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->children()
                 ->append($this->addMenuNode())
-                ->scalarNode('breadcrumbs_route')->defaultValue(AdminRouter::TYPE_EDIT)->end()
+                ->scalarNode('breadcrumbs_route')->defaultValue(AdminRouterInterface::TYPE_EDIT)->end()
                 ->arrayNode('children')->prototype('scalar')->end()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
                 ->arrayNode('index_view_row_attr')->prototype('scalar')->end()->end()
@@ -52,7 +52,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('route_blacklist')->prototype('scalar')->end()->defaultValue([
-                    AdminRouter::TYPE_COPY,
+                    AdminRouterInterface::TYPE_COPY,
                 ])->end()
                 ->arrayNode('field_blacklist')
                     ->prototype('array')

@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Route\AdminRouter;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,7 +28,7 @@ class DeleteFormWidget extends AbstractWidget
     private $adminFormFactory;
 
     /**
-     * @var \Darvin\AdminBundle\Route\AdminRouter
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
@@ -41,9 +41,9 @@ class DeleteFormWidget extends AbstractWidget
     }
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouter $adminRouter)
+    public function setAdminRouter(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -61,7 +61,7 @@ class DeleteFormWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options, $property)
     {
-        return $this->adminRouter->exists($entity, AdminRouter::TYPE_DELETE)
+        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_DELETE)
             ? $this->render($options, [
                 'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),

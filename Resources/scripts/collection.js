@@ -1,82 +1,111 @@
 $(() => {
-    const CLASSES = {
-        'add':    'js-collection-add',
-        'delete': 'js-collection-delete'
-    };
+    class Collection {
+        constructor(collection) {
+            this.$collection = $(collection);
 
-    let BUTTONS   = {},
-        SELECTORS = {
-            collection: '.js-collection[data-prototype]'
-        };
+            let classes = {
+                'add':    'js-collection-add',
+                'delete': 'js-collection-delete'
+            };
 
-    for (let name in CLASSES) {
-        BUTTONS[name] = '<button class="' + CLASSES[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
+            this.buttons = {};
 
-        SELECTORS[name] = SELECTORS.collection + ' .' + CLASSES[name];
-    }
+            for (let name in classes) {
+                this.buttons[name] = '<button class="' + classes[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
+            }
 
-    const updateLabels = ($collection) => {
-        if ($collection.data('allow-add')) {
-            $collection.children().each((i, item) => {
-                $(item).children('label:first').text(i + 1);
-            });
+            this
+                .updateLabels()
+                .createDeleteButtons(this.getItems())
+                .createAddButton();
         }
-    };
 
-    $(document).on('app.html', (e, args) => {
-        args.$html.find(SELECTORS.collection + ':not([data-autoinit="0"])').each((i, collection) => {
-            let $collection = $(collection);
+        createAddButton() {
+            if (!this.addAllowed()) {
+                return this;
+            }
 
-            if ($collection.data('allow-delete')) {
-                $collection.children().each((i, item) => {
-                    $(item).append(BUTTONS.delete);
+            let $button = $(this.buttons.add);
+
+            $button.click(() => {
+                let index = this.$collection.data('index'),
+                    name  = this.$collection.data('name') || '';
+
+                let $item = $(
+                    this.$collection.data('prototype')
+                        .replace(new RegExp(name + '___name__', 'g'), name + '_' + index)
+                        .replace(new RegExp('\\[' + name + '\\]\\[__name__\\]', 'g'), '[' + name + '][' + index + ']')
+                );
+
+                $button.before($item);
+
+                this
+                    .createDeleteButtons($item)
+                    .updateLabels();
+
+                this.$collection.data('index', index + 1);
+
+                $(document).trigger('app.html', {
+                    $html: $item
+                });
+            });
+
+            this.$collection.append($button);
+
+            return this;
+        }
+
+        createDeleteButtons(nodes) {
+            if (!this.deleteAllowed()) {
+                return this;
+
+            }
+
+            $(nodes).each((i, node) => {
+                let $button = $(this.buttons.delete);
+
+                $button.click(() => {
+                    $button.closest('div').remove();
+
+                    this.updateLabels();
+                });
+
+                $(node).append($button);
+            });
+
+            return this;
+        }
+
+        updateLabels() {
+            if (this.addAllowed()) {
+                this.getItems().each((i, item) => {
+                    $(item).children('label:first').text(i + 1);
                 });
             }
-            if ($collection.data('allow-add')) {
-                updateLabels($collection);
 
-                $collection.append(BUTTONS.add);
+            return this;
+        }
+
+        addAllowed() {
+            return this.$collection.data('allow-add');
+        }
+
+        deleteAllowed() {
+            return this.$collection.data('allow-delete');
+        }
+
+        getItems() {
+            return this.$collection.children();
+        }
+    }
+
+    $(document).on('app.html', (e, args) => {
+        args.$html.find('.js-collection[data-prototype]').each((i, node) => {
+            let init = $(node).data('autoinit');
+
+            if ('undefined' === typeof init || init) {
+                new Collection(node);
             }
         });
     });
-
-    $('body')
-        .on('click', 'form ' + SELECTORS.delete, (e) => {
-            let $button = $(e.currentTarget);
-
-            // Fetch collection node before (!) item removal
-            let $collection = $button.closest(SELECTORS.collection);
-
-            $button.closest('div').remove();
-
-            updateLabels($collection);
-        })
-        .on('click', 'form ' + SELECTORS.add, (e) => {
-            let $button = $(e.currentTarget);
-
-            let $collection = $button.closest(SELECTORS.collection);
-
-            let index = $collection.data('index'),
-                name  = $collection.data('name') || '';
-
-            let item = $collection.data('prototype')
-                .replace(new RegExp(name + '___name__', 'g'), name + '_' + index)
-                .replace(new RegExp('\\[' + name + '\\]\\[__name__\\]', 'g'), '[' + name + '][' + index + ']');
-
-            let $item = $(item);
-
-            if ($collection.data('allow-delete')) {
-                $item.append(BUTTONS.delete);
-            }
-
-            $button.before($item);
-
-            updateLabels($collection);
-
-            $(document).trigger('app.html', {
-                $html: $item
-            });
-
-            $collection.data('index', index + 1);
-        });
 });

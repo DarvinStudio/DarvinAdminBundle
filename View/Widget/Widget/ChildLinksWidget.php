@@ -114,7 +114,7 @@ class ChildLinksWidget extends AbstractWidget
 
         $parentId = $this->identifierAccessor->getValue($entity);
 
-        $childrenCount = (int) $this->em->getRepository($childClass)->createQueryBuilder('o')
+        $childrenCount = (int)$this->em->getRepository($childClass)->createQueryBuilder('o')
             ->select('COUNT(o)')
             ->where(sprintf('o.%s = :%1$s', $association))
             ->setParameter($association, $parentId)

@@ -25,7 +25,7 @@ class SortCriteriaDetector
     private $em;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -40,14 +40,14 @@ class SortCriteriaDetector
     private $treeListener;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                  $em               Entity manager
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager  Metadata manager
-     * @param \Gedmo\Mapping\MappedEventSubscriber         $sortableListener Sortable event listener
-     * @param \Gedmo\Tree\TreeListener                     $treeListener     Tree event listener
+     * @param \Doctrine\ORM\EntityManager                                $em               Entity manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager  Metadata manager
+     * @param \Gedmo\Mapping\MappedEventSubscriber                       $sortableListener Sortable event listener
+     * @param \Gedmo\Tree\TreeListener                                   $treeListener     Tree event listener
      */
     public function __construct(
         EntityManager $em,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         MappedEventSubscriber $sortableListener,
         TreeListener $treeListener
     ) {

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Translatable\TranslatableException;
@@ -33,7 +33,7 @@ abstract class AbstractWidget implements WidgetInterface
     protected $authorizationChecker;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     protected $metadataManager;
 
@@ -59,13 +59,13 @@ abstract class AbstractWidget implements WidgetInterface
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                   $metadataManager      Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
      * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
         EngineInterface $templating
     ) {

@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Form\Handler;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -26,15 +26,15 @@ class NewActionFilterFormHandler
     private $adminFormFactory;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory    $adminFormFactory Admin form factory
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager  Admin metadata manager
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory                  $adminFormFactory Admin form factory
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager  Admin metadata manager
      */
-    public function __construct(AdminFormFactory $adminFormFactory, MetadataManager $metadataManager) {
+    public function __construct(AdminFormFactory $adminFormFactory, AdminMetadataManagerInterface $metadataManager) {
         $this->adminFormFactory = $adminFormFactory;
         $this->metadataManager = $metadataManager;
     }

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Route;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Route\Generator\CrudRouteGenerator;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\Routing\RouteCollection;
@@ -23,14 +23,14 @@ class RouteLoader extends Loader
     private const RESOURCE_TYPE = 'darvin_admin';
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
      */
-    public function __construct(MetadataManager $metadataManager)
+    public function __construct(AdminMetadataManagerInterface $metadataManager)
     {
         $this->metadataManager = $metadataManager;
     }

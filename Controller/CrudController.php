@@ -18,7 +18,7 @@ use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
@@ -66,10 +66,10 @@ class CrudController extends Controller
     private $entityClass;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Metadata manager
-     * @param string                                       $entityClass     Entity class
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
+     * @param string                                                     $entityClass     Entity class
      */
-    public function __construct(MetadataManager $metadataManager, string $entityClass)
+    public function __construct(AdminMetadataManagerInterface $metadataManager, string $entityClass)
     {
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();

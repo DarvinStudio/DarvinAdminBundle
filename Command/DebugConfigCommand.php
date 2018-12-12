@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,15 +24,15 @@ use Symfony\Component\Yaml\Yaml;
 class DebugConfigCommand extends Command
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
     /**
-     * @param string                                       $name            Command name
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager $metadataManager Admin metadata manager
+     * @param string                                                     $name            Command name
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Admin metadata manager
      */
-    public function __construct($name, MetadataManager $metadataManager)
+    public function __construct($name, AdminMetadataManagerInterface $metadataManager)
     {
         parent::__construct($name);
 

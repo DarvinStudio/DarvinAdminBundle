@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\Utils\Cloner\ClonerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Doctrine\ORM\EntityManager;
@@ -39,7 +39,7 @@ class FormHandler
     private $flashNotifier;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -49,17 +49,17 @@ class FormHandler
     private $validator;
 
     /**
-     * @param \Darvin\Utils\Cloner\ClonerInterface                      $cloner          Cloner
-     * @param \Doctrine\ORM\EntityManager                               $em              Entity manager
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                $flashNotifier   Flash notifier
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager              $metadataManager Metadata manager
-     * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator       Validator
+     * @param \Darvin\Utils\Cloner\ClonerInterface                       $cloner          Cloner
+     * @param \Doctrine\ORM\EntityManager                                $em              Entity manager
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                 $flashNotifier   Flash notifier
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
+     * @param \Symfony\Component\Validator\Validator\ValidatorInterface  $validator       Validator
      */
     public function __construct(
         ClonerInterface $cloner,
         EntityManager $em,
         FlashNotifierInterface $flashNotifier,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         ValidatorInterface $validator
     ) {
         $this->cloner = $cloner;

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
-use Darvin\AdminBundle\Metadata\MetadataManager;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
@@ -30,7 +30,7 @@ class AdminVoter extends Voter
     private $entityResolver;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -51,12 +51,12 @@ class AdminVoter extends Voter
 
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                            $entityResolver            Entity resolver
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                         $metadataManager           Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface           $metadataManager           Metadata manager
      * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool $securityConfigurationPool Security configuration pool
      */
     public function __construct(
         EntityResolverInterface $entityResolver,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         SecurityConfigurationPool $securityConfigurationPool
     ) {
         $this->entityResolver = $entityResolver;

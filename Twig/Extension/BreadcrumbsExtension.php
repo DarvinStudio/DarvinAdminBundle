@@ -10,9 +10,9 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -41,7 +41,7 @@ class BreadcrumbsExtension extends AbstractExtension
     private $identifierAccessor;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -54,14 +54,14 @@ class BreadcrumbsExtension extends AbstractExtension
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor
     ) {
         $this->adminRouter = $adminRouter;

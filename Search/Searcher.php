@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Search;
 
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
@@ -41,7 +41,7 @@ class Searcher implements SearcherInterface
     private $filterer;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -59,14 +59,14 @@ class Searcher implements SearcherInterface
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Doctrine\ORM\EntityManager                                                  $em                   Entity manager
      * @param \Darvin\ContentBundle\Filterer\FiltererInterface                             $filterer             Filterer
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                   $metadataManager      Metadata manager
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface                $translationJoiner    Translation joiner
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         EntityManager $em,
         FiltererInterface $filterer,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         TranslationJoinerInterface $translationJoiner
     ) {
         $this->authorizationChecker = $authorizationChecker;

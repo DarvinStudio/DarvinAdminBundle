@@ -10,9 +10,9 @@
 
 namespace Darvin\AdminBundle\Route;
 
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\MetadataException;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -58,7 +58,7 @@ class AdminRouter implements AdminRouterInterface
     private $identifierAccessor;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -86,7 +86,7 @@ class AdminRouter implements AdminRouterInterface
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver     Entity resolver
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager    Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      * @param \Symfony\Component\HttpFoundation\RequestStack              $requestStack       Request stack
      * @param \Darvin\Utils\Routing\RouteManagerInterface                 $routeManager       Route manager
@@ -95,7 +95,7 @@ class AdminRouter implements AdminRouterInterface
         EntityResolverInterface $entityResolver,
         RouterInterface $genericRouter,
         IdentifierAccessor $identifierAccessor,
-        MetadataManager $metadataManager,
+        AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
         RequestStack $requestStack,
         RouteManagerInterface $routeManager

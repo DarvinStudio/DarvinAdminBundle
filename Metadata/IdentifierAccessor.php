@@ -19,7 +19,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class IdentifierAccessor
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
@@ -29,10 +29,10 @@ class IdentifierAccessor
     private $propertyAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                $metadataManager  Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager  Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
      */
-    public function __construct(MetadataManager $metadataManager, PropertyAccessorInterface $propertyAccessor)
+    public function __construct(AdminMetadataManagerInterface $metadataManager, PropertyAccessorInterface $propertyAccessor)
     {
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;

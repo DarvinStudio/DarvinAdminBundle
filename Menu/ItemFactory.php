@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Menu;
 
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\Metadata\MetadataManager;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -33,19 +33,19 @@ class ItemFactory implements ItemFactoryInterface
     private $authorizationChecker;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\MetadataManager
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface                               $adminRouter          Admin router
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Darvin\AdminBundle\Metadata\MetadataManager                                 $metadataManager      Metadata manager
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                   $metadataManager      Metadata manager
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
         AuthorizationCheckerInterface $authorizationChecker,
-        MetadataManager $metadataManager
+        AdminMetadataManagerInterface $metadataManager
     ) {
         $this->adminRouter = $adminRouter;
         $this->authorizationChecker = $authorizationChecker;

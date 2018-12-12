@@ -19,7 +19,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 /**
  * Metadata manager
  */
-class MetadataManager
+class MetadataManager implements AdminMetadataManagerInterface
 {
     private const CACHE_KEY = 'metadata';
 

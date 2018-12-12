@@ -29,7 +29,7 @@ $(() => {
 
             if ($collection.data('allow-delete')) {
                 $collection.children().each((i, item) => {
-                    $(item).append(buttons.delete);
+                    $(item).append(BUTTONS.delete);
                 });
             }
             if ($collection.data('allow-add')) {

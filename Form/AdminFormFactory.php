@@ -16,7 +16,6 @@ use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -231,7 +230,7 @@ class AdminFormFactory
             ],
             [
                 'action'             => $action,
-                'csrf_token_id'      => md5(__FILE__.ClassUtils::getClass($entity).$id),
+                'csrf_token_id'      => md5(__FILE__.get_class($entity).$id),
                 'translation_domain' => 'admin',
             ]
         )->add('id', HiddenType::class);

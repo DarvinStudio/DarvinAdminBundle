@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -52,7 +51,7 @@ class EntityListWidget extends AbstractWidget
             }
             if (!$collection instanceof \Traversable) {
                 throw new WidgetException(
-                    sprintf('Entities collection object "%s" must be instance of \Traversable.', ClassUtils::getClass($collection))
+                    sprintf('Entities collection object "%s" must be instance of \Traversable.', get_class($collection))
                 );
             }
         }

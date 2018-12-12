@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -33,7 +32,7 @@ class CompoundListWidget extends AbstractWidget
         if (!is_array($keys) && !$keys instanceof \Traversable) {
             $message = sprintf(
                 'Keys property "%s::$%s" must contain array or instance of \Traversable, "%s" provided.',
-                ClassUtils::getClass($entity),
+                get_class($entity),
                 $options['keys_property'],
                 gettype($keys)
             );

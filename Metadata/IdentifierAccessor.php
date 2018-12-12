@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Metadata;
 
-use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -51,7 +50,7 @@ class IdentifierAccessor
 
         if (!$this->propertyAccessor->isReadable($entity, $identifier)) {
             throw new MetadataException(
-                sprintf('Identifier "%s::$%s" is not readable.', ClassUtils::getClass($entity), $identifier)
+                sprintf('Identifier "%s::$%s" is not readable.', get_class($entity), $identifier)
             );
         }
 

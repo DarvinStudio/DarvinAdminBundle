@@ -1,31 +1,33 @@
-$(document).ready(function () {
-    var $searchables = $('.searchable[data-source]');
+$(() => {
+    let $searchables = $('.js-searchable[data-source]');
 
     if (!$searchables.length) {
         return;
     }
 
-    var pending = false;
+    App.startPreloading('search');
 
-    $searchables.each(function () {
-        var $searchable = $(this);
-        var $results = $searchable.find('.searchable_results');
+    let last    = $searchables.length - 1,
+        pending = false;
 
-        var interval = setInterval(function () {
+    $searchables.each((i, searchable) => {
+        let $searchable = $(searchable);
+
+        let $results = $searchable.find('.js-searchable-results');
+
+        let interval = setInterval(() => {
             if (pending) {
                 return;
             }
 
             pending = true;
 
-            App.startPreloading();
-
             $searchable.show();
 
             $.ajax({
                 url: $searchable.data('source')
-            }).done(function (html) {
-                var $html = $(html);
+            }).done((html) => {
+                let $html = $(html);
 
                 if (!$html.find('tr').length) {
                     $searchable.remove();
@@ -34,10 +36,16 @@ $(document).ready(function () {
                 }
 
                 $results.html(html);
+
                 $(document).trigger('searchComplete', $results);
-            }).always(function () {
+            }).always(() => {
                 clearInterval(interval);
+
                 pending = false;
+
+                if (i === last) {
+                    App.stopPreloading('search');
+                }
             }).fail(App.onAjaxFail);
         }, 100);
     });

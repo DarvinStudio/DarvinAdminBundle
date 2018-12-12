@@ -13,11 +13,11 @@
         </h3>
     {% endif %}
     {% for entity_name in entity_names %}
-        <div class="searchable"
+        <div class="js-searchable"
              data-source="{{ path('darvin_admin_search_results', {'entityName': entity_name, 'query': query}) }}"
              style="display: none;">
-            <h3 class="searchable_title">{{ ('entity_name.multiple.' ~ entity_name)|trans }}</h3>
-            <div class="searchable_results"></div>
+            <h3>{{ ('entity_name.multiple.' ~ entity_name)|trans }}</h3>
+            <div class="js-searchable-results"></div>
         </div>
     {% endfor %}
 {% endblock %}

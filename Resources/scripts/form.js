@@ -91,7 +91,7 @@ $(() => {
                         cache: false
                     }).done(replaceContent).always(() => {
                         replaceUrl(pageUrl);
-
+                    }).always(() => {
                         App.stopPreloading('form');
                     }).fail(App.onAjaxFail);
 

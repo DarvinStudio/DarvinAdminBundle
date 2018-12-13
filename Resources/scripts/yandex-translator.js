@@ -3,7 +3,7 @@ const YandexTranslator = (() => {
 
     return {
         translate: (text, from, to, successCallback) => {
-            if (!KEY) {
+            if (null === text || '' === text || !KEY) {
                 successCallback(text);
 
                 return;

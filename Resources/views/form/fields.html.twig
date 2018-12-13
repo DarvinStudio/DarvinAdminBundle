@@ -200,7 +200,7 @@
     {% if errors is not empty %}
         <ul class="input_value-error">
             {% for error in errors %}
-                <li>{{ error.message }}</li>
+                <li class="js-form-error">{{ error.message }}</li>
             {% endfor %}
         </ul>
     {% endif %}

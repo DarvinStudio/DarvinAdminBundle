@@ -26,6 +26,8 @@ use Symfony\Component\Templating\EngineInterface;
  */
 abstract class AbstractAction implements ActionInterface
 {
+    private const RUN_METHOD = 'run';
+
     /**
      * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
@@ -129,6 +131,14 @@ abstract class AbstractAction implements ActionInterface
         $this->meta = $this->adminMetadataManager->getMetadata($this->entityClass);
 
         $this->config = $this->meta->getConfiguration();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRunMethod(): string
+    {
+        return self::RUN_METHOD;
     }
 
     /**

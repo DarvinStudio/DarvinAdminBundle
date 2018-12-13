@@ -800,7 +800,7 @@ class CrudController extends Controller
         $action = $this->actions[$name];
         $action->configure(new ActionConfig($this->entityClass));
 
-        return $action->{'run'}(...$args);
+        return $action->{$action->getRunMethod()}(...$args);
     }
 
 

@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Create controllers compiler pass
@@ -27,10 +28,17 @@ class CreateControllersPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         $definitions = [];
+        $actions     = array_map(function (string $id) {
+            return new Reference($id);
+        }, array_keys($container->findTaggedServiceIds('darvin_admin.crud.action')));
 
         foreach ($this->getSectionConfiguration($container)->getSections() as $section) {
             $definition = new ChildDefinition('darvin_admin.crud.controller');
             $definition->addArgument($section->getEntity());
+
+            foreach ($actions as $action) {
+                $definition->addMethodCall('addAction', [$action]);
+            }
 
             $definitions[$section->getControllerId()] = $definition;
         }

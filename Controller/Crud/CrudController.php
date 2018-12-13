@@ -8,8 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller;
+namespace Darvin\AdminBundle\Controller\Crud;
 
+use Darvin\AdminBundle\Controller\Crud\Action\ActionConfig;
+use Darvin\AdminBundle\Controller\Crud\Action\ActionInterface;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CopiedEvent;
@@ -25,7 +27,6 @@ use Darvin\AdminBundle\Metadata\SortCriteriaDetector;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
-use Darvin\AdminBundle\View\Show\EntityToShowViewTransformer;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
@@ -83,6 +84,11 @@ class CrudController extends Controller
     private $entityClass;
 
     /**
+     * @var \Darvin\AdminBundle\Controller\Crud\Action\ActionInterface[]
+     */
+    private $actions;
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
      * @param string                                                     $entityClass     Entity class
      */
@@ -91,6 +97,16 @@ class CrudController extends Controller
         $this->meta = $metadataManager->getMetadata($entityClass);
         $this->configuration = $this->meta->getConfiguration();
         $this->entityClass = $entityClass;
+
+        $this->actions = [];
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Controller\Crud\Action\ActionInterface $action Action
+     */
+    public function addAction(ActionInterface $action): void
+    {
+        $this->actions[$action->getName()] = $action;
     }
 
     /**
@@ -451,27 +467,7 @@ class CrudController extends Controller
      */
     public function showAction(Request $request, $id)
     {
-        $this->checkPermission(Permission::VIEW);
-
-        list($parentEntity) = $this->getParentEntityDefinition($request);
-
-        $entity = $this->findEntity($id);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
-
-        try {
-            $this->getCustomObjectLoader()->loadCustomObjects($entity);
-        } catch (CustomObjectException $ex) {
-        }
-
-        $view = $this->getEntityToShowViewTransformer()->transform($this->meta, $entity);
-
-        return $this->renderResponse('show', [
-            'entity'        => $entity,
-            'meta'          => $this->meta,
-            'parent_entity' => $parentEntity,
-            'view'          => $view,
-        ], $request->isXmlHttpRequest());
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -788,6 +784,20 @@ class CrudController extends Controller
         return $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT);
     }
 
+    /**
+     * @param string $name Name
+     * @param array  $args Arguments
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function action(string $name, array $args): Response
+    {
+        $action = $this->actions[$name];
+        $action->configure(new ActionConfig($this->entityClass));
+
+        return call_user_func_array([$action, 'run'], $args);
+    }
+
 
 
 
@@ -814,12 +824,6 @@ class CrudController extends Controller
     private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
     {
         return $this->get('darvin_admin.view.entity_transformer.index');
-    }
-
-    /** @return \Darvin\AdminBundle\View\Show\EntityToShowViewTransformer */
-    private function getEntityToShowViewTransformer(): EntityToShowViewTransformer
-    {
-        return $this->get('darvin_admin.view.entity_transformer.show');
     }
 
     /** @return \Doctrine\ORM\EntityManager */

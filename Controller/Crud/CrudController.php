@@ -465,7 +465,7 @@ class CrudController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction(Request $request, $id)
+    public function showAction(Request $request, $id): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -789,9 +789,14 @@ class CrudController extends Controller
      * @param array  $args Arguments
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \InvalidArgumentException
      */
     private function action(string $name, array $args): Response
     {
+        if (!isset($this->actions[$name])) {
+            throw new \InvalidArgumentException(sprintf('CRUD action "%s" does not exist.', $name));
+        }
+
         $action = $this->actions[$name];
         $action->configure(new ActionConfig($this->entityClass));
 

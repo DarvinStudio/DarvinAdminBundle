@@ -25,7 +25,12 @@ $(() => {
         });
     });
 
+    let $submittedForm = null;
+
     $('body')
+        .on('click', 'form [type="submit"]', (e) => {
+            $submittedForm = $(e.currentTarget).closest('form');
+        })
         .on('click', 'form ' + SELECTORS.toggle, (e) => {
             $(e.currentTarget).closest(SELECTORS.translations).find(SELECTORS.input).removeData('synced');
         })
@@ -40,7 +45,10 @@ $(() => {
                 rowIndex   = $row.index(),
                 sourceText = $sourceInput.val();
 
-            $sourceTab.siblings(SELECTORS.tab).each((i, targetTab) => {
+            let $form       = $sourceTab.closest('form'),
+                $targetTabs = $sourceTab.siblings(SELECTORS.tab);
+
+            $targetTabs.each((i, targetTab) => {
                 let $targetTab = $(targetTab);
 
                 let $targetInput = $targetTab.find('.table_row').eq(rowIndex).find(SELECTORS.input);
@@ -51,6 +59,10 @@ $(() => {
 
                 YandexTranslator.translate(sourceText, $sourceTab.data('locale'), $targetTab.data('locale'), (translated) => {
                     $targetInput.val(translated).data('synced', true);
+
+                    if (i === $targetTabs.length - 1 && $form.is($submittedForm)) {
+                        $form.trigger('submit');
+                    }
                 });
             });
         });

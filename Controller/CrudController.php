@@ -491,8 +491,12 @@ class CrudController extends Controller
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
         $form        = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
-        $redirectUrl = $request->headers->get('referer', $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX));
+        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX);
+        $referer     = $request->headers->get('referer');
 
+        if (!empty($referer) && parse_url($referer, PHP_URL_PATH) === $redirectUrl) {
+            $redirectUrl = $referer;
+        }
         if (!$form->isValid()) {
             $message = implode(PHP_EOL, array_map(function (FormError $error) {
                 return $error->getMessage();

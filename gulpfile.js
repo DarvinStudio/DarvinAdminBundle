@@ -50,7 +50,6 @@ const scripts = [
                 'Resources/scripts/slug.js',
                 'Resources/scripts/table-head-clone.js',
                 'Resources/scripts/textcounter.js',
-                'Resources/scripts/translation-form.js',
                 'Resources/scripts/translation-sync.js',
                 'Resources/scripts/tri-state.js',
 

@@ -69,7 +69,7 @@ class ShowAction extends AbstractAction
 
         $view = $this->entityToShowViewTransformer->transform($this->meta, $entity);
 
-        return $this->renderResponse(static::TYPE, [
+        return $this->renderResponse(self::TYPE, [
             'entity'        => $entity,
             'meta'          => $this->meta,
             'parent_entity' => $parentEntity,

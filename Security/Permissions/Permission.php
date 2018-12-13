@@ -29,7 +29,7 @@ final class Permission
      */
     public static function getDefaultPermissions(BaseUser $user): array
     {
-        return array_fill_keys(static::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
+        return array_fill_keys(self::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
     }
 
     /**
@@ -38,9 +38,9 @@ final class Permission
     public static function getAllPermissions(): array
     {
         return [
-            static::CREATE_DELETE,
-            static::EDIT,
-            static::VIEW,
+            self::CREATE_DELETE,
+            self::EDIT,
+            self::VIEW,
         ];
     }
 }

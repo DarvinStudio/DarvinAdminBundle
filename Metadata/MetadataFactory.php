@@ -82,7 +82,7 @@ class MetadataFactory
             $controllerId,
             $entityClass,
             $entityName,
-            $formTypeName.static::FILTER_FORM_TYPE_NAME_SUFFIX,
+            $formTypeName.self::FILTER_FORM_TYPE_NAME_SUFFIX,
             $formTypeName,
             $doctrineMeta->getIdentifier()[0],
             $this->getMappings($doctrineMeta),
@@ -118,7 +118,7 @@ class MetadataFactory
      */
     private function generateFormTypeName($entityName)
     {
-        return static::FORM_TYPE_NAME_PREFIX.$entityName;
+        return self::FORM_TYPE_NAME_PREFIX.$entityName;
     }
 
     /**
@@ -128,7 +128,7 @@ class MetadataFactory
      */
     private function generateRoutingPrefix($entityName)
     {
-        return static::ROUTE_NAME_PREFIX.$entityName;
+        return self::ROUTE_NAME_PREFIX.$entityName;
     }
 
     /**

@@ -110,7 +110,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         $routes = new RouteCollection();
         $config = $meta->getConfiguration();
 
-        foreach (static::MODEL as $routeType => $attr) {
+        foreach (self::MODEL as $routeType => $attr) {
             if (in_array($routeType, $config['route_blacklist'])) {
                 continue;
             }

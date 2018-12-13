@@ -212,7 +212,7 @@ class AdminRouter implements AdminRouterInterface
     {
         $extra = [];
 
-        if (in_array($routeType, static::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
+        if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
             try {
                 $extra['id'] = $this->identifierAccessor->getValue($entity);
             } catch (MetadataException $ex) {
@@ -224,7 +224,7 @@ class AdminRouter implements AdminRouterInterface
 
         $meta = $this->metadataManager->getMetadata($class);
 
-        if (!$meta->hasParent() || !in_array($routeType, static::REQUIRE_PARENT_ID)) {
+        if (!$meta->hasParent() || !in_array($routeType, self::REQUIRE_PARENT_ID)) {
             return $extra;
         }
 

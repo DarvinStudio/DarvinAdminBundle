@@ -56,11 +56,11 @@ class ConfigurationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $configurations = $this->configurationPool->getAllConfigurations();
-        $interface      = static::INTERFACES[$options['config_type']];
+        $interface      = self::INTERFACES[$options['config_type']];
 
         foreach ($configurations as $key => $configuration) {
             if (empty($interface)) {
-                foreach (static::INTERFACES as $otherInterface) {
+                foreach (self::INTERFACES as $otherInterface) {
                     if (!empty($otherInterface) && $configuration instanceof $otherInterface) {
                         unset($configurations[$key]);
                     }
@@ -101,7 +101,7 @@ class ConfigurationsType extends AbstractType
             ])
             ->setRequired('config_type')
             ->setAllowedTypes('config_type', 'string')
-            ->setAllowedValues('config_type', array_keys(static::INTERFACES));
+            ->setAllowedValues('config_type', array_keys(self::INTERFACES));
     }
 
     /**

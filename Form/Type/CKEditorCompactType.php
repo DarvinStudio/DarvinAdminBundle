@@ -55,7 +55,7 @@ class CKEditorCompactType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('config_name', static::CONFIG_NAME);
+        $resolver->setDefault('config_name', self::CONFIG_NAME);
     }
 
     /**

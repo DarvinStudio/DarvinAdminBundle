@@ -25,9 +25,9 @@ final class Roles
     public static function getRoles(): array
     {
         return [
-            static::ROLE_ADMIN,
-            static::ROLE_GUESTADMIN,
-            static::ROLE_SUPERADMIN,
+            self::ROLE_ADMIN,
+            self::ROLE_GUESTADMIN,
+            self::ROLE_SUPERADMIN,
         ];
     }
 }

@@ -100,8 +100,8 @@ class Item
     {
         $this->name = $name;
 
-        $this->mainIcon = static::DEFAULT_MAIN_ICON;
-        $this->sidebarIcon = static::DEFAULT_SIDEBAR_ICON;
+        $this->mainIcon = self::DEFAULT_MAIN_ICON;
+        $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
         $this->children = [];
         $this->newObjectCount = 0;
     }

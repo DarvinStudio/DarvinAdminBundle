@@ -156,12 +156,12 @@ class MetadataManager implements AdminMetadataManagerInterface
             $metadata = null;
 
             if (!empty($this->cache)) {
-                $metadata = $this->cache->get(static::CACHE_KEY);
+                $metadata = $this->cache->get(self::CACHE_KEY);
             }
             if (null === $metadata) {
                 $metadata = $this->metadataPool->getAllMetadata();
 
-                if (!empty($this->cache) && !$this->cache->set(static::CACHE_KEY, $metadata)) {
+                if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $metadata)) {
                     throw new MetadataException('Unable to cache metadata.');
                 }
             }

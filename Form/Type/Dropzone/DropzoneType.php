@@ -255,12 +255,12 @@ class DropzoneType extends AbstractType
                 'image_width'            => 0,
                 'image_height'           => 0,
                 'mapped'                 => false,
-                'oneup_uploader_mapping' => static::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
                 'toggle_enabled'         => false,
             ])
             ->setDefined([
                 'accepted_files',
-                static::OPTION_UPLOADABLE_FIELD,
+                self::OPTION_UPLOADABLE_FIELD,
             ])
             ->setRequired([
                 'uploadable_class',
@@ -300,11 +300,11 @@ class DropzoneType extends AbstractType
         if (empty($uploadableFields)) {
             throw new FormException(sprintf('Class "%s" has no uploadable fields.', $uploadableClass));
         }
-        if (isset($options[static::OPTION_UPLOADABLE_FIELD])) {
-            if (!in_array($options[static::OPTION_UPLOADABLE_FIELD], $uploadableFields)) {
+        if (isset($options[self::OPTION_UPLOADABLE_FIELD])) {
+            if (!in_array($options[self::OPTION_UPLOADABLE_FIELD], $uploadableFields)) {
                 $message = sprintf(
                     'Uploadable field "%s" does not exist in class "%s", existing uploadable fields: "%s".',
-                    $options[static::OPTION_UPLOADABLE_FIELD],
+                    $options[self::OPTION_UPLOADABLE_FIELD],
                     $uploadableClass,
                     implode('", "', $uploadableFields)
                 );
@@ -312,14 +312,14 @@ class DropzoneType extends AbstractType
                 throw new FormException($message);
             }
 
-            $uploadableField = $options[static::OPTION_UPLOADABLE_FIELD];
+            $uploadableField = $options[self::OPTION_UPLOADABLE_FIELD];
         } else {
             if (count($uploadableFields) > 1) {
                 $message = sprintf(
                     'Class "%s" has more than one uploadable field ("%s") - "%s" form option required.',
                     $uploadableClass,
                     implode('", "', $uploadableFields),
-                    static::OPTION_UPLOADABLE_FIELD
+                    self::OPTION_UPLOADABLE_FIELD
                 );
 
                 throw new FormException($message);

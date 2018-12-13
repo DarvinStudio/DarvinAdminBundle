@@ -1,5 +1,6 @@
 $(() => {
     const SELECTORS = {
+        error:        '.js-form-error',
         input:        'input[type="text"]',
         tab:          '.js-translation-tab[data-locale]',
         toggle:       '.js-translation-toggle[data-target]',
@@ -16,7 +17,7 @@ $(() => {
 
             let $toggle = $(toggle);
 
-            if ($toggle.closest(SELECTORS.translations).find($toggle.data('target') + ' .js-form-error:first').length) {
+            if ($toggle.closest(SELECTORS.translations).find($toggle.data('target') + ' ' + SELECTORS.error + ':first').length) {
                 $toggle.trigger('click');
 
                 clicked = true;

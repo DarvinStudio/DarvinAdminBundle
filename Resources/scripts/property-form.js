@@ -72,7 +72,7 @@ $(() => {
                 .val($field.data('original-value'))
                 .trigger('change');
         })
-        .on('click', [SELECTORS.container, SELECTORS.submit].join(' '), (e) => {
+        .on('click', SELECTORS.container + ' ' + SELECTORS.submit, (e) => {
             let $forms     = $(e.currentTarget).closest(SELECTORS.container).find(SELECTORS.form + '[data-modified="1"]'),
                 reloadPage = false;
 

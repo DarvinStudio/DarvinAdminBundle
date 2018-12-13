@@ -18,18 +18,33 @@ use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\FormHandler;
+use Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
+use Darvin\AdminBundle\Metadata\SortCriteriaDetector;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
+use Darvin\AdminBundle\View\Show\EntityToShowViewTransformer;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
+use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Darvin\ContentBundle\Filterer\FiltererInterface;
+use Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface;
+use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
+use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
 use Darvin\Utils\CustomObject\CustomObjectException;
+use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
+use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -38,6 +53,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * CRUD controller
@@ -109,7 +126,8 @@ class CrudController extends Controller
         $sortCriteria     = $this->getSortCriteriaDetector()->detect($this->entityClass);
         $pagination       = null;
         $paginatorOptions = [
-            'wrap-queries' => true,
+            'allowPageNumberExceed' => true,
+            'wrap-queries'          => true,
         ];
 
         if (!empty($sortCriteria)) {
@@ -133,10 +151,21 @@ class CrudController extends Controller
 
             $page = $request->query->get('page', 1);
 
-            /** @var \Knp\Component\Pager\Pagination\AbstractPagination $pagination */
+            /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
             $pagination = $this->getPaginator()->paginate($qb, $page, $this->configuration['pagination']['items'], $paginatorOptions);
 
-            $entities    = $page > 0 ? $pagination->getItems() : $qb->getQuery()->getResult();
+            if ($page > 0) {
+                $entities = $pagination->getItems();
+
+                if (empty($entities) && $page > 1) {
+                    $pagination = $this->getPaginator()->paginate($qb, $pagination->getPageCount(), $this->configuration['pagination']['items'], $paginatorOptions);
+
+                    $entities = $pagination->getItems();
+                }
+            } else {
+                $entities = $qb->getQuery()->getResult();
+            }
+
             $entityCount = $pagination->getTotalItemCount();
         } else {
             $entities = $qb->getQuery()->getResult();
@@ -461,7 +490,8 @@ class CrudController extends Controller
 
         $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
 
-        $form = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
+        $form        = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
+        $redirectUrl = $request->headers->get('referer', $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX));
 
         if (!$form->isValid()) {
             $message = implode(PHP_EOL, array_map(function (FormError $error) {
@@ -474,10 +504,7 @@ class CrudController extends Controller
 
             $this->getFlashNotifier()->error($message);
 
-            return $this->redirect($request->headers->get(
-                'referer',
-                $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX)
-            ));
+            return $this->redirect($redirectUrl);
         }
 
         $em = $this->getEntityManager();
@@ -486,8 +513,7 @@ class CrudController extends Controller
 
         $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
 
-        $message     = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX);
+        $message = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
 
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse(null, true, $message, [], $redirectUrl);
@@ -763,121 +789,121 @@ class CrudController extends Controller
 
 
     /** @return \Darvin\AdminBundle\Form\AdminFormFactory */
-    private function getAdminFormFactory()
+    private function getAdminFormFactory(): AdminFormFactory
     {
         return $this->get('darvin_admin.form.factory');
     }
 
     /** @return \Darvin\AdminBundle\Route\AdminRouterInterface */
-    private function getAdminRouter()
+    private function getAdminRouter(): AdminRouterInterface
     {
         return $this->get('darvin_admin.router');
     }
 
     /** @return \Darvin\Utils\CustomObject\CustomObjectLoaderInterface */
-    private function getCustomObjectLoader()
+    private function getCustomObjectLoader(): CustomObjectLoaderInterface
     {
         return $this->get('darvin_utils.custom_object.loader');
     }
 
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */
-    private function getEntitiesToIndexViewTransformer()
+    private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
     {
         return $this->get('darvin_admin.view.entity_transformer.index');
     }
 
     /** @return \Darvin\AdminBundle\View\Show\EntityToShowViewTransformer */
-    private function getEntityToShowViewTransformer()
+    private function getEntityToShowViewTransformer(): EntityToShowViewTransformer
     {
         return $this->get('darvin_admin.view.entity_transformer.show');
     }
 
     /** @return \Doctrine\ORM\EntityManager */
-    private function getEntityManager()
+    private function getEntityManager(): EntityManager
     {
         return $this->get('doctrine.orm.entity_manager');
     }
 
     /** @return \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-    private function getEventDispatcher()
+    private function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->get('event_dispatcher');
     }
 
     /** @return \Darvin\ContentBundle\Filterer\FiltererInterface */
-    private function getFilterer()
+    private function getFilterer(): FiltererInterface
     {
         return $this->get('darvin_content.filterer');
     }
 
     /** @return \Darvin\Utils\Flash\FlashNotifierInterface */
-    private function getFlashNotifier()
+    private function getFlashNotifier(): FlashNotifierInterface
     {
         return $this->get('darvin_utils.flash.notifier');
     }
 
     /** @return \Darvin\AdminBundle\Form\FormHandler */
-    private function getFormHandler()
+    private function getFormHandler(): FormHandler
     {
         return $this->get('darvin_admin.form.handler');
     }
 
     /** @return \Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler */
-    private function getNewActionFilterFormHandler()
+    private function getNewActionFilterFormHandler(): NewActionFilterFormHandler
     {
         return $this->get('darvin_admin.form.handler.new_action_filter');
     }
 
-    /** @return \Knp\Component\Pager\Paginator */
-    private function getPaginator()
+    /** @return \Knp\Component\Pager\PaginatorInterface */
+    private function getPaginator(): PaginatorInterface
     {
         return $this->get('knp_paginator');
     }
 
     /** @return \Symfony\Component\PropertyAccess\PropertyAccessorInterface */
-    private function getPropertyAccessor()
+    private function getPropertyAccessor(): PropertyAccessorInterface
     {
         return $this->get('property_accessor');
     }
 
     /** @return \Darvin\AdminBundle\Metadata\SortCriteriaDetector */
-    private function getSortCriteriaDetector()
+    private function getSortCriteriaDetector(): SortCriteriaDetector
     {
         return $this->get('darvin_admin.metadata.sort_criteria_detector');
     }
 
     /** @return \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface */
-    private function getSortedByEntityJoiner()
+    private function getSortedByEntityJoiner(): SortedByEntityJoinerInterface
     {
         return $this->get('darvin_content.sorting.sorted_by_entity_joiner');
     }
 
     /** @return \Darvin\ContentBundle\Translatable\TranslationJoinerInterface */
-    private function getTranslationJoiner()
+    private function getTranslationJoiner(): TranslationJoinerInterface
     {
         return $this->get('darvin_content.translatable.translation_joiner');
     }
 
     /** @return \Symfony\Component\Translation\TranslatorInterface */
-    private function getTranslator()
+    private function getTranslator(): TranslatorInterface
     {
         return $this->get('translator');
     }
 
-    /** @return \Darvin\ContentBundle\Translatable\TranslationsInitializer */
-    private function getTranslationsInitializer()
+    /** @return \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface */
+    private function getTranslationsInitializer(): TranslationsInitializerInterface
     {
         return $this->get('darvin_content.translatable.translations_initializer');
     }
 
     /** @return \Darvin\Utils\User\UserQueryBuilderFiltererInterface */
-    private function getUserQueryBuilderFilterer()
+    private function getUserQueryBuilderFilterer(): UserQueryBuilderFiltererInterface
     {
         return $this->get('darvin_utils.user.query_builder_filterer');
     }
 
     /** @return \Darvin\AdminBundle\View\Widget\WidgetPool */
-    private function getViewWidgetPool()
+    private function getViewWidgetPool(): WidgetPool
     {
         return $this->get('darvin_admin.view.widget.pool');
     }

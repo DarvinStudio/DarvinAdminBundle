@@ -795,7 +795,7 @@ class CrudController extends Controller
         $action = $this->actions[$name];
         $action->configure(new ActionConfig($this->entityClass));
 
-        return call_user_func_array([$action, 'run'], $args);
+        return $action->{'run'}(...$args);
     }
 
 

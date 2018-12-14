@@ -69,9 +69,9 @@ class UpdatePropertyAction extends AbstractAction
 
         $entityBefore = clone $entity;
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
-        $form = $this->adminFormFactory->createPropertyForm($this->meta, $property, $entity)->handleRequest($request);
+        $form = $this->adminFormFactory->createPropertyForm($this->getMeta(), $property, $entity)->handleRequest($request);
 
         $success = $form->isValid();
 
@@ -80,11 +80,11 @@ class UpdatePropertyAction extends AbstractAction
         if ($success) {
             $this->em->flush();
 
-            $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->userManager->getCurrentUser(), $entityBefore, $entity));
+            $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity));
 
-            $form = $this->adminFormFactory->createPropertyForm($this->meta, $property, $entity);
+            $form = $this->adminFormFactory->createPropertyForm($this->getMeta(), $property, $entity);
         } else {
-            $prefix     = $this->meta->getEntityTranslationPrefix();
+            $prefix     = $this->getMeta()->getEntityTranslationPrefix();
             $translator = $this->translator;
 
             $message = implode('<br>', array_map(function (FormError $error) use ($prefix, $translator) {
@@ -108,7 +108,7 @@ class UpdatePropertyAction extends AbstractAction
         }
 
         return new JsonResponse([
-            'html'    => $this->entitiesToIndexViewTransformer->renderPropertyForm($form, $entityBefore, $this->entityClass, $property),
+            'html'    => $this->entitiesToIndexViewTransformer->renderPropertyForm($form, $entityBefore, $this->getEntityClass(), $property),
             'message' => $message,
             'success' => $success,
         ]);

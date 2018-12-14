@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Controller\Crud\Action;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
+use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\UserBundle\User\UserManagerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -84,19 +85,24 @@ abstract class AbstractAction implements ActionInterface
     protected $userManager;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $entityClass;
+    private $entityClass = null;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\Metadata
+     * @var \Darvin\AdminBundle\Metadata\Metadata|null
      */
-    protected $meta;
+    private $meta = null;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected $config;
+    private $config = null;
+
+    /**
+     * @var string|null
+     */
+    private $name = null;
 
     /**
      * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
@@ -195,9 +201,11 @@ abstract class AbstractAction implements ActionInterface
      */
     public function getName(): string
     {
-        $parts = explode('\\', get_class($this));
+        if (null === $this->name) {
+            $this->name = lcfirst(preg_replace('/^.*\\\|Action$/', '', get_class($this)));
+        }
 
-        return lcfirst(array_pop($parts));
+        return $this->name;
     }
 
     /**
@@ -207,9 +215,9 @@ abstract class AbstractAction implements ActionInterface
      */
     protected function checkPermission(string $permission): void
     {
-        if (!$this->authorizationChecker->isGranted($permission, $this->entityClass)) {
+        if (!$this->authorizationChecker->isGranted($permission, $this->getEntityClass())) {
             throw new AccessDeniedException(
-                sprintf('You do not have "%s" permission on "%s" class objects.', $permission, $this->entityClass)
+                sprintf('You do not have "%s" permission on "%s" class objects.', $permission, $this->getEntityClass())
             );
         }
     }
@@ -224,7 +232,7 @@ abstract class AbstractAction implements ActionInterface
     protected function findEntity($id, ?string $class = null)
     {
         if (empty($class)) {
-            $class = $this->entityClass;
+            $class = $this->getEntityClass();
         }
 
         $entity = $this->em->find($class, $id);
@@ -244,11 +252,11 @@ abstract class AbstractAction implements ActionInterface
      */
     protected function getParentEntityDefinition(Request $request): array
     {
-        if (!$this->meta->hasParent()) {
+        if (!$this->getMeta()->hasParent()) {
             return array_fill(0, 4, null);
         }
 
-        $associationParam = $this->meta->getParent()->getAssociationParameterName();
+        $associationParam = $this->getMeta()->getParent()->getAssociationParameterName();
 
         $id = $request->query->get($associationParam);
 
@@ -257,8 +265,8 @@ abstract class AbstractAction implements ActionInterface
         }
 
         return [
-            $this->findEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
-            $this->meta->getParent()->getAssociation(),
+            $this->findEntity($id, $this->getMeta()->getParent()->getMetadata()->getEntityClass()),
+            $this->getMeta()->getParent()->getAssociation(),
             $associationParam,
             $id,
         ];
@@ -272,7 +280,7 @@ abstract class AbstractAction implements ActionInterface
         $buttons = [];
 
         foreach (self::SUBMIT_BUTTON_REDIRECTS as $button => $routeType) {
-            if ($this->adminRouter->exists($this->entityClass, $routeType)) {
+            if ($this->adminRouter->exists($this->getEntityClass(), $routeType)) {
                 $buttons[] = $button;
             }
         }
@@ -281,15 +289,17 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
-     * @param string $type    Template type
-     * @param array  $params  Template parameters
-     * @param bool   $partial Whether to render partial
+     * @param array $params  Template parameters
+     * @param bool  $partial Whether to render partial
      *
      * @return string
      */
-    protected function renderTemplate(string $type, array $params = [], bool $partial = false): string
+    protected function renderTemplate(array $params = [], bool $partial = false): string
     {
-        $template = $this->config['view'][$type]['template'];
+        $config = $this->getConfig();
+        $type   = $this->getName();
+
+        $template = $config['view'][$type]['template'];
 
         if ($partial) {
             if (!empty($template)) {
@@ -312,10 +322,34 @@ abstract class AbstractAction implements ActionInterface
     {
         foreach ($form->all() as $name => $child) {
             if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])) {
-                return $this->adminRouter->generate($entity, $this->entityClass, self::SUBMIT_BUTTON_REDIRECTS[$name]);
+                return $this->adminRouter->generate($entity, $this->getEntityClass(), self::SUBMIT_BUTTON_REDIRECTS[$name]);
             }
         }
 
-        return $this->adminRouter->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT);
+        return $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_EDIT);
+    }
+
+    /**
+     * @return string
+     */
+    protected function getEntityClass(): string
+    {
+        return $this->entityClass;
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Metadata\Metadata
+     */
+    protected function getMeta(): Metadata
+    {
+        return $this->meta;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getConfig(): array
+    {
+        return $this->config;
     }
 }

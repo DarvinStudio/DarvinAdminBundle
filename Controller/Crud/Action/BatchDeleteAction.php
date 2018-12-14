@@ -52,9 +52,9 @@ class BatchDeleteAction extends AbstractAction
 
         $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
-        $form = $this->adminFormFactory->createBatchDeleteForm($this->entityClass)->handleRequest($request);
+        $form = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass())->handleRequest($request);
         $entities = $form->get('entities')->getData();
 
         if ($entities instanceof Collection) {
@@ -62,22 +62,22 @@ class BatchDeleteAction extends AbstractAction
         }
         if (empty($entities)) {
             throw new \RuntimeException(
-                sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
+                sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->getEntityClass())
             );
         }
         if ($this->formHandler->handleBatchDeleteForm($form, $entities)) {
             $user = $this->userManager->getCurrentUser();
 
             foreach ($entities as $entity) {
-                $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $user, $entity));
+                $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getMeta(), $user, $entity));
             }
 
-            return new RedirectResponse($this->adminRouter->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX));
+            return new RedirectResponse($this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX));
         }
 
         $url = $request->headers->get(
             'referer',
-            $this->adminRouter->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX)
+            $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX)
         );
 
         return new RedirectResponse($url);

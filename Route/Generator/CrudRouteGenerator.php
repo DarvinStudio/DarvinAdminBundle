@@ -24,7 +24,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
-            '%s:updatePropertyAction',
+            '%s:updateProperty',
             [
                 'id'       => '\d+',
                 'property' => '\w+',
@@ -36,7 +36,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_COPY => [
             '%s_copy',
             '%s/{id}/copy',
-            '%s:copyAction',
+            '%s:copy',
             [
                 'id' => '\d+',
             ],
@@ -47,7 +47,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_DELETE => [
             '%s_delete',
             '%s/{id}/delete',
-            '%s:deleteAction',
+            '%s:delete',
             [
                 'id' => '\d+',
             ],
@@ -58,7 +58,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_EDIT => [
             '%s_edit',
             '%s/{id}/edit',
-            '%s:editAction',
+            '%s:edit',
             [
                 'id' => '\d+',
             ],
@@ -67,7 +67,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_SHOW => [
             '%s_show',
             '%s/{id}/show',
-            '%s:showAction',
+            '%s:show',
             [
                 'id' => '\d+',
             ],
@@ -78,7 +78,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_BATCH_DELETE => [
             '%s_batch_delete',
             '%s/batch-delete',
-            '%s:batchDeleteAction',
+            '%s:batchDelete',
             [],
             [
                 'post',
@@ -87,14 +87,14 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_NEW => [
             '%s_new',
             '%s/new',
-            '%s:newAction',
+            '%s:new',
             [],
             [],
         ],
         AdminRouterInterface::TYPE_INDEX => [
             '%s',
             '%s/',
-            '%s:indexAction',
+            '%s:index',
             [],
             [
                 'get',

@@ -58,19 +58,19 @@ class ShowAction extends AbstractAction
 
         $entity = $this->findEntity($id);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
         try {
             $this->customObjectLoader->loadCustomObjects($entity);
         } catch (CustomObjectException $ex) {
         }
 
-        $view = $this->entityToShowViewTransformer->transform($this->meta, $entity);
+        $view = $this->entityToShowViewTransformer->transform($this->getMeta(), $entity);
 
         return new Response(
-            $this->renderTemplate('show', [
+            $this->renderTemplate([
                 'entity'        => $entity,
-                'meta'          => $this->meta,
+                'meta'          => $this->getMeta(),
                 'parent_entity' => $parentEntity,
                 'view'          => $view,
             ], $request->isXmlHttpRequest())

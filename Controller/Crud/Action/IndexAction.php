@@ -141,12 +141,12 @@ class IndexAction extends AbstractAction
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
         $filterForm = null;
 
-        if ($this->meta->isFilterFormEnabled()) {
-            $filterForm = $this->adminFormFactory->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request);
+        if ($this->getMeta()->isFilterFormEnabled()) {
+            $filterForm = $this->adminFormFactory->createFilterForm($this->getMeta(), $associationParam, $parentEntityId)->handleRequest($request);
         }
 
         $qb = $this->createQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
@@ -154,21 +154,23 @@ class IndexAction extends AbstractAction
         if ($this->userQueryBuilderFilterer->isFilterable($qb)) {
             $this->userQueryBuilderFilterer->filter($qb);
         }
-        if ($this->meta->hasParent()) {
+        if ($this->getMeta()->hasParent()) {
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
         $batchDeleteForm  = null;
         $newForm          = null;
-        $sortCriteria     = $this->sortCriteriaDetector->detect($this->entityClass);
+        $sortCriteria     = $this->sortCriteriaDetector->detect($this->getEntityClass());
         $pagination       = null;
         $paginatorOptions = [
             'allowPageNumberExceed' => true,
             'wrap-queries'          => true,
         ];
 
+        $config = $this->getConfig();
+
         if (!empty($sortCriteria)) {
-            if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$this->config['pagination']['enabled']) {
+            if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$config['pagination']['enabled']) {
                 foreach ($sortCriteria as $sort => $order) {
                     $qb->addOrderBy('o.'.$sort, $order);
                 }
@@ -183,19 +185,19 @@ class IndexAction extends AbstractAction
                 $paginatorOptions['defaultSortDirection'] = reset($sortCriteria);
             }
         }
-        if ($this->config['pagination']['enabled']) {
+        if ($config['pagination']['enabled']) {
             $this->sortedByEntityJoiner->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
             $page = $request->query->get('page', 1);
 
             /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
-            $pagination = $this->paginator->paginate($qb, $page, $this->config['pagination']['items'], $paginatorOptions);
+            $pagination = $this->paginator->paginate($qb, $page, $config['pagination']['items'], $paginatorOptions);
 
             if ($page > 0) {
                 $entities = $pagination->getItems();
 
                 if (empty($entities) && $page > 1) {
-                    $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $this->config['pagination']['items'], $paginatorOptions);
+                    $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $config['pagination']['items'], $paginatorOptions);
 
                     $entities = $pagination->getItems();
                 }
@@ -209,33 +211,33 @@ class IndexAction extends AbstractAction
 
             $entityCount = count($entities);
         }
-        if (isset($this->config['sorter'])) {
-            $entities = $this->container->get($this->config['sorter']['id'])->{$this->config['sorter']['method']}($entities);
+        if (isset($config['sorter'])) {
+            $entities = $this->container->get($config['sorter']['id'])->{$config['sorter']['method']}($entities);
         }
         try {
             $this->customObjectLoader->loadCustomObjects($entities);
         } catch (CustomObjectException $ex) {
         }
         if (!empty($entities)
-            && $this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $this->entityClass)
-            && $this->adminRouter->exists($this->entityClass, AdminRouterInterface::TYPE_BATCH_DELETE)
-            && isset($this->config['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
+            && $this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $this->getEntityClass())
+            && $this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_BATCH_DELETE)
+            && isset($config['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
         ) {
-            $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->entityClass, $entities)->createView();
+            $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $entities)->createView();
         }
-        if ($this->config['index_view_new_form']) {
+        if ($config['index_view_new_form']) {
             $newForm = $this->newAction->run($request, true)->getContent();
         }
 
-        $view = $this->entitiesToIndexViewTransformer->transform($this->meta, $entities);
+        $view = $this->entitiesToIndexViewTransformer->transform($this->getMeta(), $entities);
 
         return new Response(
-            $this->renderTemplate('index', [
+            $this->renderTemplate([
                 'association_param' => $associationParam,
                 'batch_delete_form' => $batchDeleteForm,
                 'entity_count'      => $entityCount,
                 'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
-                'meta'              => $this->meta,
+                'meta'              => $this->getMeta(),
                 'new_form'          => $newForm,
                 'pagination'        => $pagination,
                 'parent_entity'     => $parentEntity,
@@ -253,16 +255,17 @@ class IndexAction extends AbstractAction
      */
     private function createQueryBuilder(string $locale, array $filterFormData = null): QueryBuilder
     {
-        $qb = $this->em->getRepository($this->entityClass)->createQueryBuilder('o');
+        $qb     = $this->em->getRepository($this->getEntityClass())->createQueryBuilder('o');
+        $config = $this->getConfig();
 
-        foreach ($this->config['joins'] as $alias => $join) {
+        foreach ($config['joins'] as $alias => $join) {
             if (false === strpos($join, '.')) {
                 $join = 'o.'.$join;
             }
 
             $qb->addSelect($alias)->leftJoin($join, $alias);
         }
-        if ($this->translationJoiner->isTranslatable($this->entityClass)) {
+        if ($this->translationJoiner->isTranslatable($this->getEntityClass())) {
             $this->translationJoiner->joinTranslation($qb, true, $locale);
         }
         if (empty($filterFormData)) {
@@ -281,8 +284,8 @@ class IndexAction extends AbstractAction
             }
         };
 
-        $getNonStrictComparisonFields($this->config['form']['filter']['fields']);
-        array_map($getNonStrictComparisonFields, $this->config['form']['filter']['field_groups']);
+        $getNonStrictComparisonFields($config['form']['filter']['fields']);
+        array_map($getNonStrictComparisonFields, $config['form']['filter']['field_groups']);
 
         $this->filterer->filter($qb, $filterFormData, $filtererOptions);
 

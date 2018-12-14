@@ -56,10 +56,10 @@ class DeleteAction extends AbstractAction
 
         $entity = $this->findEntity($id);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
-        $form        = $this->adminFormFactory->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
-        $redirectUrl = $this->adminRouter->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX);
+        $form        = $this->adminFormFactory->createDeleteForm($entity, $this->getEntityClass())->handleRequest($request);
+        $redirectUrl = $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX);
         $referer     = $request->headers->get('referer');
 
         if (!empty($referer) && parse_url($referer, PHP_URL_PATH) === $redirectUrl) {
@@ -82,9 +82,9 @@ class DeleteAction extends AbstractAction
         $this->em->remove($entity);
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->userManager->getCurrentUser(), $entity));
+        $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity));
 
-        $message = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
+        $message = sprintf('%saction.delete.success', $this->getMeta()->getBaseTranslationPrefix());
 
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse(null, true, $message, [], $redirectUrl);

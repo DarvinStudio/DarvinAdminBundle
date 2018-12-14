@@ -95,13 +95,13 @@ class NewAction extends AbstractAction
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
-        $entityClass = $this->entityClass;
+        $entityClass = $this->getEntityClass();
 
         $entity = new $entityClass();
 
-        if ($this->meta->hasParent()) {
+        if ($this->getMeta()->hasParent()) {
             $this->propertyAccessor->setValue($entity, $association, $parentEntity);
         }
         if ($this->translationJoiner->isTranslatable($entityClass)) {
@@ -111,9 +111,9 @@ class NewAction extends AbstractAction
         $this->newActionFilterFormHandler->handleForm($entity, $request);
 
         $form = $this->adminFormFactory->createEntityForm(
-            $this->meta,
+            $this->getMeta(),
             $entity,
-            'new',
+            $this->getName(),
             $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_NEW, [
                 'widget' => $widget,
             ]),
@@ -140,9 +140,9 @@ class NewAction extends AbstractAction
         $this->em->persist($entity);
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->userManager->getCurrentUser(), $entity));
+        $this->eventDispatcher->dispatch(CrudEvents::CREATED, new CreatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity));
 
-        $message     = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
+        $message     = sprintf('%saction.new.success', $this->getMeta()->getBaseTranslationPrefix());
         $redirectUrl = $this->successRedirect($form, $entity);
 
         if ($request->isXmlHttpRequest()) {
@@ -168,10 +168,10 @@ class NewAction extends AbstractAction
             $partial = true;
         }
 
-        return $this->renderTemplate('new', [
+        return $this->renderTemplate([
             'form'          => $form->createView(),
             'is_widget'     => $widget,
-            'meta'          => $this->meta,
+            'meta'          => $this->getMeta(),
             'parent_entity' => $parentEntity,
         ], $partial);
     }

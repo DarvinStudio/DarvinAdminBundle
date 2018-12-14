@@ -44,13 +44,13 @@ class EditAction extends AbstractAction
 
         $entityBefore = clone $entity;
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
         $form = $this->adminFormFactory->createEntityForm(
-            $this->meta,
+            $this->getMeta(),
             $entity,
-            'edit',
-            $this->adminRouter->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT),
+            $this->getName(),
+            $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_EDIT),
             $this->getSubmitButtons()
         )->handleRequest($request);
 
@@ -73,9 +73,9 @@ class EditAction extends AbstractAction
 
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->userManager->getCurrentUser(), $entityBefore, $entity));
+        $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity));
 
-        $message     = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
+        $message     = sprintf('%saction.edit.success', $this->getMeta()->getBaseTranslationPrefix());
         $redirectUrl = $this->successRedirect($form, $entity);
 
         if ($request->isXmlHttpRequest()) {
@@ -104,10 +104,10 @@ class EditAction extends AbstractAction
      */
     private function renderEditTemplate($entity, FormInterface $form, $parentEntity, bool $partial = false): string
     {
-        return $this->renderTemplate('edit', [
+        return $this->renderTemplate([
             'entity'        => $entity,
             'form'          => $form->createView(),
-            'meta'          => $this->meta,
+            'meta'          => $this->getMeta(),
             'parent_entity' => $parentEntity,
         ], $partial);
     }

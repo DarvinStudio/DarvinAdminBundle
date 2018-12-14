@@ -53,7 +53,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request): Response
+    public function index(Request $request): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -64,7 +64,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function newAction(Request $request, bool $widget = false): Response
+    public function new(Request $request, bool $widget = false): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -75,7 +75,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function copyAction(Request $request, $id): Response
+    public function copy(Request $request, $id): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -86,7 +86,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, $id): Response
+    public function edit(Request $request, $id): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -98,7 +98,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function updatePropertyAction(Request $request, $id, string $property): Response
+    public function updateProperty(Request $request, $id, string $property): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -109,7 +109,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction(Request $request, $id): Response
+    public function show(Request $request, $id): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -120,7 +120,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function deleteAction(Request $request, $id): Response
+    public function delete(Request $request, $id): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }
@@ -130,7 +130,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function batchDeleteAction(Request $request): Response
+    public function batchDelete(Request $request): Response
     {
         return $this->action(__FUNCTION__, func_get_args());
     }

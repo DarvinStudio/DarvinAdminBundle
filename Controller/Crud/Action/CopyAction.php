@@ -51,19 +51,19 @@ class CopyAction extends AbstractAction
 
         $entity = $this->findEntity($id);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
-        $form = $this->adminFormFactory->createCopyForm($entity, $this->entityClass)->handleRequest($request);
+        $form = $this->adminFormFactory->createCopyForm($entity, $this->getEntityClass())->handleRequest($request);
 
         $copy = $this->formHandler->handleCopyForm($form, $entity);
 
         if (!empty($copy)) {
-            $this->eventDispatcher->dispatch(CrudEvents::COPIED, new CopiedEvent($this->meta, $this->userManager->getCurrentUser(), $entity, $copy));
+            $this->eventDispatcher->dispatch(CrudEvents::COPIED, new CopiedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity, $copy));
         }
 
         $url = $request->headers->get(
             'referer',
-            $this->adminRouter->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX)
+            $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX)
         );
 
         return new RedirectResponse($url);

@@ -10,12 +10,13 @@
 
 namespace Darvin\AdminBundle\Controller\Crud\Action;
 
+use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
+use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\UserBundle\User\UserManagerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -29,9 +30,19 @@ abstract class AbstractAction implements ActionInterface
     private const RUN_METHOD = 'run';
 
     /**
+     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     */
+    protected $adminFormFactory;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     protected $adminMetadataManager;
+
+    /**
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
+     */
+    protected $adminRouter;
 
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
@@ -74,11 +85,27 @@ abstract class AbstractAction implements ActionInterface
     protected $config;
 
     /**
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     */
+    public function setAdminFormFactory(AdminFormFactory $adminFormFactory): void
+    {
+        $this->adminFormFactory = $adminFormFactory;
+    }
+
+    /**
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $adminMetadataManager Admin metadata manager
      */
     public function setAdminMetadataManager(AdminMetadataManagerInterface $adminMetadataManager): void
     {
         $this->adminMetadataManager = $adminMetadataManager;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
+     */
+    public function setAdminRouter(AdminRouterInterface $adminRouter): void
+    {
+        $this->adminRouter = $adminRouter;
     }
 
     /**
@@ -213,18 +240,6 @@ abstract class AbstractAction implements ActionInterface
             $associationParam,
             $id,
         ];
-    }
-
-    /**
-     * @param string $viewType       View type
-     * @param array  $templateParams Template parameters
-     * @param bool   $partial        Whether to render partial
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function renderResponse(string $viewType, array $templateParams = [], bool $partial = false): Response
-    {
-        return new Response($this->renderTemplate($viewType, $templateParams, $partial));
     }
 
     /**

@@ -23,27 +23,18 @@ use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Form\FormHandler;
 use Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Metadata\SortCriteriaDetector;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
-use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
-use Darvin\ContentBundle\Filterer\FiltererInterface;
-use Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
-use Darvin\Utils\CustomObject\CustomObjectException;
-use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
-use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\QueryBuilder;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\ClickableInterface;
@@ -116,110 +107,7 @@ class CrudController extends Controller
      */
     public function indexAction(Request $request): Response
     {
-        $this->checkPermission(Permission::VIEW);
-
-        list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
-
-        $filterForm = null;
-
-        if ($this->meta->isFilterFormEnabled()) {
-            $filterForm = $this->getAdminFormFactory()->createFilterForm($this->meta, $associationParam, $parentEntityId)->handleRequest($request);
-        }
-
-        $qb = $this->getIndexQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
-
-        if ($this->getUserQueryBuilderFilterer()->isFilterable($qb)) {
-            $this->getUserQueryBuilderFilterer()->filter($qb);
-        }
-        if ($this->meta->hasParent()) {
-            $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
-        }
-
-        $batchDeleteForm  = null;
-        $newForm          = null;
-        $sortCriteria     = $this->getSortCriteriaDetector()->detect($this->entityClass);
-        $pagination       = null;
-        $paginatorOptions = [
-            'allowPageNumberExceed' => true,
-            'wrap-queries'          => true,
-        ];
-
-        if (!empty($sortCriteria)) {
-            if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$this->configuration['pagination']['enabled']) {
-                foreach ($sortCriteria as $sort => $order) {
-                    $qb->addOrderBy('o.'.$sort, $order);
-                }
-            } else {
-                $sortField = array_keys($sortCriteria)[0];
-
-                if (false === strpos($sortField, '.')) {
-                    $sortField = sprintf('o.%s', $sortField);
-                }
-
-                $paginatorOptions['defaultSortFieldName'] = $sortField;
-                $paginatorOptions['defaultSortDirection'] = reset($sortCriteria);
-            }
-        }
-        if ($this->configuration['pagination']['enabled']) {
-            $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
-
-            $page = $request->query->get('page', 1);
-
-            /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
-            $pagination = $this->getPaginator()->paginate($qb, $page, $this->configuration['pagination']['items'], $paginatorOptions);
-
-            if ($page > 0) {
-                $entities = $pagination->getItems();
-
-                if (empty($entities) && $page > 1) {
-                    $pagination = $this->getPaginator()->paginate($qb, $pagination->getPageCount(), $this->configuration['pagination']['items'], $paginatorOptions);
-
-                    $entities = $pagination->getItems();
-                }
-            } else {
-                $entities = $qb->getQuery()->getResult();
-            }
-
-            $entityCount = $pagination->getTotalItemCount();
-        } else {
-            $entities = $qb->getQuery()->getResult();
-
-            $entityCount = count($entities);
-        }
-        if (isset($this->configuration['sorter'])) {
-            $entities = $this->get($this->configuration['sorter']['id'])->{$this->configuration['sorter']['method']}($entities);
-        }
-        try {
-            $this->getCustomObjectLoader()->loadCustomObjects($entities);
-        } catch (CustomObjectException $ex) {
-        }
-        if (!empty($entities)
-            && $this->isGranted(Permission::CREATE_DELETE, $this->entityClass)
-            && $this->getAdminRouter()->exists($this->entityClass, AdminRouterInterface::TYPE_BATCH_DELETE)
-            && isset($this->configuration['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
-        ) {
-            $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass, $entities)->createView();
-        }
-        if ($this->configuration['index_view_new_form']) {
-            $newForm = $this->newAction($request, true)->getContent();
-        }
-
-        $view = $this->getEntitiesToIndexViewTransformer()->transform($this->meta, $entities);
-
-        return $this->renderResponse('index', [
-            'association_param' => $associationParam,
-            'batch_delete_form' => $batchDeleteForm,
-            'entity_count'      => $entityCount,
-            'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
-            'meta'              => $this->meta,
-            'new_form'          => $newForm,
-            'pagination'        => $pagination,
-            'parent_entity'     => $parentEntity,
-            'parent_entity_id'  => $parentEntityId,
-            'view'              => $view,
-        ], $request->isXmlHttpRequest());
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -569,50 +457,6 @@ class CrudController extends Controller
     }
 
     /**
-     * @param string $locale         Locale
-     * @param array  $filterFormData Filter form data
-     *
-     * @return \Doctrine\ORM\QueryBuilder
-     */
-    private function getIndexQueryBuilder(string $locale, array $filterFormData = null): QueryBuilder
-    {
-        $qb = $this->getEntityManager()->getRepository($this->entityClass)->createQueryBuilder('o');
-
-        foreach ($this->configuration['joins'] as $alias => $join) {
-            if (false === strpos($join, '.')) {
-                $join = 'o.'.$join;
-            }
-
-            $qb->addSelect($alias)->leftJoin($join, $alias);
-        }
-        if ($this->getTranslationJoiner()->isTranslatable($this->entityClass)) {
-            $this->getTranslationJoiner()->joinTranslation($qb, true, $locale);
-        }
-        if (empty($filterFormData)) {
-            return $qb;
-        }
-
-        $filtererOptions = [
-            'non_strict_comparison_fields' => [],
-        ];
-
-        $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
-            foreach ($fields as $field => $attr) {
-                if (!$attr['compare_strict']) {
-                    $filtererOptions['non_strict_comparison_fields'][] = $field;
-                }
-            }
-        };
-
-        $getNonStrictComparisonFields($this->configuration['form']['filter']['fields']);
-        array_map($getNonStrictComparisonFields, $this->configuration['form']['filter']['field_groups']);
-
-        $this->getFilterer()->filter($qb, $filterFormData, $filtererOptions);
-
-        return $qb;
-    }
-
-    /**
      * @param string $permission Permission
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
@@ -734,18 +578,6 @@ class CrudController extends Controller
     }
 
     /**
-     * @param string $viewType       View type
-     * @param array  $templateParams Template parameters
-     * @param bool   $partial        Whether to render partial
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    private function renderResponse(string $viewType, array $templateParams = [], bool $partial = false): Response
-    {
-        return new Response($this->renderTemplate($viewType, $templateParams, $partial));
-    }
-
-    /**
      * @param string $type    Template type
      * @param array  $params  Template parameters
      * @param bool   $partial Whether to render partial
@@ -819,12 +651,6 @@ class CrudController extends Controller
         return $this->get('darvin_admin.router');
     }
 
-    /** @return \Darvin\Utils\CustomObject\CustomObjectLoaderInterface */
-    private function getCustomObjectLoader(): CustomObjectLoaderInterface
-    {
-        return $this->get('darvin_utils.custom_object.loader');
-    }
-
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */
     private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
     {
@@ -841,12 +667,6 @@ class CrudController extends Controller
     private function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->get('event_dispatcher');
-    }
-
-    /** @return \Darvin\ContentBundle\Filterer\FiltererInterface */
-    private function getFilterer(): FiltererInterface
-    {
-        return $this->get('darvin_content.filterer');
     }
 
     /** @return \Darvin\Utils\Flash\FlashNotifierInterface */
@@ -867,28 +687,10 @@ class CrudController extends Controller
         return $this->get('darvin_admin.form.handler.new_action_filter');
     }
 
-    /** @return \Knp\Component\Pager\PaginatorInterface */
-    private function getPaginator(): PaginatorInterface
-    {
-        return $this->get('knp_paginator');
-    }
-
     /** @return \Symfony\Component\PropertyAccess\PropertyAccessorInterface */
     private function getPropertyAccessor(): PropertyAccessorInterface
     {
         return $this->get('property_accessor');
-    }
-
-    /** @return \Darvin\AdminBundle\Metadata\SortCriteriaDetector */
-    private function getSortCriteriaDetector(): SortCriteriaDetector
-    {
-        return $this->get('darvin_admin.metadata.sort_criteria_detector');
-    }
-
-    /** @return \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface */
-    private function getSortedByEntityJoiner(): SortedByEntityJoinerInterface
-    {
-        return $this->get('darvin_content.sorting.sorted_by_entity_joiner');
     }
 
     /** @return \Darvin\ContentBundle\Translatable\TranslationJoinerInterface */
@@ -907,12 +709,6 @@ class CrudController extends Controller
     private function getTranslationsInitializer(): TranslationsInitializerInterface
     {
         return $this->get('darvin_content.translatable.translations_initializer');
-    }
-
-    /** @return \Darvin\Utils\User\UserQueryBuilderFiltererInterface */
-    private function getUserQueryBuilderFilterer(): UserQueryBuilderFiltererInterface
-    {
-        return $this->get('darvin_utils.user.query_builder_filterer');
     }
 
     /** @return \Darvin\AdminBundle\View\Widget\WidgetPool */

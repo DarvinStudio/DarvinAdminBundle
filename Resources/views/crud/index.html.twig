@@ -1,9 +1,3 @@
 {% extends '@DarvinAdmin/layout.html.twig' %}
 
-{% trans_default_domain 'admin' %}
-
-{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
-
-{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
-
-{% block content %}{% include meta.configuration.view.index.template ?: '@DarvinAdmin/crud/_index.html.twig' %}{% endblock %}
+{% block content_wrap %}{% include meta.configuration.view.index.template ?: '@DarvinAdmin/crud/_index.html.twig' %}{% endblock %}

@@ -1,190 +1,194 @@
+{% extends '@DarvinAdmin/_content.html.twig' %}
+
 {% trans_default_domain 'admin' %}
 
 {% block form_row %}
-    {% if form is defined %}
-        <div class="filter_element">
-            {{ form_label(form) }}
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-        </div>
-    {% endif %}
+    <div class="filter_element">
+        {{ form_label(form) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form) }}
+    </div>
 {% endblock %}
 
 {% block widget_attributes %}
-    {% if form is defined %}
 
-        {% set attr = attr|merge({'class': (attr.class|default ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
+    {% set attr = attr|merge({'class': (attr.class|default ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
 
-        id="{{ id }}" name="{{ full_name }}"
-        {%- if disabled %} disabled="disabled"{% endif -%}
-        {%- if required %} required="required"{% endif -%}
-        {{ block('attributes') }}
-    {% endif %}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {{ block('attributes') }}
 {% endblock %}
 
-{% if pagination is not defined %}
+{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
-    {% set pagination = null %}
+{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
-{% endif %}
+{% block content %}
+    {% if pagination is not defined %}
 
-{% set pagination_rendered = pagination ? knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') : null %}
+        {% set pagination = null %}
 
-{% block filter_form %}
-    {% if filter_form %}
+    {% endif %}
 
-        {% form_theme filter_form _self %}
+    {% set pagination_rendered = pagination ? knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') : null %}
 
-        <div class="index_modul filter spoiler_container">
-            <div class="index_modul_header">
-                <div class="index_modul_header_content spoiler_links">
-                    <div class="spoiler_arrow"></div>
-                    <div class="index_modul_icon"></div>
-                    <div class="index_modul_name">
-                        <p class="tit">{% trans %}filter.title{% endtrans %}</p>
-                        <p>{% trans %}filter.description{% endtrans %}</p>
+    {% block filter_form %}
+        {% if filter_form %}
+
+            {% form_theme filter_form _self %}
+
+            <div class="index_modul filter spoiler_container">
+                <div class="index_modul_header">
+                    <div class="index_modul_header_content spoiler_links">
+                        <div class="spoiler_arrow"></div>
+                        <div class="index_modul_icon"></div>
+                        <div class="index_modul_name">
+                            <p class="tit">{% trans %}filter.title{% endtrans %}</p>
+                            <p>{% trans %}filter.description{% endtrans %}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="index_modul_content spoiler_body"
+                     data-cookie="DARVINADMINFILTER"
+                     {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
+                    <div class="filter_table container-fluid">
+                        {{ form_start(filter_form, {'attr': {'class': 'js-ajax'}}) }}
+                        {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
+                            {{ form_row(filter_form[field]) }}
+                        {% endfor %}
+                        <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
+                        <a href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
+                        {{ form_end(filter_form) }}
                     </div>
                 </div>
             </div>
-            <div class="index_modul_content spoiler_body"
-                 data-cookie="DARVINADMINFILTER"
-                 {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
-                <div class="filter_table container-fluid">
-                    {{ form_start(filter_form, {'attr': {'class': 'js-ajax'}}) }}
-                    {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
-                        {{ form_row(filter_form[field]) }}
-                    {% endfor %}
-                    <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
-                    <a href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
-                    {{ form_end(filter_form) }}
-                </div>
-            </div>
-        </div>
-    {% endif %}
-{% endblock %}
+        {% endif %}
+    {% endblock %}
 
-{% block new_form %}
-    {% if new_form %}
-        <div class="index-new-form">
-            <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
-            {{ new_form|raw }}
-        </div>
-    {% endif %}
-{% endblock %}
-
-<div class="js-property-forms">
-    <div class="post_item_btn">
-
-        {% block new_link %}
-            {% if not meta.configuration.index_view_new_form %}
-
-                {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass)
-                    ? admin_path(
-                        null,
-                        meta.entityClass,
-                        'new',
-                        association_param ? {(association_param): parent_entity_id} : {}
-                    )
-                    : null
-                %}
-
-                {% if new_url %}
-                    <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
-                {% endif %}
-            {% endif %}
-        {% endblock %}
-
-        {% block extra_controls %}{% endblock %}
-
-        {% block property_forms_submit %}
-            {% if view.body.rows is not empty %}
-                <a class="js-property-submit save_edit" style="display: none;">
-                    {% trans %}property_forms.submit{% endtrans %}
-                </a>
-            {% endif %}
-        {% endblock %}
-
-    </div>
-    <div class="clearfix">
-        {{ pagination_rendered|raw }}
-        {% if batch_delete_form %}
-            <div>
-                <label for="batch_delete_check_all_{{ meta.entityName }}">
-                    <input type="checkbox"
-                           id="batch_delete_check_all_{{ meta.entityName }}"
-                           class="batch_delete_check_all"
-                           autocomplete="off">
-                    {% trans %}crud.action.batch_delete.select_all{% endtrans %}
-                </label>
-                {{ form_start(batch_delete_form, {'attr': {
-                    'class':        'batch_delete_form',
-                    'onsubmit':     'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
-                    'autocomplete': 'off',
-                }}) }}
-                {{ form_widget(batch_delete_form) }}
-                <button type="submit" class="btn btn-danger btn-xs" style="display: none;">
-                    {% trans %}crud.action.batch_delete.submit{% endtrans %}
-                </button>
-                {{ form_end(batch_delete_form) }}
+    {% block new_form %}
+        {% if new_form %}
+            <div class="index-new-form">
+                <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+                {{ new_form|raw }}
             </div>
         {% endif %}
+    {% endblock %}
 
-        {% block total_item_count %}
-            {% if view.body.rows is not empty %}
-                <span class="pull-right">{% trans with {'%count%': entity_count} %}interface.total_item_count{% endtrans %}</span>
-            {% endif %}
-        {% endblock %}
+    <div class="js-property-forms">
+        <div class="post_item_btn">
 
-    </div>
-    {% if view.body.rows is empty %}
-        <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
-    {% else %}
-        <div class="sly-container">
-			<div class="scrollbar js-scrollbar">
-				<div class="handle"></div>
-			</div>
-            <div class="section_table valign_middle sly-frame">
-                <table>
-                    <thead>
-                        <tr>
-                            {% for field, item in view.head.items if item.width %}
-                                <th colspan="{{ item.width }}">
-                                    {% if pagination and item.sortable %}
-                                        {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
-                                    {% else %}
-                                        {{ item.content|trans }}
-                                    {% endif %}
-                                </th>
-                            {% endfor %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in view.body.rows %}
-                            <tr{% for attr_name, attr_value in row.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
-                                {% for name, item in row.items %}
-                                    <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
-                                        {% if 'action_widgets' == name %}
-                                            <div class="edit_elements">
-                                                {{ item.content|raw }}
-                                            </div>
-                                        {% else %}
-                                            {{ item.content|trans|raw }}
-                                        {% endif %}
-                                    </td>
-                                {% endfor %}
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+            {% block new_link %}
+                {% if not meta.configuration.index_view_new_form %}
+
+                    {% set new_url = admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass)
+                        ? admin_path(
+                            null,
+                            meta.entityClass,
+                            'new',
+                            association_param ? {(association_param): parent_entity_id} : {}
+                        )
+                        : null
+                    %}
+
+                    {% if new_url %}
+                        <a href="{{ new_url }}" class="add_section">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endblock %}
+
+            {% block extra_controls %}{% endblock %}
+
+            {% block property_forms_submit %}
+                {% if view.body.rows is not empty %}
+                    <a class="js-property-submit save_edit" style="display: none;">
+                        {% trans %}property_forms.submit{% endtrans %}
+                    </a>
+                {% endif %}
+            {% endblock %}
+
         </div>
         <div class="clearfix">
             {{ pagination_rendered|raw }}
-            {{ block('total_item_count') }}
+            {% if batch_delete_form %}
+                <div>
+                    <label for="batch_delete_check_all_{{ meta.entityName }}">
+                        <input type="checkbox"
+                               id="batch_delete_check_all_{{ meta.entityName }}"
+                               class="batch_delete_check_all"
+                               autocomplete="off">
+                        {% trans %}crud.action.batch_delete.select_all{% endtrans %}
+                    </label>
+                    {{ form_start(batch_delete_form, {'attr': {
+                        'class':        'batch_delete_form',
+                        'onsubmit':     'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
+                        'autocomplete': 'off',
+                    }}) }}
+                    {{ form_widget(batch_delete_form) }}
+                    <button type="submit" class="btn btn-danger btn-xs" style="display: none;">
+                        {% trans %}crud.action.batch_delete.submit{% endtrans %}
+                    </button>
+                    {{ form_end(batch_delete_form) }}
+                </div>
+            {% endif %}
+
+            {% block total_item_count %}
+                {% if view.body.rows is not empty %}
+                    <span class="pull-right">{% trans with {'%count%': entity_count} %}interface.total_item_count{% endtrans %}</span>
+                {% endif %}
+            {% endblock %}
+
         </div>
-        <div class="post_item_btn">
-            {{ block('new_link') }}
-            {{ block('property_forms_submit') }}
-        </div>
-    {% endif %}
-</div>
+        {% if view.body.rows is empty %}
+            <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
+        {% else %}
+            <div class="sly-container">
+                <div class="scrollbar js-scrollbar">
+                    <div class="handle"></div>
+                </div>
+                <div class="section_table valign_middle sly-frame">
+                    <table>
+                        <thead>
+                            <tr>
+                                {% for field, item in view.head.items if item.width %}
+                                    <th colspan="{{ item.width }}">
+                                        {% if pagination and item.sortable %}
+                                            {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath) }}
+                                        {% else %}
+                                            {{ item.content|trans }}
+                                        {% endif %}
+                                    </th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in view.body.rows %}
+                                <tr{% for attr_name, attr_value in row.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                    {% for name, item in row.items %}
+                                        <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                            {% if 'action_widgets' == name %}
+                                                <div class="edit_elements">
+                                                    {{ item.content|raw }}
+                                                </div>
+                                            {% else %}
+                                                {{ item.content|trans|raw }}
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="clearfix">
+                {{ pagination_rendered|raw }}
+                {{ block('total_item_count') }}
+            </div>
+            <div class="post_item_btn">
+                {{ block('new_link') }}
+                {{ block('property_forms_submit') }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

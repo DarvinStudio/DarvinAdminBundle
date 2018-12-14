@@ -1,5 +1,7 @@
 {% trans_default_domain 'admin' %}
 
+{% use '@DarvinAdmin/_content.html.twig' %}
+
 {% set cookie_names = {
     'sidebar': 'DARVINADMINSIDEBAR',
 } %}
@@ -141,16 +143,8 @@
                             </div>
                         {% endif %}
                         <div class="content_wrap{% if app.user and app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
-                            <div class="content">
-
-                                {% block breadcrumbs %}{% endblock %}
-
-                                <h1>{% block heading %}{% endblock %}</h1>
-                                <div id="js-content" {% block content_attr %}{% endblock %}>
-
-                                    {% block content %}{% endblock %}
-
-                                </div>
+                            <div id="js-content" class="content" {% block content_attr %}{% endblock %}>
+                                {{ block('content_wrap') }}
                             </div>
                         </div>
                     </div>

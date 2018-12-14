@@ -1,1 +1,11 @@
-{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'new'} %}
+{% extends '@DarvinAdmin/_content.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% set heading = (meta.baseTranslationPrefix ~ 'action.new.title')|trans %}
+
+{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
+
+{% block heading %}{{ heading }}{% endblock %}
+
+{% block content %}{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'new'} %}{% endblock %}

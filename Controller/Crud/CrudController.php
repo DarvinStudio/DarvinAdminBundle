@@ -14,7 +14,6 @@ use Darvin\AdminBundle\Controller\Crud\Action\ActionConfig;
 use Darvin\AdminBundle\Controller\Crud\Action\ActionInterface;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
-use Darvin\AdminBundle\Event\Crud\CopiedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
@@ -37,7 +36,6 @@ use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -120,30 +118,11 @@ class CrudController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      * @param int                                       $id      Entity ID
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function copyAction(Request $request, $id)
+    public function copyAction(Request $request, $id): Response
     {
-        $this->checkPermission(Permission::CREATE_DELETE);
-
-        $entity = $this->findEntity($id);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
-
-        $form = $this->getAdminFormFactory()->createCopyForm($entity, $this->entityClass)->handleRequest($request);
-
-        $copy = $this->getFormHandler()->handleCopyForm($form, $entity);
-
-        if (!empty($copy)) {
-            $this->getEventDispatcher()->dispatch(CrudEvents::COPIED, new CopiedEvent($this->meta, $this->getUser(), $entity, $copy));
-        }
-
-        $url = $request->headers->get(
-            'referer',
-            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX)
-        );
-
-        return new RedirectResponse($url);
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**

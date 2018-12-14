@@ -1,12 +1,13 @@
 parameters:
     darvin_admin.crud.action.abstract.class: Darvin\AdminBundle\Controller\Crud\Action\AbstractAction
 
-    darvin_admin.crud.action.copy.class:   Darvin\AdminBundle\Controller\Crud\Action\CopyAction
-    darvin_admin.crud.action.delete.class: Darvin\AdminBundle\Controller\Crud\Action\DeleteAction
-    darvin_admin.crud.action.edit.class:   Darvin\AdminBundle\Controller\Crud\Action\EditAction
-    darvin_admin.crud.action.index.class:  Darvin\AdminBundle\Controller\Crud\Action\IndexAction
-    darvin_admin.crud.action.new.class:    Darvin\AdminBundle\Controller\Crud\Action\NewAction
-    darvin_admin.crud.action.show.class:   Darvin\AdminBundle\Controller\Crud\Action\ShowAction
+    darvin_admin.crud.action.batch_delete.class: Darvin\AdminBundle\Controller\Crud\Action\BatchDeleteAction
+    darvin_admin.crud.action.copy.class:         Darvin\AdminBundle\Controller\Crud\Action\CopyAction
+    darvin_admin.crud.action.delete.class:       Darvin\AdminBundle\Controller\Crud\Action\DeleteAction
+    darvin_admin.crud.action.edit.class:         Darvin\AdminBundle\Controller\Crud\Action\EditAction
+    darvin_admin.crud.action.index.class:        Darvin\AdminBundle\Controller\Crud\Action\IndexAction
+    darvin_admin.crud.action.new.class:          Darvin\AdminBundle\Controller\Crud\Action\NewAction
+    darvin_admin.crud.action.show.class:         Darvin\AdminBundle\Controller\Crud\Action\ShowAction
 
     darvin_admin.crud.controller.class: Darvin\AdminBundle\Controller\Crud\CrudController
 
@@ -27,6 +28,15 @@ services:
             - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]
             - [ setTemplating,           [ '@templating' ] ]
             - [ setUserManager,          [ '@darvin_user.user.manager' ] ]
+
+    darvin_admin.crud.action.batch_delete:
+        class:  '%darvin_admin.crud.action.batch_delete.class%'
+        parent: darvin_admin.crud.action.abstract
+        public: false
+        arguments:
+            - '@darvin_admin.form.handler'
+        tags:
+            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.copy:
         class:  '%darvin_admin.crud.action.copy.class%'

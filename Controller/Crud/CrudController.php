@@ -15,16 +15,12 @@ use Darvin\AdminBundle\Controller\Crud\Action\ActionInterface;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
-use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Form\FormHandler;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
 use Darvin\Utils\Strings\StringsUtil;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -215,44 +211,10 @@ class CrudController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \RuntimeException
      */
-    public function batchDeleteAction(Request $request)
+    public function batchDeleteAction(Request $request): Response
     {
-        $this->checkPermission(Permission::CREATE_DELETE);
-
-        $this->getParentEntityDefinition($request);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
-
-        $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
-        $entities = $form->get('entities')->getData();
-
-        if ($entities instanceof Collection) {
-            $entities = $entities->toArray();
-        }
-        if (empty($entities)) {
-            throw new \RuntimeException(
-                sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)
-            );
-        }
-        if ($this->getFormHandler()->handleBatchDeleteForm($form, $entities)) {
-            $eventDispatcher = $this->getEventDispatcher();
-            $user            = $this->getUser();
-
-            foreach ($entities as $entity) {
-                $eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $user, $entity));
-            }
-
-            return $this->redirect($this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX));
-        }
-
-        $url = $request->headers->get(
-            'referer',
-            $this->getAdminRouter()->generate(reset($entities), $this->entityClass, AdminRouterInterface::TYPE_INDEX)
-        );
-
-        return $this->redirect($url);
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -292,34 +254,6 @@ class CrudController extends Controller
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
-     * @return array
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    private function getParentEntityDefinition(Request $request): array
-    {
-        if (!$this->meta->hasParent()) {
-            return array_fill(0, 4, null);
-        }
-
-        $associationParam = $this->meta->getParent()->getAssociationParameterName();
-
-        $id = $request->query->get($associationParam);
-
-        if (empty($id)) {
-            throw $this->createNotFoundException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
-        }
-
-        return [
-            $this->findEntity($id, $this->meta->getParent()->getMetadata()->getEntityClass()),
-            $this->meta->getParent()->getAssociation(),
-            $associationParam,
-            $id,
-        ];
-    }
-
-    /**
      * @param string $name Name
      * @param array  $args Arguments
      *
@@ -348,12 +282,6 @@ class CrudController extends Controller
         return $this->get('darvin_admin.form.factory');
     }
 
-    /** @return \Darvin\AdminBundle\Route\AdminRouterInterface */
-    private function getAdminRouter(): AdminRouterInterface
-    {
-        return $this->get('darvin_admin.router');
-    }
-
     /** @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer */
     private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
     {
@@ -370,12 +298,6 @@ class CrudController extends Controller
     private function getEventDispatcher(): EventDispatcherInterface
     {
         return $this->get('event_dispatcher');
-    }
-
-    /** @return \Darvin\AdminBundle\Form\FormHandler */
-    private function getFormHandler(): FormHandler
-    {
-        return $this->get('darvin_admin.form.handler');
     }
 
     /** @return \Symfony\Component\Translation\TranslatorInterface */

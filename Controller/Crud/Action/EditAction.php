@@ -79,14 +79,7 @@ class EditAction extends AbstractAction
         $redirectUrl = $this->successRedirect($form, $entity);
 
         if ($request->isXmlHttpRequest()) {
-            $html = null;
-
-            if ($redirectUrl === $request->getRequestUri()) {
-                $html        = $this->renderEditTemplate($entity, $form, $parentEntity, true);
-                $redirectUrl = null;
-            }
-
-            return new AjaxResponse($html, true, $message, [], $redirectUrl);
+            return new AjaxResponse(null, true, $message, [], $redirectUrl);
         }
 
         $this->flashNotifier->success($message);

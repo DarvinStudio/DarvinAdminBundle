@@ -32,7 +32,7 @@
     {% endif %}
     <div class="edit_container">
         {{ form_errors(form) }}
-        {{ form_start(form, {'attr': {'class': 'js-ajax', 'data-reload-page': is_widget ? 1 : 0, 'data-target': '#js-content'}}) }}
+        {{ form_start(form, {'attr': {'class': 'js-ajax', 'data-target': '#js-content', 'data-reload-page': 1}}) }}
         {% if not is_widget %}
             <div class="table_view_content">
                 {{ submit }}

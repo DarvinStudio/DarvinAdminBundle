@@ -28,11 +28,7 @@ $(() => {
         .on('click', SELECTORS.form + ' [type="submit"][name]', (e) => {
             let $submit = $(e.currentTarget);
 
-            let $form = $submit.closest(SELECTORS.form);
-
-            $form.children('input[type="hidden"].js-form-submit').remove();
-
-            $form.append('<input name="' + $submit.attr('name') + '" type="hidden" class="js-form-submit">');
+            $submit.closest(SELECTORS.form).append('<input name="' + $submit.attr('name') + '" type="hidden">');
         })
         .on('submit', SELECTORS.form, (e) => {
             e.preventDefault();

@@ -23,10 +23,6 @@ use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
-use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
-use Darvin\AdminBundle\View\Widget\WidgetPool;
-use Darvin\Utils\Flash\FlashNotifierInterface;
-use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
@@ -208,54 +204,11 @@ class CrudController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      * @param int                                       $id      Entity ID
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Request $request, $id): Response
     {
-        $this->checkPermission(Permission::CREATE_DELETE);
-
-        $this->getParentEntityDefinition($request);
-
-        $entity = $this->findEntity($id);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
-
-        $form        = $this->getAdminFormFactory()->createDeleteForm($entity, $this->entityClass)->handleRequest($request);
-        $redirectUrl = $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_INDEX);
-        $referer     = $request->headers->get('referer');
-
-        if (!empty($referer) && parse_url($referer, PHP_URL_PATH) === $redirectUrl) {
-            $redirectUrl = $referer;
-        }
-        if (!$form->isValid()) {
-            $message = implode(PHP_EOL, array_map(function (FormError $error) {
-                return $error->getMessage();
-            }, iterator_to_array($form->getErrors(true))));
-
-            if ($request->isXmlHttpRequest()) {
-                return new AjaxResponse($this->getViewWidgetPool()->getWidget(DeleteFormWidget::ALIAS)->getContent($entity), false, $message);
-            }
-
-            $this->getFlashNotifier()->error($message);
-
-            return $this->redirect($redirectUrl);
-        }
-
-        $em = $this->getEntityManager();
-        $em->remove($entity);
-        $em->flush();
-
-        $this->getEventDispatcher()->dispatch(CrudEvents::DELETED, new DeletedEvent($this->meta, $this->getUser(), $entity));
-
-        $message = sprintf('%saction.delete.success', $this->meta->getBaseTranslationPrefix());
-
-        if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse(null, true, $message, [], $redirectUrl);
-        }
-
-        $this->getFlashNotifier()->success($message);
-
-        return $this->redirect($redirectUrl);
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -419,12 +372,6 @@ class CrudController extends Controller
         return $this->get('event_dispatcher');
     }
 
-    /** @return \Darvin\Utils\Flash\FlashNotifierInterface */
-    private function getFlashNotifier(): FlashNotifierInterface
-    {
-        return $this->get('darvin_utils.flash.notifier');
-    }
-
     /** @return \Darvin\AdminBundle\Form\FormHandler */
     private function getFormHandler(): FormHandler
     {
@@ -435,11 +382,5 @@ class CrudController extends Controller
     private function getTranslator(): TranslatorInterface
     {
         return $this->get('translator');
-    }
-
-    /** @return \Darvin\AdminBundle\View\Widget\WidgetPool */
-    private function getViewWidgetPool(): WidgetPool
-    {
-        return $this->get('darvin_admin.view.widget.pool');
     }
 }

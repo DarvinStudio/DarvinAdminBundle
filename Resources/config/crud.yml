@@ -2,6 +2,7 @@ parameters:
     darvin_admin.crud.action.abstract.class: Darvin\AdminBundle\Controller\Crud\Action\AbstractAction
 
     darvin_admin.crud.action.index.class: Darvin\AdminBundle\Controller\Crud\Action\IndexAction
+    darvin_admin.crud.action.new.class:   Darvin\AdminBundle\Controller\Crud\Action\NewAction
     darvin_admin.crud.action.show.class:  Darvin\AdminBundle\Controller\Crud\Action\ShowAction
 
     darvin_admin.crud.controller.class: Darvin\AdminBundle\Controller\Crud\CrudController
@@ -20,6 +21,7 @@ services:
             - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
             - [ setEntityManager,        [ '@doctrine.orm.entity_manager' ] ]
             - [ setEventDispatcher,      [ '@event_dispatcher' ] ]
+            - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]
             - [ setTemplating,           [ '@templating' ] ]
             - [ setUserManager,          [ '@darvin_user.user.manager' ] ]
 
@@ -37,6 +39,19 @@ services:
             - '@darvin_content.sorting.sorted_by_entity_joiner'
             - '@darvin_content.translatable.translation_joiner'
             - '@darvin_utils.user.query_builder_filterer'
+        tags:
+            - { name: darvin_admin.crud.action }
+
+    darvin_admin.crud.action.new:
+        class:  '%darvin_admin.crud.action.new.class%'
+        parent: darvin_admin.crud.action.abstract
+        public: false
+        arguments:
+            - '@darvin_admin.form.handler.new_action_filter'
+            - '@property_accessor'
+            - '@darvin_content.translatable.translations_initializer'
+            - '@darvin_content.translatable.translation_joiner'
+            - '%darvin_admin.locales%'
         tags:
             - { name: darvin_admin.crud.action }
 

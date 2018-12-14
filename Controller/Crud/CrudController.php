@@ -15,21 +15,17 @@ use Darvin\AdminBundle\Controller\Crud\Action\ActionInterface;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CopiedEvent;
-use Darvin\AdminBundle\Event\Crud\CreatedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Form\FormHandler;
-use Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
-use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
-use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
@@ -45,7 +41,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -118,72 +113,7 @@ class CrudController extends Controller
      */
     public function newAction(Request $request, bool $widget = false): Response
     {
-        if ((bool)$request->query->get('widget')) {
-            $widget = true;
-        }
-
-        $this->checkPermission(Permission::CREATE_DELETE);
-
-        list($parentEntity, $association) = $this->getParentEntityDefinition($request);
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__));
-
-        $entityClass = $this->entityClass;
-
-        $entity = new $entityClass();
-
-        if ($this->meta->hasParent()) {
-            $this->getPropertyAccessor()->setValue($entity, $association, $parentEntity);
-        }
-        if ($this->getTranslationJoiner()->isTranslatable($entityClass)) {
-            $this->getTranslationsInitializer()->initializeTranslations($entity, $this->getParameter('darvin_admin.locales'));
-        }
-
-        $this->getNewActionFilterFormHandler()->handleForm($entity, $request);
-
-        $form = $this->getAdminFormFactory()->createEntityForm(
-            $this->meta,
-            $entity,
-            'new',
-            $this->getAdminRouter()->generate($entity, $entityClass, AdminRouterInterface::TYPE_NEW, [
-                'widget' => $widget,
-            ]),
-            $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getEntityFormSubmitButtons()
-        )->handleRequest($request);
-
-        if (!$form->isSubmitted()) {
-            return new Response($this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest()));
-        }
-        if (!$form->isValid()) {
-            if (!$request->isXmlHttpRequest()) {
-                $this->getFlashNotifier()->formError();
-            }
-
-            $html = $this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest());
-
-            if ($request->isXmlHttpRequest()) {
-                return new AjaxResponse($html, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
-            }
-
-            return new Response($html);
-        }
-
-        $em = $this->getEntityManager();
-        $em->persist($entity);
-        $em->flush();
-
-        $this->getEventDispatcher()->dispatch(CrudEvents::CREATED, new CreatedEvent($this->meta, $this->getUser(), $entity));
-
-        $message     = sprintf('%saction.new.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->successRedirect($form, $entity);
-
-        if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse(null, true, $message, [], $redirectUrl);
-        }
-
-        $this->getFlashNotifier()->success($message);
-
-        return $this->redirect($redirectUrl);
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -556,28 +486,6 @@ class CrudController extends Controller
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form         Entity form
-     * @param object|null                           $parentEntity Parent entity
-     * @param bool                                  $widget       Is widget
-     * @param bool                                  $partial      Whether to render partial
-     *
-     * @return string
-     */
-    private function renderNewTemplate(FormInterface $form, $parentEntity, bool $widget, bool $partial = false): string
-    {
-        if ($widget) {
-            $partial = true;
-        }
-
-        return $this->renderTemplate('new', [
-            'form'          => $form->createView(),
-            'is_widget'     => $widget,
-            'meta'          => $this->meta,
-            'parent_entity' => $parentEntity,
-        ], $partial);
-    }
-
-    /**
      * @param string $type    Template type
      * @param array  $params  Template parameters
      * @param bool   $partial Whether to render partial
@@ -681,34 +589,10 @@ class CrudController extends Controller
         return $this->get('darvin_admin.form.handler');
     }
 
-    /** @return \Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler */
-    private function getNewActionFilterFormHandler(): NewActionFilterFormHandler
-    {
-        return $this->get('darvin_admin.form.handler.new_action_filter');
-    }
-
-    /** @return \Symfony\Component\PropertyAccess\PropertyAccessorInterface */
-    private function getPropertyAccessor(): PropertyAccessorInterface
-    {
-        return $this->get('property_accessor');
-    }
-
-    /** @return \Darvin\ContentBundle\Translatable\TranslationJoinerInterface */
-    private function getTranslationJoiner(): TranslationJoinerInterface
-    {
-        return $this->get('darvin_content.translatable.translation_joiner');
-    }
-
     /** @return \Symfony\Component\Translation\TranslatorInterface */
     private function getTranslator(): TranslatorInterface
     {
         return $this->get('translator');
-    }
-
-    /** @return \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface */
-    private function getTranslationsInitializer(): TranslationsInitializerInterface
-    {
-        return $this->get('darvin_content.translatable.translations_initializer');
     }
 
     /** @return \Darvin\AdminBundle\View\Widget\WidgetPool */

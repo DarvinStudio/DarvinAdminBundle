@@ -34,8 +34,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class IndexAction extends AbstractAction
 {
-    private const TYPE = 'index';
-
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -214,7 +212,7 @@ class IndexAction extends AbstractAction
         $view = $this->entitiesToIndexViewTransformer->transform($this->meta, $entities);
 
         return new Response(
-            $this->renderTemplate(self::TYPE, [
+            $this->renderTemplate('index', [
                 'association_param' => $associationParam,
                 'batch_delete_form' => $batchDeleteForm,
                 'entity_count'      => $entityCount,

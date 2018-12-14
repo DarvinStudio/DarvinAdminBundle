@@ -14,8 +14,11 @@ use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\UserBundle\User\UserManagerInterface;
+use Darvin\Utils\Flash\FlashNotifierInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\ClickableInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -28,6 +31,12 @@ use Symfony\Component\Templating\EngineInterface;
 abstract class AbstractAction implements ActionInterface
 {
     private const RUN_METHOD = 'run';
+
+    private const SUBMIT_BUTTON_REDIRECTS = [
+        AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
+        AdminFormFactory::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
+        AdminFormFactory::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
+    ];
 
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactory
@@ -58,6 +67,11 @@ abstract class AbstractAction implements ActionInterface
      * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
      */
     protected $eventDispatcher;
+
+    /**
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    protected $flashNotifier;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
@@ -130,6 +144,14 @@ abstract class AbstractAction implements ActionInterface
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface $flashNotifier Flash notifier
+     */
+    public function setFlashNotifier(FlashNotifierInterface $flashNotifier): void
+    {
+        $this->flashNotifier = $flashNotifier;
     }
 
     /**
@@ -243,6 +265,22 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
+     * @return array
+     */
+    protected function getSubmitButtons(): array
+    {
+        $buttons = [];
+
+        foreach (self::SUBMIT_BUTTON_REDIRECTS as $button => $routeType) {
+            if ($this->adminRouter->exists($this->entityClass, $routeType)) {
+                $buttons[] = $button;
+            }
+        }
+
+        return $buttons;
+    }
+
+    /**
      * @param string $type    Template type
      * @param array  $params  Template parameters
      * @param bool   $partial Whether to render partial
@@ -262,5 +300,22 @@ abstract class AbstractAction implements ActionInterface
         }
 
         return $this->templating->render(sprintf('@DarvinAdmin/crud/%s.html.twig', $type), $params);
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormInterface $form   Form
+     * @param object                                $entity Entity
+     *
+     * @return string
+     */
+    protected function successRedirect(FormInterface $form, $entity): string
+    {
+        foreach ($form->all() as $name => $child) {
+            if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])) {
+                return $this->adminRouter->generate($entity, $this->entityClass, self::SUBMIT_BUTTON_REDIRECTS[$name]);
+            }
+        }
+
+        return $this->adminRouter->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT);
     }
 }

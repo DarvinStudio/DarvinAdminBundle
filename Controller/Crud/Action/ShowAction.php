@@ -24,8 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ShowAction extends AbstractAction
 {
-    private const TYPE = 'show';
-
     /**
      * @var \Darvin\Utils\CustomObject\CustomObjectLoaderInterface
      */
@@ -70,7 +68,7 @@ class ShowAction extends AbstractAction
         $view = $this->entityToShowViewTransformer->transform($this->meta, $entity);
 
         return new Response(
-            $this->renderTemplate(self::TYPE, [
+            $this->renderTemplate('show', [
                 'entity'        => $entity,
                 'meta'          => $this->meta,
                 'parent_entity' => $parentEntity,

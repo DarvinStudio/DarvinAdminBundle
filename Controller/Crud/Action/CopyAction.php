@@ -43,7 +43,7 @@ class CopyAction extends AbstractAction
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      * @param int                                       $id      Entity ID
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function run(Request $request, $id): Response
     {

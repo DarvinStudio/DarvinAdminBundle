@@ -32,9 +32,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,12 +44,6 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class CrudController extends Controller
 {
-    private const SUBMIT_BUTTON_REDIRECTS = [
-        AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
-        AdminFormFactory::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
-        AdminFormFactory::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
-    ];
-
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata
      */
@@ -133,62 +125,7 @@ class CrudController extends Controller
      */
     public function editAction(Request $request, $id): Response
     {
-        $this->checkPermission(Permission::EDIT);
-
-        list($parentEntity) = $this->getParentEntityDefinition($request);
-
-        $entity = $this->findEntity($id);
-
-        $entityBefore = clone $entity;
-
-        $this->getEventDispatcher()->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->meta, $this->getUser(), __FUNCTION__, $entity));
-
-        $form = $this->getAdminFormFactory()->createEntityForm(
-            $this->meta,
-            $entity,
-            'edit',
-            $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT),
-            $this->getEntityFormSubmitButtons()
-        )->handleRequest($request);
-
-        if (!$form->isSubmitted()) {
-            return new Response($this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest()));
-        }
-        if (!$form->isValid()) {
-            if (!$request->isXmlHttpRequest()) {
-                $this->getFlashNotifier()->formError();
-            }
-
-            $html = $this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest());
-
-            if ($request->isXmlHttpRequest()) {
-                return new AjaxResponse($html, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
-            }
-
-            return new Response($html);
-        }
-
-        $this->getEntityManager()->flush();
-
-        $this->getEventDispatcher()->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->meta, $this->getUser(), $entityBefore, $entity));
-
-        $message     = sprintf('%saction.edit.success', $this->meta->getBaseTranslationPrefix());
-        $redirectUrl = $this->successRedirect($form, $entity);
-
-        if ($request->isXmlHttpRequest()) {
-            $html = null;
-
-            if ($redirectUrl === $request->getRequestUri()) {
-                $html        = $this->renderEditTemplate($entity, $form, $parentEntity, true);
-                $redirectUrl = null;
-            }
-
-            return new AjaxResponse($html, true, $message, [], $redirectUrl);
-        }
-
-        $this->getFlashNotifier()->success($message);
-
-        return $this->redirect($redirectUrl);
+        return $this->action(__FUNCTION__, func_get_args());
     }
 
     /**
@@ -402,23 +339,6 @@ class CrudController extends Controller
     }
 
     /**
-     * @return array
-     */
-    private function getEntityFormSubmitButtons(): array
-    {
-        $buttons = [];
-        $router  = $this->getAdminRouter();
-
-        foreach (self::SUBMIT_BUTTON_REDIRECTS as $button => $routeType) {
-            if ($router->exists($this->entityClass, $routeType)) {
-                $buttons[] = $button;
-            }
-        }
-
-        return $buttons;
-    }
-
-    /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
      * @return array
@@ -444,63 +364,6 @@ class CrudController extends Controller
             $associationParam,
             $id,
         ];
-    }
-
-    /**
-     * @param object                                $entity       Entity
-     * @param \Symfony\Component\Form\FormInterface $form         Form
-     * @param object|null                           $parentEntity Parent entity
-     * @param bool                                  $partial      Whether to render partial
-     *
-     * @return string
-     */
-    private function renderEditTemplate($entity, FormInterface $form, $parentEntity, bool $partial = false): string
-    {
-        return $this->renderTemplate('edit', [
-            'entity'        => $entity,
-            'form'          => $form->createView(),
-            'meta'          => $this->meta,
-            'parent_entity' => $parentEntity,
-        ], $partial);
-    }
-
-    /**
-     * @param string $type    Template type
-     * @param array  $params  Template parameters
-     * @param bool   $partial Whether to render partial
-     *
-     * @return string
-     */
-    private function renderTemplate(string $type, array $params = [], bool $partial = false): string
-    {
-        $template = $this->configuration['view'][$type]['template'];
-
-        if ($partial) {
-            if (!empty($template)) {
-                return $this->renderView($template, $params);
-            }
-
-            $type = sprintf('_%s', $type);
-        }
-
-        return $this->renderView(sprintf('@DarvinAdmin/crud/%s.html.twig', $type), $params);
-    }
-
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form   Form
-     * @param object                                $entity Entity
-     *
-     * @return string
-     */
-    private function successRedirect(FormInterface $form, $entity): string
-    {
-        foreach ($form->all() as $name => $child) {
-            if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])) {
-                return $this->getAdminRouter()->generate($entity, $this->entityClass, self::SUBMIT_BUTTON_REDIRECTS[$name]);
-            }
-        }
-
-        return $this->getAdminRouter()->generate($entity, $this->entityClass, AdminRouterInterface::TYPE_EDIT);
     }
 
     /**

@@ -34,6 +34,7 @@ services:
             - '@darvin_utils.custom_object.loader'
             - '@darvin_admin.view.entity_transformer.index'
             - '@darvin_content.filterer'
+            - '@darvin_admin.crud.action.new'
             - '@knp_paginator'
             - '@darvin_admin.metadata.sort_criteria_detector'
             - '@darvin_content.sorting.sorted_by_entity_joiner'

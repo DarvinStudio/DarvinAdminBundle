@@ -55,6 +55,11 @@ class IndexAction extends AbstractAction
     private $filterer;
 
     /**
+     * @var \Darvin\AdminBundle\Controller\Crud\Action\NewAction
+     */
+    private $newAction;
+
+    /**
      * @var \Knp\Component\Pager\PaginatorInterface
      */
     private $paginator;
@@ -84,6 +89,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface        $customObjectLoader             Custom object loader
      * @param \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer Entities to index view transformer
      * @param \Darvin\ContentBundle\Filterer\FiltererInterface              $filterer                       Filterer
+     * @param \Darvin\AdminBundle\Controller\Crud\Action\NewAction          $newAction                      CRUD controller new action
      * @param \Knp\Component\Pager\PaginatorInterface                       $paginator                      Paginator
      * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector             $sortCriteriaDetector           Sort criteria detector
      * @param \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface   $sortedByEntityJoiner           Sorted by entity joiner
@@ -95,6 +101,7 @@ class IndexAction extends AbstractAction
         CustomObjectLoaderInterface $customObjectLoader,
         EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer,
         FiltererInterface $filterer,
+        NewAction $newAction,
         PaginatorInterface $paginator,
         SortCriteriaDetector $sortCriteriaDetector,
         SortedByEntityJoinerInterface $sortedByEntityJoiner,
@@ -105,11 +112,22 @@ class IndexAction extends AbstractAction
         $this->customObjectLoader = $customObjectLoader;
         $this->entitiesToIndexViewTransformer = $entitiesToIndexViewTransformer;
         $this->filterer = $filterer;
+        $this->newAction = $newAction;
         $this->paginator = $paginator;
         $this->sortCriteriaDetector = $sortCriteriaDetector;
         $this->sortedByEntityJoiner = $sortedByEntityJoiner;
         $this->translationJoiner = $translationJoiner;
         $this->userQueryBuilderFilterer = $userQueryBuilderFilterer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configure(ActionConfig $actionConfig): void
+    {
+        parent::configure($actionConfig);
+
+        $this->newAction->configure($actionConfig);
     }
 
     /**
@@ -206,7 +224,7 @@ class IndexAction extends AbstractAction
             $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->entityClass, $entities)->createView();
         }
         if ($this->config['index_view_new_form']) {
-            $newForm = $this->newAction($request, true)->getContent();
+            $newForm = $this->newAction->run($request, true)->getContent();
         }
 
         $view = $this->entitiesToIndexViewTransformer->transform($this->meta, $entities);

@@ -1,3 +1,9 @@
 {% extends '@DarvinAdmin/layout.html.twig' %}
 
-{% block content_wrap %}{% include '@DarvinAdmin/crud/_edit.html.twig' %}{% endblock %}
+{% block content_wrap %}
+    <div class="js-form">
+
+        {% include '@DarvinAdmin/crud/_edit.html.twig' %}
+
+    </div>
+{% endblock %}

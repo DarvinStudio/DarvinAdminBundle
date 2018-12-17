@@ -27,6 +27,7 @@ services:
             - [ setEntityManager,        [ '@doctrine.orm.entity_manager' ] ]
             - [ setEventDispatcher,      [ '@event_dispatcher' ] ]
             - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]
+            - [ setRequestStack,         [ '@request_stack' ] ]
             - [ setTemplating,           [ '@templating' ] ]
             - [ setUserManager,          [ '@darvin_user.user.manager' ] ]
 

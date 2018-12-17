@@ -16,7 +16,6 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Show\EntityToShowViewTransformer;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -45,18 +44,17 @@ class ShowAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request, $id): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::VIEW);
 
+        $request = $this->requestStack->getCurrentRequest();
+
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
-        $entity = $this->findEntity($id);
+        $entity = $this->findEntity($request->attributes->get('id'));
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 

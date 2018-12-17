@@ -20,7 +20,6 @@ use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -29,18 +28,17 @@ use Symfony\Component\HttpFoundation\Response;
 class EditAction extends AbstractAction
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request, $id): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::EDIT);
 
+        $request = $this->requestStack->getCurrentRequest();
+
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
-        $entity = $this->findEntity($id);
+        $entity = $this->findEntity($request->attributes->get('id'));
 
         $entityBefore = clone $entity;
 

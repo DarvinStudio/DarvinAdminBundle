@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Controller\Crud\Action\ActionConfig;
 use Darvin\AdminBundle\Controller\Crud\Action\ActionInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -41,109 +40,13 @@ class CrudController
     }
 
     /**
-     * @param \Darvin\AdminBundle\Controller\Crud\Action\ActionInterface $action Action
-     */
-    public function addAction(ActionInterface $action): void
-    {
-        $this->actions[$action->getName()] = $action;
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function index(Request $request): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param bool                                      $widget  Is widget
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function new(Request $request, bool $widget = false): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function copy(Request $request, $id): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function edit(Request $request, $id): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request  Request
-     * @param int                                       $id       Entity ID
-     * @param string                                    $property Property to update
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function updateProperty(Request $request, $id, string $property): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function show(Request $request, $id): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function delete(Request $request, $id): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function batchDelete(Request $request): Response
-    {
-        return $this->action(__FUNCTION__, func_get_args());
-    }
-
-    /**
-     * @param string $name Name
-     * @param array  $args Arguments
+     * @param string $name Action name
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \InvalidArgumentException
      * @throws \LogicException
      */
-    private function action(string $name, array $args): Response
+    public function __invoke(string $name): Response
     {
         if (!isset($this->actions[$name])) {
             throw new \InvalidArgumentException(sprintf('CRUD action "%s" does not exist.', $name));
@@ -157,6 +60,14 @@ class CrudController
 
         $action->configure(new ActionConfig($this->entityClass));
 
-        return $action(...$args);
+        return $action();
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Controller\Crud\Action\ActionInterface $action Action
+     */
+    public function addAction(ActionInterface $action): void
+    {
+        $this->actions[$action->getName()] = $action;
     }
 }

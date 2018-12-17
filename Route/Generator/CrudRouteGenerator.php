@@ -24,7 +24,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
-            '%s:updateProperty',
             [
                 'id'       => '\d+',
                 'property' => '\w+',
@@ -36,7 +35,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_COPY => [
             '%s_copy',
             '%s/{id}/copy',
-            '%s:copy',
             [
                 'id' => '\d+',
             ],
@@ -47,7 +45,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_DELETE => [
             '%s_delete',
             '%s/{id}/delete',
-            '%s:delete',
             [
                 'id' => '\d+',
             ],
@@ -58,7 +55,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_EDIT => [
             '%s_edit',
             '%s/{id}/edit',
-            '%s:edit',
             [
                 'id' => '\d+',
             ],
@@ -67,7 +63,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_SHOW => [
             '%s_show',
             '%s/{id}/show',
-            '%s:show',
             [
                 'id' => '\d+',
             ],
@@ -78,7 +73,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_BATCH_DELETE => [
             '%s_batch_delete',
             '%s/batch-delete',
-            '%s:batchDelete',
             [],
             [
                 'post',
@@ -87,14 +81,12 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_NEW => [
             '%s_new',
             '%s/new',
-            '%s:new',
             [],
             [],
         ],
         AdminRouterInterface::TYPE_INDEX => [
             '%s',
             '%s/',
-            '%s:index',
             [],
             [
                 'get',
@@ -118,16 +110,17 @@ class CrudRouteGenerator implements RouteGeneratorInterface
             $route = new Route(
                 sprintf($attr[1], str_replace('_', '-', $meta->getEntityName())),
                 [
-                    '_controller' => sprintf($attr[2], $meta->getControllerId()),
+                    '_controller' => $meta->getControllerId(),
+                    'name'        => $routeType,
                 ],
-                $attr[3],
+                $attr[2],
                 [
                     AdminRouterInterface::OPTION_ENTITY_CLASS => $entityClass,
                     AdminRouterInterface::OPTION_ROUTE_TYPE   => $routeType,
                 ],
                 '',
                 [],
-                $attr[4]
+                $attr[3]
             );
 
             $routes->add(sprintf($attr[0], $meta->getRoutingPrefix()), $route);

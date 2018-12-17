@@ -19,7 +19,6 @@ use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -50,20 +49,21 @@ class UpdatePropertyAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request  Request
-     * @param int                                       $id       Entity ID
-     * @param string                                    $property Property to update
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function __invoke(Request $request, $id, string $property): Response
+    public function __invoke(): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException('Only XMLHttpRequests are allowed.');
         }
 
         $this->checkPermission(Permission::EDIT);
+
+        $id       = $request->attributes->get('id');
+        $property = $request->attributes->get('property');
 
         $entity = $this->findEntity($id);
 

@@ -22,7 +22,6 @@ use Darvin\Utils\Cloner\ClonerInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -59,16 +58,15 @@ class CopyAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request, $id): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 
-        $entity = $this->findEntity($id);
+        $request = $this->requestStack->getCurrentRequest();
+
+        $entity = $this->findEntity($request->attributes->get('id'));
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 

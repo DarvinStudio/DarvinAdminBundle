@@ -21,7 +21,6 @@ use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -44,18 +43,17 @@ class DeleteAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param int                                       $id      Entity ID
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request, $id): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 
+        $request = $this->requestStack->getCurrentRequest();
+
         $this->getParentEntityDefinition($request);
 
-        $entity = $this->findEntity($id);
+        $entity = $this->findEntity($request->attributes->get('id'));
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 

@@ -24,7 +24,6 @@ use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -80,13 +79,14 @@ class NewAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param bool                                      $widget  Is widget
+     * @param bool $widget Is widget
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request, bool $widget = false): Response
+    public function __invoke(bool $widget = false): Response
     {
+        $request = $this->requestStack->getCurrentRequest();
+
         if ($request->query->get('widget')) {
             $widget = true;
         }

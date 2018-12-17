@@ -20,7 +20,6 @@ use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -30,14 +29,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class BatchDeleteAction extends AbstractAction
 {
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \RuntimeException
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
+
+        $request = $this->requestStack->getCurrentRequest();
 
         $this->getParentEntityDefinition($request);
 

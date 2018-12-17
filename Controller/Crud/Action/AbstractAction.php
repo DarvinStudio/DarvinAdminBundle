@@ -16,11 +16,13 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\UserBundle\User\UserManagerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
+use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -71,6 +73,11 @@ abstract class AbstractAction implements ActionInterface
      * @var \Darvin\Utils\Flash\FlashNotifierInterface
      */
     protected $flashNotifier;
+
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    protected $requestStack;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
@@ -159,6 +166,14 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
+     * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack Request stack
+     */
+    public function setRequestStack(RequestStack $requestStack): void
+    {
+        $this->requestStack = $requestStack;
+    }
+
+    /**
      * @param \Symfony\Component\Templating\EngineInterface $templating Templating
      */
     public function setTemplating(EngineInterface $templating): void
@@ -192,7 +207,7 @@ abstract class AbstractAction implements ActionInterface
     public function getName(): string
     {
         if (null === $this->name) {
-            $this->name = lcfirst(preg_replace('/^.*\\\|Action$/', '', get_class($this)));
+            $this->name = str_replace('_', '-', StringsUtil::toUnderscore(preg_replace('/^.*\\\|Action$/', '', get_class($this))));
         }
 
         return $this->name;

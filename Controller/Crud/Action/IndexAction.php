@@ -26,7 +26,6 @@ use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -131,13 +130,13 @@ class IndexAction extends AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request $request Request
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::VIEW);
+
+        $request = $this->requestStack->getCurrentRequest();
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
@@ -228,7 +227,7 @@ class IndexAction extends AbstractAction
         if ($config['index_view_new_form']) {
             $newAction = $this->newAction;
 
-            $newForm = $newAction($request, true)->getContent();
+            $newForm = $newAction(true)->getContent();
         }
 
         $view = $this->entitiesToIndexViewTransformer->transform($this->getMeta(), $entities);

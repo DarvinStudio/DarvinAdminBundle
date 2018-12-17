@@ -48,6 +48,8 @@ class ShowAction extends AbstractAction
      */
     public function __invoke(): Response
     {
+        $this->configure();
+
         $this->checkPermission(Permission::VIEW);
 
         $request = $this->requestStack->getCurrentRequest();

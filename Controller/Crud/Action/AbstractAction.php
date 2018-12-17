@@ -31,7 +31,7 @@ use Symfony\Component\Templating\EngineInterface;
 /**
  * CRUD controller action abstract implementation
  */
-abstract class AbstractAction implements ActionInterface
+abstract class AbstractAction
 {
     private const SUBMIT_BUTTON_REDIRECTS = [
         AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
@@ -189,12 +189,9 @@ abstract class AbstractAction implements ActionInterface
         $this->userManager = $userManager;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function configure(ActionConfig $actionConfig): void
+    protected function configure(): void
     {
-        $this->entityClass = $actionConfig->getEntityClass();
+        $this->entityClass = $this->requestStack->getCurrentRequest()->attributes->get('_darvin_admin_entity');
 
         $this->meta = $this->adminMetadataManager->getMetadata($this->entityClass);
 
@@ -202,12 +199,12 @@ abstract class AbstractAction implements ActionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    public function getName(): string
+    protected function getName(): string
     {
         if (null === $this->name) {
-            $this->name = str_replace('_', '-', StringsUtil::toUnderscore(preg_replace('/^.*\\\|Action$/', '', get_class($this))));
+            $this->name = StringsUtil::toUnderscore(preg_replace('/^.*\\\|Action$/', '', get_class($this)));
         }
 
         return $this->name;

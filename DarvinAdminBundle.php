@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
-use Darvin\AdminBundle\DependencyInjection\Compiler\CreateControllersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateSecurityConfigurationsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
@@ -39,7 +38,6 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new AddDashboardWidgetsPass())
             ->addCompilerPass(new AddMenuItemFactoriesPass())
             ->addCompilerPass(new AddViewWidgetsPass())
-            ->addCompilerPass(new CreateControllersPass())
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
             ->addCompilerPass(new ReplaceFormObjectInfoPass())

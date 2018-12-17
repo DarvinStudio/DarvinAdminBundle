@@ -34,6 +34,8 @@ class BatchDeleteAction extends AbstractAction
      */
     public function __invoke(): Response
     {
+        $this->configure();
+
         $this->checkPermission(Permission::CREATE_DELETE);
 
         $request = $this->requestStack->getCurrentRequest();

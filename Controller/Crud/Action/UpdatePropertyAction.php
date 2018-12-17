@@ -54,6 +54,8 @@ class UpdatePropertyAction extends AbstractAction
      */
     public function __invoke(): Response
     {
+        $this->configure();
+
         $request = $this->requestStack->getCurrentRequest();
 
         if (!$request->isXmlHttpRequest()) {

@@ -85,6 +85,8 @@ class NewAction extends AbstractAction
      */
     public function __invoke(bool $widget = false): Response
     {
+        $this->configure();
+
         $request = $this->requestStack->getCurrentRequest();
 
         if ($request->query->get('widget')) {

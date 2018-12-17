@@ -120,20 +120,12 @@ class IndexAction extends AbstractAction
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function configure(ActionConfig $actionConfig): void
-    {
-        parent::configure($actionConfig);
-
-        $this->newAction->configure($actionConfig);
-    }
-
-    /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function __invoke(): Response
     {
+        $this->configure();
+
         $this->checkPermission(Permission::VIEW);
 
         $request = $this->requestStack->getCurrentRequest();

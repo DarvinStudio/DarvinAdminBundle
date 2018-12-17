@@ -32,6 +32,8 @@ class EditAction extends AbstractAction
      */
     public function __invoke(): Response
     {
+        $this->configure();
+
         $this->checkPermission(Permission::EDIT);
 
         $request = $this->requestStack->getCurrentRequest();

@@ -1,4 +1,4 @@
-$(() => {
+(() => {
     const CLASSES = {
         changed:   'js-slug-changed',
         edit:      'js-slug-edit',
@@ -120,4 +120,4 @@ $(() => {
         .on('click', SELECTORS.widget + SELECTORS.changed + ' ' + SELECTORS.link + ' a', (e) => {
             e.preventDefault();
         });
-});
+})();

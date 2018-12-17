@@ -1,4 +1,4 @@
-$(() => {
+(() => {
     const CLASSES = [
         '',
         'checked',
@@ -40,4 +40,4 @@ $(() => {
 
         check($checkbox, index);
     });
-});
+})();

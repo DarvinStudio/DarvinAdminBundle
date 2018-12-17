@@ -1,4 +1,4 @@
-$(() => {
+(() => {
     const SELECTORS = {
         form: 'form.js-form'
     };
@@ -123,4 +123,4 @@ $(() => {
                 $form.removeData('submitted');
             }).fail(App.onAjaxFail);
     });
-});
+})();

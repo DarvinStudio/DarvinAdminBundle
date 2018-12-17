@@ -1,12 +1,5 @@
-$(() => {
+(() => {
     const SCROLL_SPEED = -1 !== navigator.userAgent.indexOf('Firefox') ? 10 : 1;
-    const OPTIONS      = {
-        allow_single_deselect:     true,
-        no_results_text:           Translator.trans('chosen.no_results_text'),
-        placeholder_text_multiple: Translator.trans('chosen.placeholder_text_multiple'),
-        placeholder_text_single:   Translator.trans('chosen.placeholder_text_single'),
-        search_contains:           true
-    };
 
     // It must be the "function" to get proper "this"!
     const searchResultsMousewheel = function (e) {
@@ -25,9 +18,17 @@ $(() => {
     };
 
     const init = (context) => {
+        let options = {
+            allow_single_deselect:     true,
+            no_results_text:           Translator.trans('chosen.no_results_text'),
+            placeholder_text_multiple: Translator.trans('chosen.placeholder_text_multiple'),
+            placeholder_text_single:   Translator.trans('chosen.placeholder_text_single'),
+            search_contains:           true
+        };
+
         $(context).find('select:visible').each((i, select) => {
             $(select)
-                .chosen(OPTIONS)
+                .chosen(options)
                 .change((e) => {
                     $(e.currentTarget).trigger('chosen:updated');
                 })
@@ -42,4 +43,4 @@ $(() => {
         .on('app.spoiler.open', (e, args) => {
             init(args.$spoiler);
         });
-});
+})();

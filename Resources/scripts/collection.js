@@ -1,4 +1,4 @@
-$(() => {
+(() => {
     class Collection {
         constructor(collection) {
             this.$collection = $(collection);
@@ -112,4 +112,4 @@ $(() => {
             }
         });
     });
-});
+})();

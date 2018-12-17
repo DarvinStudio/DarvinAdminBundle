@@ -1,4 +1,4 @@
-$(() => {
+(() => {
     const SELECTORS = {
         container: '.js-property-forms:first',
         form:      'form.js-property',
@@ -88,4 +88,4 @@ $(() => {
                     .trigger('submit');
             });
         });
-});
+})();

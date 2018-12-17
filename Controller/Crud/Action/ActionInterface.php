@@ -23,10 +23,5 @@ interface ActionInterface
     /**
      * @return string
      */
-    public function getRunMethod(): string;
-
-    /**
-     * @return string
-     */
     public function getName(): string;
 }

@@ -64,7 +64,7 @@ class CopyAction extends AbstractAction
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function run(Request $request, $id): Response
+    public function __invoke(Request $request, $id): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 

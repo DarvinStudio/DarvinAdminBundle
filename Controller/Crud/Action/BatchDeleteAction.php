@@ -35,7 +35,7 @@ class BatchDeleteAction extends AbstractAction
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \RuntimeException
      */
-    public function run(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $this->checkPermission(Permission::CREATE_DELETE);
 

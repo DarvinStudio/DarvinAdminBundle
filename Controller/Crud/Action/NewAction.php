@@ -85,7 +85,7 @@ class NewAction extends AbstractAction
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function run(Request $request, bool $widget = false): Response
+    public function __invoke(Request $request, bool $widget = false): Response
     {
         if ($request->query->get('widget')) {
             $widget = true;

@@ -135,7 +135,7 @@ class IndexAction extends AbstractAction
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function run(Request $request): Response
+    public function __invoke(Request $request): Response
     {
         $this->checkPermission(Permission::VIEW);
 
@@ -226,7 +226,9 @@ class IndexAction extends AbstractAction
             $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $entities)->createView();
         }
         if ($config['index_view_new_form']) {
-            $newForm = $this->newAction->run($request, true)->getContent();
+            $newAction = $this->newAction;
+
+            $newForm = $newAction($request, true)->getContent();
         }
 
         $view = $this->entitiesToIndexViewTransformer->transform($this->getMeta(), $entities);

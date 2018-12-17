@@ -31,8 +31,6 @@ use Symfony\Component\Templating\EngineInterface;
  */
 abstract class AbstractAction implements ActionInterface
 {
-    private const RUN_METHOD = 'run';
-
     private const SUBMIT_BUTTON_REDIRECTS = [
         AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
         AdminFormFactory::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
@@ -186,14 +184,6 @@ abstract class AbstractAction implements ActionInterface
         $this->meta = $this->adminMetadataManager->getMetadata($this->entityClass);
 
         $this->config = $this->meta->getConfiguration();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRunMethod(): string
-    {
-        return self::RUN_METHOD;
     }
 
     /**

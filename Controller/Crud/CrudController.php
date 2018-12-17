@@ -141,6 +141,7 @@ class CrudController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
     private function action(string $name, array $args): Response
     {
@@ -149,8 +150,13 @@ class CrudController
         }
 
         $action = $this->actions[$name];
+
+        if (!is_callable($action)) {
+            throw new \LogicException(sprintf('CRUD action class "%s" is not callable.', get_class($action)));
+        }
+
         $action->configure(new ActionConfig($this->entityClass));
 
-        return $action->{$action->getRunMethod()}(...$args);
+        return $action(...$args);
     }
 }

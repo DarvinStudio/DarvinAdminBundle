@@ -57,7 +57,7 @@ class UpdatePropertyAction extends AbstractAction
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
      */
-    public function run(Request $request, $id, string $property): Response
+    public function __invoke(Request $request, $id, string $property): Response
     {
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException('Only XMLHttpRequests are allowed.');

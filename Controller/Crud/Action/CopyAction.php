@@ -99,7 +99,7 @@ class CopyAction extends AbstractAction
 
                 /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
                 foreach ($violations as $violation) {
-                    $parts[] = sprintf('%s: %s', $violation->getInvalidValue(), $violation->getMessage());
+                    $parts[] = sprintf('%s: %s', $violation->getPropertyPath(), $violation->getMessage());
                 }
 
                 $message = implode(PHP_EOL, $parts);
@@ -113,6 +113,10 @@ class CopyAction extends AbstractAction
         }
         if ($request->isXmlHttpRequest()) {
             $html = $success ? null : $this->viewWidgetPool->getWidget(CopyFormWidget::ALIAS)->getContent($entity);
+
+            if (!empty($html)) {
+                $redirectUrl = null;
+            }
 
             return new AjaxResponse($html, $success, $message, [], $redirectUrl);
         }

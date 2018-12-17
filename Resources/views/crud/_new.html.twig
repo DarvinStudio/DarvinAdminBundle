@@ -1,15 +1,23 @@
+{% set content = include('@DarvinAdmin/crud/_form.html.twig', {'view_type': 'new'}) %}
+
 <div class="js-form-container">
-    {% embed '@DarvinAdmin/content.html.twig' %}
+    {% if is_widget %}
+        {{ content|raw }}
+    {% else %}
 
-        {% trans_default_domain 'admin' %}
+        {% embed '@DarvinAdmin/content.html.twig' %}
 
-        {% set heading = (meta.baseTranslationPrefix ~ 'action.new.title')|trans %}
+            {% trans_default_domain 'admin' %}
 
-        {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
+            {% set heading = (meta.baseTranslationPrefix ~ 'action.new.title')|trans %}
 
-        {% block heading %}{{ heading }}{% endblock %}
+            {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
 
-        {% block content %}{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'new'} %}{% endblock %}
+            {% block heading %}{{ heading }}{% endblock %}
 
-    {% endembed %}
+            {% block content %}{{ content|raw }}{% endblock %}
+
+        {% endembed %}
+
+    {% endif %}
 </div>

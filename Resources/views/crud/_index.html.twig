@@ -112,15 +112,12 @@
             {{ pagination_rendered|raw }}
             {% if batch_delete_form %}
                 <div>
-                    <label for="batch_delete_check_all_{{ meta.entityName }}">
-                        <input type="checkbox"
-                               id="batch_delete_check_all_{{ meta.entityName }}"
-                               class="batch_delete_check_all"
-                               autocomplete="off">
+                    <label>
+                        <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">
                         {% trans %}crud.action.batch_delete.select_all{% endtrans %}
                     </label>
                     {{ form_start(batch_delete_form, {'attr': {
-                        'class':            'batch_delete_form js-form',
+                        'class':            'js-form js-batch-delete',
                         'data-reload-page': 1,
                         'onsubmit':         'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
                         'autocomplete':     'off',

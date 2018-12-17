@@ -3,8 +3,6 @@ parameters:
 
     darvin_admin.form.factory.class: Darvin\AdminBundle\Form\AdminFormFactory
 
-    darvin_admin.form.handler.class: Darvin\AdminBundle\Form\FormHandler
-
     darvin_admin.form.handler.new_action_filter.class: Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler
     
     darvin_admin.form.manipulator.class: Darvin\AdminBundle\Form\Manipulator
@@ -36,15 +34,6 @@ services:
             - '@form.factory'
             - '@darvin_admin.metadata.identifier_accessor'
             - '@property_accessor'
-
-    darvin_admin.form.handler:
-        class: '%darvin_admin.form.handler.class%'
-        arguments:
-            - '@darvin_utils.cloner'
-            - '@doctrine.orm.entity_manager'
-            - '@darvin_utils.flash.notifier'
-            - '@darvin_admin.metadata.manager'
-            - '@validator'
 
     darvin_admin.form.handler.new_action_filter:
         class: '%darvin_admin.form.handler.new_action_filter.class%'

@@ -57,11 +57,9 @@ class BatchDeleteAction extends AbstractAction
         }
 
         $redirectUrl = $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $referer     = $request->headers->get('referer');
 
-        if (empty($referer)) {
-            $referer = $redirectUrl;
-        }
+        $referer = $request->headers->get('referer', $redirectUrl);
+
         if (!$form->isValid()) {
             $message = implode(PHP_EOL, array_map(function (FormError $error) {
                 return $error->getMessage();

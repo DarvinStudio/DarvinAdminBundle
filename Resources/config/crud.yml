@@ -42,7 +42,9 @@ services:
         parent: darvin_admin.crud.action.abstract
         public: false
         arguments:
-            - '@darvin_admin.form.handler'
+            - '@darvin_utils.cloner'
+            - '@validator'
+            - '@darvin_admin.view.widget.pool'
         tags:
             - { name: darvin_admin.crud.action }
 

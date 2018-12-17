@@ -1,4 +1,4 @@
-{% extends '@DarvinAdmin/_content.html.twig' %}
+{% extends '@DarvinAdmin/content.html.twig' %}
 
 {% trans_default_domain 'admin' %}
 
@@ -53,7 +53,7 @@
                      data-cookie="DARVINADMINFILTER"
                      {% if not app.request.cookies.get('DARVINADMINFILTER') %}style="display: none;"{% endif %}>
                     <div class="filter_table container-fluid">
-                        {{ form_start(filter_form, {'attr': {'class': 'js-ajax'}}) }}
+                        {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                         {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
                             {{ form_row(filter_form[field]) }}
                         {% endfor %}

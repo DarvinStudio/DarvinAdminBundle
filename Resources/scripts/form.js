@@ -1,6 +1,6 @@
 $(() => {
     const SELECTORS = {
-        form: 'form.js-ajax'
+        form: 'form.js-form'
     };
 
     const replaceContent = (html) => {

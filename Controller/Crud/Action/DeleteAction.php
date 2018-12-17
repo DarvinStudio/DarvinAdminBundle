@@ -23,6 +23,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * CRUD controller delete action
@@ -59,11 +60,11 @@ class DeleteAction extends AbstractAction
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
 
         $form        = $this->adminFormFactory->createDeleteForm($entity, $this->getEntityClass())->handleRequest($request);
-        $redirectUrl = $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX);
+        $redirectUrl = $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_URL);
         $referer     = $request->headers->get('referer');
 
-        if (!empty($referer) && parse_url($referer, PHP_URL_PATH) === $redirectUrl) {
-            $redirectUrl = $referer;
+        if (empty($referer)) {
+            $referer = $redirectUrl;
         }
         if (!$form->isValid()) {
             $message = implode(PHP_EOL, array_map(function (FormError $error) {
@@ -76,7 +77,7 @@ class DeleteAction extends AbstractAction
 
             $this->flashNotifier->error($message);
 
-            return new RedirectResponse($redirectUrl);
+            return new RedirectResponse($referer);
         }
 
         $this->em->remove($entity);
@@ -86,6 +87,9 @@ class DeleteAction extends AbstractAction
 
         $message = sprintf('%saction.delete.success', $this->getMeta()->getBaseTranslationPrefix());
 
+        if (parse_url($referer, PHP_URL_PATH) === parse_url($redirectUrl, PHP_URL_PATH)) {
+            $redirectUrl = $referer;
+        }
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse(null, true, $message, [], $redirectUrl);
         }

@@ -14,32 +14,21 @@ use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
-use Darvin\AdminBundle\Form\FormHandler;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * CRUD controller batch delete action
  */
 class BatchDeleteAction extends AbstractAction
 {
-    /**
-     * @var \Darvin\AdminBundle\Form\FormHandler
-     */
-    private $formHandler;
-
-    /**
-     * @param \Darvin\AdminBundle\Form\FormHandler $formHandler Form handler
-     */
-    public function __construct(FormHandler $formHandler)
-    {
-        $this->formHandler = $formHandler;
-    }
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      *
@@ -55,6 +44,7 @@ class BatchDeleteAction extends AbstractAction
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
         $form = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass())->handleRequest($request);
+
         $entities = $form->get('entities')->getData();
 
         if ($entities instanceof Collection) {
@@ -65,21 +55,49 @@ class BatchDeleteAction extends AbstractAction
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->getEntityClass())
             );
         }
-        if ($this->formHandler->handleBatchDeleteForm($form, $entities)) {
-            $user = $this->userManager->getCurrentUser();
 
-            foreach ($entities as $entity) {
-                $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getMeta(), $user, $entity));
+        $redirectUrl = $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $referer     = $request->headers->get('referer');
+
+        if (empty($referer)) {
+            $referer = $redirectUrl;
+        }
+        if (!$form->isValid()) {
+            $message = implode(PHP_EOL, array_map(function (FormError $error) {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
+
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse(null, false, $message, [], $referer);
             }
 
-            return new RedirectResponse($this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX));
+            $this->flashNotifier->error($message);
+
+            return new RedirectResponse($referer);
+        }
+        foreach ($entities as $entity) {
+            $this->em->remove($entity);
         }
 
-        $url = $request->headers->get(
-            'referer',
-            $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX)
-        );
+        $this->em->flush();
 
-        return new RedirectResponse($url);
+        $user = $this->userManager->getCurrentUser();
+
+        foreach ($entities as $entity) {
+            $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getMeta(), $user, $entity));
+        }
+
+        $message = 'crud.action.batch_delete.success';
+
+        if (parse_url($referer, PHP_URL_PATH) === parse_url($redirectUrl, PHP_URL_PATH)) {
+            $redirectUrl = $referer;
+        }
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse(null, true, $message, [], $redirectUrl);
+        }
+
+        $this->flashNotifier->success($message);
+
+        return new RedirectResponse($redirectUrl);
     }
 }

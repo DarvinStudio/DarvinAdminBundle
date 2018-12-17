@@ -120,9 +120,10 @@
                         {% trans %}crud.action.batch_delete.select_all{% endtrans %}
                     </label>
                     {{ form_start(batch_delete_form, {'attr': {
-                        'class':        'batch_delete_form',
-                        'onsubmit':     'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
-                        'autocomplete': 'off',
+                        'class':            'batch_delete_form js-form',
+                        'data-reload-page': 1,
+                        'onsubmit':         'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
+                        'autocomplete':     'off',
                     }}) }}
                     {{ form_widget(batch_delete_form) }}
                     <button type="submit" class="btn btn-danger btn-xs" style="display: none;">

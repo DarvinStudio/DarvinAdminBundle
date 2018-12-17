@@ -34,8 +34,6 @@ services:
         class:  '%darvin_admin.crud.action.batch_delete.class%'
         parent: darvin_admin.crud.action.abstract
         public: false
-        arguments:
-            - '@darvin_admin.form.handler'
         tags:
             - { name: darvin_admin.crud.action }
 

@@ -1,11 +1,15 @@
-{% extends '@DarvinAdmin/content.html.twig' %}
+<div class="js-form-container">
+    {% embed '@DarvinAdmin/content.html.twig' %}
 
-{% trans_default_domain 'admin' %}
+        {% trans_default_domain 'admin' %}
 
-{% set heading = (meta.baseTranslationPrefix ~ 'action.edit.title')|trans({'%entity%': entity|trans}) %}
+        {% set heading = (meta.baseTranslationPrefix ~ 'action.edit.title')|trans({'%entity%': entity|trans}) %}
 
-{% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
+        {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity, heading) }}{% endblock %}
 
-{% block heading %}{{ heading }}{% endblock %}
+        {% block heading %}{{ heading }}{% endblock %}
 
-{% block content %}{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'edit'} %}{% endblock %}
+        {% block content %}{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'edit'} %}{% endblock %}
+
+    {% endembed %}
+</div>

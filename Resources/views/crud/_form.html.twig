@@ -26,38 +26,36 @@
 {% set field_groups = meta.configuration.form[view_type].field_groups %}
 {% set submit       = this.submit(form) %}
 
-<div class="js-form-container">
-    {% if entity %}
-        {{ admin_widget_actions(entity, {'view_type': view_type}) }}
-    {% endif %}
-    <div class="edit_container">
-        {{ form_errors(form) }}
-        {{ form_start(form, {'attr': {'class': 'js-form', 'data-target': '.js-form-target', 'data-reload-page': 1}}) }}
-        {% if not is_widget %}
-            <div class="table_view_content">
-                {{ submit }}
-            </div>
-        {% endif %}
-        {% for name, fields in field_groups %}
-            <div class="edit_block spoiler_container">
-                <div class="edit_header spoiler_links">
-                    <div class="edit_header_name">
-                        <p>{{ (meta.baseTranslationPrefix ~ 'field_group.' ~ name)|trans }}</p>
-                    </div>
-                </div>
-                <div class="edit_content spoiler_body">
-                    <div class="table_view_content">
-                        {% for field, attr in fields if form[field] is defined %}
-                            {{ form_row(form[field]) }}
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+{% if entity %}
+    {{ admin_widget_actions(entity, {'view_type': view_type}) }}
+{% endif %}
+<div class="edit_container">
+    {{ form_errors(form) }}
+    {{ form_start(form, {'attr': {'class': 'js-form', 'data-target': '.js-form-container', 'data-reload-page': 1}}) }}
+    {% if not is_widget %}
         <div class="table_view_content">
-            {{ form_rest(form) }}
             {{ submit }}
         </div>
-        {{ form_end(form) }}
+    {% endif %}
+    {% for name, fields in field_groups %}
+        <div class="edit_block spoiler_container">
+            <div class="edit_header spoiler_links">
+                <div class="edit_header_name">
+                    <p>{{ (meta.baseTranslationPrefix ~ 'field_group.' ~ name)|trans }}</p>
+                </div>
+            </div>
+            <div class="edit_content spoiler_body">
+                <div class="table_view_content">
+                    {% for field, attr in fields if form[field] is defined %}
+                        {{ form_row(form[field]) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="table_view_content">
+        {{ form_rest(form) }}
+        {{ submit }}
     </div>
+    {{ form_end(form) }}
 </div>

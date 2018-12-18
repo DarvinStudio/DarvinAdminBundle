@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View;
+namespace Darvin\AdminBundle\View\Factory;
 
 use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
@@ -19,9 +19,9 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
- * Entity to view transformer abstract implementation
+ * View factory abstract implementation
  */
-abstract class AbstractEntityToViewTransformer
+abstract class AbstractViewFactory
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -49,31 +49,48 @@ abstract class AbstractEntityToViewTransformer
     protected $widgetPool;
 
     /**
-     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage
+     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage|null
      */
-    private $expressionLanguage;
+    private $expressionLanguage = null;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container             DI container
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager          $fieldBlacklistManager Field blacklist manager
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor      Property accessor
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface      $stringifier           Stringifier
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                  $widgetPool            View widget pool
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
      */
-    public function __construct(
-        ContainerInterface $container,
-        FieldBlacklistManager $fieldBlacklistManager,
-        PropertyAccessorInterface $propertyAccessor,
-        StringifierInterface $stringifier,
-        WidgetPool $widgetPool
-    ) {
+    public function setContainer(ContainerInterface $container): void
+    {
         $this->container = $container;
-        $this->fieldBlacklistManager = $fieldBlacklistManager;
-        $this->propertyAccessor = $propertyAccessor;
-        $this->stringifier = $stringifier;
-        $this->widgetPool = $widgetPool;
+    }
 
-        $this->expressionLanguage = new ExpressionLanguage();
+    /**
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager $fieldBlacklistManager Field blacklist manager
+     */
+    public function setFieldBlacklistManager(FieldBlacklistManager $fieldBlacklistManager): void
+    {
+        $this->fieldBlacklistManager = $fieldBlacklistManager;
+    }
+
+    /**
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     */
+    public function setPropertyAccessor(PropertyAccessorInterface $propertyAccessor): void
+    {
+        $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
+     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface $stringifier Stringifier
+     */
+    public function setStringifier(StringifierInterface $stringifier): void
+    {
+        $this->stringifier = $stringifier;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
+     */
+    public function setWidgetPool(WidgetPool $widgetPool): void
+    {
+        $this->widgetPool = $widgetPool;
     }
 
     /**
@@ -82,9 +99,9 @@ abstract class AbstractEntityToViewTransformer
      * @param array  $fieldAttr Field attributes
      * @param array  $mappings  Mappings
      *
-     * @return string
+     * @return string|null
      */
-    protected function getFieldContent($entity, $fieldName, array $fieldAttr, array $mappings)
+    protected function getFieldContent($entity, string $fieldName, array $fieldAttr, array $mappings): ?string
     {
         if (isset($fieldAttr['widget'])) {
             $widgetAlias = $fieldAttr['widget']['alias'];
@@ -121,7 +138,7 @@ abstract class AbstractEntityToViewTransformer
      *
      * @throws \RuntimeException
      */
-    protected function validateConfiguration(Metadata $meta, $entity, $viewType)
+    protected function validateConfiguration(Metadata $meta, $entity, string $viewType): void
     {
         $configuration = $meta->getConfiguration();
 
@@ -142,7 +159,7 @@ abstract class AbstractEntityToViewTransformer
      *
      * @return bool
      */
-    protected function isPropertyViewField(Metadata $meta, $viewType, $field)
+    protected function isPropertyViewField(Metadata $meta, string $viewType, string $field): bool
     {
         $config = $meta->getConfiguration()['view'][$viewType]['fields'][$field];
 
@@ -155,8 +172,20 @@ abstract class AbstractEntityToViewTransformer
      *
      * @return bool
      */
-    protected function isFieldContentHidden(array $fieldAttr, $entity)
+    protected function isFieldContentHidden(array $fieldAttr, $entity): bool
     {
-        return !empty($fieldAttr['condition']) && !$this->expressionLanguage->evaluate($fieldAttr['condition'], ['entity' => $entity]);
+        return !empty($fieldAttr['condition']) && !$this->getExpressionLanguage()->evaluate($fieldAttr['condition'], ['entity' => $entity]);
+    }
+
+    /**
+     * @return \Symfony\Component\ExpressionLanguage\ExpressionLanguage
+     */
+    protected function getExpressionLanguage(): ExpressionLanguage
+    {
+        if (null === $this->expressionLanguage) {
+            $this->expressionLanguage = new ExpressionLanguage();
+        }
+
+        return $this->expressionLanguage;
     }
 }

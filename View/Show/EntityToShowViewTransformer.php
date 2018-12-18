@@ -11,13 +11,13 @@
 namespace Darvin\AdminBundle\View\Show;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
+use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
 use Darvin\Utils\Strings\StringsUtil;
 
 /**
  * Entity to show view transformer
  */
-class EntityToShowViewTransformer extends AbstractEntityToViewTransformer
+class EntityToShowViewTransformer extends AbstractViewFactory
 {
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta   Metadata

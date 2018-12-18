@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\View\Index;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\View\AbstractEntityToViewTransformer;
+use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
 use Darvin\AdminBundle\View\Index\Body\Body;
 use Darvin\AdminBundle\View\Index\Body\BodyRow;
 use Darvin\AdminBundle\View\Index\Body\BodyRowItem;
@@ -26,7 +26,7 @@ use Symfony\Component\Templating\EngineInterface;
 /**
  * Entities to index view transformer
  */
-class EntitiesToIndexViewTransformer extends AbstractEntityToViewTransformer
+class EntitiesToIndexViewTransformer extends AbstractViewFactory
 {
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactory

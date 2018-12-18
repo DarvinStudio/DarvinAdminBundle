@@ -1,6 +1,7 @@
 (() => {
     const SELECTORS = {
         container: '.js-property-forms:first',
+        errors:    '.js-form-errors',
         form:      'form.js-property',
         submit:    '.js-property-submit'
     };
@@ -71,6 +72,8 @@
             $field
                 .val($field.data('original-value'))
                 .trigger('change');
+
+            $field.closest(SELECTORS.form).find(SELECTORS.errors).remove();
         })
         .on('click', SELECTORS.container + ' ' + SELECTORS.submit, (e) => {
             let $forms     = $(e.currentTarget).closest(SELECTORS.container).find(SELECTORS.form + '[data-modified="1"]'),

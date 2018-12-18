@@ -198,9 +198,9 @@
 
 {%- block form_errors -%}
     {% if errors is not empty %}
-        <ul class="input_value-error">
+        <ul class="input_value-error js-form-errors">
             {% for error in errors %}
-                <li class="js-form-error">{{ error.message }}</li>
+                <li>{{ error.message }}</li>
             {% endfor %}
         </ul>
     {% endif %}

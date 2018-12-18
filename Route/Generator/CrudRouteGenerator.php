@@ -24,7 +24,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
             '%s_update_property',
             '%s/{id}/update-property/{property}',
-            'darvin_admin.crud.action.update_property',
             [
                 'id'       => '\d+',
                 'property' => '\w+',
@@ -36,7 +35,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_COPY => [
             '%s_copy',
             '%s/{id}/copy',
-            'darvin_admin.crud.action.copy',
             [
                 'id' => '\d+',
             ],
@@ -47,7 +45,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_DELETE => [
             '%s_delete',
             '%s/{id}/delete',
-            'darvin_admin.crud.action.delete',
             [
                 'id' => '\d+',
             ],
@@ -58,7 +55,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_EDIT => [
             '%s_edit',
             '%s/{id}/edit',
-            'darvin_admin.crud.action.edit',
             [
                 'id' => '\d+',
             ],
@@ -70,7 +66,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_SHOW => [
             '%s_show',
             '%s/{id}/show',
-            'darvin_admin.crud.action.show',
             [
                 'id' => '\d+',
             ],
@@ -81,7 +76,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_BATCH_DELETE => [
             '%s_batch_delete',
             '%s/batch-delete',
-            'darvin_admin.crud.action.batch_delete',
             [],
             [
                 'post',
@@ -90,7 +84,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_NEW => [
             '%s_new',
             '%s/new',
-            'darvin_admin.crud.action.new',
             [],
             [
                 'get',
@@ -100,7 +93,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         AdminRouterInterface::TYPE_INDEX => [
             '%s',
             '%s/',
-            'darvin_admin.crud.action.index',
             [],
             [
                 'get',
@@ -116,7 +108,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         $routes = new RouteCollection();
         $config = $meta->getConfiguration();
 
-        foreach (self::MODEL as $type => list($namePattern, $pathPattern, $controller, $requirements, $methods)) {
+        foreach (self::MODEL as $type => list($namePattern, $pathPattern, $requirements, $methods)) {
             if (in_array($type, $config['route_blacklist'])) {
                 continue;
             }
@@ -124,7 +116,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
             $route = new Route(
                 sprintf($pathPattern, str_replace('_', '-', $meta->getEntityName())),
                 [
-                    '_controller' => $controller,
+                    '_controller' => sprintf('darvin_admin.crud.action.%s', str_replace('-', '_', $type)),
                 ],
                 $requirements,
                 [

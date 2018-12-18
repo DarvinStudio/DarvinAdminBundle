@@ -65,7 +65,7 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
             }
         }
 
-        return $this->templating->render('@DarvinAdmin/widget/index/property_form/form.html.twig', [
+        return $this->templating->render('@DarvinAdmin/property_form/form.html.twig', [
             'entity'         => $entity,
             'entity_class'   => $entityClass,
             'form'           => $view,

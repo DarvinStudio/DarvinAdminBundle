@@ -77,7 +77,6 @@ services:
         parent: darvin_admin.crud.action.abstract
         public: true
         arguments:
-            - '@darvin_admin.form.handler.new_action_filter'
             - '@property_accessor'
             - '@darvin_content.translatable.translations_initializer'
             - '@darvin_content.translatable.translation_joiner'

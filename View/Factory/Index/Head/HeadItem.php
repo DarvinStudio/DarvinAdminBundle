@@ -26,7 +26,7 @@ class HeadItem
     private $sortable;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $sortablePropertyPath;
 
@@ -87,9 +87,9 @@ class HeadItem
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSortablePropertyPath(): string
+    public function getSortablePropertyPath(): ?string
     {
         return $this->sortablePropertyPath;
     }

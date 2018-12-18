@@ -1,17 +1,20 @@
-$(function () {
-    $('input[data-max-chars]').each(function () {
-        var $input = $(this);
+$(document).on('app.html', (e, args) => {
+    let options = {
+        countContainerClass: 'input_note',
+        countDown:           true,
+        countDownText:       Translator.trans('textcounter.count_down_text'),
+        countOverflow:       true,
+        countOverflowText:   Translator.trans('textcounter.count_overflow_text'),
+        countSpaces:         true,
+        displayErrorText:    false,
+        stopInputAtMaximum:  false
+    };
 
-        $input.textcounter({
-            countContainerClass: 'input_note',
-            countDown:           true,
-            countDownText:       Translator.trans('textcounter.count_down_text'),
-            countOverflow:       true,
-            countOverflowText:   Translator.trans('textcounter.count_overflow_text'),
-            countSpaces:         true,
-            displayErrorText:    false,
-            max:                 $input.data('max-chars'),
-            stopInputAtMaximum:  false
-        });
+    args.$html.find('input[data-max-chars]').each((i, input) => {
+        let $input = $(input);
+
+        $input.textcounter($.extend(options, {
+            max: $input.data('max-chars')
+        }));
     });
 });

@@ -68,7 +68,7 @@ services:
             - '@darvin_admin.crud.action.new'
             - '@knp_paginator'
             - '@darvin_admin.metadata.sort_criteria_detector'
-            - '@darvin_content.sorting.sorted_by_entity_joiner'
+            - '@darvin_content.sorting.sort_entity_joiner'
             - '@darvin_content.translatable.translation_joiner'
             - '@darvin_utils.user.query_builder_filterer'
 

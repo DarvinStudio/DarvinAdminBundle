@@ -18,7 +18,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
-use Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface;
+use Darvin\ContentBundle\Sorting\SortEntityJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
@@ -69,9 +69,9 @@ class IndexAction extends AbstractAction
     private $sortCriteriaDetector;
 
     /**
-     * @var \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface
+     * @var \Darvin\ContentBundle\Sorting\SortEntityJoinerInterface
      */
-    private $sortedByEntityJoiner;
+    private $sortEntityJoiner;
 
     /**
      * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
@@ -91,7 +91,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\AdminBundle\Controller\Crud\NewAction                    $newAction                CRUD controller new action
      * @param \Knp\Component\Pager\PaginatorInterface                          $paginator                Paginator
      * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector                $sortCriteriaDetector     Sort criteria detector
-     * @param \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface      $sortedByEntityJoiner     Sorted by entity joiner
+     * @param \Darvin\ContentBundle\Sorting\SortEntityJoinerInterface          $sortEntityJoiner         Sort entity joiner
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface    $translationJoiner        Translation joiner
      * @param \Darvin\Utils\User\UserQueryBuilderFiltererInterface             $userQueryBuilderFilterer User query builder filterer
      */
@@ -103,7 +103,7 @@ class IndexAction extends AbstractAction
         NewAction $newAction,
         PaginatorInterface $paginator,
         SortCriteriaDetector $sortCriteriaDetector,
-        SortedByEntityJoinerInterface $sortedByEntityJoiner,
+        SortEntityJoinerInterface $sortEntityJoiner,
         TranslationJoinerInterface $translationJoiner,
         UserQueryBuilderFiltererInterface $userQueryBuilderFilterer
     ) {
@@ -114,7 +114,7 @@ class IndexAction extends AbstractAction
         $this->newAction = $newAction;
         $this->paginator = $paginator;
         $this->sortCriteriaDetector = $sortCriteriaDetector;
-        $this->sortedByEntityJoiner = $sortedByEntityJoiner;
+        $this->sortEntityJoiner = $sortEntityJoiner;
         $this->translationJoiner = $translationJoiner;
         $this->userQueryBuilderFilterer = $userQueryBuilderFilterer;
     }
@@ -175,7 +175,7 @@ class IndexAction extends AbstractAction
             }
         }
         if ($config['pagination']['enabled']) {
-            $this->sortedByEntityJoiner->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
+            $this->sortEntityJoiner->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
 
             $page = $request->query->get('page', 1);
 

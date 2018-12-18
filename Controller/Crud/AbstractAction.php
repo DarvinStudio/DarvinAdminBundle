@@ -96,9 +96,9 @@ abstract class AbstractAction
     protected $userManager;
 
     /**
-     * @var string|null
+     * @var array|null
      */
-    private $entityClass = null;
+    private $config = null;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata|null
@@ -106,9 +106,9 @@ abstract class AbstractAction
     private $meta = null;
 
     /**
-     * @var array|null
+     * @var string|null
      */
-    private $config = null;
+    private $entityClass = null;
 
     /**
      * @var string|null

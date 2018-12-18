@@ -77,7 +77,7 @@ class SearchController extends Controller
 
         $view = $this->getIndexViewFactory()->createView($entities, $meta);
 
-        return $this->render('@DarvinAdmin/search/_results.html.twig', [
+        return $this->render('@DarvinAdmin/search/results.html.twig', [
             'batch_delete_form' => $batchDeleteForm,
             'entity_count'      => count($entities),
             'meta'              => $meta,

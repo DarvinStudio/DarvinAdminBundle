@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\UpdatedEvent;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
+use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,9 +29,9 @@ use Symfony\Component\Translation\TranslatorInterface;
 class UpdatePropertyAction extends AbstractAction
 {
     /**
-     * @var \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
+     * @var \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface
      */
-    private $entitiesToIndexViewTransformer;
+    private $indexViewFactory;
 
     /**
      * @var \Symfony\Component\Translation\TranslatorInterface
@@ -39,12 +39,12 @@ class UpdatePropertyAction extends AbstractAction
     private $translator;
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer Entities to index view transformer
-     * @param \Symfony\Component\Translation\TranslatorInterface            $translator                     Translator
+     * @param \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface $indexViewFactory Index view factory
+     * @param \Symfony\Component\Translation\TranslatorInterface               $translator       Translator
      */
-    public function __construct(EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer, TranslatorInterface $translator)
+    public function __construct(IndexViewFactoryInterface $indexViewFactory, TranslatorInterface $translator)
     {
-        $this->entitiesToIndexViewTransformer = $entitiesToIndexViewTransformer;
+        $this->indexViewFactory = $indexViewFactory;
         $this->translator = $translator;
     }
 
@@ -108,7 +108,7 @@ class UpdatePropertyAction extends AbstractAction
         }
 
         return new JsonResponse([
-            'html'    => $this->entitiesToIndexViewTransformer->renderPropertyForm($form, $entityBefore, $this->getEntityClass(), $property),
+            'html'    => $this->indexViewFactory->renderPropertyForm($form, $entityBefore, $this->getEntityClass(), $property),
             'message' => $message,
             'success' => $success,
         ]);

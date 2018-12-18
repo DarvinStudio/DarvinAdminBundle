@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Index\Head;
+namespace Darvin\AdminBundle\View\Factory\Index\Head;
 
 /**
  * Index view head item
@@ -41,62 +41,55 @@ class HeadItem
      * @param string $sortablePropertyPath Sortable property path
      * @param int    $width                Width
      */
-    public function __construct($content, $sortable = false, $sortablePropertyPath = null, $width = 1)
+    public function __construct(string $content, bool $sortable = false, ?string $sortablePropertyPath = null, int $width = 1)
     {
         $this->content = $content;
         $this->sortable = $sortable;
-        $this->setSortablePropertyPath($sortablePropertyPath);
         $this->width = $width;
+
+        $this->setSortablePropertyPath($sortablePropertyPath);
     }
 
     /**
      * @return string
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
     /**
-     * @param boolean $sortable sortable
-     *
-     * @return HeadItem
+     * @param bool $sortable sortable
      */
-    public function setSortable($sortable)
+    public function setSortable(bool $sortable): void
     {
         $this->sortable = $sortable;
-
-        return $this;
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isSortable()
+    public function isSortable(): bool
     {
         return $this->sortable;
     }
 
     /**
-     * @param string $sortablePropertyPath sortablePropertyPath
-     *
-     * @return HeadItem
+     * @param string|null $sortablePropertyPath sortablePropertyPath
      */
-    public function setSortablePropertyPath($sortablePropertyPath)
+    public function setSortablePropertyPath(?string $sortablePropertyPath): void
     {
         if (!empty($sortablePropertyPath) && false === strpos($sortablePropertyPath, '.')) {
             $sortablePropertyPath = 'o.'.$sortablePropertyPath;
         }
 
         $this->sortablePropertyPath = $sortablePropertyPath;
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getSortablePropertyPath()
+    public function getSortablePropertyPath(): string
     {
         return $this->sortablePropertyPath;
     }
@@ -104,7 +97,7 @@ class HeadItem
     /**
      * @return int
      */
-    public function getWidth()
+    public function getWidth(): int
     {
         return $this->width;
     }

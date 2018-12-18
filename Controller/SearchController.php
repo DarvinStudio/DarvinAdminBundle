@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Search\SearcherInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
+use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,7 +75,7 @@ class SearchController extends Controller
             $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $entities)->createView();
         }
 
-        $view = $this->getEntitiesToIndexViewTransformer()->transform($meta, $entities);
+        $view = $this->getIndexViewFactory()->createView($entities, $meta);
 
         return $this->render('@DarvinAdmin/search/_results.html.twig', [
             'batch_delete_form' => $batchDeleteForm,
@@ -102,11 +102,11 @@ class SearchController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
+     * @return \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface
      */
-    private function getEntitiesToIndexViewTransformer(): EntitiesToIndexViewTransformer
+    private function getIndexViewFactory(): IndexViewFactoryInterface
     {
-        return $this->get('darvin_admin.view.entity_transformer.index');
+        return $this->get('darvin_admin.view.factory.index');
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Index\Body;
+namespace Darvin\AdminBundle\View\Factory\Index\Body;
 
 /**
  * Index view body row item
@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\View\Index\Body;
 class BodyRowItem
 {
     /**
-     * @var string
+     * @var mixed|null
      */
     private $content;
 
@@ -26,8 +26,8 @@ class BodyRowItem
     private $attr;
 
     /**
-     * @param string $content Content
-     * @param array  $attr    HTML attributes
+     * @param mixed|null $content Content
+     * @param array      $attr    HTML attributes
      */
     public function __construct($content = null, array $attr = [])
     {
@@ -36,7 +36,7 @@ class BodyRowItem
     }
 
     /**
-     * @return string
+     * @return mixed|null
      */
     public function getContent()
     {
@@ -46,7 +46,7 @@ class BodyRowItem
     /**
      * @return array
      */
-    public function getAttr()
+    public function getAttr(): array
     {
         return $this->attr;
     }

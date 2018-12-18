@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Metadata\SortCriteriaDetector;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer;
+use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface;
@@ -44,14 +44,14 @@ class IndexAction extends AbstractAction
     private $customObjectLoader;
 
     /**
-     * @var \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
-     */
-    private $entitiesToIndexViewTransformer;
-
-    /**
      * @var \Darvin\ContentBundle\Filterer\FiltererInterface
      */
     private $filterer;
+
+    /**
+     * @var \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface
+     */
+    private $indexViewFactory;
 
     /**
      * @var \Darvin\AdminBundle\Controller\Crud\NewAction
@@ -84,22 +84,22 @@ class IndexAction extends AbstractAction
     private $userQueryBuilderFilterer;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface     $container                      DI container
-     * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface        $customObjectLoader             Custom object loader
-     * @param \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer Entities to index view transformer
-     * @param \Darvin\ContentBundle\Filterer\FiltererInterface              $filterer                       Filterer
-     * @param \Darvin\AdminBundle\Controller\Crud\NewAction                 $newAction                      CRUD controller new action
-     * @param \Knp\Component\Pager\PaginatorInterface                       $paginator                      Paginator
-     * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector             $sortCriteriaDetector           Sort criteria detector
-     * @param \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface   $sortedByEntityJoiner           Sorted by entity joiner
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner              Translation joiner
-     * @param \Darvin\Utils\User\UserQueryBuilderFiltererInterface          $userQueryBuilderFilterer       User query builder filterer
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface        $container                DI container
+     * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface           $customObjectLoader       Custom object loader
+     * @param \Darvin\ContentBundle\Filterer\FiltererInterface                 $filterer                 Filterer
+     * @param \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface $indexViewFactory         Index view factory
+     * @param \Darvin\AdminBundle\Controller\Crud\NewAction                    $newAction                CRUD controller new action
+     * @param \Knp\Component\Pager\PaginatorInterface                          $paginator                Paginator
+     * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector                $sortCriteriaDetector     Sort criteria detector
+     * @param \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface      $sortedByEntityJoiner     Sorted by entity joiner
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface    $translationJoiner        Translation joiner
+     * @param \Darvin\Utils\User\UserQueryBuilderFiltererInterface             $userQueryBuilderFilterer User query builder filterer
      */
     public function __construct(
         ContainerInterface $container,
         CustomObjectLoaderInterface $customObjectLoader,
-        EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer,
         FiltererInterface $filterer,
+        IndexViewFactoryInterface $indexViewFactory,
         NewAction $newAction,
         PaginatorInterface $paginator,
         SortCriteriaDetector $sortCriteriaDetector,
@@ -109,8 +109,8 @@ class IndexAction extends AbstractAction
     ) {
         $this->container = $container;
         $this->customObjectLoader = $customObjectLoader;
-        $this->entitiesToIndexViewTransformer = $entitiesToIndexViewTransformer;
         $this->filterer = $filterer;
+        $this->indexViewFactory = $indexViewFactory;
         $this->newAction = $newAction;
         $this->paginator = $paginator;
         $this->sortCriteriaDetector = $sortCriteriaDetector;
@@ -220,7 +220,7 @@ class IndexAction extends AbstractAction
             $newForm = $newAction(true)->getContent();
         }
 
-        $view = $this->entitiesToIndexViewTransformer->transform($this->getMeta(), $entities);
+        $view = $this->indexViewFactory->createView($entities, $this->getMeta());
 
         return new Response(
             $this->renderTemplate([

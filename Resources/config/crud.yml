@@ -63,8 +63,8 @@ services:
         arguments:
             - '@service_container'
             - '@darvin_utils.custom_object.loader'
-            - '@darvin_admin.view.entity_transformer.index'
             - '@darvin_content.filterer'
+            - '@darvin_admin.view.factory.index'
             - '@darvin_admin.crud.action.new'
             - '@knp_paginator'
             - '@darvin_admin.metadata.sort_criteria_detector'
@@ -95,5 +95,5 @@ services:
         parent: darvin_admin.crud.action.abstract
         public: true
         arguments:
-            - '@darvin_admin.view.entity_transformer.index'
+            - '@darvin_admin.view.factory.index'
             - '@translator'

@@ -1,7 +1,7 @@
 parameters:
     darvin_admin.view.factory.abstract.class: Darvin\AdminBundle\View\Factory\AbstractViewFactory
 
-    darvin_admin.view.entity_transformer.index.class: Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer
+    darvin_admin.view.factory.index.class: Darvin\AdminBundle\View\Factory\Index\IndexViewFactory
 
     darvin_admin.view.factory.show.class: Darvin\AdminBundle\View\Factory\Show\ShowViewFactory
 
@@ -47,14 +47,14 @@ services:
             - [ setStringifier,           [ '@darvin_utils.stringifier.doctrine' ] ]
             - [ setWidgetPool,            [ '@darvin_admin.view.widget.pool' ] ]
 
-    darvin_admin.view.entity_transformer.index:
-        class:  '%darvin_admin.view.entity_transformer.index.class%'
+    darvin_admin.view.factory.index:
+        class:  '%darvin_admin.view.factory.index.class%'
         parent: darvin_admin.view.factory.abstract
         public: true
-        calls:
-            - [ setAdminFormFactory,     [ '@darvin_admin.form.factory' ] ]
-            - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
-            - [ setTemplating,           [ '@templating' ] ]
+        arguments:
+            - '@darvin_admin.form.factory'
+            - '@security.authorization_checker'
+            - '@templating'
 
     darvin_admin.view.factory.show:
         class:  '%darvin_admin.view.factory.show.class%'

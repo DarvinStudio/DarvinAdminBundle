@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Index\Body;
+namespace Darvin\AdminBundle\View\Factory\Index\Body;
 
 /**
  * Index view body
@@ -16,12 +16,12 @@ namespace Darvin\AdminBundle\View\Index\Body;
 class Body
 {
     /**
-     * @var \Darvin\AdminBundle\View\Index\Body\BodyRow[]
+     * @var \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[]
      */
     private $rows;
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Body\BodyRow[] $rows Rows
+     * @param \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[] $rows Rows
      */
     public function __construct(array $rows = [])
     {
@@ -29,21 +29,17 @@ class Body
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Body\BodyRow $row Row
-     *
-     * @return Body
+     * @param \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow $row Row
      */
-    public function addRow(BodyRow $row)
+    public function addRow(BodyRow $row): void
     {
         $this->rows[] = $row;
-
-        return $this;
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Index\Body\BodyRow[]
+     * @return \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[]
      */
-    public function getRows()
+    public function getRows(): array
     {
         return $this->rows;
     }
@@ -51,7 +47,7 @@ class Body
     /**
      * @return int
      */
-    public function getLength()
+    public function getLength(): int
     {
         return count($this->rows);
     }

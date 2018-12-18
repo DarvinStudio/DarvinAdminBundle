@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Index\Head;
+namespace Darvin\AdminBundle\View\Factory\Index\Head;
 
 /**
  * Index view head
@@ -16,12 +16,12 @@ namespace Darvin\AdminBundle\View\Index\Head;
 class Head
 {
     /**
-     * @var \Darvin\AdminBundle\View\Index\Head\HeadItem[]
+     * @var \Darvin\AdminBundle\View\Factory\Index\Head\HeadItem[]
      */
     private $items;
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Head\HeadItem[] $items Items
+     * @param \Darvin\AdminBundle\View\Factory\Index\Head\HeadItem[] $items Items
      */
     public function __construct(array $items = [])
     {
@@ -29,22 +29,18 @@ class Head
     }
 
     /**
-     * @param string                                       $field Field name
-     * @param \Darvin\AdminBundle\View\Index\Head\HeadItem $item  Item
-     *
-     * @return Head
+     * @param string                                               $field Field name
+     * @param \Darvin\AdminBundle\View\Factory\Index\Head\HeadItem $item  Item
      */
-    public function addItem($field, HeadItem $item)
+    public function addItem(string $field, HeadItem $item): void
     {
         $this->items[$field] = $item;
-
-        return $this;
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Index\Head\HeadItem[]
+     * @return \Darvin\AdminBundle\View\Factory\Index\Head\HeadItem[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }

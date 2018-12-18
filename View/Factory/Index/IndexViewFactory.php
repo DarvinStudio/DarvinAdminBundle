@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -8,25 +8,25 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Index;
+namespace Darvin\AdminBundle\View\Factory\Index;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
-use Darvin\AdminBundle\View\Index\Body\Body;
-use Darvin\AdminBundle\View\Index\Body\BodyRow;
-use Darvin\AdminBundle\View\Index\Body\BodyRowItem;
-use Darvin\AdminBundle\View\Index\Head\Head;
-use Darvin\AdminBundle\View\Index\Head\HeadItem;
+use Darvin\AdminBundle\View\Factory\Index\Body\Body;
+use Darvin\AdminBundle\View\Factory\Index\Body\BodyRow;
+use Darvin\AdminBundle\View\Factory\Index\Body\BodyRowItem;
+use Darvin\AdminBundle\View\Factory\Index\Head\Head;
+use Darvin\AdminBundle\View\Factory\Index\Head\HeadItem;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
- * Entities to index view transformer
+ * Index view factory
  */
-class EntitiesToIndexViewTransformer extends AbstractViewFactory
+class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryInterface
 {
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactory
@@ -44,63 +44,43 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
     private $templating;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory                                    $adminFormFactory     Admin form factory
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
      */
-    public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
+    public function __construct(AdminFormFactory $adminFormFactory, AuthorizationCheckerInterface $authorizationChecker, EngineInterface $templating)
     {
         $this->adminFormFactory = $adminFormFactory;
-    }
-
-    /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     */
-    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
-    {
         $this->authorizationChecker = $authorizationChecker;
-    }
-
-    /**
-     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
-     */
-    public function setTemplating(EngineInterface $templating)
-    {
         $this->templating = $templating;
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
-     * @param array                                 $entities Entities
-     *
-     * @return \Darvin\AdminBundle\View\Index\IndexView
+     * {@inheritdoc}
      */
-    public function transform(Metadata $meta, array $entities)
+    public function createView(array $entities, Metadata $meta): IndexView
     {
         $view = new IndexView();
 
         if (empty($entities)) {
-            return $view
-                ->setHead(new Head())
-                ->setBody(new Body());
+            $view->setHead(new Head());
+            $view->setBody(new Body());
+
+            return $view;
         }
 
         $this->validateConfiguration($meta, reset($entities), 'index');
 
-        $view
-            ->setHead($this->getHead($meta))
-            ->setBody($this->getBody($meta, $entities));
+        $view->setHead($this->createHead($meta));
+        $view->setBody($this->createBody($meta, $entities));
 
         return $view;
     }
 
     /**
-     * @param \Symfony\Component\Form\FormInterface $form        Form
-     * @param object                                $entity      Entity
-     * @param string                                $entityClass Entity class
-     * @param string                                $property    Property name
-     *
-     * @return string
+     * {@inheritdoc}
      */
-    public function renderPropertyForm(FormInterface $form, $entity, $entityClass, $property)
+    public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): string
     {
         $view = $form->createView();
 
@@ -135,9 +115,9 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta Metadata
      *
-     * @return \Darvin\AdminBundle\View\Index\Head\Head
+     * @return \Darvin\AdminBundle\View\Factory\Index\Head\Head
      */
-    private function getHead(Metadata $meta)
+    private function createHead(Metadata $meta): Head
     {
         $head = new Head();
 
@@ -161,9 +141,8 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
                     ? $configuration['sortable_fields'][$field]
                     : $field;
 
-                $headItem
-                    ->setSortable(true)
-                    ->setSortablePropertyPath($sortablePropertyPath);
+                $headItem->setSortable(true);
+                $headItem->setSortablePropertyPath($sortablePropertyPath);
             }
 
             $head->addItem($field, $headItem);
@@ -176,9 +155,9 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
      * @param array                                 $entities Entities
      *
-     * @return \Darvin\AdminBundle\View\Index\Body\Body
+     * @return \Darvin\AdminBundle\View\Factory\Index\Body\Body
      */
-    private function getBody(Metadata $meta, array $entities)
+    private function createBody(Metadata $meta, array $entities): Body
     {
         $body = new Body();
 
@@ -238,7 +217,7 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
      *
      * @return array
      */
-    private function buildBodyRowAttr($entity, Metadata $meta)
+    private function buildBodyRowAttr($entity, Metadata $meta): array
     {
         $attr = [];
 
@@ -256,7 +235,7 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
      *
      * @return array
      */
-    private function buildBodyRowItemAttr($field, array $attr, Metadata $meta)
+    private function buildBodyRowItemAttr(string $field, array $attr, Metadata $meta): array
     {
         $class = 'name_'.$field;
 
@@ -272,9 +251,9 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Body\Body $body Body to normalize
+     * @param \Darvin\AdminBundle\View\Factory\Index\Body\Body $body Body to normalize
      */
-    private function normalizeBody(Body $body)
+    private function normalizeBody(Body $body): void
     {
         if (empty($body) || 1 === $body->getLength()) {
             return;
@@ -306,11 +285,11 @@ class EntitiesToIndexViewTransformer extends AbstractViewFactory
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Index\Body\BodyRow[] $rows         Body rows
-     * @param array                                         $rowLengths   Body row lengths
-     * @param int                                           $maxRowLength Max body row length
+     * @param \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[] $rows         Body rows
+     * @param array                                                 $rowLengths   Body row lengths
+     * @param int                                                   $maxRowLength Max body row length
      */
-    private function normalizeBodyRows(array $rows, array $rowLengths, $maxRowLength)
+    private function normalizeBodyRows(array $rows, array $rowLengths, int $maxRowLength): void
     {
         foreach ($rowLengths as $key => $rowLength) {
             if ($rowLength === $maxRowLength) {

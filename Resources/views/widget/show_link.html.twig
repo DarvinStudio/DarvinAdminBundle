@@ -4,7 +4,7 @@
 
 <a href="{{ admin_path(entity, entity_class, 'show') }}"
    data-title="{{ title }}"
-   class="colorbox_ajax{% if not text_link %} edit_element show{% endif %}">
+   class="js-link{% if not text_link %} edit_element show{% endif %}">
     {% if text_link %}
         {{ entity }}
     {% else %}

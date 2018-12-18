@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller\Crud\Action;
+namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
@@ -54,7 +54,7 @@ class IndexAction extends AbstractAction
     private $filterer;
 
     /**
-     * @var \Darvin\AdminBundle\Controller\Crud\Action\NewAction
+     * @var \Darvin\AdminBundle\Controller\Crud\NewAction
      */
     private $newAction;
 
@@ -88,7 +88,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface        $customObjectLoader             Custom object loader
      * @param \Darvin\AdminBundle\View\Index\EntitiesToIndexViewTransformer $entitiesToIndexViewTransformer Entities to index view transformer
      * @param \Darvin\ContentBundle\Filterer\FiltererInterface              $filterer                       Filterer
-     * @param \Darvin\AdminBundle\Controller\Crud\Action\NewAction          $newAction                      CRUD controller new action
+     * @param \Darvin\AdminBundle\Controller\Crud\NewAction                 $newAction                      CRUD controller new action
      * @param \Knp\Component\Pager\PaginatorInterface                       $paginator                      Paginator
      * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector             $sortCriteriaDetector           Sort criteria detector
      * @param \Darvin\ContentBundle\Sorting\SortedByEntityJoinerInterface   $sortedByEntityJoiner           Sorted by entity joiner
@@ -124,8 +124,6 @@ class IndexAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->configure();
-
         $this->checkPermission(Permission::VIEW);
 
         $request = $this->requestStack->getCurrentRequest();

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller\Crud\Action;
+namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
@@ -16,6 +16,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\UserBundle\User\UserManagerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
+use Darvin\Utils\Routing\RouteManagerInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -78,6 +79,11 @@ abstract class AbstractAction
      * @var \Symfony\Component\HttpFoundation\RequestStack
      */
     protected $requestStack;
+
+    /**
+     * @var \Darvin\Utils\Routing\RouteManagerInterface
+     */
+    protected $routeManager;
 
     /**
      * @var \Symfony\Component\Templating\EngineInterface
@@ -174,6 +180,14 @@ abstract class AbstractAction
     }
 
     /**
+     * @param \Darvin\Utils\Routing\RouteManagerInterface $routeManager Route manager
+     */
+    public function setRouteManager(RouteManagerInterface $routeManager): void
+    {
+        $this->routeManager = $routeManager;
+    }
+
+    /**
      * @param \Symfony\Component\Templating\EngineInterface $templating Templating
      */
     public function setTemplating(EngineInterface $templating): void
@@ -187,27 +201,6 @@ abstract class AbstractAction
     public function setUserManager(UserManagerInterface $userManager): void
     {
         $this->userManager = $userManager;
-    }
-
-    protected function configure(): void
-    {
-        $this->entityClass = $this->requestStack->getCurrentRequest()->attributes->get('_darvin_admin_entity');
-
-        $this->meta = $this->adminMetadataManager->getMetadata($this->entityClass);
-
-        $this->config = $this->meta->getConfiguration();
-    }
-
-    /**
-     * @return string
-     */
-    protected function getName(): string
-    {
-        if (null === $this->name) {
-            $this->name = StringsUtil::toUnderscore(preg_replace('/^.*\\\|Action$/', '', get_class($this)));
-        }
-
-        return $this->name;
     }
 
     /**
@@ -332,11 +325,15 @@ abstract class AbstractAction
     }
 
     /**
-     * @return string
+     * @return array
      */
-    protected function getEntityClass(): string
+    protected function getConfig(): array
     {
-        return $this->entityClass;
+        if (null === $this->config) {
+            $this->config = $this->getMeta()->getConfiguration();
+        }
+
+        return $this->config;
     }
 
     /**
@@ -344,14 +341,37 @@ abstract class AbstractAction
      */
     protected function getMeta(): Metadata
     {
+        if (null === $this->meta) {
+            $this->meta = $this->adminMetadataManager->getMetadata($this->getEntityClass());
+        }
+
         return $this->meta;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    protected function getConfig(): array
+    protected function getEntityClass(): string
     {
-        return $this->config;
+        if (null === $this->entityClass) {
+            $this->entityClass = $this->routeManager->getOption(
+                $this->requestStack->getCurrentRequest()->attributes->get('_route'),
+                AdminRouterInterface::OPTION_ENTITY_CLASS
+            );
+        }
+
+        return $this->entityClass;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getName(): string
+    {
+        if (null === $this->name) {
+            $this->name = StringsUtil::toUnderscore(preg_replace('/^.*\\\|Action$/', '', get_class($this)));
+        }
+
+        return $this->name;
     }
 }

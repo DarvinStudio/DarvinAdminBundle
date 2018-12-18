@@ -1,14 +1,14 @@
 parameters:
-    darvin_admin.crud.action.abstract.class: Darvin\AdminBundle\Controller\Crud\Action\AbstractAction
+    darvin_admin.crud.action.abstract.class: Darvin\AdminBundle\Controller\Crud\AbstractAction
 
-    darvin_admin.crud.action.batch_delete.class:    Darvin\AdminBundle\Controller\Crud\Action\BatchDeleteAction
-    darvin_admin.crud.action.copy.class:            Darvin\AdminBundle\Controller\Crud\Action\CopyAction
-    darvin_admin.crud.action.delete.class:          Darvin\AdminBundle\Controller\Crud\Action\DeleteAction
-    darvin_admin.crud.action.edit.class:            Darvin\AdminBundle\Controller\Crud\Action\EditAction
-    darvin_admin.crud.action.index.class:           Darvin\AdminBundle\Controller\Crud\Action\IndexAction
-    darvin_admin.crud.action.new.class:             Darvin\AdminBundle\Controller\Crud\Action\NewAction
-    darvin_admin.crud.action.show.class:            Darvin\AdminBundle\Controller\Crud\Action\ShowAction
-    darvin_admin.crud.action.update_property.class: Darvin\AdminBundle\Controller\Crud\Action\UpdatePropertyAction
+    darvin_admin.crud.action.batch_delete.class:    Darvin\AdminBundle\Controller\Crud\BatchDeleteAction
+    darvin_admin.crud.action.copy.class:            Darvin\AdminBundle\Controller\Crud\CopyAction
+    darvin_admin.crud.action.delete.class:          Darvin\AdminBundle\Controller\Crud\DeleteAction
+    darvin_admin.crud.action.edit.class:            Darvin\AdminBundle\Controller\Crud\EditAction
+    darvin_admin.crud.action.index.class:           Darvin\AdminBundle\Controller\Crud\IndexAction
+    darvin_admin.crud.action.new.class:             Darvin\AdminBundle\Controller\Crud\NewAction
+    darvin_admin.crud.action.show.class:            Darvin\AdminBundle\Controller\Crud\ShowAction
+    darvin_admin.crud.action.update_property.class: Darvin\AdminBundle\Controller\Crud\UpdatePropertyAction
 
 services:
     _defaults:
@@ -26,6 +26,7 @@ services:
             - [ setEventDispatcher,      [ '@event_dispatcher' ] ]
             - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]
             - [ setRequestStack,         [ '@request_stack' ] ]
+            - [ setRouteManager,         [ '@darvin_utils.routing.route_manager' ] ]
             - [ setTemplating,           [ '@templating' ] ]
             - [ setUserManager,          [ '@darvin_user.user.manager' ] ]
 
@@ -33,8 +34,6 @@ services:
         class:  '%darvin_admin.crud.action.batch_delete.class%'
         parent: darvin_admin.crud.action.abstract
         public: true
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.copy:
         class:  '%darvin_admin.crud.action.copy.class%'
@@ -44,8 +43,6 @@ services:
             - '@darvin_utils.cloner'
             - '@validator'
             - '@darvin_admin.view.widget.pool'
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.delete:
         class:  '%darvin_admin.crud.action.delete.class%'
@@ -53,15 +50,11 @@ services:
         public: true
         arguments:
             - '@darvin_admin.view.widget.pool'
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.edit:
         class:  '%darvin_admin.crud.action.edit.class%'
         parent: darvin_admin.crud.action.abstract
         public: true
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.index:
         class:  '%darvin_admin.crud.action.index.class%'
@@ -78,8 +71,6 @@ services:
             - '@darvin_content.sorting.sorted_by_entity_joiner'
             - '@darvin_content.translatable.translation_joiner'
             - '@darvin_utils.user.query_builder_filterer'
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.new:
         class:  '%darvin_admin.crud.action.new.class%'
@@ -91,8 +82,6 @@ services:
             - '@darvin_content.translatable.translations_initializer'
             - '@darvin_content.translatable.translation_joiner'
             - '%darvin_admin.locales%'
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.show:
         class:  '%darvin_admin.crud.action.show.class%'
@@ -101,8 +90,6 @@ services:
         arguments:
             - '@darvin_utils.custom_object.loader'
             - '@darvin_admin.view.entity_transformer.show'
-        tags:
-            - { name: darvin_admin.crud.action }
 
     darvin_admin.crud.action.update_property:
         class:  '%darvin_admin.crud.action.update_property.class%'
@@ -111,5 +98,3 @@ services:
         arguments:
             - '@darvin_admin.view.entity_transformer.index'
             - '@translator'
-        tags:
-            - { name: darvin_admin.crud.action }

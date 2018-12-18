@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller\Crud\Action;
+namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
@@ -32,8 +32,6 @@ class EditAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->configure();
-
         $this->checkPermission(Permission::EDIT);
 
         $request = $this->requestStack->getCurrentRequest();

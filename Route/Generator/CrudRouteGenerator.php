@@ -124,8 +124,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
             $route = new Route(
                 sprintf($pathPattern, str_replace('_', '-', $meta->getEntityName())),
                 [
-                    '_controller'          => $controller,
-                    '_darvin_admin_entity' => $entityClass,
+                    '_controller' => $controller,
                 ],
                 $requirements,
                 [

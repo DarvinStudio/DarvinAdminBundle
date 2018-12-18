@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller\Crud\Action;
+namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
@@ -34,8 +34,6 @@ class BatchDeleteAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->configure();
-
         $this->checkPermission(Permission::CREATE_DELETE);
 
         $request = $this->requestStack->getCurrentRequest();

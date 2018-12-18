@@ -52,7 +52,7 @@
             and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
         %}
             {% if 'darvin_admin_translatable' == child.vars.block_prefixes[1]|default %}
-                {% form_theme child '@DarvinAdmin/form/fields.html.twig' %}
+                {% form_theme child '@DarvinAdmin/fields.html.twig' %}
                 {{ form_row(child) }}
             {% else %}
                 {{ this.form_row(child) }}
@@ -88,7 +88,7 @@
                                 {% endif %}
                             {% endif %}
                             {% if 'darvin_admin_ace_editor' == child.vars.block_prefixes[3]|default %}
-                                {% form_theme child '@DarvinAdmin/form/fields.html.twig' %}
+                                {% form_theme child '@DarvinAdmin/fields.html.twig' %}
                                 {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
                             {% else %}
 

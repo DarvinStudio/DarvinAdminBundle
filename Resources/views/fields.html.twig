@@ -4,6 +4,31 @@
 
 {% trans_default_domain 'admin' %}
 
+{% macro image(image, toggle_enabled) %}
+    <div class="image" data-id="{{ image.id }}">
+        <a class="colorbox" href="{{ image|image_original }}" rel="images" title="{{ image.name }}">
+            <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
+        </a>
+        <div class="image_actions">
+            {% if toggle_enabled %}
+                <a class="image_toggle_enabled image_{{ image.enabled ? 'disable' : 'enable' }}"
+                   data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
+                   data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+                   data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
+                   data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+                   title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
+                   href="#">
+                </a>
+            {% endif %}
+            <a class="image_delete"
+               data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+               title="{% trans %}image.action.delete.submit{% endtrans %}"
+               href="#">
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
 {%- block button_attributes -%}
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ name)|trim}) %}
     {% if id %}id="{{ id }}" {% endif %}name="{{ full_name }}"{% if disabled %} disabled="disabled"{% endif -%}
@@ -91,12 +116,13 @@
 {%- endblock darvin_admin_ace_editor_widget -%}
 
 {%- block darvin_admin_dropzone_widget -%}
+
+    {% import _self as that %}
+
     {% if data and data is not empty %}
         <div class="images" data-sort-url="{{ path('darvin_image_image_sort') }}">
             {% for image in data if image.id and image_exists(image) %}
-
-                {% include '@DarvinAdmin/form/image.html.twig' %}
-
+                {{ that.image(image, toggle_enabled) }}
             {% endfor %}
         </div>
     {% endif %}
@@ -174,13 +200,12 @@
 {%- endblock darvin_image_image_row -%}
 
 {%- block darvin_image_image_widget -%}
+
+    {% import _self as that %}
+
     <div class="input_value">
         {% if data and image_exists(data) %}
-
-            {% include '@DarvinAdmin/form/image.html.twig' with {
-                'image': data,
-            } %}
-
+            {{ that.image(data) }}
         {% endif %}
         {{ form_widget(form) }}
     </div>

@@ -8,10 +8,10 @@
                 'delete': 'js-collection-delete'
             };
 
-            this.buttons = {};
+            this.BUTTONS = {};
 
             for (let name in classes) {
-                this.buttons[name] = '<button class="' + classes[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
+                this.BUTTONS[name] = '<button class="' + classes[name] + '" type="button">' + Translator.trans('collection.' + name) + '</button>';
             }
 
             this
@@ -25,7 +25,7 @@
                 return this;
             }
 
-            let $button = $(this.buttons.add);
+            let $button = $(this.BUTTONS.add);
 
             $button.click(() => {
                 let index = this.$collection.data('index'),
@@ -66,7 +66,7 @@
             }
 
             $(nodes).each((i, node) => {
-                let $button = $(this.buttons.delete);
+                let $button = $(this.BUTTONS.delete);
 
                 $button.click(() => {
                     $button.closest('div').remove();

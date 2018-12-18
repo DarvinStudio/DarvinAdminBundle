@@ -3,8 +3,6 @@ parameters:
 
     darvin_admin.form.factory.class: Darvin\AdminBundle\Form\AdminFormFactory
 
-    darvin_admin.form.handler.new_action_filter.class: Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler
-    
     darvin_admin.form.manipulator.class: Darvin\AdminBundle\Form\Manipulator
 
     darvin_admin.form.twig_extension.class: Darvin\AdminBundle\Twig\Extension\FormExtension
@@ -35,12 +33,6 @@ services:
             - '@darvin_admin.metadata.identifier_accessor'
             - '@property_accessor'
 
-    darvin_admin.form.handler.new_action_filter:
-        class: '%darvin_admin.form.handler.new_action_filter.class%'
-        arguments:
-            - '@darvin_admin.form.factory'
-            - '@darvin_admin.metadata.manager'
-            
     darvin_admin.form.manipulator:
         class:  '%darvin_admin.form.manipulator.class%'
         parent: a2lix_auto_form.form.manipulator.doctrine_orm_manipulator

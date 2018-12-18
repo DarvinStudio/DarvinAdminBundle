@@ -15,15 +15,16 @@ use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CreatedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Form\AdminFormFactory;
-use Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -32,11 +33,6 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class NewAction extends AbstractAction
 {
-    /**
-     * @var \Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler
-     */
-    private $newActionFilterFormHandler;
-
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
      */
@@ -58,20 +54,17 @@ class NewAction extends AbstractAction
     private $locales;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Handler\NewActionFilterFormHandler         $newActionFilterFormHandler New action filter form handler
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface         $propertyAccessor           Property accessor
-     * @param \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface $translationsInitializer    Translations initializer
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface       $translationJoiner          Translation joiner
-     * @param string[]                                                            $locales                    Locales
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface         $propertyAccessor        Property accessor
+     * @param \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface $translationsInitializer Translations initializer
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface       $translationJoiner       Translation joiner
+     * @param string[]                                                            $locales                 Locales
      */
     public function __construct(
-        NewActionFilterFormHandler $newActionFilterFormHandler,
         PropertyAccessorInterface $propertyAccessor,
         TranslationsInitializerInterface $translationsInitializer,
         TranslationJoinerInterface $translationJoiner,
         array $locales
     ) {
-        $this->newActionFilterFormHandler = $newActionFilterFormHandler;
         $this->propertyAccessor = $propertyAccessor;
         $this->translationsInitializer = $translationsInitializer;
         $this->translationJoiner = $translationJoiner;
@@ -108,7 +101,7 @@ class NewAction extends AbstractAction
             $this->translationsInitializer->initializeTranslations($entity, $this->locales);
         }
 
-        $this->newActionFilterFormHandler->handleForm($entity, $request);
+        $this->handleFilterForm($entity, $request);
 
         $form = $this->adminFormFactory->createEntityForm(
             $this->getMeta(),
@@ -152,6 +145,43 @@ class NewAction extends AbstractAction
         $this->flashNotifier->success($message);
 
         return new RedirectResponse($redirectUrl);
+    }
+
+    /**
+     * @param object                                    $entity  Entity
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     */
+    private function handleFilterForm($entity, Request $request): void
+    {
+        if (!$request->isMethod('get')) {
+            return;
+        }
+
+        $meta = $this->getMeta();
+
+        if (!$meta->isFilterFormEnabled()) {
+            return;
+        }
+
+        $config = $this->getConfig();
+
+        $fields = $config['form']['new']['fields'];
+
+        foreach ($config['form']['new']['field_groups'] as $fieldGroup) {
+            $fields = array_replace($fields, $fieldGroup);
+        }
+        foreach ($fields as $field => $options) {
+            if (!$meta->isAssociation($field) || ClassMetadata::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
+                unset($fields[$field]);
+            }
+        }
+
+        $this->adminFormFactory->createFilterForm($meta, null, null, [
+            'action'     => null,
+            'data'       => $entity,
+            'data_class' => $meta->getEntityClass(),
+            'fields'     => array_keys($fields),
+        ])->handleRequest($request);
     }
 
     /**

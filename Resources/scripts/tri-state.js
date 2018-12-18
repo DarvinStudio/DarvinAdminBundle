@@ -3,13 +3,13 @@
         constructor(checkbox) {
             this.CLASSES = [
                 '',
-                'checked',
-                'unchecked'
+                'js-tri-state-checked',
+                'js-tri-state-unchecked'
             ];
 
             this.$checkbox = $(checkbox);
 
-            this.$checkbox.addClass('ready')
+            this.$checkbox.addClass('js-tri-state-ready')
                 .find(':not(input)').remove();
 
             this.check(this.$checkbox.find('input:checked').index());

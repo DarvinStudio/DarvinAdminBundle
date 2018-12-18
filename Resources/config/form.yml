@@ -5,6 +5,8 @@ parameters:
 
     darvin_admin.form.manipulator.class: Darvin\AdminBundle\Form\Manipulator
 
+    darvin_admin.form.renderer.property.class: Darvin\AdminBundle\Form\Renderer\PropertyFormRenderer
+
     darvin_admin.form.twig_extension.class: Darvin\AdminBundle\Twig\Extension\FormExtension
 
     darvin_admin.form.type.base.class: Darvin\AdminBundle\Form\Type\BaseType
@@ -37,6 +39,13 @@ services:
         class:  '%darvin_admin.form.manipulator.class%'
         parent: a2lix_auto_form.form.manipulator.doctrine_orm_manipulator
         public: false
+
+    darvin_admin.form.renderer.property:
+        class:  '%darvin_admin.form.renderer.property.class%'
+        public: false
+        arguments:
+            - '@form.property_accessor'
+            - '@templating'
 
     darvin_admin.form.twig_extension:
         class:  '%darvin_admin.form.twig_extension.class%'

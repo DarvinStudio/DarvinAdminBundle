@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Factory\Index;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Symfony\Component\Form\FormInterface;
 
 /**
  * Index view factory
@@ -25,14 +24,4 @@ interface IndexViewFactoryInterface
      * @return \Darvin\AdminBundle\View\Factory\Index\IndexView
      */
     public function createView(array $entities, Metadata $meta): IndexView;
-
-    /**
-     * @param \Symfony\Component\Form\FormInterface $form        Form
-     * @param object                                $entity      Entity
-     * @param string                                $entityClass Entity class
-     * @param string                                $property    Property name
-     *
-     * @return string
-     */
-    public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): string;
 }

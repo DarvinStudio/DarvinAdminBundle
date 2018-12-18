@@ -53,8 +53,7 @@ services:
         public: true
         arguments:
             - '@darvin_admin.form.factory'
-            - '@security.authorization_checker'
-            - '@templating'
+            - '@darvin_admin.form.renderer.property'
 
     darvin_admin.view.factory.show:
         class:  '%darvin_admin.view.factory.show.class%'

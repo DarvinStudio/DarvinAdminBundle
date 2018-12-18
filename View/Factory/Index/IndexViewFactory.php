@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Factory\Index;
 
 use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
 use Darvin\AdminBundle\View\Factory\Index\Body\Body;
@@ -19,9 +20,6 @@ use Darvin\AdminBundle\View\Factory\Index\Body\BodyRowItem;
 use Darvin\AdminBundle\View\Factory\Index\Head\Head;
 use Darvin\AdminBundle\View\Factory\Index\Head\HeadItem;
 use Darvin\Utils\Strings\StringsUtil;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Templating\EngineInterface;
 
 /**
  * Index view factory
@@ -34,25 +32,18 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
     private $adminFormFactory;
 
     /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     * @var \Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface
      */
-    private $authorizationChecker;
+    private $propertyFormRenderer;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @param \Darvin\AdminBundle\Form\AdminFormFactory                       $adminFormFactory     Admin form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface $propertyFormRenderer Property form renderer
      */
-    private $templating;
-
-    /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory                                    $adminFormFactory     Admin form factory
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
-     */
-    public function __construct(AdminFormFactory $adminFormFactory, AuthorizationCheckerInterface $authorizationChecker, EngineInterface $templating)
+    public function __construct(AdminFormFactory $adminFormFactory, PropertyFormRendererInterface $propertyFormRenderer)
     {
         $this->adminFormFactory = $adminFormFactory;
-        $this->authorizationChecker = $authorizationChecker;
-        $this->templating = $templating;
+        $this->propertyFormRenderer = $propertyFormRenderer;
     }
 
     /**
@@ -75,41 +66,6 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $view->setBody($this->createBody($meta, $entities));
 
         return $view;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): string
-    {
-        $view = $form->createView();
-
-        $value = null;
-
-        if (!$view->children[$property]->vars['compound']) {
-            $value = $this->propertyAccessor->getValue($entity, $property);
-
-            if (is_array($value)) {
-                $parts = [];
-
-                /** @var \Symfony\Component\Form\ChoiceList\View\ChoiceView $choice */
-                foreach ($view->children[$property]->vars['choices'] as $choice) {
-                    if (in_array($choice->value, $value)) {
-                        $parts[] = $choice->value;
-                    }
-                }
-
-                $value = json_encode($parts);
-            }
-        }
-
-        return $this->templating->render('@DarvinAdmin/widget/index/property_form/form.html.twig', [
-            'entity'         => $entity,
-            'entity_class'   => $entityClass,
-            'form'           => $view,
-            'original_value' => $value,
-            'property'       => $property,
-        ]);
     }
 
     /**
@@ -196,7 +152,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     } else {
                         $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
 
-                        $content = $this->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
+                        $content = $this->propertyFormRenderer->render($form, $entity, $meta->getEntityClass(), $field);
                     }
                 }
 

@@ -95,5 +95,5 @@ services:
         parent: darvin_admin.crud.action.abstract
         public: true
         arguments:
-            - '@darvin_admin.view.factory.index'
+            - '@darvin_admin.form.renderer.property'
             - '@translator'

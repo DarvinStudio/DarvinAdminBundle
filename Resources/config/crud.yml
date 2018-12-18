@@ -88,7 +88,7 @@ services:
         public: true
         arguments:
             - '@darvin_utils.custom_object.loader'
-            - '@darvin_admin.view.entity_transformer.show'
+            - '@darvin_admin.view.factory.show'
 
     darvin_admin.crud.action.update_property:
         class:  '%darvin_admin.crud.action.update_property.class%'

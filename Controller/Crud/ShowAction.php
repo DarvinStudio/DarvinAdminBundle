@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Controller\Crud;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Show\EntityToShowViewTransformer;
+use Darvin\AdminBundle\View\Factory\Show\ShowViewFactoryInterface;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,18 +29,18 @@ class ShowAction extends AbstractAction
     private $customObjectLoader;
 
     /**
-     * @var \Darvin\AdminBundle\View\Show\EntityToShowViewTransformer
+     * @var \Darvin\AdminBundle\View\Factory\Show\ShowViewFactoryInterface
      */
-    private $entityToShowViewTransformer;
+    private $showViewFactory;
 
     /**
-     * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface    $customObjectLoader          Custom object loader
-     * @param \Darvin\AdminBundle\View\Show\EntityToShowViewTransformer $entityToShowViewTransformer Entity to show view transformer
+     * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface         $customObjectLoader Custom object loader
+     * @param \Darvin\AdminBundle\View\Factory\Show\ShowViewFactoryInterface $showViewFactory    Show view factory
      */
-    public function __construct(CustomObjectLoaderInterface $customObjectLoader, EntityToShowViewTransformer $entityToShowViewTransformer)
+    public function __construct(CustomObjectLoaderInterface $customObjectLoader, ShowViewFactoryInterface $showViewFactory)
     {
         $this->customObjectLoader = $customObjectLoader;
-        $this->entityToShowViewTransformer = $entityToShowViewTransformer;
+        $this->showViewFactory = $showViewFactory;
     }
 
     /**
@@ -63,7 +63,7 @@ class ShowAction extends AbstractAction
         } catch (CustomObjectException $ex) {
         }
 
-        $view = $this->entityToShowViewTransformer->transform($this->getMeta(), $entity);
+        $view = $this->showViewFactory->createView($entity, $this->getMeta());
 
         return new Response(
             $this->renderTemplate([

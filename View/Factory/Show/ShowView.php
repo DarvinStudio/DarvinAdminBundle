@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Show;
+namespace Darvin\AdminBundle\View\Factory\Show;
 
 /**
  * Show view
@@ -16,12 +16,12 @@ namespace Darvin\AdminBundle\View\Show;
 class ShowView
 {
     /**
-     * @var \Darvin\AdminBundle\View\Show\Item[]
+     * @var \Darvin\AdminBundle\View\Factory\Show\Item[]
      */
     private $items;
 
     /**
-     * @param \Darvin\AdminBundle\View\Show\Item[] $items Items
+     * @param \Darvin\AdminBundle\View\Factory\Show\Item[] $items Items
      */
     public function __construct(array $items = [])
     {
@@ -29,21 +29,17 @@ class ShowView
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Show\Item $item Item
-     *
-     * @return ShowView
+     * @param \Darvin\AdminBundle\View\Factory\Show\Item $item Item
      */
-    public function addItem(Item $item)
+    public function addItem(Item $item): void
     {
         $this->items[] = $item;
-
-        return $this;
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Show\Item[]
+     * @return \Darvin\AdminBundle\View\Factory\Show\Item[]
      */
-    public function getItems()
+    public function getItems(): array
     {
         return $this->items;
     }

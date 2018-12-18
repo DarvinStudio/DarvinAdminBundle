@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\View\Show;
+namespace Darvin\AdminBundle\View\Factory\Show;
 
 /**
  * Show view item
@@ -21,15 +21,15 @@ class Item
     private $label;
 
     /**
-     * @var string
+     * @var mixed
      */
     private $content;
 
     /**
      * @param string $label   Label
-     * @param string $content Content
+     * @param mixed  $content Content
      */
-    public function __construct($label, $content)
+    public function __construct(string $label, $content)
     {
         $this->label = $label;
         $this->content = $content;
@@ -38,13 +38,13 @@ class Item
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
-     * @return string
+     * @return mixed
      */
     public function getContent()
     {

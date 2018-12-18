@@ -99,9 +99,9 @@ abstract class AbstractViewFactory
      * @param array  $fieldAttr Field attributes
      * @param array  $mappings  Mappings
      *
-     * @return string|null
+     * @return mixed
      */
-    protected function getFieldContent($entity, string $fieldName, array $fieldAttr, array $mappings): ?string
+    protected function getFieldContent($entity, string $fieldName, array $fieldAttr, array $mappings)
     {
         if (isset($fieldAttr['widget'])) {
             $widgetAlias = $fieldAttr['widget']['alias'];

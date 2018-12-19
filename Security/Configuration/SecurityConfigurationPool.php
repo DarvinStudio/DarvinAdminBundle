@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Security\Configuration;
 /**
  * Security configuration pool
  */
-class SecurityConfigurationPool
+class SecurityConfigurationPool implements SecurityConfigurationPoolInterface
 {
     /**
      * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
@@ -37,7 +37,7 @@ class SecurityConfigurationPool
     }
 
     /**
-     * @return \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface[]
+     * {@inheritdoc}
      */
     public function getAllConfigurations(): array
     {

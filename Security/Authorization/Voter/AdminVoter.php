@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool;
+use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\ORM\EntityResolverInterface;
@@ -35,7 +35,7 @@ class AdminVoter extends Voter
     private $metadataManager;
 
     /**
-     * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
+     * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface
      */
     private $securityConfigurationPool;
 
@@ -50,14 +50,14 @@ class AdminVoter extends Voter
     private $supportedClasses;
 
     /**
-     * @param \Darvin\Utils\ORM\EntityResolverInterface                            $entityResolver            Entity resolver
-     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface           $metadataManager           Metadata manager
-     * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool $securityConfigurationPool Security configuration pool
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                                     $entityResolver            Entity resolver
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                    $metadataManager           Metadata manager
+     * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface $securityConfigurationPool Security configuration pool
      */
     public function __construct(
         EntityResolverInterface $entityResolver,
         AdminMetadataManagerInterface $metadataManager,
-        SecurityConfigurationPool $securityConfigurationPool
+        SecurityConfigurationPoolInterface $securityConfigurationPool
     ) {
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -20,24 +20,19 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Admin form factory
  */
-class AdminFormFactory
+class AdminFormFactory implements AdminFormFactoryInterface
 {
-    const SUBMIT_EDIT  = 'submit_edit';
-    const SUBMIT_INDEX = 'submit_index';
-    const SUBMIT_NEW   = 'submit_new';
-
-    /**
-     * @var array
-     */
-    private static $submitButtons = [
-        self::SUBMIT_EDIT  => 'submit.edit',
-        self::SUBMIT_INDEX => 'submit.index',
-        self::SUBMIT_NEW   => 'submit.new',
+    private const SUBMIT_BUTTONS = [
+        AdminFormFactoryInterface::SUBMIT_EDIT  => 'submit.edit',
+        AdminFormFactoryInterface::SUBMIT_INDEX => 'submit.index',
+        AdminFormFactoryInterface::SUBMIT_NEW   => 'submit.new',
     ];
 
     /**
@@ -79,16 +74,12 @@ class AdminFormFactory
     }
 
     /**
-     * @param string   $entityClass Entity class
-     * @param object[] $entities    Entities
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     * @throws \Darvin\AdminBundle\Form\FormException
+     * {@inheritdoc}
      */
-    public function createBatchDeleteForm($entityClass, array $entities = null)
+    public function createBatchDeleteForm(string $entityClass, array $entities = null): FormInterface
     {
         if (null !== $entities && empty($entities)) {
-            throw new FormException(
+            throw new \InvalidArgumentException(
                 sprintf('Unable to create batch delete form for entity class "%s": entity array is empty.', $entityClass)
             );
         }
@@ -108,37 +99,9 @@ class AdminFormFactory
     }
 
     /**
-     * @param object $entity      Entity
-     * @param string $entityClass Entity class
-     *
-     * @return \Symfony\Component\Form\FormInterface
+     * {@inheritdoc}
      */
-    public function createCopyForm($entity, $entityClass)
-    {
-        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_COPY));
-    }
-
-    /**
-     * @param object $entity      Entity
-     * @param string $entityClass Entity class
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createDeleteForm($entity, $entityClass)
-    {
-        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_DELETE));
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta          Metadata
-     * @param object                                $entity        Entity
-     * @param string                                $actionType    Action type
-     * @param string                                $formAction    Form action
-     * @param array                                 $submitButtons Submit button names
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createEntityForm(Metadata $meta, $entity, $actionType, $formAction, array $submitButtons)
+    public function createEntityForm(Metadata $meta, $entity, string $actionType, string $formAction, array $submitButtons): FormInterface
     {
         $options = [
             'action'             => $formAction,
@@ -162,7 +125,7 @@ class AdminFormFactory
 
         foreach ($submitButtons as $name) {
             $builder->add($name, SubmitType::class, [
-                'label' => 1 === $buttonCount ? 'submit.common' : self::$submitButtons[$name],
+                'label' => 1 === $buttonCount ? 'submit.common' : self::SUBMIT_BUTTONS[$name],
             ]);
         }
 
@@ -170,32 +133,25 @@ class AdminFormFactory
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta                         Metadata
-     * @param string                                $parentEntityAssociationParam Parent entity association query parameter name
-     * @param mixed                                 $parentEntityId               Parent entity ID
-     * @param array                                 $options                      Options
-     *
-     * @return \Symfony\Component\Form\FormInterface
+     * {@inheritdoc}
      */
-    public function createFilterForm(Metadata $meta, $parentEntityAssociationParam = null, $parentEntityId = null, array $options = [])
+    public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): FormInterface
     {
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
             return null;
         }
         if (!array_key_exists('action', $options)) {
-            $actionRouteParams = [
-                // Do not allow preserve filter data in URL event listener to work
-                $meta->getFilterFormTypeName() => [],
-            ];
+            $actionRouteParams = [];
 
             if (!empty($parentEntityAssociationParam)) {
                 $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
             }
 
-            $options['action'] = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX, $actionRouteParams);
+            $options['action'] = $this->adminRouter->generate(null, $meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX, $actionRouteParams, UrlGeneratorInterface::ABSOLUTE_PATH, false);
         }
 
         $configuration = $meta->getConfiguration();
+
         $type = $configuration['form']['filter']['type'];
 
         if (empty($type)) {
@@ -212,13 +168,62 @@ class AdminFormFactory
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function createPropertyForm(Metadata $meta, string $property, $entity): FormInterface
+    {
+        $dataClass = $meta->getEntityClass();
+
+        if (!empty($entity) && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
+            $translations = $entity->getTranslations();
+
+            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
+            foreach ($translations as $translation) {
+                if ($translation->getLocale() === $entity->getCurrentLocale()) {
+                    $dataClass = $meta->getTranslationClass();
+                    $entity    = $translation;
+                }
+            }
+        }
+
+        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::class, $entity, [
+            'action_type'       => 'index',
+            'data_class'        => $dataClass,
+            'field_filter'      => $property,
+            'metadata'          => $meta,
+            'required'          => false,
+            'validation_groups' => [
+                'Default',
+                'AdminUpdateProperty',
+            ],
+        ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createCopyForm($entity, ?string $entityClass = null): FormInterface
+    {
+        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_COPY));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createDeleteForm($entity, ?string $entityClass = null): FormInterface
+    {
+        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_DELETE));
+    }
+
+    /**
      * @param object $entity     Entity
      * @param string $namePrefix Form name prefix
      * @param string $action     Form action
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createIdForm($entity, $namePrefix, $action)
+    private function createIdForm($entity, string $namePrefix, string $action): FormInterface
     {
         $id = $this->identifierAccessor->getValue($entity);
 
@@ -236,42 +241,5 @@ class AdminFormFactory
         )->add('id', HiddenType::class);
 
         return $builder->getForm();
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata
-     * @param string                                $property Property
-     * @param object                                $entity   Entity
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createPropertyForm(Metadata $meta, $property, $entity)
-    {
-        $dataClass = $meta->getEntityClass();
-
-        if (!empty($entity) && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
-            $translations = $entity->getTranslations();
-
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
-            foreach ($translations as $translation) {
-                if ($translation->getLocale() === $entity->getCurrentLocale()) {
-                    $dataClass = $meta->getTranslationClass();
-                    $entity = $translation;
-                }
-            }
-        }
-
-        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::class, $entity, [
-            'action_type'       => 'index',
-            'data_class'        => $dataClass,
-            'field_filter'      => $property,
-            'metadata'          => $meta,
-            'required'          => false,
-            'validation_groups' => [
-                'Default',
-                'AdminUpdateProperty',
-            ],
-        ]);
     }
 }

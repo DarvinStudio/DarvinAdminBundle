@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Crud;
 
-use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
@@ -35,13 +35,13 @@ use Symfony\Component\Templating\EngineInterface;
 abstract class AbstractAction
 {
     private const SUBMIT_BUTTON_REDIRECTS = [
-        AdminFormFactory::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
-        AdminFormFactory::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
-        AdminFormFactory::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
+        AdminFormFactoryInterface::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
+        AdminFormFactoryInterface::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
+        AdminFormFactoryInterface::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
     ];
 
     /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
      */
     protected $adminFormFactory;
 
@@ -116,9 +116,9 @@ abstract class AbstractAction
     private $name = null;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface $adminFormFactory Admin form factory
      */
-    public function setAdminFormFactory(AdminFormFactory $adminFormFactory): void
+    public function setAdminFormFactory(AdminFormFactoryInterface $adminFormFactory): void
     {
         $this->adminFormFactory = $adminFormFactory;
     }

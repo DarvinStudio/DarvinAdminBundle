@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Factory\Index;
 
-use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
@@ -27,7 +27,7 @@ use Darvin\Utils\Strings\StringsUtil;
 class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
      */
     private $adminFormFactory;
 
@@ -37,10 +37,10 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
     private $propertyFormRenderer;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory                       $adminFormFactory     Admin form factory
+     * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface              $adminFormFactory     Admin form factory
      * @param \Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface $propertyFormRenderer Property form renderer
      */
-    public function __construct(AdminFormFactory $adminFormFactory, PropertyFormRendererInterface $propertyFormRenderer)
+    public function __construct(AdminFormFactoryInterface $adminFormFactory, PropertyFormRendererInterface $propertyFormRenderer)
     {
         $this->adminFormFactory = $adminFormFactory;
         $this->propertyFormRenderer = $propertyFormRenderer;

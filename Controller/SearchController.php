@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Search\SearcherInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -86,9 +86,9 @@ class SearchController extends Controller
     }
 
     /**
-     * @return \Darvin\AdminBundle\Form\AdminFormFactory
+     * @return \Darvin\AdminBundle\Form\AdminFormFactoryInterface
      */
-    private function getAdminFormFactory(): AdminFormFactory
+    private function getAdminFormFactory(): AdminFormFactoryInterface
     {
         return $this->get('darvin_admin.form.factory');
     }

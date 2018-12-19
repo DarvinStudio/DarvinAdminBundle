@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
@@ -24,7 +24,7 @@ class CopyFormWidget extends AbstractWidget
     const ALIAS = 'copy_form';
 
     /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactory
+     * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
      */
     private $adminFormFactory;
 
@@ -39,9 +39,9 @@ class CopyFormWidget extends AbstractWidget
     private $extendedMetadataFactory;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactory $adminFormFactory Admin form factory
+     * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface $adminFormFactory Admin form factory
      */
-    public function setAdminFormFactory(AdminFormFactory $adminFormFactory)
+    public function setAdminFormFactory(AdminFormFactoryInterface $adminFormFactory)
     {
         $this->adminFormFactory = $adminFormFactory;
     }

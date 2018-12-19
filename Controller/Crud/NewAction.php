@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Event\Crud\CreatedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
-use Darvin\AdminBundle\Form\AdminFormFactory;
+use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
@@ -110,7 +110,7 @@ class NewAction extends AbstractAction
             $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_NEW, [
                 'widget' => $widget,
             ]),
-            $widget ? [AdminFormFactory::SUBMIT_INDEX] : $this->getSubmitButtons()
+            $widget ? [AdminFormFactoryInterface::SUBMIT_INDEX] : $this->getSubmitButtons()
         )->handleRequest($request);
 
         if (!$form->isSubmitted()) {

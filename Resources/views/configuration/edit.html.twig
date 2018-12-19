@@ -18,7 +18,7 @@
 
 {% macro form_row_start(row) %}
 
-    {% set expanded_cookie = 'DARVINADMINCONFIGURATIONEXPANDED' %}
+    {% set expanded_cookie = 'darvin_admin_config' %}
     {% set expanded        = row.vars.id in app.request.cookies.get(expanded_cookie)|split(',') %}
 
     <div class="main_options_item_container"{% if row.vars.hidden|default %} style="display: none;"{% endif %}>

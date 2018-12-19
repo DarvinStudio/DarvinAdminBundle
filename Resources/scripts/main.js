@@ -28,26 +28,59 @@ $('#sidebar_switcher').on('mousedown', function(){
 $('body').on('mousedown', '.spoiler_links', function(){
 	var spoiler_container = $(this).parents('.spoiler_container');
     var body = spoiler_container.find('.spoiler_body');
+    var states;
+
+    var getStates = function ($body) {
+        var states  = [],
+            options = $body.data();
+
+        if (options.cookieName && options.cookieKey) {
+            var cookie = $.cookie(options.cookieName);
+
+            if ('undefined' !== typeof cookie && cookie.length > 0) {
+                states = cookie.split(',');
+            }
+        }
+
+        return states;
+    };
+
+    var setStates = function ($body, states) {
+        var options = $body.data();
+
+        if (options.cookieName && options.cookieKey) {
+            $.cookie(options.cookieName, states.join(','), {
+                path: '/'
+            });
+        }
+    };
+
     if (body.css("display")=="none")
 	{
 		body.hide('normal');
 		body.toggle('normal');
-        if ('undefined' !== typeof body.data('cookie')) {
-            $.cookie(body.data('cookie'), 1, {
-                path: '/'
-            });
+
+		states = getStates(body);
+
+		if (-1 === states.indexOf(body.data('cookie-key'))) {
+		    states.push(body.data('cookie-key'));
         }
+
+		setStates(body, states);
 
         $(document).trigger('app.spoiler.open', {
             $spoiler: body
         });
 	} else {
         body.hide('normal');
-        if ('undefined' !== typeof body.data('cookie')) {
-            $.cookie(body.data('cookie'), 0, {
-                path: '/'
-            });
+
+        states = getStates(body);
+
+        if (-1 !== states.indexOf(body.data('cookie-key'))) {
+            states.splice(states.indexOf(body.data('cookie-key')), 1);
         }
+
+        setStates(body, states);
     }
 	spoiler_container.toggleClass('noactive');
 	return false;
@@ -225,7 +258,7 @@ setTimeout(initSly, 1, $('.sly-container'), slyOptions);
         toggle($toggle, $item);
 
         var cookie = $.cookie($toggle.data('cookie'));
-        var expanded = 'undefined' !== typeof cookie ? cookie.split(',') : [];
+        var expanded = 'undefined' !== typeof cookie && cookie.length > 0 ? cookie.split(',') : [];
 
         if ($item.hasClass('is-open')) {
             if (-1 === expanded.indexOf($toggle.data('id'))) {

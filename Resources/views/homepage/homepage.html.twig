@@ -5,6 +5,9 @@
 {% block heading %}{% trans %}homepage.action.homepage.title{% endtrans %}{% endblock %}
 
 {% block content %}
+
+    {% set cookie_name = 'darvin_admin_spoiler' %}
+
     <div class="main_menu_wrap">
 
         {{ admin_menu('@DarvinAdmin/homepage/menu.html.twig') }}
@@ -12,7 +15,7 @@
     </div>
     {% for name, widget in dashboard.widgets %}
 
-        {% set cookie_name = 'DARVINADMIN' ~ (widget.name|upper|replace({'_': ''})) %}
+        {% set cookie_key = 'dashboard_' ~ widget.name %}
 
         <div class="index_modul spoiler_container">
             <div class="index_modul_header">
@@ -37,8 +40,9 @@
                 {% endif %}
             </div>
             <div class="index_modul_content spoiler_body"
-                 data-cookie="{{ cookie_name }}"
-                 {% if not app.request.cookies.get(cookie_name, true) %}style="display: none;"{% endif %}>
+                 data-cookie-name="{{ cookie_name }}"
+                 data-cookie-key="{{ cookie_key }}"
+                 {% if cookie_key not in app.request.cookies.get(cookie_name)|split(',') %}style="display: none;"{% endif %}>
                 {{ widget.content|raw }}
             </div>
         </div>

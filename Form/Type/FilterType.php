@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
+use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -36,7 +36,7 @@ class FilterType extends AbstractFormType
     ];
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
+     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
      */
     private $fieldBlacklistManager;
 
@@ -56,13 +56,13 @@ class FilterType extends AbstractFormType
     private $defaultFieldOptions;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager            $fieldBlacklistManager Field blacklist manager
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface   $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormRegistryInterface                 $formRegistry          Form registry
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner     Translation joiner
      * @param array                                                         $defaultFieldOptions   Default field options
      */
     public function __construct(
-        FieldBlacklistManager $fieldBlacklistManager,
+        FieldBlacklistManagerInterface $fieldBlacklistManager,
         FormRegistryInterface $formRegistry,
         TranslationJoinerInterface $translationJoiner,
         array $defaultFieldOptions

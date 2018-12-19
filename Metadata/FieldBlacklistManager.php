@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * Field blacklist manager
  */
-class FieldBlacklistManager
+class FieldBlacklistManager implements FieldBlacklistManagerInterface
 {
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
@@ -46,13 +46,9 @@ class FieldBlacklistManager
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta       Metadata
-     * @param string                                $field      Field
-     * @param string                                $configPath Config path
-     *
-     * @return bool
+     * {@inheritdoc}
      */
-    public function isFieldBlacklisted(Metadata $meta, $field, $configPath = null)
+    public function isFieldBlacklisted(Metadata $meta, string $field, ?string $configPath = null): bool
     {
         $entityName = $meta->getEntityName();
 
@@ -72,11 +68,11 @@ class FieldBlacklistManager
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta       Metadata
      * @param string                                $field      Field
-     * @param string                                $configPath Config path
+     * @param string|null                           $configPath Config path
      *
      * @return bool
      */
-    private function checkIfFieldBlacklisted(Metadata $meta, $field, $configPath = null)
+    private function checkIfFieldBlacklisted(Metadata $meta, string $field, ?string $configPath): bool
     {
         $globalConfig = $meta->getConfiguration();
 

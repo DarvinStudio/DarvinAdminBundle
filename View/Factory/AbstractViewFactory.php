@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Factory;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
+use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
@@ -29,7 +29,7 @@ abstract class AbstractViewFactory
     protected $container;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
+     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
      */
     protected $fieldBlacklistManager;
 
@@ -62,9 +62,9 @@ abstract class AbstractViewFactory
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager $fieldBlacklistManager Field blacklist manager
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface $fieldBlacklistManager Field blacklist manager
      */
-    public function setFieldBlacklistManager(FieldBlacklistManager $fieldBlacklistManager): void
+    public function setFieldBlacklistManager(FieldBlacklistManagerInterface $fieldBlacklistManager): void
     {
         $this->fieldBlacklistManager = $fieldBlacklistManager;
     }

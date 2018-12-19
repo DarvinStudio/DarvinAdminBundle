@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -10,11 +10,12 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
+use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
+use Symfony\Component\Form\Guess\TypeGuess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -24,7 +25,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 class EntityType extends AbstractFormType
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
+     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
      */
     private $fieldBlacklistManager;
 
@@ -44,13 +45,13 @@ class EntityType extends AbstractFormType
     private $defaultFieldOptions;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManager              $fieldBlacklistManager Field blacklist manager
+     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface     $fieldBlacklistManager Field blacklist manager
      * @param \Symfony\Component\Form\FormRegistryInterface                   $formRegistry          Form registry
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
      * @param array                                                           $defaultFieldOptions   Default field options
      */
     public function __construct(
-        FieldBlacklistManager $fieldBlacklistManager,
+        FieldBlacklistManagerInterface $fieldBlacklistManager,
         FormRegistryInterface $formRegistry,
         TranslatableManagerInterface $translatableManager,
         array $defaultFieldOptions
@@ -64,9 +65,10 @@ class EntityType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $meta = $this->getMetadata($options);
+
         $configuration = $this->getMetadata($options)->getConfiguration();
 
         $fields = $configuration['form'][$options['action_type']]['fields'];
@@ -111,7 +113,7 @@ class EntityType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -134,7 +136,7 @@ class EntityType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_entity';
     }
@@ -142,7 +144,7 @@ class EntityType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    protected function getEntityTranslationPrefix(array $options)
+    protected function getEntityTranslationPrefix(array $options): string
     {
         return $this->getMetadata($options)->getEntityTranslationPrefix();
     }
@@ -150,7 +152,7 @@ class EntityType extends AbstractFormType
     /**
      * @param array $fieldOptions Field options
      */
-    private function addValidConstraint(array &$fieldOptions)
+    private function addValidConstraint(array &$fieldOptions): void
     {
         if (!isset($fieldOptions['constraints'])) {
             $fieldOptions['constraints'] = new Valid();
@@ -175,7 +177,7 @@ class EntityType extends AbstractFormType
      *
      * @return \Symfony\Component\Form\Guess\TypeGuess
      */
-    private function guessFieldType($field, $entityClass)
+    private function guessFieldType(string $field, string $entityClass): TypeGuess
     {
         if (!$this->translatableManager->isTranslatable($entityClass)) {
             return null;
@@ -193,7 +195,7 @@ class EntityType extends AbstractFormType
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      */
-    private function getMetadata(array $options)
+    private function getMetadata(array $options): Metadata
     {
         return $options['metadata'];
     }

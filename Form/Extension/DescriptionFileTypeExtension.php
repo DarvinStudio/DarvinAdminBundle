@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2018, Darvin Studio
@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Extension;
 
-use Darvin\AdminBundle\Form\Type\BaseType;
+use Darvin\AdminBundle\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormInterface;
@@ -45,7 +45,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         if (null !== $view->vars['description'] || null === $form->getParent()) {
             return;
@@ -54,7 +54,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
         $f = $form;
 
         while ($parent = $f->getParent()) {
-            if ($parent->getConfig()->getType()->getInnerType() instanceof BaseType) {
+            if ($parent->getConfig()->getType()->getInnerType() instanceof EntityType) {
                 $view->vars['description'] = $this->translator->trans('form.file.description', [
                     '%size%' => $this->maxUploadSize,
                 ], 'admin');
@@ -69,7 +69,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType()
+    public function getExtendedType(): string
     {
         return FileType::class;
     }

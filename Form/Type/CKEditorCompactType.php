@@ -65,4 +65,12 @@ class CKEditorCompactType extends AbstractType
     {
         return CKEditorType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_ck_editor_compact';
+    }
 }

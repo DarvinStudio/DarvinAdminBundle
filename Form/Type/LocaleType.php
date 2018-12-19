@@ -52,6 +52,14 @@ class LocaleType extends AbstractType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_locale';
+    }
+
+    /**
      * @return array
      */
     private function buildChoices()

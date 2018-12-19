@@ -142,6 +142,14 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_filter';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getEntityTranslationPrefix(array $options)
     {
         return $this->getMetadata($options)->getEntityTranslationPrefix();

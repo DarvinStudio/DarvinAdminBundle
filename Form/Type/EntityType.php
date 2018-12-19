@@ -19,9 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
 /**
- * Base form type
+ * Entity form type
  */
-class BaseType extends AbstractFormType
+class EntityType extends AbstractFormType
 {
     /**
      * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManager
@@ -129,6 +129,14 @@ class BaseType extends AbstractFormType
             ->setAllowedTypes('data_class', 'string')
             ->setAllowedTypes('field_filter', 'string')
             ->setAllowedTypes('metadata', Metadata::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_entity';
     }
 
     /**

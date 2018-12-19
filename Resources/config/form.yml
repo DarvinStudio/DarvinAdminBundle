@@ -9,7 +9,7 @@ parameters:
 
     darvin_admin.form.twig_extension.class: Darvin\AdminBundle\Twig\Extension\FormExtension
 
-    darvin_admin.form.type.base.class: Darvin\AdminBundle\Form\Type\BaseType
+    darvin_admin.form.type.entity.class: Darvin\AdminBundle\Form\Type\EntityType
 
     darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
 
@@ -53,8 +53,8 @@ services:
         tags:
             - { name: twig.extension }
 
-    darvin_admin.form.type.base:
-        class: '%darvin_admin.form.type.base.class%'
+    darvin_admin.form.type.entity:
+        class: '%darvin_admin.form.type.entity.class%'
         arguments:
             - '@darvin_admin.metadata.field_blacklist_manager'
             - '@form.registry'

@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Form;
 
-use Darvin\AdminBundle\Form\Type\BaseType;
 use Darvin\AdminBundle\Form\Type\BatchDeleteType;
+use Darvin\AdminBundle\Form\Type\EntityType;
 use Darvin\AdminBundle\Form\Type\FilterType;
 use Darvin\AdminBundle\Metadata\IdentifierAccessor;
 use Darvin\AdminBundle\Metadata\Metadata;
@@ -117,7 +117,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
 
         $configuration = $meta->getConfiguration();
 
-        $type = !empty($configuration['form'][$actionType]['type']) ? $configuration['form'][$actionType]['type'] : BaseType::class;
+        $type = !empty($configuration['form'][$actionType]['type']) ? $configuration['form'][$actionType]['type'] : EntityType::class;
 
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
@@ -187,7 +187,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
             }
         }
 
-        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', BaseType::class, $entity, [
+        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', EntityType::class, $entity, [
             'action_type'       => 'index',
             'data_class'        => $dataClass,
             'field_filter'      => $property,

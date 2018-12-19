@@ -45,4 +45,12 @@ class TriStateCheckboxType extends AbstractType
     {
         return ChoiceType::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_tri_state_checkbox';
+    }
 }

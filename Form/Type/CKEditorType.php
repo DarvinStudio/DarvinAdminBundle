@@ -181,6 +181,14 @@ class CKEditorType extends AbstractType
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'darvin_admin_ck_editor';
+    }
+
+    /**
      * @param \Symfony\Component\Form\FormInterface $form Form
      *
      * @return string|null

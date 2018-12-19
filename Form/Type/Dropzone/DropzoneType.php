@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
-use Darvin\AdminBundle\Form\FormException;
 use Darvin\ImageBundle\Size\SizeDescriber;
 use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -35,8 +34,7 @@ use Vich\UploaderBundle\Metadata\MetadataReader;
 class DropzoneType extends AbstractType
 {
     const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin_admin';
-
-    const OPTION_UPLOADABLE_FIELD = 'uploadable_field';
+    const OPTION_UPLOADABLE_FIELD        = 'uploadable_field';
 
     /**
      * @var \Oneup\UploaderBundle\Templating\Helper\UploaderHelper
@@ -111,7 +109,7 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->validateOptions($options);
 
@@ -178,7 +176,7 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['toggle_enabled'] = $options['toggle_enabled'];
 
@@ -244,7 +242,7 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -280,7 +278,7 @@ class DropzoneType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_dropzone';
     }
@@ -289,16 +287,16 @@ class DropzoneType extends AbstractType
      * @param array $options Form options
      *
      * @return string
-     * @throws \Darvin\AdminBundle\Form\FormException
+     * @throws \InvalidArgumentException
      */
-    private function getUploadableField(array $options)
+    private function getUploadableField(array $options): string
     {
         $uploadableClass = $options['uploadable_class'];
 
         $uploadableFields = array_keys($this->vichUploaderMetadataReader->getUploadableFields($uploadableClass));
 
         if (empty($uploadableFields)) {
-            throw new FormException(sprintf('Class "%s" has no uploadable fields.', $uploadableClass));
+            throw new \InvalidArgumentException(sprintf('Class "%s" has no uploadable fields.', $uploadableClass));
         }
         if (isset($options[self::OPTION_UPLOADABLE_FIELD])) {
             if (!in_array($options[self::OPTION_UPLOADABLE_FIELD], $uploadableFields)) {
@@ -309,7 +307,7 @@ class DropzoneType extends AbstractType
                     implode('", "', $uploadableFields)
                 );
 
-                throw new FormException($message);
+                throw new \InvalidArgumentException($message);
             }
 
             $uploadableField = $options[self::OPTION_UPLOADABLE_FIELD];
@@ -322,7 +320,7 @@ class DropzoneType extends AbstractType
                     self::OPTION_UPLOADABLE_FIELD
                 );
 
-                throw new FormException($message);
+                throw new \InvalidArgumentException($message);
             }
 
             $uploadableField = $uploadableFields[0];
@@ -331,7 +329,7 @@ class DropzoneType extends AbstractType
         $uploadable = new $uploadableClass();
 
         if (!$this->propertyAccessor->isWritable($uploadable, $uploadableField)) {
-            throw new FormException(
+            throw new \InvalidArgumentException(
                 sprintf('Uploadable field "%s::$%s" is not writable.', $uploadableClass, $uploadableField)
             );
         }
@@ -342,9 +340,9 @@ class DropzoneType extends AbstractType
     /**
      * @param array $options Form options
      *
-     * @throws \Darvin\AdminBundle\Form\FormException
+     * @throws \InvalidArgumentException
      */
-    private function validateOptions(array $options)
+    private function validateOptions(array $options): void
     {
         $oneupUploaderMapping = $options['oneup_uploader_mapping'];
 
@@ -355,16 +353,16 @@ class DropzoneType extends AbstractType
                 implode('", "', array_keys($this->oneupUploaderConfig['mappings']))
             );
 
-            throw new FormException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         $uploadableClass = $options['uploadable_class'];
 
         if (!class_exists($uploadableClass)) {
-            throw new FormException(sprintf('Uploadable class "%s" does not exist.', $uploadableClass));
+            throw new \InvalidArgumentException(sprintf('Uploadable class "%s" does not exist.', $uploadableClass));
         }
         if (!$this->vichUploaderMetadataReader->isUploadable($uploadableClass)) {
-            throw new FormException(sprintf('Class "%s" is not valid uploadable class.', $uploadableClass));
+            throw new \InvalidArgumentException(sprintf('Class "%s" is not valid uploadable class.', $uploadableClass));
         }
     }
 }

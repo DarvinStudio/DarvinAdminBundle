@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Form\FormException;
 use Darvin\AdminBundle\Metadata\FieldBlacklistManager;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
@@ -31,10 +30,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FilterType extends AbstractFormType
 {
-    /**
-     * @var array
-     */
-    private static $fieldTypeChangeMap = [
+    private const FIELD_TYPE_MAP = [
         CheckboxType::class => TriStateCheckboxType::class,
         TextareaType::class => TextType::class,
     ];
@@ -80,9 +76,10 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $meta = $this->getMetadata($options);
+
         $configuration = $meta->getConfiguration();
 
         foreach ($configuration['form']['filter']['field_groups'] as $fields) {
@@ -103,7 +100,7 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
 
@@ -111,15 +108,16 @@ class FilterType extends AbstractFormType
 
         if (!empty($parentEntityAssociationParam)) {
             $field = $view->children[$parentEntityAssociationParam];
+
             $field->vars['full_name'] = $parentEntityAssociationParam;
-            $field->vars['value'] = $options['parent_entity_id'];
+            $field->vars['value']     = $options['parent_entity_id'];
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -142,7 +140,7 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_filter';
     }
@@ -150,7 +148,7 @@ class FilterType extends AbstractFormType
     /**
      * {@inheritdoc}
      */
-    protected function getEntityTranslationPrefix(array $options)
+    protected function getEntityTranslationPrefix(array $options): string
     {
         return $this->getMetadata($options)->getEntityTranslationPrefix();
     }
@@ -161,9 +159,9 @@ class FilterType extends AbstractFormType
      * @param \Darvin\AdminBundle\Metadata\Metadata        $meta    Metadata
      * @param array                                        $options Options
      *
-     * @throws \Darvin\AdminBundle\Form\FormException
+     * @throws \InvalidArgumentException
      */
-    private function addFields(FormBuilderInterface $builder, array $fields, Metadata $meta, array $options)
+    private function addFields(FormBuilderInterface $builder, array $fields, Metadata $meta, array $options): void
     {
         $mappings = $meta->getMappings();
 
@@ -181,7 +179,7 @@ class FilterType extends AbstractFormType
                     $property
                 );
 
-                throw new FormException($message);
+                throw new \InvalidArgumentException($message);
             }
             if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][filter]')) {
                 continue;
@@ -200,8 +198,8 @@ class FilterType extends AbstractFormType
             } else {
                 $type = $typeGuess->getType();
 
-                if (isset(self::$fieldTypeChangeMap[$type])) {
-                    $type = self::$fieldTypeChangeMap[$type];
+                if (isset(self::FIELD_TYPE_MAP[$type])) {
+                    $type = self::FIELD_TYPE_MAP[$type];
                 }
 
                 $fieldOptions = array_merge($this->getDefaultFieldOptions($type), $fieldOptions);
@@ -216,7 +214,7 @@ class FilterType extends AbstractFormType
      *
      * @return array
      */
-    private function getDefaultFieldOptions($fieldType)
+    private function getDefaultFieldOptions(string $fieldType): array
     {
         $options = isset($this->defaultFieldOptions[$fieldType]) ? $this->defaultFieldOptions[$fieldType] : [];
 
@@ -243,7 +241,7 @@ class FilterType extends AbstractFormType
      *
      * @return \Darvin\AdminBundle\Metadata\Metadata
      */
-    private function getMetadata(array $options)
+    private function getMetadata(array $options): Metadata
     {
         return $options['metadata'];
     }

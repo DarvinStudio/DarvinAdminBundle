@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016-2018, Darvin Studio
@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Form\FormException;
 use Darvin\Utils\Homepage\HomepageRouterInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -58,7 +57,7 @@ class SlugSuffixType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $isHomepage = $this->homepageRouter->isHomepage($form->getParent()->getData());
 
@@ -66,7 +65,7 @@ class SlugSuffixType extends AbstractType
 
         if (!$isHomepage) {
             if (!$this->routeManager->exists($options['route'])) {
-                throw new FormException(
+                throw new \InvalidArgumentException(
                     sprintf('Unable to finish slug suffix form view: route "%s" does not exist.', $options['route'])
                 );
             }
@@ -100,7 +99,7 @@ class SlugSuffixType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -118,7 +117,7 @@ class SlugSuffixType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_slug_suffix';
     }
@@ -126,7 +125,7 @@ class SlugSuffixType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return TextType::class;
     }

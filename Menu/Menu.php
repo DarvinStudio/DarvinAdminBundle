@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 /**
  * Menu
  */
-class Menu
+class Menu implements MenuInterface
 {
     /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
@@ -63,9 +63,7 @@ class Menu
     }
 
     /**
-     * @return \Darvin\AdminBundle\Menu\Item[]
-     *
-     * @throws \RuntimeException
+     * {@inheritdoc}
      */
     public function getItems(): array
     {

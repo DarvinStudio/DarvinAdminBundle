@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Menu\Menu;
+use Darvin\AdminBundle\Menu\MenuInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -21,14 +21,14 @@ use Twig\TwigFunction;
 class MenuExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Menu\Menu
+     * @var \Darvin\AdminBundle\Menu\MenuInterface
      */
     private $menu;
 
     /**
-     * @param \Darvin\AdminBundle\Menu\Menu $menu Menu
+     * @param \Darvin\AdminBundle\Menu\MenuInterface $menu Menu
      */
-    public function __construct(Menu $menu)
+    public function __construct(MenuInterface $menu)
     {
         $this->menu = $menu;
     }

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
@@ -39,7 +39,7 @@ class ChildLinksWidget extends AbstractWidget
     private $entityResolver;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
     private $identifierAccessor;
 
@@ -68,9 +68,9 @@ class ChildLinksWidget extends AbstractWidget
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface $identifierAccessor Identifier accessor
      */
-    public function setIdentifierAccessor(IdentifierAccessor $identifierAccessor)
+    public function setIdentifierAccessor(IdentifierAccessorInterface $identifierAccessor)
     {
         $this->identifierAccessor = $identifierAccessor;
     }
@@ -112,7 +112,7 @@ class ChildLinksWidget extends AbstractWidget
             $associationParam = sprintf('%s[%s]', $childMeta->getFilterFormTypeName(), $association);
         }
 
-        $parentId = $this->identifierAccessor->getValue($entity);
+        $parentId = $this->identifierAccessor->getId($entity);
 
         $childrenCount = (int)$this->em->getRepository($childClass)->createQueryBuilder('o')
             ->select('COUNT(o)')

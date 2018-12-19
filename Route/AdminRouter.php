@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Route;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
@@ -53,7 +53,7 @@ class AdminRouter implements AdminRouterInterface
     private $genericRouter;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
     private $identifierAccessor;
 
@@ -85,7 +85,7 @@ class AdminRouter implements AdminRouterInterface
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver     Entity resolver
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface    $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      * @param \Symfony\Component\HttpFoundation\RequestStack              $requestStack       Request stack
@@ -94,7 +94,7 @@ class AdminRouter implements AdminRouterInterface
     public function __construct(
         EntityResolverInterface $entityResolver,
         RouterInterface $genericRouter,
-        IdentifierAccessor $identifierAccessor,
+        IdentifierAccessorInterface $identifierAccessor,
         AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor,
         RequestStack $requestStack,
@@ -214,7 +214,7 @@ class AdminRouter implements AdminRouterInterface
 
         if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
             try {
-                $extra['id'] = $this->identifierAccessor->getValue($entity);
+                $extra['id'] = $this->identifierAccessor->getId($entity);
             } catch (MetadataException $ex) {
                 throw new \RuntimeException(
                     sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())
@@ -301,7 +301,7 @@ class AdminRouter implements AdminRouterInterface
             return null;
         }
         try {
-            return $this->identifierAccessor->getValue($parent);
+            return $this->identifierAccessor->getId($parent);
         } catch (MetadataException $ex) {
             throw new \RuntimeException(
                 sprintf('Unable to generate URL or path for route "%s": "%s".', $routeType, $ex->getMessage())

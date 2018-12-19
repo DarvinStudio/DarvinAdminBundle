@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -36,7 +36,7 @@ class BreadcrumbsExtension extends AbstractExtension
     private $genericRouter;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
     private $identifierAccessor;
 
@@ -53,14 +53,14 @@ class BreadcrumbsExtension extends AbstractExtension
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
      * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface    $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
         RouterInterface $genericRouter,
-        IdentifierAccessor $identifierAccessor,
+        IdentifierAccessorInterface $identifierAccessor,
         AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor
     ) {
@@ -182,7 +182,7 @@ class BreadcrumbsExtension extends AbstractExtension
         $params = [];
 
         if (empty($entity) && !empty($parentEntity)) {
-            $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getValue($parentEntity);
+            $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getId($parentEntity);
         }
 
         return $this->createCrumb(

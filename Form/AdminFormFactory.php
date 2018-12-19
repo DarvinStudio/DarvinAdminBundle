@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Form;
 use Darvin\AdminBundle\Form\Type\BatchDeleteType;
 use Darvin\AdminBundle\Form\Type\EntityType;
 use Darvin\AdminBundle\Form\Type\FilterType;
-use Darvin\AdminBundle\Metadata\IdentifierAccessor;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -46,7 +46,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     private $genericFormFactory;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessor
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
     private $identifierAccessor;
 
@@ -58,13 +58,13 @@ class AdminFormFactory implements AdminFormFactoryInterface
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
      * @param \Symfony\Component\Form\FormFactoryInterface                $genericFormFactory Generic form factory
-     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessor             $identifierAccessor Identifier accessor
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface    $identifierAccessor Identifier accessor
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
         FormFactoryInterface $genericFormFactory,
-        IdentifierAccessor $identifierAccessor,
+        IdentifierAccessorInterface $identifierAccessor,
         PropertyAccessorInterface $propertyAccessor
     ) {
         $this->adminRouter = $adminRouter;
@@ -225,7 +225,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
      */
     private function createIdForm($entity, string $namePrefix, string $action): FormInterface
     {
-        $id = $this->identifierAccessor->getValue($entity);
+        $id = $this->identifierAccessor->getId($entity);
 
         $builder = $this->genericFormFactory->createNamedBuilder(
             $namePrefix.$id,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -15,7 +15,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 /**
  * Identifier accessor
  */
-class IdentifierAccessor
+class IdentifierAccessor implements IdentifierAccessorInterface
 {
     /**
      * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
@@ -38,14 +38,12 @@ class IdentifierAccessor
     }
 
     /**
-     * @param object $entity Entity
-     *
-     * @return int
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
+     * {@inheritdoc}
      */
-    public function getValue($entity)
+    public function getId($entity)
     {
         $meta = $this->metadataManager->getMetadata($entity);
+
         $identifier = $meta->getIdentifier();
 
         if (!$this->propertyAccessor->isReadable($entity, $identifier)) {

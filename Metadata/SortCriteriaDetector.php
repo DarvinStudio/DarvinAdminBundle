@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -17,7 +17,7 @@ use Gedmo\Tree\TreeListener;
 /**
  * Sort criteria detector
  */
-class SortCriteriaDetector
+class SortCriteriaDetector implements SortCriteriaDetectorInterface
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -58,11 +58,9 @@ class SortCriteriaDetector
     }
 
     /**
-     * @param string $entityClass Entity class
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    public function detect($entityClass)
+    public function detectSortCriteria(string $entityClass): array
     {
         $meta = $this->metadataManager->getMetadata($entityClass);
         $config = $meta->getConfiguration();

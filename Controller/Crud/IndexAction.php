@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Controller\Crud;
 
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
-use Darvin\AdminBundle\Metadata\SortCriteriaDetector;
+use Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
@@ -64,7 +64,7 @@ class IndexAction extends AbstractAction
     private $paginator;
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\SortCriteriaDetector
+     * @var \Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface
      */
     private $sortCriteriaDetector;
 
@@ -90,7 +90,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface $indexViewFactory         Index view factory
      * @param \Darvin\AdminBundle\Controller\Crud\NewAction                    $newAction                CRUD controller new action
      * @param \Knp\Component\Pager\PaginatorInterface                          $paginator                Paginator
-     * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetector                $sortCriteriaDetector     Sort criteria detector
+     * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface       $sortCriteriaDetector     Sort criteria detector
      * @param \Darvin\ContentBundle\Sorting\SortEntityJoinerInterface          $sortEntityJoiner         Sort entity joiner
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface    $translationJoiner        Translation joiner
      * @param \Darvin\Utils\User\UserQueryBuilderFiltererInterface             $userQueryBuilderFilterer User query builder filterer
@@ -102,7 +102,7 @@ class IndexAction extends AbstractAction
         IndexViewFactoryInterface $indexViewFactory,
         NewAction $newAction,
         PaginatorInterface $paginator,
-        SortCriteriaDetector $sortCriteriaDetector,
+        SortCriteriaDetectorInterface $sortCriteriaDetector,
         SortEntityJoinerInterface $sortEntityJoiner,
         TranslationJoinerInterface $translationJoiner,
         UserQueryBuilderFiltererInterface $userQueryBuilderFilterer
@@ -149,7 +149,7 @@ class IndexAction extends AbstractAction
 
         $batchDeleteForm  = null;
         $newForm          = null;
-        $sortCriteria     = $this->sortCriteriaDetector->detect($this->getEntityClass());
+        $sortCriteria     = $this->sortCriteriaDetector->detectSortCriteria($this->getEntityClass());
         $pagination       = null;
         $paginatorOptions = [
             'allowPageNumberExceed' => true,

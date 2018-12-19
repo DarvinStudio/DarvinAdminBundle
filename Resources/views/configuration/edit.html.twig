@@ -207,10 +207,10 @@
                                 <div class="value">
                                     <input type="text" value="{{ form_label(user) }}">
                                 </div>
-                                <div class="btn_container permissions">
+                                <div class="btn_container js-permissions">
                                     {% for permission in user.permissions %}
                                         <button type="button"
-                                                class="permission {{ permission.vars.data ? 'btn_default' : 'btn_show_view' }}"
+                                                class="js-permission {{ permission.vars.data ? 'btn_default' : 'btn_show_view' }}"
                                                 data-checkbox="{{ permission.vars.id }}"
                                                 data-class-checked="btn_default"
                                                 data-class-unchecked="btn_show_view">

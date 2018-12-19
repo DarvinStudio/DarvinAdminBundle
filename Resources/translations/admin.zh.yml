@@ -189,9 +189,9 @@ security:
             back: 换用户回来
             link: 开关
     permission:
-        create_delete: 创建和删除
-        edit: 编辑
-        view: 看
+        admin_create_delete: 创建和删除
+        admin_edit: 编辑
+        admin_view: 看
 size:
     height: 高度
     width: 宽

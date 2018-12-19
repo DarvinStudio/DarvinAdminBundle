@@ -189,9 +189,9 @@ security:
             back: 'Switch User Back'
             link: Switch
     permission:
-        create_delete: 'Create and Remove'
-        edit: Edit
-        view: View
+        admin_create_delete: 'Create and Remove'
+        admin_edit: Edit
+        admin_view: View
 size:
     height: Height
     width: Width

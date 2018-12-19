@@ -1,9 +1,17 @@
-$(document).ready(function () {
-    $('.main_options_container .permissions input').hide();
+(() => {
+    const SELECTORS = {
+        container:  '.js-permissions',
+        permission: '.js-permission[data-checkbox][data-class-checked][data-class-unchecked]'
+    };
 
-    $('body').on('click', '.main_options_container .permission[data-checkbox][data-class-checked][data-class-unchecked]', function() {
-        var $button = $(this);
-        var checkbox = document.getElementById($button.data('checkbox'));
+    $(document).on('app.html', (e, args) => {
+        args.$html.find(SELECTORS.container + ' input').hide();
+    });
+
+    $('body').on('click', SELECTORS.permission, (e) => {
+        let $button = $(e.currentTarget);
+
+        let checkbox = document.getElementById($button.data('checkbox'));
 
         if ($button.hasClass($button.data('class-checked'))) {
             $button
@@ -19,4 +27,4 @@ $(document).ready(function () {
             .addClass($button.data('class-checked'));
         checkbox.checked = true;
     });
-});
+})();

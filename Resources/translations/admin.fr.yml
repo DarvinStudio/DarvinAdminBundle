@@ -189,9 +189,9 @@ security:
             back: 'Changer D''Utilisateur Arrière'
             link: Commutateur
     permission:
-        create_delete: 'Créer et Supprimer des'
-        edit: Modifier
-        view: Vue
+        admin_create_delete: 'Créer et Supprimer des'
+        admin_edit: Modifier
+        admin_view: Vue
 size:
     height: Hauteur
     width: Largeur

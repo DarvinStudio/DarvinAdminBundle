@@ -215,9 +215,9 @@ security:
             back: Вернуть пользователя
             link: Переключиться
     permission:
-        create_delete: Создание и удаление
-        edit:          Редактирование
-        view:          Просмотр
+        admin_create_delete: Создание и удаление
+        admin_edit:          Редактирование
+        admin_view:          Просмотр
 
 size:
     height: Высота

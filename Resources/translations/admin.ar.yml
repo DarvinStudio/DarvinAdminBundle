@@ -186,9 +186,9 @@ security:
             back: 'تبديل المستخدم'
             link: التبديل
     permission:
-        create_delete: 'إنشاء وإزالة'
-        edit: تحرير
-        view: عرض
+        admin_create_delete: 'إنشاء وإزالة'
+        admin_edit: تحرير
+        admin_view: عرض
 size:
     height: ارتفاع
     width: العرض

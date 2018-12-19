@@ -175,9 +175,9 @@ class EntityType extends AbstractFormType
      * @param string $field       Field name
      * @param string $entityClass Entity class
      *
-     * @return \Symfony\Component\Form\Guess\TypeGuess
+     * @return \Symfony\Component\Form\Guess\TypeGuess|null
      */
-    private function guessFieldType(string $field, string $entityClass): TypeGuess
+    private function guessFieldType(string $field, string $entityClass): ?TypeGuess
     {
         if (!$this->translatableManager->isTranslatable($entityClass)) {
             return null;

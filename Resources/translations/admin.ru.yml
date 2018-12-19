@@ -88,7 +88,7 @@ form:
 
 homepage:
     action:
-        homepage:
+        index:
             link:  Главная
             title: Главная страница
 

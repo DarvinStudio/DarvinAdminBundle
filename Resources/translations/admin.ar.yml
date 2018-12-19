@@ -74,7 +74,7 @@ form_collections:
     delete: إزالة
 homepage:
     action:
-        homepage:
+        index:
             link: 'الصفحة الرئيسية'
             title: 'الصفحة الرئيسية'
 image:

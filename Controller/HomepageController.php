@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -10,7 +10,9 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\Dashboard\DashboardInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Homepage controller
@@ -20,17 +22,17 @@ class HomepageController extends Controller
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function homepageAction()
+    public function indexAction(): Response
     {
-        return $this->render('@DarvinAdmin/homepage/homepage.html.twig', [
-            'dashboard' => $this->getDashboard(),
+        return $this->render('@DarvinAdmin/homepage/index.html.twig', [
+            'widgets' => $this->getDashboard()->getWidgets(),
         ]);
     }
 
     /**
      * @return \Darvin\AdminBundle\Dashboard\DashboardInterface
      */
-    private function getDashboard()
+    private function getDashboard(): DashboardInterface
     {
         return $this->get('darvin_admin.dashboard');
     }

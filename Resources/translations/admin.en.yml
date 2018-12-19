@@ -74,7 +74,7 @@ form:
         description: 'Max File Size: %size%MB'
 homepage:
     action:
-        homepage:
+        index:
             link: Homepage
             title: Homepage
 image:

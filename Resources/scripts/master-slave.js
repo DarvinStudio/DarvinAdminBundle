@@ -1,65 +1,78 @@
-$(function () {
-    var selector = '[data-master][data-show-on]';
+(() => {
+    class Slave {
+        constructor(slave) {
+            this.$slave = $(slave);
 
-    var isSlaveVisible = function ($master, showOn) {
-        if ($master.is(':checkbox')) {
-            return (+$master.is(':checked')).toString() === showOn;
+            this.$slaveContainer = this.$slave.is('option') ? this.$slave : this.$slave.closest('.table_row');
+            this.masterSelector  = this.$slave.data('master') + ':first';
+            this.showOn          = this.$slave.data('show-on');
+
+            if ($.isArray(this.showOn) && this.showOn.length > 0) {
+                this.showOn = this.showOn.map(function (item) {
+                    return item.toString();
+                });
+            } else {
+                this.showOn = this.showOn.toString();
+            }
+
+            let $context = this.$slave.closest('.js-translation-tab');
+
+            let $master = $context.find(this.masterSelector);
+
+            if (!$master.length) {
+                $context = this.$slave.closest('form');
+
+                $master = $context.find(this.masterSelector);
+            }
+
+            this.toggle($master);
+
+            $context.on('change', this.masterSelector, (e) => {
+                this.toggle(e.currentTarget);
+            });
         }
 
-        var value = $master.val().toString();
+        toggle(master) {
+            let $master = $(master);
 
-        if ($master.is('select') && $master.prop('multiple')) {
-            if (!$.isArray(showOn)) {
-                return value.indexOf(showOn) >= 0;
-            }
-            for (var i = 0; i < showOn.length; i++) {
-                if (value.indexOf(showOn[i]) >= 0) {
-                    return true;
+            $master.val() && this.isVisible($master) ? this.$slaveContainer.show() : this.$slaveContainer.hide();
+
+            if (this.$slaveContainer.is('option')) {
+                let $options = this.$slaveContainer.closest('select').find('option' + selector);
+
+                if ($options.index(this.$slaveContainer) + 1 === $options.length) {
+                    this.$slaveContainer.closest('select').trigger('chosen:updated');
                 }
             }
-
-            return false;
         }
 
-        return $.isArray(showOn) ? showOn.indexOf(value) >= 0 : value === showOn;
-    };
-    var toggleSlave = function ($slaveContainer, $master, showOn) {
-        $master.val() && isSlaveVisible($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
-
-        if ($slaveContainer.is('option')) {
-            var $options = $slaveContainer.closest('select').find('option' + selector);
-
-            if ($options.index($slaveContainer) + 1 === $options.length) {
-                $slaveContainer.closest('select').trigger('chosen:updated');
+        isVisible($master) {
+            if ($master.is(':checkbox')) {
+                return (+$master.is(':checked')).toString() === this.showOn;
             }
+
+            let value = $master.val().toString();
+
+            if ($master.is('select') && $master.prop('multiple')) {
+                if (!$.isArray(this.showOn)) {
+                    return value.indexOf(this.showOn) >= 0;
+                }
+                for (let i in this.showOn) {
+                    if (value.indexOf(this.showOn[i]) >= 0) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
+            return $.isArray(this.showOn) ? this.showOn.indexOf(value) >= 0 : value === this.showOn;
         }
-    };
+    }
 
-    $(selector).each(function () {
-        var $slave = $(this);
-
-        var masterSelector  = $slave.data('master') + ':first',
-            showOn          = $slave.data('show-on'),
-            $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
-
-        showOn = $.isArray(showOn)
-            ? showOn.map(function (item) {
-                return item.toString();
-            })
-            : showOn.toString();
-
-        var $context = $slave.closest('[class*="_a2lix_translationsFields-"]');
-        var $master = $context.find(masterSelector);
-
-        if (!$master.length) {
-            $context = $slave.closest('form');
-            $master = $context.find(masterSelector);
-        }
-
-        toggleSlave($slaveContainer, $master, showOn);
-
-        $context.on('change', masterSelector, function () {
-            toggleSlave($slaveContainer, $(this), showOn);
+    $(document).on('app.html', (e, args) => {
+        args.$html.find('[data-master][data-show-on]').each((i, slave) => {
+            new Slave(slave);
         });
     });
-});
+})();

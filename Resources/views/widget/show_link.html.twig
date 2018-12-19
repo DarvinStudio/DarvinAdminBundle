@@ -3,8 +3,8 @@
 {% set title = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
 
 <a href="{{ admin_path(entity, entity_class, 'show') }}"
-   data-title="{{ title }}"
-   class="js-link{% if not text_link %} edit_element show{% endif %}">
+   title="{{ title }}"
+   class="js-popup{% if not text_link %} edit_element show{% endif %}">
     {% if text_link %}
         {{ entity }}
     {% else %}

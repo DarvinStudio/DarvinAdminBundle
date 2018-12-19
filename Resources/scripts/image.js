@@ -1,9 +1,45 @@
-$(document).ready(function () {
+(() => {
+    const CLASSES = {
+        disable: 'js-image-disable',
+        enable:  'js-image-enable'
+    };
+
+    const SELECTORS = {
+        'delete':   '.js-image-delete[data-url]',
+        'image':    '.js-image[data-id]',
+        'sortable': '.js-images[data-sort-url]',
+        'toggle':   '.js-image-toggle[data-disable-title][data-disable-url][data-enable-title][data-enable-url]'
+    };
+
+    $(document).on('app.html', (e, args) => {
+        let $sortable = args.$html.find(SELECTORS.sortable);
+
+        if (!$sortable.length) {
+            return;
+        }
+
+        $sortable.sortable({
+            placeholder: 'ui-state-highlight',
+            update:      () => {
+                $.ajax({
+                    url:  $sortable.data('sort-url'),
+                    type: 'post',
+                    data: {
+                        ids: $sortable.find(SELECTORS.image).map((i, image) => {
+                            return $(image).data('id');
+                        }).get()
+                    }
+                }).fail(App.onAjaxFail);
+            }
+        });
+        $sortable.disableSelection();
+    });
+
     $('body')
-        .on('click', '.image_delete[data-url]', function (e) {
+        .on('click', SELECTORS.delete, (e) => {
             e.preventDefault();
 
-            var $link = $(this);
+            let $link = $(e.currentTarget);
 
             if ($link.data('submitted') || !confirm(Translator.trans('image.action.delete.confirm'))) {
                 return;
@@ -11,30 +47,30 @@ $(document).ready(function () {
 
             $link.data('submitted', true);
 
-            var $image = $link.closest('.image');
+            let $image = $link.closest(SELECTORS.image);
 
             $.ajax({
                 url:  $link.data('url'),
                 type: 'post'
-            }).done(function () {
+            }).done(() => {
                 $image.remove();
 
                 App.notify('image.action.delete.success');
             }).fail(App.onAjaxFail);
         })
-        .on('click', '.image_toggle_enabled[data-disable-title][data-disable-url][data-enable-title][data-enable-url]', function (e) {
+        .on('click', SELECTORS.toggle, (e) => {
             e.preventDefault();
 
-            var $link = $(this);
+            let $link = $(e.currentTarget);
 
-            if ($link.hasClass('image_disable')) {
+            if ($link.hasClass(CLASSES.disable)) {
                 $.ajax({
                     url:  $link.data('disable-url'),
                     type: 'post'
-                }).done(function () {
+                }).done(() => {
                     $link
-                        .removeClass('image_disable')
-                        .addClass('image_enable')
+                        .removeClass(CLASSES.disable)
+                        .addClass(CLASSES.enable)
                         .attr('title', $link.data('enable-title'));
 
                     App.notify('image.action.disable.success');
@@ -46,33 +82,13 @@ $(document).ready(function () {
             $.ajax({
                 url:  $link.data('enable-url'),
                 type: 'post'
-            }).done(function () {
+            }).done(() => {
                 $link
-                    .removeClass('image_enable')
-                    .addClass('image_disable')
+                    .removeClass(CLASSES.enable)
+                    .addClass(CLASSES.disable)
                     .attr('title', $link.data('disable-title'));
 
                 App.notify('image.action.enable.success');
             }).fail(App.onAjaxFail);
         });
-
-    var $sortable = $('.table_row .images[data-sort-url]');
-
-    if ($sortable.length) {
-        $sortable.sortable({
-            placeholder: 'ui-state-highlight',
-            update:      function () {
-                $.ajax({
-                    url:  $sortable.data('sort-url'),
-                    type: 'post',
-                    data: {
-                        ids: $sortable.find('.image[data-id]').map(function () {
-                            return $(this).data('id');
-                        }).get()
-                    }
-                }).fail(App.onAjaxFail);
-            }
-        });
-        $sortable.disableSelection();
-    }
-});
+})();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016-2018, Darvin Studio
@@ -29,47 +29,35 @@ use Symfony\Component\Yaml\Yaml;
  */
 class GenerateTranslationsCommand extends Command
 {
-    const CASE_API_TIMEOUT = 3;
-    const CASE_API_URL     = 'https://ws3.morpher.ru/russian/declension?s=';
+    private const CASE_API_TIMEOUT = 3;
+    private const CASE_API_URL     = 'https://ws3.morpher.ru/russian/declension?s=';
 
-    const DEFAULT_GENDER      = 'Male';
-    const DEFAULT_YAML_INDENT = 4;
-    const DEFAULT_YAML_INLINE = 4;
+    private const DEFAULT_GENDER      = 'Male';
+    private const DEFAULT_YAML_INDENT = 4;
+    private const DEFAULT_YAML_INLINE = 4;
 
-    const GENDER_FEMALE = 'f';
-    const GENDER_MALE   = 'm';
-    const GENDER_NEUTER = 'n';
+    private const GENDER_FEMALE = 'f';
+    private const GENDER_MALE   = 'm';
+    private const GENDER_NEUTER = 'n';
 
-    /**
-     * @var array
-     */
-    private static $genders = [
+    private const GENDERS = [
         self::GENDER_FEMALE => 'Female',
         self::GENDER_MALE   => self::DEFAULT_GENDER,
         self::GENDER_NEUTER => 'Neuter',
     ];
 
-    /**
-     * @var string[]
-     */
-    private static $ignoreDocCommentLocales = [
+    private const IGNORE_DOC_COMMENT_LOCALES = [
         'en',
     ];
 
-    /**
-     * @var array
-     */
-    private static $rangeDataTypes = [
+    private const RANGE_DATA_TYPES = [
         Type::DATE,
         Type::DATETIME,
         Type::INTEGER,
         Type::SMALLINT,
     ];
 
-    /**
-     * @var array
-     */
-    private static $rangeSuffixes = [
+    private const RANGE_SUFFIXES = [
         '_from' => 'range.from',
         '_to'   => 'range.to',
     ];
@@ -120,14 +108,14 @@ class GenerateTranslationsCommand extends Command
      * @param string                                                          $modelDir            Translations model directory
      */
     public function __construct(
-        $name,
+        string $name,
         EntityManager $em,
         EntityNamerInterface $entityNamer,
         TranslatableManagerInterface $translatableManager,
         TranslatorInterface $translator,
-        $defaultLocale,
+        string $defaultLocale,
         array $locales,
-        $modelDir
+        string $modelDir
     ) {
         parent::__construct($name);
 
@@ -143,7 +131,7 @@ class GenerateTranslationsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Generates translations using entity class doc comments.')
@@ -162,9 +150,9 @@ class GenerateTranslationsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $entity = $input->getArgument('entity');
-        $yamlIndent = $input->getArgument('yaml_indent');
-        $yamlInline = $input->getArgument('yaml_inline');
-        $gender = $io->choice('Choose gender', self::$genders, self::DEFAULT_GENDER);
+        $yamlIndent = (int)$input->getArgument('yaml_indent');
+        $yamlInline = (int)$input->getArgument('yaml_inline');
+        $gender = $io->choice('Choose gender', self::GENDERS, self::DEFAULT_GENDER);
         $locale = count($this->locales) > 1
             ? $io->choice('Choose locale', $this->locales, $this->defaultLocale)
             : $this->defaultLocale;
@@ -181,13 +169,13 @@ class GenerateTranslationsCommand extends Command
      *
      * @return array
      */
-    private function buildTranslations(ClassMetadataInfo $meta, $gender, $locale)
+    private function buildTranslations(ClassMetadataInfo $meta, string $gender, string $locale): array
     {
         $entityName = $this->entityNamer->name($meta->getName());
 
         $entityTranslatable = $this->translatableManager->isTranslatable($meta->getName());
 
-        $parseDocComments = !in_array($locale, self::$ignoreDocCommentLocales);
+        $parseDocComments = !in_array($locale, self::IGNORE_DOC_COMMENT_LOCALES);
 
         $translations = [
             $entityName => $this->getModel($locale),
@@ -225,7 +213,7 @@ class GenerateTranslationsCommand extends Command
             '@trans_lower_accusative@' => $startsWithAcronym ? $cases['accusative'] : StringsUtil::lowercaseFirst($cases['accusative']),
             '@trans_lower_genitive@'   => $startsWithAcronym ? $cases['genitive'] : StringsUtil::lowercaseFirst($cases['genitive']),
             '@trans_multiple@'         => $cases['multiple'],
-        ], array_keys(self::$genders), $gender);
+        ], array_keys(self::GENDERS), $gender);
     }
 
     /**
@@ -234,7 +222,7 @@ class GenerateTranslationsCommand extends Command
      * @return array
      * @throws \RuntimeException
      */
-    private function getModel($locale)
+    private function getModel(string $locale): array
     {
         $pathname = sprintf('%s/../%s/model.%s.yml', __DIR__, $this->modelDir, $locale);
 
@@ -255,7 +243,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return array
      */
-    private function getPropertyTranslations(ClassMetadataInfo $meta, $parseDocComments, $locale, array $propertiesToSkip = [])
+    private function getPropertyTranslations(ClassMetadataInfo $meta, bool $parseDocComments, string $locale, array $propertiesToSkip = []): array
     {
         $translations = [];
 
@@ -280,8 +268,8 @@ class GenerateTranslationsCommand extends Command
             $mappings = $meta->getAssociationMappings();
             $mapping = isset($mappings[$property]) ? $mappings[$property] : $meta->getFieldMapping($property);
 
-            if (in_array($mapping['type'], self::$rangeDataTypes) && !in_array($property, $meta->getIdentifier())) {
-                foreach (self::$rangeSuffixes as $suffix => $suffixTranslation) {
+            if (in_array($mapping['type'], self::RANGE_DATA_TYPES) && !in_array($property, $meta->getIdentifier())) {
+                foreach (self::RANGE_SUFFIXES as $suffix => $suffixTranslation) {
                     $translations[$propertyUnderscore.$suffix] = sprintf(
                         '%s (%s)',
                         $translation,
@@ -299,7 +287,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return array
      */
-    private function normalizePropertyTranslations(array $translations)
+    private function normalizePropertyTranslations(array $translations): array
     {
         $maxLength = 0;
 
@@ -325,7 +313,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return string
      */
-    private function getClassTranslation(\ReflectionClass $classReflection, $parseDocComments)
+    private function getClassTranslation(\ReflectionClass $classReflection, bool $parseDocComments): string
     {
         if ($parseDocComments) {
             $translation = $this->parseTranslationFromDocComment($classReflection->getDocComment());
@@ -343,7 +331,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return array
      */
-    private function getCases($word)
+    private function getCases(string $word): array
     {
         $cases = array_fill_keys([
             'accusative',
@@ -355,7 +343,7 @@ class GenerateTranslationsCommand extends Command
             return $cases;
         }
 
-        $xml = @file_get_contents(self::CASE_API_URL.urlencode($word), null, stream_context_create([
+        $xml = @file_get_contents(self::CASE_API_URL.urlencode($word), false, stream_context_create([
             'http' => [
                 'timeout' => self::CASE_API_TIMEOUT,
             ],
@@ -395,7 +383,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return array
      */
-    private function replacePlaceholders(array $translations, array $replacements, array $genders, $gender)
+    private function replacePlaceholders(array $translations, array $replacements, array $genders, string $gender): array
     {
         foreach ($translations as $key => $value) {
             if (!is_array($value)) {
@@ -418,9 +406,9 @@ class GenerateTranslationsCommand extends Command
     /**
      * @param string $docComment Doc comment
      *
-     * @return string
+     * @return string|null
      */
-    private function parseTranslationFromDocComment($docComment)
+    private function parseTranslationFromDocComment(string $docComment): ?string
     {
         if (empty($docComment)) {
             return null;
@@ -446,7 +434,7 @@ class GenerateTranslationsCommand extends Command
      *
      * @return bool
      */
-    private function startsWithAcronym($text)
+    private function startsWithAcronym(string $text): bool
     {
         return StringsUtil::isUppercase(preg_split('/\s+/', $text)[0]);
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -32,7 +32,7 @@ class DebugConfigCommand extends Command
      * @param string                                                     $name            Command name
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Admin metadata manager
      */
-    public function __construct($name, AdminMetadataManagerInterface $metadataManager)
+    public function __construct(string $name, AdminMetadataManagerInterface $metadataManager)
     {
         parent::__construct($name);
 
@@ -42,7 +42,7 @@ class DebugConfigCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Dumps admin section configuration.')

@@ -1,11 +1,11 @@
-$(function () {
-    var locale = $('body').data('locale');
+$(document).on('app.html', (e, args) => {
+    let locale = $('body').data('locale');
 
     if ('en' === locale) {
         locale = '';
     }
 
-    var options = $.extend(
+    let options = $.extend(
         $.datepicker.regional['undefined' !== typeof $.datepicker.regional[locale] ? locale : ''],
         $.timepicker.regional['undefined' !== typeof $.timepicker.regional[locale] ? locale : ''],
         {
@@ -13,14 +13,11 @@ $(function () {
         }
     );
 
-    var init;
-    (init = function (context) {
-        var $context = $(context || 'body');
+    ['date', 'datetime', 'time'].map((type) => {
+        let $inputs = args.$html.find('input.' + type);
 
-        ['date', 'datetime', 'time'].map(function (type) {
-            $context.find('input.' + type)[type + 'picker'](options);
-        });
-    })();
-
-    $(document).on('ajaxSuccess', init);
+        if ($inputs.length) {
+            $inputs[type + 'picker'](options);
+        }
+    });
 });

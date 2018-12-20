@@ -16,8 +16,8 @@ use Darvin\AdminBundle\Event\Crud\CopiedEvent;
 use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
-use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\Cloner\ClonerInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormError;
@@ -41,16 +41,16 @@ class CopyAction extends AbstractAction
     private $validator;
 
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @var \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
     private $viewWidgetPool;
 
     /**
      * @param \Darvin\Utils\Cloner\ClonerInterface                      $cloner         Cloner
      * @param \Symfony\Component\Validator\Validator\ValidatorInterface $validator      Validator
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool                $viewWidgetPool View widget pool
+     * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface   $viewWidgetPool View widget pool
      */
-    public function __construct(ClonerInterface $cloner, ValidatorInterface $validator, WidgetPool $viewWidgetPool)
+    public function __construct(ClonerInterface $cloner, ValidatorInterface $validator, ViewWidgetPoolInterface $viewWidgetPool)
     {
         $this->cloner = $cloner;
         $this->validator = $validator;

@@ -16,8 +16,8 @@ use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
-use Darvin\AdminBundle\View\Widget\WidgetPool;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -30,14 +30,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class DeleteAction extends AbstractAction
 {
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @var \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
     private $viewWidgetPool;
 
     /**
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $viewWidgetPool View widget pool
+     * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $viewWidgetPool View widget pool
      */
-    public function __construct(WidgetPool $viewWidgetPool)
+    public function __construct(ViewWidgetPoolInterface $viewWidgetPool)
     {
         $this->viewWidgetPool = $viewWidgetPool;
     }

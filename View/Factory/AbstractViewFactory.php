@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\View\Factory;
 
 use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -44,7 +44,7 @@ abstract class AbstractViewFactory
     protected $stringifier;
 
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @var \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
     protected $widgetPool;
 
@@ -86,9 +86,9 @@ abstract class AbstractViewFactory
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
+     * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $widgetPool View widget pool
      */
-    public function setWidgetPool(WidgetPool $widgetPool): void
+    public function setWidgetPool(ViewWidgetPoolInterface $widgetPool): void
     {
         $this->widgetPool = $widgetPool;
     }

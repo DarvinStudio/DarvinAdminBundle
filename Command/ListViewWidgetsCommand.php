@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Command;
 
-use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,15 +22,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ListViewWidgetsCommand extends Command
 {
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @var \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
     private $widgetPool;
 
     /**
-     * @param string                                     $name       Command name
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
+     * @param string                                                  $name       Command name
+     * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $widgetPool View widget pool
      */
-    public function __construct($name, WidgetPool $widgetPool)
+    public function __construct(string $name, ViewWidgetPoolInterface $widgetPool)
     {
         parent::__construct($name);
 
@@ -40,7 +40,7 @@ class ListViewWidgetsCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Displays list of existing view widgets.');
     }

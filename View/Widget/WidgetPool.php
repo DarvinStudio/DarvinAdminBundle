@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\View\Widget;
 /**
  * View widget pool
  */
-class WidgetPool
+class WidgetPool implements ViewWidgetPoolInterface
 {
     /**
      * @var \Darvin\AdminBundle\View\Widget\WidgetInterface[]
@@ -31,31 +31,43 @@ class WidgetPool
     /**
      * @param \Darvin\AdminBundle\View\Widget\WidgetInterface $widget View widget
      *
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     * @throws \InvalidArgumentException
      */
-    public function addWidget(WidgetInterface $widget)
+    public function addWidget(WidgetInterface $widget): void
     {
         $alias = $widget->getAlias();
 
-        if (isset($this->widgets[$alias])) {
-            throw new WidgetException(sprintf('View widget with alias "%s" already added to pool.', $alias));
+        if ($this->hasWidget($alias)) {
+            throw new \InvalidArgumentException(sprintf('View widget "%s" already exists.', $alias));
         }
 
         $this->widgets[$alias] = $widget;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
-    public function getWidgetAliases()
+    public function getWidget(string $alias): WidgetInterface
+    {
+        if (!$this->hasWidget($alias)) {
+            throw new \InvalidArgumentException(sprintf('View widget "%s" does not exist.', $alias));
+        }
+
+        return $this->widgets[$alias];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getWidgetAliases(): array
     {
         return array_keys($this->widgets);
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Widget\WidgetInterface[]
+     * {@inheritdoc}
      */
-    public function getWidgets()
+    public function getWidgets(): array
     {
         return $this->widgets;
     }
@@ -63,15 +75,10 @@ class WidgetPool
     /**
      * @param string $alias View widget alias
      *
-     * @return \Darvin\AdminBundle\View\Widget\WidgetInterface
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     * @return bool
      */
-    public function getWidget($alias)
+    private function hasWidget(string $alias): bool
     {
-        if (!isset($this->widgets[$alias])) {
-            throw new WidgetException(sprintf('View widget with alias "%s" does not exist.', $alias));
-        }
-
-        return $this->widgets[$alias];
+        return isset($this->widgets[$alias]);
     }
 }

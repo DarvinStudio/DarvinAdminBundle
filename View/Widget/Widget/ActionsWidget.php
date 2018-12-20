@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -19,14 +19,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ActionsWidget extends AbstractWidget
 {
     /**
-     * @var \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @var \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
     private $widgetPool;
 
     /**
-     * @param \Darvin\AdminBundle\View\Widget\WidgetPool $widgetPool View widget pool
+     * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $widgetPool View widget pool
      */
-    public function setWidgetPool(WidgetPool $widgetPool)
+    public function setWidgetPool(ViewWidgetPoolInterface $widgetPool)
     {
         $this->widgetPool = $widgetPool;
     }

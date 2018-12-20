@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\View\Widget\WidgetPool;
+use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\Utils\Service\ServiceProviderInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -46,9 +46,9 @@ class ViewWidgetExtension extends AbstractExtension
     }
 
     /**
-     * @return \Darvin\AdminBundle\View\Widget\WidgetPool
+     * @return \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface
      */
-    private function getWidgetPool(): WidgetPool
+    private function getWidgetPool(): ViewWidgetPoolInterface
     {
         return $this->widgetPoolProvider->getService();
     }

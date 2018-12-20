@@ -1,12 +1,11 @@
-$(function () {
-    var selector = '.type_boolean.name_enabled input[type="checkbox"]:first';
+(() => {
+    const SELECTOR = '.name_enabled.type_boolean input[type="checkbox"]:first';
 
-    var init;
-    (init = function () {
-        $('.js-property-forms .section_table table').find('tr[data-level]').each(function () {
-            var $row = $(this);
+    $(document).on('app.html', (e, args) => {
+        args.$html.find('.js-property-forms table').find('tr[data-level]').each((i, row) => {
+            let $row = $(row);
 
-            var $checkbox = $row.find(selector),
+            let $checkbox = $row.find(SELECTOR),
                 level     = $row.data('level');
 
             if (!$checkbox.length) {
@@ -19,7 +18,7 @@ $(function () {
                 return;
             }
 
-            var $parent = $row.prevAll('tr[data-level="' + (level - 1) + '"]:first').find(selector);
+            let $parent = $row.prevAll('tr[data-level="' + (level - 1) + '"]:first').find(SELECTOR);
 
             $checkbox.removeAttr('disabled');
 
@@ -27,6 +26,5 @@ $(function () {
                 $checkbox.attr('disabled', 'disabled');
             }
         });
-    })();
-    $(document).on('ajaxSuccess', init);
-});
+    });
+})();

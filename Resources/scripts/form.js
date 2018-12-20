@@ -15,7 +15,7 @@
         $('#js-content').html($content);
 
         $(document).trigger('app.html', {
-            $html: $content
+            $html: $content.parent()
         });
     };
     const replaceUrl = (url) => {

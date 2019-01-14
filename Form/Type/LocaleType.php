@@ -38,8 +38,7 @@ class LocaleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'choices'           => $this->buildChoices(),
-            'choices_as_values' => true,
+            'choices' => $this->buildChoices(),
         ]);
     }
 

@@ -29,10 +29,9 @@ class TriStateCheckboxType extends AbstractType
                 'boolean.1' => 1,
                 'boolean.0' => 0,
             ],
-            'choices_as_values' => true,
-            'expanded'          => true,
-            'placeholder'       => 'boolean.indeterminate',
-            'attr'              => [
+            'expanded'    => true,
+            'placeholder' => 'boolean.indeterminate',
+            'attr'        => [
                 'class' => 'js-tri-state',
             ],
         ]);

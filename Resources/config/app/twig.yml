@@ -1,3 +1,5 @@
 twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
     globals:
         darvin_admin: '@darvin_admin.twig.globals'

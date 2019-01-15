@@ -16,12 +16,12 @@
         "ext-json":     "*",
 
         "a2lix/translation-form-bundle":    "^3.0",
-        "friendsofsymfony/ckeditor-bundle": "^1.1",
-        "helios-ag/fm-elfinder-bundle":     "^8.0",
+        "friendsofsymfony/ckeditor-bundle": "^2.0",
+        "helios-ag/fm-elfinder-bundle":     "^9.2",
         "knplabs/knp-paginator-bundle":     "^2.8",
-        "oneup/uploader-bundle":            "^2.0",
+        "oneup/uploader-bundle":            "^2.1",
         "stof/doctrine-extensions-bundle":  "^1.3",
-        "vich/uploader-bundle":             "^1.7",
+        "vich/uploader-bundle":             "^1.8",
         "willdurand/js-translation-bundle": "^2.6",
 
         "darvinstudio/darvin-config-bundle":  "*",

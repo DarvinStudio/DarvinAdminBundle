@@ -11,13 +11,13 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Dashboard\DashboardInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Homepage controller
  */
-class HomepageController extends Controller
+class HomepageController extends AbstractController
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response

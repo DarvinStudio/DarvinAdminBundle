@@ -13,13 +13,13 @@ namespace Darvin\AdminBundle\Controller;
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Configuration controller
  */
-class ConfigurationController extends Controller
+class ConfigurationController extends AbstractController
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request

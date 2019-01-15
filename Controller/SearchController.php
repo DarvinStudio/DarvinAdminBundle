@@ -15,14 +15,14 @@ use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Search\SearcherInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Search controller
  */
-class SearchController extends Controller
+class SearchController extends AbstractController
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request

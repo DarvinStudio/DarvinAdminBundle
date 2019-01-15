@@ -12,12 +12,12 @@ namespace Darvin\AdminBundle\Controller;
 
 use Darvin\ContentBundle\Widget\WidgetException;
 use Darvin\ContentBundle\Widget\WidgetInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * CKEditor controller
  */
-class CKEditorController extends Controller
+class CKEditorController extends AbstractController
 {
     /**
      * @param string $widgetName Widget name

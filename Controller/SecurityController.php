@@ -10,13 +10,13 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 
 /**
  * Security controller
  */
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     /**
      * @return \Symfony\Component\HttpFoundation\Response

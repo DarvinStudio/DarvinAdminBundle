@@ -78,7 +78,7 @@ darvin_admin:
         -
             alias:  log
             entity: Darvin\AdminBundle\Entity\LogEntry
-            config: @DarvinAdminBundle/Resources/config/admin/log.yml
+            config: '@DarvinAdminBundle/Resources/config/admin/log.yml'
 ```
 
 Конфигурация любого раздела может быть переопределена в главном конфиге приложения (app/config/config.yml). Для этого нужно

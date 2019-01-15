@@ -24,8 +24,8 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Vich\UploaderBundle\Metadata\MetadataReader;
 
 /**
@@ -47,7 +47,7 @@ class DropzoneType extends AbstractType
     private $propertyAccessor;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
 
@@ -79,7 +79,7 @@ class DropzoneType extends AbstractType
     /**
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
-     * @param \Symfony\Component\Translation\TranslatorInterface          $translator                 Translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface          $translator                 Translator
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
      * @param array                                                       $constraints                Constraints
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration

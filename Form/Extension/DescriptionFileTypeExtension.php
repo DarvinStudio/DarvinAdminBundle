@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Description file form type extension
@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class DescriptionFileTypeExtension extends AbstractTypeExtension
 {
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
 
@@ -33,7 +33,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
     private $maxUploadSize;
 
     /**
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator    Translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator    Translator
      * @param int                                                $maxUploadSize Max upload size in MB
      */
     public function __construct(TranslatorInterface $translator, $maxUploadSize)

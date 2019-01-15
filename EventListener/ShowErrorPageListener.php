@@ -20,7 +20,7 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Show error page event listener
@@ -48,7 +48,7 @@ class ShowErrorPageListener
     private $templating;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
 
@@ -77,7 +77,7 @@ class ShowErrorPageListener
      * @param \Psr\Log\LoggerInterface                            $logger        Logger
      * @param \Symfony\Component\Routing\RouterInterface          $router        Router
      * @param \Symfony\Component\Templating\EngineInterface       $templating    Templating
-     * @param \Symfony\Component\Translation\TranslatorInterface  $translator    Translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface  $translator    Translator
      * @param string                                              $firewallName  Firewall name
      * @param string                                              $homepageRoute Homepage route
      * @param string[]                                            $locales       Locales

@@ -21,7 +21,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CRUD controller update property action
@@ -34,13 +34,13 @@ class UpdatePropertyAction extends AbstractAction
     private $propertyFormRenderer;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
 
     /**
      * @param \Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface $propertyFormRenderer Property form renderer
-     * @param \Symfony\Component\Translation\TranslatorInterface              $translator           Translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface              $translator           Translator
      */
     public function __construct(PropertyFormRendererInterface $propertyFormRenderer, TranslatorInterface $translator)
     {

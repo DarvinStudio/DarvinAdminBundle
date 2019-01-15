@@ -21,8 +21,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Generate translations command
@@ -78,7 +78,7 @@ class GenerateTranslationsCommand extends Command
     private $translatableManager;
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
 
@@ -102,7 +102,7 @@ class GenerateTranslationsCommand extends Command
      * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
      * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface            $entityNamer         Entity namer
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
-     * @param \Symfony\Component\Translation\TranslatorInterface              $translator          Translator
+     * @param \Symfony\Contracts\Translation\TranslatorInterface              $translator          Translator
      * @param string                                                          $defaultLocale       Default locale
      * @param string[]                                                        $locales             Locales
      * @param string                                                          $modelDir            Translations model directory

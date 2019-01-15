@@ -39,7 +39,7 @@ class CKEditorController extends AbstractController
         ]);
         $response->headers->set('Content-Type', 'application/javascript');
 
-        if (!$this->getParameter('kernel.debug')) {
+        if (!$this->container->getParameter('kernel.debug')) {
             $response->setMaxAge(365 * 24 * 60 * 60);
         }
 

@@ -33,7 +33,7 @@ class SearchController extends AbstractController
     {
         $query = htmlspecialchars($request->query->get('q'));
 
-        $queryMinLength = $this->getParameter('darvin_admin.search_query_min_length');
+        $queryMinLength = $this->container->getParameter('darvin_admin.search_query_min_length');
 
         $queryTooShort = mb_strlen($query) < $queryMinLength;
 

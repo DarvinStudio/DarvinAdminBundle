@@ -30,10 +30,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
+        $treeBuilder = new TreeBuilder('root');
 
-        $rootNode = $treeBuilder->root('root');
-        $rootNode
+        $treeBuilder->getRootNode()
             ->validate()
                 ->ifTrue(function ($v) {
                     return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
@@ -132,7 +131,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addMenuNode()
     {
-        $rootNode = (new TreeBuilder())->root('menu');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder('menu'))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('group')->defaultNull()->end()
@@ -161,7 +161,8 @@ class Configuration implements ConfigurationInterface
     {
         $normalizeFormType = $this->createNormalizeFormTypeClosure();
 
-        $rootNode = (new TreeBuilder())->root($form);
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder($form))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->validate()
                 ->ifTrue(function ($v) {
@@ -210,7 +211,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addViewNode($view, array $defaultActionWidgets = [])
     {
-        $rootNode = (new TreeBuilder())->root($view);
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder($view))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->validate()
                 ->ifTrue(function ($v) {

@@ -27,8 +27,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('darvin_admin');
+        $treeBuilder = new TreeBuilder('darvin_admin');
+
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = $treeBuilder->getRootNode();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
@@ -59,7 +61,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addCKEditorNode(): NodeDefinition
     {
-        $rootNode = (new TreeBuilder())->root('ckeditor');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder('ckeditor'))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->cannotBeEmpty()->end()
@@ -73,7 +76,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addFormNode(): NodeDefinition
     {
-        $rootNode = (new TreeBuilder())->root('form');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder('form'))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('default_field_options')
@@ -88,7 +92,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addSectionsNode(): NodeDefinition
     {
-        $rootNode = (new TreeBuilder())->root('sections');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder('sections'))->getRootNode();
         $rootNode
             ->prototype('array')->canBeDisabled()
                 ->children()
@@ -104,7 +109,8 @@ class Configuration implements ConfigurationInterface
      */
     private function addMenuNode(): NodeDefinition
     {
-        $rootNode = (new TreeBuilder())->root('menu');
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
+        $rootNode = (new TreeBuilder('menu'))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('groups')

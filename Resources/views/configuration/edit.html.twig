@@ -96,6 +96,12 @@
                                     'class': child.vars.block_prefixes[1]|default,
                                 }) %}
 
+                                {% if 'collection' == attr.class %}
+
+                                    {% set attr = attr|merge({'class': 'js-collection'}) %}
+
+                                {% endif %}
+
                                 {{ form_widget(child, {'attr': attr}) }}
                             {% endif %}
                         </div>

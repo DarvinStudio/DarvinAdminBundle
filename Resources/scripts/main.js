@@ -238,12 +238,19 @@ setTimeout(initSly, 1, $('.sly-container'), slyOptions);
     var selector = '.btn_toggle[data-cookie][data-id][data-text-open][data-text-close]';
 
     var toggle = function ($toggle, $item) {
-        $toggle.parent().next().slideToggle(100);
+        var $spoiler = $toggle.parent().next();
+
+        $spoiler.slideToggle(100);
+
         $toggle.toggleClass('is-open');
         $item.toggleClass('is-open');
 
         if ($item.hasClass('is-open')) {
             $toggle.text($toggle.attr('data-text-open'));
+
+            $(document).trigger('app.spoiler.open', {
+                $spoiler: $spoiler
+            });
 
             return;
         }

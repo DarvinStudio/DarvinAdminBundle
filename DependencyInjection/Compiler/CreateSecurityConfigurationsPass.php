@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Darvin\AdminBundle\Configuration\SectionConfiguration;
-use Darvin\ConfigBundle\DependencyInjection\Compiler\AddConfigurationsPass;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,6 +37,7 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
                 $section->getAlias(),
                 $section->getEntity(),
             ]);
+            $definition->addTag('darvin_config.configuration');
 
             $definitions[$section->getSecurityConfigId()] = $definition;
 
@@ -45,9 +45,6 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
         }
 
         $container->addDefinitions($definitions);
-
-        // TODO: Use compiler pass priorities.
-        (new AddConfigurationsPass())->addConfigurations($container, array_keys($definitions));
     }
 
     /**

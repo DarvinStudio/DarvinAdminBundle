@@ -109,7 +109,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             }
         }
 
-        (new ExtensionConfigurator(__DIR__.'/../Resources/config/app'))->configure($container, [
+        (new ExtensionConfigurator($container, __DIR__.'/../Resources/config/app'))->configure([
             'a2lix_translation_form',
             'bazinga_js_translation',
             'fm_elfinder',

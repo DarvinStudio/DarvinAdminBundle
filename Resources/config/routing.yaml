@@ -1,17 +1,17 @@
 darvin_admin_import_ckeditor:
-    resource: '@DarvinAdminBundle/Resources/config/routing/ckeditor.yml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/ckeditor.yaml'
     prefix:   /ckeditor
 
 darvin_admin_import_configuration:
-    resource: '@DarvinAdminBundle/Resources/config/routing/configuration.yml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/configuration.yaml'
     prefix:   /configuration
 
 darvin_admin_import_image:
-    resource: '@DarvinImageBundle/Resources/config/routing.yml'
+    resource: '@DarvinImageBundle/Resources/config/routing.yaml'
     prefix:   /image
 
 darvin_admin_import_search:
-    resource: '@DarvinAdminBundle/Resources/config/routing/search.yml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/search.yaml'
     prefix:   /search
 
 darvin_admin_import_fm_elfinder:
@@ -22,7 +22,7 @@ darvin_admin_import_loader:
     type:     darvin_admin
 
 darvin_admin_import_security:
-    resource: '@DarvinAdminBundle/Resources/config/routing/security.yml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/security.yaml'
 
 darvin_admin_import_homepage:
-    resource: '@DarvinAdminBundle/Resources/config/routing/homepage.yml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/homepage.yaml'

@@ -72,7 +72,7 @@ darvin_utils:
         from: "%mailer_from%"
 ```
 
-- настраиваем локали в главном конфиге приложения ("app/config/config.yml"):
+- настраиваем локали в главном конфиге приложения ("app/config/config.yaml"):
 
 ```yaml
 parameters:
@@ -84,7 +84,7 @@ parameters:
     locale_pattern: "|de|en|ru"
 ```
 
-- добавляем настройки безопасности в "app/config/security.yml":
+- добавляем настройки безопасности в "app/config/security.yaml":
 
 ```yaml
 security:
@@ -143,8 +143,8 @@ security:
         - { path: ^/admin/,                           roles: [ ROLE_ADMIN ] }
 ```
 
-- добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yml.dist"
- и "app/config/parameters.yml"):
+- добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yaml.dist"
+ и "app/config/parameters.yaml"):
  
 ```yaml
 darvin_auth_client_id:     secret
@@ -160,10 +160,10 @@ upload_path:        files/uploads
 upload_max_size_mb: 2
 ```
 
-*после добавления параметров в файл "app/config/parameters.yml.dist" рекомендуется выполнить команду "composer install"
- для интерактивного обновления "app/config/parameters.yml*
+*после добавления параметров в файл "app/config/parameters.yaml.dist" рекомендуется выполнить команду "composer install"
+ для интерактивного обновления "app/config/parameters.yaml*
 
-- добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yml"):
+- добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yaml"):
 
 ```yaml
 # Third party bundles
@@ -179,7 +179,7 @@ oneup_uploader:
 
 # Darvin bundles
 darvin_admin:
-    resource:     "@DarvinAdminBundle/Resources/config/routing.yml"
+    resource:     "@DarvinAdminBundle/Resources/config/routing.yaml"
     prefix:       /admin/{_locale}
     requirements: { _locale: "%locale_pattern%" }
 ```
@@ -188,7 +188,7 @@ darvin_admin:
 
 - настраиваем непосредственно бандл в соответствии с [описанием](reference/configuration.md) его конфигурации;
 
-- включаем компонент "Translator", раскомментировав соответствующие строки в "app/config/config.yml":
+- включаем компонент "Translator", раскомментировав соответствующие строки в "app/config/config.yaml":
 
 ```yaml
 framework:

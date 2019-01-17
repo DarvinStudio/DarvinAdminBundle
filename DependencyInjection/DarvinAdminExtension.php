@@ -79,7 +79,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'uploader',
             'view',
         ] as $resource) {
-            $loader->load($resource.'.yml');
+            $loader->load($resource.'.yaml');
         }
         switch ($container->getParameter('kernel.environment')) {
             case 'dev':
@@ -88,7 +88,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                     'translation_generator',
                     'view',
                 ] as $resource) {
-                    $loader->load(sprintf('dev/%s.yml', $resource));
+                    $loader->load(sprintf('dev/%s.yaml', $resource));
                 }
 
                 break;
@@ -96,19 +96,19 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 foreach ([
                     'cache',
                 ] as $resource) {
-                    $loader->load(sprintf('prod/%s.yml', $resource));
+                    $loader->load(sprintf('prod/%s.yaml', $resource));
                 }
 
                 break;
         }
         if ($this->showErrorPageListenerEnabled) {
-            $loader->load('error.yml');
+            $loader->load('error.yaml');
         }
 
         $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['LexikTranslationBundle'])) {
-            $loader->load('translation.yml');
+            $loader->load('translation.yaml');
         }
     }
 
@@ -143,7 +143,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'twig',
         ] as $extension) {
             if ($container->hasExtension($extension)) {
-                $container->prependExtensionConfig($extension, Yaml::parse(file_get_contents($fileLocator->locate($extension.'.yml')))[$extension]);
+                $container->prependExtensionConfig($extension, Yaml::parse(file_get_contents($fileLocator->locate($extension.'.yaml')))[$extension]);
             }
         }
         if ($container->hasExtension('darvin_user')) {
@@ -160,7 +160,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             [
                 'alias'  => 'log',
                 'entity' => LogEntry::class,
-                'config' => '@DarvinAdminBundle/Resources/config/admin/log.yml',
+                'config' => '@DarvinAdminBundle/Resources/config/admin/log.yaml',
             ],
         ];
 
@@ -169,7 +169,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         if (isset($bundles['LexikTranslationBundle'])) {
             $sections[] = [
                 'entity' => 'Lexik\Bundle\TranslationBundle\Entity\Translation',
-                'config' => '@DarvinAdminBundle/Resources/config/admin/translation.yml',
+                'config' => '@DarvinAdminBundle/Resources/config/admin/translation.yaml',
             ];
         }
 

@@ -13,7 +13,7 @@
  с символа "@". Пример:
  
 ```yaml
-extends: "@DarvinUserBundle/Resources/config/admin/user.yml"
+extends: "@DarvinUserBundle/Resources/config/admin/user.yaml"
 ```
 
 При наследовании по умолчанию происходит объединение параметров алгоритмом, аналогичным реализованному в функции
@@ -68,7 +68,7 @@ form:
 - **enabled** - активен ли раздел (по умолчанию - true).
 
 Путь до файла конфигурации может быть относительным бандла, в таком случае он должен начинаться с "@", например
- "@DarvinAdminBundle/Resources/config/admin/image.yml".
+ "@DarvinAdminBundle/Resources/config/admin/image.yaml".
 
 Пример:
 
@@ -78,10 +78,10 @@ darvin_admin:
         -
             alias:  log
             entity: Darvin\AdminBundle\Entity\LogEntry
-            config: '@DarvinAdminBundle/Resources/config/admin/log.yml'
+            config: '@DarvinAdminBundle/Resources/config/admin/log.yaml'
 ```
 
-Конфигурация любого раздела может быть переопределена в главном конфиге приложения (app/config/config.yml). Для этого нужно
+Конфигурация любого раздела может быть переопределена в главном конфиге приложения (app/config/config.yaml). Для этого нужно
  добавить в секцию "sections" конфигурацию с параметром "entity", соответствующим переопределяемой конфигурации.
 
 Пример отключения раздела администрирования:

@@ -224,7 +224,7 @@ class GenerateTranslationsCommand extends Command
      */
     private function getModel(string $locale): array
     {
-        $pathname = sprintf('%s/../%s/model.%s.yml', __DIR__, $this->modelDir, $locale);
+        $pathname = sprintf('%s/../%s/model.%s.yaml', __DIR__, $this->modelDir, $locale);
 
         $content = @file_get_contents($pathname);
 

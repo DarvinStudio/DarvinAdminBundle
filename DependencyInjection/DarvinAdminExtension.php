@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\DependencyInjection\ConfigFileLoader;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
-use Symfony\Component\Config\FileLocator;
+use Darvin\Utils\DependencyInjection\ExtensionConfigPrepender;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -23,7 +23,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -110,9 +109,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             }
         }
 
-        $fileLocator = new FileLocator(__DIR__.'/../Resources/config/app');
-
-        foreach ([
+        (new ExtensionConfigPrepender($container, __DIR__.'/../Resources/config/app'))->prependConfigs([
             'a2lix_translation_form',
             'bazinga_js_translation',
             'fm_elfinder',
@@ -122,11 +119,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'liip_imagine',
             'oneup_uploader',
             'twig',
-        ] as $extension) {
-            if ($container->hasExtension($extension)) {
-                $container->prependExtensionConfig($extension, Yaml::parse(file_get_contents($fileLocator->locate($extension.'.yaml')))[$extension]);
-            }
-        }
+        ]);
+
         if ($container->hasExtension('darvin_user')) {
             $container->prependExtensionConfig('darvin_user', [
                 'roles' => Roles::getRoles(),

@@ -13,9 +13,9 @@ namespace Darvin\AdminBundle\DependencyInjection;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
-use Darvin\Utils\DependencyInjection\ConfigFileLoader;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
-use Darvin\Utils\DependencyInjection\ExtensionConfigPrepender;
+use Darvin\Utils\DependencyInjection\ConfigLoader;
+use Darvin\Utils\DependencyInjection\ExtensionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -57,7 +57,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         (new ConfigInjector())->inject($this->processConfiguration(new Configuration(), $configs), $container, $this->getAlias());
 
-        (new ConfigFileLoader($container, __DIR__.'/../Resources/config'))->load([
+        (new ConfigLoader($container, __DIR__.'/../Resources/config'))->load([
             'ace_editor',
             'breadcrumbs',
             'ckeditor',
@@ -109,7 +109,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             }
         }
 
-        (new ExtensionConfigPrepender(__DIR__.'/../Resources/config/app'))->prependConfigs($container, [
+        (new ExtensionConfigurator(__DIR__.'/../Resources/config/app'))->configure($container, [
             'a2lix_translation_form',
             'bazinga_js_translation',
             'fm_elfinder',

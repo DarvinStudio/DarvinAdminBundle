@@ -55,7 +55,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         $this->mergeSectionConfigs($configs);
 
-        (new ConfigInjector())->inject($this->processConfiguration(new Configuration(), $configs), $container, $this->getAlias());
+        (new ConfigInjector($container))->inject($this->processConfiguration(new Configuration(), $configs), $this->getAlias());
 
         (new ConfigLoader($container, __DIR__.'/../Resources/config'))->load([
             'ace_editor',

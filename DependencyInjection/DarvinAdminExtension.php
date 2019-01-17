@@ -128,13 +128,11 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         }
 
         $sections = [
-            [
-                'alias'  => 'configuration',
-                'entity' => ParameterEntity::class,
+            ParameterEntity::class => [
+                'alias' => 'configuration',
             ],
-            [
+            LogEntry::class => [
                 'alias'  => 'log',
-                'entity' => LogEntry::class,
                 'config' => '@DarvinAdminBundle/Resources/config/admin/log.yaml',
             ],
         ];
@@ -142,8 +140,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['LexikTranslationBundle'])) {
-            $sections[] = [
-                'entity' => 'Lexik\Bundle\TranslationBundle\Entity\Translation',
+            $sections['Lexik\Bundle\TranslationBundle\Entity\Translation'] = [
                 'config' => '@DarvinAdminBundle/Resources/config/admin/translation.yaml',
             ];
         }
@@ -208,20 +205,17 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             if (!isset($config['sections'])) {
                 continue;
             }
-            foreach ($config['sections'] as $sectionKey => $section) {
-                if (!isset($section['alias']) && !isset($section['entity'])) {
-                    continue;
-                }
+            foreach ($config['sections'] as $sectionEntity => $section) {
                 foreach ($configs as $otherConfigKey => $otherConfig) {
                     if (!isset($otherConfig['sections']) || $otherConfigKey === $configKey) {
                         continue;
                     }
-                    foreach ($otherConfig['sections'] as $otherSectionKey => $otherSection) {
-                        if ((isset($section['alias']) && isset($otherSection['alias']) && $otherSection['alias'] === $section['alias'])
-                            || (isset($section['entity']) && isset($otherSection['entity']) && $otherSection['entity'] === $section['entity'])
+                    foreach ($otherConfig['sections'] as $otherSectionEntity => $otherSection) {
+                        if (($otherSectionEntity === $sectionEntity)
+                            || (isset($section['alias']) && isset($otherSection['alias']) && $otherSection['alias'] === $section['alias'])
                         ) {
-                            $configs[$configKey]['sections'][$sectionKey] = array_merge($section, $otherSection);
-                            unset($configs[$otherConfigKey]['sections'][$otherSectionKey]);
+                            $configs[$configKey]['sections'][$sectionEntity] = array_merge($section, $otherSection);
+                            unset($configs[$otherConfigKey]['sections'][$otherSectionEntity]);
                         }
                     }
                 }

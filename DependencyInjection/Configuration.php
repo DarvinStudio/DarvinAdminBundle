@@ -94,11 +94,10 @@ class Configuration implements ConfigurationInterface
     {
         /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
         $rootNode = (new TreeBuilder('sections'))->getRootNode();
-        $rootNode
+        $rootNode->useAttributeAsKey('entity')
             ->prototype('array')->canBeDisabled()
                 ->children()
                     ->scalarNode('alias')->defaultNull()->end()
-                    ->scalarNode('entity')->isRequired()->cannotBeEmpty()->end()
                     ->scalarNode('config')->defaultNull();
 
         return $rootNode;

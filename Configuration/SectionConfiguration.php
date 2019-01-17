@@ -87,13 +87,12 @@ class SectionConfiguration
         if (null === $this->sections) {
             $this->sections = [];
 
-            foreach ($this->config as $params) {
-                if (!$params['enabled']) {
+            foreach ($this->config as $entity => $attr) {
+                if (!$attr['enabled']) {
                     continue;
                 }
 
-                $alias  = $params['alias'];
-                $entity = $params['entity'];
+                $alias = $attr['alias'];
 
                 if (empty($alias)) {
                     $alias = $this->objectNamer->name($entity);
@@ -101,7 +100,7 @@ class SectionConfiguration
 
                 $resolvedEntity = $this->entityResolver->resolve($entity);
 
-                $this->sections[$resolvedEntity] = new Section($alias, $resolvedEntity, $params['config']);
+                $this->sections[$resolvedEntity] = new Section($alias, $resolvedEntity, $attr['config']);
             }
         }
 

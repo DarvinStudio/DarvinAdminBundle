@@ -13,11 +13,11 @@ namespace Darvin\AdminBundle\DependencyInjection;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
+use Darvin\Utils\DependencyInjection\ConfigFileLoader;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
-use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -37,14 +37,14 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     /**
      * @var bool
      */
-    private $showErrorPageListenerEnabled;
+    private $showErrorPages;
 
     /**
      * Extension constructor.
      */
     public function __construct()
     {
-        $this->showErrorPageListenerEnabled = false;
+        $this->showErrorPages = false;
     }
 
     /**
@@ -52,13 +52,13 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $showErrorPages = $this->showErrorPages;
+
         $this->mergeSectionConfigs($configs);
 
         (new ConfigInjector())->inject($this->processConfiguration(new Configuration(), $configs), $container, $this->getAlias());
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-
-        foreach ([
+        (new ConfigFileLoader($container, __DIR__.'/../Resources/config'))->load([
             'ace_editor',
             'breadcrumbs',
             'ckeditor',
@@ -78,38 +78,19 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'twig',
             'uploader',
             'view',
-        ] as $resource) {
-            $loader->load($resource.'.yaml');
-        }
-        switch ($container->getParameter('kernel.environment')) {
-            case 'dev':
-                foreach ([
-                    'metadata',
-                    'translation_generator',
-                    'view',
-                ] as $resource) {
-                    $loader->load(sprintf('dev/%s.yaml', $resource));
-                }
 
-                break;
-            case 'prod':
-                foreach ([
-                    'cache',
-                ] as $resource) {
-                    $loader->load(sprintf('prod/%s.yaml', $resource));
-                }
+            'dev/metadata'              => ['env' => 'dev'],
+            'dev/translation_generator' => ['env' => 'dev'],
+            'dev/view'                  => ['env' => 'dev'],
 
-                break;
-        }
-        if ($this->showErrorPageListenerEnabled) {
-            $loader->load('error.yaml');
-        }
+            'prod/cache'                => ['env' => 'prod'],
 
-        $bundles = $container->getParameter('kernel.bundles');
+            'translation'               => ['bundle' => 'LexikTranslationBundle'],
 
-        if (isset($bundles['LexikTranslationBundle'])) {
-            $loader->load('translation.yaml');
-        }
+            'error'                     => ['callback' => function () use ($showErrorPages) {
+                return $showErrorPages;
+            }],
+        ]);
     }
 
     /**
@@ -124,7 +105,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 if (isset($config['firewalls'][self::FIREWALL_NAME])) {
                     $firewallConfig = $config['firewalls'][self::FIREWALL_NAME];
 
-                    $this->showErrorPageListenerEnabled = isset($firewallConfig['pattern']) && '^/' !== $firewallConfig['pattern'];
+                    $this->showErrorPages = isset($firewallConfig['pattern']) && '^/' !== $firewallConfig['pattern'];
                 }
             }
         }

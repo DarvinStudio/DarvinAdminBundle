@@ -43,20 +43,16 @@ class SwitchUserWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getAllowedEntityClasses(): array
+    protected function getAllowedEntityClasses(): iterable
     {
-        return [
-            BaseUser::class,
-        ];
+        yield BaseUser::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions(): array
+    protected function getRequiredPermissions(): iterable
     {
-        return [
-            Permission::VIEW,
-        ];
+        yield Permission::VIEW;
     }
 }

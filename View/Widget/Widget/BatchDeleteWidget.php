@@ -61,10 +61,8 @@ class BatchDeleteWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions(): array
+    protected function getRequiredPermissions(): iterable
     {
-        return [
-            Permission::CREATE_DELETE,
-        ];
+        yield Permission::CREATE_DELETE;
     }
 }

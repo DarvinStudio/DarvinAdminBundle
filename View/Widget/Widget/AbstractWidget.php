@@ -141,17 +141,17 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * @return array
+     * @return iterable
      */
-    protected function getAllowedEntityClasses(): array
+    protected function getAllowedEntityClasses(): iterable
     {
         return [];
     }
 
     /**
-     * @return array
+     * @return iterable
      */
-    protected function getRequiredPermissions(): array
+    protected function getRequiredPermissions(): iterable
     {
         return [];
     }
@@ -219,13 +219,16 @@ abstract class AbstractWidget implements WidgetInterface
      */
     private function validate($entity, array $options): array
     {
-        $allowedEntityClasses = $this->getAllowedEntityClasses();
+        $allowedEntityClasses = [];
 
+        foreach ($this->getAllowedEntityClasses() as $class) {
+            $allowedEntityClasses[] = $class;
+        }
         if (!empty($allowedEntityClasses)) {
             $entityClassAllowed = false;
 
-            foreach ($allowedEntityClasses as $allowedEntityClass) {
-                if ($entity instanceof $allowedEntityClass) {
+            foreach ($allowedEntityClasses as $class) {
+                if ($entity instanceof $class) {
                     $entityClassAllowed = true;
 
                     break;

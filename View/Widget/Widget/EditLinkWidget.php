@@ -68,10 +68,8 @@ class EditLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions(): array
+    protected function getRequiredPermissions(): iterable
     {
-        return [
-            Permission::EDIT,
-        ];
+        yield Permission::EDIT;
     }
 }

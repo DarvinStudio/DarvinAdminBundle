@@ -47,36 +47,45 @@ abstract class AbstractWidget implements WidgetInterface
     protected $templating;
 
     /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver|null
      */
-    protected $optionsResolver;
+    private $optionsResolver = null;
 
     /**
      * @var string|null
      */
-    protected $alias;
+    private $alias = null;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                   $metadataManager      Metadata manager
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface                  $propertyAccessor     Property accessor
-     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
      */
-    public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        AdminMetadataManagerInterface $metadataManager,
-        PropertyAccessorInterface $propertyAccessor,
-        EngineInterface $templating
-    ) {
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
+    {
         $this->authorizationChecker = $authorizationChecker;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
+     */
+    public function setMetadataManager(AdminMetadataManagerInterface $metadataManager): void
+    {
         $this->metadataManager = $metadataManager;
+    }
+
+    /**
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     */
+    public function setPropertyAccessor(PropertyAccessorInterface $propertyAccessor): void
+    {
         $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
+     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
+     */
+    public function setTemplating(EngineInterface $templating): void
+    {
         $this->templating = $templating;
-        $this->optionsResolver = new OptionsResolver();
-
-        $this->configureOptions($this->optionsResolver);
-
-        $this->alias = null;
     }
 
     /**
@@ -122,39 +131,13 @@ abstract class AbstractWidget implements WidgetInterface
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('property', null);
-    }
-
-    /**
-     * @return string
-     */
-    protected function getDefaultTemplate(): string
-    {
-        return sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
-    }
-
-    /**
-     * @param object $entity       Entity
-     * @param string $propertyPath Property path
-     *
-     * @return mixed
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
-     */
-    protected function getPropertyValue($entity, string $propertyPath)
-    {
-        try {
-            if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
-                $message = sprintf('Unable to get value of "%s::$%s" property: it is not readable.', get_class($entity), $propertyPath);
-
-                throw new WidgetException($message);
-            }
-        } catch (TranslatableException $ex) {
-            $message = sprintf('Unable to get value of "%s::$%s" property: %s', get_class($entity), $propertyPath, lcfirst($ex->getMessage()));
-
-            throw new WidgetException($message);
-        }
-
-        return $this->propertyAccessor->getValue($entity, $propertyPath);
+        $resolver
+            ->setDefaults([
+                'property' => null,
+                'template' => $this->getDefaultTemplate(),
+            ])
+            ->setAllowedTypes('property', ['string', 'null'])
+            ->setAllowedTypes('template', 'string');
     }
 
     /**
@@ -174,12 +157,44 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
+     * @return string
+     */
+    protected function getDefaultTemplate(): string
+    {
+        return sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
+    }
+
+    /**
+     * @param object $entity       Entity
+     * @param string $propertyPath Property path
+     *
+     * @return mixed
+     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     */
+    final protected function getPropertyValue($entity, string $propertyPath)
+    {
+        try {
+            if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
+                $message = sprintf('Unable to get value of "%s::$%s" property: it is not readable.', get_class($entity), $propertyPath);
+
+                throw new WidgetException($message);
+            }
+        } catch (TranslatableException $ex) {
+            $message = sprintf('Unable to get value of "%s::$%s" property: %s', get_class($entity), $propertyPath, lcfirst($ex->getMessage()));
+
+            throw new WidgetException($message);
+        }
+
+        return $this->propertyAccessor->getValue($entity, $propertyPath);
+    }
+
+    /**
      * @param mixed $attributes Attributes
      * @param mixed $object     Object
      *
      * @return bool
      */
-    protected function isGranted($attributes, $object = null): bool
+    final protected function isGranted($attributes, $object = null): bool
     {
         return $this->authorizationChecker->isGranted($attributes, $object);
     }
@@ -190,11 +205,9 @@ abstract class AbstractWidget implements WidgetInterface
      *
      * @return string
      */
-    protected function render(array $options, array $templateParams = []): string
+    final protected function render(array $options, array $templateParams = []): string
     {
-        $template = isset($options['template']) ? $options['template'] : $this->getDefaultTemplate();
-
-        return $this->templating->render($template, array_merge($options, $templateParams));
+        return $this->templating->render($options['template'], array_merge($options, $templateParams));
     }
 
     /**
@@ -204,7 +217,7 @@ abstract class AbstractWidget implements WidgetInterface
      * @return array
      * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    protected function validate($entity, array $options): array
+    private function validate($entity, array $options): array
     {
         $allowedEntityClasses = $this->getAllowedEntityClasses();
 
@@ -229,7 +242,7 @@ abstract class AbstractWidget implements WidgetInterface
             }
         }
         try {
-            $options = $this->optionsResolver->resolve($options);
+            $options = $this->getOptionsResolver()->resolve($options);
         } catch (ExceptionInterface $ex) {
             throw new WidgetException(
                 sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
@@ -237,5 +250,21 @@ abstract class AbstractWidget implements WidgetInterface
         }
 
         return $options;
+    }
+
+    /**
+     * @return \Symfony\Component\OptionsResolver\OptionsResolver
+     */
+    private function getOptionsResolver(): OptionsResolver
+    {
+        if (null === $this->optionsResolver) {
+            $resolver = new OptionsResolver();
+
+            $this->configureOptions($resolver);
+
+            $this->optionsResolver = $resolver;
+        }
+
+        return $this->optionsResolver;
     }
 }

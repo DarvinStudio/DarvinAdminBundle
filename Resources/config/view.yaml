@@ -64,11 +64,11 @@ services:
         class:    '%darvin_admin.view.widget.abstract.class%'
         abstract: true
         public:   false
-        arguments:
-            - '@security.authorization_checker'
-            - '@darvin_admin.metadata.manager'
-            - '@property_accessor'
-            - '@templating'
+        calls:
+            - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
+            - [ setMetadataManager,      [ '@darvin_admin.metadata.manager' ] ]
+            - [ setPropertyAccessor,     [ '@property_accessor' ] ]
+            - [ setTemplating,           [ '@templating' ] ]
 
     darvin_admin.view.widget.actions:
         class:  '%darvin_admin.view.widget.actions.class%'

@@ -26,7 +26,7 @@ class ActionsWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $widgetPool View widget pool
      */
-    public function setWidgetPool(ViewWidgetPoolInterface $widgetPool)
+    public function __construct(ViewWidgetPoolInterface $widgetPool)
     {
         $this->widgetPool = $widgetPool;
     }
@@ -37,10 +37,9 @@ class ActionsWidget extends AbstractWidget
     protected function createContent($entity, array $options): ?string
     {
         $actions = [];
+        $config  = $this->metadataManager->getConfiguration($entity);
 
-        $configuration = $this->metadataManager->getConfiguration($entity);
-
-        foreach ($configuration['view'][$options['view_type']]['action_widgets'] as $widgetAlias => $widgetOptions) {
+        foreach ($config['view'][$options['view_type']]['action_widgets'] as $widgetAlias => $widgetOptions) {
             $action = $this->widgetPool->getWidget($widgetAlias)->getContent($entity, $widgetOptions);
 
             if (!empty($action)) {

@@ -74,8 +74,8 @@ services:
         class:  '%darvin_admin.view.widget.actions.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setWidgetPool, [ '@darvin_admin.view.widget.pool' ] ]
+        arguments:
+            - '@darvin_admin.view.widget.pool'
         tags:
             - { name: darvin_admin.view_widget }
 

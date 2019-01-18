@@ -103,12 +103,12 @@ abstract class AbstractViewFactory
      */
     protected function getFieldContent($entity, string $fieldName, array $fieldAttr, array $mappings)
     {
-        if (isset($fieldAttr['widget'])) {
-            $widgetAlias = $fieldAttr['widget']['alias'];
+        if (!empty($fieldAttr['widget'])) {
+            $widgetAlias = key($fieldAttr['widget']);
 
             return $this->widgetPool->getWidget($widgetAlias)->getContent(
                 $entity,
-                $fieldAttr['widget']['options'],
+                $fieldAttr['widget'][$widgetAlias],
                 $fieldName
             );
         }
@@ -163,7 +163,7 @@ abstract class AbstractViewFactory
     {
         $config = $meta->getConfiguration()['view'][$viewType]['fields'][$field];
 
-        return !isset($config['widget']) && !isset($config['service']) && !isset($config['callback']);
+        return empty($config['widget']) && !isset($config['service']) && !isset($config['callback']);
     }
 
     /**

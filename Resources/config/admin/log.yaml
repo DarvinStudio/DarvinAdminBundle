@@ -39,41 +39,34 @@ view:
             actionName: ~
             loggedAt:   ~
             objectName:
-                widget:
-                    alias: log_entry_entity_name
+                widget: log_entry_entity_name
             objectId: ~
             object:
                 widget:
-                    alias: show_link
-                    options:
+                    show_link:
                         property: object
             version:  ~
             username: ~
             user:
                 widget:
-                    alias: show_link
-                    options:
+                    show_link:
                         property: user
     show:
         fields:
             actionName: ~
             loggedAt:   ~
             objectName:
-                widget:
-                    alias: log_entry_entity_name
+                widget: log_entry_entity_name
             objectId: ~
             object:
                 widget:
-                    alias: show_link
-                    options:
+                    show_link:
                         property: object
             version:  ~
             username: ~
             user:
                 widget:
-                    alias: show_link
-                    options:
+                    show_link:
                         property: user
             data:
-                widget:
-                    alias: log_entry_data
+                widget: log_entry_data

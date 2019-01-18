@@ -1,11 +1,11 @@
 parameters:
-    darvin_admin.uploader.listener.class: Darvin\AdminBundle\EventListener\UploaderListener
+    darvin_admin.uploader.subscriber.class: Darvin\AdminBundle\EventListener\UploaderSubscriber
 
 services:
     _defaults:
         public: true
 
-    darvin_admin.uploader.listener:
-        class: '%darvin_admin.uploader.listener.class%'
+    darvin_admin.uploader.subscriber:
+        class: '%darvin_admin.uploader.subscriber.class%'
         tags:
-            - { name: kernel.event_listener, event: oneup_uploader.post_upload, method: postUpload }
+            - { name: kernel.event_subscriber }

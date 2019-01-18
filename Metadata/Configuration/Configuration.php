@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -17,6 +17,7 @@ use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget;
 use Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -28,11 +29,11 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('root');
+        $builder = new TreeBuilder('root');
 
-        $treeBuilder->getRootNode()
+        $builder->getRootNode()
             ->validate()
                 ->ifTrue(function ($v) {
                     return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
@@ -40,7 +41,7 @@ class Configuration implements ConfigurationInterface
                 ->thenInvalid('Same role cannot be in field blacklist and whitelist simultaneously.')
             ->end()
             ->children()
-                ->append($this->addMenuNode())
+                ->append($this->buildMenuNode())
                 ->scalarNode('breadcrumbs_route')->defaultValue(AdminRouterInterface::TYPE_EDIT)->end()
                 ->arrayNode('children')->prototype('scalar')->end()->end()
                 ->booleanNode('index_view_new_form')->defaultFalse()->end()
@@ -89,10 +90,10 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                     ->children()
-                        ->append($this->addFormNode('index'))
-                        ->append($this->addFormNode('new'))
-                        ->append($this->addFormNode('edit'))
-                        ->append($this->addFormNode('filter'))
+                        ->append($this->buildFormNode('index'))
+                        ->append($this->buildFormNode('new'))
+                        ->append($this->buildFormNode('edit'))
+                        ->append($this->buildFormNode('filter'))
                     ->end()
                 ->end()
                 ->arrayNode('view')->addDefaultsIfNotSet()
@@ -106,34 +107,35 @@ class Configuration implements ConfigurationInterface
                         })
                     ->end()
                     ->children()
-                        ->append($this->addViewNode('index', [
+                        ->append($this->buildViewNode('index', [
                             BatchDeleteWidget::ALIAS,
                             ShowLinkWidget::ALIAS,
                             EditLinkWidget::ALIAS,
                             CopyFormWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
                         ]))
-                        ->append($this->addViewNode('new'))
-                        ->append($this->addViewNode('edit', [
+                        ->append($this->buildViewNode('new'))
+                        ->append($this->buildViewNode('edit', [
                             ShowLinkWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
                         ]))
-                        ->append($this->addViewNode('show', [
+                        ->append($this->buildViewNode('show', [
                             EditLinkWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
                         ]));
 
-        return $treeBuilder;
+        return $builder;
     }
 
     /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addMenuNode()
+    private function buildMenuNode(): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder('menu'))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $root */
+        $root = (new TreeBuilder('menu'))->getRootNode();
+
+        $root->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('group')->defaultNull()->end()
                 ->scalarNode('position')->defaultNull()->end()
@@ -149,21 +151,21 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
                         ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON);
 
-        return $rootNode;
+        return $root;
     }
 
     /**
      * @param string $form Form name
      *
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addFormNode($form)
+    private function buildFormNode(string $form): ArrayNodeDefinition
     {
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $root */
+        $root              = (new TreeBuilder($form))->getRootNode();
         $normalizeFormType = $this->createNormalizeFormTypeClosure();
 
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder($form))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        $root->addDefaultsIfNotSet()
             ->validate()
                 ->ifTrue(function ($v) {
                     return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
@@ -200,20 +202,21 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('options')->prototype('variable')->end()->end()
                             ->scalarNode('compare_strict')->defaultTrue();
 
-        return $rootNode;
+        return $root;
     }
 
     /**
      * @param string $view                 View type
      * @param array  $defaultActionWidgets Default action widgets
      *
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addViewNode($view, array $defaultActionWidgets = [])
+    private function buildViewNode(string $view, array $defaultActionWidgets = []): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder($view))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $root */
+        $root = (new TreeBuilder($view))->getRootNode();
+
+        $root->addDefaultsIfNotSet()
             ->validate()
                 ->ifTrue(function ($v) {
                     return count(array_intersect_key($v['field_blacklist'], $v['field_whitelist'])) > 0;
@@ -286,13 +289,13 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('method')->isRequired()->cannotBeEmpty()->end()
                                     ->arrayNode('options')->prototype('variable');
 
-        return $rootNode;
+        return $root;
     }
 
     /**
      * @return \Closure
      */
-    private function createNormalizeFormTypeClosure()
+    private function createNormalizeFormTypeClosure(): \Closure
     {
         return function ($type) {
             if (false !== strpos($type, '\\')) {

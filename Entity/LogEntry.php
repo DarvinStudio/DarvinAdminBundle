@@ -28,14 +28,11 @@ use Gedmo\Loggable\Entity\MappedSuperclass\AbstractLogEntry;
  */
 class LogEntry extends AbstractLogEntry
 {
-    const ACTION_CREATE = 'create';
-    const ACTION_REMOVE = 'remove';
-    const ACTION_UPDATE = 'update';
+    public const ACTION_CREATE = 'create';
+    public const ACTION_REMOVE = 'remove';
+    public const ACTION_UPDATE = 'update';
 
-    /**
-     * @var array
-     */
-    private static $actions = [
+    private const ACTIONS = [
         self::ACTION_CREATE => 'log.entity.actions.create',
         self::ACTION_REMOVE => 'log.entity.actions.remove',
         self::ACTION_UPDATE => 'log.entity.actions.update',
@@ -68,7 +65,7 @@ class LogEntry extends AbstractLogEntry
      */
     public function getActionName()
     {
-        return isset(self::$actions[$this->action]) ? self::$actions[$this->action] : $this->action;
+        return isset(self::ACTIONS[$this->action]) ? self::ACTIONS[$this->action] : $this->action;
     }
 
     /**
@@ -76,7 +73,7 @@ class LogEntry extends AbstractLogEntry
      */
     public static function getActionChoices()
     {
-        return array_flip(self::$actions);
+        return array_flip(self::ACTIONS);
     }
 
     /**

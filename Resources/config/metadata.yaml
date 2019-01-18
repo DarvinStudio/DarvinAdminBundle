@@ -61,7 +61,8 @@ services:
             - '@darvin_utils.orm.entity_resolver'
             - '@event_dispatcher'
             - '@darvin_admin.metadata.pool'
-            - '@?darvin_admin.cache'
+        calls:
+            - [ setCache, [ '@?darvin_admin.cache' ] ]
 
     darvin_admin.metadata.pool:
         class: '%darvin_admin.metadata.pool.class%'

@@ -62,21 +62,23 @@ class MetadataManager implements AdminMetadataManagerInterface
      * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver  Entity resolver
      * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher Event dispatcher
      * @param \Darvin\AdminBundle\Metadata\MetadataPool                   $metadataPool    Metadata pool
-     * @param \Psr\SimpleCache\CacheInterface|null                        $cache           Cache
      */
-    public function __construct(
-        EntityResolverInterface $entityResolver,
-        EventDispatcherInterface $eventDispatcher,
-        MetadataPool $metadataPool,
-        CacheInterface $cache = null
-    ) {
+    public function __construct(EntityResolverInterface $entityResolver, EventDispatcherInterface $eventDispatcher, MetadataPool $metadataPool)
+    {
         $this->entityResolver = $entityResolver;
         $this->eventDispatcher = $eventDispatcher;
         $this->metadataPool = $metadataPool;
-        $this->cache = $cache;
 
         $this->childMetadata = $this->hasMetadata = [];
         $this->metadata = null;
+    }
+
+    /**
+     * @param \Psr\SimpleCache\CacheInterface|null $cache Cache
+     */
+    public function setCache(CacheInterface $cache = null)
+    {
+        $this->cache = $cache;
     }
 
     /**

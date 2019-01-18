@@ -42,26 +42,14 @@ class DataWidget extends AbstractWidget
     private $stringifier;
 
     /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
-     */
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
-     */
-    public function setObjectNamer(ObjectNamerInterface $objectNamer)
-    {
-        $this->objectNamer = $objectNamer;
-    }
-
-    /**
+     * @param \Doctrine\ORM\EntityManager                            $em          Entity manager
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer Object namer
      * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface $stringifier Stringifier
      */
-    public function setStringifier(StringifierInterface $stringifier)
+    public function __construct(EntityManager $em, ObjectNamerInterface $objectNamer, StringifierInterface $stringifier)
     {
+        $this->em = $em;
+        $this->objectNamer = $objectNamer;
         $this->stringifier = $stringifier;
     }
 
@@ -77,7 +65,7 @@ class DataWidget extends AbstractWidget
      * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
      * @param array                               $options  Options
      *
-     * @return string
+     * @return string|null
      */
     protected function createContent($logEntry, array $options): ?string
     {
@@ -87,11 +75,9 @@ class DataWidget extends AbstractWidget
             return null;
         }
 
-        $mappings = $this->getMappings($logEntry->getObjectClass());
-
+        $mappings          = $this->getMappings($logEntry->getObjectClass());
         $translationPrefix = $this->getTranslationPrefix($logEntry->getObjectClass());
-
-        $viewData = [];
+        $viewData          = [];
 
         foreach ($data as $property => $value) {
             if (isset($mappings[$property])) {
@@ -156,8 +142,10 @@ class DataWidget extends AbstractWidget
 
         $entityName = $this->objectNamer->name($entityClass);
 
-        return preg_match('/_translation$/', $entityName)
-            ? preg_replace('/_translation$/', '.entity.', $entityName)
-            : 'log.object.'.$this->objectNamer->name($entityClass).'.property.';
+        if (preg_match('/_translation$/', $entityName)) {
+            return preg_replace('/_translation$/', '.entity.', $entityName);
+        }
+
+        return sprintf('log.object.%s.property.', $this->objectNamer->name($entityClass));
     }
 }

@@ -190,10 +190,10 @@ services:
         class:  '%darvin_admin.view.widget.log_entry.data.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
-            - [ setObjectNamer,   [ '@darvin_utils.object_namer' ] ]
-            - [ setStringifier,   [ '@darvin_utils.stringifier.doctrine' ] ]
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_utils.object_namer'
+            - '@darvin_utils.stringifier.doctrine'
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -201,9 +201,9 @@ services:
         class:  '%darvin_admin.view.widget.log_entry.entity_name.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setObjectNamer,         [ '@darvin_utils.object_namer' ] ]
-            - [ setTranslatableManager, [ '@darvin_content.translatable.manager' ] ]
+        arguments:
+            - '@darvin_utils.object_namer'
+            - '@darvin_content.translatable.manager'
         tags:
             - { name: darvin_admin.view_widget }
 

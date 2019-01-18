@@ -32,18 +32,12 @@ class EntityNameWidget extends AbstractWidget
     private $translatableManager;
 
     /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
-     */
-    public function setObjectNamer(ObjectNamerInterface $objectNamer)
-    {
-        $this->objectNamer = $objectNamer;
-    }
-
-    /**
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface                  $objectNamer         Object namer
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
      */
-    public function setTranslatableManager(TranslatableManagerInterface $translatableManager)
+    public function __construct(ObjectNamerInterface $objectNamer, TranslatableManagerInterface $translatableManager)
     {
+        $this->objectNamer = $objectNamer;
         $this->translatableManager = $translatableManager;
     }
 
@@ -63,7 +57,7 @@ class EntityNameWidget extends AbstractWidget
      */
     protected function createContent($logEntry, array $options): ?string
     {
-        return 'entity_name.single.'.$this->getEntityName($logEntry->getObjectClass());
+        return sprintf('entity_name.single.%s', $this->getEntityName($logEntry->getObjectClass()));
     }
 
     /**

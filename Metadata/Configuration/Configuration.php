@@ -297,7 +297,7 @@ class Configuration implements ConfigurationInterface
      */
     private function createNormalizeFormTypeCallback(): callable
     {
-        return function ($type) {
+        return function (string $type) {
             if (false !== strpos($type, '\\')) {
                 return $type;
             }

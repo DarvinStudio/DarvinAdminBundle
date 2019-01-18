@@ -149,8 +149,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'sections' => $sections,
             'menu'     => [
                 'groups' => [
-                    [
-                        'name'     => 'modules',
+                    'modules' => [
                         'position' => 500,
                         'colors' => [
                             'main'    => '#ca9e26',
@@ -161,8 +160,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                             'sidebar' => 'bundles/darvinadmin/images/admin/modules_sidebar.png',
                         ],
                     ],
-                    [
-                        'name'     => 'seo',
+                    'seo' => [
                         'position' => 500,
                         'colors'   => [
                             'main'    => '#ca9e26',

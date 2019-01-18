@@ -112,10 +112,9 @@ class Configuration implements ConfigurationInterface
         $rootNode = (new TreeBuilder('menu'))->getRootNode();
         $rootNode->addDefaultsIfNotSet()
             ->children()
-                ->arrayNode('groups')
+                ->arrayNode('groups')->useAttributeAsKey('name')
                     ->prototype('array')->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('name')->isRequired()->cannotBeEmpty()->end()
                             ->integerNode('position')->defaultNull()->end()
                             ->scalarNode('associated_object')->defaultNull()->end()
                             ->arrayNode('colors')->addDefaultsIfNotSet()

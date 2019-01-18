@@ -34,10 +34,9 @@ darvin_admin:
             Symfony\Component\Form\Extension\Core\Type\TimeType:
                 widget: single_text
     menu: # Конфигурация меню
-        groups: # Конфигурация групп элементов меню
+        groups: # Конфигурация групп элементов меню, ключ - название группы
 
             # Прототип
-            name:                # Название группы (обязательно)
             position: ~          # Позиция группы
             associated_object: ~ # Класс связанного объекта
             colors: # Цвета

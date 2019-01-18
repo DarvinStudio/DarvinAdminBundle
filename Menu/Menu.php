@@ -45,9 +45,7 @@ class Menu implements MenuInterface
     public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupsConfig)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->groupsConfig = array_combine(array_map(function (array $config) {
-            return $config['name'];
-        }, $groupsConfig), $groupsConfig);
+        $this->groupsConfig         = $groupsConfig;
 
         $this->itemFactories = [];
 

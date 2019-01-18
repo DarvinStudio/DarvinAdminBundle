@@ -19,7 +19,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
  */
 class BatchDeleteWidget extends AbstractWidget
 {
-    const ALIAS = 'batch_delete';
+    public const ALIAS = 'batch_delete';
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface
@@ -29,7 +29,7 @@ class BatchDeleteWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouterInterface $adminRouter)
+    public function __construct(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -47,15 +47,17 @@ class BatchDeleteWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_BATCH_DELETE)) {
+            return null;
+        }
+
         $meta = $this->metadataManager->getMetadata($entity);
 
-        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_BATCH_DELETE)
-            ? $this->render($options, [
-                'entity'             => $entity,
-                'identifier'         => $meta->getIdentifier(),
-                'translation_prefix' => $meta->getBaseTranslationPrefix(),
-            ])
-            : null;
+        return $this->render($options, [
+            'entity'             => $entity,
+            'identifier'         => $meta->getIdentifier(),
+            'translation_prefix' => $meta->getBaseTranslationPrefix(),
+        ]);
     }
 
     /**

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -51,7 +51,7 @@ class DeleteFormWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::ALIAS;
     }
@@ -59,7 +59,7 @@ class DeleteFormWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
         return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_DELETE)
             ? $this->render($options, [
@@ -72,7 +72,7 @@ class DeleteFormWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -82,7 +82,7 @@ class DeleteFormWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::CREATE_DELETE,

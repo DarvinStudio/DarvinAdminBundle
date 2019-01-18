@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -36,9 +36,9 @@ class EntityListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        $collection = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
+        $collection = $this->getPropertyValue($entity, $options['property']);
 
         if (empty($collection)) {
             return null;
@@ -104,7 +104,7 @@ class EntityListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -116,24 +116,20 @@ class EntityListWidget extends AbstractWidget
                     'text_link' => true,
                 ],
             ])
-            ->setDefined([
-                'item_title_property',
-                'property',
-            ])
+            ->setDefined('item_title_property')
             ->setAllowedTypes('item_title_property', 'string')
             ->setAllowedTypes('first_item_only', 'boolean')
             ->setAllowedTypes('item_widget_alias', [
                 'null',
                 'string',
             ])
-            ->setAllowedTypes('item_widget_options', 'array')
-            ->setAllowedTypes('property', 'string');
+            ->setAllowedTypes('item_widget_options', 'array');
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

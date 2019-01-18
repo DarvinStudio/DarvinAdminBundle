@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -68,7 +68,7 @@ class DataWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'log_entry_data';
     }
@@ -76,11 +76,10 @@ class DataWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
      * @param array                               $options  Options
-     * @param string                              $property Property name
      *
      * @return string
      */
-    protected function createContent($logEntry, array $options, $property)
+    protected function createContent($logEntry, array $options): ?string
     {
         $data = $logEntry->getData();
 
@@ -113,7 +112,7 @@ class DataWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getAllowedEntityClasses()
+    protected function getAllowedEntityClasses(): array
     {
         return [
             LogEntry::class,
@@ -123,7 +122,7 @@ class DataWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,
@@ -136,7 +135,7 @@ class DataWidget extends AbstractWidget
      * @return array
      * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    private function getMappings($entityClass)
+    private function getMappings(string $entityClass): array
     {
         if ($this->metadataManager->hasMetadata($entityClass)) {
             return $this->metadataManager->getMetadata($entityClass)->getMappings();
@@ -153,7 +152,7 @@ class DataWidget extends AbstractWidget
      *
      * @return string
      */
-    private function getTranslationPrefix($entityClass)
+    private function getTranslationPrefix(string $entityClass): string
     {
         if ($this->metadataManager->hasMetadata($entityClass)) {
             return $this->metadataManager->getMetadata($entityClass)->getEntityTranslationPrefix();

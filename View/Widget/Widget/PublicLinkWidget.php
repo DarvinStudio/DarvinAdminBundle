@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016-2018, Darvin Studio
@@ -51,7 +51,7 @@ class PublicLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
         if ($this->homepageRouter->isHomepage($entity)) {
             try {
@@ -86,7 +86,7 @@ class PublicLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -104,7 +104,7 @@ class PublicLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

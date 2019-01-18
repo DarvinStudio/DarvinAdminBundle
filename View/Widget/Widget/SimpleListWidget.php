@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\WidgetException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Simple list view widget
@@ -22,11 +21,9 @@ class SimpleListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        if (isset($options['property'])) {
-            $property = $options['property'];
-        }
+        $property = $options['property'];
 
         $items = $this->getPropertyValue($entity, $property);
 
@@ -49,19 +46,7 @@ class SimpleListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

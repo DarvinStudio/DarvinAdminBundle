@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -22,9 +22,9 @@ class CompoundListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $property);
+        $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $options['property']);
 
         if (null === $keys) {
             return null;
@@ -57,7 +57,7 @@ class CompoundListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -73,7 +73,7 @@ class CompoundListWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,
@@ -86,7 +86,7 @@ class CompoundListWidget extends AbstractWidget
      *
      * @return array
      */
-    private function createList(array $keys, array $values)
+    private function createList(array $keys, array $values): array
     {
         $list = [];
 
@@ -105,7 +105,7 @@ class CompoundListWidget extends AbstractWidget
      * @return array
      * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    private function getValues(array $options)
+    private function getValues(array $options): array
     {
         $valuesCallback = $options['values_callback'];
         $values = $valuesCallback();

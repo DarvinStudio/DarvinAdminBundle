@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -35,11 +35,11 @@ class ImageUploadLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
         $url = $this->uploadStorage->resolveUri(
             $entity,
-            !empty($options['file_property']) ? $options['file_property'] : $property.'File'
+            !empty($options['file_property']) ? $options['file_property'] : $options['property'].'File'
         );
 
         return $url
@@ -53,7 +53,7 @@ class ImageUploadLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -68,7 +68,7 @@ class ImageUploadLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

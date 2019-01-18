@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    DmitryK limov <FDmnkdd@yandex.ru>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -37,7 +37,7 @@ class BatchDeleteWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::ALIAS;
     }
@@ -45,7 +45,7 @@ class BatchDeleteWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
         $meta = $this->metadataManager->getMetadata($entity);
 
@@ -61,7 +61,7 @@ class BatchDeleteWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::CREATE_DELETE,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -14,7 +14,6 @@ use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Image link view widget
@@ -39,7 +38,7 @@ class ImageLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::ALIAS;
     }
@@ -47,9 +46,9 @@ class ImageLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        $image = isset($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
+        $image = !empty($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
 
         if (empty($image)) {
             return null;
@@ -73,17 +72,5 @@ class ImageLinkWidget extends AbstractWidget
         } catch (NotLoadableException $ex) {
             return null;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string');
     }
 }

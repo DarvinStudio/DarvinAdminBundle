@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -37,7 +37,7 @@ class ShowLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return self::ALIAS;
     }
@@ -45,9 +45,9 @@ class ShowLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        if (isset($options['property'])) {
+        if (!empty($options['property'])) {
             $entity = $this->getPropertyValue($entity, $options['property']);
 
             if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
@@ -67,7 +67,7 @@ class ShowLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
@@ -76,8 +76,6 @@ class ShowLinkWidget extends AbstractWidget
                 'entity_class' => null,
                 'text_link'    => false,
             ])
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string')
             ->setAllowedTypes('text_link', 'boolean');
     }
 }

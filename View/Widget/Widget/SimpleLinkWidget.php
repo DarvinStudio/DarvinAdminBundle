@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -21,9 +21,9 @@ class SimpleLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        $url = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
+        $url = $this->getPropertyValue($entity, $options['property']);
 
         return !empty($url)
             ? $this->render($options, [
@@ -36,20 +36,17 @@ class SimpleLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
 
-        $resolver
-            ->setDefault('add_http_prefix', false)
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string');
+        $resolver->setDefault('add_http_prefix', false);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -20,7 +20,7 @@ class EmptyWidget implements WidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getContent($entity, array $options = [], $property = null)
+    public function getContent($entity, array $options = []): ?string
     {
         return null;
     }
@@ -28,7 +28,7 @@ class EmptyWidget implements WidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'empty_widget';
     }

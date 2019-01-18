@@ -106,11 +106,9 @@ abstract class AbstractViewFactory
         if (!empty($fieldAttr['widget'])) {
             $widgetAlias = key($fieldAttr['widget']);
 
-            return $this->widgetPool->getWidget($widgetAlias)->getContent(
-                $entity,
-                $fieldAttr['widget'][$widgetAlias],
-                $fieldName
-            );
+            return $this->widgetPool->getWidget($widgetAlias)->getContent($entity, array_merge([
+                'property' => $fieldName,
+            ], $fieldAttr['widget'][$widgetAlias]));
         }
         if (isset($fieldAttr['service'])) {
             $method = $fieldAttr['service']['method'];

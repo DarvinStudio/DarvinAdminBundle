@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -19,13 +19,12 @@ use Darvin\UserBundle\Entity\BaseUser;
 class SwitchUserWidget extends AbstractWidget
 {
     /**
-     * @param \Darvin\UserBundle\Entity\BaseUser $user     User
-     * @param array                              $options  Options
-     * @param string                             $property Property name
+     * @param \Darvin\UserBundle\Entity\BaseUser $user    User
+     * @param array                              $options Options
      *
      * @return string
      */
-    protected function createContent($user, array $options, $property)
+    protected function createContent($user, array $options): ?string
     {
         if (!$this->isGranted('ROLE_ALLOWED_TO_SWITCH')) {
             return null;
@@ -44,7 +43,7 @@ class SwitchUserWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getAllowedEntityClasses()
+    protected function getAllowedEntityClasses(): array
     {
         return [
             BaseUser::class,
@@ -54,7 +53,7 @@ class SwitchUserWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

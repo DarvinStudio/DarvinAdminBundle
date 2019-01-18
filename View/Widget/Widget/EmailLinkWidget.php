@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Email link view widget
@@ -21,9 +20,9 @@ class EmailLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
-        $email = $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property);
+        $email = $this->getPropertyValue($entity, $options['property']);
 
         return !empty($email)
             ? $this->render($options, [
@@ -35,19 +34,7 @@ class EmailLinkWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function configureOptions(OptionsResolver $resolver)
-    {
-        parent::configureOptions($resolver);
-
-        $resolver
-            ->setDefined('property')
-            ->setAllowedTypes('property', 'string');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,

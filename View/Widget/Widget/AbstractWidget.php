@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2015, Darvin Studio
+ * @copyright Copyright (c) 2015-2019, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -52,7 +52,7 @@ abstract class AbstractWidget implements WidgetInterface
     protected $optionsResolver;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $alias;
 
@@ -82,9 +82,9 @@ abstract class AbstractWidget implements WidgetInterface
     /**
      * {@inheritdoc}
      */
-    public function getContent($entity, array $options = [], $property = null)
+    public function getContent($entity, array $options = []): ?string
     {
-        $this->validate($entity, $options);
+        $options = $this->validate($entity, $options);
 
         foreach ($this->getRequiredPermissions() as $permission) {
             if (!$this->isGranted($permission, $entity)) {
@@ -92,16 +92,17 @@ abstract class AbstractWidget implements WidgetInterface
             }
         }
 
-        return $this->createContent($entity, $options, $property);
+        return $this->createContent($entity, $options);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
-        if (empty($this->alias)) {
+        if (null === $this->alias) {
             $parts = explode('\\', get_class($this));
+
             $this->alias = StringsUtil::toUnderscore(preg_replace('/Widget$/', '', array_pop($parts)));
         }
 
@@ -109,25 +110,25 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * @param object $entity   Entity
-     * @param array  $options  Options
-     * @param string $property Property name
+     * @param object $entity  Entity
+     * @param array  $options Options
      *
-     * @return string
+     * @return string|null
      */
-    abstract protected function createContent($entity, array $options, $property);
+    abstract protected function createContent($entity, array $options): ?string;
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
+        $resolver->setDefault('property', null);
     }
 
     /**
      * @return string
      */
-    protected function getDefaultTemplate()
+    protected function getDefaultTemplate(): string
     {
         return sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
     }
@@ -139,7 +140,7 @@ abstract class AbstractWidget implements WidgetInterface
      * @return mixed
      * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    protected function getPropertyValue($entity, $propertyPath)
+    protected function getPropertyValue($entity, string $propertyPath)
     {
         try {
             if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
@@ -159,7 +160,7 @@ abstract class AbstractWidget implements WidgetInterface
     /**
      * @return array
      */
-    protected function getAllowedEntityClasses()
+    protected function getAllowedEntityClasses(): array
     {
         return [];
     }
@@ -167,7 +168,7 @@ abstract class AbstractWidget implements WidgetInterface
     /**
      * @return array
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [];
     }
@@ -178,7 +179,7 @@ abstract class AbstractWidget implements WidgetInterface
      *
      * @return bool
      */
-    protected function isGranted($attributes, $object = null)
+    protected function isGranted($attributes, $object = null): bool
     {
         return $this->authorizationChecker->isGranted($attributes, $object);
     }
@@ -189,7 +190,7 @@ abstract class AbstractWidget implements WidgetInterface
      *
      * @return string
      */
-    protected function render(array $options, array $templateParams = [])
+    protected function render(array $options, array $templateParams = []): string
     {
         $template = isset($options['template']) ? $options['template'] : $this->getDefaultTemplate();
 
@@ -200,9 +201,10 @@ abstract class AbstractWidget implements WidgetInterface
      * @param object $entity  Entity
      * @param array  $options Options
      *
+     * @return array
      * @throws \Darvin\AdminBundle\View\Widget\WidgetException
      */
-    protected function validate($entity, array &$options)
+    protected function validate($entity, array $options): array
     {
         $allowedEntityClasses = $this->getAllowedEntityClasses();
 
@@ -233,5 +235,7 @@ abstract class AbstractWidget implements WidgetInterface
                 sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
             );
         }
+
+        return $options;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -50,7 +50,7 @@ class EntityNameWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    public function getAlias()
+    public function getAlias(): string
     {
         return 'log_entry_entity_name';
     }
@@ -58,11 +58,10 @@ class EntityNameWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\Entity\LogEntry $logEntry Log entry
      * @param array                               $options  Options
-     * @param string                              $property Property name
      *
      * @return string
      */
-    protected function createContent($logEntry, array $options, $property)
+    protected function createContent($logEntry, array $options): ?string
     {
         return 'entity_name.single.'.$this->getEntityName($logEntry->getObjectClass());
     }
@@ -70,7 +69,7 @@ class EntityNameWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getAllowedEntityClasses()
+    protected function getAllowedEntityClasses(): array
     {
         return [
             LogEntry::class,
@@ -80,7 +79,7 @@ class EntityNameWidget extends AbstractWidget
     /**
      * {@inheritdoc}
      */
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): array
     {
         return [
             Permission::VIEW,
@@ -92,7 +91,7 @@ class EntityNameWidget extends AbstractWidget
      *
      * @return string
      */
-    private function getEntityName($entityClass)
+    private function getEntityName(string $entityClass): string
     {
         if ($this->metadataManager->hasMetadata($entityClass)) {
             return $this->metadataManager->getMetadata($entityClass)->getEntityName();

@@ -25,16 +25,11 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container): void
     {
-        $ids = $container->findTaggedServiceIds('darvin_admin.dashboard_widget');
-
-        if (empty($ids)) {
-            return;
-        }
+        $blacklist = $container->getParameter('darvin_admin.dashboard.blacklist');
+        $dashboard = $container->getDefinition('darvin_admin.dashboard');
+        $ids       = $container->findTaggedServiceIds('darvin_admin.dashboard_widget');
 
         (new TaggedServiceIdsSorter())->sort($ids);
-
-        $dashboard = $container->getDefinition('darvin_admin.dashboard');
-        $blacklist = $container->getParameter('darvin_admin.dashboard.blacklist');
 
         foreach (array_keys($ids) as $id) {
             if (!in_array($id, $blacklist)) {

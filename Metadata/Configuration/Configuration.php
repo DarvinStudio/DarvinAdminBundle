@@ -162,8 +162,8 @@ class Configuration implements ConfigurationInterface
     private function buildFormNode(string $form): ArrayNodeDefinition
     {
         /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $root */
-        $root              = (new TreeBuilder($form))->getRootNode();
-        $normalizeFormType = $this->createNormalizeFormTypeClosure();
+        $root                      = (new TreeBuilder($form))->getRootNode();
+        $normalizeFormTypeCallback = $this->createNormalizeFormTypeCallback();
 
         $root->addDefaultsIfNotSet()
             ->validate()
@@ -188,7 +188,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->prototype('array')
                             ->children()
-                                ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
+                                ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormTypeCallback)->end()->end()
                                 ->arrayNode('options')->prototype('variable')->end()->end()
                                 ->scalarNode('compare_strict')->defaultTrue()->end()
                             ->end()
@@ -198,7 +198,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('fields')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormType)->end()->end()
+                            ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormTypeCallback)->end()->end()
                             ->arrayNode('options')->prototype('variable')->end()->end()
                             ->scalarNode('compare_strict')->defaultTrue();
 
@@ -293,9 +293,9 @@ class Configuration implements ConfigurationInterface
     }
 
     /**
-     * @return \Closure
+     * @return callable
      */
-    private function createNormalizeFormTypeClosure(): \Closure
+    private function createNormalizeFormTypeCallback(): callable
     {
         return function ($type) {
             if (false !== strpos($type, '\\')) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -10,14 +10,17 @@
 
 namespace Darvin\AdminBundle\EventListener;
 
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
 use Lexik\Bundle\TranslationBundle\Entity\Translation;
+use Lexik\Bundle\TranslationBundle\Translation\Translator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Clear translation cache event listener
+ * Clear translation cache event subscriber
  */
-class ClearTranslationCacheListener
+class ClearTranslationCacheSubscriber implements EventSubscriber
 {
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -33,9 +36,19 @@ class ClearTranslationCacheListener
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getSubscribedEvents(): array
+    {
+        return [
+            Events::onFlush,
+        ];
+    }
+
+    /**
      * @param \Doctrine\ORM\Event\OnFlushEventArgs $args Event arguments
      */
-    public function onFlush(OnFlushEventArgs $args)
+    public function onFlush(OnFlushEventArgs $args): void
     {
         $locales = [];
 
@@ -52,7 +65,7 @@ class ClearTranslationCacheListener
     /**
      * @return \Lexik\Bundle\TranslationBundle\Translation\Translator
      */
-    private function getTranslator()
+    private function getTranslator(): Translator
     {
         return $this->container->get('lexik_translation.translator');
     }

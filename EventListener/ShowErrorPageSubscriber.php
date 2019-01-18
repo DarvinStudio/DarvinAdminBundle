@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -13,19 +13,21 @@ namespace Darvin\AdminBundle\EventListener;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Templating\EngineInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Translation\Translator;
 
 /**
- * Show error page event listener
+ * Show error page event subscriber
  */
-class ShowErrorPageListener
+class ShowErrorPageSubscriber implements EventSubscriberInterface
 {
     /**
      * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
@@ -48,7 +50,7 @@ class ShowErrorPageListener
     private $templating;
 
     /**
-     * @var \Symfony\Contracts\Translation\TranslatorInterface
+     * @var \Symfony\Component\Translation\Translator
      */
     private $translator;
 
@@ -77,7 +79,7 @@ class ShowErrorPageListener
      * @param \Psr\Log\LoggerInterface                            $logger        Logger
      * @param \Symfony\Component\Routing\RouterInterface          $router        Router
      * @param \Symfony\Component\Templating\EngineInterface       $templating    Templating
-     * @param \Symfony\Contracts\Translation\TranslatorInterface  $translator    Translator
+     * @param \Symfony\Component\Translation\Translator           $translator    Translator
      * @param string                                              $firewallName  Firewall name
      * @param string                                              $homepageRoute Homepage route
      * @param string[]                                            $locales       Locales
@@ -88,11 +90,11 @@ class ShowErrorPageListener
         LoggerInterface $logger,
         RouterInterface $router,
         EngineInterface $templating,
-        TranslatorInterface $translator,
-        $firewallName,
-        $homepageRoute,
+        Translator $translator,
+        string $firewallName,
+        string $homepageRoute,
         array $locales,
-        $defaultLocale
+        string $defaultLocale
     ) {
         $this->firewallMap = $firewallMap;
         $this->logger = $logger;
@@ -106,9 +108,19 @@ class ShowErrorPageListener
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            KernelEvents::EXCEPTION => 'showErrorPage',
+        ];
+    }
+
+    /**
      * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event Event
      */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function showErrorPage(GetResponseForExceptionEvent $event): void
     {
         if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;
@@ -151,7 +163,7 @@ class ShowErrorPageListener
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      */
-    private function configureContexts(Request $request)
+    private function configureContexts(Request $request): void
     {
         if ($request->attributes->has('_route')) {
             return;
@@ -176,7 +188,7 @@ class ShowErrorPageListener
      *
      * @return string
      */
-    private function getLocale(Request $request)
+    private function getLocale(Request $request): string
     {
         $uri = $request->getRequestUri();
 
@@ -194,7 +206,7 @@ class ShowErrorPageListener
      *
      * @return int
      */
-    private function getStatusCode(\Exception $exception)
+    private function getStatusCode(\Exception $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
             return $exception->getStatusCode();

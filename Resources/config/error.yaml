@@ -1,23 +1,23 @@
 parameters:
-    darvin_admin.error.show_error_page_listener.class:          Darvin\AdminBundle\EventListener\ShowErrorPageListener
-    darvin_admin.error.show_error_page_listener.firewall_name:  admin_area
-    darvin_admin.error.show_error_page_listener.homepage_route: darvin_admin_homepage
+    darvin_admin.error.show_error_page_subscriber.class:          Darvin\AdminBundle\EventListener\ShowErrorPageSubscriber
+    darvin_admin.error.show_error_page_subscriber.firewall_name:  admin_area
+    darvin_admin.error.show_error_page_subscriber.homepage_route: darvin_admin_homepage
 
 services:
     _defaults:
         public: true
 
-    darvin_admin.error.show_error_page_listener:
-        class: '%darvin_admin.error.show_error_page_listener.class%'
+    darvin_admin.error.show_error_page_subscriber:
+        class: '%darvin_admin.error.show_error_page_subscriber.class%'
         arguments:
             - '@security.firewall.map'
             - '@logger'
             - '@router'
             - '@templating'
             - '@translator'
-            - '%darvin_admin.error.show_error_page_listener.firewall_name%'
-            - '%darvin_admin.error.show_error_page_listener.homepage_route%'
+            - '%darvin_admin.error.show_error_page_subscriber.firewall_name%'
+            - '%darvin_admin.error.show_error_page_subscriber.homepage_route%'
             - '%locales%'
             - '%locale%'
         tags:
-            - { name: kernel.event_listener, event: kernel.exception }
+            - { name: kernel.event_subscriber }

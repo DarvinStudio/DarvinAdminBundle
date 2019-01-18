@@ -1,14 +1,14 @@
 parameters:
-    darvin_admin.translation.clear_cache_listener.class: Darvin\AdminBundle\EventListener\ClearTranslationCacheListener
+    darvin_admin.translation.clear_cache_subscriber.class: Darvin\AdminBundle\EventListener\ClearTranslationCacheSubscriber
 
 services:
     _defaults:
         public: true
 
-    darvin_admin.translation.clear_cache_listener:
-        class:  '%darvin_admin.translation.clear_cache_listener.class%'
+    darvin_admin.translation.clear_cache_subscriber:
+        class:  '%darvin_admin.translation.clear_cache_subscriber.class%'
         public: false
         arguments:
             - '@service_container'
         tags:
-            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_subscriber }

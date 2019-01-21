@@ -26,9 +26,12 @@ class SimpleListWidget extends AbstractWidget
 
         $items = $this->getPropertyValue($entity, $property);
 
-        if (!is_array($items) && !$items instanceof \Traversable) {
+        if (empty($items)) {
+            return null;
+        }
+        if (!is_iterable($items)) {
             $message = sprintf(
-                'Property "%s::$%s" must contain array or instance of \Traversable, "%s" provided.',
+                'Value of property "%s::$%s" must be iterable, "%s" provided.',
                 get_class($entity),
                 $property,
                 gettype($items)

@@ -122,9 +122,9 @@ services:
         class:  '%darvin_admin.view.widget.delete_form.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setAdminFormFactory, [ '@darvin_admin.form.factory' ] ]
-            - [ setAdminRouter,      [ '@darvin_admin.router' ] ]
+        arguments:
+            - '@darvin_admin.form.factory'
+            - '@darvin_admin.router'
         tags:
             - { name: darvin_admin.view_widget }
 

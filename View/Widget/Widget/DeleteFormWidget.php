@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DeleteFormWidget extends AbstractWidget
 {
-    const ALIAS = 'delete_form';
+    public const ALIAS = 'delete_form';
 
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
@@ -34,17 +34,11 @@ class DeleteFormWidget extends AbstractWidget
 
     /**
      * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface $adminFormFactory Admin form factory
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface     $adminRouter      Admin router
      */
-    public function setAdminFormFactory(AdminFormFactoryInterface $adminFormFactory)
+    public function __construct(AdminFormFactoryInterface $adminFormFactory, AdminRouterInterface $adminRouter)
     {
         $this->adminFormFactory = $adminFormFactory;
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
-     */
-    public function setAdminRouter(AdminRouterInterface $adminRouter)
-    {
         $this->adminRouter = $adminRouter;
     }
 
@@ -61,12 +55,14 @@ class DeleteFormWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_DELETE)
-            ? $this->render([
-                'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
-                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ])
-            : null;
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_DELETE)) {
+            return null;
+        }
+
+        return $this->render([
+            'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
+            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+        ]);
     }
 
     /**

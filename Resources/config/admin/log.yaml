@@ -42,15 +42,11 @@ view:
                 widget: log_entry_entity_name
             objectId: ~
             object:
-                widget:
-                    show_link:
-                        property: object
+                widget: show_link
             version:  ~
             username: ~
             user:
-                widget:
-                    show_link:
-                        property: user
+                widget: show_link
     show:
         fields:
             actionName: ~
@@ -59,14 +55,10 @@ view:
                 widget: log_entry_entity_name
             objectId: ~
             object:
-                widget:
-                    show_link:
-                        property: object
+                widget: show_link
             version:  ~
             username: ~
             user:
-                widget:
-                    show_link:
-                        property: user
+                widget: show_link
             data:
                 widget: log_entry_data

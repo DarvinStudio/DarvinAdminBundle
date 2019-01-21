@@ -46,19 +46,19 @@ abstract class AbstractWidget implements WidgetInterface
     protected $templating;
 
     /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver|null
-     */
-    private $optionsResolver = null;
-
-    /**
      * @var string|null
      */
     private $alias = null;
 
     /**
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver|null
+     */
+    private $optionsResolver = null;
+
+    /**
      * @var array|null
      */
-    private $options = null;
+    private $resolvedOptions = null;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
@@ -97,9 +97,9 @@ abstract class AbstractWidget implements WidgetInterface
      */
     public function getContent($entity, array $options = []): ?string
     {
-        $options = $this->validate($entity, $options);
+        $this->validateEntity($entity);
 
-        $this->options = $options;
+        $options = $this->resolveOptions($options);
 
         foreach ($this->getRequiredPermissions() as $permission) {
             if (!$this->isGranted($permission, $entity)) {
@@ -116,9 +116,7 @@ abstract class AbstractWidget implements WidgetInterface
     public function getAlias(): string
     {
         if (null === $this->alias) {
-            $parts = explode('\\', get_class($this));
-
-            $this->alias = StringsUtil::toUnderscore(preg_replace('/Widget$/', '', array_pop($parts)));
+            $this->alias = StringsUtil::toUnderscore(preg_replace('/^.*\\\|Widget$/', '', get_class($this)));
         }
 
         return $this->alias;
@@ -140,10 +138,10 @@ abstract class AbstractWidget implements WidgetInterface
         $resolver
             ->setDefaults([
                 'property' => null,
-                'template' => $this->getDefaultTemplate(),
+                'template' => null,
             ])
             ->setAllowedTypes('property', ['string', 'null'])
-            ->setAllowedTypes('template', 'string');
+            ->setAllowedTypes('template', ['string', 'null']);
     }
 
     /**
@@ -165,9 +163,15 @@ abstract class AbstractWidget implements WidgetInterface
     /**
      * @return string
      */
-    protected function getDefaultTemplate(): string
+    protected function getTemplate(): string
     {
-        return sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
+        $template = $this->resolvedOptions['template'];
+
+        if (empty($template)) {
+            $template = sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
+        }
+
+        return $template;
     }
 
     /**
@@ -213,58 +217,16 @@ abstract class AbstractWidget implements WidgetInterface
      */
     final protected function render(array $params = [], ?string $template = null): string
     {
-        return $this->templating->render(!empty($template) ? $template : $this->options['template'], array_merge($this->options, $params));
+        return $this->templating->render(!empty($template) ? $template : $this->getTemplate(), array_merge($this->resolvedOptions, $params));
     }
 
     /**
-     * @param object $entity  Entity
-     * @param array  $options Options
+     * @param array $options Options
      *
      * @return array
      * @throws \InvalidArgumentException
      */
-    private function validate($entity, array $options): array
-    {
-        $allowedEntityClasses = [];
-
-        foreach ($this->getAllowedEntityClasses() as $class) {
-            $allowedEntityClasses[] = $class;
-        }
-        if (!empty($allowedEntityClasses)) {
-            $entityClassAllowed = false;
-
-            foreach ($allowedEntityClasses as $class) {
-                if ($entity instanceof $class) {
-                    $entityClassAllowed = true;
-
-                    break;
-                }
-            }
-            if (!$entityClassAllowed) {
-                $message = sprintf(
-                    'View widget "%s" requires entity to be instance of one of "%s" classes.',
-                    $this->getAlias(),
-                    implode('", "', $allowedEntityClasses)
-                );
-
-                throw new \InvalidArgumentException($message);
-            }
-        }
-        try {
-            $options = $this->getOptionsResolver()->resolve($options);
-        } catch (ExceptionInterface $ex) {
-            throw new \InvalidArgumentException(
-                sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
-            );
-        }
-
-        return $options;
-    }
-
-    /**
-     * @return \Symfony\Component\OptionsResolver\OptionsResolver
-     */
-    private function getOptionsResolver(): OptionsResolver
+    private function resolveOptions(array $options): array
     {
         if (null === $this->optionsResolver) {
             $resolver = new OptionsResolver();
@@ -273,7 +235,41 @@ abstract class AbstractWidget implements WidgetInterface
 
             $this->optionsResolver = $resolver;
         }
+        try {
+            $this->resolvedOptions = $this->optionsResolver->resolve($options);
+        } catch (ExceptionInterface $ex) {
+            throw new \InvalidArgumentException(
+                sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
+            );
+        }
 
-        return $this->optionsResolver;
+        return $this->resolvedOptions;
+    }
+
+    /**
+     * @param object $entity Entity
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function validateEntity($entity): void
+    {
+        $allowedClasses = [];
+
+        foreach ($this->getAllowedEntityClasses() as $class) {
+            if ($entity instanceof $class) {
+                return;
+            }
+
+            $allowedClasses[] = $class;
+        }
+        if (!empty($allowedClasses)) {
+            $message = sprintf(
+                'View widget "%s" requires entity to be instance of one of "%s" classes.',
+                $this->getAlias(),
+                implode('", "', $allowedClasses)
+            );
+
+            throw new \InvalidArgumentException($message);
+        }
     }
 }

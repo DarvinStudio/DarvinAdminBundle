@@ -24,7 +24,7 @@ class CompoundListWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $keysProperty = isset($options['keys_property']) ? $options['keys_property'] : $options['property'];
+        $keysProperty = !empty($options['keys_property']) ? $options['keys_property'] : $options['property'];
 
         $keys = $this->getPropertyValue($entity, $keysProperty);
 
@@ -42,13 +42,7 @@ class CompoundListWidget extends AbstractWidget
             throw new \InvalidArgumentException($message);
         }
 
-        $valuesCallback = $options['values_callback'];
-
-        if (!is_callable($valuesCallback)) {
-            throw new \InvalidArgumentException('"values_callback" option value is not callable.');
-        }
-
-        $values = $valuesCallback();
+        $values = $options['values_callback']();
 
         if (!is_iterable($values)) {
             throw new WidgetException(
@@ -85,10 +79,12 @@ class CompoundListWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefined('keys_property')
-            ->setDefault('sort', true)
+            ->setDefaults([
+                'keys_property' => null,
+                'sort'          => true,
+            ])
             ->setRequired('values_callback')
-            ->setAllowedTypes('keys_property', 'string')
+            ->setAllowedTypes('keys_property', ['string', 'null'])
             ->setAllowedTypes('sort', 'boolean')
             ->setAllowedTypes('values_callback', 'callable');
     }

@@ -27,7 +27,7 @@ class EntityListWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface $widgetPool View widget pool
      */
-    public function setWidgetPool(ViewWidgetPoolInterface $widgetPool)
+    public function __construct(ViewWidgetPoolInterface $widgetPool)
     {
         $this->widgetPool = $widgetPool;
     }

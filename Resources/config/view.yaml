@@ -154,8 +154,8 @@ services:
         class:  '%darvin_admin.view.widget.entity_list.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setWidgetPool, [ '@darvin_admin.view.widget.pool' ] ]
+        arguments:
+            - '@darvin_admin.view.widget.pool'
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -163,8 +163,8 @@ services:
         class:  '%darvin_admin.view.widget.file_upload_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setUploadStorage, [ '@vich_uploader.storage' ] ]
+        arguments:
+            - '@vich_uploader.storage'
         tags:
             - { name: darvin_admin.view_widget }
 

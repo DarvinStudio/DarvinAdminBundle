@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class EditLinkWidget extends AbstractWidget
 {
-    const ALIAS = 'edit_link';
+    public const ALIAS = 'edit_link';
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface
@@ -29,7 +29,7 @@ class EditLinkWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouterInterface $adminRouter)
+    public function __construct(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -47,12 +47,14 @@ class EditLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_EDIT)
-            ? $this->render([
-                'entity'             => $entity,
-                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ])
-            : null;
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_EDIT)) {
+            return null;
+        }
+
+        return $this->render([
+            'entity'             => $entity,
+            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+        ]);
     }
 
     /**

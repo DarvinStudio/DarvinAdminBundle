@@ -24,24 +24,47 @@ class CompoundListWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $keys = $this->getPropertyValue($entity, isset($options['keys_property']) ? $options['keys_property'] : $options['property']);
+        $keysProperty = isset($options['keys_property']) ? $options['keys_property'] : $options['property'];
+
+        $keys = $this->getPropertyValue($entity, $keysProperty);
 
         if (null === $keys) {
             return null;
         }
-        if (!is_array($keys) && !$keys instanceof \Traversable) {
+        if (!is_iterable($keys)) {
             $message = sprintf(
-                'Keys property "%s::$%s" must contain array or instance of \Traversable, "%s" provided.',
+                'Value of keys property "%s::$%s" must be iterable, "%s" provided.',
                 get_class($entity),
-                $options['keys_property'],
+                $keysProperty,
                 gettype($keys)
             );
 
-            throw new WidgetException($message);
+            throw new \InvalidArgumentException($message);
         }
 
-        $list = $this->createList($keys, $this->getValues($options));
+        $valuesCallback = $options['values_callback'];
 
+        if (!is_callable($valuesCallback)) {
+            throw new \InvalidArgumentException('"values_callback" option value is not callable.');
+        }
+
+        $values = $valuesCallback();
+
+        if (!is_iterable($values)) {
+            throw new WidgetException(
+                sprintf('Values callback must return iterable, "%s" provided.', gettype($values))
+            );
+        }
+
+        $list = [];
+
+        foreach ($keys as $key) {
+            foreach ($values as $valueKey => $value) {
+                if ($valueKey === $key) {
+                    $list[$key] = $value;
+                }
+            }
+        }
         if (empty($list)) {
             return null;
         }
@@ -62,12 +85,12 @@ class CompoundListWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
+            ->setDefined('keys_property')
             ->setDefault('sort', true)
             ->setRequired('values_callback')
-            ->setDefined('keys_property')
             ->setAllowedTypes('keys_property', 'string')
-            ->setAllowedTypes('values_callback', 'callable')
-            ->setAllowedTypes('sort', 'boolean');
+            ->setAllowedTypes('sort', 'boolean')
+            ->setAllowedTypes('values_callback', 'callable');
     }
 
     /**
@@ -76,44 +99,5 @@ class CompoundListWidget extends AbstractWidget
     protected function getRequiredPermissions(): iterable
     {
         yield Permission::VIEW;
-    }
-
-    /**
-     * @param array $keys   Keys
-     * @param array $values Values
-     *
-     * @return array
-     */
-    private function createList(array $keys, array $values): array
-    {
-        $list = [];
-
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $values)) {
-                $list[$key] = $values[$key];
-            }
-        }
-
-        return $list;
-    }
-
-    /**
-     * @param array $options Options
-     *
-     * @return array
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
-     */
-    private function getValues(array $options): array
-    {
-        $valuesCallback = $options['values_callback'];
-        $values = $valuesCallback();
-
-        if (!is_array($values) && !$values instanceof \Traversable) {
-            throw new WidgetException(
-                sprintf('Values callback must return array or instance of \Traversable, "%s" provided.', gettype($values))
-            );
-        }
-
-        return $values;
     }
 }

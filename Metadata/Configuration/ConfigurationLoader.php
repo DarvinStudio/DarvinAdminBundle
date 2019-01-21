@@ -148,23 +148,25 @@ class ConfigurationLoader
     private function mergeConfigParams(array $config): array
     {
         foreach ($config as $name => $value) {
-            preg_match('/^extend~(.*)~(.*)$/', $name, $matches);
+            if (is_string($name)) {
+                preg_match('/^extend~(.*)~(.*)$/', $name, $matches);
 
-            if (3 === count($matches)) {
-                if (!isset($config[$matches[1]])) {
-                    throw new \RuntimeException(sprintf('Unable to find parameter "%s" for extending.', $matches[1]));
+                if (3 === count($matches)) {
+                    if (!isset($config[$matches[1]])) {
+                        throw new \RuntimeException(sprintf('Unable to find parameter "%s" for extending.', $matches[1]));
+                    }
+                    if (!is_array($config[$matches[1]])) {
+                        throw new \RuntimeException(
+                            sprintf('Unable to extend parameter "%s": only array parameters can be extended.', $matches[1])
+                        );
+                    }
+
+                    $config[$matches[2]] = $this->mergeConfigs($config[$matches[1]], $value);
+
+                    unset($config[$name]);
+
+                    continue;
                 }
-                if (!is_array($config[$matches[1]])) {
-                    throw new \RuntimeException(
-                        sprintf('Unable to extend parameter "%s": only array parameters can be extended.', $matches[1])
-                    );
-                }
-
-                $config[$matches[2]] = $this->mergeConfigs($config[$matches[1]], $value);
-
-                unset($config[$name]);
-
-                continue;
             }
             if (is_array($value)) {
                 $config[$name] = $this->mergeConfigParams($value);

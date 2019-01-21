@@ -44,34 +44,20 @@ class ChildLinksWidget extends AbstractWidget
     private $identifierAccessor;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
-     */
-    public function setAdminRouter(AdminRouterInterface $adminRouter)
-    {
-        $this->adminRouter = $adminRouter;
-    }
-
-    /**
-     * @param \Doctrine\ORM\EntityManager $em Entity manager
-     */
-    public function setEntityManager(EntityManager $em)
-    {
-        $this->em = $em;
-    }
-
-    /**
-     * @param \Darvin\Utils\ORM\EntityResolverInterface $entityResolver Entity resolver
-     */
-    public function setEntityResolver(EntityResolverInterface $entityResolver)
-    {
-        $this->entityResolver = $entityResolver;
-    }
-
-    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface           $adminRouter        Admin router
+     * @param \Doctrine\ORM\EntityManager                              $em                 Entity manager
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                $entityResolver     Entity resolver
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface $identifierAccessor Identifier accessor
      */
-    public function setIdentifierAccessor(IdentifierAccessorInterface $identifierAccessor)
-    {
+    public function __construct(
+        AdminRouterInterface $adminRouter,
+        EntityManager $em,
+        EntityResolverInterface $entityResolver,
+        IdentifierAccessorInterface $identifierAccessor
+    ) {
+        $this->adminRouter = $adminRouter;
+        $this->em = $em;
+        $this->entityResolver = $entityResolver;
         $this->identifierAccessor = $identifierAccessor;
     }
 
@@ -83,12 +69,12 @@ class ChildLinksWidget extends AbstractWidget
         $childClass = $this->entityResolver->resolve($options['child']);
         $property   = $options['property'];
 
-        $indexLink = $this->isGranted(Permission::VIEW, $childClass)
+        $showIndexLink = $this->isGranted(Permission::VIEW, $childClass)
             && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_INDEX);
-        $newLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
+        $showNewLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
             && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_NEW);
 
-        if (!$indexLink && !$newLink) {
+        if (!$showIndexLink && !$showNewLink) {
             return null;
         }
 
@@ -96,12 +82,14 @@ class ChildLinksWidget extends AbstractWidget
 
         if ($parentMeta->hasChild($childClass)) {
             $childMeta = $parentMeta->getChild($childClass);
-            $association = $childMeta->getAssociation();
+
+            $association      = $childMeta->getAssociation();
             $associationParam = $childMeta->getAssociationParameterName();
+
             $childMeta = $childMeta->getMetadata();
         } else {
             $childMeta = $this->metadataManager->getMetadata($childClass);
-            $mappings = $parentMeta->getMappings();
+            $mappings  = $parentMeta->getMappings();
 
             if (!isset($mappings[$property]['mappedBy'])) {
                 throw new WidgetException(
@@ -110,6 +98,7 @@ class ChildLinksWidget extends AbstractWidget
             }
 
             $association = $mappings[$property]['mappedBy'];
+
             $associationParam = sprintf('%s[%s]', $childMeta->getFilterFormTypeName(), $association);
         }
 
@@ -127,9 +116,9 @@ class ChildLinksWidget extends AbstractWidget
             'association_param'  => $associationParam,
             'child_class'        => $childClass,
             'children_count'     => $childrenCount,
-            'index_link'         => $indexLink,
-            'new_link'           => $newLink,
             'parent_id'          => $parentId,
+            'show_index_link'    => $showIndexLink,
+            'show_new_link'      => $showNewLink,
             'translation_prefix' => $childMeta->getBaseTranslationPrefix(),
         ]);
     }

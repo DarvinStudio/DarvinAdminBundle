@@ -92,11 +92,11 @@ services:
         class:  '%darvin_admin.view.widget.child_links.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setAdminRouter,        [ '@darvin_admin.router' ] ]
-            - [ setEntityManager,      [ '@doctrine.orm.entity_manager' ] ]
-            - [ setEntityResolver,     [ '@darvin_utils.orm.entity_resolver' ] ]
-            - [ setIdentifierAccessor, [ '@darvin_admin.metadata.identifier_accessor' ] ]
+        arguments:
+            - '@darvin_admin.router'
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_utils.orm.entity_resolver'
+            - '@darvin_admin.metadata.identifier_accessor'
         tags:
             - { name: darvin_admin.view_widget }
 

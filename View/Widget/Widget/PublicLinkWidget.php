@@ -32,17 +32,11 @@ class PublicLinkWidget extends AbstractWidget
 
     /**
      * @param \Darvin\Utils\Homepage\HomepageRouterInterface $homepageRouter Homepage router
+     * @param \Symfony\Component\Routing\RouterInterface     $router         Generic router
      */
-    public function setHomepageRouter(HomepageRouterInterface $homepageRouter)
+    public function __construct(HomepageRouterInterface $homepageRouter, RouterInterface $router)
     {
         $this->homepageRouter = $homepageRouter;
-    }
-
-    /**
-     * @param \Symfony\Component\Routing\RouterInterface $router Router
-     */
-    public function setRouter(RouterInterface $router)
-    {
         $this->router = $router;
     }
 
@@ -57,18 +51,18 @@ class PublicLinkWidget extends AbstractWidget
             ]);
         }
 
-        $parameters = [];
+        $params = [];
 
-        foreach ($options['params'] as $paramName => $propertyPath) {
-            if (empty($propertyPath)) {
-                $propertyPath = $paramName;
+        foreach ($options['params'] as $param => $property) {
+            if (empty($property)) {
+                $property = $param;
             }
 
-            $parameters[$paramName] = $this->getPropertyValue($entity, $propertyPath);
+            $params[$param] = $this->getPropertyValue($entity, $property);
         }
 
         return $this->render([
-            'url' => $this->router->generate($options['route'], $parameters),
+            'url' => $this->router->generate($options['route'], $params),
         ]);
     }
 

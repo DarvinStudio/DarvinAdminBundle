@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -58,7 +58,7 @@ class ObjectPermissionsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $users = $this->getUsers();
 
@@ -95,7 +95,7 @@ class ObjectPermissionsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $users = $this->getUsers();
 
@@ -109,7 +109,7 @@ class ObjectPermissionsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
@@ -121,7 +121,7 @@ class ObjectPermissionsType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_security_object_permissions';
     }
@@ -129,7 +129,7 @@ class ObjectPermissionsType extends AbstractType
     /**
      * @return \Darvin\UserBundle\Entity\BaseUser[]
      */
-    private function getUsers()
+    private function getUsers(): array
     {
         if (!$this->usersLoaded) {
             /** @var \Darvin\UserBundle\Entity\BaseUser $user */

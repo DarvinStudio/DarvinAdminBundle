@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -29,7 +29,7 @@ class AssociatedMetadata
      * @param string                                $association Association name
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata    Associated metadata
      */
-    public function __construct($association, Metadata $metadata)
+    public function __construct(string $association, Metadata $metadata)
     {
         $this->association = $association;
         $this->metadata = $metadata;
@@ -38,15 +38,15 @@ class AssociatedMetadata
     /**
      * @return string
      */
-    public function getAssociationParameterName()
+    public function getAssociationParameterName(): string
     {
-        return $this->association.'_id';
+        return sprintf('%s_id', $this->association);
     }
 
     /**
      * @return string
      */
-    public function getAssociation()
+    public function getAssociation(): string
     {
         return $this->association;
     }
@@ -54,7 +54,7 @@ class AssociatedMetadata
     /**
      * @return \Darvin\AdminBundle\Metadata\Metadata
      */
-    public function getMetadata()
+    public function getMetadata(): Metadata
     {
         return $this->metadata;
     }

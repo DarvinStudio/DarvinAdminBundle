@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -23,7 +23,7 @@ abstract class AbstractFormType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $this->setLabels($view->children, $this->getEntityTranslationPrefix($options));
     }
@@ -33,14 +33,14 @@ abstract class AbstractFormType extends AbstractType
      *
      * @return string
      */
-    abstract protected function getEntityTranslationPrefix(array $options);
+    abstract protected function getEntityTranslationPrefix(array $options): string;
 
     /**
      * @param array $options Field options
      *
      * @return array
      */
-    protected function resolveFieldOptionValues(array $options)
+    protected function resolveFieldOptionValues(array $options): array
     {
         foreach ($options as &$value) {
             if (!is_array($value)) {
@@ -64,7 +64,7 @@ abstract class AbstractFormType extends AbstractType
      * @param \Symfony\Component\Form\FormView[] $fields            Form view fields
      * @param string                             $translationPrefix Translation prefix
      */
-    private function setLabels(array $fields, $translationPrefix)
+    private function setLabels(array $fields, string $translationPrefix): void
     {
         foreach ($fields as $name => $field) {
             if (!(null !== $field->vars['label']

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -12,9 +12,12 @@ namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
+use Darvin\Utils\Flash\FlashNotifierInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Configuration controller
@@ -28,7 +31,7 @@ class ConfigurationController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function editAction(Request $request, $type)
+    public function editAction(Request $request, string $type): Response
     {
         if (!$this->isGranted(Permission::EDIT, ParameterEntity::class)) {
             throw $this->createAccessDeniedException();
@@ -67,7 +70,7 @@ class ConfigurationController extends AbstractController
     /**
      * @return \Darvin\ConfigBundle\Configuration\ConfigurationPool
      */
-    private function getConfigurationPool()
+    private function getConfigurationPool(): ConfigurationPool
     {
         return $this->get('darvin_config.configuration.pool');
     }
@@ -75,7 +78,7 @@ class ConfigurationController extends AbstractController
     /**
      * @return \Darvin\Utils\Flash\FlashNotifierInterface
      */
-    private function getFlashNotifier()
+    private function getFlashNotifier(): FlashNotifierInterface
     {
         return $this->get('darvin_utils.flash.notifier');
     }

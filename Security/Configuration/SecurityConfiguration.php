@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -41,7 +41,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
      * @param string $securableAlias Securable alias
      * @param string $securableClass Securable class
      */
-    public function __construct($name, $securableAlias, $securableClass)
+    public function __construct(string $name, string $securableAlias, string $securableClass)
     {
         parent::__construct();
 
@@ -53,7 +53,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
     /**
      * {@inheritdoc}
      */
-    public function getModel()
+    public function getModel(): array
     {
         return [
             new ParameterModel(
@@ -77,7 +77,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
     /**
      * {@inheritdoc}
      */
-    public function getPermissions()
+    public function getPermissions(): array
     {
         return $this->__call(__FUNCTION__);
     }
@@ -85,7 +85,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
     /**
      * {@inheritdoc}
      */
-    public function getAllowedRoles()
+    public function getAllowedRoles(): array
     {
         return [
             Roles::ROLE_SUPERADMIN,
@@ -95,7 +95,7 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

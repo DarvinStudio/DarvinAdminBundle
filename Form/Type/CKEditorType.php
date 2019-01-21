@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -78,8 +78,8 @@ class CKEditorType extends AbstractType
         RouterInterface $router,
         TranslatableManagerInterface $translatableManager,
         WidgetPoolInterface $widgetPool,
-        $pluginFilename,
-        $pluginsPath
+        string $pluginFilename,
+        string $pluginsPath
     ) {
         $this->localeProvider = $localeProvider;
         $this->propertyAccessor = $propertyAccessor;
@@ -93,7 +93,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $this->removeExtraPluginsFromBlacklist($view);
 
@@ -161,7 +161,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([
@@ -175,7 +175,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return \FOS\CKEditorBundle\Form\Type\CKEditorType::class;
     }
@@ -183,7 +183,7 @@ class CKEditorType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_ck_editor';
     }
@@ -193,7 +193,7 @@ class CKEditorType extends AbstractType
      *
      * @return string|null
      */
-    private function getLocale(FormInterface $form)
+    private function getLocale(FormInterface $form): ?string
     {
         if (null === $form->getParent()) {
             return null;
@@ -217,7 +217,7 @@ class CKEditorType extends AbstractType
     /**
      * @param \Symfony\Component\Form\FormView $view Form view
      */
-    private function removeExtraPluginsFromBlacklist(FormView $view)
+    private function removeExtraPluginsFromBlacklist(FormView $view): void
     {
         $config = $view->vars['config'];
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2018, Darvin Studio
@@ -49,7 +49,7 @@ class ConfigurationLoader
      * @param array                                                                     $bundles      List of bundles
      * @param string                                                                    $projectDir   Project directory
      */
-    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, array $bundles, $projectDir)
+    public function __construct(LoggerInterface $logger, ParameterBagInterface $parameterBag, array $bundles, string $projectDir)
     {
         $this->logger = $logger;
         $this->parameterBag = $parameterBag;
@@ -63,7 +63,7 @@ class ConfigurationLoader
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function load($pathname)
+    public function load(string $pathname): array
     {
         if (empty($pathname)) {
             throw new \InvalidArgumentException('Configuration file pathname cannot be empty.');
@@ -81,7 +81,7 @@ class ConfigurationLoader
      * @return array
      * @throws \RuntimeException
      */
-    private function processConfiguration(array $config, $pathname)
+    private function processConfiguration(array $config, string $pathname): array
     {
         $processor = new Processor();
 
@@ -100,7 +100,7 @@ class ConfigurationLoader
      * @return array
      * @throws \RuntimeException
      */
-    private function getMergedConfig($pathname)
+    private function getMergedConfig(string $pathname): array
     {
         $hierarchy = [];
 
@@ -145,7 +145,7 @@ class ConfigurationLoader
      * @return array
      * @throws \RuntimeException
      */
-    private function mergeConfigParams(array $config)
+    private function mergeConfigParams(array $config): array
     {
         foreach ($config as $name => $value) {
             preg_match('/^extend~(.*)~(.*)$/', $name, $matches);
@@ -181,7 +181,7 @@ class ConfigurationLoader
      * @return array
      * @throws \RuntimeException
      */
-    private function mergeConfigs(array $first, array $second)
+    private function mergeConfigs(array $first, array $second): array
     {
         foreach ($second as $name => $value) {
             if (0 === strpos($name, 'override~')) {
@@ -275,7 +275,7 @@ class ConfigurationLoader
      * @return array
      * @throws \RuntimeException
      */
-    private function getConfig($pathname)
+    private function getConfig(string $pathname): array
     {
         $content = file_get_contents($pathname);
 
@@ -297,7 +297,7 @@ class ConfigurationLoader
      *
      * @return string
      */
-    private function resolveRealPathname($pathname, $allowOverride = false)
+    private function resolveRealPathname(string $pathname, bool $allowOverride = false): string
     {
         $pathname = $this->parameterBag->resolveValue($pathname);
 
@@ -339,7 +339,7 @@ class ConfigurationLoader
      *
      * @return bool
      */
-    private function isIndexed(array $array)
+    private function isIndexed(array $array): bool
     {
         if (empty($array)) {
             return true;

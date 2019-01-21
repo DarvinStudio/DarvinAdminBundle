@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2017, Darvin Studio
@@ -15,5 +15,5 @@ namespace Darvin\AdminBundle\Event\Metadata;
  */
 final class MetadataEvents
 {
-    const LOADED = 'darvin_admin.metadata.loaded';
+    public const LOADED = 'darvin_admin.metadata.loaded';
 }

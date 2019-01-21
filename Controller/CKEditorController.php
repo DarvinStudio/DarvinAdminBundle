@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -12,7 +12,9 @@ namespace Darvin\AdminBundle\Controller;
 
 use Darvin\ContentBundle\Widget\WidgetException;
 use Darvin\ContentBundle\Widget\WidgetInterface;
+use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * CKEditor controller
@@ -25,7 +27,7 @@ class CKEditorController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function pluginAction($widgetName)
+    public function pluginAction(string $widgetName): Response
     {
         try {
             $widget = $this->getWidgetPool()->getWidget($widgetName);
@@ -49,9 +51,9 @@ class CKEditorController extends AbstractController
     /**
      * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
      *
-     * @return string
+     * @return string|null
      */
-    private function getWidgetIcon(WidgetInterface $widget)
+    private function getWidgetIcon(WidgetInterface $widget): ?string
     {
         $options = $widget->getResolvedOptions();
 
@@ -78,7 +80,7 @@ class CKEditorController extends AbstractController
     /**
      * @return \Darvin\ContentBundle\Widget\WidgetPoolInterface
      */
-    private function getWidgetPool()
+    private function getWidgetPool(): WidgetPoolInterface
     {
         return $this->get('darvin_content.widget.pool');
     }

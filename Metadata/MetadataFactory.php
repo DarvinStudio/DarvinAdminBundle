@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -63,7 +63,7 @@ class MetadataFactory
      * @return \Darvin\AdminBundle\Metadata\Metadata
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function createMetadata($entityName, $entityClass, $configPathname, $controllerId)
+    public function createMetadata($entityName, $entityClass, $configPathname, $controllerId): Metadata
     {
         try {
             $doctrineMeta = $this->em->getClassMetadata($entityClass);
@@ -96,9 +96,9 @@ class MetadataFactory
      *
      * @return string
      */
-    private function generateBaseTranslationPrefix($entityName)
+    private function generateBaseTranslationPrefix(string $entityName): string
     {
-        return $entityName.'.';
+        return sprintf('%s.', $entityName);
     }
 
     /**
@@ -106,9 +106,9 @@ class MetadataFactory
      *
      * @return string
      */
-    private function generateEntityTranslationPrefix($baseTranslationPrefix)
+    private function generateEntityTranslationPrefix(string $baseTranslationPrefix): string
     {
-        return $baseTranslationPrefix.'entity.';
+        return sprintf('%sentity.', $baseTranslationPrefix);
     }
 
     /**
@@ -116,7 +116,7 @@ class MetadataFactory
      *
      * @return string
      */
-    private function generateFormTypeName($entityName)
+    private function generateFormTypeName(string $entityName): string
     {
         return self::FORM_TYPE_NAME_PREFIX.$entityName;
     }
@@ -126,7 +126,7 @@ class MetadataFactory
      *
      * @return string
      */
-    private function generateRoutingPrefix($entityName)
+    private function generateRoutingPrefix(string $entityName): string
     {
         return self::ROUTE_NAME_PREFIX.$entityName;
     }
@@ -137,7 +137,7 @@ class MetadataFactory
      * @return array
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    private function getMappings(ClassMetadataInfo $doctrineMeta)
+    private function getMappings(ClassMetadataInfo $doctrineMeta): array
     {
         $mappings = array_merge($doctrineMeta->associationMappings, $doctrineMeta->fieldMappings);
 
@@ -169,7 +169,7 @@ class MetadataFactory
      *
      * @return \Darvin\AdminBundle\Metadata\MetadataException
      */
-    private function createUnableToGetDoctrineMetadataException($entityClass)
+    private function createUnableToGetDoctrineMetadataException(string $entityClass): MetadataException
     {
         return new MetadataException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2016, Darvin Studio
@@ -35,7 +35,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'choices' => $this->buildChoices(),
@@ -45,7 +45,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getParent()
+    public function getParent(): string
     {
         return ChoiceType::class;
     }
@@ -53,7 +53,7 @@ class LocaleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'darvin_admin_locale';
     }
@@ -61,7 +61,7 @@ class LocaleType extends AbstractType
     /**
      * @return array
      */
-    private function buildChoices()
+    private function buildChoices(): array
     {
         $choices = [];
 

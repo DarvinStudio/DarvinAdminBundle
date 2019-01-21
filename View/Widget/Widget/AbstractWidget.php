@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Translatable\TranslatableException;
 use Darvin\Utils\Strings\StringsUtil;
@@ -169,7 +168,7 @@ abstract class AbstractWidget implements WidgetInterface
      * @param string $propertyPath Property path
      *
      * @return mixed
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     * @throws \InvalidArgumentException
      */
     final protected function getPropertyValue($entity, string $propertyPath)
     {
@@ -177,12 +176,12 @@ abstract class AbstractWidget implements WidgetInterface
             if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
                 $message = sprintf('Unable to get value of "%s::$%s" property: it is not readable.', get_class($entity), $propertyPath);
 
-                throw new WidgetException($message);
+                throw new \InvalidArgumentException($message);
             }
         } catch (TranslatableException $ex) {
             $message = sprintf('Unable to get value of "%s::$%s" property: %s', get_class($entity), $propertyPath, lcfirst($ex->getMessage()));
 
-            throw new WidgetException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         return $this->propertyAccessor->getValue($entity, $propertyPath);
@@ -215,7 +214,7 @@ abstract class AbstractWidget implements WidgetInterface
      * @param array  $options Options
      *
      * @return array
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     * @throws \InvalidArgumentException
      */
     private function validate($entity, array $options): array
     {
@@ -241,13 +240,13 @@ abstract class AbstractWidget implements WidgetInterface
                     implode('", "', $allowedEntityClasses)
                 );
 
-                throw new WidgetException($message);
+                throw new \InvalidArgumentException($message);
             }
         }
         try {
             $options = $this->getOptionsResolver()->resolve($options);
         } catch (ExceptionInterface $ex) {
-            throw new WidgetException(
+            throw new \InvalidArgumentException(
                 sprintf('View widget "%s" options are invalid: "%s".', $this->getAlias(), $ex->getMessage())
             );
         }

@@ -34,12 +34,12 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
 
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator    Translator
-     * @param int                                                $maxUploadSize Max upload size in MB
+     * @param mixed                                              $maxUploadSize Max upload size in MB
      */
     public function __construct(TranslatorInterface $translator, $maxUploadSize)
     {
         $this->translator = $translator;
-        $this->maxUploadSize = $maxUploadSize;
+        $this->maxUploadSize = (int)$maxUploadSize;
     }
 
     /**
@@ -69,8 +69,8 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function getExtendedType(): string
+    public static function getExtendedTypes(): iterable
     {
-        return FileType::class;
+        yield FileType::class;
     }
 }

@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CKEditorCompactType extends AbstractType
 {
-    const CONFIG_NAME = 'darvin_admin_compact';
+    private const CONFIG_NAME = 'darvin_admin_compact';
 
     /**
      * @var \Darvin\Utils\Locale\LocaleProviderInterface

@@ -26,7 +26,7 @@ use Symfony\Component\Routing\RouterInterface;
  */
 class CKEditorType extends AbstractType
 {
-    const CONFIG_NAME = 'darvin_admin';
+    private const CONFIG_NAME = 'darvin_admin';
 
     /**
      * @var \Darvin\Utils\Locale\LocaleProviderInterface

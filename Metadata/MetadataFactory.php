@@ -21,11 +21,9 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
  */
 class MetadataFactory
 {
-    const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
-
-    const FORM_TYPE_NAME_PREFIX = 'admin_';
-
-    const ROUTE_NAME_PREFIX = 'admin_';
+    private const FILTER_FORM_TYPE_NAME_SUFFIX = '_filter';
+    private const FORM_TYPE_NAME_PREFIX        = 'admin_';
+    private const ROUTE_NAME_PREFIX            = 'admin_';
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader

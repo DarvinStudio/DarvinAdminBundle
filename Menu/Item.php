@@ -15,8 +15,8 @@ namespace Darvin\AdminBundle\Menu;
  */
 class Item
 {
-    const DEFAULT_MAIN_ICON    = 'bundles/darvinadmin/images/main_menu_stub.png';
-    const DEFAULT_SIDEBAR_ICON = 'bundles/darvinadmin/images/sidebar_menu_stub.png';
+    public const DEFAULT_MAIN_ICON    = 'bundles/darvinadmin/images/main_menu_stub.png';
+    public const DEFAULT_SIDEBAR_ICON = 'bundles/darvinadmin/images/sidebar_menu_stub.png';
 
     /**
      * @var string

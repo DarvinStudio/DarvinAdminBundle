@@ -172,8 +172,8 @@ services:
         class:  '%darvin_admin.view.widget.image_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setImageUrlBuilder, [ '@darvin_image.url_builder.builder' ] ]
+        arguments:
+            - '@darvin_image.url_builder.builder'
         tags:
             - { name: darvin_admin.view_widget }
 
@@ -181,8 +181,8 @@ services:
         class:  '%darvin_admin.view.widget.image_upload_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setUploadStorage, [ '@vich_uploader.storage' ] ]
+        arguments:
+            - '@vich_uploader.storage'
         tags:
             - { name: darvin_admin.view_widget }
 

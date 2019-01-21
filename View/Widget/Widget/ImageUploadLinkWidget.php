@@ -22,14 +22,14 @@ class ImageUploadLinkWidget extends AbstractWidget
     /**
      * @var \Vich\UploaderBundle\Storage\StorageInterface
      */
-    private $uploadStorage;
+    private $uploaderStorage;
 
     /**
-     * @param \Vich\UploaderBundle\Storage\StorageInterface $uploadStorage Upload storage
+     * @param \Vich\UploaderBundle\Storage\StorageInterface $uploaderStorage Uploader storage
      */
-    public function setUploadStorage(StorageInterface $uploadStorage)
+    public function __construct(StorageInterface $uploaderStorage)
     {
-        $this->uploadStorage = $uploadStorage;
+        $this->uploaderStorage = $uploaderStorage;
     }
 
     /**
@@ -37,17 +37,19 @@ class ImageUploadLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $url = $this->uploadStorage->resolveUri(
+        $url = $this->uploaderStorage->resolveUri(
             $entity,
-            !empty($options['file_property']) ? $options['file_property'] : $options['property'].'File'
+            !empty($options['file_property']) ? $options['file_property'] : sprintf('%sFile', $options['property'])
         );
 
-        return $url
-            ? $this->render([
-                'entity' => $entity,
-                'url'    => $url,
-            ])
-            : null;
+        if (empty($url)) {
+            return null;
+        }
+
+        return $this->render([
+            'entity' => $entity,
+            'url'    => $url,
+        ]);
     }
 
     /**
@@ -59,10 +61,7 @@ class ImageUploadLinkWidget extends AbstractWidget
 
         $resolver
             ->setDefault('file_property', null)
-            ->setAllowedTypes('file_property', [
-                'string',
-                'null',
-            ]);
+            ->setAllowedTypes('file_property', ['string', 'null']);
     }
 
     /**

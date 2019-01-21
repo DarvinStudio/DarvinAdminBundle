@@ -19,7 +19,7 @@ use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
  */
 class ImageLinkWidget extends AbstractWidget
 {
-    const ALIAS = 'image_link';
+    public const ALIAS = 'image_link';
 
     /**
      * @var \Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface
@@ -29,7 +29,7 @@ class ImageLinkWidget extends AbstractWidget
     /**
      * @param \Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface $imageUrlBuilder Image URL builder
      */
-    public function setImageUrlBuilder(UrlBuilderInterface $imageUrlBuilder)
+    public function __construct(UrlBuilderInterface $imageUrlBuilder)
     {
         $this->imageUrlBuilder = $imageUrlBuilder;
     }

@@ -44,14 +44,14 @@ class FileUploadLinkWidget extends AbstractWidget
             !empty($options['file_property']) ? $options['file_property'] : sprintf('%sFile', $property)
         );
 
-        if (!empty($url)) {
-            return $this->render([
-                'filename' => $this->getPropertyValue($entity, $property),
-                'url'      => $url,
-            ]);
+        if (empty($url)) {
+            return null;
         }
 
-        return null;
+        return $this->render([
+            'filename' => $this->getPropertyValue($entity, $property),
+            'url'      => $url,
+        ]);
     }
 
     /**

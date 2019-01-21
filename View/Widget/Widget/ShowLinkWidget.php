@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ShowLinkWidget extends AbstractWidget
 {
-    const ALIAS = 'show_link';
+    public const ALIAS = 'show_link';
 
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface
@@ -29,7 +29,7 @@ class ShowLinkWidget extends AbstractWidget
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
      */
-    public function setAdminRouter(AdminRouterInterface $adminRouter)
+    public function __construct(AdminRouterInterface $adminRouter)
     {
         $this->adminRouter = $adminRouter;
     }
@@ -54,14 +54,14 @@ class ShowLinkWidget extends AbstractWidget
                 return null;
             }
         }
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)) {
+            return null;
+        }
 
-        return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
-            ? $this->render([
-                'entity'             => $entity,
-                'text_link'          => $options['text_link'],
-                'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
-            ])
-            : null;
+        return $this->render([
+            'entity'             => $entity,
+            'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
+        ]);
     }
 
     /**
@@ -74,8 +74,8 @@ class ShowLinkWidget extends AbstractWidget
         $resolver
             ->setDefaults([
                 'entity_class' => null,
-                'text_link'    => false,
+                'text'         => false,
             ])
-            ->setAllowedTypes('text_link', 'boolean');
+            ->setAllowedTypes('text', 'boolean');
     }
 }

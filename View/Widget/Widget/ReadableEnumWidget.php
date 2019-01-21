@@ -25,7 +25,7 @@ class ReadableEnumWidget extends AbstractWidget
         $value = $this->getPropertyValue($entity, $options['property']);
 
         if (empty($value)) {
-            return '';
+            return null;
         }
 
         return $this->render([

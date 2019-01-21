@@ -235,8 +235,8 @@ services:
         class:  '%darvin_admin.view.widget.show_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        calls:
-            - [ setAdminRouter, [ '@darvin_admin.router' ] ]
+        arguments:
+            - '@darvin_admin.router'
         tags:
             - { name: darvin_admin.view_widget }
 

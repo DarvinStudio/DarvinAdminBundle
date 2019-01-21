@@ -4,8 +4,8 @@
 
 <a href="{{ admin_path(entity, entity_class, 'show') }}"
    title="{{ title }}"
-   class="js-popup{% if not text_link %} edit_element show{% endif %}">
-    {% if text_link %}
+   class="js-popup{% if not text %} edit_element show{% endif %}">
+    {% if text %}
         {{ entity }}
     {% else %}
         <span>{{ title }}</span>

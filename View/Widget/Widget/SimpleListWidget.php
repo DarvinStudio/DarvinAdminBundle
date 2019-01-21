@@ -38,7 +38,7 @@ class SimpleListWidget extends AbstractWidget
             throw new WidgetException($message);
         }
 
-        return $this->render($options, [
+        return $this->render([
             'items' => $items,
         ]);
     }

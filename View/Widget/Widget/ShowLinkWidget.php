@@ -56,7 +56,7 @@ class ShowLinkWidget extends AbstractWidget
         }
 
         return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)
-            ? $this->render($options, [
+            ? $this->render([
                 'entity'             => $entity,
                 'text_link'          => $options['text_link'],
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),

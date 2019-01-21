@@ -53,7 +53,7 @@ class BatchDeleteWidget extends AbstractWidget
 
         $meta = $this->metadataManager->getMetadata($entity);
 
-        return $this->render($options, [
+        return $this->render([
             'entity'             => $entity,
             'identifier'         => $meta->getIdentifier(),
             'translation_prefix' => $meta->getBaseTranslationPrefix(),

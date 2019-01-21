@@ -43,7 +43,7 @@ class ImageUploadLinkWidget extends AbstractWidget
         );
 
         return $url
-            ? $this->render($options, [
+            ? $this->render([
                 'entity' => $entity,
                 'url'    => $url,
             ])

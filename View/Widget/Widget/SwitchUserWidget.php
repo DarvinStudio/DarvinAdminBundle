@@ -31,7 +31,7 @@ class SwitchUserWidget extends AbstractWidget
         }
         foreach ($user->getRoles() as $role) {
             if (preg_match('/ADMIN$/', $role)) {
-                return $this->render([], [
+                return $this->render([
                     'user' => $user,
                 ]);
             }

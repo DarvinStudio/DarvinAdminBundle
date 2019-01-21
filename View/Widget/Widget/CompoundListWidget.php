@@ -49,7 +49,7 @@ class CompoundListWidget extends AbstractWidget
             sort($list);
         }
 
-        return $this->render($options, [
+        return $this->render([
             'list' => $list,
         ]);
     }

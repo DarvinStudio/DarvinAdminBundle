@@ -62,7 +62,7 @@ class DeleteFormWidget extends AbstractWidget
     protected function createContent($entity, array $options): ?string
     {
         return $this->adminRouter->exists($entity, AdminRouterInterface::TYPE_DELETE)
-            ? $this->render($options, [
+            ? $this->render([
                 'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])

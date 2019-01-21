@@ -26,7 +26,7 @@ class SimpleLinkWidget extends AbstractWidget
         $url = $this->getPropertyValue($entity, $options['property']);
 
         return !empty($url)
-            ? $this->render($options, [
+            ? $this->render([
                 'title' => $url,
                 'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? 'http://'.$url : $url,
             ])

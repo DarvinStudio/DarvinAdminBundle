@@ -67,7 +67,7 @@ class EntityListWidget extends AbstractWidget
                     }
                 }
 
-                return $this->render($options, [
+                return $this->render([
                     'widgets' => $widgets,
                 ]);
             }
@@ -79,7 +79,7 @@ class EntityListWidget extends AbstractWidget
                 }
             }
 
-            return $this->render($options, [
+            return $this->render([
                 'widgets' => $widgets,
             ]);
         }
@@ -96,7 +96,7 @@ class EntityListWidget extends AbstractWidget
             }
         }
 
-        return $this->render($options, [
+        return $this->render([
             'widgets' => $widgets,
         ]);
     }

@@ -90,7 +90,7 @@ class DataWidget extends AbstractWidget
             $viewData[$translationPrefix.StringsUtil::toUnderscore($property)] = $value;
         }
 
-        return $this->render($options, [
+        return $this->render([
             'data' => $viewData,
         ]);
     }

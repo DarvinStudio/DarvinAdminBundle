@@ -55,7 +55,7 @@ class PublicLinkWidget extends AbstractWidget
     {
         if ($this->homepageRouter->isHomepage($entity)) {
             try {
-                return $this->render($options, [
+                return $this->render([
                     'url' => $this->homepageRouter->generate(),
                 ]);
             } catch (ExceptionInterface $ex) {
@@ -78,7 +78,7 @@ class PublicLinkWidget extends AbstractWidget
             throw new WidgetException($ex->getMessage());
         }
 
-        return $this->render($options, [
+        return $this->render([
             'url' => $url,
         ]);
     }

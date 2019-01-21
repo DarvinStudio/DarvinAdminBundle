@@ -82,7 +82,7 @@ class CopyFormWidget extends AbstractWidget
         $extendedMeta = $this->extendedMetadataFactory->getExtendedMetadata($entity);
 
         return isset($extendedMeta['clonable'])
-            ? $this->render($options, [
+            ? $this->render([
                 'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
                 'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
             ])

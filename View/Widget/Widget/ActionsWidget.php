@@ -47,7 +47,7 @@ class ActionsWidget extends AbstractWidget
             }
         }
 
-        return $this->render($options, [
+        return $this->render([
             'actions' => $actions,
         ]);
     }

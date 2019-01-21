@@ -111,7 +111,7 @@ class ChildLinksWidget extends AbstractWidget
             ->getQuery()
             ->getSingleScalarResult();
 
-        return $this->render($options, [
+        return $this->render([
             'association'        => $association,
             'association_param'  => $associationParam,
             'child_class'        => $childClass,

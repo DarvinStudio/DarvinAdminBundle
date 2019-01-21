@@ -56,6 +56,11 @@ abstract class AbstractWidget implements WidgetInterface
     private $alias = null;
 
     /**
+     * @var array|null
+     */
+    private $options = null;
+
+    /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      */
     public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
@@ -93,6 +98,8 @@ abstract class AbstractWidget implements WidgetInterface
     public function getContent($entity, array $options = []): ?string
     {
         $options = $this->validate($entity, $options);
+
+        $this->options = $options;
 
         foreach ($this->getRequiredPermissions() as $permission) {
             if (!$this->isGranted($permission, $entity)) {
@@ -199,14 +206,14 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * @param array $options        Options
-     * @param array $templateParams Template parameters
+     * @param array       $params   Parameters
+     * @param string|null $template Template
      *
      * @return string
      */
-    final protected function render(array $options, array $templateParams = []): string
+    final protected function render(array $params = [], ?string $template = null): string
     {
-        return $this->templating->render($options['template'], array_merge($options, $templateParams));
+        return $this->templating->render(!empty($template) ? $template : $this->options['template'], array_merge($this->options, $params));
     }
 
     /**

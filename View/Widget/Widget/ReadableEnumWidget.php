@@ -28,7 +28,7 @@ class ReadableEnumWidget extends AbstractWidget
             return '';
         }
 
-        return $this->render($options, [
+        return $this->render([
             'value' => $value,
         ]);
     }

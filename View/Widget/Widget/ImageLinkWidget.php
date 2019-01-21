@@ -66,7 +66,7 @@ class ImageLinkWidget extends AbstractWidget
         }
 
         try {
-            return $this->render($options, [
+            return $this->render([
                 'image' => $image,
             ]);
         } catch (NotLoadableException $ex) {

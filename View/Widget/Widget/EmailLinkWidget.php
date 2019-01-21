@@ -25,7 +25,7 @@ class EmailLinkWidget extends AbstractWidget
         $email = $this->getPropertyValue($entity, $options['property']);
 
         return !empty($email)
-            ? $this->render($options, [
+            ? $this->render([
                 'email' => $email,
             ])
             : null;

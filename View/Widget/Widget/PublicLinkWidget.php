@@ -11,10 +11,8 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\Utils\Homepage\HomepageRouterInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Routing\Exception\ExceptionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
@@ -54,13 +52,9 @@ class PublicLinkWidget extends AbstractWidget
     protected function createContent($entity, array $options): ?string
     {
         if ($this->homepageRouter->isHomepage($entity)) {
-            try {
-                return $this->render([
-                    'url' => $this->homepageRouter->generate(),
-                ]);
-            } catch (ExceptionInterface $ex) {
-                throw new WidgetException($ex->getMessage());
-            }
+            return $this->render([
+                'url' => $this->homepageRouter->generate(),
+            ]);
         }
 
         $parameters = [];
@@ -72,14 +66,9 @@ class PublicLinkWidget extends AbstractWidget
 
             $parameters[$paramName] = $this->getPropertyValue($entity, $propertyPath);
         }
-        try {
-            $url = $this->router->generate($options['route'], $parameters);
-        } catch (ExceptionInterface $ex) {
-            throw new WidgetException($ex->getMessage());
-        }
 
         return $this->render([
-            'url' => $url,
+            'url' => $this->router->generate($options['route'], $parameters),
         ]);
     }
 

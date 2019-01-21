@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -43,40 +42,29 @@ class EntityListWidget extends AbstractWidget
         if (empty($collection)) {
             return null;
         }
-        if (!is_array($collection)) {
-            if (!is_object($collection)) {
-                throw new WidgetException(
-                    sprintf('Entities collection must be array or object, "%s" provided.', gettype($collection))
-                );
-            }
-            if (!$collection instanceof \Traversable) {
-                throw new WidgetException(
-                    sprintf('Entities collection object "%s" must be instance of \Traversable.', get_class($collection))
-                );
-            }
+        if (!is_iterable($collection)) {
+            throw new \InvalidArgumentException(sprintf('Entity collection must be iterable, "%s" provided.', gettype($collection)));
         }
-        if (empty($options['item_widget_alias'])) {
-            $widgets = [];
+        if ($options['first_item_only']) {
+            $items = [];
 
-            if (!isset($options['item_title_property'])) {
-                foreach ($collection as $item) {
-                    $widgets[] = $item;
-
-                    if ($options['first_item_only']) {
-                        break;
-                    }
-                }
-
-                return $this->render([
-                    'widgets' => $widgets,
-                ]);
-            }
             foreach ($collection as $item) {
-                $widgets[] = $this->getPropertyValue($item, $options['item_title_property']);
+                $items[] = $item;
 
-                if ($options['first_item_only']) {
-                    break;
-                }
+                break;
+            }
+            if (empty($items)) {
+                return null;
+            }
+
+            $collection = $items;
+        }
+
+        $widgets = [];
+
+        if (empty($options['item_widget_alias'])) {
+            foreach ($collection as $item) {
+                $widgets[] = !empty($options['item_title_property']) ? $this->getPropertyValue($item, $options['item_title_property']) : $item;
             }
 
             return $this->render([
@@ -84,16 +72,10 @@ class EntityListWidget extends AbstractWidget
             ]);
         }
 
-        $widget = $this->widgetPool->getWidget($options['item_widget_alias']);
-
-        $widgets = [];
+        $widgetObject = $this->widgetPool->getWidget($options['item_widget_alias']);
 
         foreach ($collection as $item) {
-            $widgets[] = $widget->getContent($item, $options['item_widget_options']);
-
-            if ($options['first_item_only']) {
-                break;
-            }
+            $widgets[] = $widgetObject->getContent($item, $options['item_widget_options']);
         }
 
         return $this->render([
@@ -111,18 +93,15 @@ class EntityListWidget extends AbstractWidget
         $resolver
             ->setDefaults([
                 'first_item_only'     => false,
+                'item_title_property' => null,
                 'item_widget_alias'   => ShowLinkWidget::ALIAS,
                 'item_widget_options' => [
-                    'text_link' => true,
+                    'text' => true,
                 ],
             ])
-            ->setDefined('item_title_property')
-            ->setAllowedTypes('item_title_property', 'string')
             ->setAllowedTypes('first_item_only', 'boolean')
-            ->setAllowedTypes('item_widget_alias', [
-                'null',
-                'string',
-            ])
+            ->setAllowedTypes('item_title_property', ['string', 'null'])
+            ->setAllowedTypes('item_widget_alias', ['string', 'null'])
             ->setAllowedTypes('item_widget_options', 'array');
     }
 

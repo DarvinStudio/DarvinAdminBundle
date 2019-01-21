@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
@@ -54,10 +53,10 @@ class ImageLinkWidget extends AbstractWidget
             return null;
         }
         if (!is_object($image)) {
-            throw new WidgetException(sprintf('Image must be object, "%s" provided.', gettype($image)));
+            throw new \InvalidArgumentException(sprintf('Image must be object, "%s" provided.', gettype($image)));
         }
         if (!$image instanceof AbstractImage) {
-            throw new WidgetException(
+            throw new \InvalidArgumentException(
                 sprintf('Image object "%s" must be instance of "%s".', get_class($image), AbstractImage::class)
             );
         }

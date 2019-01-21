@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -92,7 +91,7 @@ class ChildLinksWidget extends AbstractWidget
             $mappings  = $parentMeta->getMappings();
 
             if (!isset($mappings[$property]['mappedBy'])) {
-                throw new WidgetException(
+                throw new \InvalidArgumentException(
                     sprintf('Entity "%s" is not child of entity "%s".', $childClass, $parentMeta->getEntityClass())
                 );
             }

@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -45,7 +44,7 @@ class CompoundListWidget extends AbstractWidget
         $values = $options['values_callback']();
 
         if (!is_iterable($values)) {
-            throw new WidgetException(
+            throw new \InvalidArgumentException(
                 sprintf('Values callback must return iterable, "%s" provided.', gettype($values))
             );
         }

@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 
 /**
  * Simple list view widget
@@ -35,7 +34,7 @@ class SimpleListWidget extends AbstractWidget
                 gettype($items)
             );
 
-            throw new WidgetException($message);
+            throw new \InvalidArgumentException($message);
         }
 
         return $this->render([

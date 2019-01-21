@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\View\Widget\Widget\LogEntry;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
-use Darvin\AdminBundle\View\Widget\WidgetException;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
@@ -115,7 +114,7 @@ class DataWidget extends AbstractWidget
      * @param string $entityClass Entity class
      *
      * @return array
-     * @throws \Darvin\AdminBundle\View\Widget\WidgetException
+     * @throws \InvalidArgumentException
      */
     private function getMappings(string $entityClass): array
     {
@@ -125,7 +124,7 @@ class DataWidget extends AbstractWidget
         try {
             return $this->em->getClassMetadata($entityClass)->fieldMappings;
         } catch (MappingException $ex) {
-            throw new WidgetException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
+            throw new \InvalidArgumentException(sprintf('Unable to get Doctrine metadata for class "%s".', $entityClass));
         }
     }
 

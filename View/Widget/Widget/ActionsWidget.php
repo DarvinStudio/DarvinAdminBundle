@@ -46,6 +46,9 @@ class ActionsWidget extends AbstractWidget
                 $actions[] = $action;
             }
         }
+        if (empty($actions)) {
+            return null;
+        }
 
         return $this->render([
             'actions' => $actions,

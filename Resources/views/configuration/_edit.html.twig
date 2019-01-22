@@ -141,12 +141,12 @@
     {% endif %}
 {% endblock %}
 
+{{ form_start(form) }}
 {% if is_granted('ROLE_SUPERADMIN') %}
     {{ that.config_link('common', current_type) }}
     &nbsp;|&nbsp;
     {{ that.config_link('security', current_type) }}
 {% endif %}
-{{ form_start(form) }}
 
 {% block submit %}
     <div class="post_item_btn">

@@ -1,8 +1,6 @@
 parameters:
     darvin_admin.ckeditor.compact_form_type.class: Darvin\AdminBundle\Form\Type\CKEditorCompactType
 
-    darvin_admin.ckeditor.controller.class: Darvin\AdminBundle\Controller\CKEditorController
-
     darvin_admin.ckeditor.form_type.class: Darvin\AdminBundle\Form\Type\CKEditorType
 
 services:
@@ -15,11 +13,6 @@ services:
             - '@darvin_utils.locale.provider'
         tags:
             - { name: form.type }
-
-    darvin_admin.ckeditor.controller:
-        class: '%darvin_admin.ckeditor.controller.class%'
-        tags:
-            - { name: controller.service_subscriber }
 
     darvin_admin.ckeditor.form_type:
         class: '%darvin_admin.ckeditor.form_type.class%'

@@ -1,8 +1,6 @@
 parameters:
     darvin_admin.configuration.configurations_form_type.class: Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType
 
-    darvin_admin.configuration.controller.class: Darvin\AdminBundle\Controller\ConfigurationController
-
     darvin_admin.configuration.section.class: Darvin\AdminBundle\Configuration\SectionConfiguration
 
 services:
@@ -16,11 +14,6 @@ services:
             - '@darvin_config.configuration.pool'
         tags:
             - { name: form.type }
-
-    darvin_admin.configuration.controller:
-        class: '%darvin_admin.configuration.controller.class%'
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
 
     darvin_admin.configuration.section:
         class: '%darvin_admin.configuration.section.class%'

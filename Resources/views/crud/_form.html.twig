@@ -1,4 +1,4 @@
-{% import _self as this %}
+{% import _self as that %}
 
 {% form_theme form '@DarvinAdmin/fields.html.twig' %}
 
@@ -24,7 +24,7 @@
 {% endif %}
 
 {% set field_groups = meta.configuration.form[view_type].field_groups %}
-{% set submit       = this.submit(form) %}
+{% set submit       = that.submit(form) %}
 
 {% if entity %}
     {{ admin_widget_actions(entity, {'view_type': view_type}) }}

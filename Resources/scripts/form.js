@@ -4,19 +4,27 @@
     };
 
     const replaceContent = (html) => {
-        let $html = $(html);
-
-        let $content = $html.find('#js-content');
+        let $content = $('#js-content');
 
         if (!$content.length) {
-            $content = $html;
+            return false;
         }
 
-        $('#js-content').html($content);
+        let $html = $(html);
+
+        let $replacement = $html.find('#js-content');
+
+        if (!$replacement.length) {
+            $replacement = $html;
+        }
+
+        $content.html($replacement);
 
         $(document).trigger('app.html', {
-            $html: $content.parent()
+            $html: $content
         });
+
+        return true;
     };
     const replaceUrl = (url) => {
         if (url && 'undefined' !== typeof history) {
@@ -46,11 +54,15 @@
             App.startPreloading();
 
             let url  = $form.attr('action') || options.url || '',
-                type = ($form.attr('method') || 'get').toLowerCase();
+                type = ($form.attr('method') || 'get').toLowerCase(),
+                xhr  = new XMLHttpRequest();
 
             let params = {
                 url:  url,
-                type: type
+                type: type,
+                xhr:  () => {
+                    return xhr;
+                }
             };
 
             if ('get' === type || 'undefined' === typeof FormData) {
@@ -74,9 +86,13 @@
                     replaceUrl(parts.join(''));
                 }
                 if (!$.isPlainObject(data)) {
-                    replaceContent(data);
+                    if (replaceContent(data)) {
+                        return;
+                    }
 
-                    return;
+                    data = {
+                        redirectUrl: xhr.responseURL
+                    };
                 }
 
                 App.notify(data.message, data.success ? 'success' : 'error');

@@ -258,7 +258,7 @@ setTimeout(initSly, 1, $('.sly-container'), slyOptions);
         $toggle.text($toggle.attr('data-text-close'));
     };
 
-    $('.main_options_item_container ' + selector).click(function () {
+    $('body').on('click', '.main_options_item_container ' + selector, function () {
         var $toggle = $(this);
         var $item = $toggle.closest('.main_options_item');
 

@@ -11,7 +11,9 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\UserBundle\Form\Factory\Security\LoginFormFactoryInterface;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -22,24 +24,29 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(): Response
+    public function loginAction(Request $request): Response
     {
         if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)) {
             return $this->redirectToRoute('darvin_admin_homepage');
         }
 
-        $authenticationUtils = $this->getAuthenticationUtils();
+        $error = $this->getAuthenticationUtils()->getLastAuthenticationError();
+        $form  = $this->getLoginFormFactory()->createLoginForm('darvin_admin_security_login_check');
 
-        $form = $this->getLoginFormFactory()->createLoginForm('darvin_admin_security_login_check');
-
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        return $this->render('@DarvinAdmin/security/login.html.twig', [
+        $html = $this->renderView(sprintf('@DarvinAdmin/security/%slogin.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
             'error' => !empty($error) ? $error->getMessage() : null,
             'form'  => $form->createView(),
         ]);
+
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse($html);
+        }
+
+        return new Response($html);
     }
 
     /**

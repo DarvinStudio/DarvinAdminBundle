@@ -1,0 +1,31 @@
+{% form_theme form 'form_div_layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+<div class="pole_name">{{ form_label(form._username) }}</div>
+<div class="pole_input">{{ form_widget(form._username) }}</div>
+<div class="pole_name">{{ form_label(form._password) }}</div>
+<div class="pole_input{% if error %} with_error{% endif %}">
+    {{ form_widget(form._password) }}
+    {% if error %}
+        <div class="error left_error">
+            <ul>
+                <li>{{ error|trans({}, 'security') }}</li>
+            </ul>
+        </div>
+    {% endif %}
+</div>
+<div class="pole_input">
+    <input type="submit" value="{% trans %}security.action.login.submit{% endtrans %}" />
+</div>
+<div class="checkbox_container">
+    <span class="checkbox">
+        <label>
+            {{ form_widget(form._remember_me) }}
+            <span></span>
+        </label>
+    </span>
+    <span class="note">{{ form_label(form._remember_me) }}</span>
+</div>
+{{ form_end(form) }}

@@ -26,11 +26,11 @@ const App = (() => {
 
             notify(translated, 'error');
         },
-        redirect: (url) => {
+        redirect: (url, immediately) => {
             if ('undefined' !== typeof url && null !== url) {
                 setTimeout(() => {
                     document.location.href = url;
-                }, NOTIFICATION_TIMEOUT);
+                }, immediately ? 0 : NOTIFICATION_TIMEOUT);
 
                 return true;
             }

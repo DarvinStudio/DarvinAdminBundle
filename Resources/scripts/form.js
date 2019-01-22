@@ -97,7 +97,7 @@
 
                     return;
                 }
-                if (App.redirect(data.redirectUrl)) {
+                if (App.redirect(data.redirectUrl, !data.message)) {
                     $form.data('redirecting', true);
                 }
                 if (data.html) {

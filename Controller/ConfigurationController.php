@@ -15,7 +15,9 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ConfigBundle\Configuration\ConfigurationPool;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\Flash\FlashNotifierInterface;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,34 +39,47 @@ class ConfigurationController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $configurationPool = $this->getConfigurationPool();
-
         $url = $this->generateUrl('darvin_admin_configuration', [
             'type' => $type,
         ]);
 
-        $form = $this->createForm(ConfigurationsType::class, $configurationPool, [
+        $form = $this->createForm(ConfigurationsType::class, $this->getConfigurationPool(), [
             'action'             => $url,
             'config_type'        => $type,
             'translation_domain' => 'admin',
         ])->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            if ($form->isValid()) {
-                $configurationPool->saveAll();
+        $render = function (AbstractController $controller) use ($form, $request, $type) {
+            return $controller->renderView(sprintf('@DarvinAdmin/configuration/%sedit.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
+                'current_type' => $type,
+                'form'         => $form->createView(),
+            ]);
+        };
 
-                $this->getFlashNotifier()->success('configuration.action.edit.success');
-
-                return $this->redirect($url);
+        if (!$form->isSubmitted()) {
+            return new Response($render($this));
+        }
+        if (!$form->isValid()) {
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($render($this), false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
             }
 
             $this->getFlashNotifier()->formError();
+
+            return new Response($render($this));
         }
 
-        return $this->render('@DarvinAdmin/configuration/edit.html.twig', [
-            'current_type' => $type,
-            'form'         => $form->createView(),
-        ]);
+        $this->getConfigurationPool()->saveAll();
+
+        $message = 'configuration.action.edit.success';
+
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse($render($this), true, $message);
+        }
+
+        $this->getFlashNotifier()->success($message);
+
+        return new RedirectResponse($url);
     }
 
     /**

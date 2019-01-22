@@ -141,7 +141,7 @@
     {% endif %}
 {% endblock %}
 
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
 
 {% if is_granted('ROLE_SUPERADMIN') %}
     {{ that.config_link('common', current_type) }}

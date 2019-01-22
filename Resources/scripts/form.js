@@ -90,9 +90,13 @@
                         return;
                     }
 
-                    data = {
-                        redirectUrl: xhr.responseURL
-                    };
+                    document.open();
+                    document.write(data);
+                    document.close();
+
+                    replaceUrl(xhr.responseURL);
+
+                    return;
                 }
 
                 App.notify(data.message, data.success ? 'success' : 'error');

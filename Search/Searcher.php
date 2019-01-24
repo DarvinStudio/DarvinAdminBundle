@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\Search;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\ContentBundle\Filterer\FiltererException;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityManager;
@@ -97,7 +96,7 @@ class Searcher implements SearcherInterface
             $this->filterer->filter($qb, array_fill_keys($searchableFields, $query), [
                 'non_strict_comparison_fields' => $searchableFields,
             ], false);
-        } catch (FiltererException $ex) {
+        } catch (\Exception $ex) {
             throw new \RuntimeException(
                 sprintf('Unable to search for "%s" entities: "%s".', $meta->getEntityClass(), $ex->getMessage())
             );

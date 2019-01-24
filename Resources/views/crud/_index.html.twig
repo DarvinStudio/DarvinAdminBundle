@@ -62,7 +62,7 @@
                             {{ form_row(filter_form[field]) }}
                         {% endfor %}
                         <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
-                        <a href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
+                        <a class="js-form-reset" href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
                         {{ form_end(filter_form) }}
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 (() => {
     const SELECTORS = {
-        form: 'form.js-form'
+        form:  'form.js-form',
+        reset: '.js-form-reset'
     };
 
     const replaceUrl = (url) => {
@@ -31,7 +32,7 @@
 
         return true;
     };
-    const submit = (form) => {
+    const submit = (form, reset = false) => {
         let $form = $(form);
 
         let options = $form.data();
@@ -45,6 +46,7 @@
             xhr  = new XMLHttpRequest();
 
         let params = {
+            data: '',
             url:  url,
             type: type,
             xhr:  () => {
@@ -53,9 +55,10 @@
         };
 
         if ('get' === type || 'undefined' === typeof FormData) {
-            params.data = $form.serialize();
-
-            if ('get' === type && location.search === '?' + params.data) {
+            if ('get' !== type || !reset) {
+                params.data = $form.serialize();
+            }
+            if ('get' === type && (location.search === params.data || location.search === '?' + params.data)) {
                 return;
             }
         } else {
@@ -144,6 +147,11 @@
             let $submit = $(e.currentTarget);
 
             $submit.closest(SELECTORS.form).append('<input name="' + $submit.attr('name') + '" type="hidden">');
+        })
+        .on('click', [SELECTORS.form, SELECTORS.reset].join(' '), (e) => {
+            e.preventDefault();
+
+            submit($(e.currentTarget).closest(SELECTORS.form), true);
         })
         .on('submit', SELECTORS.form, (e) => {
             e.preventDefault();

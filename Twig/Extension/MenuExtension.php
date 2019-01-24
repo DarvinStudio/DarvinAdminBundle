@@ -36,14 +36,12 @@ class MenuExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions(): array
+    public function getFunctions(): iterable
     {
-        return [
-            new TwigFunction('admin_menu', [$this, 'renderMenu'], [
-                'needs_environment' => true,
-                'is_safe'           => ['html'],
-            ]),
-        ];
+        yield new TwigFunction('admin_menu', [$this, 'renderMenu'], [
+            'needs_environment' => true,
+            'is_safe'           => ['html'],
+        ]);
     }
 
     /**

@@ -74,14 +74,12 @@ class BreadcrumbsExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions(): array
+    public function getFunctions(): iterable
     {
-        return [
-            new TwigFunction('admin_breadcrumbs', [$this, 'renderCrumbs'], [
-                'needs_environment' => true,
-                'is_safe'           => ['html'],
-            ]),
-        ];
+        yield new TwigFunction('admin_breadcrumbs', [$this, 'renderCrumbs'], [
+            'needs_environment' => true,
+            'is_safe'           => ['html'],
+        ]);
     }
 
     /**

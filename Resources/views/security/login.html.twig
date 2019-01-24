@@ -12,7 +12,7 @@
                 <div class="block">
                     <span class="logo">
                         {% if darvin_admin.logo %}
-                            <img src="{{ asset(darvin_admin.logo) }}">
+                            <img src="{{ asset(darvin_admin.logo) }}" alt="">
                         {% else %}
                             <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_auth.png') }}" alt="">
     						<span>{% trans %}layout.logo{% endtrans %}</span>

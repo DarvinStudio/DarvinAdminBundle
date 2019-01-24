@@ -46,7 +46,7 @@
             xhr  = new XMLHttpRequest();
 
         let params = {
-            data: '',
+            data: $form.serialize(),
             url:  url,
             type: type,
             xhr:  () => {
@@ -54,14 +54,14 @@
             }
         };
 
-        if ('get' === type || 'undefined' === typeof FormData) {
-            if ('get' !== type || !reset) {
-                params.data = $form.serialize();
+        if ('get' === type) {
+            if (reset) {
+                params.data = '';
             }
-            if ('get' === type && (location.search === params.data || location.search === '?' + params.data)) {
+            if (location.search === params.data || location.search === '?' + params.data) {
                 return;
             }
-        } else {
+        } else if ('undefined' !== typeof FormData) {
             $.extend(params, {
                 data:        new FormData($form[0]),
                 contentType: false,

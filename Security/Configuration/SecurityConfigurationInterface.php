@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015, Darvin Studio
@@ -21,5 +21,5 @@ interface SecurityConfigurationInterface extends ConfigurationInterface, Securab
     /**
      * @return \Darvin\AdminBundle\Security\Permissions\ObjectPermissions[]
      */
-    public function getPermissions();
+    public function getPermissions(): array;
 }

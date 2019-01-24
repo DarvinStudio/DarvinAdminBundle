@@ -19,7 +19,7 @@ use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 
 class EditLinkWidget extends AbstractWidget
 {
-    protected function createContent($entity, array $options, $property)
+    protected function createContent($entity, array $options): ?string
     {
         return $this->render($options, [
             'entity'             => $entity,
@@ -27,11 +27,9 @@ class EditLinkWidget extends AbstractWidget
         ]);
     }
 
-    protected function getRequiredPermissions()
+    protected function getRequiredPermissions(): iterable
     {
-        return [
-            Permission::EDIT,
-        ];
+        yield Permission::EDIT;
     }
 }
 ```
@@ -46,7 +44,7 @@ parameters:
 
 services:
     darvin_admin.view.widget.edit_link:
-        class:  "%darvin_admin.view.widget.edit_link.class%"
+        class:  '%darvin_admin.view.widget.edit_link.class%'
         parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }
@@ -74,19 +72,13 @@ Darvin\AdminBundle\Entity\Administrator:
         index:
             fields:
                 email:
-                    widget:
-                        alias: email_link
-                        options:
-                            email_property: email
+                    widget: email_link
                 roles:
                     widget:
-                        alias: list
-                        options:
+                        list:
                             keys_property:   roles
                             values_callback: [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]
 ```
-
-Псевдоним виджета передается в параметре "alias", массив опций - в "options".
 
 **2. Также все виджеты доступны в виде функций Twig.**
 

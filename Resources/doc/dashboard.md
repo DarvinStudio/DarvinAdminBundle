@@ -24,14 +24,14 @@ Dashboard - набор виджетов на главной странице п�
 
 ```yaml
 parameters:
-    app.admin.dashboard_widget.latest_posts.class: AppBundle\Admin\Dashboard\LatestPostsWidget
+    app.admin.dashboard_widget.latest_posts.class: App\Admin\Dashboard\LatestPostsWidget
 
 services:
     app.admin.dashboard_widget.latest_posts:
-        class:  "%app.admin.dashboard_widget.latest_posts.class%"
+        class:  '%app.admin.dashboard_widget.latest_posts.class%'
         parent: darvin_admin.dashboard.widget.abstract
         calls:
-            - [ setEntityManager, [ "@doctrine.orm.entity_manager" ] ]
+            - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
         tags:
             - { name: darvin_admin.dashboard_widget }
 ```

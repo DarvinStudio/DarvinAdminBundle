@@ -1,8 +1,6 @@
 Как переопределить класс сущности
 =================================
 
-**Внимание**: _данный способ работает только для сущностей, которые создаются исключительно средствами панели администрирования._
-
 1. Заменяемый класс должен быть аннотирован "@ORM\InheritanceType("SINGLE_TABLE")", его свойства и методы должны иметь
  область видимости "protected".
 
@@ -21,8 +19,8 @@
 
 Примеры:
 
-- "Darvin\ECommerceBundle\Entity\Product\Catalog" => "AppBundle\Entity\ECommerce\Product\AppCatalog";
-- "Darvin\PageBundle\Entity\Page" => "AppBundle\Entity\Page\AppPage".
+- "Darvin\ECommerceBundle\Entity\Product\Catalog" => "App\Entity\ECommerce\Product\AppCatalog";
+- "Darvin\PageBundle\Entity\Page" => "App\Entity\Page\AppPage".
 
 5. Если заменяемый класс является переводом, необходимо переопределить его метод "getTranslatableEntityClass()", а также
  метод "getTranslationEntityClass()" переводимой сущности, тем самым установив корректную связь.

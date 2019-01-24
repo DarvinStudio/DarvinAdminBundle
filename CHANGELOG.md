@@ -118,7 +118,7 @@ form:
             photos:
                 type: Darvin\AdminBundle\Form\Type\Dropzone\DropzoneType
                 options:
-                    uploadable_class: AppBundle\Entity\PostImage
+                    uploadable_class: App\Entity\PostImage
                     image_filters:    [ post_image, post_photo ]
 ```
 
@@ -129,7 +129,7 @@ form:
             photos:
                 type: Darvin\AdminBundle\Form\Type\Dropzone\DropzoneType
                 options:
-                    uploadable_class: AppBundle\Entity\PostImage
+                    uploadable_class: App\Entity\PostImage
                     image_width:      640
                     image_height:     480
 ```

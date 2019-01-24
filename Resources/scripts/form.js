@@ -40,10 +40,6 @@
             return;
         }
 
-        $form.data('submitted', true);
-
-        App.startPreloading();
-
         let url  = $form.attr('action') || options.url || '',
             type = ($form.attr('method') || 'get').toLowerCase(),
             xhr  = new XMLHttpRequest();
@@ -58,6 +54,10 @@
 
         if ('get' === type || 'undefined' === typeof FormData) {
             params.data = $form.serialize();
+
+            if ('get' === type && location.search === '?' + params.data) {
+                return;
+            }
         } else {
             $.extend(params, {
                 data:        new FormData($form[0]),
@@ -65,6 +65,10 @@
                 processData: false
             });
         }
+
+        $form.data('submitted', true);
+
+        App.startPreloading();
 
         $.ajax(params).done((data) => {
             if ('get' === type) {

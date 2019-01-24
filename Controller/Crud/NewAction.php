@@ -21,7 +21,7 @@ use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -171,7 +171,7 @@ class NewAction extends AbstractAction
             $fields = array_replace($fields, $fieldGroup);
         }
         foreach ($fields as $field => $options) {
-            if (!$meta->isAssociation($field) || ClassMetadata::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
+            if (!$meta->isAssociation($field) || ClassMetadataInfo::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
                 unset($fields[$field]);
             }
         }

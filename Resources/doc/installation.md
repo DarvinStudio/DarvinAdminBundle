@@ -14,44 +14,38 @@
 **2. Устанавливаем бандл с помощью Composer, выполнив в консоли команду**
 
 ```shell
-$ php composer.phar require darvinstudio/darvin-admin-bundle:^5
+$ /usr/bin/env php composer.phar require darvinstudio/darvin-admin-bundle:^5
 ```
 
-**3. Добавляем бандл и его зависимости в ядро приложения (обычно это файл "app/AppKernel.php"):**
+**3. Добавляем бандл и его зависимости в ядро приложения:**
 
 ```php
-use Symfony\Component\HttpKernel\Kernel;
+// config/bundles.php
 
-class AppKernel extends Kernel
-{
-    public function registerBundles()
-    {
-        $bundles = [
-            // Third party bundles
-            new A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
-            new Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle(),
-            new FM\ElfinderBundle\FMElfinderBundle(),
-            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
-            new FOS\CKEditorBundle\FOSCKEditorBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle(),
-            // new Lexik\Bundle\TranslationBundle\LexikTranslationBundle(), (раскомментировать при использовании "lexik/translation-bundle")
-            new Liip\ImagineBundle\LiipImagineBundle(),
-            new Oneup\UploaderBundle\OneupUploaderBundle(),
-            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
-            new Vich\UploaderBundle\VichUploaderBundle(),
-            // Darvin bundles
-            new Darvin\ConfigBundle\DarvinConfigBundle(),
-            new Darvin\ContentBundle\DarvinContentBundle(),
-            new Darvin\ImageBundle\DarvinImageBundle(),
-            new Darvin\UserBundle\DarvinUserBundle(),
-            new Darvin\UtilsBundle\DarvinUtilsBundle(),
-            new Darvin\WebmailLinkerBundle\DarvinWebmailLinkerBundle(),
-            // Admin bundle
-            new Darvin\AdminBundle\DarvinAdminBundle(),
-        ];
-    }
-}
+return [
+    // Third party bundles
+    A2lix\TranslationFormBundle\A2lixTranslationFormBundle::class => ['all' => true],
+    Bazinga\Bundle\JsTranslationBundle\BazingaJsTranslationBundle::class => ['all' => true],
+    FM\ElfinderBundle\FMElfinderBundle::class => ['all' => true],
+    HWI\Bundle\OAuthBundle\HWIOAuthBundle::class => ['all' => true],
+    FOS\CKEditorBundle\FOSCKEditorBundle::class => ['all' => true],
+    Knp\Bundle\PaginatorBundle\KnpPaginatorBundle::class => ['all' => true],
+    Knp\DoctrineBehaviors\Bundle\DoctrineBehaviorsBundle::class => ['all' => true],
+    // Lexik\Bundle\TranslationBundle\LexikTranslationBundle::class => ['all' => true], (раскомментировать при использовании "lexik/translation-bundle")
+    Liip\ImagineBundle\LiipImagineBundle::class => ['all' => true],
+    Oneup\UploaderBundle\OneupUploaderBundle::class => ['all' => true],
+    Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle::class => ['all' => true],
+    Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+    // Darvin bundles
+    Darvin\ConfigBundle\DarvinConfigBundle::class => ['all' => true],
+    Darvin\ContentBundle\DarvinContentBundle::class => ['all' => true],
+    Darvin\ImageBundle\DarvinImageBundle::class => ['all' => true],
+    Darvin\UserBundle\DarvinUserBundle::class => ['all' => true],
+    Darvin\UtilsBundle\DarvinUtilsBundle::class => ['all' => true],
+    Darvin\WebmailLinkerBundle\DarvinWebmailLinkerBundle::class => ['all' => true],
+    // Admin bundle
+    Darvin\AdminBundle\DarvinAdminBundle::class => ['all' => true],
+];
 ```
 
 **4. Настраиваем бандл и его зависимости:**
@@ -59,20 +53,28 @@ class AppKernel extends Kernel
 - настраиваем бандлы:
 
 ```yaml
+# config/packages/darvin_admin.yaml
+
 darvin_admin:
-    locales:            "%locales%"
-    project_title:      "%project_title%"
-    upload_max_size_mb: "%env(int:UPLOAD_MAX_SIZE_MB)%"
+    locales:            '%locales%'
+    project_title:      '%env(PROJECT_TITLE)%'
+    upload_max_size_mb: 100
+    
+# config/packages/darvin_image.yaml
 
 darvin_image:
-    upload_path: "%env(IMAGE_UPLOAD_PATH)%"
+    upload_path: '%env(IMAGE_UPLOAD_PATH)%'
+    
+# config/packages/darvin_utils.yaml
     
 darvin_utils:
     mailer:
-        from: "%mailer_from%"
+        from:
+            email: '%env(MAILER_FROM)%'
+            name:  '%env(PROJECT_TITLE)%'
 ```
 
-- настраиваем локали в главном конфиге приложения ("app/config/config.yaml"):
+- настраиваем локали в главном конфиге приложения ("app/config/services.yaml"):
 
 ```yaml
 parameters:
@@ -81,7 +83,7 @@ parameters:
         - ru
         - en
         - de
-    locale_pattern: "|de|en|ru"
+    locale_pattern: "de|en"
 ```
 
 - добавляем настройки безопасности в "app/config/security.yaml":
@@ -100,27 +102,34 @@ security:
                 property: email
 
     firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
         admin_area:
             pattern:  ^/admin/
+            # Or if project is multilingual
+            #pattern:  ^/((%locale_pattern%)/|)admin/
             provider: user
             form_login:
                 check_path:           darvin_admin_security_login_check
                 login_path:           darvin_admin_security_login
                 default_target_path:  darvin_admin_homepage
                 use_referer:          true
-                csrf_token_id:        "%kernel.secret%"
+                csrf_token_id:        '%kernel.secret%'
                 csrf_token_generator: security.csrf.token_manager
                 remember_me:          true
+                success_handler:      darvin_user.authentication.success_handler
             remember_me:
                 name:     REMEMBERMEADMIN
                 lifetime: 43200 # 12 hours
-                secret:   "%kernel.secret%"
+                secret:   '%kernel.secret%'
             logout:
-                csrf_token_id: "%kernel.secret%"
+                csrf_token_id: '%kernel.secret%'
                 path:          darvin_admin_security_logout
                 target:        darvin_admin_security_login
-                # handlers:
-                    # - darvin_ecommerce.cart_item.migrate_listener (раскомментировать при использовании "darvinstudio/darvin-ecommerce-bundle")
+                handlers:
+                    #- darvin_ecommerce.cart_item.migrate_listener (раскомментировать при использовании "darvinstudio/darvin-ecommerce-bundle")
             anonymous: ~
             oauth:
                 resource_owners:
@@ -139,80 +148,44 @@ security:
         ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     access_control:
-        - { path: "^/admin/(%locale_pattern%)/login", roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: ^/admin/,                           roles: [ ROLE_ADMIN ] }
+        - { path: ^/admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/admin/,      roles: [ ROLE_ADMIN ] }
+        # Or if project is multilingual
+        #- { path: ^/((%locale_pattern%)/|)admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        #- { path: ^/((%locale_pattern%)/|)admin/,      roles: [ ROLE_ADMIN ] }
 ```
 
-- добавляем используемые в импортированных файлах параметры в файлы параметров (обычно "app/config/parameters.yaml.dist"
- и "app/config/parameters.yaml"):
+- добавляем используемые в импортированных файлах параметры в файлы параметров:
  
-```yaml
-darvin_auth_client_id:     secret
-darvin_auth_client_secret: secret
+```env
+# .env
 
-image_upload_path: files/images
+DARVIN_AUTH_CLIENT_ID=secret
+DARVIN_AUTH_CLIENT_SECRET=secret
 
-mailer_from: noreply@example.com
+IMAGE_UPLOAD_PATH=files/images
 
-project_title: Example
+MAILER_FROM=noreply@skeleton4.localhost
 
-upload_path:        files/uploads
-upload_max_size_mb: 2
+PROJECT_TITLE=DarvinCMS
+
+UPLOAD_MAX_SIZE_MB=100
+UPLOAD_PATH=files/uploads
 ```
 
-*после добавления параметров в файл "app/config/parameters.yaml.dist" рекомендуется выполнить команду "composer install"
- для интерактивного обновления "app/config/parameters.yaml*
-
-- добавляем следующие сеции в настройки роутинга (обычно это файл "app/config/routing.yaml"):
+- импортируем роутинг:
 
 ```yaml
-# Third party bundles
-bazinga_js_translation:
-    resource: "@BazingaJsTranslationBundle/Resources/config/routing/routing.yml"
+# config/routes/darvin_admin.yaml
 
-liip_imagine:
-    resource: "@LiipImagineBundle/Resources/config/routing.xml"
-
-oneup_uploader:
-    resource: .
-    type:     uploader
-
-# Darvin bundles
 darvin_admin:
-    resource:     "@DarvinAdminBundle/Resources/config/routing.yaml"
-    prefix:       /admin/{_locale}
-    requirements: { _locale: "%locale_pattern%" }
+    resource: '@DarvinAdminBundle/Resources/config/routing.yaml'
+    prefix:   /admin
 ```
 
 *если проект не многоязычный, удаляем из роутинга и конфигурации безопасности все упоминания параметра "_locale"*
 
 - настраиваем непосредственно бандл в соответствии с [описанием](reference/configuration.md) его конфигурации;
-
-- включаем компонент "Translator", раскомментировав соответствующие строки в "app/config/config.yaml":
-
-```yaml
-framework:
-    # translator: { fallbacks: ["%locale%"] }
-```
-
-- чтобы задействовать файлы переводов чистим кэш с помощью команды
-
-```shell
-$ php bin/console cache:clear
-```
-
-- обновляем схему базы данных, выполнив команду
-
-```shell
-$ php bin/console doctrine:schema:update --force
-```
-
-- устанавливаем CKEditor
-
-```shell
-$ php bin/console ckeditor:install
-$ php bin/console assets:install --symlink web
-```
 
 - создаем пользователя, выполнив
 

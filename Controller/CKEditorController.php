@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface;
-use Darvin\ContentBundle\Widget\WidgetException;
+use Darvin\ContentBundle\Widget\Exception\WidgetNotExistsException;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +31,7 @@ class CKEditorController extends AbstractController
     {
         try {
             $widget = $this->getWidgetPool()->getWidget($widgetName);
-        } catch (WidgetException $ex) {
+        } catch (WidgetNotExistsException $ex) {
             throw $this->createNotFoundException($ex->getMessage());
         }
         if (!$widget instanceof CKEditorWidgetInterface) {

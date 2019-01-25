@@ -1,11 +1,14 @@
 boolean:
-    0: 'Pas de'
-    1: Oui
     indeterminate: Indéterminée
+    'no': 'Pas de'
+    'yes': Oui
 chosen:
     no_results_text: 'Pas De Résultats De Match'
     placeholder_text_multiple: '---'
     placeholder_text_single: '---'
+collection:
+    add: Ajouter
+    delete: Supprimer
 colorbox:
     close: Fermer
     current: 'Image {current} de {total}'
@@ -16,7 +19,10 @@ colorbox:
     slideshowStop: 'Arrêter Le Diaporama'
     xhrError: 'Ce Contenu a pas réussi à Charger.'
 common:
+    actions: Actions
     back: 'De retour'
+    empty_list: 'La Liste Est Vide'
+    total_item_count: 'Nombre Total D''Éléments: %count%'
 configuration:
     action:
         edit:
@@ -69,9 +75,6 @@ flash:
 form:
     file:
         description: 'Taille Maximale De Fichier: %size%MO'
-form_collections:
-    add: Ajouter
-    delete: Supprimer
 homepage:
     action:
         index:
@@ -89,22 +92,10 @@ image:
         enable:
             submit: Activer
             success: 'Image Activée Avec Succès'
-interface:
-    actions: Actions
-    empty_list: 'La Liste Est Vide'
-    total_item_count: 'Nombre Total D''Éléments: %count%'
 layout:
     copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>Kovrov Ville</span>
-                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>La Ville De Vladimir</span>
-                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
-            </div>
+        phone_numbers: "<div class=\"phone\">\n    <span>Kovrov Ville</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>La Ville De Vladimir</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7 (4922) 60-16-14</a>\n</div>\n"
         support:
             label: 'Le Support Technique'
             email: support@darvin-studio.ru
@@ -170,10 +161,7 @@ search:
     action:
         index:
             heading: 'La recherche pour "%query%"'
-            query_too_short: >
-                La Requête Est Trop Court, Min Longueur Est %min_length% Symbole |
-                La Requête Est Trop Court, Min Longueur Est %min_length% Symboles |
-                La Requête Est Trop Court, Min Longueur Est %min_length%Symboles
+            query_too_short: "La Requête Est Trop Court, Min Longueur Est %min_length% Symbole | La Requête Est Trop Court, Min Longueur Est %min_length% Symboles | La Requête Est Trop Court, Min Longueur Est %min_length%Symboles\n"
     form:
         placeholder: Recherche...
         submit: Recherche
@@ -192,9 +180,6 @@ security:
         admin_create_delete: 'Créer et Supprimer des'
         admin_edit: Modifier
         admin_view: Vue
-size:
-    height: Hauteur
-    width: Largeur
 slug_suffix:
     edit: Modifier
     reset: Réinitialiser

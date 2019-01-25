@@ -1,11 +1,14 @@
 boolean:
-    0: لا
-    1: نعم
     indeterminate: 'غير محدد'
+    'no': لا
+    'yes': نعم
 chosen:
     no_results_text: 'لا توجد نتائج المباراة'
     placeholder_text_multiple: '---'
     placeholder_text_single: '---'
+collection:
+    add: إضافة
+    delete: إزالة
 colorbox:
     close: قريب
     current: 'صورة {الجارية} {مجموع}'
@@ -16,7 +19,10 @@ colorbox:
     slideshowStop: 'إيقاف عرض الشرائح'
     xhrError: 'هذا المحتوى فشل في التحميل.'
 common:
+    actions: الإجراءات
     back: 'مرة أخرى'
+    empty_list: 'القائمة فارغة'
+    total_item_count: 'مجموع البنود: %count%'
 configuration:
     action:
         edit:
@@ -69,9 +75,6 @@ flash:
 form:
     file:
         description: 'ماكس حجم الملف: %size%MB'
-form_collections:
-    add: إضافة
-    delete: إزالة
 homepage:
     action:
         index:
@@ -89,22 +92,10 @@ image:
         enable:
             submit: تمكين
             success: 'صورة تمكين بنجاح'
-interface:
-    actions: الإجراءات
-    empty_list: 'القائمة فارغة'
-    total_item_count: 'مجموع البنود: %count%'
 layout:
     copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>مدينة كوفروف</span>
-                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>فلاديمير المدينة</span>
-                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
-            </div>
+        phone_numbers: "<div class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7 (4922) 60-16-14</a>\n</div>\n"
         support:
             label: 'الدعم الفني'
             email: support@darvin-studio.ru
@@ -170,7 +161,7 @@ search:
     action:
         index:
             heading: 'البحث عن "%query%"'
-            query_too_short: 'الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز'
+            query_too_short: "الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز\n"
     form:
         placeholder: 'البحث عن...'
         submit: البحث
@@ -189,9 +180,6 @@ security:
         admin_create_delete: 'إنشاء وإزالة'
         admin_edit: تحرير
         admin_view: عرض
-size:
-    height: ارتفاع
-    width: العرض
 slug_suffix:
     edit: تحرير
     reset: 'إعادة تعيين'

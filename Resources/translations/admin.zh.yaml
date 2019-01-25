@@ -1,11 +1,14 @@
 boolean:
-    0: 没有
-    1: 是的
     indeterminate: 不确定
+    'no': 没有
+    'yes': 是的
 chosen:
     no_results_text: 无匹配结果
     placeholder_text_multiple: '---'
     placeholder_text_single: '---'
+collection:
+    add: 添加
+    delete: 删除
 colorbox:
     close: 靠近
     current: '像{前}{总}'
@@ -16,7 +19,10 @@ colorbox:
     slideshowStop: 停止幻灯片
     xhrError: 这些内容未能载荷。
 common:
+    actions: 行动
     back: 回
+    empty_list: 表是空的
+    total_item_count: '总项目： %count%'
 configuration:
     action:
         edit:
@@ -69,9 +75,6 @@ flash:
 form:
     file:
         description: '最大的文件大小： %size%MB'
-form_collections:
-    add: 添加
-    delete: 删除
 homepage:
     action:
         index:
@@ -89,22 +92,10 @@ image:
         enable:
             submit: 启用
             success: 图像成功启用
-interface:
-    actions: 行动
-    empty_list: 表是空的
-    total_item_count: '总项目： %count%'
 layout:
-    copyright: '©2009-%current_year%, <a Href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
+    copyright: '©2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>科夫罗夫市</span>
-                <a href="tel:+7 (49232) 4-16-14">+7(49232)4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>弗拉基米尔城市</span>
-                <a href="tel:+7 (4922) 32-32-32">+7(4922)32-32-32</a>
-            </div>
+        phone_numbers: "<div class=\"phone\">\n    <span>科夫罗夫市</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7(4922)60-16-14</a>\n</div>\n"
         support:
             label: 技术支持
             email: support@darvin-studio.ru
@@ -170,10 +161,7 @@ search:
     action:
         index:
             heading: '搜寻"%query%"'
-            query_too_short: >
-                查询太短，分的长度 %min_length% 符号 |
-                查询太短，分的长度 %min_length% 符号 |
-                查询太短，分的长度 %min_length%符号
+            query_too_short: "查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length%符号\n"
     form:
         placeholder: 搜索...
         submit: 搜索
@@ -192,9 +180,6 @@ security:
         admin_create_delete: 创建和删除
         admin_edit: 编辑
         admin_view: 看
-size:
-    height: 高度
-    width: 宽
 slug_suffix:
     edit: 编辑
     reset: 重置

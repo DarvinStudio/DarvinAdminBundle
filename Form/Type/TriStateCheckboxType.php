@@ -26,8 +26,8 @@ class TriStateCheckboxType extends AbstractType
     {
         $resolver->setDefaults([
             'choices' => [
-                'boolean.1' => 1,
-                'boolean.0' => 0,
+                'boolean.yes' => 1,
+                'boolean.no'  => 0,
             ],
             'expanded'    => true,
             'placeholder' => 'boolean.indeterminate',

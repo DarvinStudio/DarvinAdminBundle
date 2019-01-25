@@ -1,7 +1,7 @@
 boolean:
-    0:             Нет
-    1:             Да
     indeterminate: Не определено
+    no:            Нет
+    yes:           Да
 
 chosen:
     no_results_text:           Нет результатов, соответствующих
@@ -23,7 +23,10 @@ colorbox:
     xhrError:       Не удалось загрузить содержимое.
 
 common:
-    back: Назад
+    actions:          Действия
+    back:             Назад
+    empty_list:       Список пуст
+    total_item_count: 'Всего объектов: <strong>%count%</strong>'
 
 configuration:
     action:
@@ -105,11 +108,6 @@ image:
             submit:  Показать
             success: Изображение успешно активировано
 
-interface:
-    actions:          Действия
-    empty_list:       Список пуст
-    total_item_count: 'Всего объектов: <strong>%count%</strong>'
-
 layout:
     copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Версия %version%
     footer:
@@ -120,7 +118,7 @@ layout:
             </div>
             <div class="phone">
                 <span>г. Владимир</span>
-                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+                <a href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
             </div>
         support:
             label: Техническая поддержка
@@ -218,10 +216,6 @@ security:
         admin_create_delete: Создание и удаление
         admin_edit:          Редактирование
         admin_view:          Просмотр
-
-size:
-    height: Высота
-    width:  Ширина
 
 slug_suffix:
     edit:   Изменить

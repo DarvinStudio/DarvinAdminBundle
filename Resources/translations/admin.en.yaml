@@ -1,7 +1,7 @@
 boolean:
-    0: 'No'
-    1: 'Yes'
     indeterminate: Indeterminate
+    no: 'No'
+    yes: 'Yes'
 chosen:
     no_results_text: 'No Results Match'
     placeholder_text_multiple: '---'
@@ -19,7 +19,10 @@ colorbox:
     slideshowStop: 'Stop Slideshow'
     xhrError: 'This Content Failed to Load.'
 common:
+    actions: Actions
     back: Back
+    empty_list: 'List Is Empty'
+    total_item_count: 'Total Items: %count%'
 configuration:
     action:
         edit:
@@ -89,10 +92,6 @@ image:
         enable:
             submit: Enable
             success: 'Image Successfully Enabled'
-interface:
-    actions: Actions
-    empty_list: 'List Is Empty'
-    total_item_count: 'Total Items: %count%'
 layout:
     copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%'
     footer:
@@ -103,7 +102,7 @@ layout:
             </div>
             <div class="phone">
                 <span>Vladimir City</span>
-                <a href="tel:+7 (4922) 32-32-32">+7 (4922) 32-32-32</a>
+                <a href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
             </div>
         support:
             label: 'Technical Support'
@@ -192,9 +191,6 @@ security:
         admin_create_delete: 'Create and Remove'
         admin_edit: Edit
         admin_view: View
-size:
-    height: Height
-    width: Width
 slug_suffix:
     edit: Edit
     reset: Reset

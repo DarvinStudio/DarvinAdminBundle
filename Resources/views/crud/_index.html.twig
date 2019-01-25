@@ -136,13 +136,13 @@
 
             {% block total_item_count %}
                 {% if view.body.rows is not empty %}
-                    <span class="pull-right">{% trans with {'%count%': entity_count} %}interface.total_item_count{% endtrans %}</span>
+                    <span class="pull-right">{% trans with {'%count%': entity_count} %}common.total_item_count{% endtrans %}</span>
                 {% endif %}
             {% endblock %}
 
         </div>
         {% if view.body.rows is empty %}
-            <h3 class="text-danger">{% trans %}interface.empty_list{% endtrans %}</h3>
+            <h3 class="text-danger">{% trans %}common.empty_list{% endtrans %}</h3>
         {% else %}
             <div class="sly-container">
                 <div class="scrollbar js-scrollbar">

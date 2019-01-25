@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Controller;
 
+use Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface;
 use Darvin\ContentBundle\Widget\WidgetException;
-use Darvin\ContentBundle\Widget\WidgetInterface;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +34,11 @@ class CKEditorController extends AbstractController
         } catch (WidgetException $ex) {
             throw $this->createNotFoundException($ex->getMessage());
         }
+        if (!$widget instanceof CKEditorWidgetInterface) {
+            throw $this->createNotFoundException(
+                sprintf('Widget class "%s" must be instance of "%s".', get_class($widget), CKEditorWidgetInterface::class)
+            );
+        }
 
         $response = $this->render('@DarvinAdmin/ck_editor/plugin.js.twig', [
             'icon'   => $this->getWidgetIcon($widget),
@@ -49,11 +54,11 @@ class CKEditorController extends AbstractController
     }
 
     /**
-     * @param \Darvin\ContentBundle\Widget\WidgetInterface $widget Widget
+     * @param \Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface $widget Widget
      *
      * @return string|null
      */
-    private function getWidgetIcon(WidgetInterface $widget): ?string
+    private function getWidgetIcon(CKEditorWidgetInterface $widget): ?string
     {
         $options = $widget->getResolvedOptions();
 

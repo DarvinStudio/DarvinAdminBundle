@@ -42,7 +42,7 @@ abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditor
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
      */
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'icon'  => __DIR__.'/../Resources/images/ckeditor_stub.png',
@@ -53,7 +53,7 @@ abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditor
     /**
      * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [];
     }

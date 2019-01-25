@@ -78,7 +78,7 @@ services:
         public: true
         arguments:
             - '@property_accessor'
-            - '@darvin_content.translatable.translations_initializer'
+            - '@darvin_content.translatable.translation_initializer'
             - '@darvin_content.translatable.translation_joiner'
             - '%darvin_admin.locales%'
 

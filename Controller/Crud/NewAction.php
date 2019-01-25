@@ -17,8 +17,8 @@ use Darvin\AdminBundle\Event\Crud\CrudEvents;
 use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\ContentBundle\Translatable\TranslationInitializerInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
-use Darvin\ContentBundle\Translatable\TranslationsInitializerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -39,9 +39,9 @@ class NewAction extends AbstractAction
     private $propertyAccessor;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface
+     * @var \Darvin\ContentBundle\Translatable\TranslationInitializerInterface
      */
-    private $translationsInitializer;
+    private $translationInitializer;
 
     /**
      * @var \Darvin\ContentBundle\Translatable\TranslationJoinerInterface
@@ -54,19 +54,19 @@ class NewAction extends AbstractAction
     private $locales;
 
     /**
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface         $propertyAccessor        Property accessor
-     * @param \Darvin\ContentBundle\Translatable\TranslationsInitializerInterface $translationsInitializer Translations initializer
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface       $translationJoiner       Translation joiner
-     * @param string[]                                                            $locales                 Locales
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface        $propertyAccessor       Property accessor
+     * @param \Darvin\ContentBundle\Translatable\TranslationInitializerInterface $translationInitializer Translation initializer
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface      $translationJoiner      Translation joiner
+     * @param string[]                                                           $locales                Locales
      */
     public function __construct(
         PropertyAccessorInterface $propertyAccessor,
-        TranslationsInitializerInterface $translationsInitializer,
+        TranslationInitializerInterface $translationInitializer,
         TranslationJoinerInterface $translationJoiner,
         array $locales
     ) {
         $this->propertyAccessor = $propertyAccessor;
-        $this->translationsInitializer = $translationsInitializer;
+        $this->translationInitializer = $translationInitializer;
         $this->translationJoiner = $translationJoiner;
         $this->locales = $locales;
     }
@@ -98,7 +98,7 @@ class NewAction extends AbstractAction
             $this->propertyAccessor->setValue($entity, $association, $parentEntity);
         }
         if ($this->translationJoiner->isTranslatable($entityClass)) {
-            $this->translationsInitializer->initializeTranslations($entity, $this->locales);
+            $this->translationInitializer->initializeTranslations($entity, $this->locales);
         }
 
         $this->handleFilterForm($entity, $request);

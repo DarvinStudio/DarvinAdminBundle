@@ -42,7 +42,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->addMenuNode())
                 ->append($this->addSectionsNode())
                 ->scalarNode('frontend_path')->defaultValue('bundles/darvinadmin')->cannotBeEmpty()->end()
-                ->arrayNode('locales')->prototype('scalar')->end()->isRequired()->requiresAtLeastOneElement()->end()
+                ->arrayNode('locales')->prototype('scalar')->cannotBeEmpty()->end()->isRequired()->requiresAtLeastOneElement()->end()
                 ->scalarNode('logo')->defaultNull()->end()
                 ->scalarNode('project_title')->isRequired()->cannotBeEmpty()->end()
                 ->integerNode('search_query_min_length')->defaultValue(3)->min(1)->end()

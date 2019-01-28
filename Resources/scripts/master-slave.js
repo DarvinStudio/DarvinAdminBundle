@@ -38,7 +38,7 @@
             $master.val() && this.isVisible($master) ? this.$slaveContainer.show() : this.$slaveContainer.hide();
 
             if (this.$slaveContainer.is('option')) {
-                let $options = this.$slaveContainer.closest('select').find('option' + selector);
+                let $options = this.$slaveContainer.closest('select').find('option[data-master][data-show-on]');
 
                 if ($options.index(this.$slaveContainer) + 1 === $options.length) {
                     this.$slaveContainer.closest('select').trigger('chosen:updated');

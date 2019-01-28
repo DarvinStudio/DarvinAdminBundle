@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('blacklist')->prototype('scalar');
+                        ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();
 
         return $treeBuilder;
     }

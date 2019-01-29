@@ -31,7 +31,7 @@ class SearchController extends AbstractController
      */
     public function indexAction(Request $request): Response
     {
-        $query = htmlspecialchars($request->query->get('q'));
+        $query = htmlspecialchars($request->query->get('q', ''));
 
         $queryMinLength = $this->container->getParameter('darvin_admin.search_query_min_length');
 

@@ -1,10 +1,10 @@
 {% trans_default_domain 'admin' %}
 
-{% import _self as darvin_admin_menu %}
+{% import _self as that %}
 
 {% macro render(items) %}
 
-    {% import _self as darvin_admin_menu %}
+    {% import _self as that %}
 
     <ul>
         {% for item in items %}
@@ -39,7 +39,7 @@
                 {% endif %}
                 {% if item.children is not empty %}
 
-                    {{ darvin_admin_menu.render(item.children) }}
+                    {{ that.render(item.children) }}
 
                 {% endif %}
             </li>
@@ -50,7 +50,7 @@
 {% if items is not empty %}
     <div class="left_menu">
 
-        {{ darvin_admin_menu.render(items) }}
+        {{ that.render(items) }}
 
     </div>
 {% endif %}

@@ -123,7 +123,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         if ($container->hasExtension('darvin_user')) {
             $container->prependExtensionConfig('darvin_user', [
-                'roles' => Roles::getRoles(),
+                'roles' => array_fill_keys(Roles::getRoles(), null),
             ]);
         }
 

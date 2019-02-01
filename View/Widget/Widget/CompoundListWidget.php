@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -33,7 +34,7 @@ class CompoundListWidget extends AbstractWidget
         if (!is_iterable($keys)) {
             $message = sprintf(
                 'Value of keys property "%s::$%s" must be iterable, "%s" provided.',
-                get_class($entity),
+                ClassUtils::getClass($entity),
                 $keysProperty,
                 gettype($keys)
             );

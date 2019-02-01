@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Metadata\MetadataException;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
+use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -134,7 +135,7 @@ class AdminRouter implements AdminRouterInterface
             throw new \InvalidArgumentException('Entity or entity class must be provided.');
         }
         if (empty($class)) {
-            $class = get_class($entity);
+            $class = ClassUtils::getClass($entity);
         }
         if (!$this->exists($class, $routeType)) {
             throw new \InvalidArgumentException(
@@ -160,7 +161,7 @@ class AdminRouter implements AdminRouterInterface
      */
     public function exists($entity, string $routeType): bool
     {
-        $name = $this->getRouteName($this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity), $routeType);
+        $name = $this->getRouteName($this->entityResolver->resolve(is_object($entity) ? ClassUtils::getClass($entity) : $entity), $routeType);
 
         return !empty($name);
     }
@@ -287,7 +288,7 @@ class AdminRouter implements AdminRouterInterface
         if (!$this->propertyAccessor->isReadable($entity, $association)) {
             $message = sprintf(
                 'Property "%s::$%s" required to generate URL or path for route "%s" is not readable.',
-                get_class($entity),
+                ClassUtils::getClass($entity),
                 $association,
                 $routeType
             );

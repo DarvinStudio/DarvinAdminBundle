@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Translatable\TranslatableException;
 use Darvin\Utils\Strings\StringsUtil;
+use Doctrine\Common\Util\ClassUtils;
 use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -185,12 +186,12 @@ abstract class AbstractWidget implements WidgetInterface
     {
         try {
             if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
-                $message = sprintf('Unable to get value of "%s::$%s" property: it is not readable.', get_class($entity), $propertyPath);
+                $message = sprintf('Unable to get value of "%s::$%s" property: it is not readable.', ClassUtils::getClass($entity), $propertyPath);
 
                 throw new \InvalidArgumentException($message);
             }
         } catch (TranslatableException $ex) {
-            $message = sprintf('Unable to get value of "%s::$%s" property: %s', get_class($entity), $propertyPath, lcfirst($ex->getMessage()));
+            $message = sprintf('Unable to get value of "%s::$%s" property: %s', ClassUtils::getClass($entity), $propertyPath, lcfirst($ex->getMessage()));
 
             throw new \InvalidArgumentException($message);
         }

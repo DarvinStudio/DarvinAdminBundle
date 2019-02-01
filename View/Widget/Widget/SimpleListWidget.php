@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * Simple list view widget
@@ -32,7 +33,7 @@ class SimpleListWidget extends AbstractWidget
         if (!is_iterable($items)) {
             $message = sprintf(
                 'Value of property "%s::$%s" must be iterable, "%s" provided.',
-                get_class($entity),
+                ClassUtils::getClass($entity),
                 $property,
                 gettype($items)
             );

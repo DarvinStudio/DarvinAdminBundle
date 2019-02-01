@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Metadata;
 use Darvin\AdminBundle\Event\Metadata\MetadataEvent;
 use Darvin\AdminBundle\Event\Metadata\MetadataEvents;
 use Darvin\Utils\ORM\EntityResolverInterface;
+use Doctrine\Common\Util\ClassUtils;
 use Psr\SimpleCache\CacheInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -88,7 +89,7 @@ class MetadataManager implements AdminMetadataManagerInterface
      */
     public function hasMetadata($entity): bool
     {
-        $class = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
+        $class = $this->entityResolver->resolve(is_object($entity) ? ClassUtils::getClass($entity) : $entity);
 
         if (!isset($this->hasMetadata[$class])) {
             $metadata = null;
@@ -122,7 +123,7 @@ class MetadataManager implements AdminMetadataManagerInterface
      */
     public function getMetadata($entity): Metadata
     {
-        $class    = $this->entityResolver->resolve(is_object($entity) ? get_class($entity) : $entity);
+        $class    = $this->entityResolver->resolve(is_object($entity) ? ClassUtils::getClass($entity) : $entity);
         $metadata = $this->getAllMetadata();
 
         if (isset($metadata[$class])) {

@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\EntityNamer;
 use Darvin\AdminBundle\Configuration\SectionConfiguration;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\ORM\EntityResolverInterface;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * Entity namer
@@ -58,7 +59,7 @@ class EntityNamer implements EntityNamerInterface
      */
     public function name($entity): string
     {
-        $class = is_object($entity) ? get_class($entity) : $entity;
+        $class = is_object($entity) ? ClassUtils::getClass($entity) : $entity;
 
         if (!isset($this->names[$class])) {
             $this->names[$class] = $this->getName($class);

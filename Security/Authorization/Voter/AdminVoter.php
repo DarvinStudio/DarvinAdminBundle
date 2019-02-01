@@ -15,6 +15,7 @@ use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\ORM\EntityResolverInterface;
+use Doctrine\Common\Util\ClassUtils;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -173,6 +174,6 @@ class AdminVoter extends Voter
      */
     private function getClass($object)
     {
-        return $this->entityResolver->resolve(is_object($object) ? get_class($object) : (string)$object);
+        return $this->entityResolver->resolve(is_object($object) ? ClassUtils::getClass($object) : (string)$object);
     }
 }

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
+use Doctrine\Common\Util\ClassUtils;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 
 /**
@@ -57,7 +58,7 @@ class ImageLinkWidget extends AbstractWidget
         }
         if (!$image instanceof AbstractImage) {
             throw new \InvalidArgumentException(
-                sprintf('Image object "%s" must be instance of "%s".', get_class($image), AbstractImage::class)
+                sprintf('Image object "%s" must be instance of "%s".', ClassUtils::getClass($image), AbstractImage::class)
             );
         }
         if (!$this->imageUrlBuilder->fileExists($image)) {

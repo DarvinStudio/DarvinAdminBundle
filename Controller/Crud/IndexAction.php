@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2018, Darvin Studio
+ * @copyright Copyright (c) 2018-2019, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -239,12 +239,12 @@ class IndexAction extends AbstractAction
     }
 
     /**
-     * @param string $locale         Locale
-     * @param array  $filterFormData Filter form data
+     * @param string     $locale         Locale
+     * @param array|null $filterFormData Filter form data
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function createQueryBuilder(string $locale, array $filterFormData = null): QueryBuilder
+    private function createQueryBuilder(string $locale, ?array $filterFormData = null): QueryBuilder
     {
         $qb     = $this->em->getRepository($this->getEntityClass())->createQueryBuilder('o');
         $config = $this->getConfig();

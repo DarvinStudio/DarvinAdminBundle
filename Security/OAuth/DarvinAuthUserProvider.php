@@ -13,12 +13,12 @@ namespace Darvin\AdminBundle\Security\OAuth;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\UserBundle\Security\OAuth\DarvinAuthResponse;
-use Darvin\UserBundle\Security\OAuth\OAuthUserProvider as BaseOAuthUserProvider;
+use Darvin\UserBundle\Security\OAuth\DarvinAuthUserProvider as BaseDarvinAuthUserProvider;
 
 /**
- * OAuth user provider
+ * Darvin Auth user provider
  */
-class OAuthUserProvider extends BaseOAuthUserProvider
+class DarvinAuthUserProvider extends BaseDarvinAuthUserProvider
 {
     /**
      * {@inheritdoc}

@@ -7,7 +7,7 @@ parameters:
 
     darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
 
-    darvin_admin.security.oauth.user_provider.class: Darvin\AdminBundle\Security\OAuth\OAuthUserProvider
+    darvin_admin.security.oauth.darvin_auth_user_provider.class: Darvin\AdminBundle\Security\OAuth\DarvinAuthUserProvider
 
 services:
     _defaults:
@@ -39,7 +39,7 @@ services:
         tags:
             - { name: form.type }
 
-    darvin_admin.security.oauth.user_provider:
-        class:  '%darvin_admin.security.oauth.user_provider.class%'
-        parent: darvin_user.security.oauth.user_provider
+    darvin_admin.security.oauth.darvin_auth_user_provider:
+        class:  '%darvin_admin.security.oauth.darvin_auth_user_provider.class%'
+        parent: darvin_user.security.oauth.darvin_auth_user_provider
         public: true

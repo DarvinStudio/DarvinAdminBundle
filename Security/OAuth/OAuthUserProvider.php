@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Security\OAuth;
 
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\UserBundle\Entity\BaseUser;
+use Darvin\UserBundle\Security\OAuth\DarvinAuthResponse;
 use Darvin\UserBundle\Security\OAuth\OAuthUserProvider as BaseOAuthUserProvider;
 
 /**
@@ -22,9 +23,9 @@ class OAuthUserProvider extends BaseOAuthUserProvider
     /**
      * {@inheritdoc}
      */
-    protected function createUser($username): BaseUser
+    protected function createUser(DarvinAuthResponse $response): BaseUser
     {
-        return parent::createUser($username)
+        return parent::createUser($response)
             ->setRoles([
                 Roles::ROLE_ADMIN,
             ]);

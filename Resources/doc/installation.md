@@ -97,9 +97,7 @@ security:
 
     providers:
         user:
-            entity:
-                class:    Darvin\UserBundle\Entity\BaseUser
-                property: email
+            id: darvin_user.security.user_provider
 
     firewalls:
         dev:

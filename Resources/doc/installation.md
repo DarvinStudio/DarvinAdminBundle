@@ -137,7 +137,7 @@ security:
                 login_path:   darvin_admin_security_login
                 failure_path: darvin_admin_security_login
                 oauth_user_provider:
-                    service: darvin_admin.security.user_provider.oauth
+                    service: darvin_admin.security.oauth.user_provider
                 default_target_path: darvin_admin_homepage
                 use_referer:         true
                 check_path:          darvin_admin_security_darvin_auth_login_check

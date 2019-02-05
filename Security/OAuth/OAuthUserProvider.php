@@ -8,10 +8,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Security\User;
+namespace Darvin\AdminBundle\Security\OAuth;
 
+use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\UserBundle\Entity\BaseUser;
-use Darvin\UserBundle\Security\User\OAuthUserProvider as BaseOAuthUserProvider;
+use Darvin\UserBundle\Security\OAuth\OAuthUserProvider as BaseOAuthUserProvider;
 
 /**
  * OAuth user provider

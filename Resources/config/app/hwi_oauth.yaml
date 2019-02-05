@@ -9,7 +9,7 @@ hwi_oauth:
             access_token_url:    https://auth.darvins.ru/oauth/v2/token
             authorization_url:   https://auth.darvins.ru/oauth/v2/auth
             infos_url:           https://auth.darvins.ru/api/user
-            user_response_class: Darvin\UserBundle\Security\OAuth\Response\DarvinAuthResponse
+            user_response_class: Darvin\UserBundle\Security\OAuth\DarvinAuthResponse
             options:
                 csrf: true
             paths:

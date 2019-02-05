@@ -107,9 +107,9 @@
 
                                 {% if app.user %}
                                     {% if is_granted('admin_view', app.user) %}
-                                        <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.email }}</a>
+                                        <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.username }}</a>
                                     {% else %}
-                                        <span class="link_users">{{ app.user.email }}</span>
+                                        <span class="link_users">{{ app.user.username }}</span>
                                     {% endif %}
                                 {% endif %}
 

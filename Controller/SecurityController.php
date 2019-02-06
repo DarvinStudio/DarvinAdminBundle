@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\UserBundle\Form\Factory\SecurityFormFactoryInterface;
+use Darvin\UserBundle\Form\Renderer\SecurityFormRendererInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,11 +34,13 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('darvin_admin_homepage');
         }
 
-        $html = $this->renderView(sprintf('@DarvinAdmin/security/%slogin.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
-            'form' => $this->getSecurityFormFactory()->createLoginForm([
+        $html = $this->getSecurityFormRenderer()->renderLoginForm(
+            $this->getSecurityFormFactory()->createLoginForm([
                 'action' => $this->generateUrl('darvin_admin_security_login_check'),
-            ])->createView(),
-        ]);
+            ]),
+            $request->isXmlHttpRequest(),
+            sprintf('@DarvinAdmin/security/%slogin.html.twig', $request->isXmlHttpRequest() ? '_' : '')
+        );
 
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($html);
@@ -52,5 +55,13 @@ class SecurityController extends AbstractController
     private function getSecurityFormFactory(): SecurityFormFactoryInterface
     {
         return $this->get('darvin_user.security.form.factory');
+    }
+
+    /**
+     * @return \Darvin\UserBundle\Form\Renderer\SecurityFormRendererInterface
+     */
+    private function getSecurityFormRenderer(): SecurityFormRendererInterface
+    {
+        return $this->get('darvin_user.security.form.renderer');
     }
 }

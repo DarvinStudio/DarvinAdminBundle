@@ -34,14 +34,10 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('darvin_admin_homepage');
         }
 
-        $error = $this->getAuthenticationUtils()->getLastAuthenticationError();
-        $form  = $this->getSecurityFormFactory()->createLoginForm([
-            'action' => $this->generateUrl('darvin_admin_security_login_check'),
-        ]);
-
         $html = $this->renderView(sprintf('@DarvinAdmin/security/%slogin.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
-            'error' => !empty($error) ? $error->getMessage() : null,
-            'form'  => $form->createView(),
+            'form' => $this->getSecurityFormFactory()->createLoginForm([
+                'action' => $this->generateUrl('darvin_admin_security_login_check'),
+            ])->createView(),
         ]);
 
         if ($request->isXmlHttpRequest()) {

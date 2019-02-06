@@ -6,12 +6,12 @@
 <div class="pole_name">{{ form_label(form._username) }}</div>
 <div class="pole_input">{{ form_widget(form._username) }}</div>
 <div class="pole_name">{{ form_label(form._password) }}</div>
-<div class="pole_input{% if error %} with_error{% endif %}">
+<div class="pole_input{% if form.vars.errors is not empty %} with_error{% endif %}">
     {{ form_widget(form._password) }}
-    {% if error %}
+    {% if form.vars.errors is not empty %}
         <div class="error left_error">
             <ul>
-                <li>{{ error|trans({}, 'security') }}</li>
+                <li>{{ (form.vars.errors|first).message|trans({}, 'security') }}</li>
             </ul>
         </div>
     {% endif %}

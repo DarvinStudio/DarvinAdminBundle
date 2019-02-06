@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\UserBundle\Form\Factory\Security\LoginFormFactoryInterface;
+use Darvin\UserBundle\Form\Factory\SecurityFormFactoryInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,9 @@ class SecurityController extends AbstractController
         }
 
         $error = $this->getAuthenticationUtils()->getLastAuthenticationError();
-        $form  = $this->getLoginFormFactory()->createLoginForm('darvin_admin_security_login_check');
+        $form  = $this->getSecurityFormFactory()->createLoginForm([
+            'action' => $this->generateUrl('darvin_admin_security_login_check'),
+        ]);
 
         $html = $this->renderView(sprintf('@DarvinAdmin/security/%slogin.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
             'error' => !empty($error) ? $error->getMessage() : null,
@@ -58,10 +60,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @return \Darvin\UserBundle\Form\Factory\Security\LoginFormFactoryInterface
+     * @return \Darvin\UserBundle\Form\Factory\SecurityFormFactoryInterface
      */
-    private function getLoginFormFactory(): LoginFormFactoryInterface
+    private function getSecurityFormFactory(): SecurityFormFactoryInterface
     {
-        return $this->get('darvin_user.security.form.factory.login');
+        return $this->get('darvin_user.security.form.factory');
     }
 }

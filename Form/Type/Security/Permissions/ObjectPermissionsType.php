@@ -133,7 +133,7 @@ class ObjectPermissionsType extends AbstractType
     {
         if (!$this->usersLoaded) {
             /** @var \Darvin\UserBundle\Entity\BaseUser $user */
-            foreach ($this->userRepository->createBuildersByRoles(Roles::getRoles(), Roles::ROLE_SUPERADMIN)->getQuery()->getResult() as $user) {
+            foreach ($this->userRepository->createBuilderByRoles(Roles::getRoles(), Roles::ROLE_SUPERADMIN)->getQuery()->getResult() as $user) {
                 $this->users[$user->getId()] = $user;
             }
         }

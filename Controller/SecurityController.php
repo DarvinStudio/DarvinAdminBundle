@@ -16,7 +16,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * Security controller
@@ -45,14 +44,6 @@ class SecurityController extends AbstractController
         }
 
         return new Response($html);
-    }
-
-    /**
-     * @return \Symfony\Component\Security\Http\Authentication\AuthenticationUtils
-     */
-    private function getAuthenticationUtils(): AuthenticationUtils
-    {
-        return $this->get('security.authentication_utils');
     }
 
     /**

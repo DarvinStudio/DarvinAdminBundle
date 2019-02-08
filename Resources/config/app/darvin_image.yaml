@@ -1,4 +1,5 @@
 darvin_image:
     action:
         edit:
-            template: '@DarvinAdmin/image/edit.html.twig'
+            template:           '@DarvinAdmin/image/edit.html.twig'
+            translation_domain: admin

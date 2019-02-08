@@ -96,7 +96,7 @@ class BreadcrumbsExtension extends AbstractExtension
         $config = $meta->getConfiguration();
 
         if ($config['menu']['group']) {
-            $crumbs[] = $this->createCrumb('menu.group.'.$config['menu']['group'].'.title');
+            $crumbs[] = $this->createCrumb(sprintf('menu.group.%s.title', $config['menu']['group']));
         }
 
         $crumbs[] = $this->createCrumb('homepage.action.index.link', $this->genericRouter->generate('darvin_admin_homepage'));

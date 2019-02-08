@@ -218,8 +218,8 @@ abstract class AbstractAction
     }
 
     /**
-     * @param int    $id    Entity ID
-     * @param string $class Entity class
+     * @param mixed       $id    Entity ID
+     * @param string|null $class Entity class
      *
      * @return object
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException

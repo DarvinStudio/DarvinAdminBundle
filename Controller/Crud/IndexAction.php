@@ -244,7 +244,7 @@ class IndexAction extends AbstractAction
      *
      * @return \Doctrine\ORM\QueryBuilder
      */
-    private function createQueryBuilder(string $locale, ?array $filterFormData = null): QueryBuilder
+    private function createQueryBuilder(string $locale, ?array $filterFormData): QueryBuilder
     {
         $qb     = $this->em->getRepository($this->getEntityClass())->createQueryBuilder('o');
         $config = $this->getConfig();

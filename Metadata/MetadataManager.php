@@ -77,7 +77,7 @@ class MetadataManager implements AdminMetadataManagerInterface
     /**
      * @param \Psr\SimpleCache\CacheInterface|null $cache Cache
      */
-    public function setCache(?CacheInterface $cache = null)
+    public function setCache(?CacheInterface $cache)
     {
         $this->cache = $cache;
     }

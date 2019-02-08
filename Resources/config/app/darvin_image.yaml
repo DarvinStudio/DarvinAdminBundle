@@ -1,0 +1,4 @@
+darvin_image:
+    action:
+        edit:
+            template: '@DarvinAdmin/image/edit.html.twig'

@@ -1,0 +1,14 @@
+{% trans_default_domain 'admin' %}
+
+{% form_theme form '@DarvinAdmin/fields.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+<div class="edit_container">
+    <div class="table_view_content">
+        {{ form_widget(form) }}
+    </div>
+    <button class="submit_edit" type="submit">{% trans %}image.action.edit.submit{% endtrans %}</button>
+</div>
+{{ form_end(form) }}

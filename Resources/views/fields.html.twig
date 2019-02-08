@@ -20,6 +20,10 @@
                    href="#">
                 </a>
             {% endif %}
+            <a class="js-popup edit"
+               href="{{ path('darvin_image_image_edit', {'id': image.id}) }}"
+               title="{{ 'image.action.edit.title'|trans({'%image%': image})|e('html_attr') }}">
+            </a>
             <a class="js-image-delete"
                data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
                title="{% trans %}image.action.delete.submit{% endtrans %}"

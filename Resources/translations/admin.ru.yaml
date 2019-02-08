@@ -104,6 +104,9 @@ image:
         disable:
             submit:  Скрыть
             success: Изображение успешно скрыто
+        edit:
+            submit: Сохранить
+            title:  Изменить изображение «%image%»
         enable:
             submit:  Показать
             success: Изображение успешно активировано

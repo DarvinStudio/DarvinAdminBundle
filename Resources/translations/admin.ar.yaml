@@ -89,6 +89,9 @@ image:
         disable:
             submit: تعطيل
             success: 'الصورة بنجاح المعوقين'
+        edit:
+            submit: تقدم
+            title: 'تحرير الصورة "%image%"'
         enable:
             submit: تمكين
             success: 'صورة تمكين بنجاح'

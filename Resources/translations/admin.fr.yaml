@@ -89,6 +89,9 @@ image:
         disable:
             submit: Désactiver
             success: 'Image Désactivé Correctement'
+        edit:
+            submit: Soumettre
+            title: 'Pour Modifier L''Image "%image%"'
         enable:
             submit: Activer
             success: 'Image Activée Avec Succès'

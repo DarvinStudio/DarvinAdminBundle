@@ -125,7 +125,7 @@
 
     {% if data and data is not empty %}
         <div class="js-images" data-sort-url="{{ path('darvin_image_image_sort') }}">
-            {% for image in data if image.id and image_exists(image) %}
+            {% for image in data if image.id %}
                 {{ that.image(image, toggle_enabled) }}
             {% endfor %}
         </div>
@@ -208,7 +208,7 @@
     {% import _self as that %}
 
     <div class="input_value">
-        {% if data and image_exists(data) %}
+        {% if data %}
             {{ that.image(data, toggle_enabled) }}
         {% endif %}
         {{ form_widget(form) }}

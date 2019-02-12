@@ -254,7 +254,7 @@ class DropzoneType extends AbstractType
                 'image_height'           => 0,
                 'mapped'                 => false,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
-                'toggle_enabled'         => false,
+                'toggle_enabled'         => true,
             ])
             ->setDefined([
                 'accepted_files',

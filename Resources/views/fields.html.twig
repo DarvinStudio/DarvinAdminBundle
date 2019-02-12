@@ -209,7 +209,7 @@
 
     <div class="input_value">
         {% if data and image_exists(data) %}
-            {{ that.image(data) }}
+            {{ that.image(data, toggle_enabled) }}
         {% endif %}
         {{ form_widget(form) }}
     </div>

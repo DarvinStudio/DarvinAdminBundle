@@ -96,6 +96,11 @@ class Configuration implements ConfigurationInterface
         $rootNode = (new TreeBuilder('sections'))->getRootNode();
         $rootNode->useAttributeAsKey('entity')
             ->prototype('array')->canBeDisabled()
+                ->beforeNormalization()->ifString()->then(function (string $config) {
+                    return [
+                        'config' => $config,
+                    ];
+                })->end()
                 ->children()
                     ->scalarNode('alias')->defaultNull()->end()
                     ->scalarNode('config')->defaultNull();

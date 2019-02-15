@@ -174,7 +174,7 @@ class Menu implements MenuInterface
                 $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
                 $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
 
-                return $posA === $posB ? 0 : ($posA > $posB ? 1 : -1);
+                return $posA <=> $posB;
             });
         }
 

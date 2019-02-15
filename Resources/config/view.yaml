@@ -172,8 +172,6 @@ services:
         class:  '%darvin_admin.view.widget.image_link.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
-        arguments:
-            - '@darvin_image.url_builder.builder'
         tags:
             - { name: darvin_admin.view_widget }
 

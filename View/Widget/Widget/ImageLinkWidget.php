@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
-use Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 
@@ -21,19 +20,6 @@ use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 class ImageLinkWidget extends AbstractWidget
 {
     public const ALIAS = 'image_link';
-
-    /**
-     * @var \Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface
-     */
-    private $imageUrlBuilder;
-
-    /**
-     * @param \Darvin\ImageBundle\UrlBuilder\UrlBuilderInterface $imageUrlBuilder Image URL builder
-     */
-    public function __construct(UrlBuilderInterface $imageUrlBuilder)
-    {
-        $this->imageUrlBuilder = $imageUrlBuilder;
-    }
 
     /**
      * {@inheritdoc}
@@ -61,10 +47,6 @@ class ImageLinkWidget extends AbstractWidget
                 sprintf('Image object "%s" must be instance of "%s".', ClassUtils::getClass($image), AbstractImage::class)
             );
         }
-        if (!$this->imageUrlBuilder->fileExists($image)) {
-            return null;
-        }
-
         try {
             return $this->render([
                 'image' => $image,

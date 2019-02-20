@@ -11,10 +11,10 @@
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
 use Darvin\AdminBundle\Configuration\SectionConfiguration;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -48,7 +48,7 @@ class CreateSecurityConfigurationsPass implements CompilerPassInterface
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
+     * @param \Psr\Container\ContainerInterface $container DI container
      *
      * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
      */

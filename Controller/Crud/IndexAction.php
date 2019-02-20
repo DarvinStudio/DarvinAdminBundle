@@ -25,7 +25,7 @@ use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
 use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -34,7 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
 class IndexAction extends AbstractAction
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     private $container;
 
@@ -84,7 +84,7 @@ class IndexAction extends AbstractAction
     private $userQueryBuilderFilterer;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface        $container                DI container
+     * @param \Psr\Container\ContainerInterface                                $container                DI container
      * @param \Darvin\Utils\CustomObject\CustomObjectLoaderInterface           $customObjectLoader       Custom object loader
      * @param \Darvin\ContentBundle\Filterer\FiltererInterface                 $filterer                 Filterer
      * @param \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface $indexViewFactory         Index view factory

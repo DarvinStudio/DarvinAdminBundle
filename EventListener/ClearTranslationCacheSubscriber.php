@@ -15,7 +15,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 use Lexik\Bundle\TranslationBundle\Entity\Translation;
 use Lexik\Bundle\TranslationBundle\Translation\Translator;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Clear translation cache event subscriber
@@ -23,12 +23,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ClearTranslationCacheSubscriber implements EventSubscriber
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     private $container;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
+     * @param \Psr\Container\ContainerInterface $container DI container
      */
     public function __construct(ContainerInterface $container)
     {

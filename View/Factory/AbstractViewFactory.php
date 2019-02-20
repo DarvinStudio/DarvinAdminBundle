@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -24,7 +24,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 abstract class AbstractViewFactory
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
@@ -54,7 +54,7 @@ abstract class AbstractViewFactory
     private $expressionLanguage = null;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container DI container
+     * @param \Psr\Container\ContainerInterface $container DI container
      */
     public function setContainer(ContainerInterface $container): void
     {

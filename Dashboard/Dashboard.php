@@ -60,6 +60,9 @@ class Dashboard implements DashboardInterface
         if (!$this->filtered) {
             foreach ($this->widgets as $key => $widget) {
                 foreach ($widget->getRequiredPermissions() as $class => $permissions) {
+                    if (!is_array($permissions)) {
+                        $permissions = [$permissions];
+                    }
                     foreach ($permissions as $permission) {
                         if (!$this->authorizationChecker->isGranted($permission, $class)) {
                             unset($this->widgets[$key]);

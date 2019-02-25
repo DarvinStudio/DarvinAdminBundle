@@ -1,8 +1,7 @@
 {% trans_default_domain 'admin' %}
 
 {% block widget_content %}
-    {{ admin_widget_actions(entity, {'view_type': 'show'}) }}
-
+    {{ admin_widget('actions', entity, {'view_type': 'show'}) }}
     <div class="overlay_response">
         <div class="overlay_order_table">
             <table>

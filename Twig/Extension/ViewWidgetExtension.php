@@ -38,11 +38,20 @@ class ViewWidgetExtension extends AbstractExtension
      */
     public function getFunctions(): iterable
     {
-        foreach ($this->getWidgetPool()->getWidgets() as $alias => $widget) {
-            yield new TwigFunction(sprintf('admin_widget_%s', $alias), [$widget, 'getContent'], [
-                'is_safe' => ['html'],
-            ]);
-        }
+        yield new TwigFunction('admin_widget', [$this, 'renderWidget'], [
+            'is_safe' => ['html'],
+        ]);
+    }
+
+    /**
+     * @param string $alias   Widget alias
+     * @param mixed  ...$args Widget arguments
+     *
+     * @return string|null
+     */
+    public function renderWidget(string $alias, ...$args): ?string
+    {
+        return $this->getWidgetPool()->getWidget($alias)->getContent(...$args);
     }
 
     /**

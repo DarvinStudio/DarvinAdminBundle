@@ -79,7 +79,3 @@ Darvin\AdminBundle\Entity\Administrator:
                             keys_property:   roles
                             values_callback: [ Darvin\AdminBundle\Entity\Administrator, getAvailableExtraRoles ]
 ```
-
-**2. Также все виджеты доступны в виде функций Twig.**
-
-Название функции - это псевдоним виджета с префиксом "admin_widget_".

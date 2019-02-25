@@ -27,7 +27,7 @@
 {% set submit       = that.submit(form) %}
 
 {% if entity %}
-    {{ admin_widget_actions(entity, {'view_type': view_type}) }}
+    {{ admin_widget('actions', entity, {'view_type': view_type}) }}
 {% endif %}
 <div class="edit_container">
     {{ form_errors(form) }}

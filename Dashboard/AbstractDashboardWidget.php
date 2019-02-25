@@ -30,11 +30,17 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
-     * @param \Symfony\Component\Templating\EngineInterface  $templating  Templating
      */
-    public function __construct(AdminRouterInterface $adminRouter, EngineInterface $templating)
+    public function setAdminRouter(AdminRouterInterface $adminRouter): void
     {
         $this->adminRouter = $adminRouter;
+    }
+
+    /**
+     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
+     */
+    public function setTemplating(EngineInterface $templating): void
+    {
         $this->templating = $templating;
     }
 

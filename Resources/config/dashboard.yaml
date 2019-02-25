@@ -15,6 +15,6 @@ services:
     darvin_admin.dashboard.widget.abstract:
         class:    '%darvin_admin.dashboard.widget.abstract.class%'
         abstract: true
-        arguments:
-            - '@darvin_admin.router'
-            - '@templating'
+        calls:
+            - [ setAdminRouter, [ '@darvin_admin.router' ] ]
+            - [ setTemplating,  [ '@templating' ] ]

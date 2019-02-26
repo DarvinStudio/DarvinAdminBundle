@@ -17,7 +17,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\Guess\TypeGuess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * Entity form type
@@ -100,11 +99,6 @@ class EntityType extends AbstractFormType
             if (isset($this->defaultFieldOptions[$fieldType])) {
                 $fieldOptions = array_merge($this->defaultFieldOptions[$fieldType], $fieldOptions);
             }
-            if ($this->translatableManager->isTranslatable($meta->getEntityClass())
-                && $field === $this->translatableManager->getTranslationsProperty()
-            ) {
-                $this->addValidConstraint($fieldOptions);
-            }
 
             $builder->add($field, $fieldType, $fieldOptions);
         }
@@ -147,28 +141,6 @@ class EntityType extends AbstractFormType
     protected function getEntityTranslationPrefix(array $options): string
     {
         return $this->getMetadata($options)->getEntityTranslationPrefix();
-    }
-
-    /**
-     * @param array $fieldOptions Field options
-     */
-    private function addValidConstraint(array &$fieldOptions): void
-    {
-        if (!isset($fieldOptions['constraints'])) {
-            $fieldOptions['constraints'] = new Valid();
-
-            return;
-        }
-        if (is_array($fieldOptions['constraints'])) {
-            $fieldOptions['constraints'][] = new Valid();
-
-            return;
-        }
-
-        $fieldOptions['constraints'] = [
-            $fieldOptions['constraints'],
-            new Valid(),
-        ];
     }
 
     /**

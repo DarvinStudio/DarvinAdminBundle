@@ -60,22 +60,29 @@ class CKEditorController extends AbstractController
      */
     private function getWidgetIcon(CKEditorWidgetInterface $widget): ?string
     {
-        $options = $widget->getResolvedOptions();
+        $pathname = $widget->getResolvedOptions()['icon'];
 
-        if (!isset($options['icon']) || empty($options['icon'])) {
+        $content = @file_get_contents($pathname);
+
+        if (false === $content) {
             return null;
         }
 
-        $content = @file_get_contents($options['icon']);
+        $mime = false;
 
-        if (!$content) {
-            return null;
+        if (extension_loaded('fileinfo')) {
+            $info = finfo_open(FILEINFO_MIME_TYPE);
+
+            $mime = @finfo_buffer($info, $content);
         }
+        if (false === $mime) {
+            $extension = preg_replace('/.*\./', '', $pathname);
 
-        $info = finfo_open(FILEINFO_MIME_TYPE);
-        $mime = @finfo_buffer($info, $content);
-
-        if (!$mime) {
+            if ('' !== $extension) {
+                $mime = sprintf('image/%s', $extension);
+            }
+        }
+        if (false === $mime) {
             return null;
         }
 

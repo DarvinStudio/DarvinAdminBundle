@@ -12,8 +12,7 @@
         }
     ],
     "require": {
-        "ext-fileinfo": "*",
-        "ext-json":     "*",
+        "ext-json": "*",
 
         "a2lix/translation-form-bundle":    "^3.0",
         "friendsofsymfony/ckeditor-bundle": "^2.0",

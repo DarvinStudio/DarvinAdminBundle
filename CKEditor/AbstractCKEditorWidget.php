@@ -44,10 +44,13 @@ abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditor
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'icon'  => __DIR__.'/../Resources/images/ckeditor_stub.png',
-            'title' => sprintf('ckeditor_widget.%s', $this->getName()),
-        ]);
+        $resolver
+            ->setDefaults([
+                'icon'  => __DIR__.'/../Resources/images/ckeditor_stub.png',
+                'title' => sprintf('ckeditor_widget.%s', $this->getName()),
+            ])
+            ->setAllowedTypes('icon', 'string')
+            ->setAllowedTypes('title', 'string');
     }
 
     /**

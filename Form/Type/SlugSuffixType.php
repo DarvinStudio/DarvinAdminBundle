@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\Utils\Homepage\HomepageRouterInterface;
+use Darvin\Utils\Homepage\HomepageProviderInterface;
 use Darvin\Utils\Routing\RouteManagerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,9 +25,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class SlugSuffixType extends AbstractType
 {
     /**
-     * @var \Darvin\Utils\Homepage\HomepageRouterInterface
+     * @var \Darvin\Utils\Homepage\HomepageProviderInterface
      */
-    private $homepageRouter;
+    private $homepageProvider;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -40,16 +40,16 @@ class SlugSuffixType extends AbstractType
     private $routeManager;
 
     /**
-     * @param \Darvin\Utils\Homepage\HomepageRouterInterface              $homepageRouter   Homepage router
+     * @param \Darvin\Utils\Homepage\HomepageProviderInterface            $homepageProvider Homepage provider
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
      * @param \Darvin\Utils\Routing\RouteManagerInterface                 $routeManager     Route manager
      */
     public function __construct(
-        HomepageRouterInterface $homepageRouter,
+        HomepageProviderInterface $homepageProvider,
         PropertyAccessorInterface $propertyAccessor,
         RouteManagerInterface $routeManager
     ) {
-        $this->homepageRouter = $homepageRouter;
+        $this->homepageProvider = $homepageProvider;
         $this->propertyAccessor = $propertyAccessor;
         $this->routeManager = $routeManager;
     }
@@ -59,7 +59,7 @@ class SlugSuffixType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $isHomepage = $this->homepageRouter->isHomepage($form->getParent()->getData());
+        $isHomepage = $this->homepageProvider->isHomepage($form->getParent()->getData());
 
         $routePath = $slug = $slugPrefix = null;
 

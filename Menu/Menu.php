@@ -57,7 +57,7 @@ class Menu implements MenuInterface
      */
     public function addItemFactory(ItemFactoryInterface $itemFactory): void
     {
-        $this->itemFactories[get_class($itemFactory)] = $itemFactory;
+        $this->itemFactories[] = $itemFactory;
     }
 
     /**

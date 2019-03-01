@@ -43,8 +43,6 @@ class SecurityConfiguration extends AbstractConfiguration implements SecurityCon
      */
     public function __construct($name, $securableAlias, $securableClass)
     {
-        parent::__construct();
-
         $this->name = $name;
         $this->securableAlias = $securableAlias;
         $this->securableClass = $securableClass;

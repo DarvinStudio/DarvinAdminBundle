@@ -74,7 +74,7 @@ flash:
         update_property: 'Value Successfully Updated'
 form:
     file:
-        description: 'Max File Size: %size%MB'
+        help: 'Max File Size: %size%MB'
 homepage:
     action:
         index:

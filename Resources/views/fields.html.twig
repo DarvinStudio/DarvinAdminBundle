@@ -43,14 +43,14 @@
     <div class="input_value">
         {{ parent() }}
     </div>
-    {{ block('description') }}
+    {{ block('help') }}
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
     <div class="input_value">
         {{ parent() }}
     </div>
-    {{ block('description') }}
+    {{ block('help') }}
 {%- endblock choice_widget_collapsed -%}
 
 {%- block choice_widget_expanded -%}
@@ -176,7 +176,7 @@
                 </div>
                 <div class="js-slug-form"{% if errors is empty %} style="display: none;"{% endif %}>
                     <span class="js-slug-url-prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
-                    {{ form_widget(form, {'hide_description': true, 'attr': {'data-default': data}}) }}
+                    {{ form_widget(form, {'hide_help': true, 'attr': {'data-default': data}}) }}
                     <span>{{ url_suffix }}</span>
                     <button class="js-slug-update" type="button">
                         {% trans %}slug_suffix.update{% endtrans %}
@@ -187,7 +187,7 @@
                 </div>
             </div>
         </div>
-        {{ block('description') }}
+        {{ block('help') }}
     {% endif %}
 {%- endblock darvin_admin_slug_suffix_widget -%}
 
@@ -213,17 +213,8 @@
         {% endif %}
         {{ form_widget(form) }}
     </div>
-    {{ block('description') }}
+    {{ block('help') }}
 {%- endblock darvin_image_image_widget -%}
-
-{%- block description -%}
-    {% if 'hidden' != block_prefixes[1]
-        and (hide_description is not defined or not hide_description
-        and (not form.parent or 'darvin_image_image' != form.parent.vars.block_prefixes[1])
-    ) %}
-        <div class="description">{% if description %}{{ description|trans({}, translation_domain)|raw }}{% endif %}</div>
-    {% endif %}
-{%- endblock description -%}
 
 {%- block form_errors -%}
     {% if errors is not empty %}
@@ -284,15 +275,24 @@
         <div class="input_value">
             {{ parent() }}
         </div>
-        {{ block('description') }}
+        {{ block('help') }}
     {% endif %}
 {%- endblock form_widget_simple -%}
+
+{%- block help -%}
+    {% if 'hidden' != block_prefixes[1]
+        and (hide_help is not defined or not hide_help
+        and (not form.parent or 'darvin_image_image' != form.parent.vars.block_prefixes[1])
+        ) %}
+        <div class="description">{% if help %}{{ help|trans({}, translation_domain)|raw }}{% endif %}</div>
+    {% endif %}
+{%- endblock help -%}
 
 {%- block radio_widget -%}
     <div class="input_value">
         {{ parent() }}
     </div>
-    {{ block('description') }}
+    {{ block('help') }}
 {%- endblock radio_widget -%}
 
 {%- block submit_widget -%}
@@ -304,7 +304,7 @@
     <div class="input_value">
         {{ parent() }}
     </div>
-    {{ block('description') }}
+    {{ block('help') }}
 {%- endblock textarea_widget -%}
 
 {%- block vich_image_row -%}

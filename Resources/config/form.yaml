@@ -1,5 +1,5 @@
 parameters:
-    darvin_admin.form.description_file_type_extension.class: Darvin\AdminBundle\Form\Extension\DescriptionFileTypeExtension
+    darvin_admin.form.help_file_type_extension.class: Darvin\AdminBundle\Form\Extension\HelpFileTypeExtension
 
     darvin_admin.form.factory.class: Darvin\AdminBundle\Form\AdminFormFactory
 
@@ -19,8 +19,8 @@ services:
     _defaults:
         public: true
 
-    darvin_admin.form.description_file_type_extension:
-        class: '%darvin_admin.form.description_file_type_extension.class%'
+    darvin_admin.form.help_file_type_extension:
+        class: '%darvin_admin.form.help_file_type_extension.class%'
         arguments:
             - '@translator'
             - '%darvin_admin.upload_max_size_mb%'

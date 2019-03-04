@@ -74,7 +74,7 @@ flash:
         update_property: 值的成功更新
 form:
     file:
-        description: '最大的文件大小： %size%MB'
+        help: '最大的文件大小： %size%MB'
 homepage:
     action:
         index:

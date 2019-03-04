@@ -74,7 +74,7 @@ flash:
         update_property: 'قيمة تحديثها بنجاح'
 form:
     file:
-        description: 'ماكس حجم الملف: %size%MB'
+        help: 'ماكس حجم الملف: %size%MB'
 homepage:
     action:
         index:

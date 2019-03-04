@@ -74,7 +74,7 @@ flash:
         update_property: 'La Valeur Mise À Jour Avec Succès'
 form:
     file:
-        description: 'Taille Maximale De Fichier: %size%MO'
+        help: 'Taille Maximale De Fichier: %size%MO'
 homepage:
     action:
         index:

@@ -180,19 +180,19 @@ class DropzoneType extends AbstractType
     {
         $view->vars['toggle_enabled'] = $options['toggle_enabled'];
 
-        if (!empty($this->imageSizeDescriber) && null === $options['description']) {
-            $options['description'] = $this->imageSizeDescriber->describeSize(
+        if (!empty($this->imageSizeDescriber) && null === $options['help']) {
+            $options['help'] = $this->imageSizeDescriber->describeSize(
                 $options['image_filters'],
                 $options['image_width'],
                 $options['image_height'],
                 $options['uploadable_class']
             );
 
-            if (!empty($options['description'])) {
-                $options['description'] .= '<br>';
+            if (!empty($options['help'])) {
+                $options['help'] .= '<br>';
             }
 
-            $options['description'] .= $this->translator->trans('form.file.description', [
+            $options['help'] .= $this->translator->trans('form.file.help', [
                 '%size%' => $this->uploadMaxSizeMB,
             ], 'admin');
         }
@@ -200,7 +200,7 @@ class DropzoneType extends AbstractType
         $attr = [
             'class'               => 'dropzone',
             'data-accepted-files' => $options['accepted_files'],
-            'data-description'    => $options['description'],
+            'data-description'    => $options['help'],
             'data-files'          => $view->children['files']->vars['id'],
             'data-max-filesize'   => $this->uploadMaxSizeMB,
             'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),

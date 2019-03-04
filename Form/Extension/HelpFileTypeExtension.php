@@ -18,9 +18,9 @@ use Symfony\Component\Form\FormView;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Description file form type extension
+ * Help file form type extension
  */
-class DescriptionFileTypeExtension extends AbstractTypeExtension
+class HelpFileTypeExtension extends AbstractTypeExtension
 {
     /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
@@ -47,7 +47,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        if (null !== $view->vars['description'] || null === $form->getParent()) {
+        if (null !== $view->vars['help'] || null === $form->getParent()) {
             return;
         }
 
@@ -55,7 +55,7 @@ class DescriptionFileTypeExtension extends AbstractTypeExtension
 
         while ($parent = $f->getParent()) {
             if ($parent->getConfig()->getType()->getInnerType() instanceof EntityType) {
-                $view->vars['description'] = $this->translator->trans('form.file.description', [
+                $view->vars['help'] = $this->translator->trans('form.file.help', [
                     '%size%' => $this->maxUploadSize,
                 ], 'admin');
 

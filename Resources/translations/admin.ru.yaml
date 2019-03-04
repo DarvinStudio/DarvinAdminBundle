@@ -87,7 +87,7 @@ flash:
 
 form:
     file:
-        description: 'Максимальный размер файла: %size%МБ'
+        help: 'Максимальный размер файла: %size%МБ'
 
 homepage:
     action:

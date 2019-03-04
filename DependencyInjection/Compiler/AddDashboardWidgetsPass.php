@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\Utils\DependencyInjection\TaggedServiceIdsSorter;
+use Darvin\Utils\DependencyInjection\ServiceSorter;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -27,9 +27,8 @@ class AddDashboardWidgetsPass implements CompilerPassInterface
     {
         $blacklist = $container->getParameter('darvin_admin.dashboard.blacklist');
         $dashboard = $container->getDefinition('darvin_admin.dashboard');
-        $ids       = $container->findTaggedServiceIds('darvin_admin.dashboard_widget');
 
-        foreach (array_keys((new TaggedServiceIdsSorter())->sort($ids)) as $id) {
+        foreach (array_keys((new ServiceSorter())->sort($container->findTaggedServiceIds('darvin_admin.dashboard_widget'))) as $id) {
             if (!in_array($id, $blacklist)) {
                 $dashboard->addMethodCall('addWidget', [new Reference($id)]);
             }

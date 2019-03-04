@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\ConfigBundle\Configuration\ConfigurationPool;
+use Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
@@ -83,9 +83,9 @@ class ConfigurationController extends AbstractController
     }
 
     /**
-     * @return \Darvin\ConfigBundle\Configuration\ConfigurationPool
+     * @return \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface
      */
-    private function getConfigurationPool(): ConfigurationPool
+    private function getConfigurationPool(): ConfigurationPoolInterface
     {
         return $this->get('darvin_config.configuration.pool');
     }

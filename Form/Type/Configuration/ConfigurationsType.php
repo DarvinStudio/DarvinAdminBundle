@@ -11,8 +11,8 @@
 namespace Darvin\AdminBundle\Form\Type\Configuration;
 
 use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
-use Darvin\ConfigBundle\Configuration\ConfigurationPool;
-use Darvin\ConfigBundle\Form\Type\Configuration\ConfigurationType;
+use Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface;
+use Darvin\ConfigBundle\Form\Type\ConfigurationType;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
 use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
@@ -36,15 +36,15 @@ class ConfigurationsType extends AbstractType
     private $accessibilityChecker;
 
     /**
-     * @var \Darvin\ConfigBundle\Configuration\ConfigurationPool
+     * @var \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface
      */
     private $configurationPool;
 
     /**
-     * @param \Darvin\Utils\Security\Authorization\AccessibilityChecker $accessibilityChecker Accessibility checker
-     * @param \Darvin\ConfigBundle\Configuration\ConfigurationPool      $configurationPool    Configuration pool
+     * @param \Darvin\Utils\Security\Authorization\AccessibilityChecker     $accessibilityChecker Accessibility checker
+     * @param \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface $configurationPool    Configuration pool
      */
-    public function __construct(AccessibilityChecker $accessibilityChecker, ConfigurationPool $configurationPool)
+    public function __construct(AccessibilityChecker $accessibilityChecker, ConfigurationPoolInterface $configurationPool)
     {
         $this->accessibilityChecker = $accessibilityChecker;
         $this->configurationPool = $configurationPool;

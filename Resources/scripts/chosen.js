@@ -27,7 +27,13 @@
         };
 
         $(context).find('select:visible').each((i, select) => {
-            $(select)
+            let $select = $(select);
+
+            if ('undefined' === typeof options.disable_search && $select.children().length <= 20) {
+                options.disable_search = true;
+            }
+
+            $select
                 .chosen(options)
                 .change((e) => {
                     $(e.currentTarget).trigger('chosen:updated');

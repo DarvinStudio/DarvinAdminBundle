@@ -29,7 +29,7 @@
         $(context).find('select:visible').each((i, select) => {
             let $select = $(select);
 
-            if ('undefined' === typeof options.disable_search && $select.children().length <= 20) {
+            if ('undefined' === typeof options.disable_search && $select.children().length <= 10) {
                 options.disable_search = true;
             }
 

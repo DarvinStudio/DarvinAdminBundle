@@ -12,8 +12,8 @@ $(document).on('app.html', (e, args) => {
 
         let defaultMessage = Translator.trans('dropzone.default_message');
 
-        if (options.description) {
-            defaultMessage += '<br><br><b>' + Translator.trans(options.description) + '</b>';
+        if (options.help) {
+            defaultMessage += '<br><br><b>' + Translator.trans(options.help) + '</b>';
         }
 
         new Dropzone('#' + $dropzone.attr('id'), {

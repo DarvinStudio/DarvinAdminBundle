@@ -200,8 +200,8 @@ class DropzoneType extends AbstractType
         $attr = [
             'class'               => 'dropzone',
             'data-accepted-files' => $options['accepted_files'],
-            'data-description'    => $options['help'],
             'data-files'          => $view->children['files']->vars['id'],
+            'data-help'           => $options['help'],
             'data-max-filesize'   => $this->uploadMaxSizeMB,
             'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
         ];

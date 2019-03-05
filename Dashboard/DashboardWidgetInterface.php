@@ -31,12 +31,12 @@ interface DashboardWidgetInterface
     public function getRequiredPermissions(): iterable;
 
     /**
-     * @return string
-     */
-    public function getName(): string;
-
-    /**
      * @return string|null
      */
     public function getIcon(): ?string;
+
+    /**
+     * @return string
+     */
+    public function getName(): string;
 }

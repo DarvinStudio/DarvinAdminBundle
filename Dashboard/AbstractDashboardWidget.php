@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Dashboard;
 
 use Darvin\AdminBundle\Route\AdminRouterInterface;
+use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Templating\EngineInterface;
 
 /**
@@ -27,6 +28,11 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
      * @var \Symfony\Component\Templating\EngineInterface
      */
     protected $templating;
+
+    /**
+     * @var string|null
+     */
+    private $name = null;
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
@@ -58,5 +64,17 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     public function getIcon(): ?string
     {
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName(): string
+    {
+        if (null === $this->name) {
+            $this->name = StringsUtil::toUnderscore(preg_replace('/^.*\\\|Widget$/', '', get_class($this)));
+        }
+
+        return $this->name;
     }
 }

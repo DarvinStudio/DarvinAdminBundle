@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
  * @copyright Copyright (c) 2015-2019, Darvin Studio
@@ -55,7 +55,7 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->loggedAt instanceof \DateTime ? $this->loggedAt->format('d.m.Y H:i:s') : '';
     }
@@ -63,7 +63,7 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return string
      */
-    public function getActionName()
+    public function getActionName(): string
     {
         return isset(self::ACTIONS[$this->action]) ? self::ACTIONS[$this->action] : $this->action;
     }
@@ -71,21 +71,9 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return array
      */
-    public static function getActionChoices()
+    public static function getActionChoices(): array
     {
         return array_flip(self::ACTIONS);
-    }
-
-    /**
-     * @param object $object object
-     *
-     * @return LogEntry
-     */
-    public function setObject($object)
-    {
-        $this->object = $object;
-
-        return $this;
     }
 
     /**
@@ -97,13 +85,13 @@ class LogEntry extends AbstractLogEntry
     }
 
     /**
-     * @param \Darvin\UserBundle\Entity\BaseUser $user user
+     * @param object $object object
      *
      * @return LogEntry
      */
-    public function setUser(BaseUser $user = null)
+    public function setObject($object): LogEntry
     {
-        $this->user = $user;
+        $this->object = $object;
 
         return $this;
     }
@@ -111,8 +99,20 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return \Darvin\UserBundle\Entity\BaseUser
      */
-    public function getUser()
+    public function getUser(): ?BaseUser
     {
         return $this->user;
+    }
+
+    /**
+     * @param \Darvin\UserBundle\Entity\BaseUser $user user
+     *
+     * @return LogEntry
+     */
+    public function setUser(?BaseUser $user): LogEntry
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }

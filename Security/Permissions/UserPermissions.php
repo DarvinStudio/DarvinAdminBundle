@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2015, Darvin Studio
+ * @copyright Copyright (c) 2015-2019, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\Security\Permissions;
 class UserPermissions implements \Serializable
 {
     /**
-     * @var int
+     * @var mixed
      */
     private $userId;
 
@@ -26,7 +26,7 @@ class UserPermissions implements \Serializable
     private $permissions;
 
     /**
-     * @param int   $userId      User ID
+     * @param mixed $userId      User ID
      * @param array $permissions Permissions
      */
     public function __construct($userId, array $permissions)
@@ -38,7 +38,7 @@ class UserPermissions implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->userId,
@@ -49,7 +49,7 @@ class UserPermissions implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         list(
             $this->userId,
@@ -58,7 +58,7 @@ class UserPermissions implements \Serializable
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getUserId()
     {
@@ -66,11 +66,11 @@ class UserPermissions implements \Serializable
     }
 
     /**
-     * @param int $userId userId
+     * @param mixed $userId userId
      *
      * @return UserPermissions
      */
-    public function setUserId($userId)
+    public function setUserId($userId): UserPermissions
     {
         $this->userId = $userId;
 
@@ -80,7 +80,7 @@ class UserPermissions implements \Serializable
     /**
      * @return array
      */
-    public function getPermissions()
+    public function getPermissions(): ?array
     {
         return $this->permissions;
     }
@@ -90,7 +90,7 @@ class UserPermissions implements \Serializable
      *
      * @return UserPermissions
      */
-    public function setPermissions(array $permissions)
+    public function setPermissions(?array $permissions): UserPermissions
     {
         $this->permissions = $permissions;
 

@@ -97,7 +97,7 @@ class ObjectPermissions implements \Serializable
     }
 
     /**
-     * @param int                                                      $userId          User ID
+     * @param mixed                                                    $userId          User ID
      * @param \Darvin\AdminBundle\Security\Permissions\UserPermissions $userPermissions User permissions
      *
      * @return ObjectPermissions
@@ -110,7 +110,7 @@ class ObjectPermissions implements \Serializable
     }
 
     /**
-     * @param int $userId User ID
+     * @param mixed $userId User ID
      *
      * @return ObjectPermissions
      */
@@ -122,7 +122,7 @@ class ObjectPermissions implements \Serializable
     }
 
     /**
-     * @param int $userId User ID
+     * @param mixed $userId User ID
      *
      * @return bool
      */

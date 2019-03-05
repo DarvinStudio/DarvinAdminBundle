@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2015, Darvin Studio
+ * @copyright Copyright (c) 2015-2019, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -28,7 +28,7 @@ class ObjectPermissions implements \Serializable
     /**
      * @param string $objectClass Object class
      */
-    public function __construct($objectClass)
+    public function __construct(string $objectClass)
     {
         $this->objectClass = $objectClass;
         $this->userPermissionsSet = [];
@@ -37,7 +37,7 @@ class ObjectPermissions implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function serialize()
+    public function serialize(): string
     {
         return serialize([
             $this->objectClass,
@@ -48,7 +48,7 @@ class ObjectPermissions implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         list(
             $this->objectClass,
@@ -57,11 +57,19 @@ class ObjectPermissions implements \Serializable
     }
 
     /**
+     * @return string
+     */
+    public function getObjectClass(): ?string
+    {
+        return $this->objectClass;
+    }
+
+    /**
      * @param string $objectClass objectClass
      *
      * @return ObjectPermissions
      */
-    public function setObjectClass($objectClass)
+    public function setObjectClass(?string $objectClass): ObjectPermissions
     {
         $this->objectClass = $objectClass;
 
@@ -69,11 +77,11 @@ class ObjectPermissions implements \Serializable
     }
 
     /**
-     * @return string
+     * @return \Darvin\AdminBundle\Security\Permissions\UserPermissions[]
      */
-    public function getObjectClass()
+    public function getUserPermissionsSet(): ?array
     {
-        return $this->objectClass;
+        return $this->userPermissionsSet;
     }
 
     /**
@@ -81,19 +89,11 @@ class ObjectPermissions implements \Serializable
      *
      * @return ObjectPermissions
      */
-    public function setUserPermissionsSet(array $userPermissionsSet)
+    public function setUserPermissionsSet(?array $userPermissionsSet): ObjectPermissions
     {
         $this->userPermissionsSet = $userPermissionsSet;
 
         return $this;
-    }
-
-    /**
-     * @return \Darvin\AdminBundle\Security\Permissions\UserPermissions[]
-     */
-    public function getUserPermissionsSet()
-    {
-        return $this->userPermissionsSet;
     }
 
     /**
@@ -102,7 +102,7 @@ class ObjectPermissions implements \Serializable
      *
      * @return ObjectPermissions
      */
-    public function addUserPermissions($userId, UserPermissions $userPermissions)
+    public function addUserPermissions($userId, UserPermissions $userPermissions): ObjectPermissions
     {
         $this->userPermissionsSet[$userId] = $userPermissions;
 
@@ -114,7 +114,7 @@ class ObjectPermissions implements \Serializable
      *
      * @return ObjectPermissions
      */
-    public function removeUserPermissions($userId)
+    public function removeUserPermissions($userId): ObjectPermissions
     {
         unset($this->userPermissionsSet[$userId]);
 
@@ -126,7 +126,7 @@ class ObjectPermissions implements \Serializable
      *
      * @return bool
      */
-    public function hasUserPermissions($userId)
+    public function hasUserPermissions($userId): bool
     {
         return isset($this->userPermissionsSet[$userId]);
     }

@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2015, Darvin Studio
+ * @copyright Copyright (c) 2015-2019, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\Metadata;
 class Metadata
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\AssociatedMetadata
+     * @var \Darvin\AdminBundle\Metadata\AssociatedMetadata|null
      */
     private $parent;
 
@@ -81,37 +81,37 @@ class Metadata
     private $routingPrefix;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $translationClass;
 
     /**
-     * @param string $baseTranslationPrefix   Base translation prefix
-     * @param string $entityTranslationPrefix Entity translation prefix
-     * @param array  $configuration           Configuration
-     * @param string $controllerId            Controller service ID
-     * @param string $entityClass             Entity class
-     * @param string $entityName              Entity name
-     * @param string $filterFormTypeName      Filter form type name
-     * @param string $formTypeName            Form type name
-     * @param string $identifier              Identifier
-     * @param array  $mappings                Mappings
-     * @param string $routingPrefix           Routing prefix
-     * @param string $translationClass        Translation class
+     * @param string      $baseTranslationPrefix   Base translation prefix
+     * @param string      $entityTranslationPrefix Entity translation prefix
+     * @param array       $configuration           Configuration
+     * @param string      $controllerId            Controller service ID
+     * @param string      $entityClass             Entity class
+     * @param string      $entityName              Entity name
+     * @param string      $filterFormTypeName      Filter form type name
+     * @param string      $formTypeName            Form type name
+     * @param string      $identifier              Identifier
+     * @param array       $mappings                Mappings
+     * @param string      $routingPrefix           Routing prefix
+     * @param string|null $translationClass        Translation class
      */
     public function __construct(
-        $baseTranslationPrefix,
-        $entityTranslationPrefix,
+        string $baseTranslationPrefix,
+        string $entityTranslationPrefix,
         array $configuration,
-        $controllerId,
-        $entityClass,
-        $entityName,
-        $filterFormTypeName,
-        $formTypeName,
-        $identifier,
+        string $controllerId,
+        string $entityClass,
+        string $entityName,
+        string $filterFormTypeName,
+        string $formTypeName,
+        string $identifier,
         array $mappings,
-        $routingPrefix,
-        $translationClass
+        string $routingPrefix,
+        ?string $translationClass
     ) {
         $this->baseTranslationPrefix = $baseTranslationPrefix;
         $this->entityTranslationPrefix = $entityTranslationPrefix;
@@ -126,6 +126,7 @@ class Metadata
         $this->routingPrefix = $routingPrefix;
         $this->translationClass = $translationClass;
 
+        $this->parent   = null;
         $this->children = [];
     }
 
@@ -134,7 +135,7 @@ class Metadata
      *
      * @return bool
      */
-    public function isAssociation($property)
+    public function isAssociation(string $property): bool
     {
         return isset($this->mappings[$property]['targetEntity']);
     }
@@ -142,7 +143,7 @@ class Metadata
     /**
      * @return bool
      */
-    public function isFilterFormEnabled()
+    public function isFilterFormEnabled(): bool
     {
         return !empty($this->configuration['form']['filter']['type'])
             || !empty($this->configuration['form']['filter']['field_groups'])
@@ -150,11 +151,19 @@ class Metadata
     }
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\AssociatedMetadata $parent parent
+     * @return \Darvin\AdminBundle\Metadata\AssociatedMetadata|null
+     */
+    public function getParent(): ?AssociatedMetadata
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Metadata\AssociatedMetadata|null $parent parent
      *
      * @return Metadata
      */
-    public function setParent(AssociatedMetadata $parent)
+    public function setParent(?AssociatedMetadata $parent): Metadata
     {
         $this->parent = $parent;
 
@@ -162,19 +171,11 @@ class Metadata
     }
 
     /**
-     * @return \Darvin\AdminBundle\Metadata\AssociatedMetadata
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
      * @return bool
      */
-    public function hasParent()
+    public function hasParent(): bool
     {
-        return !empty($this->parent);
+        return null !== $this->parent;
     }
 
     /**
@@ -182,7 +183,7 @@ class Metadata
      *
      * @return Metadata
      */
-    public function addChild(AssociatedMetadata $child)
+    public function addChild(AssociatedMetadata $child): Metadata
     {
         $this->children[$child->getMetadata()->getEntityClass()] = $child;
 
@@ -192,7 +193,7 @@ class Metadata
     /**
      * @return \Darvin\AdminBundle\Metadata\AssociatedMetadata[]
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -202,7 +203,7 @@ class Metadata
      *
      * @return bool
      */
-    public function hasChild($entityClass)
+    public function hasChild(string $entityClass): bool
     {
         return isset($this->children[$entityClass]);
     }
@@ -211,16 +212,21 @@ class Metadata
      * @param string $entityClass Child entity class
      *
      * @return \Darvin\AdminBundle\Metadata\AssociatedMetadata
+     * @throws \InvalidArgumentException
      */
-    public function getChild($entityClass)
+    public function getChild(string $entityClass): AssociatedMetadata
     {
+        if (!isset($this->children[$entityClass])) {
+            throw new \InvalidArgumentException(sprintf('Child "%s" does not exist.', $entityClass));
+        }
+
         return $this->children[$entityClass];
     }
 
     /**
      * @return string
      */
-    public function getBaseTranslationPrefix()
+    public function getBaseTranslationPrefix(): string
     {
         return $this->baseTranslationPrefix;
     }
@@ -228,9 +234,17 @@ class Metadata
     /**
      * @return string
      */
-    public function getEntityTranslationPrefix()
+    public function getEntityTranslationPrefix(): string
     {
         return $this->entityTranslationPrefix;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfiguration(): array
+    {
+        return $this->configuration;
     }
 
     /**
@@ -238,7 +252,7 @@ class Metadata
      *
      * @return Metadata
      */
-    public function setConfiguration(array $configuration)
+    public function setConfiguration(array $configuration): Metadata
     {
         $this->configuration = $configuration;
 
@@ -246,17 +260,9 @@ class Metadata
     }
 
     /**
-     * @return array
-     */
-    public function getConfiguration()
-    {
-        return $this->configuration;
-    }
-
-    /**
      * @return string
      */
-    public function getControllerId()
+    public function getControllerId(): string
     {
         return $this->controllerId;
     }
@@ -264,7 +270,7 @@ class Metadata
     /**
      * @return string
      */
-    public function getEntityClass()
+    public function getEntityClass(): string
     {
         return $this->entityClass;
     }
@@ -272,7 +278,7 @@ class Metadata
     /**
      * @return string
      */
-    public function getEntityName()
+    public function getEntityName(): string
     {
         return $this->entityName;
     }
@@ -280,7 +286,7 @@ class Metadata
     /**
      * @return string
      */
-    public function getFilterFormTypeName()
+    public function getFilterFormTypeName(): string
     {
         return $this->filterFormTypeName;
     }
@@ -288,7 +294,7 @@ class Metadata
     /**
      * @return string
      */
-    public function getFormTypeName()
+    public function getFormTypeName(): string
     {
         return $this->formTypeName;
     }
@@ -296,7 +302,7 @@ class Metadata
     /**
      * @return string
      */
-    public function getIdentifier()
+    public function getIdentifier(): string
     {
         return $this->identifier;
     }
@@ -304,7 +310,7 @@ class Metadata
     /**
      * @return array
      */
-    public function getMappings()
+    public function getMappings(): array
     {
         return $this->mappings;
     }
@@ -312,15 +318,15 @@ class Metadata
     /**
      * @return string
      */
-    public function getRoutingPrefix()
+    public function getRoutingPrefix(): string
     {
         return $this->routingPrefix;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTranslationClass()
+    public function getTranslationClass(): ?string
     {
         return $this->translationClass;
     }

@@ -34,3 +34,37 @@ fm_elfinder:
                             - application/x-zip-compressed
                             - application/zip
                             - multipart/x-zip
+        darvin_admin_text:
+            editor:          custom
+            editor_template: '@DarvinAdmin/el_finder/text.html.twig'
+            connector:
+                debug: '%kernel.debug%'
+                roots:
+                    uploads:
+                        driver:          LocalFileSystem
+                        path:            '%env(resolve:UPLOAD_PATH)%'
+                        upload_max_size: '%env(int:resolve:UPLOAD_MAX_SIZE_MB)%M'
+                        upload_allow:
+                            - image/png
+                            - image/jpg
+                            - image/jpeg
+                            # MSO
+                            - application/vnd.ms-office
+                            # *.doc
+                            - application/msword
+                            # *.docx
+                            - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                            # *.xls
+                            - application/excel
+                            - application/vnd.ms-excel
+                            - application/x-excel
+                            - application/x-msexcel
+                            # *.xlsx
+                            - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+                            # *.pdf
+                            - application/pdf
+                            # *.zip
+                            - application/x-compressed
+                            - application/x-zip-compressed
+                            - application/zip
+                            - multipart/x-zip

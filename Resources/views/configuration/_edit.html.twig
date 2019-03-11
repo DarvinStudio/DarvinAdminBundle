@@ -90,6 +90,9 @@
                                 {% form_theme child '@DarvinAdmin/fields.html.twig' %}
                                 {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
                             {% else %}
+                                {% if 'darvin_admin_el_finder_text' == child.vars.block_prefixes[2]|default %}
+                                    {% form_theme child '@DarvinAdmin/fields.html.twig' %}
+                                {% endif %}
 
                                 {% set attr = attr|merge({
                                     'class': (attr.class|default ~ ' ' ~ child.vars.block_prefixes[1]|default)|trim,

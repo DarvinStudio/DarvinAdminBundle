@@ -25,7 +25,7 @@
             onlyMimes: {{ onlyMimes|raw }},
             getFileCallback : function(file) {
                 if (field) {
-                    window.opener.document.getElementsByName(field)[0].value = file.url.replace('{{ app.request.schemeAndHttpHost }}', '');
+                    window.opener.document.getElementsByName(field)[0].value = file.url.replace('{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}', '');
                     window.close();
                 }
             }

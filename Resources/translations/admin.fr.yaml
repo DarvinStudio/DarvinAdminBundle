@@ -73,6 +73,8 @@ flash:
     success:
         update_property: 'La Valeur Mise À Jour Avec Succès'
 form:
+    el_finder_text:
+        title: 'Choisissez Fichier'
     file:
         help: 'Taille Maximale De Fichier: %size%MO'
 homepage:

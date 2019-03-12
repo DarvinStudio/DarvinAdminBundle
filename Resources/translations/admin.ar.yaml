@@ -73,6 +73,8 @@ flash:
     success:
         update_property: 'قيمة تحديثها بنجاح'
 form:
+    el_finder_text:
+        title: 'اختر ملف'
     file:
         help: 'ماكس حجم الملف: %size%MB'
 homepage:

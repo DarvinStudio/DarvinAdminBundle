@@ -141,8 +141,7 @@
 
     <div class="input_value">
         <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        &nbsp;
-        <button type="button" onclick="window.open('{{ url }}', null, [
+        <button type="button" title="{% trans %}form.el_finder_text.title{% endtrans %}" class="btn btn-default" onclick="window.open('{{ url }}', null, [
             'width=' + (window.outerWidth - window.outerWidth * {{ margin }} * 2),
             'height=' + (window.outerHeight - window.outerWidth * {{ margin }} * 2),
             'left=' + (window.outerWidth * {{ margin }}),

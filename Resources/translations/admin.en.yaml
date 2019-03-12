@@ -73,6 +73,8 @@ flash:
     success:
         update_property: 'Value Successfully Updated'
 form:
+    el_finder_text:
+        title: 'Choose File'
     file:
         help: 'Max File Size: %size%MB'
 homepage:

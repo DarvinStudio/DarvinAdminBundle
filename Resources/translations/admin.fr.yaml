@@ -78,10 +78,9 @@ form:
     file:
         help: 'Taille Maximale De Fichier: %size%MO'
 homepage:
-    action:
-        index:
-            link: 'Page d''accueil'
-            title: 'Page d''accueil'
+    index:
+        link: 'Page d''accueil'
+        title: 'Page d''accueil'
 image:
     action:
         delete:

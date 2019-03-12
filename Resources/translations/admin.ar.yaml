@@ -78,10 +78,9 @@ form:
     file:
         help: 'ماكس حجم الملف: %size%MB'
 homepage:
-    action:
-        index:
-            link: 'الصفحة الرئيسية'
-            title: 'الصفحة الرئيسية'
+    index:
+        link: 'الصفحة الرئيسية'
+        title: 'الصفحة الرئيسية'
 image:
     action:
         delete:

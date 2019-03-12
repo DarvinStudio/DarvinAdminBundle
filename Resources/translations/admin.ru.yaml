@@ -92,10 +92,9 @@ form:
         help: 'Максимальный размер файла: %size%МБ'
 
 homepage:
-    action:
-        index:
-            link:  Главная
-            title: Главная страница
+    index:
+        link:  Главная
+        title: Главная страница
 
 image:
     action:

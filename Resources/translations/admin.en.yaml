@@ -78,10 +78,9 @@ form:
     file:
         help: 'Max File Size: %size%MB'
 homepage:
-    action:
-        index:
-            link: Homepage
-            title: Homepage
+    index:
+        link: Homepage
+        title: Homepage
 image:
     action:
         delete:

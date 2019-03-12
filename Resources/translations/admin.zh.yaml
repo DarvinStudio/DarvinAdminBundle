@@ -78,10 +78,9 @@ form:
     file:
         help: '最大的文件大小： %size%MB'
 homepage:
-    action:
-        index:
-            link: 主页
-            title: 主页
+    index:
+        link: 主页
+        title: 主页
 image:
     action:
         delete:

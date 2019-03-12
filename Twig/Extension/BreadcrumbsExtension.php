@@ -99,7 +99,7 @@ class BreadcrumbsExtension extends AbstractExtension
             $crumbs[] = $this->createCrumb(sprintf('menu.group.%s.title', $config['menu']['group']));
         }
 
-        $crumbs[] = $this->createCrumb('homepage.action.index.link', $this->genericRouter->generate('darvin_admin_homepage'));
+        $crumbs[] = $this->createCrumb('homepage.index.link', $this->genericRouter->generate('darvin_admin_homepage'));
 
         $crumbs = array_reverse($crumbs);
 

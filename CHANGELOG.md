@@ -232,3 +232,5 @@ form:
 - Preserve filter data in URL without events.
 
 - Do not preserve filter data in menu URLs.
+
+5.23.0: Add Darvin\AdminBundle\Form\Type\ElFinderTextType form type.

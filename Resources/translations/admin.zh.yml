@@ -67,6 +67,8 @@ flash:
     success:
         update_property: 值的成功更新
 form:
+    el_finder_text:
+        title: 选择文件
     file:
         description: '最大的文件大小： %size%MB'
 form_collections:

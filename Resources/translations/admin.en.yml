@@ -79,6 +79,8 @@ flash:
         update_property: Value successfully updated
 
 form:
+    el_finder_text:
+        title: Choose file
     file:
         description: "Max file size: %size%MB"
 

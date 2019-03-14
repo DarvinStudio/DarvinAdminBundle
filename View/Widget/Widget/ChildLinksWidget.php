@@ -65,13 +65,13 @@ class ChildLinksWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $childClass = $this->entityResolver->resolve($options['child']);
-        $property   = $options['property'];
+        $child    = $this->entityResolver->resolve($options['child']);
+        $property = $options['property'];
 
-        $showIndexLink = $this->isGranted(Permission::VIEW, $childClass)
-            && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_INDEX);
-        $showNewLink = $this->isGranted(Permission::CREATE_DELETE, $childClass)
-            && $this->adminRouter->exists($childClass, AdminRouterInterface::TYPE_NEW);
+        $showIndexLink = $this->isGranted(Permission::VIEW, $child)
+            && $this->adminRouter->exists($child, AdminRouterInterface::TYPE_INDEX);
+        $showNewLink = $this->isGranted(Permission::CREATE_DELETE, $child)
+            && $this->adminRouter->exists($child, AdminRouterInterface::TYPE_NEW);
 
         if (!$showIndexLink && !$showNewLink) {
             return null;
@@ -79,20 +79,20 @@ class ChildLinksWidget extends AbstractWidget
 
         $parentMeta = $this->metadataManager->getMetadata($entity);
 
-        if ($parentMeta->hasChild($childClass)) {
-            $childMeta = $parentMeta->getChild($childClass);
+        if ($parentMeta->hasChild($child)) {
+            $childMeta = $parentMeta->getChild($child);
 
             $association      = $childMeta->getAssociation();
             $associationParam = $childMeta->getAssociationParameterName();
 
             $childMeta = $childMeta->getMetadata();
         } else {
-            $childMeta = $this->metadataManager->getMetadata($childClass);
+            $childMeta = $this->metadataManager->getMetadata($child);
             $mappings  = $parentMeta->getMappings();
 
             if (!isset($mappings[$property]['mappedBy'])) {
                 throw new \InvalidArgumentException(
-                    sprintf('Entity "%s" is not child of entity "%s".', $childClass, $parentMeta->getEntityClass())
+                    sprintf('Entity "%s" is not child of entity "%s".', $child, $parentMeta->getEntityClass())
                 );
             }
 
@@ -101,20 +101,23 @@ class ChildLinksWidget extends AbstractWidget
             $associationParam = sprintf('%s[%s]', $childMeta->getFilterFormTypeName(), $association);
         }
 
+        $count    = null;
         $parentId = $this->identifierAccessor->getId($entity);
 
-        $childrenCount = (int)$this->em->getRepository($childClass)->createQueryBuilder('o')
-            ->select('COUNT(o)')
-            ->where(sprintf('o.%s = :%1$s', $association))
-            ->setParameter($association, $parentId)
-            ->getQuery()
-            ->getSingleScalarResult();
+        if ($showIndexLink && $options['show_count']) {
+            $count = (int)$this->em->getRepository($child)->createQueryBuilder('o')
+                ->select('COUNT(o)')
+                ->where(sprintf('o.%s = :%1$s', $association))
+                ->setParameter($association, $parentId)
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
 
         return $this->render([
             'association'        => $association,
             'association_param'  => $associationParam,
-            'child_class'        => $childClass,
-            'children_count'     => $childrenCount,
+            'child'              => $child,
+            'count'              => $count,
             'parent_id'          => $parentId,
             'show_index_link'    => $showIndexLink,
             'show_new_link'      => $showNewLink,
@@ -131,6 +134,8 @@ class ChildLinksWidget extends AbstractWidget
 
         $resolver
             ->setRequired('child')
-            ->setAllowedTypes('child', 'string');
+            ->setDefault('show_count', false)
+            ->setAllowedTypes('child', 'string')
+            ->setAllowedTypes('show_count', 'boolean');
     }
 }

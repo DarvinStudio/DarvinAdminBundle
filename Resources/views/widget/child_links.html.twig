@@ -3,12 +3,12 @@
 {% set route_params = {(association_param): parent_id} %}
 
 {% if show_index_link %}
-    <a class="items" href="{{ admin_path(null, child_class, 'index', route_params) }}">
-        {{ (translation_prefix ~ 'action.index.link')|trans }}&nbsp;({{ children_count }})
+    <a class="items" href="{{ admin_path(null, child, 'index', route_params) }}">
+        {{ (translation_prefix ~ 'action.index.link')|trans }}{% if show_count %}&nbsp;({{ count }}){% endif %}
     </a>
 {% endif %}
 {% if show_new_link %}
-    <a class="items none" href="{{ admin_path(null, child_class, 'new', route_params) }}">
+    <a class="items none" href="{{ admin_path(null, child, 'new', route_params) }}">
         {{ (translation_prefix ~ 'action.new.link')|trans }}
     </a>
 {% endif %}

@@ -162,23 +162,6 @@ $(document).on('app.html', function (e, args) {
 
 /* скролбар */
 /**************************************************************/
-// настройки скролбара
-var slyOptions = {
-    horizontal: 1,
-    smart: 1,
-    mouseDragging: 1,
-    touchDragging: 1,
-    releaseSwing: 1,
-    scrollBar: $('.scrollbar'),
-    speed: 300,
-    activatePageOn: 'click',
-    scrollBy: 100,
-    dragHandle: 1,
-    dynamicHandle: 1,
-    clickBar: 1,
-    scrollSource: ' '
-};
-
 // скрывает/показывает скрол бар, если он не нужен
 function switchScrollBar() {
 	var scrollbar = $('.js-scrollbar');
@@ -231,7 +214,23 @@ function initSly( container, options ) {
         }
     });
 }
-setTimeout(initSly, 1, $('.sly-container'), slyOptions);
+$(document).on('app.html', function (e, args) {
+    setTimeout(initSly, 1, args.$html.find('.sly-container'), {
+        horizontal: 1,
+        smart: 1,
+        mouseDragging: 1,
+        touchDragging: 1,
+        releaseSwing: 1,
+        scrollBar: $('.scrollbar'),
+        speed: 300,
+        activatePageOn: 'click',
+        scrollBy: 100,
+        dragHandle: 1,
+        dynamicHandle: 1,
+        clickBar: 1,
+        scrollSource: ' '
+    });
+});
 
 /**************************************************************/
 (function () {

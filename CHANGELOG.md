@@ -235,6 +235,8 @@ form:
 
 5.23.0: Add Darvin\AdminBundle\Form\Type\ElFinderTextType form type.
 
+5.23.1: Fix building error message in update property action.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

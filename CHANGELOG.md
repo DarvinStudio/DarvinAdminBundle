@@ -234,3 +234,5 @@ form:
 - Do not preserve filter data in menu URLs.
 
 5.23.0: Add Darvin\AdminBundle\Form\Type\ElFinderTextType form type.
+
+5.23.1: Fix building error message in update property action.

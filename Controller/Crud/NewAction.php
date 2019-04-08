@@ -171,7 +171,7 @@ class NewAction extends AbstractAction
             $fields = array_replace($fields, $fieldGroup);
         }
         foreach ($fields as $field => $options) {
-            if (!$meta->isAssociation($field) || ClassMetadataInfo::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
+            if ($meta->isAssociation($field) && ClassMetadataInfo::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
                 unset($fields[$field]);
             }
         }

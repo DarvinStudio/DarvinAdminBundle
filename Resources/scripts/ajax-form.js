@@ -22,7 +22,13 @@ $(document).ready(function () {
             notify(data.message, data.success ? 'success' : 'error');
 
             if (data.html) {
+                var $parent = $form.parent();
+
                 $form.replaceWith(data.html);
+
+                $(document).trigger('app.html', {
+                    $html: $parent
+                });
             }
             if (null !== data.redirectUrl) {
                 setTimeout(function () {

@@ -45,10 +45,12 @@ $(function () {
         }
     };
 
+    var slavesByMasters = {};
+
     $(selector).each(function () {
         var $slave = $(this);
 
-        var masterSelector  = $slave.data('master') + ':first',
+        var masterSelector  = $slave.data('master') + '[id]:first',
             showOn          = $slave.data('show-on'),
             $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
 
@@ -58,18 +60,41 @@ $(function () {
             })
             : showOn.toString();
 
-        var $context = $slave.closest('[class*="_a2lix_translationsFields-"]');
-        var $master = $context.find(masterSelector);
+        var $master = $slave.closest('[class*="_a2lix_translationsFields-"]').find(masterSelector);
 
         if (!$master.length) {
-            $context = $slave.closest('form');
-            $master = $context.find(masterSelector);
+            $master = $slave.closest('form').find(masterSelector);
+        }
+        if (!$master.length) {
+            return;
         }
 
-        toggleSlave($slaveContainer, $master, showOn);
+        var masterId = $master.attr('id');
 
-        $context.on('change', masterSelector, function () {
-            toggleSlave($slaveContainer, $(this), showOn);
+        if ('undefined' === typeof slavesByMasters[masterId]) {
+            slavesByMasters[masterId] = [];
+        }
+
+        slavesByMasters[masterId].push({
+            $container: $slaveContainer,
+            showOn:     showOn
         });
     });
+
+    for (var masterId in slavesByMasters) {
+        var $master = $('#' + masterId),
+            slaves  = slavesByMasters[masterId];
+
+        for (var i = 0; i < slaves.length; i++) {
+            toggleSlave(slaves[i].$container, $master, slaves[i].showOn);
+        }
+
+        $('body').on('change', '#' + masterId, function () {
+            var $master = $(this);
+
+            for (var i = 0; i < slaves.length; i++) {
+                toggleSlave(slaves[i].$container, $master, slaves[i].showOn);
+            }
+        });
+    }
 });

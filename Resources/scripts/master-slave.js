@@ -44,57 +44,65 @@ $(function () {
             $select.trigger('chosen:updated');
         }
     };
+    var init;
+    (init = function (context) {
+        var slavesByMasters = {};
 
-    var slavesByMasters = {};
+        $(context || 'body').find(selector).each(function () {
+            var $slave = $(this);
 
-    $(selector).each(function () {
-        var $slave = $(this);
+            var masterSelector  = $slave.data('master') + '[id]:first',
+                showOn          = $slave.data('show-on'),
+                $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
 
-        var masterSelector  = $slave.data('master') + '[id]:first',
-            showOn          = $slave.data('show-on'),
-            $slaveContainer = $slave.is('option') ? $slave : $slave.closest('.table_row');
+            showOn = $.isArray(showOn)
+                ? showOn.map(function (item) {
+                    return item.toString();
+                })
+                : showOn.toString();
 
-        showOn = $.isArray(showOn)
-            ? showOn.map(function (item) {
-                return item.toString();
-            })
-            : showOn.toString();
+            var $master = $slave.closest('[class*="_a2lix_translationsFields-"]').find(masterSelector);
 
-        var $master = $slave.closest('[class*="_a2lix_translationsFields-"]').find(masterSelector);
+            if (!$master.length) {
+                $master = $slave.closest('form').find(masterSelector);
+            }
+            if (!$master.length) {
+                return;
+            }
 
-        if (!$master.length) {
-            $master = $slave.closest('form').find(masterSelector);
-        }
-        if (!$master.length) {
-            return;
-        }
+            var masterId = $master.attr('id');
 
-        var masterId = $master.attr('id');
+            if ('undefined' === typeof slavesByMasters[masterId]) {
+                slavesByMasters[masterId] = [];
+            }
 
-        if ('undefined' === typeof slavesByMasters[masterId]) {
-            slavesByMasters[masterId] = [];
-        }
-
-        slavesByMasters[masterId].push({
-            $container: $slaveContainer,
-            showOn:     showOn
+            slavesByMasters[masterId].push({
+                $container: $slaveContainer,
+                showOn:     showOn
+            });
         });
-    });
 
-    for (var masterId in slavesByMasters) {
-        var $master = $('#' + masterId),
-            slaves  = slavesByMasters[masterId];
-
-        for (var i = 0; i < slaves.length; i++) {
-            toggleSlave(slaves[i].$container, $master, slaves[i].showOn);
-        }
-
-        $('body').on('change', '#' + masterId, function () {
-            var $master = $(this);
+        for (var masterId in slavesByMasters) {
+            var $master = $('#' + masterId),
+                slaves  = slavesByMasters[masterId];
 
             for (var i = 0; i < slaves.length; i++) {
                 toggleSlave(slaves[i].$container, $master, slaves[i].showOn);
             }
+
+            $master.change(function () {
+                for (var i = 0; i < slaves.length; i++) {
+                    toggleSlave(slaves[i].$container, $master, slaves[i].showOn);
+                }
+            });
+        }
+    })();
+
+    $(document)
+        .on('app.html', function (e, args) {
+            init(args.$html);
+        })
+        .on('formCollectionAdd', function (e, $item) {
+            init($item);
         });
-    }
 });

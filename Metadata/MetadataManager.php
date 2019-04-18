@@ -219,6 +219,10 @@ class MetadataManager implements AdminMetadataManagerInterface
                     $parentMeta->addChild(new AssociatedMetadata($property, $childMeta));
 
                     $associated = true;
+
+                    if (null !== $mapping['inversedBy']) {
+                        break;
+                    }
                 }
                 if (!$associated) {
                     throw new MetadataException(

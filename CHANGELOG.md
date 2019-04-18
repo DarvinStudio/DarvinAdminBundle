@@ -237,6 +237,8 @@ form:
 
 5.23.1: Fix building error message in update property action.
 
+5.23.2: Fix child entity detection in metadata manager.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

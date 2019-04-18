@@ -239,6 +239,8 @@ form:
 
 5.23.2: Fix child entity detection in metadata manager.
 
+5.23.3: Allow to disable Chosen with "data-custom: 0".
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

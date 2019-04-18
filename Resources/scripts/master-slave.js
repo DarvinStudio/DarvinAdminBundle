@@ -37,12 +37,22 @@
 
             $master.val() && this.isVisible($master) ? this.$slaveContainer.show() : this.$slaveContainer.hide();
 
-            if (this.$slaveContainer.is('option')) {
-                let $options = this.$slaveContainer.closest('select').find('option[data-master][data-show-on]');
+            if (!this.$slaveContainer.is('option')) {
+                return;
+            }
 
-                if ($options.index(this.$slaveContainer) + 1 === $options.length) {
-                    this.$slaveContainer.closest('select').trigger('chosen:updated');
-                }
+            let $select = this.$slaveContainer.closest('select');
+
+            let selectCustom = $select.data('custom');
+
+            if ('undefined' !== typeof selectCustom && !selectCustom) {
+                return;
+            }
+
+            let $options = $select.find('option[data-master][data-show-on]');
+
+            if ($options.index(this.$slaveContainer) + 1 === $options.length) {
+                $select.trigger('chosen:updated');
             }
         }
 

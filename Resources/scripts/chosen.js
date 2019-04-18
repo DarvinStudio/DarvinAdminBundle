@@ -27,8 +27,15 @@
         };
 
         $(context).find('select:visible').each((i, select) => {
-            let $select         = $(select),
-                instanceOptions = $.extend({}, options);
+            let $select = $(select);
+
+            let isCustom = $select.data('custom');
+
+            if ('undefined' !== typeof isCustom && !isCustom) {
+                return;
+            }
+
+            let instanceOptions = $.extend({}, options);
 
             if ('undefined' === typeof instanceOptions.disable_search && $select.children().length <= 10) {
                 instanceOptions.disable_search = true;

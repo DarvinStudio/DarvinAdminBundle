@@ -238,3 +238,5 @@ form:
 5.23.1: Fix building error message in update property action.
 
 5.23.2: Fix child entity detection in metadata manager.
+
+5.23.3: Allow to disable Chosen with "data-custom: 0".

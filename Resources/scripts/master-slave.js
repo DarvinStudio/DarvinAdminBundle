@@ -26,12 +26,22 @@ $(function () {
     var toggleSlave = function ($slaveContainer, $master, showOn) {
         $master.val() && isSlaveVisible($master, showOn) ? $slaveContainer.show() : $slaveContainer.hide();
 
-        if ($slaveContainer.is('option')) {
-            var $options = $slaveContainer.closest('select').find('option' + selector);
+        if (!$slaveContainer.is('option')) {
+            return;
+        }
 
-            if ($options.index($slaveContainer) + 1 === $options.length) {
-                $slaveContainer.closest('select').trigger('chosen:updated');
-            }
+        var $select = $slaveContainer.closest('select');
+
+        var selectCustom = $select.data('custom');
+
+        if ('undefined' !== typeof selectCustom && !selectCustom) {
+            return;
+        }
+
+        var $options = $select.find('option' + selector);
+
+        if ($options.index($slaveContainer) + 1 === $options.length) {
+            $select.trigger('chosen:updated');
         }
     };
 

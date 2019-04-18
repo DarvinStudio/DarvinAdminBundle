@@ -19,7 +19,15 @@ $(document).ready(function () {
     var init;
     (init = function (context) {
         $(context || 'body').find('select:visible').each(function () {
-            $(this)
+            var $select = $(this);
+
+            var isCustom = $select.data('custom');
+
+            if ('undefined' !== typeof isCustom && !isCustom) {
+                return;
+            }
+
+            $select
                 .chosen({
                     allow_single_deselect:     true,
                     no_results_text:           Translator.trans('chosen.no_results_text'),

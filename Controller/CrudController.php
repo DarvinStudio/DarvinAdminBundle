@@ -115,7 +115,13 @@ class CrudController extends Controller
         if (!empty($sortCriteria)) {
             if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$this->configuration['pagination']['enabled']) {
                 foreach ($sortCriteria as $sort => $order) {
-                    $qb->addOrderBy('o.'.$sort, $order);
+                    foreach (explode('+', $sort) as $part) {
+                        if (false === strpos($part, '.')) {
+                            $part = sprintf('o.%s', $part);
+                        }
+
+                        $qb->addOrderBy($part, $order);
+                    }
                 }
             } else {
                 $sortField = array_keys($sortCriteria)[0];
@@ -132,7 +138,9 @@ class CrudController extends Controller
         $pagination = null;
 
         if ($this->configuration['pagination']['enabled']) {
-            $this->getSortedByEntityJoiner()->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
+            foreach (explode('+', $request->query->get('sort', '')) as $part) {
+                $this->getSortedByEntityJoiner()->joinEntity($qb, $part, $request->getLocale());
+            }
 
             $page = $request->query->get('page', 1);
 

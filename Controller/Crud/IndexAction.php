@@ -161,7 +161,13 @@ class IndexAction extends AbstractAction
         if (!empty($sortCriteria)) {
             if ((count($sortCriteria) > 1 && !$request->query->has('sort')) || !$config['pagination']['enabled']) {
                 foreach ($sortCriteria as $sort => $order) {
-                    $qb->addOrderBy('o.'.$sort, $order);
+                    foreach (explode('+', $sort) as $part) {
+                        if (false === strpos($part, '.')) {
+                            $part = sprintf('o.%s', $part);
+                        }
+
+                        $qb->addOrderBy($part, $order);
+                    }
                 }
             } else {
                 $sortField = array_keys($sortCriteria)[0];
@@ -175,7 +181,9 @@ class IndexAction extends AbstractAction
             }
         }
         if ($config['pagination']['enabled']) {
-            $this->sortEntityJoiner->joinEntity($qb, $request->query->get('sort'), $request->getLocale());
+            foreach (explode('+', $request->query->get('sort', '')) as $part) {
+                $this->sortEntityJoiner->joinEntity($qb, $part, $request->getLocale());
+            }
 
             $page = $request->query->get('page', 1);
 

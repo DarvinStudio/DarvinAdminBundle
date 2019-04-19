@@ -241,6 +241,8 @@ form:
 
 5.23.3: Allow to disable Chosen with "data-custom: 0".
 
+5.23.6: Support multiple criteria sorting of paginated results.
+
 6.0.0:
 
 - Replace Doctrine cache with Symfony cache.

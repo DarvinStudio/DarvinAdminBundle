@@ -9,8 +9,12 @@
 
             this.$checkbox = $(checkbox);
 
-            this.$checkbox.addClass('js-tri-state-ready')
-                .find(':not(input)').remove();
+            let $inputs = this.$checkbox.find('input');
+
+            this.$checkbox
+                .html('')
+                .append($inputs)
+                .addClass('js-tri-state-ready');
 
             this.check(this.$checkbox.find('input:checked').index());
 

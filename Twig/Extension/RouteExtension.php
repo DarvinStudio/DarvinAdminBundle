@@ -35,14 +35,12 @@ class RouteExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions(): iterable
+    public function getFunctions(): array
     {
-        foreach ([
-            'admin_path'         => 'generate',
-            'admin_route_exists' => 'exists',
-            'admin_url'          => 'generateAbsolute',
-        ] as $name => $method) {
-            yield new TwigFunction($name, [$this->adminRouter, $method]);
-        }
+        return [
+            new TwigFunction('admin_path', [$this->adminRouter, 'generate']),
+            new TwigFunction('admin_route_exists', [$this->adminRouter, 'exists']),
+            new TwigFunction('admin_url', [$this->adminRouter, 'generateAbsolute']),
+        ];
     }
 }

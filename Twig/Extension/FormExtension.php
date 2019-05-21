@@ -23,9 +23,11 @@ class FormExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions(): iterable
+    public function getFunctions(): array
     {
-        yield new TwigFunction('darvin_admin_is_security_configuration_form', [$this, 'isSecurityConfigurationForm']);
+        return [
+            new TwigFunction('darvin_admin_is_security_configuration_form', [$this, 'isSecurityConfigurationForm']),
+        ];
     }
 
     /**

@@ -58,8 +58,10 @@
                      {% if cookie_key not in app.request.cookies.get(cookie_name)|split(',') %}style="display: none;"{% endif %}>
                     <div class="filter_table container-fluid">
                         {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
-                        {% for field, attr in meta.configuration.form.filter.fields if filter_form[field] is defined %}
-                            {{ form_row(filter_form[field]) }}
+                        {% for field, attr in meta.configuration.form.filter.fields %}
+                            {% if filter_form[field] is defined %}
+                                {{ form_row(filter_form[field]) }}
+                            {% endif %}
                         {% endfor %}
                         <button type="submit">{% trans %}filter.submit{% endtrans %}</button>
                         <a class="js-form-reset" href="{{ filter_form.vars.action }}">{% trans %}filter.reset{% endtrans %}</a>
@@ -152,14 +154,16 @@
                     <table>
                         <thead>
                             <tr>
-                                {% for field, item in view.head.items if item.width %}
-                                    <th colspan="{{ item.width }}">
-                                        {% if pagination and item.sortable %}
-                                            {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
-                                        {% else %}
-                                            {{ item.content|trans }}
-                                        {% endif %}
-                                    </th>
+                                {% for field, item in view.head.items %}
+                                    {% if item.width %}
+                                        <th colspan="{{ item.width }}">
+                                            {% if pagination and item.sortable %}
+                                                {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
+                                            {% else %}
+                                                {{ item.content|trans }}
+                                            {% endif %}
+                                        </th>
+                                    {% endif %}
                                 {% endfor %}
                             </tr>
                         </thead>

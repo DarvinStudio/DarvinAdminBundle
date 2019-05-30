@@ -81,10 +81,12 @@
                                             : null
                                         ,
                                     },
-                                } if attr.accessible %}
-                                    <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
-                                        {{ title|trans }}
-                                    </a>
+                                } %}
+                                    {% if attr.accessible %}
+                                        <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
+                                            {{ title|trans }}
+                                        </a>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

@@ -6,8 +6,10 @@
 
 {% macro submit(form) %}
     <div class="table_view_content">
-        {% for row in form if 'submit' == row.vars.block_prefixes[1] %}
-            {{ form_row(row) }}
+        {% for row in form %}
+            {% if 'submit' == row.vars.block_prefixes[1] %}
+                {{ form_row(row) }}
+            {% endif %}
         {% endfor %}
     </div>
 {% endmacro %}
@@ -46,8 +48,10 @@
             </div>
             <div class="edit_content spoiler_body">
                 <div class="table_view_content">
-                    {% for field, attr in fields if form[field] is defined %}
-                        {{ form_row(form[field]) }}
+                    {% for field, attr in fields %}
+                        {% if form[field] is defined %}
+                            {{ form_row(form[field]) }}
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

@@ -125,8 +125,10 @@
 
     {% if data and data is not empty %}
         <div class="js-images" data-sort-url="{{ path('darvin_image_image_sort') }}">
-            {% for image in data if image.id %}
-                {{ that.image(image, toggle_enabled) }}
+            {% for image in data %}
+                {% if image.id %}
+                    {{ that.image(image, toggle_enabled) }}
+                {% endif %}
             {% endfor %}
         </div>
     {% endif %}

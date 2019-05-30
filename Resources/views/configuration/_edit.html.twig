@@ -44,16 +44,17 @@
 
     {{ that.form_row_start(row) }}
     {% if row.children is not empty %}
-        {% for child in row.children if
-            child.vars.compound
-            and 'hidden' != child.vars.block_prefixes[1]|default
-            and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
-        %}
-            {% if 'darvin_admin_translatable' == child.vars.block_prefixes[1]|default %}
-                {% form_theme child '@DarvinAdmin/fields.html.twig' %}
-                {{ form_row(child) }}
-            {% else %}
-                {{ that.form_row(child) }}
+        {% for child in row.children %}
+            {% if child.vars.compound
+                and 'hidden' != child.vars.block_prefixes[1]|default
+                and ('collection' != child.vars.block_prefixes[1]|default or not child.vars.allow_add)
+            %}
+                {% if 'darvin_admin_translatable' == child.vars.block_prefixes[1]|default %}
+                    {% form_theme child '@DarvinAdmin/fields.html.twig' %}
+                    {{ form_row(child) }}
+                {% else %}
+                    {{ that.form_row(child) }}
+                {% endif %}
             {% endif %}
         {% endfor %}
     {% endif %}
@@ -164,56 +165,58 @@
         {% set first_common_config   = true %}
         {% set first_security_config = true %}
 
-        {% for row in form if 'hidden' != row.vars.block_prefixes[1]|default %}
-            {% if not darvin_admin_is_security_configuration_form(row) %}
-                {% if first_common_config %}
-                    <p class="heading">{% trans %}configuration.action.edit.heading.common{% endtrans %}</p>
+        {% for row in form %}
+            {% if 'hidden' != row.vars.block_prefixes[1]|default %}
+                {% if not darvin_admin_is_security_configuration_form(row) %}
+                    {% if first_common_config %}
+                        <p class="heading">{% trans %}configuration.action.edit.heading.common{% endtrans %}</p>
 
-                    {% set first_common_config = false %}
+                        {% set first_common_config = false %}
 
-                {% endif %}
-                {% if row.children is not empty %}
-                    {{ that.form_row(row) }}
-                {% else %}
-                    {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
-                {% endif %}
-            {% else %}
-                {% if first_security_config %}
-                    {% if not loop.first %}
-                        </div><div class="main_options_block">
                     {% endif %}
-                    <p class="heading">{% trans %}configuration.action.edit.heading.security{% endtrans %}</p>
+                    {% if row.children is not empty %}
+                        {{ that.form_row(row) }}
+                    {% else %}
+                        {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
+                    {% endif %}
+                {% else %}
+                    {% if first_security_config %}
+                        {% if not loop.first %}
+                            </div><div class="main_options_block">
+                        {% endif %}
+                        <p class="heading">{% trans %}configuration.action.edit.heading.security{% endtrans %}</p>
 
-                    {% set first_security_config = false %}
+                        {% set first_security_config = false %}
 
+                    {% endif %}
+
+                    {% set row = row.permissions.children[row.permissions.children|keys[0]] %}
+
+                    {{ that.form_row_start(row) }}
+                    <div class="content_type-list">
+                        {% for user in row.userPermissionsSet.children %}
+                            <div class="item">
+                                <div class="value">
+                                    <input type="text" value="{{ form_label(user) }}">
+                                </div>
+                                <div class="btn_container js-permissions">
+                                    {% for permission in user.permissions %}
+                                        <button type="button"
+                                                class="js-permission {{ permission.vars.data ? 'btn_default' : 'btn_show_view' }}"
+                                                data-checkbox="{{ permission.vars.id }}"
+                                                data-class-checked="btn_default"
+                                                data-class-unchecked="btn_show_view">
+                                            {{ form_label(permission) }}
+                                        </button>
+                                        {{ form_widget(permission) }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
+                    {{ that.form_row_end() }}
                 {% endif %}
-
-                {% set row = row.permissions.children[row.permissions.children|keys[0]] %}
-
-                {{ that.form_row_start(row) }}
-                <div class="content_type-list">
-                    {% for user in row.userPermissionsSet.children %}
-                        <div class="item">
-                            <div class="value">
-                                <input type="text" value="{{ form_label(user) }}">
-                            </div>
-                            <div class="btn_container js-permissions">
-                                {% for permission in user.permissions %}
-                                    <button type="button"
-                                            class="js-permission {{ permission.vars.data ? 'btn_default' : 'btn_show_view' }}"
-                                            data-checkbox="{{ permission.vars.id }}"
-                                            data-class-checked="btn_default"
-                                            data-class-unchecked="btn_show_view">
-                                        {{ form_label(permission) }}
-                                    </button>
-                                    {{ form_widget(permission) }}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                {{ form_widget(row, {'attr': {'style': 'display: none;'}}) }}
-                {{ that.form_row_end() }}
             {% endif %}
         {% endfor %}
     </div>

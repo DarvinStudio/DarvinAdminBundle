@@ -34,7 +34,7 @@
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
-    <body{% for name, value in data_attr if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endfor %}>
+    <body{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
 
         {% block body %}
             <div class="header_wrap_top">

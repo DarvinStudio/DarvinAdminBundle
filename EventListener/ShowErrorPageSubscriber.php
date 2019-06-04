@@ -17,7 +17,7 @@ use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
@@ -128,9 +128,9 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event Event
+     * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event Event
      */
-    public function showErrorPage(GetResponseForExceptionEvent $event): void
+    public function showErrorPage(ExceptionEvent $event): void
     {
         if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;

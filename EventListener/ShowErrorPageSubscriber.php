@@ -132,6 +132,9 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
      */
     public function showErrorPage(ExceptionEvent $event): void
     {
+        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+            return;
+        }
         if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;
         }
@@ -153,9 +156,6 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
         $template = sprintf('@DarvinAdmin/error/%d.html.twig', $this->getStatusCode($exception));
 
         if (!$this->templating->exists($template)) {
-            return;
-        }
-        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
             return;
         }
 

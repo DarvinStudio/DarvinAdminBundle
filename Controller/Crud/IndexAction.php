@@ -132,10 +132,10 @@ class IndexAction extends AbstractAction
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
-        $filterForm = null;
+        $filterForm = $this->adminFormFactory->createFilterForm($this->getMeta(), $associationParam, $parentEntityId);
 
-        if ($this->getMeta()->isFilterFormEnabled()) {
-            $filterForm = $this->adminFormFactory->createFilterForm($this->getMeta(), $associationParam, $parentEntityId)->handleRequest($request);
+        if (null !== $filterForm) {
+            $filterForm->handleRequest($request);
         }
 
         $qb = $this->createQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);

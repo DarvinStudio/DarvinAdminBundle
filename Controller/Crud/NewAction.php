@@ -176,12 +176,16 @@ class NewAction extends AbstractAction
             }
         }
 
-        $this->adminFormFactory->createFilterForm($meta, null, null, [
+        $filterForm = $this->adminFormFactory->createFilterForm($meta, null, null, [
             'action'     => null,
             'data'       => $entity,
             'data_class' => $meta->getEntityClass(),
             'fields'     => array_keys($fields),
-        ])->handleRequest($request);
+        ]);
+
+        if (null !== $filterForm) {
+            $filterForm->handleRequest($request);
+        }
     }
 
     /**

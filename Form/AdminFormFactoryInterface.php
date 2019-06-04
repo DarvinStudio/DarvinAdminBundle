@@ -47,9 +47,9 @@ interface AdminFormFactoryInterface
      * @param mixed|null                            $parentEntityId               Parent entity ID
      * @param array                                 $options                      Options
      *
-     * @return \Symfony\Component\Form\FormInterface
+     * @return \Symfony\Component\Form\FormInterface|null
      */
-    public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): FormInterface;
+    public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): ?FormInterface;
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta     Metadata

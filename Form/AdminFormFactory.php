@@ -136,7 +136,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): FormInterface
+    public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): ?FormInterface
     {
         if (!$meta->isFilterFormEnabled() || !$this->adminRouter->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
             return null;

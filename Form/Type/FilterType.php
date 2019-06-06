@@ -89,7 +89,7 @@ class FilterType extends AbstractFormType
         $this->addFields($builder, $configuration['form']['filter']['fields'], $meta, $options);
 
         if (!empty($options['parent_entity_association_param'])
-            && (!is_array($options['fields']) || in_array($options['parent_entity_association_param'], $options['fields']))
+            && (null === $options['fields'] || isset($options['fields'][$options['parent_entity_association_param']]))
         ) {
             $builder->add($options['parent_entity_association_param'], HiddenType::class, [
                 'label' => false,
@@ -166,8 +166,12 @@ class FilterType extends AbstractFormType
         $mappings = $meta->getMappings();
 
         foreach ($fields as $field => $attr) {
-            if (is_array($options['fields']) && !in_array($field, $options['fields'])) {
-                continue;
+            if (null !== $options['fields']) {
+                if (!isset($options['fields'][$field])) {
+                    continue;
+                }
+
+                $attr = $options['fields'][$field];
             }
 
             $property = preg_replace('/(From|To)$/', '', $field);

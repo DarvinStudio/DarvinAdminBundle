@@ -10,16 +10,18 @@
 
 namespace Darvin\AdminBundle\EventListener;
 
+use Darvin\AdminBundle\Security\User\Roles;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\Translator;
@@ -29,6 +31,11 @@ use Symfony\Component\Translation\Translator;
  */
 class ShowErrorPageSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
     /**
      * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
      */
@@ -75,17 +82,19 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     private $defaultLocale;
 
     /**
-     * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap $firewallMap   Firewall map
-     * @param \Psr\Log\LoggerInterface                            $logger        Logger
-     * @param \Symfony\Component\Routing\RouterInterface          $router        Router
-     * @param \Symfony\Component\Templating\EngineInterface       $templating    Templating
-     * @param \Symfony\Component\Translation\Translator           $translator    Translator
-     * @param string                                              $firewallName  Firewall name
-     * @param string                                              $homepageRoute Homepage route
-     * @param string[]                                            $locales       Locales
-     * @param string                                              $defaultLocale Default locale
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap                          $firewallMap          Firewall map
+     * @param \Psr\Log\LoggerInterface                                                     $logger               Logger
+     * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
+     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
+     * @param \Symfony\Component\Translation\Translator                                    $translator           Translator
+     * @param string                                                                       $firewallName         Firewall name
+     * @param string                                                                       $homepageRoute        Homepage route
+     * @param string[]                                                                     $locales              Locales
+     * @param string                                                                       $defaultLocale        Default locale
      */
     public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
         FirewallMap $firewallMap,
         LoggerInterface $logger,
         RouterInterface $router,
@@ -96,6 +105,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
         array $locales,
         string $defaultLocale
     ) {
+        $this->authorizationChecker = $authorizationChecker;
         $this->firewallMap = $firewallMap;
         $this->logger = $logger;
         $this->router = $router;
@@ -118,10 +128,13 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event Event
+     * @param \Symfony\Component\HttpKernel\Event\ExceptionEvent $event Event
      */
-    public function showErrorPage(GetResponseForExceptionEvent $event): void
+    public function showErrorPage(ExceptionEvent $event): void
     {
+        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+            return;
+        }
         if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;
         }

@@ -180,7 +180,7 @@ class NewAction extends AbstractAction
             'action'     => null,
             'data'       => $entity,
             'data_class' => $meta->getEntityClass(),
-            'fields'     => array_keys($fields),
+            'fields'     => $fields,
         ]);
 
         if (null !== $filterForm) {

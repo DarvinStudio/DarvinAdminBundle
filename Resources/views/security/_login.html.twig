@@ -2,7 +2,7 @@
 
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+{{ form_start(form, {'attr': {'class': 'js-form js-security-login'}}) }}
 <div class="pole_name">{{ form_label(form._username) }}</div>
 <div class="pole_input">{{ form_widget(form._username) }}</div>
 <div class="pole_name">{{ form_label(form._password) }}</div>

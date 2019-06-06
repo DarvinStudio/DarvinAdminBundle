@@ -74,6 +74,11 @@
         App.startPreloading();
 
         $.ajax(params).done((data) => {
+            if (data.html && $(data.html).hasClass('js-security-login')) {
+                location.href = xhr.responseURL;
+
+                return;
+            }
             if ('get' === type) {
                 let parts = [location.pathname];
 

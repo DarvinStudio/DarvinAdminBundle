@@ -189,27 +189,33 @@ class FilterType extends AbstractFormType
                 continue;
             }
 
+            $fieldType    = null;
             $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
-            $typeGuess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
-                ? $this->formRegistry->getTypeGuesser()->guessType($meta->getTranslationClass(), $property)
-                : $this->formRegistry->getTypeGuesser()->guessType($meta->getEntityClass(), $property);
-            $fieldOptions = array_merge([
-                'required' => false,
-            ], $typeGuess->getOptions(), $fieldOptions);
 
-            if (!empty($attr['type'])) {
-                $type = $attr['type'];
-            } else {
-                $type = $typeGuess->getType();
+            if (null !== $attr['type']) {
+                $fieldType = $attr['type'];
+            }
+            if (null === $options['fields']) {
+                $guess = isset($mappings[$property]['translation']) && $mappings[$property]['translation']
+                    ? $this->formRegistry->getTypeGuesser()->guessType($meta->getTranslationClass(), $property)
+                    : $this->formRegistry->getTypeGuesser()->guessType($meta->getEntityClass(), $property);
 
-                if (isset(self::FIELD_TYPE_MAP[$type])) {
-                    $type = self::FIELD_TYPE_MAP[$type];
+                $fieldOptions = array_merge([
+                    'required' => false,
+                ], $guess->getOptions(), $fieldOptions);
+
+                if (null === $fieldType) {
+                    $fieldType = $guess->getType();
+
+                    if (isset(self::FIELD_TYPE_MAP[$fieldType])) {
+                        $fieldType = self::FIELD_TYPE_MAP[$fieldType];
+                    }
+
+                    $fieldOptions = array_merge($this->getDefaultFieldOptions($fieldType), $fieldOptions);
                 }
-
-                $fieldOptions = array_merge($this->getDefaultFieldOptions($type), $fieldOptions);
             }
 
-            $builder->add($field, $type, $fieldOptions);
+            $builder->add($field, $fieldType, $fieldOptions);
         }
     }
 

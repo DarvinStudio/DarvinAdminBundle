@@ -1,5 +1,6 @@
 parameters:
-    darvin_admin.cache.filesystem.class:     Symfony\Component\Cache\Simple\FilesystemCache
+    darvin_admin.cache.filesystem.class:     Symfony\Component\Cache\Psr16Cache
+    darvin_admin.cache.filesystem.adapter:   Symfony\Component\Cache\Adapter\FilesystemAdapter
     darvin_admin.cache.filesystem.namespace: darvin_admin
     darvin_admin.cache.filesystem.lifetime:  0
 
@@ -15,6 +16,9 @@ services:
         class:  '%darvin_admin.cache.filesystem.class%'
         public: false
         arguments:
-            - '%darvin_admin.cache.filesystem.namespace%'
-            - '%darvin_admin.cache.filesystem.lifetime%'
-            - '%kernel.cache_dir%'
+            - !service
+                class: '%darvin_admin.cache.filesystem.adapter%'
+                arguments:
+                    - '%darvin_admin.cache.filesystem.namespace%'
+                    - '%darvin_admin.cache.filesystem.lifetime%'
+                    - '%kernel.cache_dir%'

@@ -37,9 +37,10 @@
                         .replace(new RegExp('\\[' + name + '\\]\\[__name__\\]', 'g'), '[' + name + '][' + index + ']')
                 );
 
-                $item.find('.js-collection[data-prototype][data-name]').each((i, collection) => {
-                    $(collection).attr('data-name', index);
-                });
+                // TODO: Check where it's needed.
+                // $item.find('.js-collection[data-prototype][data-name]').each((i, collection) => {
+                //     $(collection).attr('data-name', index);
+                // });
 
                 $button.before($item);
 

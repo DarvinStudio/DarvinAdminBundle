@@ -174,9 +174,9 @@ search:
         index:
             heading: 'Searching for "%query%"'
             query_too_short: >
-                Query Is Too Short, Min Length Is %min_length% Symbol |
-                Query Is Too Short, Min Length Is %min_length% Symbols |
-                Query Is Too Short, Min Length Is %min_length% Symbols
+                Query Is Too Short, Min Length Is %count% Symbol  |
+                Query Is Too Short, Min Length Is %count% Symbols |
+                Query Is Too Short, Min Length Is %count% Symbols |
     form:
         placeholder: Search...
         submit: Search

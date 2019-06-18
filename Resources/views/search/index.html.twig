@@ -9,9 +9,9 @@
 {% block content %}
     {% if query_too_short %}
         <h3 class="text-danger">
-            {% transchoice query_min_length with {'%min_length%': query_min_length} %}
+            {% trans with {'%count%': query_min_length} %}
                 search.action.index.query_too_short
-            {% endtranschoice %}
+            {% endtrans %}
         </h3>
     {% endif %}
     {% for entity_name in entity_names %}

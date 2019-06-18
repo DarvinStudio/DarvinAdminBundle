@@ -11,7 +11,7 @@ collection:
     delete: إزالة
 colorbox:
     close: قريب
-    current: 'صورة {الجارية} {مجموع}'
+    current: 'صورة {الجارية} من {مجموع}'
     imgError: 'هذه صورة فشل في التحميل.'
     next: القادم
     previous: السابقة
@@ -165,7 +165,7 @@ search:
     action:
         index:
             heading: 'البحث عن "%query%"'
-            query_too_short: "الاستعلام قصيرة جدا, مين هو %min_length% الرمز | الاستعلام قصيرة جدا, مين هو %min_length% الرموز | الاستعلام قصيرة جدا, مين هو %min_length%الرموز\n"
+            query_too_short: 'الاستعلام قصيرة جدا, مين هو %count% الرمز | الاستعلام قصيرة جدا, مين هو %count% الرموز | الاستعلام قصيرة جدا, مين هو %count% الرموز | '
     form:
         placeholder: 'البحث عن...'
         submit: البحث

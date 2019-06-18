@@ -11,7 +11,7 @@ collection:
     delete: 删除
 colorbox:
     close: 靠近
-    current: '像{前}{总}'
+    current: '像{前}对{总}'
     imgError: 这个图片加载失败。
     next: 下
     previous: 以前的
@@ -133,8 +133,8 @@ log:
             update: 更新
         data: 数据
         logged_at: 已登录在
-        logged_at_from: 记录()
-        logged_at_to: 记录()
+        logged_at_from: 登录在(自)
+        logged_at_to: 记录(向)
         object: 对象
         object_class: 对象
         object_id: 'Object ID'
@@ -165,7 +165,7 @@ search:
     action:
         index:
             heading: '搜寻"%query%"'
-            query_too_short: "查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length% 符号 | 查询太短，分的长度 %min_length%符号\n"
+            query_too_short: '查询太短，分的长度 %count% 符号 | 查询太短，分的长度 %count% 符号 | 查询太短，分的长度 %count% 符号 | '
     form:
         placeholder: 搜索...
         submit: 搜索
@@ -207,5 +207,5 @@ translation:
         trans_unit:
             domain: 域
         updated_at: 更新
-        updated_at_from: 更新在()
-        updated_at_to: 更新在()
+        updated_at_from: 更新在(自)
+        updated_at_to: 更新在(向)

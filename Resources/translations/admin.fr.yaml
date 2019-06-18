@@ -165,7 +165,7 @@ search:
     action:
         index:
             heading: 'La recherche pour "%query%"'
-            query_too_short: "La Requête Est Trop Court, Min Longueur Est %min_length% Symbole | La Requête Est Trop Court, Min Longueur Est %min_length% Symboles | La Requête Est Trop Court, Min Longueur Est %min_length%Symboles\n"
+            query_too_short: 'La Requête Est Trop Court, Min Longueur Est %count% Symbole | La Requête Est Trop Court, Min Longueur Est %count% Symboles | La Requête Est Trop Court, Min Longueur Est %count% Symboles | '
     form:
         placeholder: Recherche...
         submit: Recherche

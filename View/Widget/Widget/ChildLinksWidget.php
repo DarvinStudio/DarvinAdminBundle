@@ -43,6 +43,11 @@ class ChildLinksWidget extends AbstractWidget
     private $identifierAccessor;
 
     /**
+     * @var array
+     */
+    private $counts;
+
+    /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface           $adminRouter        Admin router
      * @param \Doctrine\ORM\EntityManager                              $em                 Entity manager
      * @param \Darvin\Utils\ORM\EntityResolverInterface                $entityResolver     Entity resolver
@@ -58,6 +63,8 @@ class ChildLinksWidget extends AbstractWidget
         $this->em = $em;
         $this->entityResolver = $entityResolver;
         $this->identifierAccessor = $identifierAccessor;
+
+        $this->counts = [];
     }
 
     /**
@@ -105,12 +112,29 @@ class ChildLinksWidget extends AbstractWidget
         $parentId = $this->identifierAccessor->getId($entity);
 
         if ($showIndexLink && $options['show_count']) {
-            $count = (int)$this->em->getRepository($child)->createQueryBuilder('o')
-                ->select('COUNT(o)')
-                ->where(sprintf('o.%s = :%1$s', $association))
-                ->setParameter($association, $parentId)
-                ->getQuery()
-                ->getSingleScalarResult();
+            if (!isset($this->counts[$child][$association])) {
+                if (!isset($this->counts[$child])) {
+                    $this->counts[$child] = [];
+                }
+
+                $countQb = $this->em->getRepository($child)->createQueryBuilder('o')
+                    ->select(sprintf('%s.%s id', $association, $parentMeta->getIdentifier()))
+                    ->addSelect('COUNT(o) cnt')
+                    ->innerJoin(sprintf('o.%s', $association), $association)
+                    ->groupBy($association);
+
+                $counts = [];
+
+                foreach ($countQb->getQuery()->getScalarResult() as $row) {
+                    $counts[$row['id']] = (int)$row['cnt'];
+                }
+
+                $this->counts[$child][$association] = $counts;
+            }
+
+            $counts = $this->counts[$child][$association];
+
+            $count = $counts[$parentId] ?? 0;
         }
 
         return $this->render([

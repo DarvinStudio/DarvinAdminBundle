@@ -50,9 +50,10 @@ class PageController
     public function __invoke(Request $request, string $slug): Response
     {
         $loader = $this->twig->getLoader();
+        $name   = str_replace('-', '_', $slug);
 
         foreach (array_merge([$request->getLocale()], $this->fallbackLocales) as $locale) {
-            $template = sprintf('@DarvinAdmin/page/%s/%s.html.twig', $slug, $locale);
+            $template = sprintf('@DarvinAdmin/page/%s/%s.html.twig', $name, $locale);
 
             if ($loader->exists($template)) {
                 return new Response($this->twig->render($template));

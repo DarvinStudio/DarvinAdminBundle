@@ -123,11 +123,15 @@
                             <nav class="footer-menu">
                                 <ul>
 
-                                    {% for title, url in {
-                                        'support':       '#',
-                                        'for_customers': '#',
-                                    } %}
-                                        <li><a href="{{ url }}">{{ ('layout.footer.menu.' ~ title)|trans }}</a></li>
+                                    {% for name in [
+                                        'support',
+                                        'for_customers',
+                                    ] %}
+                                        <li>
+                                            <a href="{{ path('darvin_admin_page', {'slug': name|replace({'_': '-'})}) }}">
+                                                {{ ('layout.footer.menu.' ~ name)|trans }}
+                                            </a>
+                                        </li>
                                     {% endfor %}
 
                                     <li>{{ image_archive_build_form() }}</li>

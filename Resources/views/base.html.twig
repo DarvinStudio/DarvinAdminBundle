@@ -26,10 +26,8 @@
         {% block stylesheets %}
             <link rel="preconnect" href="https://fonts.gstatic.com/">
             {% if app.debug %}
-                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}">
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.css') }}">
             {% else %}
-                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build/app.css') }}">
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.css') }}">
             {% endif %}
         {% endblock %}

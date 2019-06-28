@@ -50,22 +50,47 @@
 
                         <div class="header__search">
                             <div class="header-search">
-                                <form action="">
-                                    <input class="header-search__input" type="text" placeholder="Поиск по ключевым словам, номерам, именам и т. д.">
-                                    <button class="header-search__btn">Search</button>
+                                <form action="{{ path('darvin_admin_search') }}">
+                                    <input class="header-search__input"
+                                           type="text"
+                                           placeholder="{% trans %}search.form.placeholder{% endtrans %}"
+                                           name="q"
+                                           required="required"
+                                           {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
+                                    <button class="header-search__btn">{% trans %}search.form.submit{% endtrans %}</button>
                                 </form>
                             </div>
                         </div>
 
-                        <a class="header__site-link" href="#" target="_blank"><span>ochen-dlinnuy-domen.ru</span></a>
+                        {% for title, attr in {
+                            ('<span>' ~ darvin_admin.projectTitle ~ '</span>'): {
+                                'accessible': true,
+                                'class':      'header__site-link',
+                                'url':        app.request.schemeAndHttpHost ~ app.request.baseUrl,
+                            },
+                            'configuration.action.edit.link': {
+                                'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
+                                'class':      'header__btn-setting',
+                                'url':        path('darvin_admin_configuration'),
+                            },
+                            'notifications <span>23</span>': {
+                                'accessible': true,
+                                'class':      'header__notifications',
+                                'url':        '#',
+                            },
+                        } %}
+                            {% if attr.accessible %}
+                                <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
+                                    {{ title|trans|raw }}
+                                </a>
+                            {% endif %}
+                        {% endfor %}
 
-                        <a class="header__btn-setting" href="settings.html">settings</a>
-
-                        <a class="header__notifications" href="">notifications <span>23</span></a>
-
-                        <div class="header__users">
-                            <a href=""><span>vega@darvin-art.ru</span></a>
-                        </div>
+                        {% if app.user %}
+                            <div class="header__users">
+                                <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
+                            </div>
+                        {% endif %}
 
                     </div>
                 </div>

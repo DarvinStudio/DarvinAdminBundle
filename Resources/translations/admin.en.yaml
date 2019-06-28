@@ -176,7 +176,7 @@ search:
                 Query Is Too Short, Min Length Is %count% Symbols |
                 Query Is Too Short, Min Length Is %count% Symbols |
     form:
-        placeholder: Search...
+        placeholder: Search by keywords, numbers, names, etc.
         submit: Search
 security:
     action:

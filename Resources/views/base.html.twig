@@ -2,16 +2,10 @@
 
 {% use '@DarvinAdmin/content.html.twig' %}
 
-{% set cookie_names = {
-    'sidebar': 'darvin_admin_sidebar',
-} %}
-
-{% set flashes           = app.flashes %}
-{% set sidebar_is_active = app.request.cookies.get(cookie_names.sidebar) %}
-{% set data_attr         = {
-    'cookie_sidebar': cookie_names.sidebar,
-    'locale':         app.request.locale,
-    'trans_api_key':  darvin_admin.yandexTranslateApiKey,
+{% set flashes   = app.flashes %}
+{% set data_attr = {
+    'locale':        app.request.locale,
+    'trans_api_key': darvin_admin.yandexTranslateApiKey,
 } %}
 
 <!DOCTYPE html>
@@ -126,12 +120,14 @@
                         <div class="footer__menu">
                             <nav class="footer-menu">
                                 <ul>
+
                                     {% for title, url in {
                                         'support':       '#',
                                         'for_customers': '#',
                                     } %}
                                         <li><a href="{{ url }}">{{ ('layout.footer.menu.' ~ title)|trans }}</a></li>
                                     {% endfor %}
+
                                     <li>{{ image_archive_build_form() }}</li>
                                 </ul>
                             </nav>
@@ -142,6 +138,7 @@
         {% endblock %}
 
         {% block javascripts %}
+
             {% if app.debug %}
                 <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>
@@ -149,8 +146,10 @@
                 <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
             {% endif %}
+
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
+
             {% if flashes is not empty %}
                 <script>
                     {% for type, messages in flashes %}
@@ -160,6 +159,7 @@
                     {% endfor %}
                 </script>
             {% endif %}
+
         {% endblock %}
 
     </body>

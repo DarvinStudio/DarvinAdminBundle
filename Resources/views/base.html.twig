@@ -35,96 +35,102 @@
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body class="inner-page"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
-        <div class="l-wrapper">
-            <header class="l-header">
-                <div class="header js-header">
-                    <div class="header__container">
-                        <button class="header__btn-sidebar-toggle js-sidebar-toggle"></button>
-                        <a class="header__logo" href="{{ path('darvin_admin_homepage') }}">
-                            <img src="{{ asset(darvin_admin.logo|default(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png')) }}" alt="">
-                        </a>
 
-                        {% include '@DarvinAdmin/locale_switcher.html.twig' %}
+        {% block body %}
+            <div class="l-wrapper">
 
-                        <div class="header__search">
-                            <div class="header-search">
-                                <form action="{{ path('darvin_admin_search') }}">
-                                    <input class="header-search__input"
-                                           type="text"
-                                           placeholder="{% trans %}search.form.placeholder{% endtrans %}"
-                                           name="q"
-                                           required="required"
-                                           {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
-                                    <button class="header-search__btn">{% trans %}search.form.submit{% endtrans %}</button>
-                                </form>
+                <header class="l-header">
+                    <div class="header js-header">
+                        <div class="header__container">
+
+                            <button class="header__btn-sidebar-toggle js-sidebar-toggle"></button>
+
+                            <a class="header__logo" href="{{ path('darvin_admin_homepage') }}">
+                                <img src="{{ asset(darvin_admin.logo|default(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png')) }}" alt="">
+                            </a>
+
+                            {% include '@DarvinAdmin/locale_switcher.html.twig' %}
+
+                            <div class="header__search">
+                                <div class="header-search">
+                                    <form action="{{ path('darvin_admin_search') }}">
+                                        <input class="header-search__input"
+                                               type="text"
+                                               placeholder="{% trans %}search.form.placeholder{% endtrans %}"
+                                               name="q"
+                                               required="required"
+                                               {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
+                                        <button class="header-search__btn">{% trans %}search.form.submit{% endtrans %}</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
 
-                        {% for title, attr in {
-                            ('<span>' ~ darvin_admin.projectTitle ~ '</span>'): {
-                                'accessible': true,
-                                'class':      'header__site-link',
-                                'url':        app.request.schemeAndHttpHost ~ app.request.baseUrl,
-                            },
-                            'configuration.action.edit.link': {
-                                'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
-                                'class':      'header__btn-setting',
-                                'url':        path('darvin_admin_configuration'),
-                            },
-                            'notifications <span>23</span>': {
-                                'accessible': true,
-                                'class':      'header__notifications',
-                                'url':        '#',
-                            },
-                        } %}
-                            {% if attr.accessible %}
-                                <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
-                                    {{ title|trans|raw }}
-                                </a>
+                            {% for title, attr in {
+                                ('<span>' ~ darvin_admin.projectTitle ~ '</span>'): {
+                                    'accessible': true,
+                                    'class':      'header__site-link',
+                                    'url':        app.request.schemeAndHttpHost ~ app.request.baseUrl,
+                                },
+                                'configuration.action.edit.link': {
+                                    'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
+                                    'class':      'header__btn-setting',
+                                    'url':        path('darvin_admin_configuration'),
+                                },
+                                'notifications <span>23</span>': {
+                                    'accessible': true,
+                                    'class':      'header__notifications',
+                                    'url':        '#',
+                                },
+                            } %}
+                                {% if attr.accessible %}
+                                    <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
+                                        {{ title|trans|raw }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if app.user %}
+                                <div class="header__users">
+                                    <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
+                                </div>
                             {% endif %}
-                        {% endfor %}
 
-                        {% if app.user %}
-                            <div class="header__users">
-                                <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
-                            </div>
-                        {% endif %}
-
+                        </div>
                     </div>
-                </div>
-            </header>
+                </header>
 
-            <aside class="l-sidebar">
-                <div class="sidebar">
-                    <nav class="main-menu js-main-menu">
-                        <div class="main-menu__title">Главное меню</div>
-                        {{ admin_menu() }}
-                    </nav>
-                </div>
-            </aside>
-
-            <main class="l-main" id="js-content" {% block content_attr %}{% endblock %}>
-                {{ block('content_wrap') }}
-            </main>
-
-            <footer class="l-footer">
-                <div class="footer">
-                    <div class="footer__copywrite">
-                        © 2019  Darvin CMS build 6.0
-                    </div>
-                    <div class="footer__menu">
-                        <nav class="footer-menu">
-                            <ul>
-                                <li><a href="#">Поддержка</a></li>
-                                <li><a href="contacts.html">Для клиентов</a></li>
-                                <li><a href="#">Архивирование изображений</a></li>
-                            </ul>
+                <aside class="l-sidebar">
+                    <div class="sidebar">
+                        <nav class="main-menu js-main-menu">
+                            <div class="main-menu__title">Главное меню</div>
+                            {{ admin_menu() }}
                         </nav>
                     </div>
-                </div>
-            </footer>
+                </aside>
 
-        </div>
+                <main class="l-main" id="js-content" {% block content_attr %}{% endblock %}>
+                    {{ block('content_wrap') }}
+                </main>
+
+                <footer class="l-footer">
+                    <div class="footer">
+                        <div class="footer__copywrite">
+                            © 2019  Darvin CMS build 6.0
+                        </div>
+                        <div class="footer__menu">
+                            <nav class="footer-menu">
+                                <ul>
+                                    <li><a href="#">Поддержка</a></li>
+                                    <li><a href="contacts.html">Для клиентов</a></li>
+                                    <li><a href="#">Архивирование изображений</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </footer>
+
+            </div>
+        {% endblock %}
 
         {#
         {% block body %}

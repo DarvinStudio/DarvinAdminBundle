@@ -4,5 +4,8 @@ parameters:
 services:
     darvin_admin.page.controller:
         class: '%darvin_admin.page.controller.class%'
+        arguments:
+            - '@twig'
+            - '%darvin_admin.locales%'
         tags:
             - { name: controller.service_arguments }

@@ -8,11 +8,6 @@
 
     {% set cookie_name = 'darvin_admin_spoiler' %}
 
-    <div class="main_menu_wrap">
-
-        {{ admin_menu('@DarvinAdmin/homepage/menu.html.twig') }}
-
-    </div>
     {% for name, widget in widgets %}
 
         {% set cookie_key = 'dashboard_' ~ widget.name %}

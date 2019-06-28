@@ -1,0 +1,8 @@
+parameters:
+    darvin_admin.page.controller.class: Darvin\AdminBundle\Controller\PageController
+
+services:
+    darvin_admin.page.controller:
+        class: '%darvin_admin.page.controller.class%'
+        tags:
+            - { name: controller.service_arguments }

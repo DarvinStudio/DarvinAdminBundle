@@ -21,6 +21,9 @@ darvin_admin_import_loader:
     resource: .
     type:     darvin_admin
 
+darvin_admin_import_page:
+    resource: '@DarvinAdminBundle/Resources/config/routing/page.yaml'
+
 darvin_admin_import_security:
     resource: '@DarvinAdminBundle/Resources/config/routing/security.yaml'
 

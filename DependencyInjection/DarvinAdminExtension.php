@@ -70,6 +70,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'locale',
             'menu',
             'metadata',
+            'page',
             'route',
             'search',
             'security',

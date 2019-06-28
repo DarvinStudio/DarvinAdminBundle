@@ -26,10 +26,11 @@
         {% block stylesheets %}
             {% if app.debug %}
                 <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}">
+                <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.css') }}">
             {% else %}
                 <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build/app.css') }}">
+                <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.css') }}">
             {% endif %}
-            <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/styles/app.css') }}">
         {% endblock %}
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
@@ -185,8 +186,10 @@
         {% block javascripts %}
             {% if app.debug %}
                 <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
+                <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>
             {% else %}
                 <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
+                <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
             {% endif %}
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>

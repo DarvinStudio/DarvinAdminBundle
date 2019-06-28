@@ -38,13 +38,10 @@
 
         {% block body %}
             <div class="l-wrapper">
-
                 <header class="l-header">
                     <div class="header js-header">
                         <div class="header__container">
-
                             <button class="header__btn-sidebar-toggle js-sidebar-toggle"></button>
-
                             <a class="header__logo" href="{{ path('darvin_admin_homepage') }}">
                                 <img src="{{ asset(darvin_admin.logo|default(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png')) }}" alt="">
                             </a>
@@ -98,7 +95,6 @@
                         </div>
                     </div>
                 </header>
-
                 <aside class="l-sidebar">
                     <div class="sidebar">
                         <nav class="main-menu js-main-menu">
@@ -107,11 +103,9 @@
                         </nav>
                     </div>
                 </aside>
-
                 <main class="l-main" id="js-content" {% block content_attr %}{% endblock %}>
                     {{ block('content_wrap') }}
                 </main>
-
                 <footer class="l-footer">
                     <div class="footer">
                         <div class="footer__copywrite">
@@ -128,7 +122,6 @@
                         </div>
                     </div>
                 </footer>
-
             </div>
         {% endblock %}
 

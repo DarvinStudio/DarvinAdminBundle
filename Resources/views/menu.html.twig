@@ -2,55 +2,53 @@
 
 {% import _self as that %}
 
-{% macro render(items) %}
+{% macro item(item, show_icon) %}
 
     {% import _self as that %}
 
-    <ul>
-        {% for item in items %}
+    {% set classes   = [] %}
+    {% set has_count = item.newObjectCount
+        or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject))
+    %}
 
-            {% set styles = [] %}
+    {% if item.children is not empty %}
 
-            {% if item.sidebarColor %}
+        {% set classes = classes|merge(['-has-dropdown']) %}
 
-                {% set gradient = 'radial-gradient(460px 140px at -230px -70px, ' ~ item.sidebarColor ~ ' 0%, rgba(255, 255, 255, 0) 100%)' %}
-                {% set styles = [
-                    'background: ' ~ gradient,
-                    'background: moz-' ~ gradient,
-                    'background: o-' ~ gradient,
-                    'background: webkit-' ~ gradient,
-                ] %}
+    {% endif %}
+    {% if show_icon %}
 
-            {% endif %}
-            <li{% if item.children is not empty %} class="has-subcat"{% if styles is not empty %} style="{{ styles|join('; ') }};"{% endif %}{% endif %}>
+        {% set classes = classes|merge(['icon-' ~ item.name]) %}
 
-                {% set url = item.indexUrl %}
+    {% endif %}
+    {% if item.indexUrl == app.request.pathInfo %}
 
-                {% if item.sidebarIcon %}
-                    <a href="{{ url }}" class="img"{% if '#' == url %} onclick="return false;"{% endif %}><img src="{{ asset(item.sidebarIcon) }}" alt="" /></a>
-                {% endif %}
-                <a href="{{ url }}"{% if not item.parentName and item.children is empty and item.sidebarColor %} style="color: {{ item.sidebarColor }};"{% endif %}{% if '#' == url %} onclick="return false;"{% endif %}>
-                    {{ item.indexTitle|trans }}
-                </a>
-                {% if item.newObjectCount
-                    or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject))
-                %}
-                    <a href="{{ url }}" class="count"{% if '#' == url %} onclick="return false;"{% endif %}>{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</a>
-                {% endif %}
-                {% if item.children is not empty %}
+        {% set classes = classes|merge(['is-active']) %}
 
-                    {{ that.render(item.children) }}
+    {% endif %}
 
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+    <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
+        <a href="{{ item.indexUrl }}"{% if has_count %} class="has-count"{% endif %}>
+            {{ item.indexTitle|trans }}{% if has_count %} <span>{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</span>{% endif %}
+        </a>
+        {% if item.children is not empty %}
+            <div>
+                <ul>
+                    {% for child in item.children %}
+                        {{ that.item(child) }}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </li>
 {% endmacro %}
 
 {% if items is not empty %}
-    <div class="left_menu">
+    <ul class="main-menu__root is-root">
+        {% for item in items %}
 
-        {{ that.render(items) }}
+            {{ that.item(item, true) }}
 
-    </div>
+        {% endfor %}
+    </ul>
 {% endif %}

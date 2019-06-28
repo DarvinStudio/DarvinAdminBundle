@@ -111,8 +111,6 @@ layout:
         support:
             label: 'Technical Support'
             email: support@darvin-studio.ru
-    locale_switcher:
-        title: 'Current Language:'
     logo: 'Content Management System'
     menu:
         collapse: 'Collapse Menu'

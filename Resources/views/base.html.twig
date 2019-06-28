@@ -38,38 +38,15 @@
     </head>
     <body class="inner-page"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
         <div class="l-wrapper">
-
             <header class="l-header">
                 <div class="header js-header">
                     <div class="header__container">
-                        <button class="header__btn-sidebar-toggle js-sidebar-toggle">menu toogle</button>
-
-                        <a class="header__logo" href="/">
-                            <img src="assets/images/logo-ru.png" alt="Logo">
+                        <button class="header__btn-sidebar-toggle js-sidebar-toggle"></button>
+                        <a class="header__logo" href="{{ path('darvin_admin_homepage') }}">
+                            <img src="{{ asset(darvin_admin.logo|default(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png')) }}" alt="">
                         </a>
 
-                        <div class="header__lang-switch">
-                            <div class="header-lang">
-                                <div class="header-lang__current">
-                                    <img src="assets/images/icons/lang-ru.svg " alt="ru">
-                                    Русский
-                                </div>
-                                <div class="header-lang__dropdown">
-                                    <a class="header-lang__item" href="">
-                                        <img src="assets/images/icons/lang-ru.svg " alt="ru">
-                                        Русский
-                                    </a>
-                                    <a class="header-lang__item" href="">
-                                        <img src="assets/images/icons/lang-en.svg " alt="ru">
-                                        English
-                                    </a>
-                                    <a class="header-lang__item" href="">
-                                        <img src="assets/images/icons/lang-ar.svg " alt="ru">
-                                        Arabic
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                        {% include '@DarvinAdmin/locale_switcher.html.twig' %}
 
                         <div class="header__search">
                             <div class="header-search">

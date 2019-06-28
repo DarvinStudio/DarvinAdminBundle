@@ -1,27 +1,34 @@
 {% trans_default_domain 'admin' %}
 
+{% import _self as that %}
+
+{% macro item(locale) %}
+
+    {% set translation = ('locale.' ~ locale)|trans({}, 'admin', locale) %}
+
+    <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="{{ translation }}">
+    {{ translation }}
+{% endmacro %}
+
 {% if darvin_admin.locales|length > 1 %}
-    <div class="lang_switcher">
-        <span>{% trans %}layout.locale_switcher.title{% endtrans %}</span>
-        <ul>
-            {% for locale in darvin_admin.locales %}
+    <div class="header__lang-switch">
+        <div class="header-lang">
+            <div class="header-lang__current">
+                {{ that.item(app.request.locale) }}
+            </div>
+            <div class="header-lang__dropdown">
+                {% for locale in darvin_admin.locales %}
 
-                {% set translation = ('locale.' ~ locale)|trans({}, 'admin', locale) %}
+                    {% set url = path(
+                        app.request.attributes.get('_route'),
+                        app.request.attributes.get('_route_params')|merge({'_locale': locale})|merge(app.request.query.all)
+                    ) %}
 
-                <li>
-                    {% if locale == app.request.locale %}
-                        <span title="{{ translation }}">{{ translation }}</span>
-                    {% else %}
-
-                        {% set url = path(
-                            app.request.attributes.get('_route'),
-                            app.request.attributes.get('_route_params')|merge({'_locale': locale})|merge(app.request.query.all)
-                        ) %}
-
-                        <a href="{{ url }}" title="{{ translation }}">{{ locale }}</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+                    <a class="header-lang__item" href="{{ url }}">
+                        {{ that.item(locale) }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
     </div>
 {% endif %}

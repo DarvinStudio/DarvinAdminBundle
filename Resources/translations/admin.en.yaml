@@ -97,24 +97,11 @@ image:
             submit: Enable
             success: 'Image Successfully Enabled'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Release %version%'
+    copyright: © %year%  Darvin CMS build %version%
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>Kovrov City</span>
-                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>Vladimir City</span>
-                <a href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
-            </div>
-        support:
-            label: 'Technical Support'
-            email: support@darvin-studio.ru
-    logo: 'Content Management System'
-    menu:
-        collapse: 'Collapse Menu'
-        expand: 'Expand Menu'
+        menu:
+            for_customers: For customers
+            support: Support
     title: 'DarvinCMS Release %version%'
 locale:
     ar: Arabic

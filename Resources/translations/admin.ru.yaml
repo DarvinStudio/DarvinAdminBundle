@@ -113,24 +113,11 @@ image:
             success: Изображение успешно активировано
 
 layout:
-    copyright: © 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Версия %version%
+    copyright: © %year%  Darvin CMS build %version%
     footer:
-        phone_numbers: >
-            <div class="phone">
-                <span>г. Ковров</span>
-                <a href="tel:+7 (49232) 4-16-14">+7 (49232) 4-16-14</a>
-            </div>
-            <div class="phone">
-                <span>г. Владимир</span>
-                <a href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
-            </div>
-        support:
-            label: Техническая поддержка
-            email: support@darvin-studio.ru
-    logo: Система управления контентом
-    menu:
-        collapse: Свернуть меню
-        expand:   Показать меню
+        menu:
+            for_customers: Для клиентов
+            support:       Поддержка
     title: DarvinCMS Версия %version%
 
 locale:

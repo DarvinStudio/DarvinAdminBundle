@@ -109,14 +109,23 @@
                 <footer class="l-footer">
                     <div class="footer">
                         <div class="footer__copywrite">
-                            © 2019  Darvin CMS build 6.0
+                            {% trans with {
+                                '%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
+                                '%year%':    'now'|date('Y'),
+                            } %}
+                                layout.copyright
+                            {% endtrans %}
                         </div>
                         <div class="footer__menu">
                             <nav class="footer-menu">
                                 <ul>
-                                    <li><a href="#">Поддержка</a></li>
-                                    <li><a href="contacts.html">Для клиентов</a></li>
-                                    <li><a href="#">Архивирование изображений</a></li>
+                                    {% for title, url in {
+                                        'support':       '#',
+                                        'for_customers': '#',
+                                    } %}
+                                        <li><a href="{{ url }}">{{ ('layout.footer.menu.' ~ title)|trans }}</a></li>
+                                    {% endfor %}
+                                    <li>{{ image_archive_build_form() }}</li>
                                 </ul>
                             </nav>
                         </div>

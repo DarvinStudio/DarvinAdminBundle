@@ -15,15 +15,16 @@
 } %}
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="{{ app.request.locale }}">
+<html lang="{{ app.request.locale }}">
     <head>
+        <meta charset="UTF-8">
         <title>{% block title %}{% trans with {'%version%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}layout.title{% endtrans %}{% endblock %}</title>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="format-detection" content="telephone=no">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block stylesheets %}
+            <link rel="preconnect" href="https://fonts.gstatic.com/">
             {% if app.debug %}
                 <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}">
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.css') }}">
@@ -35,8 +36,9 @@
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
-    <body{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
+    <body class="inner-page"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
 
+        {#
         {% block body %}
             <div class="header_wrap_top">
                 <div class="container-fluid header_wrap">
@@ -182,6 +184,7 @@
                 </div>
             </div>
         {% endblock %}
+        #}
 
         {% block javascripts %}
             {% if app.debug %}

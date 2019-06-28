@@ -37,6 +37,263 @@
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body class="inner-page"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
+        <div class="l-wrapper">
+
+            <!-- begin header -->
+            <header class="l-header">
+                <div class="header js-header">
+                    <div class="header__container">
+                        <button class="header__btn-sidebar-toggle js-sidebar-toggle">menu toogle</button>
+
+                        <a class="header__logo" href="/">
+                            <img src="assets/images/logo-ru.png" alt="Logo">
+                        </a>
+
+                        <div class="header__lang-switch">
+                            <div class="header-lang">
+                                <div class="header-lang__current">
+                                    <img src="assets/images/icons/lang-ru.svg " alt="ru">
+                                    Русский
+                                </div>
+                                <div class="header-lang__dropdown">
+                                    <a class="header-lang__item" href="">
+                                        <img src="assets/images/icons/lang-ru.svg " alt="ru">
+                                        Русский
+                                    </a>
+                                    <a class="header-lang__item" href="">
+                                        <img src="assets/images/icons/lang-en.svg " alt="ru">
+                                        English
+                                    </a>
+                                    <a class="header-lang__item" href="">
+                                        <img src="assets/images/icons/lang-ar.svg " alt="ru">
+                                        Arabic
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="header__search">
+                            <div class="header-search">
+                                <form action="">
+                                    <input class="header-search__input" type="text" placeholder="Поиск по ключевым словам, номерам, именам и т. д.">
+                                    <button class="header-search__btn">Search</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <a class="header__site-link" href="#" target="_blank"><span>ochen-dlinnuy-domen.ru</span></a>
+
+                        <a class="header__btn-setting" href="settings.html">settings</a>
+
+                        <a class="header__notifications" href="">notifications <span>23</span></a>
+
+                        <div class="header__users">
+                            <a href=""><span>vega@darvin-art.ru</span></a>
+                        </div>
+
+                    </div>
+                </div>
+            </header>
+            <!-- end header -->
+
+            <!-- begin sidebar -->
+            <aside class="l-sidebar">
+                <div class="sidebar">
+                    <nav class="main-menu js-main-menu">
+                        <div class="main-menu__title">Главное меню</div>
+                        <ul class="main-menu__root is-root">
+                            <li class="-has-dropdown icon-request is-active">
+                                <a class="has-count" href="#">База заявок <span>330</span></a>
+                                <div>
+                                    <ul>
+                                        <li><a class="has-count" href="#" >Заказать товар <span>5</span></a></li>
+                                        <li><a class="has-count" href="#">Заявка на товар <span>225</span></a></li>
+                                        <li class="is-active"><a class="has-count" href="#">Перезвонить <span>100</span></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="-has-dropdown icon-ecommerce">
+                                <a href="#">Интернет-магазин</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="catalog.html">Структура каталога</a></li>
+                                        <li><a href="products-list.html">Товары и услуги </a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="-has-dropdown icon-menu">
+                                <a href="#">Меню</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Верхнее меню</a></li>
+                                        <li><a href="#">Нижнее меню </a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="icon-pages"><a href="#">Страницы</a></li>
+                            <li class="-has-dropdown icon-banners">
+                                <a href="#">Баннеры</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Преимущества</a></li>
+                                        <li><a href="#">Акционный баннер</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="-has-dropdown icon-seo">
+                                <a href="#">SEO-модули</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Редиректы</a></li>
+                                        <li><a href="#">Карта сайта</a></li>
+                                        <li><a href="#">Robots.txt</a></li>
+                                        <li><a href="#">Tag Manager</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="-has-dropdown icon-modules">
+                                <a href="#">Модули</a>
+                                <div>
+                                    <ul>
+                                        <li><a href="#">Журнал</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="icon-users"><a href="#">Пользователи</a></li>
+                            <li class="icon-settings"><a href="settings.html">Настройки</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+            <!-- end sidebar -->
+
+            <!-- begin main -->
+            <main class="l-main">
+
+                <!-- breadcrumbs-->
+                <div class="breadcrumbs">
+                    <a class="breadcrumbs__home" href="/">Главная</a>
+                    <span>Контакты</span>
+                </div>
+                <!-- end breadcrumbs-->
+
+                <!-- page-header-->
+                <div class="page-header">
+                    <h1>Контакты</h1>
+                </div>
+                <!-- end page-header-->
+
+                <!-- blocks-grid -->
+                <div class="blocks-grid">
+                    <div class="blocks-grid__item">
+                        <!-- content-block -->
+                        <div class="content-block">
+                            <div class="content-block__header">
+                                <i class="content-block__icon icon-phone"></i>
+                                <h2>Телефоны</h2>
+                                <div class="content-block__header-right">
+                                    <!-- <button class="content-block__btn-setting">setting</button> -->
+                                </div>
+                            </div>
+                            <div class="content-block__content">
+                                <!-- contacts-block -->
+                                <div class="contacts-block">
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="tel:+7 (812) 921-04-68">+7 (812) 921-04-68</a>
+                                        Санкт-Петербург
+                                    </div>
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="tel:+7 (495) 268-02-51">+7 (495) 268-02-51</a>
+                                        Москва
+                                    </div>
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
+                                        Владимир
+                                    </div>
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="tel:8 (800) 333-13-62">8 (800) 333-13-62</a>
+                                        Бесплатно по России
+                                    </div>
+                                </div><!-- end contacts-block -->
+                            </div>
+                        </div><!-- end content-block -->
+                    </div>
+                    <div class="blocks-grid__item">
+                        <!-- content-block -->
+                        <div class="content-block">
+                            <div class="content-block__header">
+                                <i class="content-block__icon icon-clock"></i>
+                                <h2>Режим работы</h2>
+                                <div class="content-block__header-right">
+                                    <!-- <button class="content-block__btn-setting">setting</button> -->
+                                </div>
+                            </div>
+                            <div class="content-block__content">
+                                <!-- contacts-block -->
+                                <div class="contacts-block">
+                                    <div class="contacts-block__item">
+                                        <span class="contacts-block__value" href="tel:">ПН-ПТ</span>
+                                        с 9:00 до 18:00 по местному времени
+                                    </div>
+                                    <div class="contacts-block__item">
+                                        <span class="contacts-block__value" href="tel:">СБ, ВС</span>
+                                        Выходные
+                                    </div>
+                                </div><!-- end contacts-block -->
+                            </div>
+                        </div><!-- end content-block -->
+                    </div>
+                    <div class="blocks-grid__item">
+                        <!-- content-block -->
+                        <div class="content-block">
+                            <div class="content-block__header">
+                                <i class="content-block__icon icon-email"></i>
+                                <h2>Email</h2>
+                                <div class="content-block__header-right">
+                                    <!-- <button class="content-block__btn-setting">setting</button> -->
+                                </div>
+                            </div>
+                            <div class="content-block__content">
+                                <!-- contacts-block -->
+                                <div class="contacts-block">
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
+                                        Тех. поддержка
+                                    </div>
+                                    <div class="contacts-block__item">
+                                        <a class="contacts-block__value" href="mailto:info@darvin-studio.ru">info@darvin-studio.ru</a>
+                                        Отдел продаж
+                                    </div>
+                                </div><!-- end contacts-block -->
+                            </div>
+                        </div><!-- end content-block -->
+                    </div>
+                </div>
+                <!-- end blocks-grid -->
+
+
+
+
+            </main><!-- end main -->
+
+            <footer class="l-footer">
+                <div class="footer">
+                    <div class="footer__copywrite">
+                        © 2019  Darvin CMS build 6.0
+                    </div>
+                    <div class="footer__menu">
+                        <nav class="footer-menu">
+                            <ul>
+                                <li><a href="#">Поддержка</a></li>
+                                <li><a href="contacts.html">Для клиентов</a></li>
+                                <li><a href="#">Архивирование изображений</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </footer>
+
+        </div><!-- end wrapper -->
 
         {#
         {% block body %}

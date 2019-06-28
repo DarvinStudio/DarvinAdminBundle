@@ -89,6 +89,13 @@
                             {% if app.user %}
                                 <div class="header__users">
                                     <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
+
+                                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+                                        <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}">
+                                            <span>{% trans %}security.action.switch_user.back{% endtrans %}</span>
+                                        </a>
+                                    {% endif %}
+
                                 </div>
                             {% endif %}
 
@@ -133,154 +140,6 @@
                 </footer>
             </div>
         {% endblock %}
-
-        {#
-        {% block body %}
-            <div class="header_wrap_top">
-                <div class="container-fluid header_wrap">
-                    <div class="row header top">
-                        <div class="col-md-3 col-lg-3 header_left">
-                            <a href="{{ path('darvin_admin_homepage') }}" class="logo">
-                                {% if darvin_admin.logo %}
-                                    <img src="{{ asset(darvin_admin.logo) }}" alt="" height="64">
-                                {% else %}
-                                    <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_cms.png') }}" alt="">
-                                    <span>{% trans %}layout.logo{% endtrans %}</span>
-                                {% endif %}
-                            </a>
-                        </div>
-                        <div class="col-md-9 col-lg-9 header_right">
-                            <div class="container-fluid">
-
-                                {% include '@DarvinAdmin/locale_switcher.html.twig' %}
-
-                                {% for title, attr in {
-                                    'security.action.logout.link': {
-                                        'accessible': true,
-                                        'class':      'logout',
-                                        'url':        path('darvin_admin_security_logout'),
-                                    },
-                                    'user.action.index.link': {
-                                        'accessible': app.user and is_granted('admin_view', app.user),
-                                        'class':      'link_users',
-                                        'url':        app.user ? admin_path(app.user, null, 'index') : null,
-                                    },
-                                    'configuration.action.edit.link': {
-                                        'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
-                                        'class':      'link_main_option',
-                                        'url':        path('darvin_admin_configuration'),
-                                    },
-                                    'translation.action.index.link': {
-                                        'accessible': admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                            and is_granted('admin_view', 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation')
-                                        ,
-                                        'class': 'link_translete_manager',
-                                        'url':   admin_route_exists('Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                            ? admin_path(null, 'Lexik\\Bundle\\TranslationBundle\\Entity\\Translation', 'index')
-                                            : null
-                                        ,
-                                    },
-                                } %}
-                                    {% if attr.accessible %}
-                                        <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
-                                            {{ title|trans }}
-                                        </a>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="wrapper">
-                <div class="container-fluid header_wrap">
-                    <div class="row header sub">
-                        <div class="col-md-12 col-lg-12 header_right">
-                            <div class="container-fluid">
-                                <form action="{{ path('darvin_admin_search') }}" method="get" class="search_header">
-                                    <input name="q"
-                                           type="search"
-                                           placeholder="{% trans %}search.form.placeholder{% endtrans %}"
-                                           required="required"
-                                           {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
-                                    <button type="submit">{% trans %}search.form.submit{% endtrans %}</button>
-                                </form>
-
-                                {% if app.user %}
-                                    {% if is_granted('admin_view', app.user) %}
-                                        <a href="{{ admin_path(app.user) }}" class="link_users">{{ app.user.username }}</a>
-                                    {% else %}
-                                        <span class="link_users">{{ app.user.username }}</span>
-                                    {% endif %}
-                                {% endif %}
-
-                                <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="link_site">{{ darvin_admin.projectTitle }}</a>
-
-                                {{ image_archive_build_form() }}
-
-                                {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                                    <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}" class="link_users">
-                                        {% trans %}security.action.switch_user.back{% endtrans %}
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="main_wrap{% if sidebar_is_active %} active{% endif %}">
-                    <div class="main">
-                        {% if app.user %}
-                            <div class="sidebar_wrap{% if sidebar_is_active %} active{% endif %}">
-                                <span id="sidebar_switcher"{% if sidebar_is_active %} class="active"{% endif %}>
-                                    {{ (sidebar_is_active ? 'layout.menu.collapse' : 'layout.menu.expand')|trans }}
-                                </span>
-                                <div class="sidebar_wrap_fix">
-                                    <div class="sidebar">
-
-                                        {{ admin_menu() }}
-
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                        <div class="content_wrap{% if app.user and app.request.cookies.get(cookie_names.sidebar) %} active{% endif %}">
-                            <div id="js-content" class="content" {% block content_attr %}{% endblock %}>
-                                {{ block('content_wrap') }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer container-fluid">
-                    <div class="row">
-                        <div class="col-md-4 col-lg-3">
-                            <p class="copywrite">
-                                {% trans with {
-                                    '%current_year%': 'now'|date('Y'),
-                                    '%version%':      constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION'),
-                                } %}
-                                    layout.copyright
-                                {% endtrans %}
-                            </p>
-                        </div>
-                        <div class="col-md-8 col-lg-9">
-                            <div class="footer_contacts">
-                                <div class="mail">
-                                    <span>{% trans %}layout.footer.support.label{% endtrans %}</span>
-                                    <a href="mailto:{% trans %}layout.footer.support.email{% endtrans %}">
-                                        {% trans %}layout.footer.support.email{% endtrans %}
-                                    </a>
-                                </div>
-                                {% trans %}layout.footer.phone_numbers{% endtrans %}
-                            </div>
-
-                            {% include '@DarvinAdmin/locale_switcher.html.twig' %}
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endblock %}
-        #}
 
         {% block javascripts %}
             {% if app.debug %}

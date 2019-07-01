@@ -37,34 +37,36 @@
 {% endblock %}
 
 {% block content %}
-    {% if filter_form %}
+    {% block filter_form %}
+        {% if filter_form %}
 
-        {% form_theme filter_form '@DarvinAdmin/fields.html.twig' %}
+            {% form_theme filter_form '@DarvinAdmin/fields.html.twig' %}
 
-        <div class="filter-block js-filter">
-            <div class="filter-block__content">
-                {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
-                <div class="form-filter">
+            <div class="filter-block js-filter">
+                <div class="filter-block__content">
+                    {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
+                    <div class="form-filter">
 
-                    {% for field, attr in meta.configuration.form.filter.fields %}
-                        {% if filter_form[field] is defined %}
+                        {% for field, attr in meta.configuration.form.filter.fields %}
+                            {% if filter_form[field] is defined %}
 
-                            {{ form_row(filter_form[field]) }}
+                                {{ form_row(filter_form[field]) }}
 
-                        {% endif %}
-                    {% endfor %}
+                            {% endif %}
+                        {% endfor %}
 
-                    <div class="form-btns-container">
-                        <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
-                        <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
-                            {% trans %}filter.reset{% endtrans %}
-                        </a>
+                        <div class="form-btns-container">
+                            <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
+                            <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
+                                {% trans %}filter.reset{% endtrans %}
+                            </a>
+                        </div>
                     </div>
+                    {{ form_end(filter_form) }}
                 </div>
-                {{ form_end(filter_form) }}
             </div>
-        </div>
-    {% endif %}
+        {% endif %}
+    {% endblock %}
 
     <div class="content-block">
         <div class="content-block__header">

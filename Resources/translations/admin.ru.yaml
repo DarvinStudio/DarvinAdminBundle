@@ -76,7 +76,7 @@ exception:
 filter:
     description: Отсортируйте нужные параметры с помощью фильтра
     reset:       Сбросить
-    submit:      Применить фильтр
+    submit:      Применить
     title:       Фильтр таблицы
     toggle:      Фильтр
 

@@ -65,7 +65,7 @@ exception:
 filter:
     description: 'Filter Parameters Using Filter'
     reset: Reset
-    submit: 'Apply Filter'
+    submit: Apply
     title: 'Table Filter'
     toggle: Filter
 flash:

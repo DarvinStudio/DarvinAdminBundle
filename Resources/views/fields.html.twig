@@ -6,7 +6,18 @@
 
 {%- block form_row -%}
     {%- set row_attr = {'class': 'form-item'} -%}
-    {{- parent() -}}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        <div class="form-item__field">
+            {{- form_widget(form, widget_attr) -}}
+        </div>
+        {{- form_help(form) -}}
+    </div>
 {%- endblock form_row -%}
 
 {%- block form_label -%}
@@ -15,11 +26,16 @@
     {{- parent() -}}
 {%- endblock form_label -%}
 
-{%- block form_widget -%}
-    <div class="form-item__field">
-        {{- parent() -}}
+{%- block darvin_admin_triplebox_widget -%}
+    <div class="form-item__сheckbox">
+        <div class="custom-triplebox js-triplebox">
+            {% for child in form %}
+                {{ form_widget(child) }}
+            {% endfor %}
+            <span></span>
+        </div>
     </div>
-{%- endblock form_widget -%}
+{%- endblock darvin_admin_triplebox_widget -%}
 
 {#
 {% macro image(image, toggle_enabled) %}

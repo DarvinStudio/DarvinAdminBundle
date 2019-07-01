@@ -31,7 +31,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FilterType extends AbstractFormType
 {
     private const FIELD_TYPE_MAP = [
-        CheckboxType::class => TriStateCheckboxType::class,
+        CheckboxType::class => TripleboxType::class,
         TextareaType::class => TextType::class,
     ];
 

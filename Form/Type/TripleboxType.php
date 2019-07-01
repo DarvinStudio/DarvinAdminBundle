@@ -15,31 +15,28 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Tri-state checkbox form type
+ * Triplebox form type
  */
-class TriStateCheckboxType extends AbstractType
+class TripleboxType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => [
-                'boolean.yes' => 1,
-                'boolean.no'  => 0,
-            ],
             'expanded'    => true,
             'required'    => false,
             'placeholder' => 'boolean.indeterminate',
-            'attr'        => [
-                'class' => 'js-tri-state',
+            'choices'     => [
+                'boolean.yes' => 1,
+                'boolean.no'  => 0,
             ],
         ]);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getParent(): string
     {
@@ -47,10 +44,10 @@ class TriStateCheckboxType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBlockPrefix(): string
     {
-        return 'darvin_admin_tri_state_checkbox';
+        return 'darvin_admin_triplebox';
     }
 }

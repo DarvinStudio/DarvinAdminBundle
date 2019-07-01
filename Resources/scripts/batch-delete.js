@@ -6,33 +6,6 @@
         form:      'form.js-batch-delete'
     };
 
-    const change = ($check) => {
-        let $container = $check.closest(SELECTORS.container);
-
-        let $checkAll = $container.find(SELECTORS.checkAll),
-            $form     = $container.find(SELECTORS.form);
-
-        let $submit = $form.find('[type="submit"]:first');
-
-        $form.find('input[type="checkbox"][value="' + $check.data('id') + '"]')[0].checked = $check[0].checked;
-
-        if (!$check[0].checked) {
-            $checkAll[0].checked = false;
-
-            if ($submit.is(':visible') && 0 === $(SELECTORS.check + ':checked').length) {
-                $submit.hide();
-            }
-
-            return;
-        }
-
-        let $checks = $container.find(SELECTORS.check);
-
-        $checkAll[0].checked = $checks.length === $checks.filter(':checked').length;
-
-        $submit.show();
-    };
-
     $('body')
         .on('change', SELECTORS.checkAll, (e) => {
             let $checkAll = $(e.currentTarget);
@@ -44,10 +17,35 @@
 
                 $check[0].checked = checked;
 
-                change($check);
+                $check.trigger('change');
             });
         })
         .on('change', SELECTORS.check, (e) => {
-            change($(e.currentTarget));
+            let $check = $(e.currentTarget);
+
+            let $container = $check.closest(SELECTORS.container);
+
+            let $checkAll = $container.find(SELECTORS.checkAll),
+                $form     = $container.find(SELECTORS.form);
+
+            let $submit = $form.find('[type="submit"]:first');
+
+            $form.find('input[type="checkbox"][value="' + $check.data('id') + '"]')[0].checked = $check[0].checked;
+
+            if (!$check[0].checked) {
+                $checkAll[0].checked = false;
+
+                if ($submit.is(':visible') && 0 === $(SELECTORS.check + ':checked').length) {
+                    $submit.hide();
+                }
+
+                return;
+            }
+
+            let $checks = $container.find(SELECTORS.check);
+
+            $checkAll[0].checked = $checks.length === $checks.filter(':checked').length;
+
+            $submit.show();
         });
 })();

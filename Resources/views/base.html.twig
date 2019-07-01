@@ -146,11 +146,11 @@
         {% block javascripts %}
 
             {% if app.debug %}
-                <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>
+                <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
             {% else %}
-                <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
+                <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
             {% endif %}
 
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>

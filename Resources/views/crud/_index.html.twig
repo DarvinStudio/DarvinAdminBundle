@@ -53,9 +53,7 @@
 
                         {% for field, attr in meta.configuration.form.filter.fields %}
                             {% if filter_form[field] is defined %}
-
                                 {{ form_row(filter_form[field]) }}
-
                             {% endif %}
                         {% endfor %}
 
@@ -86,7 +84,9 @@
 
                 {% block total_item_count %}
                     {% if view.body.rows is not empty %}
-                        <div class="content-block__total">{% trans with {'%count%': entity_count} %}common.total_items{% endtrans %}</div>
+                        <div class="content-block__total">
+                            {% trans with {'%count%': entity_count} %}common.total_item_count{% endtrans %}
+                        </div>
                     {% endif %}
                 {% endblock %}
 

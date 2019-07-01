@@ -74,11 +74,9 @@ exception:
     500: Внутренняя ошибка сервера
 
 filter:
-    description: Отсортируйте нужные параметры с помощью фильтра
-    reset:       Сбросить
-    submit:      Применить
-    title:       Фильтр таблицы
-    toggle:      Фильтр
+    reset:  Сбросить
+    submit: Применить
+    toggle: Фильтр
 
 flash:
     error:

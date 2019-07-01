@@ -1,14 +1,12 @@
 {% trans_default_domain 'admin' %}
 
-<div class="path">
-    {% for crumb in crumbs %}
+{% for crumb in crumbs %}
 
-        {% set url = crumb.url|default %}
+    {% set url = crumb.url|default %}
 
-        {% if url and url != app.request.requestUri %}
-            <a href="{{ url }}">{{ crumb.title|trans }}</a>
-        {% else %}
-            <span>{{ crumb.title|trans }}</span>
-        {% endif %}
-    {% endfor %}
-</div>
+    {% if url and url != app.request.requestUri %}
+        <a href="{{ url }}">{{ crumb.title|trans }}</a>
+    {% else %}
+        <span>{{ crumb.title|trans }}</span>
+    {% endif %}
+{% endfor %}

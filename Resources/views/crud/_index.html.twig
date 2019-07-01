@@ -8,7 +8,10 @@
 
 {% block header_buttons %}
     <div class="page-header__btns">
-        <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
+
+        {% if filter_form %}
+            <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
+        {% endif %}
 
         {% if not meta.configuration.index_view_new_form %}
 

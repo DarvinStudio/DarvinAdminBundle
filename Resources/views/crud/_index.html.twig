@@ -77,9 +77,27 @@
         {% endif %}
     {% endblock %}
 
-    <div class="content-block">
+    <div class="content-block js-property-forms">
         <div class="content-block__header">
-            <button class="content-block__btn-remove">Удалить выбранные</button>
+
+            {% if batch_delete_form %}
+{#                    <label>#}
+{#                        <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">#}
+{#                        {% trans %}crud.action.batch_delete.select_all{% endtrans %}#}
+{#                    </label>#}
+                {{ form_start(batch_delete_form, {'attr': {
+                    'class':            'js-form js-batch-delete',
+                    'data-reload-page': 1,
+                    'onsubmit':         'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
+                    'autocomplete':     'off',
+                }}) }}
+                {{ form_widget(batch_delete_form) }}
+                <button class="content-block__btn-remove" style="display: none;">
+                    {% trans %}crud.action.batch_delete.submit{% endtrans %}
+                </button>
+                {{ form_end(batch_delete_form) }}
+            {% endif %}
+
             <div class="content-block__header-right">
 
                 {% block total_item_count %}

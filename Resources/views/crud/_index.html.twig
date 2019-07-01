@@ -30,7 +30,10 @@
                 {% endif %}
 
                 {% if new_url %}
-                    <a class="page-header__btn-add" href="{{ new_url }}">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+                    <a class="{% if new_link_class is defined %}{{ new_link_class }}{% else %}page-header__btn-add{% endif %}"
+                       href="{{ new_url }}">
+                        {{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}
+                    </a>
                 {% endif %}
             {% endif %}
         {% endblock %}
@@ -212,7 +215,10 @@
         </div>
         <div class="content-block__footer">
             <div class="content-block__footer-left">
-                <a class="content-block__btn-add" href="">Добавить категорию</a>
+
+                {% set new_link_class = 'content-block__btn-add' %}
+
+                {{ block('new_link') }}
             </div>
             <div class="content-block__footer-right">
                 {% if pagination is defined and pagination %}

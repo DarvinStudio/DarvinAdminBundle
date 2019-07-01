@@ -76,10 +76,7 @@ class Menu implements MenuInterface
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
             $items = $skipped = [];
-
-            $request = $this->requestStack->getCurrentRequest();
-
-            $currentUrl = null !== $request ? $request->getRequestUri() : '';
+            $currentUrl = $this->getCurrentUrl();
 
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
@@ -198,5 +195,19 @@ class Menu implements MenuInterface
         }
 
         return $items;
+    }
+
+    /**
+     * @return string
+     */
+    private function getCurrentUrl(): string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        if (null === $request) {
+            return '';
+        }
+
+        return $request->getRequestUri();
     }
 }

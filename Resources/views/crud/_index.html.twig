@@ -68,6 +68,13 @@
         {% endif %}
     {% endblock %}
 
+    {% block new_form %}
+        {% if new_form %}
+            <h3>{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</h3>
+            {{ new_form|raw }}
+        {% endif %}
+    {% endblock %}
+
     <div class="content-block">
         <div class="content-block__header">
             <button class="content-block__btn-remove">Удалить выбранные</button>

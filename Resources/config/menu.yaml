@@ -16,6 +16,7 @@ services:
         public: false
         arguments:
             - '@security.authorization_checker'
+            - '@request_stack'
             - '%darvin_admin.menu.groups%'
 
     darvin_admin.menu.configuration_item_factory:

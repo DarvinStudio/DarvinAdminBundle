@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Menu;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -22,6 +23,11 @@ class Menu implements MenuInterface
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     private $authorizationChecker;
+
+    /**
+     * @var \Symfony\Component\HttpFoundation\RequestStack
+     */
+    private $requestStack;
 
     /**
      * @var array[]
@@ -40,12 +46,14 @@ class Menu implements MenuInterface
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
      * @param array                                                                        $groupsConfig         Groups configuration
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, array $groupsConfig)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RequestStack $requestStack, array $groupsConfig)
     {
         $this->authorizationChecker = $authorizationChecker;
-        $this->groupsConfig         = $groupsConfig;
+        $this->requestStack = $requestStack;
+        $this->groupsConfig = $groupsConfig;
 
         $this->itemFactories = [];
 
@@ -69,6 +77,10 @@ class Menu implements MenuInterface
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
             $items = $skipped = [];
 
+            $request = $this->requestStack->getCurrentRequest();
+
+            $currentUrl = null !== $request ? $request->getPathInfo() : null;
+
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
                     if (isset($items[$item->getName()])) {
@@ -88,6 +100,9 @@ class Menu implements MenuInterface
                         $skipped[$item->getName()] = true;
 
                         continue;
+                    }
+                    if ($item->getIndexUrl() === $currentUrl || $item->getNewUrl() === $currentUrl) {
+                        $item->setActive(true);
                     }
 
                     $items[$item->getName()] = $item;
@@ -112,6 +127,10 @@ class Menu implements MenuInterface
 
                 $parent = $items[$parentName];
                 $parent->addChild($item);
+
+                if ($item->isActive()) {
+                    $parent->setActive(true);
+                }
             }
             foreach ($items as $key => $item) {
                 if ($item->hasParent() && !isset($skipped[$item->getParentName()])) {

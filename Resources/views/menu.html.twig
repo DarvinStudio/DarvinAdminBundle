@@ -21,7 +21,7 @@
         {% set classes = classes|merge(['icon-' ~ item.name]) %}
 
     {% endif %}
-    {% if item.indexUrl == app.request.pathInfo %}
+    {% if item.active %}
 
         {% set classes = classes|merge(['is-active']) %}
 

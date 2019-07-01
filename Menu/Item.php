@@ -94,16 +94,22 @@ class Item
     protected $newObjectCount;
 
     /**
+     * @var bool
+     */
+    protected $active;
+
+    /**
      * @param string $name Name
      */
     public function __construct(string $name)
     {
         $this->name = $name;
 
-        $this->mainIcon = self::DEFAULT_MAIN_ICON;
-        $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
-        $this->children = [];
+        $this->mainIcon       = self::DEFAULT_MAIN_ICON;
+        $this->sidebarIcon    = self::DEFAULT_SIDEBAR_ICON;
+        $this->children       = [];
         $this->newObjectCount = 0;
+        $this->active         = false;
     }
 
     /**
@@ -400,5 +406,25 @@ class Item
     public function getNewObjectCount(): int
     {
         return $this->newObjectCount;
+    }
+
+    /**
+     * @param bool $active active
+     *
+     * @return Item
+     */
+    public function setActive(bool $active): Item
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->active;
     }
 }

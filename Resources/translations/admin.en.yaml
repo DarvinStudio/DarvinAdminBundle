@@ -41,7 +41,6 @@ crud:
         batch_delete:
             check: 'Check for Removal'
             confirm: 'Confirm Selected Items Removal'
-            select_all: 'Check All for Removal'
             submit: 'Remove Selected'
             success: 'Selected Items Successfully Removed'
 dashboard:

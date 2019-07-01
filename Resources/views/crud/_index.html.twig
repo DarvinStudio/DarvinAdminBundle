@@ -62,9 +62,9 @@
                     {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                     <div class="form-filter">
 
-                        {% for field, attr in meta.configuration.form.filter.fields %}
-                            {% if filter_form[field] is defined %}
-                                {{ form_row(filter_form[field]) }}
+                        {% for name, attr in meta.configuration.form.filter.fields %}
+                            {% if filter_form[name] is defined %}
+                                {{ form_row(filter_form[name]) }}
                             {% endif %}
                         {% endfor %}
 
@@ -128,50 +128,44 @@
                 <div class="table" data-simplebar data-simplebar-auto-hide="false">
                     <table>
                         <thead>
-                        <tr>
-                            {% for field, item in view.head.items %}
-                                {% if item.width %}
-                                    <th colspan="{{ item.width }}">
-                                        {% if pagination and item.sortable %}
-                                            {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
-                                        {% else %}
-                                            {{ item.content|trans }}
-                                        {% endif %}
-                                    </th>
-                                {% endif %}
-                            {% endfor %}
-{#                            <th data-type="actions">#}
-{#                                <label class="custom-checkbox"><input type="checkbox"><span></span></label>#}
-{#                                Действия#}
-{#                            </th>#}
-{#                            <th data-type="position">Позиция</th>#}
-{#                            <th data-type="checkbox">На главной</th>#}
-{#                            <th data-type="checkbox">Активен</th>#}
-{#                            <th data-type="checkbox">Скрыт</th>#}
-{#                            <th data-type="checkbox">Расширенный фильтр</th>#}
-{#                            <th data-type="checkbox">Виджет товаров</th>#}
-{#                            <th>Название</th>#}
-{#                            <th data-type="with-add">Товары</th>#}
-{#                            <th data-type="with-add">Свойства</th>#}
-{#                            <th data-type="link">Ссылка</th>#}
-                        </tr>
+                            <tr>
+                                {% for item in view.head.items %}
+                                    {% if item.width %}
+                                        <th colspan="{{ item.width }}">
+                                            {% if pagination and item.sortable %}
+                                                {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
+                                            {% else %}
+                                                {{ item.content|trans }}
+                                            {% endif %}
+                                        </th>
+                                    {% endif %}
+                                {% endfor %}
+    {#                            <th data-type="actions">#}
+    {#                                <label class="custom-checkbox"><input type="checkbox"><span></span></label>#}
+    {#                                Действия#}
+    {#                            </th>#}
+    {#                            <th data-type="position">Позиция</th>#}
+    {#                            <th data-type="checkbox">На главной</th>#}
+    {#                            <th data-type="checkbox">Активен</th>#}
+    {#                            <th data-type="checkbox">Скрыт</th>#}
+    {#                            <th data-type="checkbox">Расширенный фильтр</th>#}
+    {#                            <th data-type="checkbox">Виджет товаров</th>#}
+    {#                            <th>Название</th>#}
+    {#                            <th data-type="with-add">Товары</th>#}
+    {#                            <th data-type="with-add">Свойства</th>#}
+    {#                            <th data-type="link">Ссылка</th>#}
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for row in view.body.rows %}
-                            <tr{% for attr_name, attr_value in row.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
-                            {% for name, item in row.items %}
-                                <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
-                                {% if 'action_widgets' == name %}
-                                    <div class="edit_elements">
-                                        {{ item.content|raw }}
-                                    </div>
-                                {% else %}
-                                    {{ item.content|trans|raw }}
-                                {% endif %}
-                                </td>
+                            {% for row in view.body.rows %}
+                                <tr{% for attr_name, attr_value in row.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                    {% for item in row.items %}
+                                        <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                            {{ item.content|trans|raw }}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
                             {% endfor %}
-                            </tr>
-                        {% endfor %}
                         {#
                         <tr class="table-row">
                             <td data-type="actions">

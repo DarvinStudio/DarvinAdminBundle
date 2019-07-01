@@ -10,7 +10,6 @@ services:
         public: false
         arguments:
             - '@darvin_admin.router'
-            - '@router'
             - '@darvin_admin.metadata.identifier_accessor'
             - '@darvin_admin.metadata.manager'
             - '@property_accessor'

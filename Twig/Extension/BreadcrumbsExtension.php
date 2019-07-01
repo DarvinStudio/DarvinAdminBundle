@@ -31,11 +31,6 @@ class BreadcrumbsExtension extends AbstractExtension
     private $adminRouter;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $genericRouter;
-
-    /**
      * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
     private $identifierAccessor;
@@ -52,20 +47,17 @@ class BreadcrumbsExtension extends AbstractExtension
 
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface              $adminRouter        Admin router
-     * @param \Symfony\Component\Routing\RouterInterface                  $genericRouter      Generic router
      * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface    $identifierAccessor Identifier accessor
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface  $metadataManager    Metadata manager
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor   Property accessor
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
-        RouterInterface $genericRouter,
         IdentifierAccessorInterface $identifierAccessor,
         AdminMetadataManagerInterface $metadataManager,
         PropertyAccessorInterface $propertyAccessor
     ) {
         $this->adminRouter = $adminRouter;
-        $this->genericRouter = $genericRouter;
         $this->identifierAccessor = $identifierAccessor;
         $this->metadataManager = $metadataManager;
         $this->propertyAccessor = $propertyAccessor;

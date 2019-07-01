@@ -79,7 +79,7 @@ class Menu implements MenuInterface
 
             $request = $this->requestStack->getCurrentRequest();
 
-            $currentUrl = null !== $request ? $request->getPathInfo() : null;
+            $currentUrl = null !== $request ? $request->getRequestUri() : '';
 
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
@@ -101,7 +101,7 @@ class Menu implements MenuInterface
 
                         continue;
                     }
-                    if ($item->getIndexUrl() === $currentUrl || $item->getNewUrl() === $currentUrl) {
+                    if (0 === strpos($currentUrl, (string)$item->getIndexUrl())) {
                         $item->setActive(true);
                     }
 

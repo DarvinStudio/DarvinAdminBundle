@@ -41,10 +41,14 @@
     {%- if attr['data-input'] is not defined -%}
         {%- set attr = attr|merge({'data-input': ''}) -%}
     {%- endif -%}
-    <div class="form-item__input js-with-btn-clear" data-type="small">
+    {%- if type is defined and 'text' != type -%}
         {{- parent() -}}
-        <button data-btn-clear></button>
-    </div>
+    {%- else -%}
+        <div class="form-item__input js-with-btn-clear" data-type="small">
+            {{- parent() -}}
+            <button data-btn-clear></button>
+        </div>
+    {%- endif -%}
 {%- endblock form_widget_simple -%}
 
 {# Custom widgets #}

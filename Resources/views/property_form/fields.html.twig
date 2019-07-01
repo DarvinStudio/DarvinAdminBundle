@@ -1,54 +1,5 @@
-{% extends 'form_div_layout.html.twig' %}
+{% extends '@DarvinAdmin/fields.html.twig' %}
 
 {%- block checkbox_widget -%}
-    <span class="checkbox">
-        <label>
-            {{ parent() }}
-            <span></span>
-        </label>
-    </span>
+    <label class="custom-checkbox">{{- parent() -}}<span></span></label>
 {%- endblock checkbox_widget -%}
-
-{%- block form_errors -%}
-    {%- if errors|length > 0 -%}
-        <ul class="errors js-form-errors">
-            {%- for error in errors -%}
-                <li>{{ error.message }}</li>
-            {%- endfor -%}
-        </ul>
-    {%- endif -%}
-{%- endblock form_errors -%}
-
-{%- block form_label -%}{%- endblock form_label -%}
-
-{%- block widget_attributes -%}
-    {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
-    name="{{ full_name }}"
-    {%- if disabled %} disabled="disabled"{% endif -%}
-    {%- if required %} required="required"{% endif -%}
-    {%- for attrname, attrvalue in attr -%}
-        {%- if 'readonly' != attrname -%}
-            {{- " " -}}
-            {%- if attrname in ['placeholder', 'title'] -%}
-                {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
-            {%- elseif attrvalue is same as(true) -%}
-                {{- attrname }}="{{ attrname }}"
-            {%- elseif attrvalue is not same as(false) -%}
-                {{- attrname }}="{{ attrvalue }}"
-            {%- endif -%}
-        {%- endif -%}
-    {%- endfor -%}
-{%- endblock widget_attributes -%}
-
-{%- block widget_container_attributes -%}
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
-        {%- elseif attrvalue is same as(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not same as(false) -%}
-            {{- attrname }}="{{ attrvalue }}"
-        {%- endif -%}
-    {%- endfor -%}
-{%- endblock widget_container_attributes -%}

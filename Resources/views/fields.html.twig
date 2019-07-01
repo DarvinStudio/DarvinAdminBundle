@@ -4,6 +4,8 @@
 
 {% trans_default_domain 'admin' %}
 
+{# Common #}
+
 {%- block form_row -%}
     {%- set row_attr = {'class': 'form-item'} -%}
     {%- set widget_attr = {} -%}
@@ -25,6 +27,27 @@
     {%- set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' form-item__label')|trim}) -%}
     {{- parent() -}}
 {%- endblock form_label -%}
+
+{# Generic widgets #}
+
+{%- block choice_widget_collapsed -%}
+    <div class="custom-select js-chosen" data-type="small">
+        {{- parent() -}}
+        <button class="custom-select__btn-reset" data-btn-reset></button>
+    </div>
+{%- endblock choice_widget_collapsed -%}
+
+{%- block text_widget -%}
+    {%- if attr['data-input'] is not defined -%}
+        {%- set attr = attr|merge({'data-input': ''}) -%}
+    {%- endif -%}
+    <div class="form-item__input js-with-btn-clear" data-type="small">
+        {{- form_widget(form, {'attr': attr}) -}}
+        <button data-btn-clear></button>
+    </div>
+{%- endblock text_widget -%}
+
+{# Custom widgets #}
 
 {%- block darvin_admin_triplebox_widget -%}
     <div class="form-item__сheckbox">

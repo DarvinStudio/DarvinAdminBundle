@@ -4,6 +4,24 @@
 
 {% trans_default_domain 'admin' %}
 
+{%- block form_row -%}
+    {%- set row_attr = {'class': 'form-item'} -%}
+    {{- parent() -}}
+{%- endblock form_row -%}
+
+{%- block form_label -%}
+    {%- set element = 'span' -%}
+    {%- set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' form-item__label')|trim}) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{%- block form_widget -%}
+    <div class="form-item__field">
+        {{- parent() -}}
+    </div>
+{%- endblock form_widget -%}
+
+{#
 {% macro image(image, toggle_enabled) %}
     <div class="js-image" data-id="{{ image.id }}">
         <a class="js-popup" href="{{ image|image_original }}" title="{{ image.name }}" rel="images">
@@ -358,3 +376,4 @@
     {% set attr = attr|merge({'class': (attr.class|default('') ~ ' ' ~ block_prefixes[1])|trim}) %}
     {{ parent() }}
 {%- endblock widget_attributes -%}
+#}

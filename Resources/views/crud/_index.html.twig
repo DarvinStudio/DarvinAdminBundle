@@ -2,24 +2,6 @@
 
 {% trans_default_domain 'admin' %}
 
-{#{% block form_row %}#}
-{#    <div class="filter_element">#}
-{#        {{ form_label(form) }}#}
-{#        {{ form_errors(form) }}#}
-{#        {{ form_widget(form) }}#}
-{#    </div>#}
-{#{% endblock %}#}
-
-{#{% block widget_attributes %}#}
-{##}
-{#    {% set attr = attr|merge({'class': (attr.class|default ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}#}
-{##}
-{#    id="{{ id }}" name="{{ full_name }}"#}
-{#    {%- if disabled %} disabled="disabled"{% endif -%}#}
-{#    {%- if required %} required="required"{% endif -%}#}
-{#    {{ block('attributes') }}#}
-{#{% endblock %}#}
-
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
@@ -52,6 +34,126 @@
 {% endblock %}
 
 {% block content %}
+    {% if filter_form %}
+
+        {% form_theme filter_form '@DarvinAdmin/fields.html.twig' %}
+
+        <div class="filter-block js-filter">
+            <div class="filter-block__content">
+                {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
+                <div class="form-filter">
+                    {% for field, attr in meta.configuration.form.filter.fields %}
+                        {% if filter_form[field] is defined %}
+                            {{ form_row(filter_form[field]) }}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="form-btns-container">
+                        <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
+                        <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
+                            {% trans %}filter.reset{% endtrans %}
+                        </a>
+                    </div>
+                </div>
+                {{ form_end(filter_form) }}
+                <form action="" class="js-ajax">
+                    <div class="form-filter">
+
+                        <div class="form-item">
+                            <span class="form-item__label">Форма обратной связи</span>
+                            <div class="form-item__field">
+                                <div class="form-item__сheckbox">
+                                    <div class="custom-triplebox js-triplebox">
+                                        <input type="radio" name="triplebox-1" value="-1" checked>
+                                        <input type="radio" name="triplebox-1" value="1">
+                                        <input type="radio" name="triplebox-1" value="0">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item__label">Активен</span>
+                            <div class="form-item__field">
+                                <div class="form-item__сheckbox">
+                                    <div class="custom-triplebox js-triplebox">
+                                        <input type="radio" name="triplebox-2" value="-1">
+                                        <input type="radio" name="triplebox-2" value="1" checked>
+                                        <input type="radio" name="triplebox-2" value="0">
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item__label">Скрыт</span>
+                            <div class="form-item__field">
+                                <div class="form-item__сheckbox">
+                                    <div class="custom-triplebox js-triplebox">
+                                        <input type="radio" name="triplebox-3" value="-1">
+                                        <input type="radio" name="triplebox-3" value="1">
+                                        <input type="radio" name="triplebox-3" value="0" checked>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item__label">Название</span>
+                            <div class="form-item__field">
+                                <div class="form-item__input js-with-btn-clear" data-type="small">
+                                    <input data-input type="text">
+                                    <button data-btn-clear>clear</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item__label">Производитель</span>
+                            <div class="form-item__field">
+                                <div class="custom-select js-chosen" data-type="small">
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="1">KIA</option>
+                                        <option value="2" selected>noKIA</option>
+                                        <option value="3">Other</option>
+                                        <option value="3">Another</option>
+                                        <option value="3">Something</option>
+                                    </select>
+                                    <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item__label">Производитель</span>
+                            <div class="form-item__field">
+                                <div class="custom-select js-chosen" data-type="small">
+                                    <select>
+                                        <option value=""></option>
+                                        <option value="1">KIA</option>
+                                        <option value="2" selected>noKIA</option>
+                                        <option value="3">Other</option>
+                                        <option value="3">Another</option>
+                                        <option value="3">Something</option>
+                                    </select>
+                                    <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-btns-container">
+                            <button class="form-filter__btn-apply">Применить</button>
+                            <button class="form-filter__btn-reset">Сбросить</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
     {#
     {% if pagination is not defined %}
 

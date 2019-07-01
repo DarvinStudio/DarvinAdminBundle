@@ -1,0 +1,82 @@
+{% extends '@DarvinAdmin/layout.html.twig' %}
+
+{% block heading %}Contacts{% endblock %}
+
+{% block content %}
+    <div class="blocks-grid">
+        <div class="blocks-grid__item">
+            <div class="content-block">
+                <div class="content-block__header">
+                    <i class="content-block__icon icon-phone"></i>
+                    <h2>Phone Numbers</h2>
+                    <div class="content-block__header-right">
+                    </div>
+                </div>
+                <div class="content-block__content">
+                    <div class="contacts-block">
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="tel:+7 (812) 921-04-68">+7 (812) 921-04-68</a>
+                            Saint-Petersburg
+                        </div>
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="tel:+7 (495) 268-02-51">+7 (495) 268-02-51</a>
+                            Moscow
+                        </div>
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="tel:+7 (4922) 60-16-14">+7 (4922) 60-16-14</a>
+                            Vladimir
+                        </div>
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="tel:8 (800) 333-13-62">8 (800) 333-13-62</a>
+                            Free in Russia
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blocks-grid__item">
+            <div class="content-block">
+                <div class="content-block__header">
+                    <i class="content-block__icon icon-clock"></i>
+                    <h2>Working Hours</h2>
+                    <div class="content-block__header-right">
+                    </div>
+                </div>
+                <div class="content-block__content">
+                    <div class="contacts-block">
+                        <div class="contacts-block__item">
+                            <span class="contacts-block__value" href="tel:">MON-FRI</span>
+                            from 9:00 to 18:00 local time
+                        </div>
+                        <div class="contacts-block__item">
+                            <span class="contacts-block__value" href="tel:">SAT, SUN</span>
+                            Days off
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="blocks-grid__item">
+            <div class="content-block">
+                <div class="content-block__header">
+                    <i class="content-block__icon icon-email"></i>
+                    <h2>Email</h2>
+                    <div class="content-block__header-right">
+                    </div>
+                </div>
+                <div class="content-block__content">
+                    <div class="contacts-block">
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="mailto:support@darvin-studio.ru">support@darvin-studio.ru</a>
+                            Tech. Support
+                        </div>
+                        <div class="contacts-block__item">
+                            <a class="contacts-block__value" href="mailto:info@darvin-studio.ru">info@darvin-studio.ru</a>
+                            Sales Department
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

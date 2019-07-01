@@ -45,11 +45,15 @@
             <div class="filter-block__content">
                 {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                 <div class="form-filter">
+
                     {% for field, attr in meta.configuration.form.filter.fields %}
                         {% if filter_form[field] is defined %}
+
                             {{ form_row(filter_form[field]) }}
+
                         {% endif %}
                     {% endfor %}
+
                     <div class="form-btns-container">
                         <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
                         <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">

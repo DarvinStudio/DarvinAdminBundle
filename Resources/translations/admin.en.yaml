@@ -63,10 +63,11 @@ exception:
     404: 'Not Found'
     500: 'Internal Server Error'
 filter:
-    title: 'Table Filter'
     description: 'Filter Parameters Using Filter'
     reset: Reset
     submit: 'Apply Filter'
+    title: 'Table Filter'
+    toggle: Filter
 flash:
     error:
         form: 'Form Errors Detected. Fix Them and Resubmit Form'

@@ -2,29 +2,57 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block form_row %}
-    <div class="filter_element">
-        {{ form_label(form) }}
-        {{ form_errors(form) }}
-        {{ form_widget(form) }}
-    </div>
-{% endblock %}
+{#{% block form_row %}#}
+{#    <div class="filter_element">#}
+{#        {{ form_label(form) }}#}
+{#        {{ form_errors(form) }}#}
+{#        {{ form_widget(form) }}#}
+{#    </div>#}
+{#{% endblock %}#}
 
-{% block widget_attributes %}
-
-    {% set attr = attr|merge({'class': (attr.class|default ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}
-
-    id="{{ id }}" name="{{ full_name }}"
-    {%- if disabled %} disabled="disabled"{% endif -%}
-    {%- if required %} required="required"{% endif -%}
-    {{ block('attributes') }}
-{% endblock %}
+{#{% block widget_attributes %}#}
+{##}
+{#    {% set attr = attr|merge({'class': (attr.class|default ~ ' ' ~ form.vars.block_prefixes[1])|trim}) %}#}
+{##}
+{#    id="{{ id }}" name="{{ full_name }}"#}
+{#    {%- if disabled %} disabled="disabled"{% endif -%}#}
+{#    {%- if required %} required="required"{% endif -%}#}
+{#    {{ block('attributes') }}#}
+{#{% endblock %}#}
 
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
+{% block header_buttons %}
+    <div class="page-header__btns">
+        <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
+
+        {% if not meta.configuration.index_view_new_form %}
+
+            {% set new_url = null %}
+
+            {% if admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass) %}
+
+                {% set new_url = admin_path(
+                    null,
+                    meta.entityClass,
+                    'new',
+                    association_param ? {(association_param): parent_entity_id} : {}
+                ) %}
+
+            {% endif %}
+
+            {% if new_url %}
+                <a class="page-header__btn-add" href="{{ new_url }}">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+            {% endif %}
+        {% endif %}
+
+    </div>
+{% endblock %}
+
 {% block content %}
+    {#
     {% if pagination is not defined %}
 
         {% set pagination = null %}
@@ -197,4 +225,5 @@
             </div>
         {% endif %}
     </div>
+    #}
 {% endblock %}

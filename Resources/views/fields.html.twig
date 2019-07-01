@@ -52,9 +52,9 @@
 {%- block darvin_admin_triplebox_widget -%}
     <div class="form-item__сheckbox">
         <div class="custom-triplebox js-triplebox">
-            {% for child in form %}
-                {{ form_widget(child) }}
-            {% endfor %}
+            {%- for child in form -%}
+                {{- form_widget(child) -}}
+            {%- endfor -%}
             <span></span>
         </div>
     </div>

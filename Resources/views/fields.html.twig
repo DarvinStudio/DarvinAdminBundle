@@ -37,15 +37,15 @@
     </div>
 {%- endblock choice_widget_collapsed -%}
 
-{%- block text_widget -%}
+{%- block form_widget_simple -%}
     {%- if attr['data-input'] is not defined -%}
         {%- set attr = attr|merge({'data-input': ''}) -%}
     {%- endif -%}
     <div class="form-item__input js-with-btn-clear" data-type="small">
-        {{- form_widget(form, {'attr': attr}) -}}
+        {{- parent() -}}
         <button data-btn-clear></button>
     </div>
-{%- endblock text_widget -%}
+{%- endblock form_widget_simple -%}
 
 {# Custom widgets #}
 

@@ -4,9 +4,10 @@
 
     {% set page = app.request.query.get(pageParameterName, 1) %}
 
+    {% set is_all = page <= 0 %}
+
     {% set has_previous = previous is defined %}
-    {% set has_next     = next is defined and page > 0 %}
-    {% set is_all       = page <= 0 %}
+    {% set has_next     = next is defined and not is_all %}
 
     <div class="pagination">
         <ul class="pagination">

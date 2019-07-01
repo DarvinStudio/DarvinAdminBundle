@@ -311,6 +311,9 @@
                 <a class="content-block__btn-add" href="">Добавить категорию</a>
             </div>
             <div class="content-block__footer-right">
+                {% if pagination is defined and pagination %}
+                    {{ knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') }}
+                {% endif %}
                 <div class="pagination">
                     <ul>
                         <li class="is-disabled">

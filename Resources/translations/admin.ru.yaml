@@ -162,8 +162,6 @@ menu:
             title: SEO-модули
 
 pagination:
-    next:     'Далее&nbsp;&raquo;'
-    previous: '&laquo;&nbsp;Назад'
     show_all: Показать все
 
 property_forms:

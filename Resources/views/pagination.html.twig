@@ -1,83 +1,87 @@
 {% trans_default_domain 'admin' %}
 
-{% set page = app.request.query.get(pageParameterName) %}
-
 {% if pageCount > 1 %}
-    <ul class="pagination">
 
-        {% if previous is defined %}
-            <li>
-                <a rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">{% trans %}pagination.previous{% endtrans %}</a>
+    {% set page = app.request.query.get(pageParameterName) %}
+
+    {% set is_all       = page is not same as(null) and page <= 0 %}
+    {% set has_previous = previous is defined %}
+    {% set has_next     = next is defined and (page is same as(null) or page > 0) %}
+
+    <div class="pagination">
+        <ul class="pagination">
+            <li{% if not has_previous %} class="is-disabled"{% endif %}>
+
+                {% if has_previous %}
+                    <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
+                {% endif %}
+
+                <span>
+                    <svg width="10" height="9" viewBox="0 0 10 9" fill="none">
+                        <path d="M4.50451 0L5.55556 1.05L2.1021 4.5L5.55556 7.95L4.50451 9L0 4.5L4.50451 0Z" fill="#CAD2E2"/>
+                        <path d="M8.94895 0L10 1.05L6.54655 4.5L10 7.95L8.94895 9L4.44444 4.5L8.94895 0Z" fill="#CAD2E2"/>
+                    </svg>
+                </span>
+
+                {% if has_previous %}
+                    </a>
+                {% endif %}
+
             </li>
-        {% else %}
-            <li class="disabled">
-                <span>{% trans %}pagination.previous{% endtrans %}</span>
-            </li>
-        {% endif %}
 
-        {% if startPage > 1 %}
-            <li>
-                <a href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a>
-            </li>
-            {% if startPage == 3 %}
-                <li>
-                    <a href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a>
-                </li>
-            {% elseif startPage != 2 %}
-                <li class="disabled">
-                    <span>&hellip;</span>
-                </li>
-            {% endif %}
-        {% endif %}
-
-        {% for page in pagesInRange %}
-            {% if page != current %}
-                <li>
-                    <a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
-                </li>
-            {% else %}
-                <li class="active">
-                    <span>{{ page }}</span>
-                </li>
-            {% endif %}
-
-        {% endfor %}
-
-        {% if pageCount > endPage %}
-            {% if pageCount > (endPage + 1) %}
-                {% if pageCount > (endPage + 2) %}
-                    <li class="disabled">
-                        <span>&hellip;</span>
-                    </li>
-                {% else %}
-                    <li>
-                        <a href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
-                    </li>
+            {% if startPage > 1 %}
+                <li><a href="{{ path(route, query|merge({(pageParameterName): 1})) }}">1</a></li>
+                {% if startPage == 3 %}
+                    <li><a href="{{ path(route, query|merge({(pageParameterName): 2})) }}">2</a></li>
+                {% elseif startPage != 2 %}
+                    <li class="is-disabled"><span>…</span></li>
                 {% endif %}
             {% endif %}
-            <li>
-                <a href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
-            </li>
-        {% endif %}
 
-        {% if page is not same as(null) and page <= 0 %}
-            <li class="active">
-                <span>{% trans %}pagination.show_all{% endtrans %}</span>
-            </li>
-        {% else %}
-            <li>
-                <a href="{{ path(route, query|merge({(pageParameterName): 0})) }}">{% trans %}pagination.show_all{% endtrans %}</a>
-            </li>
-        {% endif %}
+            {% for page in pagesInRange %}
+                {% if page != current %}
+                    <li><a href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a></li>
+                {% else %}
+                    <li class="is-active"><span>{{ page }}</span></li>
+                {% endif %}
+            {% endfor %}
 
-        {% if next is defined and page > 0 %}
-            <li>
-                <a rel="next" href="{{ path(route, query|merge({(pageParameterName): next})) }}">{% trans %}pagination.next{% endtrans %}</a>
+            {% if pageCount > endPage %}
+                {% if pageCount > (endPage + 1) %}
+                    {% if pageCount > (endPage + 2) %}
+                        <li class="is-disabled"><span>…</span></li>
+                    {% else %}
+                        <li><a href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a></li>
+                    {% endif %}
+                {% endif %}
+                <li><a href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a></li>
+            {% endif %}
+
+            <li class="show-all{% if is_all %} is-active{% endif %}">
+                {% if is_all %}
+                    <span>{% trans %}pagination.show_all{% endtrans %}</span>
+                {% else %}
+                    <a href="{{ path(route, query|merge({(pageParameterName): 0})) }}">{% trans %}pagination.show_all{% endtrans %}</a>
+                {% endif %}
             </li>
-        {% else %}
-            <li class="disabled">
-                <span>{% trans %}pagination.next{% endtrans %}</span>
+            <li{% if not has_next %} class="is-disabled"{% endif %}>
+
+                {% if has_next %}
+                    <a href="{{ path(route, query|merge({(pageParameterName): next})) }}">
+                {% endif %}
+
+                <span>
+                    <svg width="10" height="9" viewBox="0 0 10 9" fill="none">
+                        <path d="M5.49549 0L4.44444 1.05L7.8979 4.5L4.44444 7.95L5.49549 9L10 4.5L5.49549 0Z" fill="#CAD2E2"/>
+                        <path d="M1.05105 0L0 1.05L3.45345 4.5L0 7.95L1.05105 9L5.55556 4.5L1.05105 0Z" fill="#CAD2E2"/>
+                    </svg>
+                </span>
+
+                {% if has_next %}
+                    </a>
+                {% endif %}
+
             </li>
-        {% endif %}
-    </ul>
+        </ul>
+    </div>
 {% endif %}

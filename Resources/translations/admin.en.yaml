@@ -142,8 +142,6 @@ menu:
         seo:
             title: SEO-Modules
 pagination:
-    next: 'Next&nbsp;&raquo;'
-    previous: '&laquo;&nbsp;Previous'
     show_all: 'Show All'
 property_forms:
     submit: 'Submit Changes'

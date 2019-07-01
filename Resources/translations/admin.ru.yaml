@@ -23,10 +23,10 @@ colorbox:
     xhrError:       Не удалось загрузить содержимое.
 
 common:
-    actions:          Действия
-    back:             Назад
-    empty_list:       Список пуст
-    total_item_count: 'Всего объектов: <strong>%count%</strong>'
+    actions:     Действия
+    back:        Назад
+    empty_list:  Список пуст
+    total_items: Всего объектов:<span>%count%</span>
 
 configuration:
     action:

@@ -22,7 +22,7 @@ common:
     actions: Actions
     back: Back
     empty_list: 'List Is Empty'
-    total_item_count: 'Total Items: %count%'
+    total_items: 'Total Items:<span>%count%</span>'
 configuration:
     action:
         edit:

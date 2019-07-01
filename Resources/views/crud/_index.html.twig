@@ -98,7 +98,7 @@
                     'onsubmit':         'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
                     'autocomplete':     'off',
                 }}) }}
-                {{ form_widget(batch_delete_form) }}
+                {{ form_widget(batch_delete_form, {'attr': {'style': 'display: none;'}}) }}
                 <button class="content-block__btn-remove" style="display: none;">
                     {% trans %}crud.action.batch_delete.submit{% endtrans %}
                 </button>

@@ -138,7 +138,9 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
             ]);
 
             if ('' !== $actions) {
-                $bodyRow->addItem('action_widgets', new BodyRowItem($actions));
+                $bodyRow->addItem('action_widgets', new BodyRowItem($actions, [
+                    'data-type' => 'actions',
+                ]));
             }
             foreach ($configuration['view']['index']['fields'] as $field => $params) {
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
@@ -161,7 +163,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     }
                 }
 
-                $bodyRow->addItem($field, new BodyRowItem($content, $this->buildBodyRowItemAttr($field, $params['attr'], $meta)));
+                $bodyRow->addItem($field, new BodyRowItem($content));
             }
 
             $body->addRow($bodyRow);
@@ -185,28 +187,6 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         foreach ($meta->getConfiguration()['index_view_row_attr'] as $property) {
             $attr['data-'.$property] = $this->propertyAccessor->getValue($entity, $property);
         }
-
-        return $attr;
-    }
-
-    /**
-     * @param string                                $field Field name
-     * @param array                                 $attr  Base HTML attributes
-     * @param \Darvin\AdminBundle\Metadata\Metadata $meta  Metadata
-     *
-     * @return array
-     */
-    private function buildBodyRowItemAttr(string $field, array $attr, Metadata $meta): array
-    {
-        $class = 'name_'.$field;
-
-        $mappings = $meta->getMappings();
-
-        if (isset($mappings[$field]) && !isset($mappings[$field]['targetEntity'])) {
-            $class .= ' type_'.$mappings[$field]['type'];
-        }
-
-        $attr['class'] = trim(isset($attr['class']) ? $attr['class'].' '.$class : $class);
 
         return $attr;
     }

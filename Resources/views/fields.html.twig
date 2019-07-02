@@ -38,12 +38,15 @@
 {%- endblock choice_widget_collapsed -%}
 
 {%- block form_widget_simple -%}
-    {%- if attr['data-input'] is not defined -%}
-        {%- set attr = attr|merge({'data-input': ''}) -%}
+    {%- if clearable is not defined -%}
+        {%- set clearable = type is not defined or 'text' == type -%}
     {%- endif -%}
-    {%- if type is defined and 'text' != type -%}
+    {%- if not clearable -%}
         {{- parent() -}}
     {%- else -%}
+        {%- if attr['data-input'] is not defined -%}
+            {%- set attr = attr|merge({'data-input': ''}) -%}
+        {%- endif -%}
         <div class="form-item__input js-with-btn-clear" data-type="small">
             {{- parent() -}}
             <button data-btn-clear></button>
@@ -52,6 +55,13 @@
 {%- endblock form_widget_simple -%}
 
 {# Custom widgets #}
+
+{%- block darvin_admin_position_widget -%}
+    <div class="table-row__position"{%- if level is not same as(null) -%} data-level="{{- level -}}"{%- endif -%}>
+        {%- set clearable = false -%}
+        {{- block('form_widget_simple') -}}
+    </div>
+{%- endblock darvin_admin_position_widget -%}
 
 {%- block darvin_admin_triplebox_widget -%}
     <div class="form-item__сheckbox">

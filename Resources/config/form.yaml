@@ -13,6 +13,8 @@ parameters:
 
     darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
 
+    darvin_admin.form.type.position.class: Darvin\AdminBundle\Form\Type\PositionType
+
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
 
 services:
@@ -70,6 +72,15 @@ services:
             - '@form.registry'
             - '@darvin_content.translatable.translation_joiner'
             - '%darvin_admin.form.default_field_options%'
+        tags:
+            - { name: form.type }
+
+    darvin_admin.form.type.position:
+        class: '%darvin_admin.form.type.position.class%'
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@property_accessor'
+            - '@stof_doctrine_extensions.listener.tree'
         tags:
             - { name: form.type }
 

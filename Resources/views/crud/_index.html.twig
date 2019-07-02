@@ -8,7 +8,6 @@
 
 {% block header_buttons %}
     <div class="page-header__btns">
-
         {% if filter_form %}
             <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
         {% endif %}
@@ -52,6 +51,7 @@
 {% endblock %}
 
 {% block content %}
+
     {% block filter_form %}
         {% if filter_form %}
 
@@ -61,13 +61,11 @@
                 <div class="filter-block__content">
                     {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                     <div class="form-filter">
-
                         {% for name, attr in meta.configuration.form.filter.fields %}
                             {% if filter_form[name] is defined %}
                                 {{ form_row(filter_form[name]) }}
                             {% endif %}
                         {% endfor %}
-
                         <div class="form-btns-container">
                             <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
                             <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
@@ -90,7 +88,6 @@
 
     <div class="content-block js-property-forms">
         <div class="content-block__header">
-
             {% if batch_delete_form %}
                 {{ form_start(batch_delete_form, {'attr': {
                     'class':            'js-form js-batch-delete',
@@ -104,7 +101,6 @@
                 </button>
                 {{ form_end(batch_delete_form) }}
             {% endif %}
-
             <div class="content-block__header-right">
 
                 {% block total_item_count %}

@@ -2,13 +2,16 @@
 
 {% set route_params = {(association_param): parent_id} %}
 
-{% if show_index_link %}
-    <a class="items" href="{{ admin_path(null, child, 'index', route_params) }}">
-        {{ (translation_prefix ~ 'action.index.link')|trans }}{% if show_count %}&nbsp;({{ count }}){% endif %}
-    </a>
-{% endif %}
-{% if show_new_link %}
-    <a class="items none" href="{{ admin_path(null, child, 'new', route_params) }}">
-        {{ (translation_prefix ~ 'action.new.link')|trans }}
-    </a>
-{% endif %}
+<div class="table-row__with-add">
+    {% if show_index_link %}
+        <a class="table-row__with-add-link" href="{{ admin_path(null, child, 'index', route_params) }}">
+            {{ (translation_prefix ~ 'action.index.link')|trans }}{% if show_count %} ({{ count }}){% endif %}
+        </a>
+    {% endif %}
+    {% if show_new_link %}
+        <a class="table-row__with-add-btn"
+           href="{{ admin_path(null, child, 'new', route_params) }}"
+           title="{{ (translation_prefix ~ 'action.new.link')|trans }}">
+        </a>
+    {% endif %}
+</div>

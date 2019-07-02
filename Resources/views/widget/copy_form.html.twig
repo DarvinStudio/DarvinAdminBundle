@@ -1,7 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'edit_element copy js-form', 'data-reload-page': 1}}) }}
+{{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
-<button type="submit"></button>
-<span>{{ (translation_prefix ~ 'action.copy.submit')|trans }}</span>
+<button class="table-row__btn-clone" title="{{ (translation_prefix ~ 'action.copy.submit')|trans|e('html_attr') }}">&nbsp;</button>
 {{ form_end(form) }}

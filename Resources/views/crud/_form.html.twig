@@ -1,3 +1,4 @@
+{#
 {% import _self as that %}
 
 {% form_theme form '@DarvinAdmin/fields.html.twig' %}
@@ -63,3 +64,667 @@
     </div>
     {{ form_end(form) }}
 </div>
+#}
+
+<div class="content-block">
+    <div class="content-block__content">
+        <!--
+Пустые <div class="form-item__description"></div> выводить всё равно нужно!!!
+-->
+
+        <form action="/form-success.html" class="js-ajax">
+            <div class="form-product-show">
+
+                <div class="form-item">
+                    <span class="form-item__label">Производитель</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1" selected>KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Ссылка</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear">
+                            <input data-input type="text">
+                            <button data-btn-clear>clear</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Производитель</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2" selected>noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Дополнительные каталоги</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select multiple>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2" selected>noKIA</option>
+                                <option value="3">Other</option>
+                                <option value="3">Another</option>
+                                <option value="3">Something</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <!-- -->
+                <!-- -->
+                <!-- content-tabs -->
+                <div class="form-tabs">
+                    <div class="form-tabs__container tabs js-tabs">
+                        <div class="tabs__nav">
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ru.svg" alt="">
+                                Русский
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-en.svg" alt="">
+                                English
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ar.svg" alt="">
+                                Arabic
+                            </div>
+                        </div>
+                        <div class="tabs__content">
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ru.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Настройки показа</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Название</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Текст</span>
+                                    <div class="form-item__field" data-type="ckeditor">
+                                        <textarea></textarea>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Аннотация</span>
+                                    <div class="form-item__field" data-type="ckeditor">
+                                        <textarea></textarea>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Заголовок H1</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Мета-title</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Meta description</span>
+                                    <div class="form-item__field">
+                                        <textarea></textarea>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Трансмиссия</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Текст</span>
+                                    <div class="form-item__field" data-type="ckeditor">
+                                        <textarea></textarea>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-en.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена страховки</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ar.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена страховки</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end content-tabs -->
+                <!-- -->
+                <!-- -->
+
+                <div class="form-item">
+                    <span class="form-item__label">Изображение</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear">
+                            <input data-input type="text">
+                            <button data-btn-clear>clear</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description">Рекомендуемый минимальный размер: 950px x 400px <br> Максимальный размер файла: 2 МБ</div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Показывать в меню </span>
+                    <div class="form-item__field" data-type="checkbox">
+                        <div class="form-item__сheckbox">
+                            <label class="custom-checkbox"><input type="checkbox"><span>Верхнее меню</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Нижнее меню</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Форма обратной связи</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>На главной</span></label>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                </div>
+
+                <div class="form-heading">Дополнительные поля</div>
+
+                <!-- -->
+                <!-- -->
+                <!-- form-tabs -->
+                <div class="form-tabs">
+                    <div class="form-tabs__container tabs js-tabs">
+                        <div class="tabs__nav">
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ru.svg" alt="">
+                                Русский
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-en.svg" alt="">
+                                English
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ar.svg" alt="">
+                                Arabic
+                            </div>
+                        </div>
+                        <div class="tabs__content">
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ru.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена страховки</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-en.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена страховки</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ar.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">Цена страховки</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end form-tabs -->
+                <!-- -->
+                <!-- -->
+
+                <div class="form-item">
+                    <span class="form-item__label">Тип оплаты</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select multiple>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                                <option value="3">Another</option>
+                                <option value="3">Something</option>
+                            </select>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Виды оплаты</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Дополнительное</span>
+                    <div class="form-item__field" data-type="checkbox">
+                        <div class="form-item__сheckbox">
+                            <label class="custom-checkbox"><input type="checkbox"><span>Поддержка 24/7</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Бесплатная доставка (30 дней)</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Бесплатная отмена аренды</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Неограниченный пробег</span></label>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Ежедневная страховка</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Тип кузова</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Ежемесячная страховка</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Пробег (дневной)</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Пробег (недельный)</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Пробег (месячный)</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <!-- -->
+                <!-- -->
+                <!-- form-tabs -->
+                <div class="form-tabs">
+                    <div class="form-tabs__container tabs js-tabs">
+                        <div class="tabs__nav">
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ru.svg" alt="">
+                                Русский
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-en.svg" alt="">
+                                English
+                            </div>
+                            <div class="tabs__nav-item">
+                                <img src="assets/images/icons/lang-ar.svg" alt="">
+                                Arabic
+                            </div>
+                        </div>
+                        <div class="tabs__content">
+                            <div class="tabs__content-item">
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ru.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">SCDW (в месяц)</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-en.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">SCDW (в месяц)</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                            <div class="tabs__content-item">
+
+                                <div class="tabs__content-item-lang">
+                                    <img src="assets/images/icons/lang-ar.svg" alt="">
+                                </div>
+
+                                <div class="form-item">
+                                    <span class="form-item__label">SCDW (в месяц)</span>
+                                    <div class="form-item__field">
+                                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                                        <div class="form-item__error"></div>
+                                    </div>
+                                    <div class="form-item__description"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- end form-tabs -->
+                <!-- -->
+                <!-- -->
+
+                <div class="form-heading">Ежемесячный платеж</div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Новая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Старая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-heading">Ежемесячный платеж</div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Новая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Старая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-heading">Ежемесячный платеж</div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Новая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Старая цена</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Год выпуска</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Текст</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Пробег в КМ</span>
+                    <div class="form-item__field">
+                        <div class="form-item__input js-with-btn-clear"><input data-input type="text"><button data-btn-clear>clear</button></div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Класс</span>
+                    <div class="form-item__field">
+                        <div class="custom-select js-chosen">
+                            <select>
+                                <option value=""></option>
+                                <option value="1">KIA</option>
+                                <option value="2">noKIA</option>
+                                <option value="3">Other</option>
+                            </select>
+                            <button class="custom-select__btn-reset" data-btn-reset>reset</button>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                    <div class="form-item__description"></div>
+                </div>
+
+                <div class="form-item">
+                    <span class="form-item__label">Дополнительное</span>
+                    <div class="form-item__field" data-type="checkbox">
+                        <div class="form-item__сheckbox">
+                            <label class="custom-checkbox"><input type="checkbox"><span>На главной</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Скидка</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Новинка</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Старая цена</span></label>
+                            <label class="custom-checkbox"><input type="checkbox"><span>Лизинг</span></label>
+                        </div>
+                        <div class="form-item__error"></div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div><!-- end content-block -->

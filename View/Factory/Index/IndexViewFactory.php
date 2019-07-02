@@ -58,7 +58,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createView(array $entities, Metadata $meta): IndexView
     {
@@ -86,35 +86,30 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
      */
     private function createHead(Metadata $meta): Head
     {
-        $head = new Head();
+        $head        = new Head();
+        $config      = $meta->getConfiguration();
+        $transPrefix = $meta->getEntityTranslationPrefix();
 
-        $configuration = $meta->getConfiguration();
-        $translationPrefix = $meta->getEntityTranslationPrefix();
-
-        if (!empty($configuration['view']['index']['action_widgets'])) {
+        if (!empty($config['view']['index']['action_widgets'])) {
             $head->addItem('action_widgets', new HeadItem('common.actions', [
                 'data-type' => 'actions',
             ]));
         }
-        foreach ($configuration['view']['index']['fields'] as $field => $params) {
+        foreach ($config['view']['index']['fields'] as $field => $params) {
             if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                 continue;
             }
 
-            $content = $translationPrefix.StringsUtil::toUnderscore($field);
+            $item = new HeadItem($transPrefix.StringsUtil::toUnderscore($field), $params['attr']);
 
-            $headItem = new HeadItem($content, $params['attr']);
+            if (array_key_exists($field, $config['sortable_fields'])) {
+                $sortablePropertyPath = !empty($config['sortable_fields'][$field]) ? $config['sortable_fields'][$field] : $field;
 
-            if (array_key_exists($field, $configuration['sortable_fields'])) {
-                $sortablePropertyPath = !empty($configuration['sortable_fields'][$field])
-                    ? $configuration['sortable_fields'][$field]
-                    : $field;
-
-                $headItem->setSortable(true);
-                $headItem->setSortablePropertyPath($sortablePropertyPath);
+                $item->setSortable(true);
+                $item->setSortablePropertyPath($sortablePropertyPath);
             }
 
-            $head->addItem($field, $headItem);
+            $head->addItem($field, $item);
         }
 
         return $head;
@@ -128,23 +123,22 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
      */
     private function createBody(Metadata $meta, array $entities): Body
     {
-        $body = new Body();
-
-        $configuration = $meta->getConfiguration();
+        $body     = new Body();
+        $config   = $meta->getConfiguration();
         $mappings = $meta->getMappings();
 
         foreach ($entities as $entity) {
-            $bodyRow = new BodyRow($this->buildBodyRowAttr($entity, $meta));
+            $row     = new BodyRow($this->buildBodyRowAttr($entity, $meta));
             $actions = (string)$this->actionsWidget->getContent($entity, [
                 'view_type' => 'index',
             ]);
 
             if ('' !== $actions) {
-                $bodyRow->addItem('action_widgets', new BodyRowItem($actions, [
+                $row->addItem('action_widgets', new BodyRowItem($actions, [
                     'data-type' => 'actions',
                 ]));
             }
-            foreach ($configuration['view']['index']['fields'] as $field => $params) {
+            foreach ($config['view']['index']['fields'] as $field => $params) {
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                     continue;
                 }
@@ -153,7 +147,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
 
                 if (!$this->isFieldContentHidden($params, $entity)) {
                     if (!$this->isPropertyViewField($meta, 'index', $field)
-                        || !array_key_exists($field, $configuration['form']['index']['fields'])
+                        || !array_key_exists($field, $config['form']['index']['fields'])
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
                     ) {
@@ -165,10 +159,10 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     }
                 }
 
-                $bodyRow->addItem($field, new BodyRowItem($content, $params['attr']));
+                $row->addItem($field, new BodyRowItem($content, $params['attr']));
             }
 
-            $body->addRow($bodyRow);
+            $body->addRow($row);
         }
 
         $this->normalizeBody($body);
@@ -187,7 +181,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $attr = [];
 
         foreach ($meta->getConfiguration()['index_view_row_attr'] as $property) {
-            $attr['data-'.$property] = $this->propertyAccessor->getValue($entity, $property);
+            $attr[sprintf('data-%s', $property)] = $this->propertyAccessor->getValue($entity, $property);
         }
 
         return $attr;
@@ -198,49 +192,48 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
      */
     private function normalizeBody(Body $body): void
     {
-        if (empty($body) || 1 === $body->getLength()) {
+        if (1 === $body->getLength()) {
             return;
         }
 
         $rows = $body->getRows();
 
         $firstRow = $rows[0];
-        $maxRowLength = $firstRow->getLength();
 
+        $lengths             = [];
+        $maxLength           = $firstRow->getLength();
         $normalizationNeeded = false;
 
-        $rowLengths = [];
-
         foreach ($rows as $key => $row) {
-            $rowLength = $row->getLength();
-            $rowLengths[$key] = $rowLength;
+            $length = $row->getLength();
 
-            if ($rowLength !== $maxRowLength) {
+            $lengths[$key] = $length;
+
+            if ($length !== $maxLength) {
                 $normalizationNeeded = true;
             }
-            if ($rowLength > $maxRowLength) {
-                $maxRowLength = $rowLength;
+            if ($length > $maxLength) {
+                $maxLength = $length;
             }
         }
         if ($normalizationNeeded) {
-            $this->normalizeBodyRows($rows, $rowLengths, $maxRowLength);
+            $this->normalizeBodyRows($rows, $lengths, $maxLength);
         }
     }
 
     /**
-     * @param \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[] $rows         Body rows
-     * @param array                                                 $rowLengths   Body row lengths
-     * @param int                                                   $maxRowLength Max body row length
+     * @param \Darvin\AdminBundle\View\Factory\Index\Body\BodyRow[] $rows      Body rows
+     * @param array                                                 $lengths   Body row lengths
+     * @param int                                                   $maxLength Max body row length
      */
-    private function normalizeBodyRows(array $rows, array $rowLengths, int $maxRowLength): void
+    private function normalizeBodyRows(array $rows, array $lengths, int $maxLength): void
     {
-        foreach ($rowLengths as $key => $rowLength) {
-            if ($rowLength === $maxRowLength) {
+        foreach ($lengths as $key => $length) {
+            if ($length === $maxLength) {
                 continue;
             }
-            for ($i = 0; $i < $maxRowLength - $rowLength; $i++) {
-                $row = $rows[$key];
-                $row->addItem(null, new BodyRowItem());
+            for ($i = 0; $i < $maxLength - $length; $i++) {
+                $rows[$key]->addItem(null, new BodyRowItem());
             }
         }
     }

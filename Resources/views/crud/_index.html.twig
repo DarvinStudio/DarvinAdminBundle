@@ -123,7 +123,16 @@
                             <tr>
                                 {% for name, item in view.head.items %}
                                     {% if item.width %}
-                                        <th colspan="{{ item.width }}">
+
+                                        {% set attr = item.attr %}
+
+                                        {% if attr.colspan is not defined %}
+
+                                            {% set attr = attr|merge({'colspan': item.width}) %}
+
+                                        {% endif %}
+
+                                        <th{% for attr_name, attr_value in attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
                                             {% if 'action_widgets' == name and batch_delete_form %}
                                                 <label class="custom-checkbox"
                                                        title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">

@@ -21,6 +21,11 @@ class HeadItem
     private $content;
 
     /**
+     * @var array
+     */
+    private $attr;
+
+    /**
      * @var bool
      */
     private $sortable;
@@ -37,13 +42,15 @@ class HeadItem
 
     /**
      * @param string $content              Content
+     * @param array  $attr                 HTML attributes
      * @param bool   $sortable             Is sortable
      * @param string $sortablePropertyPath Sortable property path
      * @param int    $width                Width
      */
-    public function __construct(string $content, bool $sortable = false, ?string $sortablePropertyPath = null, int $width = 1)
+    public function __construct(string $content, array $attr = [], bool $sortable = false, ?string $sortablePropertyPath = null, int $width = 1)
     {
         $this->content = $content;
+        $this->attr = $attr;
         $this->sortable = $sortable;
         $this->width = $width;
 
@@ -56,6 +63,14 @@ class HeadItem
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttr(): array
+    {
+        return $this->attr;
     }
 
     /**

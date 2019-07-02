@@ -92,7 +92,9 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $translationPrefix = $meta->getEntityTranslationPrefix();
 
         if (!empty($configuration['view']['index']['action_widgets'])) {
-            $head->addItem('action_widgets', new HeadItem('common.actions'));
+            $head->addItem('action_widgets', new HeadItem('common.actions', [
+                'data-type' => 'actions',
+            ]));
         }
         foreach ($configuration['view']['index']['fields'] as $field => $attr) {
             if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {

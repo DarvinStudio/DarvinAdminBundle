@@ -14,11 +14,13 @@
     {%- endif -%}
     <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
         {{- form_label(form) -}}
-        <div class="form-item__field">
+        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>
-        {{- form_help(form) -}}
+        {%- if show_help is not defined or show_help -%}
+            {{- form_help(form) -}}
+        {%- endif -%}
     </div>
 {%- endblock form_row -%}
 
@@ -64,7 +66,7 @@
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
-    <div class="custom-select js-chosen"{% if size is defined %} data-type="{{ size }}"{% endif %}>
+    <div class="custom-select js-chosen"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
         {{- parent() -}}
         {%- if not required -%}
             <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
@@ -82,7 +84,7 @@
         {%- if attr['data-input'] is not defined -%}
             {%- set attr = attr|merge({'data-input': ''}) -%}
         {%- endif -%}
-        <div class="form-item__input js-with-btn-clear"{% if size is defined %} data-type="{{ size }}"{% endif %}>
+        <div class="form-item__input js-with-btn-clear"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
             {{- parent() -}}
             <button data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>
@@ -116,6 +118,12 @@
         </div>
     </div>
 {%- endblock a2lix_translations_row -%}
+
+{%- block darvin_admin_ck_editor_row -%}
+    {%- set data_type = 'ckeditor' -%}
+    {%- set show_help = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_admin_ck_editor_row -%}
 
 {%- block darvin_admin_position_widget -%}
     <div class="table-row__position"{%- if level is not same as(null) -%} data-level="{{- level -}}"{%- endif -%}>

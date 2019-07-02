@@ -3,14 +3,12 @@
         {{ widgets[0]|raw }}
     {% else %}
         <table>
-            <tbody>
-                <tr>
-                    {% for widget in widgets %}
-                        <td>{{ widget|raw }}</td>
-                        {% if 0 == loop.index % line_size %}</tr><tr>{% endif %}
-                    {% endfor %}
-                </tr>
-            </tbody>
+            <tr>
+                {% for widget in widgets %}
+                    <td>{{ widget|raw }}</td>
+                    {% if 0 == loop.index % line_size %}</tr><tr>{% endif %}
+                {% endfor %}
+            </tr>
         </table>
     {% endif %}
 {% endif %}

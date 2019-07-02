@@ -11,7 +11,7 @@
     {% if show_new_link %}
         <a class="table-row__with-add-btn"
            href="{{ admin_path(null, child, 'new', route_params) }}"
-           title="{{ (translation_prefix ~ 'action.new.link')|trans }}">
+           title="{{ (translation_prefix ~ 'action.new.link')|trans|e('html_attr') }}">
         </a>
     {% endif %}
 </div>

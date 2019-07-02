@@ -1,12 +1,10 @@
 {% trans_default_domain 'admin' %}
 
 <table>
-    <tbody>
-        {% for key, value in data %}
-            <tr>
-                <th>{{ key|trans }}</th>
-                <td>{{ value|raw }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
+    {% for key, value in data %}
+        <tr>
+            <th>{{ key|trans }}</th>
+            <td>{{ value|raw }}</td>
+        </tr>
+    {% endfor %}
 </table>

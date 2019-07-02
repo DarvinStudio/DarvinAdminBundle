@@ -30,10 +30,16 @@
 
 {# Generic widgets #}
 
+{%- block checkbox_widget -%}
+    <label class="custom-checkbox">{{- parent() -}}<span></span></label>
+{%- endblock checkbox_widget -%}
+
 {%- block choice_widget_collapsed -%}
     <div class="custom-select js-chosen" data-type="small">
         {{- parent() -}}
-        <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
+        {%- if not required -%}
+            <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
+        {%- endif -%}
     </div>
 {%- endblock choice_widget_collapsed -%}
 

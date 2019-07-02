@@ -1,5 +1,6 @@
 {% extends '@DarvinAdmin/fields.html.twig' %}
 
-{%- block checkbox_widget -%}
-    <label class="custom-checkbox">{{- parent() -}}<span></span></label>
-{%- endblock checkbox_widget -%}
+{%- block form_widget_simple -%}
+    {%- set clearable = false -%}
+    {{- parent() -}}
+{%- endblock form_widget_simple -%}

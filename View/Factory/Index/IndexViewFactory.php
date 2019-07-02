@@ -19,6 +19,7 @@ use Darvin\AdminBundle\View\Factory\Index\Body\BodyRow;
 use Darvin\AdminBundle\View\Factory\Index\Body\BodyRowItem;
 use Darvin\AdminBundle\View\Factory\Index\Head\Head;
 use Darvin\AdminBundle\View\Factory\Index\Head\HeadItem;
+use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\Utils\Strings\StringsUtil;
 
 /**
@@ -26,6 +27,11 @@ use Darvin\Utils\Strings\StringsUtil;
  */
 class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryInterface
 {
+    /**
+     * @var \Darvin\AdminBundle\View\Widget\WidgetInterface
+     */
+    private $actionsWidget;
+
     /**
      * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
      */
@@ -37,11 +43,16 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
     private $propertyFormRenderer;
 
     /**
+     * @param \Darvin\AdminBundle\View\Widget\WidgetInterface                 $actionsWidget        Actions view widget
      * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface              $adminFormFactory     Admin form factory
      * @param \Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface $propertyFormRenderer Property form renderer
      */
-    public function __construct(AdminFormFactoryInterface $adminFormFactory, PropertyFormRendererInterface $propertyFormRenderer)
-    {
+    public function __construct(
+        WidgetInterface $actionsWidget,
+        AdminFormFactoryInterface $adminFormFactory,
+        PropertyFormRendererInterface $propertyFormRenderer
+    ) {
+        $this->actionsWidget = $actionsWidget;
         $this->adminFormFactory = $adminFormFactory;
         $this->propertyFormRenderer = $propertyFormRenderer;
     }
@@ -122,18 +133,12 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
 
         foreach ($entities as $entity) {
             $bodyRow = new BodyRow($this->buildBodyRowAttr($entity, $meta));
+            $actions = (string)$this->actionsWidget->getContent($entity, [
+                'view_type' => 'index',
+            ]);
 
-            if (!empty($configuration['view']['index']['action_widgets'])) {
-                $actionWidgets = '';
-
-                foreach ($configuration['view']['index']['action_widgets'] as $widgetAlias => $widgetOptions) {
-                    $actionWidgets .= $this->widgetPool->getWidget($widgetAlias)->getContent(
-                        $entity,
-                        $widgetOptions
-                    );
-                }
-
-                $bodyRow->addItem('action_widgets', new BodyRowItem($actionWidgets));
+            if ('' !== $actions) {
+                $bodyRow->addItem('action_widgets', new BodyRowItem($actions));
             }
             foreach ($configuration['view']['index']['fields'] as $field => $params) {
                 if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {

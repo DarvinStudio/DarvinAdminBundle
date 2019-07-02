@@ -52,6 +52,7 @@ services:
         parent: darvin_admin.view.factory.abstract
         public: true
         arguments:
+            - '@darvin_admin.view.widget.actions'
             - '@darvin_admin.form.factory'
             - '@darvin_admin.form.renderer.property'
 

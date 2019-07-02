@@ -14,7 +14,7 @@
     {%- endif -%}
     <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
         {{- form_label(form) -}}
-        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+        <div class="form-item__field"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>
@@ -66,7 +66,7 @@
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
-    <div class="custom-select js-chosen"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+    <div class="custom-select js-chosen"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
         {{- parent() -}}
         {%- if not required -%}
             <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
@@ -84,7 +84,7 @@
         {%- if attr['data-input'] is not defined -%}
             {%- set attr = attr|merge({'data-input': ''}) -%}
         {%- endif -%}
-        <div class="form-item__input js-with-btn-clear"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+        <div class="form-item__input js-with-btn-clear"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
             {{- parent() -}}
             <button data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>

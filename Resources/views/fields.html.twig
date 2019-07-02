@@ -64,7 +64,7 @@
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
-    <div class="custom-select js-chosen" data-type="small">
+    <div class="custom-select js-chosen"{% if size is defined %} data-type="{{ size }}"{% endif %}>
         {{- parent() -}}
         {%- if not required -%}
             <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
@@ -82,7 +82,7 @@
         {%- if attr['data-input'] is not defined -%}
             {%- set attr = attr|merge({'data-input': ''}) -%}
         {%- endif -%}
-        <div class="form-item__input js-with-btn-clear" data-type="small">
+        <div class="form-item__input js-with-btn-clear"{% if size is defined %} data-type="{{ size }}"{% endif %}>
             {{- parent() -}}
             <button data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>

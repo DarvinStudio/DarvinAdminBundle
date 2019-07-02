@@ -1,0 +1,13 @@
+{% extends '@DarvinAdmin/fields.html.twig' %}
+
+{%- block form_help -%}{%- endblock form_help -%}
+
+{%- block choice_widget_collapsed -%}
+    {%- set size = 'small' -%}
+    {{- parent() -}}
+{%- endblock choice_widget_collapsed -%}
+
+{%- block form_widget_simple -%}
+    {%- set size = 'small' -%}
+    {{- parent() -}}
+{%- endblock form_widget_simple -%}

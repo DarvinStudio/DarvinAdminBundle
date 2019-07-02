@@ -45,10 +45,11 @@ configuration:
 crud:
     action:
         batch_delete:
-            check:   Выбрать
-            confirm: Подтвердите удаление выбранных элементов
-            submit:  Удалить выбранные
-            success: Выбранные элементы успешно удалены
+            check:     Выбрать
+            check_all: Выбрать все
+            confirm:   Подтвердите удаление выбранных элементов
+            submit:    Удалить выбранные
+            success:   Выбранные элементы успешно удалены
 
 dashboard:
     module_link: Перейти в модуль

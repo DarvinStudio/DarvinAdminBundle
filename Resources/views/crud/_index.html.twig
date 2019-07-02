@@ -125,7 +125,8 @@
                                     {% if item.width %}
                                         <th colspan="{{ item.width }}">
                                             {% if 'action_widgets' == name and batch_delete_form %}
-                                                <label class="custom-checkbox">
+                                                <label class="custom-checkbox"
+                                                       title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">
                                                     <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">
                                                     <span></span>
                                                 </label>

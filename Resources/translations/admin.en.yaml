@@ -40,6 +40,7 @@ crud:
     action:
         batch_delete:
             check: Select
+            check_all: 'Select All'
             confirm: 'Confirm Selected Items Removal'
             submit: 'Remove Selected'
             success: 'Selected Items Successfully Removed'

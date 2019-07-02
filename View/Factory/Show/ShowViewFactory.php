@@ -20,26 +20,24 @@ use Darvin\Utils\Strings\StringsUtil;
 class ShowViewFactory extends AbstractViewFactory implements ShowViewFactoryInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createView($entity, Metadata $meta): ShowView
     {
         $this->validateConfiguration($meta, $entity, 'show');
 
-        $view = new ShowView();
+        $view        = new ShowView();
+        $config      = $meta->getConfiguration();
+        $transPrefix = $meta->getEntityTranslationPrefix();
 
-        $configuration = $meta->getConfiguration();
-        $translationPrefix = $meta->getEntityTranslationPrefix();
-
-        foreach ($configuration['view']['show']['fields'] as $field => $attr) {
+        foreach ($config['view']['show']['fields'] as $field => $attr) {
             if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][show]')
                 || $this->isFieldContentHidden($attr, $entity)
             ) {
                 continue;
             }
 
-            $label = $translationPrefix.StringsUtil::toUnderscore($field);
-
+            $label   = $transPrefix.StringsUtil::toUnderscore($field);
             $content = $this->getFieldContent($entity, $field, $attr, $meta->getMappings());
 
             $view->addItem(new Item($label, $content));

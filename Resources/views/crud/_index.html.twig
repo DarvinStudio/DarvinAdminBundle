@@ -123,7 +123,7 @@
                             <tr>
                                 {% for name, item in view.head.items %}
                                     {% if item.width %}
-                                        <th{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                        <th{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
                                             {% if 'action_widgets' == name and batch_delete_form %}
                                                 <label class="custom-checkbox"
                                                        title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">
@@ -139,20 +139,6 @@
                                         </th>
                                     {% endif %}
                                 {% endfor %}
-    {#                            <th data-type="actions">#}
-    {#                                <label class="custom-checkbox"><input type="checkbox"><span></span></label>#}
-    {#                                Действия#}
-    {#                            </th>#}
-    {#                            <th data-type="position">Позиция</th>#}
-    {#                            <th data-type="checkbox">На главной</th>#}
-    {#                            <th data-type="checkbox">Активен</th>#}
-    {#                            <th data-type="checkbox">Скрыт</th>#}
-    {#                            <th data-type="checkbox">Расширенный фильтр</th>#}
-    {#                            <th data-type="checkbox">Виджет товаров</th>#}
-    {#                            <th>Название</th>#}
-    {#                            <th data-type="with-add">Товары</th>#}
-    {#                            <th data-type="with-add">Свойства</th>#}
-    {#                            <th data-type="link">Ссылка</th>#}
                             </tr>
                         </thead>
                         <tbody>
@@ -160,50 +146,14 @@
 
                                 {% set attr = row.attr|merge({'class': (row.attr.class|default ~ ' table-row')|trim}) %}
 
-                                <tr{% for attr_name, attr_value in attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                <tr{% for attr_name, attr_value in attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
                                     {% for item in row.items %}
-                                        <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+                                        <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
                                             {{ item.content|trans|raw }}
                                         </td>
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
-                        {#
-                        <tr class="table-row">
-                            <td data-type="actions">
-                                <div class="table-row__actions">
-                                    <label class="custom-checkbox" title="Выбрать"><input type="checkbox"><span></span></label>
-                                    <button class="table-row__btn-show" title="Показать">show</button>
-                                    <button class="table-row__btn-edit" title="Редактировать">edit</button>
-                                    <button class="table-row__btn-remove" title="Удалить">remove</button>
-                                </div>
-                            </td>
-                            <td data-type="position">
-                                <div class="table-row__position" data-level="2">
-                                    <form><input type="text"></form>
-                                </div>
-                            </td>
-                            <td data-type="checkbox"><label class="custom-checkbox"><input type="checkbox"><span></span></label></td>
-                            <td data-type="checkbox"><label class="custom-checkbox"><input type="checkbox"><span></span></label></td>
-                            <td data-type="checkbox"><label class="custom-checkbox"><input type="checkbox"><span></span></label></td>
-                            <td data-type="checkbox"><label class="custom-checkbox"><input type="checkbox"><span></span></label></td>
-                            <td data-type="checkbox"><label class="custom-checkbox"><input type="checkbox"><span></span></label></td>
-                            <td>— Ламинированные</td>
-                            <td data-type="with-add">
-                                <div class="table-row__with-add">
-                                    <a class="table-row__with-add-link" href="">Товары и услуги (54)</a>
-                                    <a class="table-row__with-add-btn" href="">add</a>
-                                </div>
-                            </td>
-                            <td data-type="with-add">
-                                <div class="table-row__with-add">
-                                    <a class="table-row__with-add-link" href="">Свойства (2)</a>
-                                    <a class="table-row__with-add-btn" href="">add</a>
-                                </div>
-                            </td>
-                            <td data-type="link"><a href="/mekkomnatnye-dveril/laminirovanysdsdadasde.html">/mekkomnatnye-dveril/laminirovanysdsdadasde.html</a></td>
-                        </tr>
-                        #}
                         </tbody>
                     </table>
                 </div>

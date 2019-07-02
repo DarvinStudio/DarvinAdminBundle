@@ -70,7 +70,9 @@ class HeadItem
      */
     public function getAttr(): array
     {
-        return $this->attr;
+        return array_merge([
+            'colspan' => $this->width,
+        ], $this->attr);
     }
 
     /**

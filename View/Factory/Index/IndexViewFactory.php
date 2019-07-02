@@ -96,14 +96,14 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                 'data-type' => 'actions',
             ]));
         }
-        foreach ($configuration['view']['index']['fields'] as $field => $attr) {
+        foreach ($configuration['view']['index']['fields'] as $field => $params) {
             if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
                 continue;
             }
 
             $content = $translationPrefix.StringsUtil::toUnderscore($field);
 
-            $headItem = new HeadItem($content);
+            $headItem = new HeadItem($content, $params['attr']);
 
             if (array_key_exists($field, $configuration['sortable_fields'])) {
                 $sortablePropertyPath = !empty($configuration['sortable_fields'][$field])
@@ -165,7 +165,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     }
                 }
 
-                $bodyRow->addItem($field, new BodyRowItem($content));
+                $bodyRow->addItem($field, new BodyRowItem($content, $params['attr']));
             }
 
             $body->addRow($bodyRow);

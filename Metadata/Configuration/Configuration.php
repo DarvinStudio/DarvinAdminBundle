@@ -243,13 +243,25 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->validate()
                             ->ifTrue(function (array $field) {
-                                return count($field) + count($field['widget']) > 4;
+                                return count($field) + count($field['widget']) > 5;
                             })
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
+                        ->beforeNormalization()->ifArray()->then(function (array $field) {
+                            if (isset($field['type']) && null !== $field['type']) {
+                                if (!isset($field['attr'])) {
+                                    $field['attr'] = [];
+                                }
+
+                                $field['attr']['data-type'] = $field['type'];
+                            }
+
+                            return $field;
+                        })->end()
                         ->children()
+                            ->scalarNode('type')->defaultNull()->end()
                             ->scalarNode('condition')->defaultNull()->end()
-                            ->arrayNode('attr')->prototype('scalar')->end()->end()
+                            ->arrayNode('attr')->normalizeKeys(false)->prototype('scalar')->end()->end()
                             ->arrayNode('widget')->useAttributeAsKey('alias')->prototype('array')->prototype('variable')->end()->end()
                                 ->beforeNormalization()->ifString()->then(function ($alias) {
                                     return [

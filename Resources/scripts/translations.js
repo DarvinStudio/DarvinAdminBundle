@@ -29,12 +29,12 @@
         .on('click', 'form ' + SELECTORS.toggle, (e) => {
             $(e.currentTarget).closest(SELECTORS.translations).find(SELECTORS.input).removeData('synced');
         })
-        .on('change', 'form ' + SELECTORS.tab + '.active ' + SELECTORS.input, (e) => {
+        .on('change', 'form ' + SELECTORS.tab + '.is-active ' + SELECTORS.input, (e) => {
             let $sourceInput = $(e.currentTarget);
 
             $sourceInput.removeData('synced');
 
-            let $row = $sourceInput.closest('.table_row');
+            let $row = $sourceInput.closest('.form-item');
 
             let $sourceTab = $row.closest(SELECTORS.tab),
                 rowIndex   = $row.index(),
@@ -43,7 +43,7 @@
             $sourceTab.siblings(SELECTORS.tab).each((i, targetTab) => {
                 let $targetTab = $(targetTab);
 
-                let $targetInput = $targetTab.find('.table_row').eq(rowIndex).find(SELECTORS.input);
+                let $targetInput = $targetTab.find('.form-item').eq(rowIndex).find(SELECTORS.input);
 
                 if ('' !== $targetInput.val() && !$targetInput.data('synced')) {
                     return;

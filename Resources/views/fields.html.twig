@@ -30,7 +30,7 @@
 
 {%- block form_errors -%}
     {%- if errors|length > 0 -%}
-        <div class="form-item__error">
+        <div class="form-item__error js-form-errors">
             {{- parent() -}}
         </div>
     {%- endif -%}
@@ -90,6 +90,32 @@
 {%- endblock form_widget_simple -%}
 
 {# Custom widgets #}
+
+{%- block a2lix_translations_row -%}
+    {{- form_errors(form) -}}
+    <div class="form-tabs js-translations">
+        <div class="form-tabs__container tabs js-tabs">
+            <div class="tabs__nav">
+                {%- for locale, row in form -%}
+                    <div class="tabs__nav-item js-translation-toggle" data-target=".{{ row.vars.id }}">
+                        <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                        {{- ('locale.' ~ locale)|trans -}}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="tabs__content">
+                {%- for locale, row in form -%}
+                    <div class="tabs__content-item js-translation-tab {{ row.vars.id }}" data-locale="{{ locale }}">
+                        <div class="tabs__content-item-lang">
+                            <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                        </div>
+                        {{- form_widget(row) -}}
+                    </div>
+                {%- endfor -%}
+            </div>
+        </div>
+    </div>
+{%- endblock a2lix_translations_row -%}
 
 {%- block darvin_admin_position_widget -%}
     <div class="table-row__position"{%- if level is not same as(null) -%} data-level="{{- level -}}"{%- endif -%}>

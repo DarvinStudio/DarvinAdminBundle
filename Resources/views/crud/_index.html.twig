@@ -41,7 +41,7 @@
 
         {% block property_forms_submit %}
             {% if view.body.rows is not empty %}
-                <a class="js-property-submit save_edit" style="display: none;">
+                <a class="js-property-submit" style="display: none;">
                     {% trans %}property_forms.submit{% endtrans %}
                 </a>
             {% endif %}
@@ -92,11 +92,13 @@
                 {{ form_start(batch_delete_form, {'attr': {
                     'class':            'js-form js-batch-delete',
                     'data-reload-page': 1,
-                    'onsubmit':         'return confirm("' ~ 'crud.action.batch_delete.confirm'|trans|e('js') ~ '");',
                     'autocomplete':     'off',
                 }}) }}
                 {{ form_widget(batch_delete_form, {'attr': {'style': 'display: none;'}}) }}
-                <button class="content-block__btn-remove" style="display: none;">
+                <button class="content-block__btn-remove"
+                        type="submit"
+                        onclick="return confirm('{{ 'crud.action.batch_delete.confirm'|trans|e('js') }}');"
+                        style="display: none;">
                     {% trans %}crud.action.batch_delete.submit{% endtrans %}
                 </button>
                 {{ form_end(batch_delete_form) }}

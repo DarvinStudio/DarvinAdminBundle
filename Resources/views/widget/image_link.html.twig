@@ -1,1 +1,5 @@
-<a href="{{ image|image_original }}" class="js-ajax" title="{{ image.name }}"><img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt=""></a>
+<div class="table-row__image js-photoswipe-gallery">
+    <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
+        <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
+    </a>
+</div>

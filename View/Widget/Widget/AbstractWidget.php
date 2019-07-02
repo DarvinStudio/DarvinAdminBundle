@@ -140,9 +140,11 @@ abstract class AbstractWidget implements WidgetInterface
             ->setDefaults([
                 'property' => null,
                 'template' => null,
+                'style'    => 'default',
             ])
             ->setAllowedTypes('property', ['string', 'null'])
-            ->setAllowedTypes('template', ['string', 'null']);
+            ->setAllowedTypes('template', ['string', 'null'])
+            ->setAllowedTypes('style', ['string']);
     }
 
     /**

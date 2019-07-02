@@ -1,8 +1,14 @@
 {% trans_default_domain 'admin' %}
 
+{% set classes = {
+    'default': 'table-row__btn-remove',
+    'footer':  'page-footer__btn-remove',
+    'header':  'page-header__btn-remove',
+} %}
+
 {{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
-<button class="table-row__btn-remove"
+<button class="{{ classes[style]|default }}"
         title="{{ (translation_prefix ~ 'action.delete.submit')|trans|e('html_attr') }}"
         onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
     &nbsp;

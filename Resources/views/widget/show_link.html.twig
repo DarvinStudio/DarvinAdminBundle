@@ -1,9 +1,14 @@
 {% trans_default_domain 'admin' %}
 
-{% set title = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
+{% set title   = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
+{% set classes = {
+    'default': 'table-row__btn-show',
+    'footer':  'page-footer__btn-hide',
+    'header':  'page-header__btn-hide',
+} %}
 
 <a href="{{ admin_path(entity, entity_class, 'show') }}"
-   class="js-ajax{% if not text %} table-row__btn-show{% endif %}"
+   class="js-ajax{% if not text %} {{ classes[style]|default }}{% endif %}"
    title="{{ title|e('html_attr') }}">
     {{ text ? entity : title }}
 </a>

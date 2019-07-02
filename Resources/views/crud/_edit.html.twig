@@ -10,8 +10,9 @@
         {% block heading %}{{ heading }}{% endblock %}
 
         {% block header_buttons %}
-            <a class="page-header__btn-hide" href="">Скрыть</a>
-            <a class="page-header__btn-remove" href="">Удалить</a>
+            {% if entity %}
+                {{ admin_widget('actions', entity, {'view_type': 'edit', 'style': 'header'}) }}
+            {% endif %}
             <a class="page-header__btn-save-add" href="">Сохранить и добавить ещё</a>
             <a class="page-header__btn-save-edit" href="">Сохранить и редактировать</a>
             <a class="page-header__btn-save" href="">Сохранить изменения</a>
@@ -22,8 +23,9 @@
         {% block footer %}
             <div class="page-footer">
                 <div class="page-footer__btns">
-                    <a class="page-footer__btn-hide" href="">Скрыть</a>
-                    <a class="page-footer__btn-remove" href="">Удалить</a>
+                    {% if entity %}
+                        {{ admin_widget('actions', entity, {'view_type': 'edit', 'style': 'footer'}) }}
+                    {% endif %}
                     <a class="page-footer__btn-save-add" href="">Сохранить и добавить ещё</a>
                     <a class="page-footer__btn-save-edit" href="">Сохранить и редактировать</a>
                     <a class="page-footer__btn-save" href="">Сохранить изменения</a>

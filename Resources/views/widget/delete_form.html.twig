@@ -4,5 +4,7 @@
 {{ form_widget(form) }}
 <button class="table-row__btn-remove"
         title="{{ (translation_prefix ~ 'action.delete.submit')|trans|e('html_attr') }}"
-        onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');"></button>
+        onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
+    &nbsp;
+</button>
 {{ form_end(form) }}

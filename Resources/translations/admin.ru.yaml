@@ -89,6 +89,10 @@ form:
         title: Выбрать файл
     file:
         help: 'Максимальный размер файла: %size%МБ'
+    select:
+        reset: Сбросить
+    text:
+        clear: Очистить
 
 homepage:
     index:
@@ -117,8 +121,9 @@ layout:
         menu:
             for_customers: Для клиентов
             support:       Поддержка
-    main_menu: Главное меню
-    title:     DarvinCMS Версия %version%
+    main_menu:   Главное меню
+    title:       DarvinCMS Версия %version%
+    toggle_menu: Свернуть/развернуть меню
 
 locale:
     ar: Арабский

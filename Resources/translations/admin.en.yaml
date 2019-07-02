@@ -76,6 +76,10 @@ form:
         title: 'Choose File'
     file:
         help: 'Max File Size: %size%MB'
+    select:
+        reset: Reset
+    text:
+        clear: Clear
 homepage:
     index:
         link: Homepage
@@ -103,6 +107,7 @@ layout:
             support: Support
     main_menu: 'Main Menu'
     title: 'DarvinCMS Release %version%'
+    toggle_menu: 'Toggle Menu'
 locale:
     ar: Arabic
     en: English

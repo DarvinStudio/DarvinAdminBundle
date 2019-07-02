@@ -33,7 +33,7 @@
 {%- block choice_widget_collapsed -%}
     <div class="custom-select js-chosen" data-type="small">
         {{- parent() -}}
-        <button class="custom-select__btn-reset" data-btn-reset></button>
+        <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
     </div>
 {%- endblock choice_widget_collapsed -%}
 
@@ -49,7 +49,7 @@
         {%- endif -%}
         <div class="form-item__input js-with-btn-clear" data-type="small">
             {{- parent() -}}
-            <button data-btn-clear></button>
+            <button data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>
     {%- endif -%}
 {%- endblock form_widget_simple -%}

@@ -248,7 +248,7 @@ class Configuration implements ConfigurationInterface
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
                         ->beforeNormalization()->ifArray()->then(function (array $field) {
-                            if (isset($field['type']) && null !== $field['type']) {
+                            if (!isset($field['attr']['data-type']) && isset($field['type']) && null !== $field['type']) {
                                 if (!isset($field['attr'])) {
                                     $field['attr'] = [];
                                 }

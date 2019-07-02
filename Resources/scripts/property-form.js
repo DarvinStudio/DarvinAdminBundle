@@ -17,7 +17,7 @@
 
         let $container = $form.closest(SELECTORS.container);
 
-        let $submit = $container.find(SELECTORS.submit);
+        let $submit = $(SELECTORS.submit);
 
         $form.attr('data-modified', $field.val().toString() !== $field.data('original-value').toString() ? 1 : 0);
 
@@ -75,7 +75,7 @@
 
             $field.closest(SELECTORS.form).find(SELECTORS.errors).remove();
         })
-        .on('click', SELECTORS.container + ' ' + SELECTORS.submit, (e) => {
+        .on('click', SELECTORS.submit, (e) => {
             let $forms     = $(e.currentTarget).closest(SELECTORS.container).find(SELECTORS.form + '[data-modified="1"]'),
                 reloadPage = false;
 

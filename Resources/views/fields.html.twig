@@ -95,28 +95,34 @@
 
 {%- block a2lix_translations_row -%}
     {{- form_errors(form) -}}
-    <div class="form-tabs js-translations">
-        <div class="form-tabs__container tabs js-tabs">
-            <div class="tabs__nav">
-                {%- for locale, row in form -%}
-                    <div class="tabs__nav-item js-translation-toggle" data-target=".{{ row.vars.id }}">
-                        <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
-                        {{- ('locale.' ~ locale)|trans -}}
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="tabs__content">
-                {%- for locale, row in form -%}
-                    <div class="tabs__content-item js-translation-tab {{ row.vars.id }}" data-locale="{{ locale }}">
-                        <div class="tabs__content-item-lang">
+    {%- if 1 == form|length -%}
+        {%- for locale, row in form -%}
+            {{- form_widget(row) -}}
+        {%- endfor -%}
+    {%- else -%}
+        <div class="form-tabs js-translations">
+            <div class="form-tabs__container tabs js-tabs">
+                <div class="tabs__nav">
+                    {%- for locale, row in form -%}
+                        <div class="tabs__nav-item js-translation-toggle" data-target=".{{ row.vars.id }}">
                             <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                            {{- ('locale.' ~ locale)|trans -}}
                         </div>
-                        {{- form_widget(row) -}}
-                    </div>
-                {%- endfor -%}
+                    {% endfor %}
+                </div>
+                <div class="tabs__content">
+                    {%- for locale, row in form -%}
+                        <div class="tabs__content-item js-translation-tab {{ row.vars.id }}" data-locale="{{ locale }}">
+                            <div class="tabs__content-item-lang">
+                                <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                            </div>
+                            {{- form_widget(row) -}}
+                        </div>
+                    {%- endfor -%}
+                </div>
             </div>
         </div>
-    </div>
+    {%- endif -%}
 {%- endblock a2lix_translations_row -%}
 
 {%- block darvin_admin_ck_editor_row -%}

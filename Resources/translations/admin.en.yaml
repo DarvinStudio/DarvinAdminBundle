@@ -39,7 +39,7 @@ configuration:
 crud:
     action:
         batch_delete:
-            check: 'Check for Removal'
+            check: Select
             confirm: 'Confirm Selected Items Removal'
             submit: 'Remove Selected'
             success: 'Selected Items Successfully Removed'

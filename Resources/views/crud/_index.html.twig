@@ -156,7 +156,10 @@
                         </thead>
                         <tbody>
                             {% for row in view.body.rows %}
-                                <tr{% for attr_name, attr_value in row.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
+
+                                {% set attr = row.attr|merge({'class': (row.attr.class|default ~ ' table-row')|trim}) %}
+
+                                <tr{% for attr_name, attr_value in attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
                                     {% for item in row.items %}
                                         <td{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value }}"{% endfor %}>
                                             {{ item.content|trans|raw }}

@@ -45,7 +45,7 @@ configuration:
 crud:
     action:
         batch_delete:
-            check:   Отметить для удаления
+            check:   Выбрать
             confirm: Подтвердите удаление выбранных элементов
             submit:  Удалить выбранные
             success: Выбранные элементы успешно удалены

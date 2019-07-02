@@ -9,9 +9,11 @@
     </div>
     <div class="page-header">
         <h1>{% block heading %}{% endblock %}</h1>
+        <div class="page-header__btns">
 
-        {% block header_buttons %}{% endblock %}
+            {% block header_buttons %}{% endblock %}
 
+        </div>
     </div>
 
     {% block content %}{% endblock %}

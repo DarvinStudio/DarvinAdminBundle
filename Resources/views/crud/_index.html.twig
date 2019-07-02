@@ -7,47 +7,45 @@
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
 {% block header_buttons %}
-    <div class="page-header__btns">
-        {% if filter_form %}
-            <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
-        {% endif %}
+    {% if filter_form %}
+        <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
+    {% endif %}
 
-        {% block new_link %}
-            {% if not meta.configuration.index_view_new_form %}
+    {% block new_link %}
+        {% if not meta.configuration.index_view_new_form %}
 
-                {% set new_url = null %}
+            {% set new_url = null %}
 
-                {% if admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass) %}
+            {% if admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass) %}
 
-                    {% set new_url = admin_path(
-                        null,
-                        meta.entityClass,
-                        'new',
-                        association_param ? {(association_param): parent_entity_id} : {}
-                    ) %}
+                {% set new_url = admin_path(
+                    null,
+                    meta.entityClass,
+                    'new',
+                    association_param ? {(association_param): parent_entity_id} : {}
+                ) %}
 
-                {% endif %}
-
-                {% if new_url %}
-                    <a class="{% if new_link_class is defined %}{{ new_link_class }}{% else %}page-header__btn-add{% endif %}"
-                       href="{{ new_url }}">
-                        {{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}
-                    </a>
-                {% endif %}
             {% endif %}
-        {% endblock %}
 
-        {% block extra_controls %}{% endblock %}
-
-        {% block property_forms_submit %}
-            {% if view.body.rows is not empty %}
-                <a class="page-header__btn-add js-property-submit" style="display: none;">
-                    {% trans %}property_forms.submit{% endtrans %}
+            {% if new_url %}
+                <a class="{% if new_link_class is defined %}{{ new_link_class }}{% else %}page-header__btn-add{% endif %}"
+                   href="{{ new_url }}">
+                    {{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}
                 </a>
             {% endif %}
-        {% endblock %}
+        {% endif %}
+    {% endblock %}
 
-    </div>
+    {% block extra_controls %}{% endblock %}
+
+    {% block property_forms_submit %}
+        {% if view.body.rows is not empty %}
+            <a class="page-header__btn-add js-property-submit" style="display: none;">
+                {% trans %}property_forms.submit{% endtrans %}
+            </a>
+        {% endif %}
+    {% endblock %}
+
 {% endblock %}
 
 {% block content %}

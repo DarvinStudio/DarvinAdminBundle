@@ -1,7 +1,8 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'edit_element delete js-form', 'data-reload-page': 1}}) }}
+{{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
-<button type="submit" onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans }}');"></button>
-<span>{{ (translation_prefix ~ 'action.delete.submit')|trans }}</span>
+<button class="table-row__btn-remove"
+        title="{{ (translation_prefix ~ 'action.delete.submit')|trans|e('html_attr') }}"
+        onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');"></button>
 {{ form_end(form) }}

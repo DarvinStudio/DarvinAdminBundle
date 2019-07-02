@@ -1,5 +1,7 @@
 {% trans_default_domain 'admin' %}
 
-<a href="{{ admin_path(entity, entity_class, 'edit') }}" class="edit_element edit">
-    <span>{{ (translation_prefix ~ 'action.edit.link')|trans }}</span>
+{% set title = (translation_prefix ~ 'action.edit.link')|trans %}
+
+<a href="{{ admin_path(entity, entity_class, 'edit') }}" class="table-row__btn-edit" title="{{ title|e('html_attr') }}">
+    {{ title }}
 </a>

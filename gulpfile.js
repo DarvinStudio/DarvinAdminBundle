@@ -45,10 +45,7 @@ const scripts = [
         {
             target: 'app.css',
             src:    [
-                'Resources/public/node_modules/bootstrap/dist/css/bootstrap.css',
-                'Resources/public/node_modules/bootstrap-chosen/bootstrap-chosen.css',
                 'Resources/public/node_modules/dropzone/dist/dropzone.css',
-                'Resources/public/node_modules/jquery-colorbox/example4/colorbox.css',
                 'Resources/public/node_modules/components-jqueryui/themes/smoothness/jquery-ui.css',
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
                 'Resources/public/node_modules/noty/lib/noty.css',

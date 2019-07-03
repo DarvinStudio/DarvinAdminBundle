@@ -22,14 +22,12 @@
 
             {% if app.debug %}
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.css') }}">
-                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build-dev/app.css') }}">
             {% else %}
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.css') }}">
-                <link rel="stylesheet" href="{{ asset('bundles/darvinadmin/build/app.css') }}">
             {% endif %}
         {% endblock %}
 
-        <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
+        <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body class="inner-page"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
 
@@ -149,10 +147,8 @@
 
             {% if app.debug %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>
-                <script src="{{ asset('bundles/darvinadmin/build-dev/app.js') }}"></script>
             {% else %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
-                <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
             {% endif %}
 
             {% if flashes is not empty %}

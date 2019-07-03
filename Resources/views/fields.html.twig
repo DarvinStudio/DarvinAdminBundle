@@ -194,6 +194,38 @@
     });
 {%- endblock ckeditor_widget_extra -%}
 
+{%- block darvin_admin_ace_editor_widget -%}
+    <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
+    <div id="{{ id }}_ace-editor"></div>
+    <script>
+        $(function () {
+            ace.config.set('basePath', '/bundles/darvinadmin/node_modules/ace-builds/src-min-noconflict');
+            var $textarea = $('#{{ id }}').hide(),
+                editor    = ace.edit('{{ id }}_ace-editor', JSON.parse('{{ config|json_encode|e('js') }}')),
+                ready     = false;
+            editor.setShowPrintMargin(false);
+            editor.session.setValue($textarea.val());
+            editor.session.on('change', function () {
+                $textarea.val(editor.session.getValue());
+            });
+            editor.renderer.on('afterRender', function () {
+                if (ready) {
+                    return;
+                }
+                $(editor.container)
+                {%- for name, value in attr -%}
+                    .attr('{{ name }}', '{{ value }}')
+                    {%- endfor -%}
+                    {%- for name, value in style -%}
+                    .css({'{{ name }}': '{{ value }}'})
+                {%- endfor -%}
+                ;
+                ready = true;
+            });
+        });
+    </script>
+{%- endblock darvin_admin_ace_editor_widget -%}
+
 {%- block darvin_admin_ck_editor_row -%}
     {%- set data_type = 'ckeditor' -%}
     {%- set show_help = false -%}

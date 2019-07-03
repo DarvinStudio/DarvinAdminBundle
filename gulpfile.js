@@ -22,20 +22,9 @@ const scripts = [
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js'
             ],
             src: [
-                'Resources/scripts/batch-delete.js',
-                'Resources/scripts/collection.js',
                 'Resources/scripts/date-time-picker.js',
-                'Resources/scripts/disable-descendants.js',
                 'Resources/scripts/dropzone.js',
-                'Resources/scripts/form.js',
-                'Resources/scripts/image.js',
-                'Resources/scripts/master-slave.js',
-                'Resources/scripts/property-form.js',
-                'Resources/scripts/search.js',
-                'Resources/scripts/slug.js',
-                'Resources/scripts/textcounter.js',
-                'Resources/scripts/translations.js',
-                'Resources/scripts/yandex-translator.js'
+                'Resources/scripts/textcounter.js'
             ]
         }
     ],

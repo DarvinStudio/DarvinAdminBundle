@@ -61,7 +61,7 @@
 
 {%- block form_widget_simple -%}
     {%- if clearable is not defined -%}
-        {%- set clearable = type is not defined or 'text' == type -%}
+        {%- set clearable = type is not defined or type in ['email', 'text'] -%}
     {%- endif -%}
     {%- if not clearable -%}
         {{- parent() -}}

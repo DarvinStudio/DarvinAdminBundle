@@ -131,7 +131,7 @@
 {%- block collection_widget -%}
     {%- set attr = attr|merge({'class': (attr.class|default ~ ' multiple-field js-collection')|trim}) -%}
     {%- if prototype is defined and not prototype.rendered -%}
-        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+        {%- set attr = attr|merge({'data-prototype': '<div class="multiple-field__item">' ~ form_row(prototype) ~ '</div>'}) -%}
     {%- endif -%}
     {%- if allow_add -%}
         {%- set attr = attr|merge({

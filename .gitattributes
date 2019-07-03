@@ -1,4 +1,0 @@
-Resources/doc/* linguist-documentation
-Resources/public/build/* linguist-vendored
-Resources/public/build-dev/* linguist-vendored
-Resources/public/node_modules/* linguist-vendored

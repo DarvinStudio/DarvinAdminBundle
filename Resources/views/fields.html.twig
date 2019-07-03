@@ -48,7 +48,7 @@
             {{- form_errors(form) -}}
         </div>
         {%- if show_help is not defined or show_help -%}
-            {{- form_help(form) -}}
+            {{- form_help(form, {'help_html': true}) -}}
         {%- endif -%}
     </div>
 {%- endblock form_row -%}

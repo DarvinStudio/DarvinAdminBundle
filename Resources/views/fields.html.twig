@@ -43,7 +43,7 @@
     {%- endif -%}
     <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
         {{- form_label(form) -}}
-        <div class="form-item__field"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
+        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>
@@ -69,7 +69,7 @@
         {%- if attr['data-input'] is not defined -%}
             {%- set attr = attr|merge({'data-input': ''}) -%}
         {%- endif -%}
-        <div class="form-item__input js-with-btn-clear"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
+        <div class="form-item__input js-with-btn-clear"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
             {{- parent() -}}
             <button type="button" data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>
@@ -112,7 +112,7 @@
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}
-    <div class="custom-select js-chosen"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
+    <div class="custom-select js-chosen"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
         {{- parent() -}}
         {%- if not multiple and not required -%}
             <button type="button" class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
@@ -149,7 +149,7 @@
                 <div class="tabs__nav">
                     {%- for locale, row in form -%}
                         <div class="tabs__nav-item js-translation-toggle" data-target=".{{ row.vars.id }}">
-                            <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                            <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             {{- ('locale.' ~ locale)|trans -}}
                         </div>
                     {% endfor %}
@@ -158,7 +158,7 @@
                     {%- for locale, row in form -%}
                         <div class="tabs__content-item js-translation-tab {{ row.vars.id }}" data-locale="{{ locale }}">
                             <div class="tabs__content-item-lang">
-                                <img src="{{- asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') -}}" alt="">
+                                <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             </div>
                             {{- form_widget(row) -}}
                         </div>
@@ -232,7 +232,7 @@
 {%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_position_widget -%}
-    <div class="table-row__position"{%- if level is not same as(null) -%} data-level="{{- level -}}"{%- endif -%}>
+    <div class="table-row__position"{% if level is not same as(null) %} data-level="{{ level }}"{% endif %}>
         {%- set clearable = false -%}
         {{- block('form_widget_simple') -}}
     </div>

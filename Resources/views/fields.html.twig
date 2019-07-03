@@ -68,7 +68,7 @@
 {%- block choice_widget_collapsed -%}
     <div class="custom-select js-chosen"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
         {{- parent() -}}
-        {%- if not required -%}
+        {%- if not multiple and not required -%}
             <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
         {%- endif -%}
     </div>

@@ -11,7 +11,7 @@
         'toggle':   '.js-image-toggle[data-disable-title][data-disable-url][data-enable-title][data-enable-url]'
     };
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         let $sortable = args.$html.find(SELECTORS.sortable);
 
         if (!$sortable.length) {

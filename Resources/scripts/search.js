@@ -37,7 +37,7 @@ $(() => {
 
                 $results.html(html);
 
-                $(document).trigger('app.html', {
+                $(document).trigger(App.events.ajax.html, {
                     $html: $results
                 });
             }).always(() => {

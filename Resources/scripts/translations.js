@@ -7,7 +7,7 @@
         translations: '.js-translations'
     };
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         let clicked = false;
 
         args.$html.find(SELECTORS.toggle).each((i, toggle) => {

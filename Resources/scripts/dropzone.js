@@ -1,6 +1,6 @@
 Dropzone.autoDiscover = false;
 
-$(document).on('app.html', (e, args) => {
+$(document).on(App.events.ajax.html, (e, args) => {
     args.$html.find('.dropzone[data-files][data-url]').each((i, dropzone) => {
         let $dropzone = $(dropzone);
 

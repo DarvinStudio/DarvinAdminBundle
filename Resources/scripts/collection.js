@@ -50,7 +50,7 @@
 
                 this.$collection.data('index', index + 1);
 
-                $(document).trigger('app.html', {
+                $(document).trigger(App.events.ajax.html, {
                     $html: $item
                 });
             });
@@ -104,7 +104,7 @@
         }
     }
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         args.$html.find('.js-collection[data-prototype]').each((i, node) => {
             let autoInit = $(node).data('autoinit');
 

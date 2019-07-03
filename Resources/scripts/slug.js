@@ -53,7 +53,7 @@
         }
     };
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         args.$html.find(SELECTORS.widget).each((i, widget) => {
             let $widget = $(widget);
 

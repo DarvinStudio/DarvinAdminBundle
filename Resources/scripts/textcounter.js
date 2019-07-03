@@ -1,4 +1,4 @@
-$(document).on('app.html', (e, args) => {
+$(document).on(App.events.ajax.html, (e, args) => {
     let options = {
         countContainerClass: 'input_note',
         countDown:           true,

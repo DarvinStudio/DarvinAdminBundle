@@ -80,7 +80,7 @@
         }
     }
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         args.$html.find('[data-master][data-show-on]').each((i, slave) => {
             new Slave(slave);
         });

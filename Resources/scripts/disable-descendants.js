@@ -1,7 +1,7 @@
 (() => {
     const SELECTOR = '.name_enabled.type_boolean input[type="checkbox"]:first';
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         args.$html.find('.js-property-forms table').find('tr[data-level]').each((i, row) => {
             let $row = $(row);
 

@@ -39,7 +39,7 @@
         }
     };
 
-    $(document).on('app.html', (e, args) => {
+    $(document).on(App.events.ajax.html, (e, args) => {
         args.$html.find(SELECTORS.form + ' .js-property-field[type!="checkbox"]').each((i, field) => {
             toggle(field);
         });

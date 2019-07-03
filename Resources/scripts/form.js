@@ -26,7 +26,7 @@
 
         $content.html($replacement);
 
-        $(document).trigger('app.html', {
+        $(document).trigger(App.events.ajax.html, {
             $html: $content
         });
 
@@ -137,7 +137,7 @@
                 if ($target.length) {
                     $target.replaceWith($html);
 
-                    $(document).trigger('app.html', {
+                    $(document).trigger(App.events.ajax.html, {
                         $html: $html.parent()
                     });
                 }

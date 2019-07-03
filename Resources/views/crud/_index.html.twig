@@ -59,11 +59,13 @@
                 <div class="filter-block__content">
                     {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                     <div class="form-filter">
+
                         {% for name, attr in meta.configuration.form.filter.fields %}
                             {% if filter_form[name] is defined %}
                                 {{ form_row(filter_form[name]) }}
                             {% endif %}
                         {% endfor %}
+
                         <div class="form-btns-container">
                             <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
                             <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
@@ -86,6 +88,7 @@
 
     <div class="content-block js-property-forms">
         <div class="content-block__header">
+
             {% if batch_delete_form %}
                 {{ form_start(batch_delete_form, {'attr': {
                     'class':            'js-form js-batch-delete',
@@ -101,6 +104,7 @@
                 </button>
                 {{ form_end(batch_delete_form) }}
             {% endif %}
+
             <div class="content-block__header-right">
 
                 {% block total_item_count %}
@@ -114,6 +118,7 @@
             </div>
         </div>
         <div class="content-block__content">
+
             {% if view.body.rows is empty %}
                 <p class="h2">{% trans %}common.empty_list{% endtrans %}</p>
             {% else %}
@@ -121,6 +126,7 @@
                     <table>
                         <thead>
                             <tr>
+
                                 {% for name, item in view.head.items %}
                                     {% if item.width %}
                                         <th{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
@@ -139,9 +145,11 @@
                                         </th>
                                     {% endif %}
                                 {% endfor %}
+
                             </tr>
                         </thead>
                         <tbody>
+
                             {% for row in view.body.rows %}
 
                                 {% set attr = row.attr|merge({'class': (row.attr.class|default ~ ' table-row')|trim}) %}
@@ -154,10 +162,12 @@
                                     {% endfor %}
                                 </tr>
                             {% endfor %}
+
                         </tbody>
                     </table>
                 </div>
             {% endif %}
+
         </div>
         <div class="content-block__footer">
             <div class="content-block__footer-left">
@@ -167,9 +177,11 @@
                 {{ block('new_link') }}
             </div>
             <div class="content-block__footer-right">
+
                 {% if pagination is defined and pagination %}
                     {{ knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') }}
                 {% endif %}
+
             </div>
         </div>
     </div>

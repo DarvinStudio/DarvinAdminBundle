@@ -25,7 +25,6 @@
             {% else %}
                 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.css') }}">
             {% endif %}
-
         {% endblock %}
 
         <script src="{{ asset('bundles/darvinadmin/node_modules/jquery/dist/jquery.min.js') }}"></script>
@@ -85,13 +84,11 @@
                             {% if app.user %}
                                 <div class="header__users">
                                     <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
-
                                     {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                                         <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}">
                                             <span>{% trans %}security.action.switch_user.back{% endtrans %}</span>
                                         </a>
                                     {% endif %}
-
                                 </div>
                             {% endif %}
 
@@ -144,6 +141,9 @@
         {% endblock %}
 
         {% block javascripts %}
+            <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
+            <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
+            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
 
             {% if app.debug %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>
@@ -152,9 +152,6 @@
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
                 <script src="{{ asset('bundles/darvinadmin/build/app.js') }}"></script>
             {% endif %}
-
-            <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
-            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
 
             {% if flashes is not empty %}
                 <script>
@@ -165,7 +162,6 @@
                     {% endfor %}
                 </script>
             {% endif %}
-
         {% endblock %}
 
     </body>

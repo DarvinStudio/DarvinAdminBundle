@@ -14,21 +14,13 @@ const scripts = [
             target: 'app.js',
             vendor: [
                 'Resources/public/node_modules/ace-builds/src-min-noconflict/ace.js',
-                'Resources/public/node_modules/bootstrap/dist/js/bootstrap.js',
-                'Resources/public/node_modules/chosen-js/chosen.jquery.js',
                 'Resources/public/node_modules/dropzone/dist/dropzone.js',
-                'Resources/public/node_modules/jquery-colorbox/jquery.colorbox.js',
-                'Resources/public/node_modules/jquery-mousewheel/jquery.mousewheel.js',
                 'Resources/public/node_modules/jquery-text-counter/textcounter.js',
                 'Resources/public/node_modules/components-jqueryui/jquery-ui.js',
                 'Resources/public/node_modules/components-jqueryui/ui/i18n/datepicker-ru.js',
-                'Resources/public/node_modules/jquery.cookie/jquery.cookie.js',
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js',
-                'Resources/public/node_modules/noty/lib/noty.js',
-                'Resources/public/node_modules/sly-scrolling/dist/sly.js',
-
-                '../../../vendor/willdurand/js-translation-bundle/Resources/public/js/translator.min.js'
+                'Resources/public/node_modules/noty/lib/noty.js'
             ],
             src: [
                 'Resources/scripts/app.js',

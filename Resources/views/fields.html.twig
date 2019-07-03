@@ -144,11 +144,12 @@
         {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
     {%- endif -%}
     <div {{ block('widget_container_attributes') }}>
-        {%- for row in form -%}
+        {%- for child in form -%}
             <div class="multiple-field__item">
-                {{- form_row(row) -}}
+                {{- form_row(child) -}}
             </div>
         {%- endfor -%}
+        {{- form_errors(form) -}}
     </div>
 {%- endblock collection_widget -%}
 
@@ -157,27 +158,29 @@
 {%- block a2lix_translations_row -%}
     {{- form_errors(form) -}}
     {%- if 1 == form|length -%}
-        {%- for locale, row in form -%}
-            {{- form_widget(row) -}}
+        {%- for locale, child in form -%}
+            {{- form_widget(child) -}}
+            {{- form_errors(child) -}}
         {%- endfor -%}
     {%- else -%}
         <div class="form-tabs js-translations">
             <div class="form-tabs__container tabs js-tabs">
                 <div class="tabs__nav">
-                    {%- for locale, row in form -%}
-                        <div class="tabs__nav-item js-translation-toggle" data-target=".{{ row.vars.id }}">
+                    {%- for locale, child in form -%}
+                        <div class="tabs__nav-item js-translation-toggle" data-target=".{{ child.vars.id }}">
                             <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             {{- ('locale.' ~ locale)|trans -}}
                         </div>
                     {% endfor %}
                 </div>
                 <div class="tabs__content">
-                    {%- for locale, row in form -%}
-                        <div class="tabs__content-item js-translation-tab {{ row.vars.id }}" data-locale="{{ locale }}">
+                    {%- for locale, child in form -%}
+                        <div class="tabs__content-item js-translation-tab {{ child.vars.id }}" data-locale="{{ locale }}">
                             <div class="tabs__content-item-lang">
                                 <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             </div>
-                            {{- form_widget(row) -}}
+                            {{- form_widget(child) -}}
+                            {{- form_errors(child) -}}
                         </div>
                     {%- endfor -%}
                 </div>
@@ -260,6 +263,7 @@
         <div class="custom-triplebox js-triplebox">
             {%- for child in form -%}
                 {{- form_widget(child) -}}
+                {{- form_errors(child) -}}
             {%- endfor -%}
             <span></span>
         </div>

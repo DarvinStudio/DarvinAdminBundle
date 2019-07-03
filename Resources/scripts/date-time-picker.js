@@ -14,7 +14,7 @@ $(document).on(App.events.ajax.html, (e, args) => {
     );
 
     ['date', 'datetime', 'time'].map((type) => {
-        let $inputs = args.$html.find('input.' + type);
+        let $inputs = args.$html.find('input.js-' + type + 'picker');
 
         if ($inputs.length) {
             $inputs[type + 'picker'](options);

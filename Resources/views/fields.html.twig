@@ -47,14 +47,6 @@
     {%- endif -%}
 {%- endblock form_widget_simple -%}
 
-{%- block form_widget_compound -%}
-    {%- if form is rootform -%}
-        {{ form_errors(form) }}
-    {%- endif -%}
-    {{- block('form_rows') -}}
-    {{- form_rest(form) -}}
-{%- endblock form_widget_compound -%}
-
 {%- block form_errors -%}
     {%- if errors|length > 0 -%}
         <div class="form-item__error js-form-errors">
@@ -98,6 +90,21 @@
         {%- endif -%}
     </div>
 {%- endblock choice_widget_collapsed -%}
+
+{%- block collection_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-collection')|trim}) -%}
+    {%- if allow_add -%}
+        {%- set attr = attr|merge({
+            'data-allow-add': 1,
+            'data-index':     form.children is not empty ? max(form.children|keys)|number_format + 1 : 0,
+            'data-name':      name,
+        }) -%}
+    {%- endif -%}
+    {%- if allow_delete -%}
+        {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
+    {%- endif -%}
+    {{- parent() -}}
+{%- endblock collection_widget -%}
 
 {# Custom widgets #}
 

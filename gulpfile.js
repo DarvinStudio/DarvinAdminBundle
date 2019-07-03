@@ -51,9 +51,7 @@ const scripts = [
                 'Resources/scripts/textcounter.js',
                 'Resources/scripts/translations.js',
                 'Resources/scripts/tri-state.js',
-                'Resources/scripts/yandex-translator.js',
-
-                'Resources/scripts/main.js'
+                'Resources/scripts/yandex-translator.js'
             ]
         }
     ],

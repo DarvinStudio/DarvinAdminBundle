@@ -19,11 +19,10 @@ const scripts = [
                 'Resources/public/node_modules/components-jqueryui/jquery-ui.js',
                 'Resources/public/node_modules/components-jqueryui/ui/i18n/datepicker-ru.js',
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.js',
-                'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js',
-                'Resources/public/node_modules/noty/lib/noty.js'
+                'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js'
             ],
             src: [
-                'Resources/scripts/app.js',
+                // 'Resources/scripts/app.js',
                 'Resources/scripts/batch-delete.js',
                 'Resources/scripts/collection.js',
                 'Resources/scripts/date-time-picker.js',
@@ -47,9 +46,7 @@ const scripts = [
             src:    [
                 'Resources/public/node_modules/dropzone/dist/dropzone.css',
                 'Resources/public/node_modules/components-jqueryui/themes/smoothness/jquery-ui.css',
-                'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css',
-                'Resources/public/node_modules/noty/lib/noty.css',
-                'Resources/public/node_modules/noty/lib/themes/bootstrap-v3.css'
+                'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.css'
             ]
         }
     ],

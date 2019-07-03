@@ -33,24 +33,18 @@ const scripts = [
             src: [
                 'Resources/scripts/app.js',
                 'Resources/scripts/batch-delete.js',
-                'Resources/scripts/chosen.js',
                 'Resources/scripts/collection.js',
-                'Resources/scripts/configuration.js',
                 'Resources/scripts/date-time-picker.js',
                 'Resources/scripts/disable-descendants.js',
                 'Resources/scripts/dropzone.js',
                 'Resources/scripts/form.js',
                 'Resources/scripts/image.js',
                 'Resources/scripts/master-slave.js',
-                'Resources/scripts/novalidate.js',
-                'Resources/scripts/popup.js',
                 'Resources/scripts/property-form.js',
                 'Resources/scripts/search.js',
                 'Resources/scripts/slug.js',
-                'Resources/scripts/table-head-clone.js',
                 'Resources/scripts/textcounter.js',
                 'Resources/scripts/translations.js',
-                'Resources/scripts/tri-state.js',
                 'Resources/scripts/yandex-translator.js'
             ]
         }

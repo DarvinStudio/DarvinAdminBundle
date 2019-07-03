@@ -1,31 +1,5 @@
-{% import _self as that %}
-
-{% trans_default_domain 'admin' %}
-
-{% macro buttons(entity, form, style) %}
-
-    {% set classes = {
-        'submit_edit':  'page-' ~ style ~ '__btn-save-edit',
-        'submit_index': 'page-' ~ style ~ '__btn-save',
-        'submit_new':   'page-' ~ style ~ '__btn-save-add',
-    } %}
-
-    {% if entity %}
-        {{ admin_widget('actions', entity, {'view_type': 'edit', 'style': style}) }}
-    {% endif %}
-    {% for name, row in form %}
-        {% if 'submit' == row.vars.block_prefixes[1] %}
-            <a class="{{ classes[name] }}"
-               href="#"
-               onclick="document.getElementById('{{ row.vars.id }}').click(); return false;">
-                {{ row.vars.label|trans }}
-            </a>
-        {% endif %}
-    {% endfor %}
-{% endmacro %}
-
-{% set header_buttons = that.buttons(entity, form, 'header') %}
-{% set footer_buttons = that.buttons(entity, form, 'footer') %}
+{% set header_buttons = include('@DarvinAdmin/crud/_buttons.html.twig', {'view_type': 'edit', 'style': 'header'}) %}
+{% set footer_buttons = include('@DarvinAdmin/crud/_buttons.html.twig', {'view_type': 'edit', 'style': 'footer'}) %}
 
 <div class="js-form-container">
     {% embed '@DarvinAdmin/content.html.twig' %}
@@ -38,17 +12,11 @@
 
         {% block heading %}{{ heading }}{% endblock %}
 
-        {% block header_buttons %}{{ header_buttons }}{% endblock %}
+        {% block header_buttons %}{{ header_buttons|raw }}{% endblock %}
 
         {% block content %}{% include '@DarvinAdmin/crud/_form.html.twig' with {'view_type': 'edit'} %}{% endblock %}
 
-        {% block footer %}
-            <div class="page-footer">
-                <div class="page-footer__btns">
-                    {{ footer_buttons }}
-                </div>
-            </div>
-        {% endblock %}
+        {% block footer_buttons %}{{ footer_buttons|raw }}{% endblock %}
 
     {% endembed %}
 </div>

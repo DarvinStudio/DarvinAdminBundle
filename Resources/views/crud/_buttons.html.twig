@@ -1,0 +1,20 @@
+{% trans_default_domain 'admin' %}
+
+{% set classes = {
+    'submit_edit':  'page-' ~ style ~ '__btn-save-edit',
+    'submit_index': 'page-' ~ style ~ '__btn-save',
+    'submit_new':   'page-' ~ style ~ '__btn-save-add',
+} %}
+
+{% if entity %}
+    {{ admin_widget('actions', entity, {'view_type': view_type, 'style': style}) }}
+{% endif %}
+{% for name, row in form %}
+    {% if 'submit' == row.vars.block_prefixes[1] %}
+        <a class="{{ classes[name] }}"
+           href="#"
+           onclick="document.getElementById('{{ row.vars.id }}').click(); return false;">
+            {{ row.vars.label|trans }}
+        </a>
+    {% endif %}
+{% endfor %}

@@ -18,6 +18,11 @@
 
     {% block content %}{% endblock %}
 
-    {% block footer %}{% endblock %}
+    <div class="page-footer">
+        <div class="page-footer__btns">
 
+            {% block footer_buttons %}{% endblock %}
+
+        </div>
+    </div>
 {% endblock %}

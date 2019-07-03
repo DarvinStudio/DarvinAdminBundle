@@ -1,4 +1,6 @@
-{% set content = include('@DarvinAdmin/crud/_form.html.twig', {'view_type': 'new'}) %}
+{% set header_buttons = include('@DarvinAdmin/crud/_buttons.html.twig', {'view_type': 'new', 'style': 'header', 'entity': null}) %}
+{% set footer_buttons = include('@DarvinAdmin/crud/_buttons.html.twig', {'view_type': 'new', 'style': 'footer', 'entity': null}) %}
+{% set content        = include('@DarvinAdmin/crud/_form.html.twig',    {'view_type': 'new'}) %}
 
 <div class="js-form-container">
     {% if is_widget %}
@@ -15,7 +17,11 @@
 
             {% block heading %}{{ heading }}{% endblock %}
 
+            {% block header_buttons %}{{ header_buttons|raw }}{% endblock %}
+
             {% block content %}{{ content|raw }}{% endblock %}
+
+            {% block footer_buttons %}{{ footer_buttons|raw }}{% endblock %}
 
         {% endembed %}
 

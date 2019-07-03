@@ -4,6 +4,37 @@
 
 {% trans_default_domain 'admin' %}
 
+{# Macros #}
+
+{% macro image(image, toggle_enabled) %}
+    <div class="js-image" data-id="{{ image.id }}">
+        <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
+            <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
+        </a>
+        <div>
+            {% if toggle_enabled %}
+                <a class="js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
+                   data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
+                   data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+                   data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
+                   data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+                   title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
+                   href="#">
+                </a>
+            {% endif %}
+            <a class="js-popup edit"
+               href="{{ path('darvin_image_image_edit', {'id': image.id}) }}"
+               title="{{ 'image.action.edit.title'|trans({'%image%': image})|e('html_attr') }}">
+            </a>
+            <a class="js-image-delete"
+               data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+               title="{% trans %}image.action.delete.submit{% endtrans %}"
+               href="#">
+            </a>
+        </div>
+    </div>
+{% endmacro %}
+
 {# Common #}
 
 {%- block form_row -%}
@@ -140,11 +171,35 @@
     {%- endif -%}
 {%- endblock a2lix_translations_row -%}
 
+{%- block ckeditor_widget_extra -%}
+    ['i', 'span'].forEach(function (tag) {
+        CKEDITOR.dtd.$removeEmpty[tag] = false;
+    });
+
+    CKEDITOR.on('instanceReady', function () {
+        CKEDITOR.instances['{{ id }}'].config.contentsLangDirection = CKEDITOR.lang.rtl['{{ locale }}'] ? 'rtl' : 'ltr';
+    });
+{%- endblock ckeditor_widget_extra -%}
+
 {%- block darvin_admin_ck_editor_row -%}
     {%- set data_type = 'ckeditor' -%}
     {%- set show_help = false -%}
     {{- block('form_row') -}}
 {%- endblock darvin_admin_ck_editor_row -%}
+
+{%- block darvin_admin_dropzone_widget -%}
+    {%- import _self as that -%}
+    {%- if data and data is not empty -%}
+        <div class="js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
+            {%- for image in data -%}
+                {%- if image.id -%}
+                    {{- that.image(image, toggle_enabled) -}}
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    {%- endif -%}
+    {{- form_widget(form) -}}
+{%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_position_widget -%}
     <div class="table-row__position"{%- if level is not same as(null) -%} data-level="{{- level -}}"{%- endif -%}>

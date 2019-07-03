@@ -76,6 +76,14 @@
     {%- endif -%}
 {%- endblock form_widget_simple -%}
 
+{%- block form_widget_compound -%}
+    {%- if form is rootform -%}
+        {{ form_errors(form) }}
+    {%- endif -%}
+    {{- block('form_rows') -}}
+    {{- form_rest(form) -}}
+{%- endblock form_widget_compound -%}
+
 {%- block form_errors -%}
     {%- if errors|length > 0 -%}
         <div class="form-item__error js-form-errors">
@@ -121,7 +129,10 @@
 {%- endblock choice_widget_collapsed -%}
 
 {%- block collection_widget -%}
-    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-collection')|trim}) -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' multiple-field js-collection')|trim}) -%}
+    {%- if prototype is defined and not prototype.rendered -%}
+        {%- set attr = attr|merge({'data-prototype': form_row(prototype) }) -%}
+    {%- endif -%}
     {%- if allow_add -%}
         {%- set attr = attr|merge({
             'data-allow-add': 1,
@@ -132,7 +143,13 @@
     {%- if allow_delete -%}
         {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
     {%- endif -%}
-    {{- parent() -}}
+    <div {{ block('widget_container_attributes') }}>
+        {%- for row in form -%}
+            <div class="multiple-field__item">
+                {{- form_row(row) -}}
+            </div>
+        {%- endfor -%}
+    </div>
 {%- endblock collection_widget -%}
 
 {# Custom widgets #}

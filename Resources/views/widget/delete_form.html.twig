@@ -8,7 +8,8 @@
 
 {{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
-<button class="{{ classes[style]|default }}"
+<button type="submit"
+        class="{{ classes[style]|default }}"
         title="{{ (translation_prefix ~ 'action.delete.submit')|trans|e('html_attr') }}"
         onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
     &nbsp;

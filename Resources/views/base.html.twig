@@ -36,7 +36,7 @@
                 <header class="l-header">
                     <div class="header js-header">
                         <div class="header__container">
-                            <button class="header__btn-sidebar-toggle js-sidebar-toggle" title="{% trans %}layout.toggle_menu{% endtrans %}">&nbsp;</button>
+                            <button type="button" class="header__btn-sidebar-toggle js-sidebar-toggle" title="{% trans %}layout.toggle_menu{% endtrans %}">&nbsp;</button>
                             <a class="header__logo" href="{{ path('darvin_admin_homepage') }}">
                                 <img src="{{ asset(darvin_admin.logo|default(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png')) }}" alt="">
                             </a>
@@ -52,7 +52,7 @@
                                                name="q"
                                                required="required"
                                                {% if 'darvin_admin_search' == app.request.get('_route') %}value="{{ app.request.query.get('q') }}"{% endif %}>
-                                        <button class="header-search__btn">{% trans %}search.form.submit{% endtrans %}</button>
+                                        <button type="submit" class="header-search__btn">{% trans %}search.form.submit{% endtrans %}</button>
                                     </form>
                                 </div>
                             </div>

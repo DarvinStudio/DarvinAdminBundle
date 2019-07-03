@@ -42,7 +42,7 @@
         {%- endif -%}
         <div class="form-item__input js-with-btn-clear"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
             {{- parent() -}}
-            <button data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
+            <button type="button" data-btn-clear title="{% trans %}form.text.clear{% endtrans %}">&nbsp;</button>
         </div>
     {%- endif -%}
 {%- endblock form_widget_simple -%}
@@ -86,7 +86,7 @@
     <div class="custom-select js-chosen"{%- if data_type is defined -%} data-type="{{- data_type -}}"{%- endif -%}>
         {{- parent() -}}
         {%- if not multiple and not required -%}
-            <button class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
+            <button type="button" class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
         {%- endif -%}
     </div>
 {%- endblock choice_widget_collapsed -%}

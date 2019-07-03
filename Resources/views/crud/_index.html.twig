@@ -67,7 +67,7 @@
                         {% endfor %}
 
                         <div class="form-btns-container">
-                            <button class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
+                            <button type="submit" class="form-filter__btn-apply">{% trans %}filter.submit{% endtrans %}</button>
                             <a class="form-filter__btn-reset js-form-reset" href="{{ filter_form.vars.action }}">
                                 {% trans %}filter.reset{% endtrans %}
                             </a>

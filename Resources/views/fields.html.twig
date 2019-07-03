@@ -156,7 +156,6 @@
 {# Custom widgets #}
 
 {%- block a2lix_translations_row -%}
-    {{- form_errors(form) -}}
     {%- if 1 == form|length -%}
         {%- for locale, child in form -%}
             {{- form_widget(child) -}}
@@ -187,6 +186,7 @@
             </div>
         </div>
     {%- endif -%}
+    {{- form_errors(form) -}}
 {%- endblock a2lix_translations_row -%}
 
 {%- block ckeditor_widget_extra -%}

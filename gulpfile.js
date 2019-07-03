@@ -22,7 +22,6 @@ const scripts = [
                 'Resources/public/node_modules/jquery-ui-timepicker-addon/dist/i18n/jquery-ui-timepicker-ru.js'
             ],
             src: [
-                // 'Resources/scripts/app.js',
                 'Resources/scripts/batch-delete.js',
                 'Resources/scripts/collection.js',
                 'Resources/scripts/date-time-picker.js',

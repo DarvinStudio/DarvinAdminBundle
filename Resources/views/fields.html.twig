@@ -11,27 +11,25 @@
         <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
         </a>
-        <div>
-            {% if toggle_enabled %}
-                <a class="js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
-                   data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
-                   data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
-                   data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
-                   data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
-                   title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
-                   href="#">
-                </a>
-            {% endif %}
-            <a class="js-popup edit"
-               href="{{ path('darvin_image_image_edit', {'id': image.id}) }}"
-               title="{{ 'image.action.edit.title'|trans({'%image%': image})|e('html_attr') }}">
-            </a>
-            <a class="js-image-delete"
-               data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
-               title="{% trans %}image.action.delete.submit{% endtrans %}"
+        {% if toggle_enabled %}
+            <a class="js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
+               data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
+               data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+               data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
+               data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+               title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
                href="#">
             </a>
-        </div>
+        {% endif %}
+        <a class="js-ajax"
+           href="{{ path('darvin_image_image_edit', {'id': image.id}) }}"
+           title="{{ 'image.action.edit.title'|trans({'%image%': image})|e('html_attr') }}">
+        </a>
+        <a class="js-image-delete"
+           data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+           title="{% trans %}image.action.delete.submit{% endtrans %}"
+           href="#">
+        </a>
     </div>
 {% endmacro %}
 

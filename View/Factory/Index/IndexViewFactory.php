@@ -159,7 +159,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     }
                 }
 
-                $row->addItem($field, new BodyRowItem($content, $params['attr']));
+                $row->addItem($field, new BodyRowItem($content, array_merge($this->buildBodyRowItemAttr($field, $params['attr'], $meta), $params['attr'])));
             }
 
             $body->addRow($row);
@@ -183,6 +183,30 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         foreach ($meta->getConfiguration()['index_view_row_attr'] as $property) {
             $attr[sprintf('data-%s', $property)] = $this->propertyAccessor->getValue($entity, $property);
         }
+
+        return $attr;
+    }
+
+    /**
+     * @param string                                $field Field name
+     * @param array                                 $attr  Base HTML attributes
+     * @param \Darvin\AdminBundle\Metadata\Metadata $meta  Metadata
+     *
+     * @return array
+     */
+    private function buildBodyRowItemAttr(string $field, array $attr, Metadata $meta): array
+    {
+        $parts    = [sprintf('name-%s', $field)];
+        $mappings = $meta->getMappings();
+
+        if (isset($mappings[$field]) && !isset($mappings[$field]['targetEntity'])) {
+            $parts[] = sprintf('type-%s', $mappings[$field]['type']);
+        }
+        if (isset($attr['class'])) {
+            $parts[] = $attr['class'];
+        }
+
+        $attr['class'] = implode(' ', $parts);
 
         return $attr;
     }

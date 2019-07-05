@@ -12,6 +12,9 @@
 
 <div class="content-block">
     <div class="content-block__content">
+        {% if is_widget %}
+            <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
+        {% endif %}
         {{ form_start(form, {'attr': {'class': 'js-form', 'data-target': '.js-form-container', 'data-reload-page': 1}}) }}
         <div style="display: none;">
             {% for row in form %}
@@ -33,5 +36,10 @@
             {{ form_rest(form) }}
         </div>
         {{ form_end(form) }}
+        {% if is_widget %}
+
+            {% include '@DarvinAdmin/crud/_buttons.html.twig' with {'style': 'header', 'entity': null} %}
+
+        {% endif %}
     </div>
 </div>

@@ -1,40 +1,42 @@
 {% extends '@DarvinAdmin/content.html.twig' %}
 
+{% import _self as that %}
+
 {% trans_default_domain 'admin' %}
+
+{% macro new_link(meta, association_param, parent_entity_id, class) %}
+    {% if not meta.configuration.index_view_new_form %}
+
+        {% set new_url = null %}
+
+        {% if admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass) %}
+
+            {% set new_url = admin_path(
+                null,
+                meta.entityClass,
+                'new',
+                association_param ? {(association_param): parent_entity_id} : {}
+            ) %}
+
+        {% endif %}
+
+        {% if new_url %}
+            <a class="{{ class }}" href="{{ new_url }}">{{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}</a>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
 
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
 {% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
 
 {% block header_buttons %}
+
     {% if filter_form %}
         <a class="page-header__btn-filter js-filter-toggle" href="#">{% trans %}filter.toggle{% endtrans %}</a>
     {% endif %}
 
-    {% block new_link %}
-        {% if not meta.configuration.index_view_new_form %}
-
-            {% set new_url = null %}
-
-            {% if admin_route_exists(meta.entityClass, 'new') and is_granted('admin_create_delete', meta.entityClass) %}
-
-                {% set new_url = admin_path(
-                    null,
-                    meta.entityClass,
-                    'new',
-                    association_param ? {(association_param): parent_entity_id} : {}
-                ) %}
-
-            {% endif %}
-
-            {% if new_url %}
-                <a class="{% if new_link_class is defined %}{{ new_link_class }}{% else %}page-header__btn-add{% endif %}"
-                   href="{{ new_url }}">
-                    {{ (meta.baseTranslationPrefix ~ 'action.new.link')|trans }}
-                </a>
-            {% endif %}
-        {% endif %}
-    {% endblock %}
+    {{ that.new_link(meta, association_param, parent_entity_id, 'page-header__btn-add') }}
 
     {% block extra_controls %}{% endblock %}
 
@@ -49,6 +51,7 @@
 {% endblock %}
 
 {% block content %}
+
     {% if filter_form %}
 
         {% form_theme filter_form '@DarvinAdmin/fields_compact.html.twig' %}
@@ -87,14 +90,11 @@
 
         <div class="content-block__footer">
             <div class="content-block__footer-left">
-
-                {% set new_link_class = 'content-block__btn-add' %}
-
-                {{ block('new_link') }}
+                {{ that.new_link(meta, association_param, parent_entity_id, 'content-block__btn-add') }}
             </div>
             <div class="content-block__footer-right">
 
-                {% if pagination is defined and pagination %}
+                {% if pagination %}
                     {{ knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') }}
                 {% endif %}
 

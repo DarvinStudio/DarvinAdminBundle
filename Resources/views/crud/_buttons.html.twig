@@ -9,6 +9,7 @@
 {% if entity %}
     {{ admin_widget('actions', entity, {'view_type': view_type, 'style': style}) }}
 {% endif %}
+
 {% for name, row in form %}
     {% if 'submit' == row.vars.block_prefixes[1] %}
         <a class="{{ classes[name] }}"

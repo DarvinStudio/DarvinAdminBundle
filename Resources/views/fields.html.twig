@@ -33,19 +33,33 @@
     </div>
 {% endmacro %}
 
+{% macro is_collection(form) %}
+    {%- if 'collection' == form.vars.block_prefixes[1] and (form.vars.allow_add|default or form.vars.allow_delete|default) -%}
+        {{ true }}
+    {%- endif -%}
+{% endmacro %}
+
 {# Common #}
 
 {%- block form_row -%}
+    {%- import _self as that -%}
     {%- set row_attr = {'class': 'form-item'} -%}
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    {%- if 'collection' == form.parent.vars.block_prefixes[1] and (form.parent.vars.allow_add|default or form.parent.vars.allow_delete|default) -%}
+    {%- if that.is_collection(form.parent) -%}
         <div class="multiple-field__item">
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>
+    {%- elseif compound and not that.is_collection(form) -%}
+        {%- set label = form_label(form) -%}
+        {%- if label -%}
+            <div class="form-heading">{{- label|raw -}}</div>
+        {%- endif -%}
+        {{- form_widget(form, widget_attr) -}}
+        {{- form_errors(form) -}}
     {%- else -%}
         <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
             {{- form_label(form) -}}

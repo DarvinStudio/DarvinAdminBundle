@@ -17,6 +17,8 @@ use Darvin\Utils\Security\Authorization\AccessibilityChecker;
 use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 
@@ -86,6 +88,18 @@ class ConfigurationsType extends AbstractType
                     : sprintf('configuration.%s.title', $configuration->getName())
                 ,
             ]);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options): void
+    {
+        foreach ($view->children as $key => $child) {
+            if (empty($child->children)) {
+                unset($view->children[$key]);
+            }
         }
     }
 

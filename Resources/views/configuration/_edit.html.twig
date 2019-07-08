@@ -1,172 +1,27 @@
+{% form_theme form '@DarvinAdmin/fields.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
 {{ form_start(form, {'attr': {'class': 'js-form'}}) }}
 <div class="content-tabs">
     <div class="content-tabs__container tabs js-tabs">
         <div class="tabs__nav">
-            <div class="tabs__nav-item">Название сайта в заголовке</div>
-            <div class="tabs__nav-item">Заявки</div>
-            <div class="tabs__nav-item">Страницы</div>
-            <div class="tabs__nav-item">Пользователи</div>
-            <div class="tabs__nav-item">Отзывы</div>
-            <div class="tabs__nav-item">Галереи</div>
-            <div class="tabs__nav-item">Публикации</div>
-            <div class="tabs__nav-item">Интернет-магазин</div>
+            {% for child in form %}
+                <div class="tabs__nav-item">{{ child.vars.label|trans }}</div>
+            {% endfor %}
         </div>
         <div class="tabs__content">
-            <div class="tabs__content-item">
+            {% for child in form %}
+                <div class="tabs__content-item">
                     <div class="form-settings">
-
-                        <div class="form-item">
-                            <span class="form-item__label">Номера телефонов</span>
-                            <div class="form-item__field">
-                                <!-- multiple-field -->
-                                <div class="multiple-field">
-                                    <div class="multiple-field__item">
-                                        <div class="form-item__input js-with-btn-clear">
-                                            <input data-input type="text">
-                                            <button data-btn-clear>clear</button>
-                                        </div>
-                                        <div class="multiple-field__btn-remove">remove</div>
-                                        <div class="form-item__error">
-                                            <ul><li>Поле пустое</li></ul>
-                                        </div>
-                                    </div>
-                                    <div class="multiple-field__item">
-                                        <div class="form-item__input js-with-btn-clear">
-                                            <input data-input type="text">
-                                            <button data-btn-clear>clear</button>
-                                        </div>
-                                        <div class="multiple-field__btn-remove">remove</div>
-                                        <div class="form-item__error"></div>
-                                    </div>
-                                    <button class="multiple-field__btn-add">Добавить</button>
-                                </div><!-- end multiple-field -->
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Email</span>
-                            <div class="form-item__field">
-                                <!-- multiple-field -->
-                                <div class="multiple-field">
-                                    <div class="multiple-field__item">
-                                        <div class="form-item__input js-with-btn-clear">
-                                            <input data-input type="text">
-                                            <button data-btn-clear>clear</button>
-                                        </div>
-                                        <div class="multiple-field__btn-remove">remove</div>
-                                        <div class="form-item__error"></div>
-                                    </div>
-                                    <button class="multiple-field__btn-add">Добавить</button>
-                                </div><!-- end multiple-field -->
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Адрес</span>
-                            <div class="form-item__field">
-                                <!-- multiple-field -->
-                                <div class="multiple-field">
-                                    <button class="multiple-field__btn-add">Добавить</button>
-                                </div><!-- end multiple-field -->
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Политика конфиденциальности (URL)</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Ссылка на Twitter</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Ссылка на Facebook</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Ссылка на Instagram</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Ссылка на Вконтакте</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-heading">Дополнительный текст на главной</div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Заголовок H2</span>
-                            <div class="form-item__field">
-                                <div class="form-item__input js-with-btn-clear">
-                                    <input data-input type="text">
-                                    <button data-btn-clear>clear</button>
-                                </div>
-                                <div class="form-item__error"></div>
-                            </div>
-                            <div class="form-item__description"></div>
-                        </div>
-
-                        <div class="form-item">
-                            <span class="form-item__label">Текст</span>
-                            <div class="form-item__field" data-type="ckeditor">
-                                <textarea></textarea>
-                                <div class="form-item__error"></div>
-                            </div>
-                        </div>
-
+                        {% for row in child %}
+                            {{ form_row(row) }}
+                        {% endfor %}
                     </div>
-            </div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
-            <div class="tabs__content-item">тут всякое</div>
+                </div>
+            {% endfor %}
         </div>
     </div>
-</div><!-- end content-tabs -->
+</div>
 <button id="{{ form.vars.id }}_submit" type="submit" style="display: none;"></button>
 {{ form_end(form) }}

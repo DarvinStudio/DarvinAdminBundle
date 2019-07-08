@@ -4,4 +4,16 @@
 
 {% block heading %}{% trans %}configuration.action.edit.title{% endtrans %}{% endblock %}
 
+{% block header_buttons %}
+    <a class="page-header__btn-save" href="#" onclick="document.forms['{{ form.vars.id }}'].submit(); return false;">
+        {% trans %}configuration.action.edit.submit{% endtrans %}
+    </a>
+{% endblock %}
+
 {% block content %}{% include '@DarvinAdmin/configuration/_edit.html.twig' %}{% endblock %}
+
+{% block footer_buttons %}
+    <a class="page-footer__btn-save" href="#" onclick="document.forms['{{ form.vars.id }}'].submit(); return false;">
+        {% trans %}configuration.action.edit.submit{% endtrans %}
+    </a>
+{% endblock %}

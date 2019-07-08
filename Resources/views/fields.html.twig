@@ -242,10 +242,26 @@
     {{- block('form_widget') -}}
 {%- endblock darvin_admin_dropzone_widget -%}
 
+{%- block darvin_admin_el_finder_text_widget -%}
+    {%- set margin = 0.1 -%}
+    {%- set url    = path('elfinder', {'instance': 'darvin_admin_text', 'field': full_name}) -%}
+    {{- block('form_widget') -}}
+    <button type="button"
+            title="{% trans %}form.el_finder_text.title{% endtrans %}"
+            onclick="window.open('{{ url }}', null, [
+                        'width=' + (window.outerWidth - window.outerWidth * {{ margin }} * 2),
+                        'height=' + (window.outerHeight - window.outerWidth * {{ margin }} * 2),
+                        'left=' + (window.outerWidth * {{ margin }}),
+                        'top=' + (window.outerWidth * {{ margin }})
+                    ].join(','));">
+        &hellip;
+    </button>
+{%- endblock darvin_admin_el_finder_text_widget -%}
+
 {%- block darvin_admin_position_widget -%}
     <div class="table-row__position"{% if level is not same as(null) %} data-level="{{ level }}"{% endif %}>
         {%- set clearable = false -%}
-        {{- block('form_widget_simple') -}}
+        {{- block('form_widget') -}}
     </div>
 {%- endblock darvin_admin_position_widget -%}
 
@@ -402,30 +418,6 @@
     {% endif %}
     {{ form_widget(form) }}
 {%- endblock darvin_admin_dropzone_widget -%}
-
-{%- block darvin_admin_el_finder_text_widget -%}
-
-    {% set attr   = attr|merge({'class': (attr.class|default ~ ' pull-left')|trim}) %}
-    {% set margin = 0.1 %}
-    {% set url    = path('elfinder', {'instance': 'darvin_admin_text', 'field': full_name}) %}
-
-    <div class="input_value">
-        <input type="text" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-        <button type="button"
-                class="btn btn-default pull-left"
-                style="margin: 0 10px;"
-                title="{% trans %}form.el_finder_text.title{% endtrans %}"
-                onclick="window.open('{{ url }}', null, [
-                    'width=' + (window.outerWidth - window.outerWidth * {{ margin }} * 2),
-                    'height=' + (window.outerHeight - window.outerWidth * {{ margin }} * 2),
-                    'left=' + (window.outerWidth * {{ margin }}),
-                    'top=' + (window.outerWidth * {{ margin }})
-                ].join(','));">
-            &hellip;
-        </button>
-    </div>
-    {{ block('help') }}
-{%- endblock darvin_admin_el_finder_text_widget -%}
 
 {%- block darvin_admin_slug_suffix_widget -%}
     {% if is_homepage %}

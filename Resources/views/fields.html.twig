@@ -41,16 +41,23 @@
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
-        {{- form_label(form) -}}
-        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+    {%- if 'collection' == form.parent.vars.block_prefixes[1] -%}
+        <div class="multiple-field__item">
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>
-        {%- if show_help is not defined or show_help -%}
-            {{- form_help(form, {'help_html': true}) -}}
-        {%- endif -%}
-    </div>
+    {%- else -%}
+        <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
+            {{- form_label(form) -}}
+            <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_errors(form) -}}
+            </div>
+            {%- if show_help is not defined or show_help -%}
+                {{- form_help(form, {'help_html': true}) -}}
+            {%- endif -%}
+        </div>
+    {%- endif -%}
 {%- endblock form_row -%}
 
 {%- block form_label -%}
@@ -122,9 +129,6 @@
 
 {%- block collection_widget -%}
     {%- set attr = attr|merge({'class': (attr.class|default ~ ' multiple-field js-collection')|trim}) -%}
-    {%- if prototype is defined and not prototype.rendered -%}
-        {%- set attr = attr|merge({'data-prototype': '<div class="multiple-field__item">' ~ form_row(prototype) ~ '</div>'}) -%}
-    {%- endif -%}
     {%- if allow_add -%}
         {%- set attr = attr|merge({
             'data-allow-add': 1,
@@ -135,14 +139,7 @@
     {%- if allow_delete -%}
         {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
     {%- endif -%}
-    <div {{ block('widget_container_attributes') }}>
-        {%- for child in form -%}
-            <div class="multiple-field__item">
-                {{- form_row(child) -}}
-            </div>
-        {%- endfor -%}
-        {{- form_errors(form) -}}
-    </div>
+    {{- parent() -}}
 {%- endblock collection_widget -%}
 
 {# Custom widgets #}

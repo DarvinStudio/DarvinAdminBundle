@@ -96,9 +96,9 @@ class ConfigurationsType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        foreach ($view->children as $key => $child) {
-            if (empty($child->children)) {
-                unset($view->children[$key]);
+        foreach ($view->children as $name => $child) {
+            if ('_token' !== $name && empty($child->children)) {
+                unset($view->children[$name]);
             }
         }
     }

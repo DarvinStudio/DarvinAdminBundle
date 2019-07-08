@@ -84,21 +84,12 @@
         {{ new_form|raw }}
     {% endif %}
 
-    <div class="content-block js-property-forms">
+    {% set new_link = that.new_link(meta, association_param, parent_entity_id, 'content-block__btn-add') %}
 
-        {% include '@DarvinAdmin/crud/_list.html.twig' %}
+    {% embed '@DarvinAdmin/crud/_list.html.twig' %}
 
-        <div class="content-block__footer">
-            <div class="content-block__footer-left">
-                {{ that.new_link(meta, association_param, parent_entity_id, 'content-block__btn-add') }}
-            </div>
-            <div class="content-block__footer-right">
+        {% block footer_left %}{{ new_link }}{% endblock %}
 
-                {% if pagination %}
-                    {{ knp_pagination_render(pagination, '@DarvinAdmin/pagination.html.twig') }}
-                {% endif %}
+    {% endembed %}
 
-            </div>
-        </div>
-    </div>
 {% endblock %}

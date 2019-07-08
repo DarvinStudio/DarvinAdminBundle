@@ -5,41 +5,7 @@
 {% block heading %}{% trans %}homepage.index.title{% endtrans %}{% endblock %}
 
 {% block content %}
-
-    {% set cookie_name = 'darvin_admin_spoiler' %}
-
-    {% for name, widget in widgets %}
-
-        {% set cookie_key = 'dashboard_' ~ widget.name %}
-
-        <div class="index_modul spoiler_container">
-            <div class="index_modul_header">
-                <div class="index_modul_header_content spoiler_links">
-                    {% if widget.content|trim %}
-                        <div class="spoiler_arrow"></div>
-                    {% endif %}
-                    {% if widget.icon %}
-                        <div class="index_modul_icon">
-                            <img src="{{ asset(widget.icon) }}" alt="" />
-                        </div>
-                    {% endif %}
-                    <div class="index_modul_name">
-                        <p class="tit">{{ ('dashboard_widget.' ~ name ~ '.title')|trans }}</p>
-                        <p>{{ ('dashboard_widget.' ~ name ~ '.description')|trans }}</p>
-                    </div>
-                </div>
-                {% if widget.moduleUrl %}
-                    <div class="to_modul">
-                        <a href="{{ widget.moduleUrl }}">{% trans %}dashboard.module_link{% endtrans %}</a>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="index_modul_content spoiler_body"
-                 data-cookie-name="{{ cookie_name }}"
-                 data-cookie-key="{{ cookie_key }}"
-                 {% if cookie_key not in app.request.cookies.get(cookie_name)|split(',') %}style="display: none;"{% endif %}>
-                {{ widget.content|raw }}
-            </div>
-        </div>
+    {% for widget in widgets %}
+        {{ widget.content|raw }}
     {% endfor %}
 {% endblock %}

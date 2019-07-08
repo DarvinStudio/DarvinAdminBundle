@@ -239,7 +239,10 @@
             {%- endfor -%}
         </div>
     {%- endif -%}
-    {{- block('form_widget') -}}
+    {%- for child in form -%}
+        {{- form_widget(child) -}}
+        {{- form_errors(child) -}}
+    {%- endfor -%}
 {%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_el_finder_text_widget -%}

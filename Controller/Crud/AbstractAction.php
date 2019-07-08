@@ -204,6 +204,14 @@ abstract class AbstractAction
     }
 
     /**
+     * @param string $entityClass Entity class
+     */
+    public function configure(string $entityClass): void
+    {
+        $this->entityClass = $entityClass;
+    }
+
+    /**
      * @param string $permission Permission
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException

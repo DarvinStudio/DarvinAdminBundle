@@ -120,9 +120,11 @@ class IndexAction extends AbstractAction
     }
 
     /**
+     * @param string|null $template Template
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(): Response
+    public function __invoke(?string $template = null): Response
     {
         $this->checkPermission(Permission::VIEW);
 
@@ -228,22 +230,24 @@ class IndexAction extends AbstractAction
             $newForm = $newAction(true)->getContent();
         }
 
-        $view = $this->indexViewFactory->createView($entities, $this->getMeta());
+        $templateParams = [
+            'association_param' => $associationParam,
+            'batch_delete_form' => $batchDeleteForm,
+            'entity_count'      => $entityCount,
+            'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
+            'meta'              => $this->getMeta(),
+            'new_form'          => $newForm,
+            'pagination'        => $pagination,
+            'parent_entity'     => $parentEntity,
+            'parent_entity_id'  => $parentEntityId,
+            'view'              => $this->indexViewFactory->createView($entities, $this->getMeta()),
+        ];
 
-        return new Response(
-            $this->renderTemplate([
-                'association_param' => $associationParam,
-                'batch_delete_form' => $batchDeleteForm,
-                'entity_count'      => $entityCount,
-                'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
-                'meta'              => $this->getMeta(),
-                'new_form'          => $newForm,
-                'pagination'        => $pagination,
-                'parent_entity'     => $parentEntity,
-                'parent_entity_id'  => $parentEntityId,
-                'view'              => $view,
-            ], $request->isXmlHttpRequest())
-        );
+        if (null !== $template) {
+            return new Response($this->templating->render($template, $templateParams));
+        }
+
+        return new Response($this->renderTemplate($templateParams, $request->isXmlHttpRequest()));
     }
 
     /**

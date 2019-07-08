@@ -261,6 +261,16 @@
     </div>
 {%- endblock darvin_admin_triplebox_widget -%}
 
+{%- block darvin_image_image_widget -%}
+    {%- import _self as that -%}
+    {%- if data -%}
+        <div class="js-photoswipe-gallery">
+            {{- that.image(data, toggle_enabled) -}}
+        </div>
+    {%- endif -%}
+    {{- block('form_widget') -}}
+{%- endblock darvin_image_image_widget -%}
+
 {#
 {% macro image(image, toggle_enabled) %}
     <div class="js-image" data-id="{{ image.id }}">

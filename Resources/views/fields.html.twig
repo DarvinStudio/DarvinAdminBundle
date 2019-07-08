@@ -204,6 +204,11 @@
     });
 {%- endblock ckeditor_widget_extra -%}
 
+{%- block darvin_admin_ace_editor_row -%}
+    {%- set show_help = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_admin_ace_editor_row -%}
+
 {%- block darvin_admin_ace_editor_widget -%}
     <textarea {{ block('widget_attributes') }}>{{ value }}</textarea>
     <div id="{{ id }}_ace-editor"></div>

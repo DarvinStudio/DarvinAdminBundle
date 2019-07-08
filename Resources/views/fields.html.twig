@@ -41,7 +41,7 @@
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
-    {%- if 'collection' == form.parent.vars.block_prefixes[1] -%}
+    {%- if 'collection' == form.parent.vars.block_prefixes[1] and (form.parent.vars.allow_add|default or form.parent.vars.allow_delete|default) -%}
         <div class="multiple-field__item">
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
@@ -128,16 +128,18 @@
 {%- endblock choice_widget_collapsed -%}
 
 {%- block collection_widget -%}
-    {%- set attr = attr|merge({'class': (attr.class|default ~ ' multiple-field js-collection')|trim}) -%}
-    {%- if allow_add -%}
-        {%- set attr = attr|merge({
-            'data-allow-add': 1,
-            'data-index':     form.children is not empty ? max(form.children|keys)|number_format + 1 : 0,
-            'data-name':      name,
-        }) -%}
-    {%- endif -%}
-    {%- if allow_delete -%}
-        {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
+    {%- if allow_add or allow_delete -%}
+        {%- set attr = attr|merge({'class': (attr.class|default ~ ' multiple-field js-collection')|trim}) -%}
+        {%- if allow_add -%}
+            {%- set attr = attr|merge({
+                'data-allow-add': 1,
+                'data-index':     form.children is not empty ? max(form.children|keys)|number_format + 1 : 0,
+                'data-name':      name,
+            }) -%}
+        {%- endif -%}
+        {%- if allow_delete -%}
+            {%- set attr = attr|merge({'data-allow-delete': 1}) -%}
+        {%- endif -%}
     {%- endif -%}
     {{- parent() -}}
 {%- endblock collection_widget -%}

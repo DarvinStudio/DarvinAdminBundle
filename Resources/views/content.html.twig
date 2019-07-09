@@ -1,12 +1,16 @@
 {% block content_wrap %}
-    <div class="breadcrumbs">
-        <a class="breadcrumbs__home" href="{{ path('darvin_admin_homepage') }}">
-            {% trans %}homepage.index.link{% endtrans %}
-        </a>
 
-        {% block breadcrumbs %}<span>{{ block('heading') }}</span>{% endblock %}
+    {% block breadcrumbs_wrap %}
+        <div class="breadcrumbs">
+            <a class="breadcrumbs__home" href="{{ path('darvin_admin_homepage') }}">
+                {% trans %}homepage.index.link{% endtrans %}
+            </a>
 
-    </div>
+            {% block breadcrumbs %}<span>{{ block('heading') }}</span>{% endblock %}
+
+        </div>
+    {% endblock %}
+
     <div class="page-header">
         <h1>{% block heading %}{% endblock %}</h1>
         <div class="page-header__btns">

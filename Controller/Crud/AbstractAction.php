@@ -96,6 +96,11 @@ abstract class AbstractAction
     protected $userManager;
 
     /**
+     * @var \Darvin\AdminBundle\Controller\Crud\ActionConfig|null
+     */
+    private $actionConfig;
+
+    /**
      * @var array|null
      */
     private $config = null;
@@ -204,11 +209,11 @@ abstract class AbstractAction
     }
 
     /**
-     * @param string $entityClass Entity class
+     * @param \Darvin\AdminBundle\Controller\Crud\ActionConfig|null $actionConfig Action configuration
      */
-    public function configure(string $entityClass): void
+    public function configure(?ActionConfig $actionConfig): void
     {
-        $this->entityClass = $entityClass;
+        $this->actionConfig = $actionConfig;
     }
 
     /**
@@ -299,6 +304,10 @@ abstract class AbstractAction
      */
     protected function renderTemplate(array $params = [], bool $partial = false): string
     {
+        if (null !== $this->actionConfig && null !== $this->actionConfig->getTemplate()) {
+            return $this->templating->render($this->actionConfig->getTemplate(), $params);
+        }
+
         $config = $this->getConfig();
         $type   = $this->getName();
 
@@ -361,6 +370,9 @@ abstract class AbstractAction
      */
     protected function getEntityClass(): string
     {
+        if (null !== $this->actionConfig && null !== $this->actionConfig->getEntityClass()) {
+            return $this->actionConfig->getEntityClass();
+        }
         if (null === $this->entityClass) {
             $this->entityClass = $this->routeManager->getOption(
                 $this->requestStack->getCurrentRequest()->attributes->get('_route'),

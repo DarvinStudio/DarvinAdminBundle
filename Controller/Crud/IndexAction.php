@@ -120,11 +120,9 @@ class IndexAction extends AbstractAction
     }
 
     /**
-     * @param string|null $template Template
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function __invoke(?string $template = null): Response
+    public function __invoke(): Response
     {
         $this->checkPermission(Permission::VIEW);
 
@@ -230,7 +228,7 @@ class IndexAction extends AbstractAction
             $newForm = $newAction(true)->getContent();
         }
 
-        $templateParams = [
+        return new Response($this->renderTemplate([
             'association_param' => $associationParam,
             'batch_delete_form' => $batchDeleteForm,
             'entity_count'      => $entityCount,
@@ -241,13 +239,7 @@ class IndexAction extends AbstractAction
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
             'view'              => $this->indexViewFactory->createView($entities, $this->getMeta()),
-        ];
-
-        if (null !== $template) {
-            return new Response($this->templating->render($template, $templateParams));
-        }
-
-        return new Response($this->renderTemplate($templateParams, $request->isXmlHttpRequest()));
+        ], $request->isXmlHttpRequest()));
     }
 
     /**

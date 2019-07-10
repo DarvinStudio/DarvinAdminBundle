@@ -76,7 +76,9 @@
 
 {%- block form_label -%}
     {%- set element = 'span' -%}
-    {%- set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' form-item__label')|trim}) -%}
+    {%- if label_add_class is not defined or label_add_class -%}
+        {%- set label_attr = label_attr|merge({'class': (label_attr.class|default ~ ' form-item__label')|trim}) -%}
+    {%- endif -%}
     {{- parent() -}}
 {%- endblock form_label -%}
 
@@ -129,7 +131,15 @@
 {# Generic widgets #}
 
 {%- block checkbox_widget -%}
-    <label class="custom-checkbox">{{- parent() -}}<span></span></label>
+    <label class="custom-checkbox">
+        {{- parent() -}}
+        {%- if checkbox_show_label is defined and checkbox_show_label -%}
+            {%- set label_add_class = false -%}
+            {{- block('form_label') -}}
+        {%- else -%}
+            <span></span>
+        {%- endif -%}
+    </label>
 {%- endblock checkbox_widget -%}
 
 {%- block choice_widget_collapsed -%}

@@ -121,6 +121,7 @@ layout:
     copyright: © %year%  Darvin CMS build %version%
     footer:
         menu:
+            contacts:      Контакты
             for_customers: Для клиентов
             support:       Поддержка
     main_menu:   Главное меню

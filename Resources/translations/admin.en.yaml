@@ -104,6 +104,7 @@ layout:
     copyright: '© %year%  Darvin CMS Build %version%'
     footer:
         menu:
+            contacts: Contacts
             for_customers: 'For Customers'
             support: Support
     main_menu: 'Main Menu'

@@ -22,13 +22,13 @@
             </a>
         {% endif %}
         <a class="no-photoswipe js-ajax"
-           href="{{ path('darvin_image_image_edit', {'id': image.id}) }}"
-           title="{{ 'image.action.edit.title'|trans({'%image%': image})|e('html_attr') }}">
+           href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
+            {{ 'image.action.edit.title'|trans({'%image%': image}) }}
         </a>
         <a class="no-photoswipe js-image-delete"
            data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
-           title="{% trans %}image.action.delete.submit{% endtrans %}"
            href="#">
+            {% trans %}image.action.delete.submit{% endtrans %}
         </a>
     </div>
 {% endmacro %}
@@ -287,6 +287,11 @@
     </div>
 {%- endblock darvin_admin_position_widget -%}
 
+{%- block darvin_admin_triplebox_row -%}
+    {%- set compound = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_admin_triplebox_row -%}
+
 {%- block darvin_admin_triplebox_widget -%}
     <div class="form-item__сheckbox">
         <div class="custom-triplebox js-triplebox">
@@ -298,6 +303,11 @@
         </div>
     </div>
 {%- endblock darvin_admin_triplebox_widget -%}
+
+{%- block darvin_image_image_row -%}
+    {%- set compound = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_image_image_row -%}
 
 {%- block darvin_image_image_widget -%}
     {%- import _self as that -%}

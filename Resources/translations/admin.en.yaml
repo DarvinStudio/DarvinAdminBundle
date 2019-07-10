@@ -46,6 +46,7 @@ crud:
             success: 'Selected Items Successfully Removed'
 dashboard:
     module_link: 'Go to Module Page'
+download: Download
 dropzone:
     default_message: 'Drop Here Files to Upload'
     file_too_big: 'File Is Too Big ({{filesize}}MB). Max Filesize: {{maxFilesize}}MB.'

@@ -54,6 +54,8 @@ crud:
 dashboard:
     module_link: Перейти в модуль
 
+download: Скачать
+
 dropzone:
     default_message:   Поместите сюда файлы для загрузки
     file_too_big:      'Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.'

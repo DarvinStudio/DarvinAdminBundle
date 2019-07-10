@@ -338,6 +338,11 @@
     {{- block('form_widget') -}}
 {%- endblock darvin_image_image_widget -%}
 
+{%- block vich_file_row -%}
+    {%- set compound = false -%}
+    {{- parent() -}}
+{%- endblock vich_file_row -%}
+
 {#
 {%- block darvin_admin_slug_suffix_widget -%}
     {% if is_homepage %}

@@ -79,7 +79,7 @@ form:
         help: 'Max File Size: %size%MB'
     select:
         reset: Reset
-    text:
+    simple:
         clear: Clear
 homepage:
     index:

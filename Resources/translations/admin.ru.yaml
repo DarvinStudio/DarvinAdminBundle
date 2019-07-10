@@ -93,7 +93,7 @@ form:
         help: 'Максимальный размер файла: %size%МБ'
     select:
         reset: Сбросить
-    text:
+    simple:
         clear: Очистить
 
 homepage:

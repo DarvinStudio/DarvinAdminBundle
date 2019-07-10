@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Menu;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\Utils\NewObject\NewObjectCounterInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -23,6 +24,11 @@ class Menu implements MenuInterface
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     private $authorizationChecker;
+
+    /**
+     * @var \Darvin\Utils\NewObject\NewObjectCounterInterface
+     */
+    private $newObjectCounter;
 
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -46,12 +52,18 @@ class Menu implements MenuInterface
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Darvin\Utils\NewObject\NewObjectCounterInterface                            $newObjectCounter     New object counter
      * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
      * @param array                                                                        $groupsConfig         Groups configuration
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RequestStack $requestStack, array $groupsConfig)
-    {
+    public function __construct(
+        AuthorizationCheckerInterface $authorizationChecker,
+        NewObjectCounterInterface $newObjectCounter,
+        RequestStack $requestStack,
+        array $groupsConfig
+    ) {
         $this->authorizationChecker = $authorizationChecker;
+        $this->newObjectCounter = $newObjectCounter;
         $this->requestStack = $requestStack;
         $this->groupsConfig = $groupsConfig;
 
@@ -100,6 +112,12 @@ class Menu implements MenuInterface
                     }
                     if (0 === strpos($currentUrl, (string)$item->getIndexUrl())) {
                         $item->setActive(true);
+                    }
+                    if (null === $item->getNewObjectCount()
+                        && null !== $item->getAssociatedObject()
+                        && $this->newObjectCounter->isCountable($item->getAssociatedObject())
+                    ) {
+                        $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
                     }
 
                     $items[$item->getName()] = $item;

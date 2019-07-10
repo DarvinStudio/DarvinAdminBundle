@@ -89,7 +89,7 @@ class Item
     protected $children;
 
     /**
-     * @var int
+     * @var int|null
      */
     protected $newObjectCount;
 
@@ -105,11 +105,10 @@ class Item
     {
         $this->name = $name;
 
-        $this->mainIcon       = self::DEFAULT_MAIN_ICON;
-        $this->sidebarIcon    = self::DEFAULT_SIDEBAR_ICON;
-        $this->children       = [];
-        $this->newObjectCount = 0;
-        $this->active         = false;
+        $this->mainIcon    = self::DEFAULT_MAIN_ICON;
+        $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
+        $this->children    = [];
+        $this->active      = false;
     }
 
     /**
@@ -389,11 +388,11 @@ class Item
     }
 
     /**
-     * @param int $newObjectCount newObjectCount
+     * @param int|null $newObjectCount newObjectCount
      *
      * @return Item
      */
-    public function setNewObjectCount(int $newObjectCount): Item
+    public function setNewObjectCount(?int $newObjectCount): Item
     {
         $this->newObjectCount = $newObjectCount;
 
@@ -401,9 +400,9 @@ class Item
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getNewObjectCount(): int
+    public function getNewObjectCount(): ?int
     {
         return $this->newObjectCount;
     }

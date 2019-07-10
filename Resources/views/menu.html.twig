@@ -6,10 +6,7 @@
 
     {% import _self as that %}
 
-    {% set classes   = [] %}
-    {% set has_count = item.newObjectCount
-        or (item.associatedObject and utils_new_objects_countable(item.associatedObject) and utils_count_new_objects(item.associatedObject))
-    %}
+    {% set classes = [] %}
 
     {% if item.children is not empty %}
 
@@ -28,8 +25,8 @@
     {% endif %}
 
     <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
-        <a href="{{ item.indexUrl }}"{% if has_count %} class="has-count"{% endif %}>
-            {{ item.indexTitle|trans }}{% if has_count %} <span>{{ item.newObjectCount ?: utils_count_new_objects(item.associatedObject) }}</span>{% endif %}
+        <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
+            {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
         </a>
         {% if item.children is not empty %}
             <div>

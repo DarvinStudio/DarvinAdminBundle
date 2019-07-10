@@ -146,6 +146,15 @@
     </label>
 {%- endblock checkbox_widget -%}
 
+{%- block choice_row -%}
+    {%- if expanded -%}
+        {%- set compound  = false -%}
+        {%- set data_type = 'checkbox' -%}
+        {%- set show_help = false -%}
+    {%- endif -%}
+    {{- block('form_row') -}}
+{%- endblock choice_row -%}
+
 {%- block choice_widget_collapsed -%}
     <div class="custom-select js-chosen"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
         {{- parent() -}}
@@ -154,6 +163,15 @@
         {%- endif -%}
     </div>
 {%- endblock choice_widget_collapsed -%}
+
+{%- block choice_widget_expanded -%}
+    <div class="form-item__сheckbox">
+        {%- for child in form -%}
+            {{- form_widget(child, {'checkbox_show_label': true}) -}}
+            {{- form_errors(child) -}}
+        {%- endfor -%}
+    </div>
+{%- endblock choice_widget_expanded -%}
 
 {%- block collection_widget -%}
     {%- if allow_add or allow_delete -%}

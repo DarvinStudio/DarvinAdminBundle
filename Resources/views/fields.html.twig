@@ -21,15 +21,19 @@
                href="#">
             </a>
         {% endif %}
-        <a class="no-photoswipe js-ajax"
-           href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
-            {{ 'image.action.edit.title'|trans({'%image%': image}) }}
-        </a>
-        <a class="no-photoswipe js-image-delete"
-           data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
-           href="#">
-            {% trans %}image.action.delete.submit{% endtrans %}
-        </a>
+        <div>
+            <a class="no-photoswipe js-ajax"
+               href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
+                {{ 'image.action.edit.title'|trans({'%image%': image}) }}
+            </a>
+        </div>
+        <div>
+            <a class="no-photoswipe js-image-delete"
+               data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+               href="#">
+                {% trans %}image.action.delete.submit{% endtrans %}
+            </a>
+        </div>
     </div>
 {% endmacro %}
 

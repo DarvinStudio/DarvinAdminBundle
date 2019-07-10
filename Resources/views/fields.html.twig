@@ -257,6 +257,11 @@
     {{- block('form_row') -}}
 {%- endblock darvin_admin_ck_editor_row -%}
 
+{%- block darvin_admin_dropzone_row -%}
+    {%- set compound = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_admin_dropzone_row -%}
+
 {%- block darvin_admin_dropzone_widget -%}
     {%- import _self as that -%}
     {%- if data and data is not empty -%}

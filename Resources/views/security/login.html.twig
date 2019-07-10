@@ -3,37 +3,18 @@
 {% trans_default_domain 'admin' %}
 
 {% block body %}
-    <div class="authorization_page">
-        <div class="wrap">
-            <div class="container">
 
-                {% include '@DarvinAdmin/locale_switcher.html.twig' %}
+    {% include '@DarvinAdmin/locale_switcher.html.twig' %}
 
-                <div class="block">
-                    <span class="logo">
-                        {% if darvin_admin.logo %}
-                            <img src="{{ asset(darvin_admin.logo) }}" alt="">
-                        {% else %}
-                            <img src="{{ asset(darvin_admin.frontendPath ~ '/images/logo_auth.png') }}" alt="">
-    						<span>{% trans %}layout.logo{% endtrans %}</span>
-                        {% endif %}
-                    </span>
-                    <div class="authorization_form">
+    {% include '@DarvinAdmin/security/_login.html.twig' %}
 
-                        {% include '@DarvinAdmin/security/_login.html.twig' %}
-
-                        <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">
-                            {% trans %}security.action.login.darvin_auth{% endtrans %}
-                        </a>
-                    </div>
-                    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>
-                </div>
-                <div class="version">
-                    {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}
-                        security.action.login.version
-                    {% endtrans %}
-                </div>
-            </div>
-        </div>
-    </div>
+    <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">
+        {% trans %}security.action.login.darvin_auth{% endtrans %}
+    </a>
+    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>
+    <p>
+        {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}
+            security.action.login.version
+        {% endtrans %}
+    </p>
 {% endblock %}

@@ -2,19 +2,24 @@
 
 {% trans_default_domain 'admin' %}
 
+{% block body_class %}login-page{% endblock %}
+
 {% block body %}
+    <div class="login-wrapper">
+        <div class="login-wrapper__form">
 
-    {% include '@DarvinAdmin/locale_switcher.html.twig' %}
+            {% include '@DarvinAdmin/security/_login.html.twig' %}
 
-    {% include '@DarvinAdmin/security/_login.html.twig' %}
-
-    <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">
-        {% trans %}security.action.login.darvin_auth{% endtrans %}
-    </a>
-    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>
-    <p>
-        {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}
-            security.action.login.version
-        {% endtrans %}
-    </p>
+        </div>
+    </div>
+{#    {% include '@DarvinAdmin/locale_switcher.html.twig' %}#}
+{#    <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">#}
+{#        {% trans %}security.action.login.darvin_auth{% endtrans %}#}
+{#    </a>#}
+{#    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>#}
+{#    <p>#}
+{#        {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}#}
+{#            security.action.login.version#}
+{#        {% endtrans %}#}
+{#    </p>#}
 {% endblock %}

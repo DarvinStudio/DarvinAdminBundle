@@ -3,6 +3,8 @@
 {% trans_default_domain 'admin' %}
 
 {{ form_start(form, {'attr': {'class': 'js-form js-security-login'}}) }}
-{{ form_widget(form) }}
-<button type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>
+<div class="form-login">
+    {{ form_widget(form) }}
+    <button class="form-login__btn-login" type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>
+</div>
 {{ form_end(form) }}

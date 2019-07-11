@@ -259,4 +259,10 @@ form:
 
 - Use Babel.
 
-6.1.0: Generate title-case translations.
+6.1.0:
+
+- Redesign.
+ 
+- Generate title-case translations.
+
+- Replace auto form event listener to support Doctrine embeddables.

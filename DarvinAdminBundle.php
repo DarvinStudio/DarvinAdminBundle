@@ -15,6 +15,7 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateSecurityConfigurationsPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceAutoFormListenerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\SwitchFormManipulatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -40,6 +41,7 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new AddViewWidgetsPass())
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new CreateSecurityConfigurationsPass())
+            ->addCompilerPass(new ReplaceAutoFormListenerPass())
             ->addCompilerPass(new ReplaceFormObjectInfoPass())
             ->addCompilerPass(new SwitchFormManipulatorPass());
     }

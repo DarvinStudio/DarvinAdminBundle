@@ -203,12 +203,13 @@ class GenerateTranslationsCommand extends Command
 
         $entityTranslation = $this->getClassTranslation($meta->getReflectionClass(), $parseDocComments);
 
-        $cases = $this->getCases($entityTranslation);
-
+        $cases             = $this->getCases($entityTranslation);
         $startsWithAcronym = $this->startsWithAcronym($entityTranslation);
 
         return $this->replacePlaceholders($translations, [
             '@trans@'                  => $entityTranslation,
+            '@trans_accusative@'       => $cases['accusative'],
+            '@trans_genitive@'         => $cases['genitive'],
             '@trans_lower@'            => $startsWithAcronym ? $entityTranslation : StringsUtil::lowercaseFirst($entityTranslation),
             '@trans_lower_accusative@' => $startsWithAcronym ? $cases['accusative'] : StringsUtil::lowercaseFirst($cases['accusative']),
             '@trans_lower_genitive@'   => $startsWithAcronym ? $cases['genitive'] : StringsUtil::lowercaseFirst($cases['genitive']),
@@ -323,7 +324,7 @@ class GenerateTranslationsCommand extends Command
             }
         }
 
-        return StringsUtil::humanize($this->entityNamer->name($classReflection->getName()));
+        return ucwords(StringsUtil::humanize($this->entityNamer->name($classReflection->getName())));
     }
 
     /**

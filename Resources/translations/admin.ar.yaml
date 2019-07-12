@@ -2,50 +2,30 @@ boolean:
     indeterminate: 'غير محدد'
     'no': لا
     'yes': نعم
-chosen:
-    no_results_text: 'لا توجد نتائج المباراة'
-    placeholder_text_multiple: '---'
-    placeholder_text_single: '---'
 collection:
     add: إضافة
     delete: إزالة
-colorbox:
-    close: قريب
-    current: 'صورة {الجارية} من {مجموع}'
-    imgError: 'هذه صورة فشل في التحميل.'
-    next: القادم
-    previous: السابقة
-    slideshowStart: 'بدء عرض الشرائح'
-    slideshowStop: 'إيقاف عرض الشرائح'
-    xhrError: 'هذا المحتوى فشل في التحميل.'
 common:
     actions: الإجراءات
     back: 'مرة أخرى'
     empty_list: 'القائمة فارغة'
-    total_item_count: 'مجموع البنود: %count%'
+    total_item_count: 'مجموع البنود:<span>%count%</span>'
 configuration:
     action:
         edit:
-            heading:
-                common: 'وحدات التكوين'
-                security: 'أذونات المستخدم'
             link: التكوين
             submit: 'إرسال التغييرات'
             success: 'التكوين بنجاح تحديث'
             title: التكوين
-            toggle:
-                collapse: انهيار
-                expand: توسيع
 crud:
     action:
         batch_delete:
-            check: 'تحقق من إزالة'
+            check: حدد
+            check_all: 'حدد كافة'
             confirm: 'التأكد من إزالة العناصر المحددة'
-            select_all: 'تحقق من كل لإزالة'
             submit: 'إزالة مختارة'
             success: 'العناصر المحددة بنجاح إزالة'
-dashboard:
-    module_link: 'انتقل إلى صفحة وحدة'
+download: تحميل
 dropzone:
     default_message: 'قطرة هنا لتحميل الملفات'
     file_too_big: 'الملف كبير جدا ({{حجم الملف}}MB). ماكس حجم الملف: {{maxFilesize}}ميجا بايت.'
@@ -63,10 +43,9 @@ exception:
     404: 'لم يتم العثور على'
     500: 'خطأ خادم داخلي'
 filter:
-    title: 'الجدول تصفية'
-    description: 'تصفية المعلمات باستخدام فلتر'
     reset: 'إعادة تعيين'
-    submit: 'تطبيق عامل تصفية'
+    submit: تطبيق
+    toggle: فلتر
 flash:
     error:
         form: 'شكل الأخطاء المكتشفة. اصلاحها وإعادة تشكيل'
@@ -77,6 +56,12 @@ form:
         title: 'اختر ملف'
     file:
         help: 'ماكس حجم الملف: %size%MB'
+    password:
+        show: تظهر
+    select:
+        reset: 'إعادة تعيين'
+    simple:
+        clear: واضح
 homepage:
     index:
         link: 'الصفحة الرئيسية'
@@ -92,24 +77,20 @@ image:
             success: 'الصورة بنجاح المعوقين'
         edit:
             submit: تقدم
-            title: 'تحرير الصورة "%image%"'
+            title: 'تحرير صورة %image%'
         enable:
             submit: تمكين
             success: 'صورة تمكين بنجاح'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> الإصدار %version%'
+    copyright: '© %year% دارفين CMS بناء %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>مدينة كوفروف</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>فلاديمير المدينة</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7 (4922) 60-16-14</a>\n</div>\n"
-        support:
-            label: 'الدعم الفني'
-            email: support@darvin-studio.ru
-    locale_switcher:
-        title: 'اللغة الحالية:'
-    logo: 'نظام إدارة المحتوى'
-    menu:
-        collapse: 'انهيار القائمة'
-        expand: 'توسيع القائمة'
+        menu:
+            contacts: الاتصالات
+            for_customers: للعملاء
+            support: الدعم
+    main_menu: 'القائمة الرئيسية'
     title: 'DarvinCMS الإصدار %version%'
+    toggle_menu: 'القائمة تبديل'
 locale:
     ar: العربية
     en: 'اللغة الإنجليزية'
@@ -149,8 +130,6 @@ menu:
         seo:
             title: 'كبار المسئولين الاقتصاديين-وحدات'
 pagination:
-    next: 'التالي "'
-    previous: '"السابق'
     show_all: 'عرض كل'
 property_forms:
     submit: 'إرسال التغييرات'
@@ -164,17 +143,17 @@ role:
 search:
     action:
         index:
-            heading: 'البحث عن "%query%"'
+            heading: 'البحث عن %query%'
             query_too_short: 'الاستعلام قصيرة جدا, مين هو %count% الرمز | الاستعلام قصيرة جدا, مين هو %count% الرموز | الاستعلام قصيرة جدا, مين هو %count% الرموز | '
     form:
-        placeholder: 'البحث عن...'
+        placeholder: 'البحث عن طريق الكلمات الرئيسية, أرقام, أسماء, الخ.'
         submit: البحث
 security:
     action:
         login:
-            darvin_auth: 'تسجيل الدخول باستخدام مصادقة دارفين'
+            darvin_auth: 'دارفين المصادقة'
             submit: 'تسجيل الدخول'
-            version: 'الإصدار %number%'
+            title: 'تسجيل الدخول'
         logout:
             link: خروج
         switch_user:

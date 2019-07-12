@@ -2,50 +2,30 @@ boolean:
     indeterminate: 不确定
     'no': 没有
     'yes': 是的
-chosen:
-    no_results_text: 无匹配结果
-    placeholder_text_multiple: '---'
-    placeholder_text_single: '---'
 collection:
     add: 添加
     delete: 删除
-colorbox:
-    close: 靠近
-    current: '像{前}对{总}'
-    imgError: 这个图片加载失败。
-    next: 下
-    previous: 以前的
-    slideshowStart: 开始幻灯片
-    slideshowStop: 停止幻灯片
-    xhrError: 这些内容未能载荷。
 common:
     actions: 行动
     back: 回
     empty_list: 表是空的
-    total_item_count: '总项目： %count%'
+    total_item_count: 总项目：<span>%count%</span>
 configuration:
     action:
         edit:
-            heading:
-                common: 模块结构
-                security: 用户的权限
             link: 配置
             submit: 提出的变化
             success: 构成功地更新
             title: 配置
-            toggle:
-                collapse: 崩溃
-                expand: 扩大
 crud:
     action:
         batch_delete:
-            check: 检查拆除
+            check: 选择
+            check_all: 所有的选择
             confirm: 确认选定项目拆除
-            select_all: 检查所有移除
             submit: 删除选择
             success: 选定的项目成功地除去
-dashboard:
-    module_link: 去页模块
+download: 下载
 dropzone:
     default_message: 落在这儿的文件上传
     file_too_big: '文件太大({{filesize}}MB)。 Max Filesize:{{maxFilesize}}MB。'
@@ -63,10 +43,9 @@ exception:
     404: 没有发现
     500: 内部服务器的错误
 filter:
-    title: 表过滤器
-    description: 滤波器的参数使用的过滤器
     reset: 重置
-    submit: 适用的过滤器
+    submit: 适用
+    toggle: 过滤器
 flash:
     error:
         form: '形成的错误检测。 解决这些问题，并重新提交形式'
@@ -77,6 +56,12 @@ form:
         title: 选择文件
     file:
         help: '最大的文件大小： %size%MB'
+    password:
+        show: 显示
+    select:
+        reset: 重置
+    simple:
+        clear: 清楚的
 homepage:
     index:
         link: 主页
@@ -92,24 +77,20 @@ image:
             success: 图像成功的障碍
         edit:
             submit: 提交
-            title: '编辑图像"%image%"'
+            title: '编辑的图像 %image%'
         enable:
             submit: 启用
             success: 图像成功启用
 layout:
-    copyright: '©2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> 释放 %version%'
+    copyright: '© %year% 达文CMS建立 %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>科夫罗夫市</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7(49232)4-16-14</a>\n</div> <div class=\"phone\">\n    <span>弗拉基米尔城市</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7(4922)60-16-14</a>\n</div>\n"
-        support:
-            label: 技术支持
-            email: support@darvin-studio.ru
-    locale_switcher:
-        title: 目前的语言：
-    logo: 内容管理系统
-    menu:
-        collapse: 崩溃的菜单
-        expand: 展开菜单
+        menu:
+            contacts: 联系人
+            for_customers: 为客户
+            support: 支持
+    main_menu: 主菜单
     title: 'DarvinCMS释放 %version%'
+    toggle_menu: 切换菜单
 locale:
     ar: 阿拉伯文
     en: 英语
@@ -149,8 +130,6 @@ menu:
         seo:
             title: 搜索引擎优化模块
 pagination:
-    next: '下一个"'
-    previous: '"以前'
     show_all: 显示所有
 property_forms:
     submit: 提出的变化
@@ -164,17 +143,17 @@ role:
 search:
     action:
         index:
-            heading: '搜寻"%query%"'
+            heading: '寻找 %query%'
             query_too_short: '查询太短，分的长度 %count% 符号 | 查询太短，分的长度 %count% 符号 | 查询太短，分的长度 %count% 符号 | '
     form:
-        placeholder: 搜索...
+        placeholder: 搜索关键词、数字的名称、等等。
         submit: 搜索
 security:
     action:
         login:
-            darvin_auth: 标志在使用达文Auth
+            darvin_auth: 达文Auth
             submit: 登录在
-            version: '释放 %number%'
+            title: 登录在
         logout:
             link: 注销
         switch_user:

@@ -2,53 +2,33 @@ boolean:
     indeterminate: Indéterminée
     'no': 'Pas de'
     'yes': Oui
-chosen:
-    no_results_text: 'Pas De Résultats De Match'
-    placeholder_text_multiple: '---'
-    placeholder_text_single: '---'
 collection:
     add: Ajouter
     delete: Supprimer
-colorbox:
-    close: Fermer
-    current: 'Image {current} de {total}'
-    imgError: 'Cette Image pas réussi à Charger.'
-    next: Prochaine
-    previous: Précédente
-    slideshowStart: 'Démarrer Le Diaporama'
-    slideshowStop: 'Arrêter Le Diaporama'
-    xhrError: 'Ce Contenu a pas réussi à Charger.'
 common:
     actions: Actions
     back: 'De retour'
-    empty_list: 'La Liste Est Vide'
-    total_item_count: 'Nombre Total D''Éléments: %count%'
+    empty_list: 'La liste est Vide'
+    total_item_count: 'Nombre Total D''Éléments:<span>%count%</span>'
 configuration:
     action:
         edit:
-            heading:
-                common: 'Les Modules De Configuration'
-                security: 'Les Autorisations De L''Utilisateur'
             link: Configuration
             submit: 'Soumettre Les Modifications'
             success: 'Configuration De La Mise À Jour Avec Succès'
             title: Configuration
-            toggle:
-                collapse: 'L''effondrement'
-                expand: Développez
 crud:
     action:
         batch_delete:
-            check: 'De vérifier pour la Suppression'
+            check: Sélectionnez
+            check_all: 'Sélectionnez Tous Les'
             confirm: 'Confirmer La Suppression Des Éléments Sélectionnés'
-            select_all: 'Vérifiez Tous pour l''Enlèvement'
             submit: 'Supprimer La Sélection'
             success: 'Les Éléments Sélectionnés Supprimé Avec Succès'
-dashboard:
-    module_link: 'Aller à la Page du Module'
+download: Télécharger
 dropzone:
     default_message: 'Ici goutte Fichiers à Télécharger'
-    file_too_big: 'Le fichier Est Trop Gros ({{taille}}MO). Max Taille du fichier: {{maxFilesize}}MO.'
+    file_too_big: 'Le fichier est Trop Gros ({{taille}}MO). Max Taille du fichier: {{maxFilesize}}MO.'
     invalid_file_type: 'Vous ne Pouvez pas Télécharger des Fichiers de Ce Type.'
     reject_dimensions: 'La Taille D''Image Maximale %max_width%x%max_height%px Dépassé.'
     remove_file: 'Suppression De Fichier'
@@ -63,10 +43,9 @@ exception:
     404: 'Pas Trouvé'
     500: 'Erreur Interne Du Serveur'
 filter:
-    title: 'Filtre De Table'
-    description: 'Les Paramètres Du Filtre À L''Aide De Filtre'
     reset: Réinitialiser
-    submit: 'Appliquer Le Filtre'
+    submit: Appliquer
+    toggle: Filtre
 flash:
     error:
         form: 'Des Erreurs Détectées. Les corriger et de soumettre à nouveau le Formulaire'
@@ -77,6 +56,12 @@ form:
         title: 'Choisissez Fichier'
     file:
         help: 'Taille Maximale De Fichier: %size%MO'
+    password:
+        show: Montrer
+    select:
+        reset: Réinitialiser
+    simple:
+        clear: Claire
 homepage:
     index:
         link: 'Page d''accueil'
@@ -92,24 +77,20 @@ image:
             success: 'Image Désactivé Correctement'
         edit:
             submit: Soumettre
-            title: 'Pour Modifier L''Image "%image%"'
+            title: 'Modifier L''Image %image%'
         enable:
             submit: Activer
             success: 'Image Activée Avec Succès'
 layout:
-    copyright: '© 2009-%current_year%, <a href="http://www.darvin-studio.ru">DarvinCMS</a> Libération %version%'
+    copyright: '© %year% Darvin CMS Construire %version%'
     footer:
-        phone_numbers: "<div class=\"phone\">\n    <span>Kovrov Ville</span>\n <a href=\"tel:+7 (49232) 4-16-14\">+7 (49232) 4-16-14</a>\n</div> <div class=\"phone\">\n    <span>La Ville De Vladimir</span>\n <a href=\"tel:+7 (4922) 60-16-14\">+7 (4922) 60-16-14</a>\n</div>\n"
-        support:
-            label: 'Le Support Technique'
-            email: support@darvin-studio.ru
-    locale_switcher:
-        title: 'Langage Courant:'
-    logo: 'Système De Gestion De Contenu'
-    menu:
-        collapse: 'L''Effondrement De Menu'
-        expand: 'Développez Le Menu'
+        menu:
+            contacts: Contacts
+            for_customers: 'Pour Les Clients'
+            support: Soutien
+    main_menu: 'Menu Principal'
     title: 'DarvinCMS Libération %version%'
+    toggle_menu: 'Bascule Menu'
 locale:
     ar: Arabe
     en: Anglais
@@ -147,16 +128,14 @@ menu:
         modules:
             title: 'Les Modules de'
         seo:
-            title: SEO-Modules
+            title: SEO-modules
 pagination:
-    next: 'Prochaine »'
-    previous: '« Précédent'
     show_all: 'Afficher Tous Les'
 property_forms:
     submit: 'Soumettre Les Modifications'
 range:
     from: 'À partir de'
-    to: pour
+    to: Pour
 role:
     admin: Administrateur
     guestadmin: 'Administrateur Invité'
@@ -164,17 +143,17 @@ role:
 search:
     action:
         index:
-            heading: 'La recherche pour "%query%"'
-            query_too_short: 'La Requête Est Trop Court, Min Longueur Est %count% Symbole | La Requête Est Trop Court, Min Longueur Est %count% Symboles | La Requête Est Trop Court, Min Longueur Est %count% Symboles | '
+            heading: 'La recherche de %query%'
+            query_too_short: 'La requête est Trop Court, Min Longueur est %count% Symbole | La requête est Trop Court, Min Longueur est %count% Symboles | La requête est Trop Court, Min Longueur est %count% Symboles | '
     form:
-        placeholder: Recherche...
+        placeholder: 'Recherche par mots-clés, des Chiffres, des Noms, Etc.'
         submit: Recherche
 security:
     action:
         login:
-            darvin_auth: 'Connectez-vous en Utilisant Darvin Auth'
-            submit: 'Signe dans'
-            version: 'Libération %number%'
+            darvin_auth: 'Darvin Auth'
+            submit: 'Signe Dans'
+            title: 'Signe Dans'
         logout:
             link: Déconnexion
         switch_user:

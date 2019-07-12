@@ -173,8 +173,8 @@ security:
     action:
         login:
             darvin_auth: 'Darvin Auth'
-            submit: 'Sign in'
-            title: 'Sign in'
+            submit: 'Sign In'
+            title: 'Sign In'
         logout:
             link: Logout
         switch_user:

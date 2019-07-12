@@ -113,9 +113,9 @@ log:
             remove: Removal
             update: Updating
         data: Data
-        logged_at: 'Logged at'
-        logged_at_from: 'Logged at (from)'
-        logged_at_to: 'Logged at (to)'
+        logged_at: 'Logged At'
+        logged_at_from: 'Logged At (From)'
+        logged_at_to: 'Logged At (To)'
         object: Object
         object_class: Object
         object_id: 'Object ID'
@@ -185,6 +185,6 @@ translation:
         locale: Locale
         trans_unit:
             domain: Domain
-        updated_at: 'Updated at'
-        updated_at_from: 'Updated at (from)'
-        updated_at_to: 'Updated at (to)'
+        updated_at: 'Updated At'
+        updated_at_from: 'Updated At (From)'
+        updated_at_to: 'Updated At (To)'

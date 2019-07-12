@@ -6,20 +6,23 @@
 
 {% block body %}
     <div class="login-wrapper">
-        <div class="login-wrapper__form">
+        <div class="login-wrapper__container">
+            <div class="login-wrapper__logo">
+                <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png') }}" alt="">
+            </div>
+            <div class="login-wrapper__form">
+                <p class="login-wrapper__tilte">{% trans %}security.action.login.title{% endtrans %}</p>
 
-            {% include '@DarvinAdmin/security/_login.html.twig' %}
+                {% include '@DarvinAdmin/security/_login.html.twig' %}
 
+                <div class="login-wrapper__links">
+                    <a class="login-wrapper__link-auth"
+                       href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}">
+                        {% trans %}security.action.login.darvin_auth{% endtrans %}
+                    </a>
+{#                    <a class="login-wrapper__link-password" href="">Забыли пароль?</a>#}
+                </div>
+            </div>
         </div>
     </div>
-{#    {% include '@DarvinAdmin/locale_switcher.html.twig' %}#}
-{#    <a href="{{ path('darvin_admin_security_darvin_auth_login', {'service': 'darvin_auth_admin'}) }}" class="darvin_auth">#}
-{#        {% trans %}security.action.login.darvin_auth{% endtrans %}#}
-{#    </a>#}
-{#    <a href="{{ app.request.schemeAndHttpHost ~ app.request.baseUrl }}" class="site_name">{{ darvin_admin.projectTitle }}</a>#}
-{#    <p>#}
-{#        {% trans with {'%number%': constant('Darvin\\AdminBundle\\DarvinAdminBundle::VERSION')} %}#}
-{#            security.action.login.version#}
-{#        {% endtrans %}#}
-{#    </p>#}
 {% endblock %}

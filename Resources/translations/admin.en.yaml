@@ -77,6 +77,8 @@ form:
         title: 'Choose File'
     file:
         help: 'Max File Size: %size%MB'
+    password:
+        show: Show
     select:
         reset: Reset
     simple:
@@ -170,9 +172,9 @@ search:
 security:
     action:
         login:
-            darvin_auth: 'Sign in Using Darvin Auth'
+            darvin_auth: 'Darvin Auth'
             submit: 'Sign in'
-            version: 'Release %number%'
+            title: 'Sign in'
         logout:
             link: Logout
         switch_user:

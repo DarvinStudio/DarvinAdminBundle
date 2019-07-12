@@ -91,6 +91,8 @@ form:
         title: Выбрать файл
     file:
         help: 'Максимальный размер файла: %size%МБ'
+    password:
+        show: Показать
     select:
         reset: Сбросить
     simple:
@@ -199,9 +201,9 @@ search:
 security:
     action:
         login:
-            darvin_auth: Войти через Darvin Auth
+            darvin_auth: Darvin Auth
             submit:      Войти
-            version:     Версия %number%
+            title:       Вход в систему
         logout:
             link: Выйти
         switch_user:

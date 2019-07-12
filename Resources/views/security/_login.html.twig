@@ -1,6 +1,33 @@
-{% form_theme form '@DarvinAdmin/fields.html.twig' %}
+{% form_theme form _self %}
 
 {% trans_default_domain 'admin' %}
+
+{% block __username_row %}
+    {% if form.parent %}
+        <div class="form-item -login">
+            <div class="form-item__field">
+                <div class="form-item__input" data-type="small">
+                    {{ form_widget(form, {'attr': {'data-input': '', 'placeholder': label}}) }}
+                </div>
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block __password_row %}
+    {% if form.parent %}
+        <div class="form-item -password">
+            <div class="form-item__field">
+                <div class="form-item__input js-btn-password-show" data-type="small">
+                    {{ form_widget(form, {'attr': {'data-input': '', 'placeholder': label}}) }}
+                    <button data-btn-password-show title="{% trans %}form.password.show{% endtrans %}">&nbsp;</button>
+                </div>
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
 
 {{ form_start(form, {'attr': {'class': 'js-form js-security-login'}}) }}
 <div class="form-login">

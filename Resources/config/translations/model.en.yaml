@@ -9,7 +9,7 @@ action:
     edit:
         link: '   Edit @trans_accusative@'
         success: '@trans@ Successfully Updated'
-        title: '  Edit @trans_accusative@ "%entity%"'
+        title: '  Edit @trans_accusative@ %entity%'
     index:
         link: ' @trans_multiple@s'
         title: '@trans_multiple@s'
@@ -18,4 +18,4 @@ action:
         success: '@trans@ Successfully Created'
         title: '  New @trans@'
     show:
-        title: '@trans@ "%entity%"'
+        title: '@trans@ %entity%'

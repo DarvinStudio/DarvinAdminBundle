@@ -146,8 +146,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                 $content = null;
 
                 if (!$this->isFieldContentHidden($params, $entity)) {
-                    if (!$this->isPropertyViewField($meta, 'index', $field)
-                        || !array_key_exists($field, $config['form']['index']['fields'])
+                    if (!array_key_exists($field, $config['form']['index']['fields'])
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
                         || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
                     ) {

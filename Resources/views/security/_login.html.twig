@@ -2,6 +2,18 @@
 
 {% trans_default_domain 'admin' %}
 
+{% block form_errors %}
+    {% if errors is defined and errors|length > 0 %}
+        <div class="form-item__error js-form-errors">
+            <ul>
+                {% for error in errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block __username_row %}
     {% if form.parent %}
         <div class="form-item -login">
@@ -21,7 +33,7 @@
             <div class="form-item__field">
                 <div class="form-item__input js-btn-password-show" data-type="small">
                     {{ form_widget(form, {'attr': {'data-input': '', 'placeholder': label}}) }}
-                    <button data-btn-password-show title="{% trans %}form.password.show{% endtrans %}">&nbsp;</button>
+                    <button data-btn-password-show type="button" title="{% trans %}form.password.show{% endtrans %}">&nbsp;</button>
                 </div>
                 {{ form_errors(form) }}
             </div>
@@ -36,7 +48,7 @@
     {% endif %}
 {% endblock %}
 
-{{ form_start(form, {'attr': {'class': 'js-form js-security-login'}}) }}
+{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
 <div class="form-login">
     {{ form_widget(form) }}
     <button class="form-login__btn-login" type="submit">{% trans %}security.action.login.submit{% endtrans %}</button>

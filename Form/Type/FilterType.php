@@ -200,9 +200,9 @@ class FilterType extends AbstractFormType
                     ? $this->formRegistry->getTypeGuesser()->guessType($meta->getTranslationClass(), $property)
                     : $this->formRegistry->getTypeGuesser()->guessType($meta->getEntityClass(), $property);
 
-                $fieldOptions = [
+                $fieldOptions = array_merge([
                     'required' => false,
-                ];
+                ], $fieldOptions);
 
                 if (null === $fieldType) {
                     $fieldType = $guess->getType();

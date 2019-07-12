@@ -2,22 +2,9 @@ boolean:
     indeterminate: Indeterminate
     'no': 'No'
     'yes': 'Yes'
-chosen:
-    no_results_text: 'No Results Match'
-    placeholder_text_multiple: '---'
-    placeholder_text_single: '---'
 collection:
     add: Add
     delete: Remove
-colorbox:
-    close: Close
-    current: 'Image {current} of {total}'
-    imgError: 'This Image Failed to Load.'
-    next: Next
-    previous: Previous
-    slideshowStart: 'Start Slideshow'
-    slideshowStop: 'Stop Slideshow'
-    xhrError: 'This Content Failed to Load.'
 common:
     actions: Actions
     back: Back
@@ -26,16 +13,10 @@ common:
 configuration:
     action:
         edit:
-            heading:
-                common: 'Modules Configuration'
-                security: 'User Permissions'
             link: Configuration
             submit: 'Submit Changes'
             success: 'Configuration Successfully Updated'
             title: Configuration
-            toggle:
-                collapse: Collapse
-                expand: Expand
 crud:
     action:
         batch_delete:
@@ -149,7 +130,7 @@ menu:
         modules:
             title: Modules
         seo:
-            title: SEO-Modules
+            title: SEO-modules
 pagination:
     show_all: 'Show All'
 property_forms:

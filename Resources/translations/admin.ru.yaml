@@ -3,24 +3,9 @@ boolean:
     no:            Нет
     yes:           Да
 
-chosen:
-    no_results_text:           Нет результатов, соответствующих
-    placeholder_text_multiple: ---
-    placeholder_text_single:   ---
-
 collection:
     add:    Добавить
     delete: Удалить
-
-colorbox:
-    close:          закрыть
-    current:        изображение {current} из {total}
-    imgError:       Не удалось загрузить изображение.
-    next:           вперед
-    previous:       назад
-    slideshowStart: начать слайд-шоу
-    slideshowStop:  остановить слайд-шоу
-    xhrError:       Не удалось загрузить содержимое.
 
 common:
     actions:          Действия
@@ -31,16 +16,10 @@ common:
 configuration:
     action:
         edit:
-            heading:
-                common:   Настройки модулей
-                security: Права пользователей
             link:    Настройки
             submit:  Сохранить изменения
             success: Настройки успешно сохранены
             title:   Настройки
-            toggle:
-                collapse: Скрыть
-                expand:   Раскрыть
 
 crud:
     action:

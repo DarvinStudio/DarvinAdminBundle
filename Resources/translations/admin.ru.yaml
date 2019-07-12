@@ -30,9 +30,6 @@ crud:
             submit:    Удалить выбранные
             success:   Выбранные элементы успешно удалены
 
-dashboard:
-    module_link: Перейти в модуль
-
 download: Скачать
 
 dropzone:

@@ -8,7 +8,7 @@ collection:
 common:
     actions: Actions
     back: Back
-    empty_list: 'List Is Empty'
+    empty_list: 'List is Empty'
     total_item_count: 'Total Items:<span>%count%</span>'
 configuration:
     action:
@@ -28,7 +28,7 @@ crud:
 download: Download
 dropzone:
     default_message: 'Drop Here Files to Upload'
-    file_too_big: 'File Is Too Big ({{filesize}}MB). Max Filesize: {{maxFilesize}}MB.'
+    file_too_big: 'File is Too Big ({{filesize}}MB). Max Filesize: {{maxFilesize}}MB.'
     invalid_file_type: 'You Can''t Upload Files of This Type.'
     reject_dimensions: 'Max Image Size %max_width%x%max_height%px Exceeded.'
     remove_file: 'Remove File'
@@ -144,7 +144,7 @@ search:
     action:
         index:
             heading: 'Searching for "%query%"'
-            query_too_short: "Query Is Too Short, Min Length Is %count% Symbol  | Query Is Too Short, Min Length Is %count% Symbols | Query Is Too Short, Min Length Is %count% Symbols |\n"
+            query_too_short: "Query is Too Short, Min Length is %count% Symbol  | Query is Too Short, Min Length is %count% Symbols | Query is Too Short, Min Length is %count% Symbols |\n"
     form:
         placeholder: 'Search by Keywords, Numbers, Names, Etc.'
         submit: Search

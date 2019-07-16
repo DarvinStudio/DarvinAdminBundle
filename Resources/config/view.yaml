@@ -41,6 +41,7 @@ services:
         class:    '%darvin_admin.view.factory.abstract.class%'
         abstract: true
         calls:
+            - [ setAuthorizationChecker,  [ '@security.authorization_checker' ] ]
             - [ setContainer,             [ '@service_container' ] ]
             - [ setFieldBlacklistManager, [ '@darvin_admin.metadata.field_blacklist_manager' ] ]
             - [ setPropertyAccessor,      [ '@property_accessor' ] ]

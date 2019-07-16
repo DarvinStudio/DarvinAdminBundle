@@ -15,14 +15,20 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * View factory abstract implementation
  */
 abstract class AbstractViewFactory
 {
+    /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    protected $authorizationChecker;
+
     /**
      * @var \Psr\Container\ContainerInterface
      */
@@ -49,9 +55,12 @@ abstract class AbstractViewFactory
     protected $widgetPool;
 
     /**
-     * @var \Symfony\Component\ExpressionLanguage\ExpressionLanguage|null
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      */
-    private $expressionLanguage = null;
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
+    {
+        $this->authorizationChecker = $authorizationChecker;
+    }
 
     /**
      * @param \Psr\Container\ContainerInterface $container DI container
@@ -172,18 +181,7 @@ abstract class AbstractViewFactory
      */
     protected function isFieldContentHidden(array $fieldAttr, $entity): bool
     {
-        return !empty($fieldAttr['condition']) && !$this->getExpressionLanguage()->evaluate($fieldAttr['condition'], ['entity' => $entity]);
-    }
-
-    /**
-     * @return \Symfony\Component\ExpressionLanguage\ExpressionLanguage
-     */
-    protected function getExpressionLanguage(): ExpressionLanguage
-    {
-        if (null === $this->expressionLanguage) {
-            $this->expressionLanguage = new ExpressionLanguage();
-        }
-
-        return $this->expressionLanguage;
+        return !empty($fieldAttr['condition'])
+            && !$this->authorizationChecker->isGranted(new Expression($fieldAttr['condition']), $entity);
     }
 }

@@ -6,12 +6,12 @@
 
 {# Macros #}
 
-{% macro image(image, toggle_enabled) %}
+{% macro image(image, disableable) %}
     <div class="js-image" data-id="{{ image.id }}">
         <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
         </a>
-        {% if toggle_enabled %}
+        {% if disableable %}
             <a class="no-photoswipe js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
                data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
                data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
@@ -288,7 +288,7 @@
         <div class="js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
             {%- for image in data -%}
                 {%- if image.id -%}
-                    {{- that.image(image, toggle_enabled) -}}
+                    {{- that.image(image, disableable) -}}
                 {%- endif -%}
             {%- endfor -%}
         </div>
@@ -348,7 +348,7 @@
     {%- import _self as that -%}
     {%- if data -%}
         <div class="js-photoswipe-gallery">
-            {{- that.image(data, toggle_enabled) -}}
+            {{- that.image(data, disableable) -}}
         </div>
     {%- endif -%}
     {{- block('form_widget') -}}

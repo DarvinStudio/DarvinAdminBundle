@@ -12,14 +12,16 @@
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
         </a>
         {% if disableable %}
-            <a class="no-photoswipe js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
-               data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
-               data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
-               data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
-               data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
-               title="{{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}"
-               href="#">
-            </a>
+            <div>
+                <a class="no-photoswipe js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
+                   data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
+                   data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+                   data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
+                   data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+                   href="#">
+                    {{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}
+                </a>
+            </div>
         {% endif %}
         <div>
             <a class="no-photoswipe js-ajax"

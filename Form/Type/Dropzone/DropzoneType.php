@@ -178,7 +178,10 @@ class DropzoneType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars['disableable'] = $options['disableable'];
+        $view->vars = array_merge($view->vars, [
+            'disableable' => $options['disableable'],
+            'editable'    => $options['editable'],
+        ]);
 
         if (!empty($this->imageSizeDescriber) && null === $options['help']) {
             $options['help'] = $this->imageSizeDescriber->describeSize(
@@ -254,6 +257,7 @@ class DropzoneType extends AbstractType
                 'image_height'           => 0,
                 'mapped'                 => false,
                 'disableable'            => true,
+                'editable'               => true,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
             ])
             ->setDefined([
@@ -264,6 +268,7 @@ class DropzoneType extends AbstractType
                 'uploadable_class',
             ])
             ->setAllowedTypes('disableable', 'boolean')
+            ->setAllowedTypes('editable', 'boolean')
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
             ->setAllowedTypes('uploadable_class', 'string')
             ->setAllowedTypes('image_filters', [

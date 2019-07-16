@@ -6,7 +6,7 @@
 
 {# Macros #}
 
-{% macro image(image, disableable) %}
+{% macro image(image, disableable, editable) %}
     <div class="js-image" data-id="{{ image.id }}">
         <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
@@ -23,12 +23,14 @@
                 </a>
             </div>
         {% endif %}
-        <div>
-            <a class="no-photoswipe js-ajax"
-               href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
-                {{ 'image.action.edit.title'|trans({'%image%': image}) }}
-            </a>
-        </div>
+        {% if editable %}
+            <div>
+                <a class="no-photoswipe js-ajax"
+                   href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
+                    {{ 'image.action.edit.title'|trans({'%image%': image}) }}
+                </a>
+            </div>
+        {% endif %}
         <div>
             <a class="no-photoswipe js-image-delete"
                data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
@@ -290,7 +292,7 @@
         <div class="js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
             {%- for image in data -%}
                 {%- if image.id -%}
-                    {{- that.image(image, disableable) -}}
+                    {{- that.image(image, disableable, editable) -}}
                 {%- endif -%}
             {%- endfor -%}
         </div>
@@ -350,7 +352,7 @@
     {%- import _self as that -%}
     {%- if data -%}
         <div class="js-photoswipe-gallery">
-            {{- that.image(data, disableable) -}}
+            {{- that.image(data, disableable, editable) -}}
         </div>
     {%- endif -%}
     {{- block('form_widget') -}}

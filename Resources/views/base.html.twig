@@ -37,7 +37,7 @@
                     <div class="header js-header">
                         <div class="header__container">
                             <button type="button" class="header__btn-sidebar-toggle js-sidebar-toggle" title="{% trans %}layout.toggle_menu{% endtrans %}">&nbsp;</button>
-                            <a class="header__logo{% if not darvin_admin.logo %} logo{% endif %}" href="{{ path('darvin_admin_homepage') }}">
+                            <a class="header__logo logo" href="{{ path('darvin_admin_homepage') }}">
                                 {% if darvin_admin.logo %}
                                     <img src="{{ asset(darvin_admin.logo) }}" alt="">
                                 {% else %}

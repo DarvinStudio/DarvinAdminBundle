@@ -1,18 +1,21 @@
 action:
+    copy:
+        submit: ' Copie @trans_accusative@'
+        success: '@trans@ Copié avec Succès'
     delete:
         confirm: 'Confirmer @trans_genitive@ Retrait'
         submit: ' Supprimer @trans_accusative@'
-        success: '@trans@ Supprimé Avec Succès'
+        success: '@trans@ Supprimé avec Succès'
     edit:
         link: ' Edit @trans_accusative@'
-        success: '@trans@ Correctement Mis à Jour'
+        success: '@trans@ Correctement mis à Jour'
         title: ' Edit @trans_accusative@ %entity%'
     index:
         link: ' @trans_multiple@s'
         title: '@trans_multiple@s'
     new:
         link: ' Créer @trans_accusative@'
-        success: '@trans@ Créé Avec Succès'
-        title: ' @Trans@'
+        success: '@trans@ Créé avec Succès'
+        title: ' Nouveau @trans@'
     show:
         title: '@trans@ %entity%'

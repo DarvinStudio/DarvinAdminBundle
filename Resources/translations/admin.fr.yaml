@@ -113,9 +113,9 @@ log:
             remove: 'La suppression'
             update: 'Mise à jour'
         data: Données
-        logged_at: 'Connecté à'
-        logged_at_from: 'Connecté à (de)'
-        logged_at_to: 'Connecté à (aux)'
+        logged_at: 'Connecté À'
+        logged_at_from: 'Connecté À (De)'
+        logged_at_to: 'Connecté À (Aux)'
         object: Objet
         object_class: Objet
         object_id: 'ID de l''objet'
@@ -185,6 +185,6 @@ translation:
         locale: 'Paramètres régionaux'
         trans_unit:
             domain: Domaine
-        updated_at: 'Mis à jour au'
-        updated_at_from: 'Mis à jour (à partir de)'
-        updated_at_to: 'Mis à jour (à)'
+        updated_at: 'Mis À Jour Au'
+        updated_at_from: 'Mis À Jour (À Partir De)'
+        updated_at_to: 'Mis À Jour (À)'

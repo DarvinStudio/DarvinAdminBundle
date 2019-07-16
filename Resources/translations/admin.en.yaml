@@ -123,6 +123,9 @@ log:
         user: User
         username: Username
         version: Version
+logo:
+    note: 'Content Management System'
+    title: 'Darvin CMS'
 menu:
     group:
         modules:

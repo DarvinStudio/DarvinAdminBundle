@@ -8,7 +8,15 @@
     <div class="login-wrapper">
         <div class="login-wrapper__container">
             <div class="login-wrapper__logo">
-                <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/logo-ru.png') }}" alt="">
+                {% if darvin_admin.logo %}
+                    <img src="{{ asset(darvin_admin.logo) }}" alt="">
+                {% else %}
+                    <div class="logo">
+
+                        {% include '@DarvinAdmin/logo.html.twig' %}
+
+                    </div>
+                {% endif %}
             </div>
             <div class="login-wrapper__form">
                 <p class="login-wrapper__tilte">{% trans %}security.action.login.title{% endtrans %}</p>

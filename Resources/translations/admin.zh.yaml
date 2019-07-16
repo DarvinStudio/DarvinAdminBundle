@@ -123,6 +123,9 @@ log:
         user: 用户
         username: 用户名
         version: 版本
+logo:
+    note: 内容管理系统
+    title: 达文CMS
 menu:
     group:
         modules:

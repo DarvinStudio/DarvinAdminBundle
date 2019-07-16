@@ -140,6 +140,10 @@ log:
         username:       Имя пользователя
         version:        Версия
 
+logo:
+    note:  Система управления контентом
+    title: Darvin CMS
+
 menu:
     group:
         modules:

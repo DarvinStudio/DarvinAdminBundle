@@ -123,6 +123,9 @@ log:
         user: المستخدم
         username: 'اسم المستخدم'
         version: الإصدار
+logo:
+    note: 'نظام إدارة المحتوى'
+    title: 'دارفين CMS'
 menu:
     group:
         modules:

@@ -44,24 +44,14 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
      */
     public function render(FormInterface $form, $entity, string $entityClass, string $property): string
     {
-        $view = $form->createView();
-
+        $view  = $form->createView();
         $value = null;
 
-        if (!$view->children[$property]->vars['compound']) {
-            $value = $this->propertyAccessor->getValue($entity, $property);
+        if (!$view->children[$property]->vars['compound'] && !is_object($view->children[$property]->vars['value'])) {
+            $value = $view->children[$property]->vars['value'];
 
             if (is_array($value)) {
-                $parts = [];
-
-                /** @var \Symfony\Component\Form\ChoiceList\View\ChoiceView $choice */
-                foreach ($view->children[$property]->vars['choices'] as $choice) {
-                    if (in_array($choice->value, $value)) {
-                        $parts[] = $choice->value;
-                    }
-                }
-
-                $value = json_encode($parts);
+                $value = json_encode(array_values($value));
             }
         }
 

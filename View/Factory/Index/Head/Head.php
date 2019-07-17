@@ -29,12 +29,20 @@ class Head
     }
 
     /**
-     * @param string                                               $field Field name
+     * @param string|null                                          $field Field name
      * @param \Darvin\AdminBundle\View\Factory\Index\Head\HeadItem $item  Item
      */
-    public function addItem(string $field, HeadItem $item): void
+    public function addItem(?string $field, HeadItem $item): void
     {
         $this->items[$field] = $item;
+    }
+
+    /**
+     * @param string|null $field Field name
+     */
+    public function removeItem(?string $field): void
+    {
+        unset($this->items[$field]);
     }
 
     /**

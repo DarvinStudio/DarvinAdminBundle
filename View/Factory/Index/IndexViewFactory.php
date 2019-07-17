@@ -76,6 +76,8 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $view->setHead($this->createHead($meta));
         $view->setBody($this->createBody($meta, $entities));
 
+        $this->normalizeView($view);
+
         return $view;
     }
 
@@ -90,11 +92,10 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $config      = $meta->getConfiguration();
         $transPrefix = $meta->getEntityTranslationPrefix();
 
-        if (!empty($config['view']['index']['action_widgets'])) {
-            $head->addItem('action_widgets', new HeadItem('common.actions', [
-                'data-type' => 'actions',
-            ]));
-        }
+        $head->addItem('action_widgets', new HeadItem('common.actions', [
+            'data-type' => 'actions',
+        ]));
+
         foreach ($config['view']['index']['fields'] as $field => $params) {
             $item = new HeadItem($transPrefix.StringsUtil::toUnderscore($field), $params['attr']);
 
@@ -125,15 +126,14 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
 
         foreach ($entities as $entity) {
             $row     = new BodyRow($this->buildBodyRowAttr($entity, $meta));
-            $actions = (string)$this->actionsWidget->getContent($entity, [
+            $actions = $this->actionsWidget->getContent($entity, [
                 'view_type' => 'index',
             ]);
 
-            if ('' !== $actions) {
-                $row->addItem('action_widgets', new BodyRowItem($actions, [
-                    'data-type' => 'actions',
-                ]));
-            }
+            $row->addItem('action_widgets', new BodyRowItem($actions, [
+                'data-type' => 'actions',
+            ]));
+
             foreach ($config['view']['index']['fields'] as $field => $params) {
                 $content = null;
 
@@ -197,6 +197,34 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
         $attr['class'] = implode(' ', $parts);
 
         return $attr;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\View\Factory\Index\IndexView $view View
+     */
+    private function normalizeView(IndexView $view): void
+    {
+        $nonEmptyFields = [];
+
+        foreach ($view->getBody()->getRows() as $row) {
+            foreach ($row->getItems() as $field => $item) {
+                if (!isset($nonEmptyFields[$field]) && '' !== trim((string)$item->getContent())) {
+                    $nonEmptyFields[$field] = $field;
+                }
+            }
+        }
+        foreach ($view->getHead()->getItems() as $field => $item) {
+            if (!isset($nonEmptyFields[$field])) {
+                $view->getHead()->removeItem($field);
+            }
+        }
+        foreach ($view->getBody()->getRows() as $row) {
+            foreach ($row->getItems() as $field => $item) {
+                if (!isset($nonEmptyFields[$field])) {
+                    $row->removeItem($field);
+                }
+            }
+        }
     }
 
     /**

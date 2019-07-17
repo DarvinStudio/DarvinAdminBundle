@@ -52,6 +52,14 @@ class BodyRow
     }
 
     /**
+     * @param string|null $field Field name
+     */
+    public function removeItem(?string $field): void
+    {
+        unset($this->items[$field]);
+    }
+
+    /**
      * @return \Darvin\AdminBundle\View\Factory\Index\Body\BodyRowItem[]
      */
     public function getItems(): array

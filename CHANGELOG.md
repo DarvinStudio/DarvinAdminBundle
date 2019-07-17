@@ -272,3 +272,5 @@ form:
 - Replace field blacklist manager with authorization checker.
 
 - Replace custom expression language with authorization checker in abstract view factory.
+
+- Remove empty columns from index view.

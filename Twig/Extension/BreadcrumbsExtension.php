@@ -15,7 +15,6 @@ use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -112,8 +111,12 @@ class BreadcrumbsExtension extends AbstractExtension
      */
     private function createCrumbs(Metadata $meta, $parentEntity = null): array
     {
-        $crumbs = [$this->createIndexCrumb($meta, $parentEntity)];
+        $crumbs     = [];
+        $indexCrumb = $this->createIndexCrumb($meta, $parentEntity);
 
+        if (null !== $indexCrumb) {
+            $crumbs[] = $indexCrumb;
+        }
         if (empty($parentEntity)) {
             return $crumbs;
         }
@@ -154,10 +157,14 @@ class BreadcrumbsExtension extends AbstractExtension
             $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_route']);
         }
 
-        return [
-            $this->createCrumb((string)$entity, $url),
-            $this->createIndexCrumb($meta, null, $entity),
-        ];
+        $crumbs     = [$this->createCrumb((string)$entity, $url)];
+        $indexCrumb = $this->createIndexCrumb($meta, null, $entity);
+
+        if (null !== $indexCrumb) {
+            $crumbs[] = $indexCrumb;
+        }
+
+        return $crumbs;
     }
 
     /**
@@ -165,10 +172,14 @@ class BreadcrumbsExtension extends AbstractExtension
      * @param object|null                           $parentEntity Parent entity
      * @param object|null                           $entity       Entity
      *
-     * @return array
+     * @return array|null
      */
-    private function createIndexCrumb(Metadata $meta, $parentEntity = null, $entity = null): array
+    private function createIndexCrumb(Metadata $meta, $parentEntity = null, $entity = null): ?array
     {
+        if (!$this->adminRouter->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
+            return null;
+        }
+
         $params = [];
 
         if (empty($entity) && !empty($parentEntity)) {

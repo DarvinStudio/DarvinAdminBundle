@@ -55,7 +55,11 @@ class BatchDeleteAction extends AbstractAction
             );
         }
 
-        $redirectUrl = $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $redirectUrl = '';
+
+        if ($this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
+            $redirectUrl = $this->adminRouter->generate(reset($entities), $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_URL);
+        }
 
         $referer = $request->headers->get('referer', $redirectUrl);
 

@@ -153,7 +153,7 @@ class BreadcrumbsExtension extends AbstractExtension
         $url    = null;
         $config = $meta->getConfiguration();
 
-        if (!empty($config['breadcrumbs_route'])) {
+        if (!empty($config['breadcrumbs_route']) && $this->adminRouter->exists($meta->getEntityClass(), $config['breadcrumbs_route'])) {
             $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_route']);
         }
 

@@ -333,12 +333,19 @@ abstract class AbstractAction
     protected function successRedirect(FormInterface $form, $entity): string
     {
         foreach ($form->all() as $name => $child) {
-            if ($child instanceof ClickableInterface && $child->isClicked() && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])) {
+            if ($child instanceof ClickableInterface
+                && $child->isClicked()
+                && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])
+                && $this->adminRouter->exists($this->getEntityClass(), self::SUBMIT_BUTTON_REDIRECTS[$name])
+            ) {
                 return $this->adminRouter->generate($entity, $this->getEntityClass(), self::SUBMIT_BUTTON_REDIRECTS[$name]);
             }
         }
+        if ($this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_EDIT)) {
+            return $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_EDIT);
+        }
 
-        return $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_EDIT);
+        return '';
     }
 
     /**

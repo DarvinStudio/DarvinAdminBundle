@@ -106,9 +106,7 @@ class Menu implements MenuInterface
 
                     $associatedObject = $item->getAssociatedObject();
 
-                    if (!empty($associatedObject)
-                        && (!$this->authorizationChecker->isGranted(Permission::VIEW, $associatedObject) && !$this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $associatedObject))
-                    ) {
+                    if (!empty($associatedObject) && !$this->authorizationChecker->isGranted(Permission::VIEW, $associatedObject)) {
                         $skipped[$item->getName()] = true;
 
                         continue;

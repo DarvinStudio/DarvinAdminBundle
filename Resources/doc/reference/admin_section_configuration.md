@@ -38,7 +38,7 @@ form: # Конфигурация форм
             # Прототип
             some_field_name: # Название поля
                 type:      ~  # Тип поля, для стандартных полей можно использовать короткое название вместо класса
-                condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                 options:   {} # Опции поля
     new: # Конфигурация формы создания, если не задана, будет скопирована из "edit"
         type:         ~ # Тип формы
@@ -50,14 +50,14 @@ form: # Конфигурация форм
                 # Прототип
                 some_field_name: # Название поля
                     type:      ~  # Тип поля, для стандартных полей можно использовать короткое название вместо класса
-                    condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                    condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                     options:   {} # Опции поля
         fields: # Поля, не входящие в группы
 
             # Прототип
             some_field_name: # Название поля
                 type:      ~  # Тип поля, для стандартных полей можно использовать короткое название вместо класса
-                condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                condition: ~  # Условие вывода поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                 options:   {} # Опции поля
     edit:   # Конфигурация формы редактирования, см. секцию "new" выше, если не задана, будет скопирована из "new"
     filter: # Конфигурация формы фильтра
@@ -70,7 +70,7 @@ form: # Конфигурация форм
                 # Прототип
                 some_field_name: # Название поля
                     type:           ~     # Тип поля, для стандартных полей можно использовать короткое название вместо класса
-                    condition:      ~     # Условие вывода поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                    condition:      ~     # Условие вывода поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                     options:        {}    # Опции поля
                     compare_strict: false # Использовать строгое сравнение ("=", а не "LIKE '%foo%'")
         fields: # Поля, не входящие в группы
@@ -78,7 +78,7 @@ form: # Конфигурация форм
             # Прототип
             some_field_name: # Название поля
                 type:           ~     # Тип поля, для стандартных полей можно использовать короткое название вместо класса
-                condition:      ~     # Условие вывода поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                condition:      ~     # Условие вывода поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                 options:        {}    # Опции поля
                 compare_strict: false # Использовать строгое сравнение ("=", а не "LIKE '%foo%'")
 view: # Конфигурация уровня представления
@@ -95,7 +95,7 @@ view: # Конфигурация уровня представления
             some_field_name: # Поле
 
                 # Прототип
-                condition: ~  # Условие вывода содержимого поля (с использованием "Expression language", пример: "'ROLE_ADMIN' in object.getRoles()")
+                condition: ~  # Условие вывода содержимого поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
                 attr:      {} # HTML атрибуты ячейки таблицы
                 callback:     # Callback
                     class:      # Требуется, класс

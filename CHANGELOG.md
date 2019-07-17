@@ -266,3 +266,9 @@ form:
 - Generate title-case translations.
 
 - Replace auto form event listener to support Doctrine embeddables.
+
+6.1.1:
+
+- Replace field blacklist manager with authorization checker.
+
+- Replace custom expression language with authorization checker in abstract view factory.

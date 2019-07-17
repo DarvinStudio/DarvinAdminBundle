@@ -110,7 +110,10 @@ class Menu implements MenuInterface
 
                         continue;
                     }
-                    if (0 === strpos($currentUrl, (string)$item->getIndexUrl())) {
+
+                    $indexUrl = (string)$item->getIndexUrl();
+
+                    if ('' !== $indexUrl && 0 === strpos($currentUrl, $indexUrl)) {
                         $item->setActive(true);
                     }
                     if (null === $item->getNewObjectCount()

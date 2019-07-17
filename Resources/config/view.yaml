@@ -41,12 +41,11 @@ services:
         class:    '%darvin_admin.view.factory.abstract.class%'
         abstract: true
         calls:
-            - [ setAuthorizationChecker,  [ '@security.authorization_checker' ] ]
-            - [ setContainer,             [ '@service_container' ] ]
-            - [ setFieldBlacklistManager, [ '@darvin_admin.metadata.field_blacklist_manager' ] ]
-            - [ setPropertyAccessor,      [ '@property_accessor' ] ]
-            - [ setStringifier,           [ '@darvin_utils.stringifier.doctrine' ] ]
-            - [ setWidgetPool,            [ '@darvin_admin.view.widget.pool' ] ]
+            - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
+            - [ setContainer,            [ '@service_container' ] ]
+            - [ setPropertyAccessor,     [ '@property_accessor' ] ]
+            - [ setStringifier,          [ '@darvin_utils.stringifier.doctrine' ] ]
+            - [ setWidgetPool,           [ '@darvin_admin.view.widget.pool' ] ]
 
     darvin_admin.view.factory.index:
         class:  '%darvin_admin.view.factory.index.class%'

@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\View\Factory;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
@@ -33,11 +32,6 @@ abstract class AbstractViewFactory
      * @var \Psr\Container\ContainerInterface
      */
     protected $container;
-
-    /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
-     */
-    protected $fieldBlacklistManager;
 
     /**
      * @var \Symfony\Component\PropertyAccess\PropertyAccessorInterface
@@ -68,14 +62,6 @@ abstract class AbstractViewFactory
     public function setContainer(ContainerInterface $container): void
     {
         $this->container = $container;
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface $fieldBlacklistManager Field blacklist manager
-     */
-    public function setFieldBlacklistManager(FieldBlacklistManagerInterface $fieldBlacklistManager): void
-    {
-        $this->fieldBlacklistManager = $fieldBlacklistManager;
     }
 
     /**
@@ -181,7 +167,7 @@ abstract class AbstractViewFactory
      */
     protected function isFieldContentHidden(array $fieldAttr, $entity): bool
     {
-        return !empty($fieldAttr['condition'])
+        return null !== $fieldAttr['condition']
             && !$this->authorizationChecker->isGranted(new Expression($fieldAttr['condition']), $entity);
     }
 }

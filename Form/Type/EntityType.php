@@ -10,13 +10,14 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\Guess\TypeGuess;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Entity form type
@@ -24,9 +25,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class EntityType extends AbstractFormType
 {
     /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
-    private $fieldBlacklistManager;
+    private $authorizationChecker;
 
     /**
      * @var \Symfony\Component\Form\FormRegistryInterface
@@ -44,55 +45,53 @@ class EntityType extends AbstractFormType
     private $defaultFieldOptions;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface     $fieldBlacklistManager Field blacklist manager
-     * @param \Symfony\Component\Form\FormRegistryInterface                   $formRegistry          Form registry
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager   Translatable manager
-     * @param array                                                           $defaultFieldOptions   Default field options
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker  Authorization checker
+     * @param \Symfony\Component\Form\FormRegistryInterface                                $formRegistry          Form registry
+     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface              $translatableManager   Translatable manager
+     * @param array                                                                        $defaultFieldOptions   Default field options
      */
     public function __construct(
-        FieldBlacklistManagerInterface $fieldBlacklistManager,
+        AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         TranslatableManagerInterface $translatableManager,
         array $defaultFieldOptions
     ) {
-        $this->fieldBlacklistManager = $fieldBlacklistManager;
+        $this->authorizationChecker = $authorizationChecker;
         $this->formRegistry = $formRegistry;
         $this->translatableManager = $translatableManager;
         $this->defaultFieldOptions = $defaultFieldOptions;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $meta = $this->getMetadata($options);
+        $config = $this->getMetadata($options)->getConfiguration();
 
-        $configuration = $this->getMetadata($options)->getConfiguration();
+        $fields = $config['form'][$options['action_type']]['fields'];
 
-        $fields = $configuration['form'][$options['action_type']]['fields'];
-
-        foreach ($configuration['form'][$options['action_type']]['field_groups'] as $groupFields) {
+        foreach ($config['form'][$options['action_type']]['field_groups'] as $groupFields) {
             $fields = array_merge($fields, $groupFields);
         }
 
-        $fieldFilterProvided = isset($options['field_filter']);
+        $filterProvided = isset($options['field_filter']);
 
         foreach ($fields as $field => $attr) {
-            if (($fieldFilterProvided && $field !== $options['field_filter'])
-                || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, sprintf('[form][%s]', $options['action_type']))
+            if (($filterProvided && $field !== $options['field_filter'])
+                || (null !== $attr['condition'] && !$this->authorizationChecker->isGranted(new Expression($attr['condition']), $builder->getData()))
             ) {
                 continue;
             }
 
-            $fieldType = $attr['type'];
+            $fieldType    = $attr['type'];
             $fieldOptions = $this->resolveFieldOptionValues($attr['options']);
 
-            if (empty($fieldType)) {
+            if (null === $fieldType) {
                 $guess = $this->guessFieldType($field, $options['data_class']);
 
-                if (!empty($guess)) {
-                    $fieldType = $guess->getType();
+                if (null !== $guess) {
+                    $fieldType    = $guess->getType();
                     $fieldOptions = array_merge($guess->getOptions(), $fieldOptions);
                 }
             }
@@ -105,7 +104,7 @@ class EntityType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -128,7 +127,7 @@ class EntityType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBlockPrefix(): string
     {
@@ -136,7 +135,7 @@ class EntityType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getEntityTranslationPrefix(array $options): string
     {

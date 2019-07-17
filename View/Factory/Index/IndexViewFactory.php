@@ -96,10 +96,6 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
             ]));
         }
         foreach ($config['view']['index']['fields'] as $field => $params) {
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
-                continue;
-            }
-
             $item = new HeadItem($transPrefix.StringsUtil::toUnderscore($field), $params['attr']);
 
             if (array_key_exists($field, $config['sortable_fields'])) {
@@ -139,17 +135,10 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                 ]));
             }
             foreach ($config['view']['index']['fields'] as $field => $params) {
-                if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')) {
-                    continue;
-                }
-
                 $content = null;
 
                 if (!$this->isFieldContentHidden($params, $entity)) {
-                    if (!array_key_exists($field, $config['form']['index']['fields'])
-                        || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][index]')
-                        || $this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][index]')
-                    ) {
+                    if (!array_key_exists($field, $config['form']['index']['fields'])) {
                         $content = $this->getFieldContent($entity, $field, $params, $mappings);
                     } else {
                         $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);

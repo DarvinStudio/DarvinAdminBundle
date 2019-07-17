@@ -10,11 +10,11 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -24,6 +24,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Filter form type
@@ -36,9 +37,9 @@ class FilterType extends AbstractFormType
     ];
 
     /**
-     * @var \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
-    private $fieldBlacklistManager;
+    private $authorizationChecker;
 
     /**
      * @var \Symfony\Component\Form\FormRegistryInterface
@@ -56,39 +57,39 @@ class FilterType extends AbstractFormType
     private $defaultFieldOptions;
 
     /**
-     * @param \Darvin\AdminBundle\Metadata\FieldBlacklistManagerInterface   $fieldBlacklistManager Field blacklist manager
-     * @param \Symfony\Component\Form\FormRegistryInterface                 $formRegistry          Form registry
-     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface $translationJoiner     Translation joiner
-     * @param array                                                         $defaultFieldOptions   Default field options
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker  Authorization checker
+     * @param \Symfony\Component\Form\FormRegistryInterface                                $formRegistry          Form registry
+     * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface                $translationJoiner     Translation joiner
+     * @param array                                                                        $defaultFieldOptions   Default field options
      */
     public function __construct(
-        FieldBlacklistManagerInterface $fieldBlacklistManager,
+        AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
         TranslationJoinerInterface $translationJoiner,
         array $defaultFieldOptions
     ) {
-        $this->fieldBlacklistManager = $fieldBlacklistManager;
+        $this->authorizationChecker = $authorizationChecker;
         $this->formRegistry = $formRegistry;
         $this->translationJoiner = $translationJoiner;
         $this->defaultFieldOptions = $defaultFieldOptions;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $meta = $this->getMetadata($options);
 
-        $configuration = $meta->getConfiguration();
+        $config = $meta->getConfiguration();
 
-        foreach ($configuration['form']['filter']['field_groups'] as $fields) {
+        foreach ($config['form']['filter']['field_groups'] as $fields) {
             $this->addFields($builder, $fields, $meta, $options);
         }
 
-        $this->addFields($builder, $configuration['form']['filter']['fields'], $meta, $options);
+        $this->addFields($builder, $config['form']['filter']['fields'], $meta, $options);
 
-        if (!empty($options['parent_entity_association_param'])
+        if (null !== $options['parent_entity_association_param']
             && (null === $options['fields'] || isset($options['fields'][$options['parent_entity_association_param']]))
         ) {
             $builder->add($options['parent_entity_association_param'], HiddenType::class, [
@@ -98,7 +99,7 @@ class FilterType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
@@ -106,7 +107,7 @@ class FilterType extends AbstractFormType
 
         $parentEntityAssociationParam = $options['parent_entity_association_param'];
 
-        if (!empty($parentEntityAssociationParam)) {
+        if (null !== $parentEntityAssociationParam) {
             $field = $view->children[$parentEntityAssociationParam];
 
             $field->vars['full_name'] = $parentEntityAssociationParam;
@@ -115,7 +116,7 @@ class FilterType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -131,14 +132,11 @@ class FilterType extends AbstractFormType
             ])
             ->setRequired('metadata')
             ->setAllowedTypes('metadata', Metadata::class)
-            ->setAllowedTypes('fields', [
-                'array',
-                'null',
-            ]);
+            ->setAllowedTypes('fields', ['array', 'null']);
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBlockPrefix(): string
     {
@@ -146,7 +144,7 @@ class FilterType extends AbstractFormType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getEntityTranslationPrefix(array $options): string
     {
@@ -185,7 +183,7 @@ class FilterType extends AbstractFormType
 
                 throw new \InvalidArgumentException($message);
             }
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[form][filter]')) {
+            if (null !== $attr['condition'] && !$this->authorizationChecker->isGranted(new Expression($attr['condition']))) {
                 continue;
             }
 
@@ -226,8 +224,7 @@ class FilterType extends AbstractFormType
      */
     private function getDefaultFieldOptions(string $fieldType): array
     {
-        $options = isset($this->defaultFieldOptions[$fieldType]) ? $this->defaultFieldOptions[$fieldType] : [];
-
+        $options           = isset($this->defaultFieldOptions[$fieldType]) ? $this->defaultFieldOptions[$fieldType] : [];
         $translationJoiner = $this->translationJoiner;
 
         switch ($fieldType) {

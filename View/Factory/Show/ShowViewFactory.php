@@ -31,9 +31,7 @@ class ShowViewFactory extends AbstractViewFactory implements ShowViewFactoryInte
         $transPrefix = $meta->getEntityTranslationPrefix();
 
         foreach ($config['view']['show']['fields'] as $field => $attr) {
-            if ($this->fieldBlacklistManager->isFieldBlacklisted($meta, $field, '[view][show]')
-                || $this->isFieldContentHidden($attr, $entity)
-            ) {
+            if ($this->isFieldContentHidden($attr, $entity)) {
                 continue;
             }
 

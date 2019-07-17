@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\View\Factory\Index\Body;
 class BodyRowItem
 {
     /**
-     * @var mixed|null
+     * @var string
      */
     private $content;
 
@@ -31,12 +31,12 @@ class BodyRowItem
      */
     public function __construct($content = null, array $attr = [])
     {
-        $this->content = $content;
+        $this->content = trim((string)$content);
         $this->attr = $attr;
     }
 
     /**
-     * @return mixed|null
+     * @return string
      */
     public function getContent()
     {

@@ -208,7 +208,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
 
         foreach ($view->getBody()->getRows() as $row) {
             foreach ($row->getItems() as $field => $item) {
-                if (!isset($nonEmptyFields[$field]) && '' !== trim((string)$item->getContent())) {
+                if (!isset($nonEmptyFields[$field]) && '' !== $item->getContent()) {
                     $nonEmptyFields[$field] = $field;
                 }
             }

@@ -95,7 +95,10 @@ class Menu implements MenuInterface
                     if (isset($items[$item->getName()])) {
                         throw new \RuntimeException(sprintf('Menu item "%s" already exists.', $item->getName()));
                     }
-                    if (null === $item->getIndexUrl() && null === $item->getNewUrl()) {
+
+                    $indexUrl = (string)$item->getIndexUrl();
+
+                    if ('' === $indexUrl) {
                         $skipped[$item->getName()] = true;
 
                         continue;
@@ -110,10 +113,7 @@ class Menu implements MenuInterface
 
                         continue;
                     }
-
-                    $indexUrl = (string)$item->getIndexUrl();
-
-                    if ('' !== $indexUrl && 0 === strpos($currentUrl, $indexUrl)) {
+                    if (0 === strpos($currentUrl, $indexUrl)) {
                         $item->setActive(true);
                     }
                     if (null === $item->getNewObjectCount()

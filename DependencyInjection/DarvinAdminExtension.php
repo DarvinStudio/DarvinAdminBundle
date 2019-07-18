@@ -148,8 +148,16 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         }
 
         $container->prependExtensionConfig($this->getAlias(), [
-            'sections' => $sections,
-            'menu'     => [
+            'sections'    => $sections,
+            'permissions' => [
+                Roles::ROLE_COMMON_ADMIN => [
+                    'default' => true,
+                ],
+                Roles::ROLE_SUPER_ADMIN => [
+                    'default' => true,
+                ],
+            ],
+            'menu' => [
                 'groups' => [
                     'modules' => [
                         'position' => 500,

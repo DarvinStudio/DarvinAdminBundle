@@ -7,8 +7,6 @@ parameters:
 
     darvin_admin.form.renderer.property.class: Darvin\AdminBundle\Form\Renderer\PropertyFormRenderer
 
-    darvin_admin.form.twig_extension.class: Darvin\AdminBundle\Twig\Extension\FormExtension
-
     darvin_admin.form.type.entity.class: Darvin\AdminBundle\Form\Type\EntityType
 
     darvin_admin.form.type.filter.class: Darvin\AdminBundle\Form\Type\FilterType
@@ -48,12 +46,6 @@ services:
         arguments:
             - '@form.property_accessor'
             - '@templating'
-
-    darvin_admin.form.twig_extension:
-        class:  '%darvin_admin.form.twig_extension.class%'
-        public: false
-        tags:
-            - { name: twig.extension }
 
     darvin_admin.form.type.entity:
         class: '%darvin_admin.form.type.entity.class%'

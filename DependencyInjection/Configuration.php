@@ -128,15 +128,16 @@ class Configuration implements ConfigurationInterface
     {
         $root = (new TreeBuilder('subjects'))->getRootNode();
         $root->useAttributeAsKey('subject');
-        $root->beforeNormalization()->always(function ($value) {
-            if (is_bool($value)) {
-                return array_fill_keys(Permission::getAllPermissions(), $value);
-            }
 
-            return $value;
-        });
+        $builder = $root->prototype('array')
+            ->beforeNormalization()->always(function ($value) {
+                if (is_bool($value)) {
+                    return array_fill_keys(Permission::getAllPermissions(), $value);
+                }
 
-        $builder = $root->prototype('array')->children();
+                return $value;
+            })->end()
+            ->children();
 
         foreach (Permission::getAllPermissions() as $permission) {
             $builder->booleanNode($permission)->defaultFalse();

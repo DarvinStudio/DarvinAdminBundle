@@ -161,6 +161,15 @@ class Configuration implements ConfigurationInterface
     {
         $root = (new TreeBuilder('subjects'))->getRootNode();
         $root->useAttributeAsKey('subject');
+        $root->validate()->ifTrue(function (array $subjects) {
+            foreach (array_keys($subjects) as $subject) {
+                if (false !== strpos($subject, '\\') && !class_exists($subject) && !interface_exists($subject)) {
+                    throw new \InvalidArgumentException(sprintf('Class or interface "%s" does not exist.', $subject));
+                }
+            }
+
+            return false;
+        })->thenInvalid('');
 
         $builder = $root->prototype('array')->children();
 

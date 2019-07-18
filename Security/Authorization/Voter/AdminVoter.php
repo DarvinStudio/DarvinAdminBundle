@@ -99,9 +99,9 @@ class AdminVoter extends Voter
             return $permissions['subjects'][$subject][$attribute];
         }
         if (class_exists($subject)) {
-            foreach (class_parents($subject) as $class) {
-                if (isset($permissions['subjects'][$class][$attribute])) {
-                    return $permissions['subjects'][$class][$attribute];
+            foreach (array_merge(class_implements($subject), class_parents($subject)) as $subj) {
+                if (isset($permissions['subjects'][$subj][$attribute])) {
+                    return $permissions['subjects'][$subj][$attribute];
                 }
             }
         }
@@ -118,7 +118,7 @@ class AdminVoter extends Voter
     {
         $subject = is_object($subject) ? ClassUtils::getClass($subject) : (string)$subject;
 
-        if (class_exists($subject)) {
+        if (class_exists($subject) || interface_exists($subject)) {
             return $this->entityResolver->resolve($subject);
         }
 

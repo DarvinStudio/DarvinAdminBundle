@@ -278,3 +278,22 @@ form:
 6.2.0:
 
 - Move permissions' configuration to bundle's configuration:
+
+darvin_admin:
+    permissions:
+        ROLE_CONTENT_ADMIN:
+            default: true
+            subjects:
+                Darvin\ECommerceBundle\Entity\Order\OrderInterface: false
+                Darvin\OrderBundle\Entity\AbstractOrder:            false
+                Darvin\QuestionsBundle\Entity\QuestionInterface:    false
+                Darvin\ReviewBundle\Entity\ReviewInterface:
+                    edit: false
+        ROLE_ORDER_ADMIN:
+            default:
+                create_delete: false
+            subjects:
+                Darvin\ECommerceBundle\Entity\Order\OrderInterface: true
+                Darvin\OrderBundle\Entity\AbstractOrder:            true
+                Darvin\QuestionsBundle\Entity\QuestionInterface:    true
+                Darvin\ReviewBundle\Entity\ReviewInterface:         true

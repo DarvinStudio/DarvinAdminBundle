@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\UserBundle\Config\RoleConfigInterface;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\Common\Util\ClassUtils;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
@@ -41,12 +42,24 @@ class AdminVoter extends Voter
     /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                  $entityResolver  Entity resolver
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
+     * @param \Darvin\UserBundle\Config\RoleConfigInterface              $roleConfig      Role configuration
      * @param array                                                      $permissions     Permissions
      */
-    public function __construct(EntityResolverInterface $entityResolver, AdminMetadataManagerInterface $metadataManager, array $permissions)
-    {
+    public function __construct(
+        EntityResolverInterface $entityResolver,
+        AdminMetadataManagerInterface $metadataManager,
+        RoleConfigInterface $roleConfig,
+        array $permissions
+    ) {
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
+
+        foreach (array_keys($permissions) as $role) {
+            if (!$roleConfig->hasRole($role)) {
+                throw new \InvalidArgumentException(sprintf('Role "%s" does not exist.', $role));
+            }
+        }
+
         $this->permissions = $permissions;
     }
 

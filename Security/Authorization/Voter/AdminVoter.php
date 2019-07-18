@@ -64,7 +64,7 @@ class AdminVoter extends Voter
             return false;
         }
         foreach ($token->getRoleNames() as $role) {
-            if ($this->isAllowed($role, $subject, $attribute)) {
+            if ($this->isGranted($role, $subject, $attribute)) {
                 return true;
             }
         }
@@ -87,7 +87,7 @@ class AdminVoter extends Voter
      *
      * @return bool
      */
-    private function isAllowed(string $role, string $subject, string $attribute): bool
+    private function isGranted(string $role, string $subject, string $attribute): bool
     {
         if (!isset($this->permissions[$role])) {
             return false;

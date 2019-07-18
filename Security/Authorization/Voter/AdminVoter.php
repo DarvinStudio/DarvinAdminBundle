@@ -44,6 +44,8 @@ class AdminVoter extends Voter
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
      * @param \Darvin\UserBundle\Config\RoleConfigInterface              $roleConfig      Role configuration
      * @param array                                                      $permissions     Permissions
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         EntityResolverInterface $entityResolver,

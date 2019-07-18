@@ -25,16 +25,6 @@ final class Permission
     public const VIEW          = self::PREFIX.'view';
 
     /**
-     * @param \Darvin\UserBundle\Entity\BaseUser $user User
-     *
-     * @return array
-     */
-    public static function getDefaultPermissions(BaseUser $user): array
-    {
-        return array_fill_keys(self::getAllPermissions(), !in_array(Roles::ROLE_GUESTADMIN, $user->getRoles()));
-    }
-
-    /**
      * @return string[]
      */
     public static function getAllPermissions(): array

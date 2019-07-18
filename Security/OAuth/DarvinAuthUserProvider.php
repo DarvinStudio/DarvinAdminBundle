@@ -27,7 +27,7 @@ class DarvinAuthUserProvider extends BaseDarvinAuthUserProvider
     {
         return parent::createUser($response)
             ->setRoles([
-                Roles::ROLE_ADMIN,
+                Roles::ROLE_COMMON_ADMIN,
             ]);
     }
 }

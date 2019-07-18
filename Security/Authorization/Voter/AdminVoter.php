@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
-use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\ORM\EntityResolverInterface;
@@ -36,35 +35,13 @@ class AdminVoter extends Voter
     private $metadataManager;
 
     /**
-     * @var \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                  $entityResolver  Entity resolver
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
      */
-    private $securityConfigurationPool;
-
-    /**
-     * @var array|null
-     */
-    private $permissions;
-
-    /**
-     * @var array|null
-     */
-    private $supportedClasses;
-
-    /**
-     * @param \Darvin\Utils\ORM\EntityResolverInterface                                     $entityResolver            Entity resolver
-     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                    $metadataManager           Metadata manager
-     * @param \Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPoolInterface $securityConfigurationPool Security configuration pool
-     */
-    public function __construct(
-        EntityResolverInterface $entityResolver,
-        AdminMetadataManagerInterface $metadataManager,
-        SecurityConfigurationPoolInterface $securityConfigurationPool
-    ) {
+    public function __construct(EntityResolverInterface $entityResolver, AdminMetadataManagerInterface $metadataManager)
+    {
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
-        $this->securityConfigurationPool = $securityConfigurationPool;
-
-        $this->permissions = $this->supportedClasses = null;
     }
 
     /**
@@ -84,87 +61,17 @@ class AdminVoter extends Voter
             return false;
         }
 
-        $class       = $this->getClass($subject);
-        $permissions = $this->getPermissions();
-
-        if (isset($permissions[$class][$user->getId()][$attribute])) {
-            return $permissions[$class][$user->getId()][$attribute];
-        }
-        foreach (class_parents($class) as $parent) {
-            if (isset($permissions[$parent][$user->getId()][$attribute])) {
-                return $permissions[$parent][$user->getId()][$attribute];
-            }
-        }
-
-        $defaultPermissions = Permission::getDefaultPermissions($user);
-
-        return isset($defaultPermissions[$attribute]) ? $defaultPermissions[$attribute] : false;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function supports($attribute, $subject)
-    {
-        if (!in_array($attribute, Permission::getAllPermissions())) {
-            return false;
-        }
-
-        $class            = $this->getClass($subject);
-        $supportedClasses = $this->getSupportedClasses();
-
-        if (isset($supportedClasses[$class])) {
-            return true;
-        }
-        foreach ($supportedClasses as $supportedClass) {
-            if (is_subclass_of($class, $supportedClass)) {
-                return true;
-            }
-        }
+        $class = $this->getClass($subject);
 
         return false;
     }
 
     /**
-     * @return array
+     * {@inheritDoc}
      */
-    private function getPermissions()
+    protected function supports($attribute, $subject): bool
     {
-        if (null === $this->permissions) {
-            $this->permissions = [];
-
-            foreach ($this->securityConfigurationPool->getAllConfigurations() as $config) {
-                foreach ($config->getPermissions() as $objectPermissions) {
-                    $class = $objectPermissions->getObjectClass();
-
-                    $this->permissions[$class] = [];
-
-                    foreach ($objectPermissions->getUserPermissionsSet() as $userPermissions) {
-                        $this->permissions[$class][$userPermissions->getUserId()] = $userPermissions->getPermissions();
-                    }
-                }
-            }
-        }
-
-        return $this->permissions;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function getSupportedClasses()
-    {
-        if (null === $this->supportedClasses) {
-            $this->supportedClasses = [];
-
-            foreach ($this->securityConfigurationPool->getAllConfigurations() as $config) {
-                foreach ($config->getPermissions() as $objectPermissions) {
-                    $this->supportedClasses[$objectPermissions->getObjectClass()] = $objectPermissions->getObjectClass();
-                }
-            }
-        }
-
-        return $this->supportedClasses;
+        return in_array($attribute, Permission::getAllPermissions());
     }
 
     /**

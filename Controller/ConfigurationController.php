@@ -28,31 +28,26 @@ class ConfigurationController extends AbstractController
 {
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
-     * @param string                                    $type    Configuration type
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    public function editAction(Request $request, string $type): Response
+    public function editAction(Request $request): Response
     {
         if (!$this->isGranted(Permission::EDIT, ParameterEntity::class)) {
             throw $this->createAccessDeniedException();
         }
 
-        $url = $this->generateUrl('darvin_admin_configuration', [
-            'type' => $type,
-        ]);
+        $url = $this->generateUrl('darvin_admin_configuration');
 
         $form = $this->createForm(ConfigurationsType::class, $this->getConfigurationPool(), [
             'action'             => $url,
-            'config_type'        => $type,
             'translation_domain' => 'admin',
         ])->handleRequest($request);
 
-        $render = function (AbstractController $controller) use ($form, $request, $type) {
+        $render = function (AbstractController $controller) use ($form, $request) {
             return $controller->renderView(sprintf('@DarvinAdmin/configuration/%sedit.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
-                'current_type' => $type,
-                'form'         => $form->createView(),
+                'form' => $form->createView(),
             ]);
         };
 

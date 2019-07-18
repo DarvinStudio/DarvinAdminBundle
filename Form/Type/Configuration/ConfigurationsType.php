@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Form\Type\Configuration;
 
-use Darvin\AdminBundle\Security\Configuration\SecurityConfigurationInterface;
 use Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface;
 use Darvin\ConfigBundle\Form\Type\ConfigurationType;
 use Darvin\Utils\Security\Authorization\AccessibilityChecker;
@@ -27,11 +26,6 @@ use Symfony\Component\Validator\Constraints\Valid;
  */
 class ConfigurationsType extends AbstractType
 {
-    private const INTERFACES = [
-        'common'   => null,
-        'security' => SecurityConfigurationInterface::class,
-    ];
-
     /**
      * @var \Darvin\Utils\Security\Authorization\AccessibilityChecker
      */
@@ -58,35 +52,17 @@ class ConfigurationsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $configurations = $this->configurationPool->getAllConfigurations();
-        $interface      = self::INTERFACES[$options['config_type']];
 
-        foreach ($configurations as $key => $configuration) {
-            if (empty($interface)) {
-                foreach (self::INTERFACES as $otherInterface) {
-                    if (!empty($otherInterface) && $configuration instanceof $otherInterface) {
-                        unset($configurations[$key]);
-                    }
-                }
-
-                continue;
-            }
-            if (!$configuration instanceof $interface) {
-                unset($configurations[$key]);
-            }
-        }
         foreach ($configurations as $configuration) {
             if ($configuration instanceof SecurableInterface && !$this->accessibilityChecker->isAccessible($configuration)) {
                 continue;
             }
 
             $builder->add($configuration->getName(), ConfigurationType::class, [
+                'label'         => sprintf('configuration.%s.title', $configuration->getName()),
                 'configuration' => $configuration,
                 'constraints'   => new Valid(),
                 'data_class'    => get_class($configuration),
-                'label'         => $configuration instanceof SecurityConfigurationInterface
-                    ? false
-                    : sprintf('configuration.%s.title', $configuration->getName())
-                ,
             ]);
         }
     }
@@ -108,14 +84,10 @@ class ConfigurationsType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver
-            ->setDefaults([
-                'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-                'data_class'    => get_class($this->configurationPool),
-            ])
-            ->setRequired('config_type')
-            ->setAllowedTypes('config_type', 'string')
-            ->setAllowedValues('config_type', array_keys(self::INTERFACES));
+        $resolver->setDefaults([
+            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
+            'data_class'    => get_class($this->configurationPool),
+        ]);
     }
 
     /**

@@ -1,4 +1,3 @@
 darvin_admin_configuration:
-    path:         /{type}/
-    defaults:     { _controller: Darvin\AdminBundle\Controller\ConfigurationController::editAction, type: common }
-    requirements: { type: common|security }
+    path:     /
+    defaults: { _controller: Darvin\AdminBundle\Controller\ConfigurationController::editAction }

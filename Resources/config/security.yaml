@@ -1,10 +1,6 @@
 parameters:
     darvin_admin.security.authorization_voter.class: Darvin\AdminBundle\Security\Authorization\Voter\AdminVoter
 
-    darvin_admin.security.configuration.abstract.class: Darvin\AdminBundle\Security\Configuration\SecurityConfiguration
-
-    darvin_admin.security.configuration.pool.class: Darvin\AdminBundle\Security\Configuration\SecurityConfigurationPool
-
     darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
 
     darvin_admin.security.oauth.darvin_auth_user_provider.class: Darvin\AdminBundle\Security\OAuth\DarvinAuthUserProvider
@@ -19,18 +15,8 @@ services:
         arguments:
             - '@darvin_utils.orm.entity_resolver'
             - '@darvin_admin.metadata.manager'
-            - '@darvin_admin.security.configuration.pool'
         tags:
             - { name: security.voter }
-
-    darvin_admin.security.configuration.abstract:
-        class:    '%darvin_admin.security.configuration.abstract.class%'
-        abstract: true
-        public:   false
-
-    darvin_admin.security.configuration.pool:
-        class:  '%darvin_admin.security.configuration.pool.class%'
-        public: false
 
     darvin_admin.security.form_type.object_permissions:
         class: '%darvin_admin.security.form_type.object_permissions.class%'

@@ -56,9 +56,9 @@ class AdminVoter extends Voter
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
 
-        foreach (array_keys($permissions) as $role) {
-            if (!$roleConfig->hasRole($role)) {
-                throw new \InvalidArgumentException(sprintf('Role "%s" does not exist.', $role));
+        foreach (array_keys($permissions) as $subject) {
+            if (0 === strpos($subject, 'ROLE_') && !$roleConfig->hasRole($subject)) {
+                throw new \InvalidArgumentException(sprintf('Role "%s" does not exist.', $subject));
             }
         }
 

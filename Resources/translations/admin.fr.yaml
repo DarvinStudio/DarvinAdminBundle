@@ -140,9 +140,8 @@ range:
     from: 'À partir de'
     to: Pour
 role:
-    admin: Administrateur
-    guestadmin: 'Administrateur Invité'
-    superadmin: 'Super Administrateur'
+    common_admin: Administrateur
+    super_admin: 'Super Administrateur'
 search:
     action:
         index:

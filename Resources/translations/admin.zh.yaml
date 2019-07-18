@@ -140,9 +140,8 @@ range:
     from: 从
     to: 要
 role:
-    admin: 管理员
-    guestadmin: 游客的管理员
-    superadmin: 超级管理员
+    common_admin: 管理员
+    super_admin: 超级管理员
 search:
     action:
         index:

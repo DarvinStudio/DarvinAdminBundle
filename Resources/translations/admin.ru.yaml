@@ -162,9 +162,8 @@ range:
     to:   по
 
 role:
-    admin:      Администратор
-    guestadmin: Администратор-гость
-    superadmin: Супер администратор
+    common_admin: Администратор
+    super_admin:  Супер администратор
 
 search:
     action:

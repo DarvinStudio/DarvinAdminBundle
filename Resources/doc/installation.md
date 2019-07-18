@@ -142,8 +142,8 @@ security:
             switch_user: true
 
     role_hierarchy:
-        ROLE_GUESTADMIN: [ ROLE_ADMIN ]
-        ROLE_SUPERADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_COMMON_ADMIN: [ ROLE_ADMIN ]
+        ROLE_SUPER_ADMIN:  [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
 
     access_control:
         - { path: ^/admin/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
@@ -191,6 +191,6 @@ darvin_admin:
 $ php bin/console darvin:user:create admin@example.com admin
 ```
 
-*в диалоге выбора роли пользователя выбираем "ROLE_SUPERADMIN"*
+*в диалоге выбора роли пользователя выбираем "ROLE_SUPER_ADMIN"*
 
 - проверяем успешность установки, перейдя на URL "/admin/" проекта.

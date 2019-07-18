@@ -140,9 +140,8 @@ range:
     from: من
     to: إلى
 role:
-    admin: مسؤول
-    guestadmin: 'ضيف مدير'
-    superadmin: 'مشرف مميز'
+    common_admin: مسؤول
+    super_admin: 'مشرف مميز'
 search:
     action:
         index:

@@ -15,9 +15,9 @@ namespace Darvin\AdminBundle\Security\User;
  */
 final class Roles
 {
-    public const ROLE_ADMIN      = 'ROLE_ADMIN';
-    public const ROLE_GUESTADMIN = 'ROLE_GUESTADMIN';
-    public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    public const ROLE_ADMIN        = 'ROLE_ADMIN';
+    public const ROLE_COMMON_ADMIN = 'ROLE_COMMON_ADMIN';
+    public const ROLE_SUPER_ADMIN  = 'ROLE_SUPER_ADMIN';
 
     /**
      * @return string[]
@@ -25,9 +25,8 @@ final class Roles
     public static function getRoles(): array
     {
         return [
-            self::ROLE_ADMIN,
-            self::ROLE_GUESTADMIN,
-            self::ROLE_SUPERADMIN,
+            self::ROLE_COMMON_ADMIN,
+            self::ROLE_SUPER_ADMIN,
         ];
     }
 }

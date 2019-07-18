@@ -189,10 +189,6 @@ security:
         switch_user:
             back: Вернуть пользователя
             link: Переключиться
-    permission:
-        admin_create_delete: Создание и удаление
-        admin_edit:          Редактирование
-        admin_view:          Просмотр
 
 slug_suffix:
     edit:   Изменить

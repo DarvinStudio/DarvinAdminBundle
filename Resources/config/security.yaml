@@ -1,8 +1,6 @@
 parameters:
     darvin_admin.security.authorization_voter.class: Darvin\AdminBundle\Security\Authorization\Voter\AdminVoter
 
-    darvin_admin.security.form_type.object_permissions.class: Darvin\AdminBundle\Form\Type\Security\Permissions\ObjectPermissionsType
-
     darvin_admin.security.oauth.darvin_auth_user_provider.class: Darvin\AdminBundle\Security\OAuth\DarvinAuthUserProvider
 
 services:
@@ -18,13 +16,6 @@ services:
             - '%darvin_admin.permissions%'
         tags:
             - { name: security.voter }
-
-    darvin_admin.security.form_type.object_permissions:
-        class: '%darvin_admin.security.form_type.object_permissions.class%'
-        arguments:
-            - '@darvin_user.user.repository'
-        tags:
-            - { name: form.type }
 
     darvin_admin.security.oauth.darvin_auth_user_provider:
         class:  '%darvin_admin.security.oauth.darvin_auth_user_provider.class%'

@@ -162,10 +162,6 @@ security:
         switch_user:
             back: 'Changer D''Utilisateur Arrière'
             link: Commutateur
-    permission:
-        admin_create_delete: 'Créer et Supprimer des'
-        admin_edit: Modifier
-        admin_view: Vue
 slug_suffix:
     edit: Modifier
     reset: Réinitialiser

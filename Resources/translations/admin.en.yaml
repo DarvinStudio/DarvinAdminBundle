@@ -162,10 +162,6 @@ security:
         switch_user:
             back: 'Switch User Back'
             link: Switch
-    permission:
-        admin_create_delete: 'Create and Remove'
-        admin_edit: Edit
-        admin_view: View
 slug_suffix:
     edit: Edit
     reset: Reset

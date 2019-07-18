@@ -162,10 +162,6 @@ security:
         switch_user:
             back: 换用户回来
             link: 开关
-    permission:
-        admin_create_delete: 创建和删除
-        admin_edit: 编辑
-        admin_view: 看
 slug_suffix:
     edit: 编辑
     reset: 重置

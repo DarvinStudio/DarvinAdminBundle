@@ -162,10 +162,6 @@ security:
         switch_user:
             back: 'تبديل المستخدم'
             link: التبديل
-    permission:
-        admin_create_delete: 'إنشاء وإزالة'
-        admin_edit: تحرير
-        admin_view: عرض
 slug_suffix:
     edit: تحرير
     reset: 'إعادة تعيين'

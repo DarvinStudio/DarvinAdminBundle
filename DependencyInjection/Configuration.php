@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Menu\Item;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -27,15 +27,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('darvin_admin');
+        $builder = new TreeBuilder('darvin_admin');
 
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = $treeBuilder->getRootNode();
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-        $rootNode
+        $root = $builder->getRootNode();
+        $root
             ->children()
                 ->append($this->addCKEditorNode())
                 ->append($this->addFormNode())
@@ -53,48 +48,45 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();
 
-        return $treeBuilder;
+        return $builder;
     }
 
     /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addCKEditorNode(): NodeDefinition
+    private function addCKEditorNode(): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder('ckeditor'))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        $root = (new TreeBuilder('ckeditor'))->getRootNode();
+        $root->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->cannotBeEmpty()->end()
                 ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->cannotBeEmpty();
 
-        return $rootNode;
+        return $root;
     }
 
     /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addFormNode(): NodeDefinition
+    private function addFormNode(): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder('form'))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        $root = (new TreeBuilder('form'))->getRootNode();
+        $root->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('default_field_options')
                     ->prototype('array')
                         ->prototype('variable');
 
-        return $rootNode;
+        return $root;
     }
 
     /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addSectionsNode(): NodeDefinition
+    private function addSectionsNode(): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder('sections'))->getRootNode();
-        $rootNode->useAttributeAsKey('entity')
+        $root = (new TreeBuilder('sections'))->getRootNode();
+        $root->useAttributeAsKey('entity')
             ->prototype('array')->canBeDisabled()
                 ->beforeNormalization()->ifString()->then(function (string $config) {
                     return [
@@ -105,17 +97,16 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('alias')->defaultNull()->end()
                     ->scalarNode('config')->defaultNull();
 
-        return $rootNode;
+        return $root;
     }
 
     /**
-     * @return \Symfony\Component\Config\Definition\Builder\NodeDefinition
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addMenuNode(): NodeDefinition
+    private function addMenuNode(): ArrayNodeDefinition
     {
-        /** @var \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode */
-        $rootNode = (new TreeBuilder('menu'))->getRootNode();
-        $rootNode->addDefaultsIfNotSet()
+        $root = (new TreeBuilder('menu'))->getRootNode();
+        $root->addDefaultsIfNotSet()
             ->children()
                 ->arrayNode('groups')->useAttributeAsKey('name')
                     ->prototype('array')->addDefaultsIfNotSet()
@@ -133,6 +124,6 @@ class Configuration implements ConfigurationInterface
                                     ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->cannotBeEmpty()->end()
                                     ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->cannotBeEmpty();
 
-        return $rootNode;
+        return $root;
     }
 }

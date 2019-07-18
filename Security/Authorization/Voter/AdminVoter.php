@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Security\Authorization\Voter;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\Common\Util\ClassUtils;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
@@ -35,33 +34,40 @@ class AdminVoter extends Voter
     private $metadataManager;
 
     /**
+     * @var array
+     */
+    private $permissions;
+
+    /**
      * @param \Darvin\Utils\ORM\EntityResolverInterface                  $entityResolver  Entity resolver
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Metadata manager
+     * @param array                                                      $permissions     Permissions
      */
-    public function __construct(EntityResolverInterface $entityResolver, AdminMetadataManagerInterface $metadataManager)
+    public function __construct(EntityResolverInterface $entityResolver, AdminMetadataManagerInterface $metadataManager, array $permissions)
     {
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
+        $this->permissions = $permissions;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
-        $user = $token->getUser();
+        $subject = $this->resolveSubject($subject);
 
-        if (!$user instanceof BaseUser) {
-            return false;
-        }
         if ($this->metadataManager->hasMetadata($subject)
             && $this->metadataManager->getConfiguration($subject)['oauth_only']
             && !$token instanceof OAuthToken
         ) {
             return false;
         }
-
-        $class = $this->getClass($subject);
+        foreach ($token->getRoleNames() as $role) {
+            if ($this->isAllowed($role, $subject, $attribute)) {
+                return true;
+            }
+        }
 
         return false;
     }
@@ -75,12 +81,47 @@ class AdminVoter extends Voter
     }
 
     /**
-     * @param object|string $object Object
+     * @param string $role      Role
+     * @param string $subject   Subject
+     * @param string $attribute Attribute
+     *
+     * @return bool
+     */
+    private function isAllowed(string $role, string $subject, string $attribute): bool
+    {
+        if (!isset($this->permissions[$role])) {
+            return false;
+        }
+
+        $permissions = $this->permissions[$role];
+
+        if (isset($permissions['subjects'][$subject][$attribute])) {
+            return $permissions['subjects'][$subject][$attribute];
+        }
+        if (class_exists($subject)) {
+            foreach (class_parents($subject) as $class) {
+                if (isset($permissions['subjects'][$class][$attribute])) {
+                    return $permissions['subjects'][$class][$attribute];
+                }
+            }
+        }
+
+        return $permissions['default'][$attribute] ?? false;
+    }
+
+    /**
+     * @param mixed $subject Subject
      *
      * @return string
      */
-    private function getClass($object)
+    private function resolveSubject($subject): string
     {
-        return $this->entityResolver->resolve(is_object($object) ? ClassUtils::getClass($object) : (string)$object);
+        $subject = is_object($subject) ? ClassUtils::getClass($subject) : (string)$subject;
+
+        if (class_exists($subject)) {
+            return $this->entityResolver->resolve($subject);
+        }
+
+        return $subject;
     }
 }

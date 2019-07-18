@@ -92,7 +92,7 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->append($this->createDefaultPermissionsNode())
-                    ->append($this->createEntityPermissionsNode());
+                    ->append($this->createSubjectPermissionsNode());
 
         return $root;
     }
@@ -124,10 +124,10 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function createEntityPermissionsNode(): ArrayNodeDefinition
+    private function createSubjectPermissionsNode(): ArrayNodeDefinition
     {
-        $root = (new TreeBuilder('entities'))->getRootNode();
-        $root->useAttributeAsKey('entity');
+        $root = (new TreeBuilder('subjects'))->getRootNode();
+        $root->useAttributeAsKey('subject');
         $root->beforeNormalization()->always(function ($value) {
             if (is_bool($value)) {
                 return array_fill_keys(Permission::getAllPermissions(), $value);

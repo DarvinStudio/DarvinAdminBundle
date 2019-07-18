@@ -15,6 +15,7 @@ services:
         arguments:
             - '@darvin_utils.orm.entity_resolver'
             - '@darvin_admin.metadata.manager'
+            - '%darvin_admin.permissions%'
         tags:
             - { name: security.voter }
 

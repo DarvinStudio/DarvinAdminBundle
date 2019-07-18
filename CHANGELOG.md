@@ -274,3 +274,7 @@ form:
 - Replace custom expression language with authorization checker in abstract view factory.
 
 - Remove empty columns from index view.
+
+6.2.0:
+
+- Move permissions' configuration to bundle's configuration:

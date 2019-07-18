@@ -92,7 +92,47 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->append($this->createDefaultPermissionsNode())
-                    ->append($this->createSubjectPermissionsNode());
+                    ->append($this->createSubjectPermissionsNode())
+                ->end()
+                ->beforeNormalization()->ifArray()->then(function (array $permissions) {
+                    if (!isset($permissions['default']) || null === $permissions['default']) {
+                        $permissions['default'] = false;
+                    }
+                    if (is_bool($permissions['default'])) {
+                        $permissions['default'] = array_fill_keys(Permission::getAllPermissions(), $permissions['default']);
+                    }
+                    foreach ($permissions['default'] as $permission => $granted) {
+                        if (0 !== strpos($permission, Permission::PREFIX)) {
+                            $permissions['default'][Permission::PREFIX.$permission] = $granted;
+
+                            unset($permissions['default'][$permission]);
+                        }
+                    }
+                    if (!isset($permissions['subjects'])) {
+                        $permissions['subjects'] = [];
+                    }
+                    foreach ($permissions['subjects'] as $subject => &$subjectPermissions) {
+                        if (null === $subjectPermissions) {
+                            $subjectPermissions = $permissions['default'];
+                        }
+                        if (is_bool($subjectPermissions)) {
+                            $subjectPermissions = array_fill_keys(Permission::getAllPermissions(), $subjectPermissions);
+                        }
+                        foreach ($subjectPermissions as $permission => $granted) {
+                            if (0 !== strpos($permission, Permission::PREFIX)) {
+                                $subjectPermissions[Permission::PREFIX.$permission] = $granted;
+
+                                unset($subjectPermissions[$permission]);
+                            }
+                        }
+
+                        $subjectPermissions = array_merge($permissions['default'], $subjectPermissions);
+                    }
+
+                    unset($subjectPermissions);
+
+                    return $permissions;
+                });
 
         return $root;
     }
@@ -104,18 +144,11 @@ class Configuration implements ConfigurationInterface
     {
         $root = (new TreeBuilder('default'))->getRootNode();
         $root->addDefaultsIfNotSet();
-        $root->beforeNormalization()->always(function ($value) {
-            if (is_bool($value)) {
-                return array_fill_keys(Permission::getAllPermissions(), $value);
-            }
-
-            return $value;
-        });
 
         $builder = $root->children();
 
         foreach (Permission::getAllPermissions() as $permission) {
-            $builder->booleanNode($permission)->defaultFalse();
+            $builder->booleanNode($permission);
         }
 
         return $root;
@@ -129,18 +162,10 @@ class Configuration implements ConfigurationInterface
         $root = (new TreeBuilder('subjects'))->getRootNode();
         $root->useAttributeAsKey('subject');
 
-        $builder = $root->prototype('array')
-            ->beforeNormalization()->always(function ($value) {
-                if (is_bool($value)) {
-                    return array_fill_keys(Permission::getAllPermissions(), $value);
-                }
-
-                return $value;
-            })->end()
-            ->children();
+        $builder = $root->prototype('array')->children();
 
         foreach (Permission::getAllPermissions() as $permission) {
-            $builder->booleanNode($permission)->defaultFalse();
+            $builder->booleanNode($permission);
         }
 
         return $root;

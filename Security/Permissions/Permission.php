@@ -18,9 +18,11 @@ use Darvin\UserBundle\Entity\BaseUser;
  */
 final class Permission
 {
-    public const CREATE_DELETE = 'admin_create_delete';
-    public const EDIT          = 'admin_edit';
-    public const VIEW          = 'admin_view';
+    public const PREFIX = 'admin_';
+
+    public const CREATE_DELETE = self::PREFIX.'create_delete';
+    public const EDIT          = self::PREFIX.'edit';
+    public const VIEW          = self::PREFIX.'view';
 
     /**
      * @param \Darvin\UserBundle\Entity\BaseUser $user User

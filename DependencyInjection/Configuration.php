@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\DependencyInjection;
 
 use Darvin\AdminBundle\Menu\Item;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -23,7 +24,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
@@ -32,10 +33,11 @@ class Configuration implements ConfigurationInterface
         $root = $builder->getRootNode();
         $root
             ->children()
-                ->append($this->addCKEditorNode())
-                ->append($this->addFormNode())
-                ->append($this->addMenuNode())
-                ->append($this->addSectionsNode())
+                ->append($this->createCKEditorNode())
+                ->append($this->createFormNode())
+                ->append($this->createMenuNode())
+                ->append($this->createPermissionsNode())
+                ->append($this->createSectionsNode())
                 ->scalarNode('frontend_path')->defaultValue('bundles/darvinadmin')->cannotBeEmpty()->end()
                 ->arrayNode('locales')->prototype('scalar')->cannotBeEmpty()->end()->isRequired()->requiresAtLeastOneElement()->end()
                 ->scalarNode('logo')->defaultNull()->end()
@@ -54,7 +56,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addCKEditorNode(): ArrayNodeDefinition
+    private function createCKEditorNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder('ckeditor'))->getRootNode();
         $root->addDefaultsIfNotSet()
@@ -68,7 +70,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addFormNode(): ArrayNodeDefinition
+    private function createFormNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder('form'))->getRootNode();
         $root->addDefaultsIfNotSet()
@@ -83,7 +85,70 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addSectionsNode(): ArrayNodeDefinition
+    private function createPermissionsNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('permissions'))->getRootNode();
+        $root->useAttributeAsKey('role')
+            ->prototype('array')
+                ->children()
+                    ->append($this->createDefaultPermissionsNode())
+                    ->append($this->createEntityPermissionsNode());
+
+        return $root;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createDefaultPermissionsNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('default'))->getRootNode();
+        $root->addDefaultsIfNotSet();
+        $root->beforeNormalization()->always(function ($value) {
+            if (is_bool($value)) {
+                return array_fill_keys(Permission::getAllPermissions(), $value);
+            }
+
+            return $value;
+        });
+
+        $builder = $root->children();
+
+        foreach (Permission::getAllPermissions() as $permission) {
+            $builder->booleanNode($permission)->defaultFalse();
+        }
+
+        return $root;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createEntityPermissionsNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('entities'))->getRootNode();
+        $root->useAttributeAsKey('entity');
+        $root->beforeNormalization()->always(function ($value) {
+            if (is_bool($value)) {
+                return array_fill_keys(Permission::getAllPermissions(), $value);
+            }
+
+            return $value;
+        });
+
+        $builder = $root->prototype('array')->children();
+
+        foreach (Permission::getAllPermissions() as $permission) {
+            $builder->booleanNode($permission)->defaultFalse();
+        }
+
+        return $root;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createSectionsNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder('sections'))->getRootNode();
         $root->useAttributeAsKey('entity')
@@ -103,7 +168,7 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function addMenuNode(): ArrayNodeDefinition
+    private function createMenuNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder('menu'))->getRootNode();
         $root->addDefaultsIfNotSet()

@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Dashboard;
 
-use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -19,11 +18,6 @@ use Symfony\Component\Templating\EngineInterface;
  */
 abstract class AbstractDashboardWidget implements DashboardWidgetInterface
 {
-    /**
-     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
-     */
-    protected $adminRouter;
-
     /**
      * @var \Symfony\Component\Templating\EngineInterface
      */
@@ -35,14 +29,6 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     private $name = null;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
-     */
-    public function setAdminRouter(AdminRouterInterface $adminRouter): void
-    {
-        $this->adminRouter = $adminRouter;
-    }
-
-    /**
      * @param \Symfony\Component\Templating\EngineInterface $templating Templating
      */
     public function setTemplating(EngineInterface $templating): void
@@ -51,19 +37,11 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getRequiredPermissions(): iterable
     {
         return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIcon(): ?string
-    {
-        return null;
     }
 
     /**

@@ -21,19 +21,9 @@ interface DashboardWidgetInterface
     public function getContent(): ?string;
 
     /**
-     * @return string|null
-     */
-    public function getModuleUrl(): ?string;
-
-    /**
      * @return iterable Key - object class, value - permissions
      */
     public function getRequiredPermissions(): iterable;
-
-    /**
-     * @return string|null
-     */
-    public function getIcon(): ?string;
 
     /**
      * @return string

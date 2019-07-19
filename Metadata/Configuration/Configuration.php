@@ -44,6 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('oauth_only')->defaultFalse()->end()
                 ->arrayNode('order_by')->prototype('enum')->values(['asc', 'desc'])->end()->end()
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
+                ->booleanNode('single_instance')->defaultFalse()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
                 ->arrayNode('route_blacklist')->prototype('scalar')->end()->defaultValue([
                     AdminRouterInterface::TYPE_COPY,

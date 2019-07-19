@@ -68,7 +68,7 @@ class Menu implements MenuInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getItems(): array
     {

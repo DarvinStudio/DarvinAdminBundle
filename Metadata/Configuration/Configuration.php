@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\Metadata\Configuration;
 
-use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
@@ -123,17 +122,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('group')->defaultNull()->end()
                 ->scalarNode('position')->defaultNull()->end()
-                ->booleanNode('skip')->defaultFalse()->end()
-                ->arrayNode('colors')->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('main')->defaultNull()->end()
-                        ->scalarNode('sidebar')->defaultNull()->end()
-                    ->end()
-                ->end()
-                ->arrayNode('icons')->addDefaultsIfNotSet()
-                    ->children()
-                        ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->end()
-                        ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON);
+                ->booleanNode('skip')->defaultFalse();
 
         return $root;
     }

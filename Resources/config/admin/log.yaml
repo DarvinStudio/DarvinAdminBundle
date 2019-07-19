@@ -1,7 +1,6 @@
 menu:
     group: modules
-    icons:
-        main: bundles/darvinadmin/images/admin/log_main.png
+
 route_blacklist:
     - batch-delete
     - copy
@@ -9,6 +8,7 @@ route_blacklist:
     - edit
     - new
     - update-property
+
 sortable_fields:
     actionName: action
     loggedAt:   ~
@@ -16,6 +16,7 @@ sortable_fields:
     objectId:   ~
     version:    ~
     username:   ~
+
 form:
     filter:
         fields:
@@ -31,6 +32,7 @@ form:
                 compare_strict: false
             username:
                 compare_strict: false
+
 view:
     index:
         action_widgets:

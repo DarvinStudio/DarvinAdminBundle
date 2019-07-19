@@ -49,11 +49,6 @@ class ConfigurationItemFactory implements ItemFactoryInterface
             yield (new Item('configuration'))
                 ->setIndexTitle('configuration.action.edit.link')
                 ->setIndexUrl($this->router->generate('darvin_admin_configuration'))
-                ->setDescription('configuration.menu.description')
-                ->setMainColor('#516fd0')
-                ->setSidebarColor('#9a8efe')
-                ->setMainIcon('bundles/darvinadmin/images/admin/configuration_main.png')
-                ->setSidebarIcon('bundles/darvinadmin/images/admin/configuration_sidebar.png')
                 ->setPosition(1000);
         }
     }

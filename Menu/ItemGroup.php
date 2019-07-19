@@ -23,7 +23,6 @@ class ItemGroup extends Item
         parent::__construct($name);
 
         $this->indexTitle = sprintf('menu.group.%s.title', $name);
-        $this->indexUrl = '#';
-        $this->description = sprintf('menu.group.%s.description', $name);
+        $this->indexUrl   = '#';
     }
 }

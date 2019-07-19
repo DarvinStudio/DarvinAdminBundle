@@ -15,9 +15,6 @@ namespace Darvin\AdminBundle\Menu;
  */
 class Item
 {
-    public const DEFAULT_MAIN_ICON    = 'bundles/darvinadmin/images/main_menu_stub.png';
-    public const DEFAULT_SIDEBAR_ICON = 'bundles/darvinadmin/images/sidebar_menu_stub.png';
-
     /**
      * @var string
      */
@@ -31,42 +28,7 @@ class Item
     /**
      * @var string|null
      */
-    protected $newTitle;
-
-    /**
-     * @var string|null
-     */
     protected $indexUrl;
-
-    /**
-     * @var string|null
-     */
-    protected $newUrl;
-
-    /**
-     * @var string|null
-     */
-    protected $description;
-
-    /**
-     * @var string|null
-     */
-    protected $mainColor;
-
-    /**
-     * @var string|null
-     */
-    protected $sidebarColor;
-
-    /**
-     * @var string
-     */
-    protected $mainIcon;
-
-    /**
-     * @var string
-     */
-    protected $sidebarIcon;
 
     /**
      * @var int|null
@@ -105,10 +67,8 @@ class Item
     {
         $this->name = $name;
 
-        $this->mainIcon    = self::DEFAULT_MAIN_ICON;
-        $this->sidebarIcon = self::DEFAULT_SIDEBAR_ICON;
-        $this->children    = [];
-        $this->active      = false;
+        $this->children = [];
+        $this->active   = false;
     }
 
     /**
@@ -148,26 +108,6 @@ class Item
     }
 
     /**
-     * @param string|null $newTitle newTitle
-     *
-     * @return Item
-     */
-    public function setNewTitle(?string $newTitle): Item
-    {
-        $this->newTitle = $newTitle;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getNewTitle(): ?string
-    {
-        return $this->newTitle;
-    }
-
-    /**
      * @param string|null $indexUrl indexUrl
      *
      * @return Item
@@ -185,126 +125,6 @@ class Item
     public function getIndexUrl(): ?string
     {
         return $this->indexUrl;
-    }
-
-    /**
-     * @param string|null $newUrl newUrl
-     *
-     * @return Item
-     */
-    public function setNewUrl(?string $newUrl): Item
-    {
-        $this->newUrl = $newUrl;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getNewUrl(): ?string
-    {
-        return $this->newUrl;
-    }
-
-    /**
-     * @param string|null $description description
-     *
-     * @return Item
-     */
-    public function setDescription(?string $description): Item
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string|null $mainColor mainColor
-     *
-     * @return Item
-     */
-    public function setMainColor(?string $mainColor): Item
-    {
-        $this->mainColor = $mainColor;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMainColor(): ?string
-    {
-        return $this->mainColor;
-    }
-
-    /**
-     * @param string|null $sidebarColor sidebarColor
-     *
-     * @return Item
-     */
-    public function setSidebarColor(?string $sidebarColor): Item
-    {
-        $this->sidebarColor = $sidebarColor;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getSidebarColor(): ?string
-    {
-        return $this->sidebarColor;
-    }
-
-    /**
-     * @param string $mainIcon mainIcon
-     *
-     * @return Item
-     */
-    public function setMainIcon(string $mainIcon): Item
-    {
-        $this->mainIcon = $mainIcon;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMainIcon(): string
-    {
-        return $this->mainIcon;
-    }
-
-    /**
-     * @param string $sidebarIcon sidebarIcon
-     *
-     * @return Item
-     */
-    public function setSidebarIcon(string $sidebarIcon): Item
-    {
-        $this->sidebarIcon = $sidebarIcon;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSidebarIcon(): string
-    {
-        return $this->sidebarIcon;
     }
 
     /**

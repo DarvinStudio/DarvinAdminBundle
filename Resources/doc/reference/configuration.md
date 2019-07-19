@@ -37,12 +37,6 @@ darvin_admin:
         groups: # Конфигурация групп элементов меню, ключ - название группы
 
             # Прототип
-            position: ~          # Позиция группы
             associated_object: ~ # Класс связанного объекта
-            colors: # Цвета
-                main:    ~ Цвет группы в меню на главной странице
-                sidebar: ~ Цвет группы в меню на боковой панели
-            icons: # Иконки
-                main:    bundles/darvinadmin/images/main_menu_stub.png    # Иконка группы в меню на главной странице
-                sidebar: bundles/darvinadmin/images/sidebar_menu_stub.png # Иконка группы в меню боковой на боковой панели
+            position:          ~ # Позиция группы
 ```

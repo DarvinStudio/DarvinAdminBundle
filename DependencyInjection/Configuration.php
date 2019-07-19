@@ -10,7 +10,6 @@
 
 namespace Darvin\AdminBundle\DependencyInjection;
 
-use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -211,18 +210,8 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('groups')->useAttributeAsKey('name')
                     ->prototype('array')->addDefaultsIfNotSet()
                         ->children()
-                            ->integerNode('position')->defaultNull()->end()
                             ->scalarNode('associated_object')->defaultNull()->end()
-                            ->arrayNode('colors')->addDefaultsIfNotSet()
-                                ->children()
-                                    ->scalarNode('main')->defaultNull()->end()
-                                    ->scalarNode('sidebar')->defaultNull()->end()
-                                ->end()
-                            ->end()
-                            ->arrayNode('icons')->addDefaultsIfNotSet()
-                                ->children()
-                                    ->scalarNode('main')->defaultValue(Item::DEFAULT_MAIN_ICON)->cannotBeEmpty()->end()
-                                    ->scalarNode('sidebar')->defaultValue(Item::DEFAULT_SIDEBAR_ICON)->cannotBeEmpty();
+                            ->integerNode('position')->defaultNull();
 
         return $root;
     }

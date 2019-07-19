@@ -27,11 +27,19 @@ use Symfony\Component\Routing\RouterInterface;
 class AdminRouter implements AdminRouterInterface
 {
     private const REQUIRE_ID = [
-        AdminRouterInterface::TYPE_COPY,
-        AdminRouterInterface::TYPE_DELETE,
-        AdminRouterInterface::TYPE_EDIT,
-        AdminRouterInterface::TYPE_SHOW,
-        AdminRouterInterface::TYPE_UPDATE_PROPERTY,
+        [
+            AdminRouterInterface::TYPE_COPY,
+            AdminRouterInterface::TYPE_DELETE,
+            AdminRouterInterface::TYPE_EDIT,
+            AdminRouterInterface::TYPE_SHOW,
+            AdminRouterInterface::TYPE_UPDATE_PROPERTY,
+        ],
+        [
+            AdminRouterInterface::TYPE_COPY,
+            AdminRouterInterface::TYPE_DELETE,
+            AdminRouterInterface::TYPE_SHOW,
+            AdminRouterInterface::TYPE_UPDATE_PROPERTY,
+        ],
     ];
 
     private const REQUIRE_PARENT_ID = [
@@ -211,9 +219,10 @@ class AdminRouter implements AdminRouterInterface
      */
     private function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
     {
+        $meta  = $this->metadataManager->getMetadata($class);
         $extra = [];
 
-        if (in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
+        if (in_array($routeType, self::REQUIRE_ID[$meta->getConfiguration()['single_instance']]) && !isset($params['id']) && !empty($entity)) {
             try {
                 $extra['id'] = $this->identifierAccessor->getId($entity);
             } catch (MetadataException $ex) {
@@ -222,9 +231,6 @@ class AdminRouter implements AdminRouterInterface
                 );
             }
         }
-
-        $meta = $this->metadataManager->getMetadata($class);
-
         if (!$meta->hasParent() || !in_array($routeType, self::REQUIRE_PARENT_ID)) {
             return $extra;
         }

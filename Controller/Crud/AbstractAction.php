@@ -237,7 +237,7 @@ abstract class AbstractAction
     }
 
     /**
-     * @param mixed       $id    Entity ID
+     * @param mixed|null  $id    Entity ID
      * @param string|null $class Entity class
      *
      * @return object
@@ -245,13 +245,13 @@ abstract class AbstractAction
      */
     protected function findEntity($id, ?string $class = null)
     {
-        if (empty($class)) {
+        if (null === $class) {
             $class = $this->getEntityClass();
         }
 
-        $entity = $this->em->find($class, $id);
+        $entity = null !== $id ? $this->em->find($class, $id) : $this->em->getRepository($class)->findOneBy([]);
 
-        if (empty($entity)) {
+        if (null === $entity) {
             throw new NotFoundHttpException(sprintf('Unable to find entity "%s" by ID "%s".', $class, $id));
         }
 

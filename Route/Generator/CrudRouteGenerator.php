@@ -54,7 +54,10 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         ],
         AdminRouterInterface::TYPE_EDIT => [
             '%s_edit',
-            '%s/{id}/edit',
+            [
+                '%s/{id}/edit',
+                '%s/edit',
+            ],
             [
                 'id' => '\d+',
             ],
@@ -111,6 +114,9 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         foreach (self::MODEL as $type => list($namePattern, $pathPattern, $requirements, $methods)) {
             if (in_array($type, $config['route_blacklist'])) {
                 continue;
+            }
+            if (is_array($pathPattern)) {
+                $pathPattern = $pathPattern[$meta->getConfiguration()['single_instance']];
             }
 
             $route = new Route(

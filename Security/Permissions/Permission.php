@@ -10,9 +10,6 @@
 
 namespace Darvin\AdminBundle\Security\Permissions;
 
-use Darvin\AdminBundle\Security\User\Roles;
-use Darvin\UserBundle\Entity\BaseUser;
-
 /**
  * Permission
  */

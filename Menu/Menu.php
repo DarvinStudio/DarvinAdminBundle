@@ -10,21 +10,14 @@
 
 namespace Darvin\AdminBundle\Menu;
 
-use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\NewObject\NewObjectCounterInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * Menu
  */
 class Menu implements MenuInterface
 {
-    /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
     /**
      * @var \Darvin\Utils\NewObject\NewObjectCounterInterface
      */
@@ -51,18 +44,12 @@ class Menu implements MenuInterface
     private $items;
 
     /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Darvin\Utils\NewObject\NewObjectCounterInterface                            $newObjectCounter     New object counter
-     * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
-     * @param array                                                                        $groupsConfig         Groups configuration
+     * @param \Darvin\Utils\NewObject\NewObjectCounterInterface $newObjectCounter New object counter
+     * @param \Symfony\Component\HttpFoundation\RequestStack    $requestStack     Request stack
+     * @param array                                             $groupsConfig     Groups configuration
      */
-    public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        NewObjectCounterInterface $newObjectCounter,
-        RequestStack $requestStack,
-        array $groupsConfig
-    ) {
-        $this->authorizationChecker = $authorizationChecker;
+    public function __construct(NewObjectCounterInterface $newObjectCounter, RequestStack $requestStack, array $groupsConfig)
+    {
         $this->newObjectCounter = $newObjectCounter;
         $this->requestStack = $requestStack;
         $this->groupsConfig = $groupsConfig;
@@ -87,7 +74,8 @@ class Menu implements MenuInterface
     {
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
-            $items = $skipped = [];
+            $items      = [];
+            $skipped    = [];
             $currentUrl = $this->getCurrentUrl();
 
             foreach ($this->itemFactories as $itemFactory) {
@@ -99,14 +87,6 @@ class Menu implements MenuInterface
                     $indexUrl = (string)$item->getIndexUrl();
 
                     if ('' === $indexUrl) {
-                        $skipped[$item->getName()] = true;
-
-                        continue;
-                    }
-
-                    $associatedObject = $item->getAssociatedObject();
-
-                    if (!empty($associatedObject) && !$this->authorizationChecker->isGranted(Permission::VIEW, $associatedObject)) {
                         $skipped[$item->getName()] = true;
 
                         continue;
@@ -179,16 +159,11 @@ class Menu implements MenuInterface
 
         $config = $this->groupsConfig[$name];
 
+        $group->setAssociatedObject($config['associated_object']);
+
         if (null !== $config['position']) {
             $group->setPosition($config['position']);
         }
-
-        $group
-            ->setMainColor($config['colors']['main'])
-            ->setSidebarColor($config['colors']['sidebar'])
-            ->setMainIcon($config['icons']['main'])
-            ->setSidebarIcon($config['icons']['sidebar'])
-            ->setAssociatedObject($config['associated_object']);
 
         return $group;
     }

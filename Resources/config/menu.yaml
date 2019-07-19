@@ -15,7 +15,6 @@ services:
         class:  '%darvin_admin.menu.class%'
         public: false
         arguments:
-            - '@security.authorization_checker'
             - '@darvin_utils.new_object.counter'
             - '@request_stack'
             - '%darvin_admin.menu.groups%'

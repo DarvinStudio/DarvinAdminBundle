@@ -26,6 +26,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 /**
@@ -75,6 +76,7 @@ class NewAction extends AbstractAction
      * @param bool $widget Is widget
      *
      * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
     public function __invoke(bool $widget = false): Response
     {
@@ -88,9 +90,13 @@ class NewAction extends AbstractAction
 
         list($parentEntity, $association) = $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
-
         $entityClass = $this->getEntityClass();
+
+        if ($this->getConfig()['single_instance'] && null !== $this->em->getRepository($entityClass)->findOneBy([])) {
+            throw new NotFoundHttpException(sprintf('Single instance entity "%s" already exists.', $entityClass));
+        }
+
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
 
         $entity = new $entityClass();
 

@@ -21,84 +21,137 @@ use Symfony\Component\Routing\RouteCollection;
 class CrudRouteGenerator implements RouteGeneratorInterface
 {
     private const MODEL = [
-        AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
-            '%s_update_property',
-            '%s/{id}/update-property/{property}',
-            [
-                'id'       => '\d+',
-                'property' => '\w+',
+        [
+            AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
+                '%s_update_property',
+                '%s/{id}/update-property/{property}',
+                [
+                    'id'       => '\d+',
+                    'property' => '\w+',
+                ],
+                [
+                    'post',
+                ],
             ],
-            [
-                'post',
+            AdminRouterInterface::TYPE_COPY => [
+                '%s_copy',
+                '%s/{id}/copy',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'post',
+                ],
             ],
-        ],
-        AdminRouterInterface::TYPE_COPY => [
-            '%s_copy',
-            '%s/{id}/copy',
-            [
-                'id' => '\d+',
+            AdminRouterInterface::TYPE_DELETE => [
+                '%s_delete',
+                '%s/{id}/delete',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'post',
+                ],
             ],
-            [
-                'post',
-            ],
-        ],
-        AdminRouterInterface::TYPE_DELETE => [
-            '%s_delete',
-            '%s/{id}/delete',
-            [
-                'id' => '\d+',
-            ],
-            [
-                'post',
-            ],
-        ],
-        AdminRouterInterface::TYPE_EDIT => [
-            '%s_edit',
-            [
+            AdminRouterInterface::TYPE_EDIT => [
+                '%s_edit',
                 '%s/{id}/edit',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'get',
+                    'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_SHOW => [
+                '%s_show',
+                '%s/{id}/show',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'get',
+                ],
+            ],
+            AdminRouterInterface::TYPE_BATCH_DELETE => [
+                '%s_batch_delete',
+                '%s/batch-delete',
+                [],
+                [
+                    'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_NEW => [
+                '%s_new',
+                '%s/new',
+                [],
+                [
+                    'get',
+                    'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_INDEX => [
+                '%s',
+                '%s/',
+                [],
+                [
+                    'get',
+                ],
+            ],
+        ],
+        [
+            AdminRouterInterface::TYPE_UPDATE_PROPERTY => [
+                '%s_update_property',
+                '%s/update-property/{property}',
+                [
+                    'property' => '\w+',
+                ],
+                [
+                    'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_DELETE => [
+                '%s_delete',
+                '%s/delete',
+                [],
+                [
+                    'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_EDIT => [
+                '%s_edit',
                 '%s/edit',
+                [],
+                [
+                    'get',
+                    'post',
+                ],
             ],
-            [
-                'id' => '\d+',
+            AdminRouterInterface::TYPE_SHOW => [
+                '%s_show',
+                '%s/show',
+                [],
+                [
+                    'get',
+                ],
             ],
-            [
-                'get',
-                'post',
+            AdminRouterInterface::TYPE_NEW => [
+                '%s_new',
+                '%s/new',
+                [],
+                [
+                    'get',
+                    'post',
+                ],
             ],
-        ],
-        AdminRouterInterface::TYPE_SHOW => [
-            '%s_show',
-            '%s/{id}/show',
-            [
-                'id' => '\d+',
-            ],
-            [
-                'get',
-            ],
-        ],
-        AdminRouterInterface::TYPE_BATCH_DELETE => [
-            '%s_batch_delete',
-            '%s/batch-delete',
-            [],
-            [
-                'post',
-            ],
-        ],
-        AdminRouterInterface::TYPE_NEW => [
-            '%s_new',
-            '%s/new',
-            [],
-            [
-                'get',
-                'post',
-            ],
-        ],
-        AdminRouterInterface::TYPE_INDEX => [
-            '%s',
-            '%s/',
-            [],
-            [
-                'get',
+            AdminRouterInterface::TYPE_INDEX => [
+                '%s',
+                '%s/',
+                [],
+                [
+                    'get',
+                ],
             ],
         ],
     ];
@@ -111,12 +164,9 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         $routes = new RouteCollection();
         $config = $meta->getConfiguration();
 
-        foreach (self::MODEL as $type => list($namePattern, $pathPattern, $requirements, $methods)) {
+        foreach (self::MODEL[$config['single_instance']] as $type => list($namePattern, $pathPattern, $requirements, $methods)) {
             if (in_array($type, $config['route_blacklist'])) {
                 continue;
-            }
-            if (is_array($pathPattern)) {
-                $pathPattern = $pathPattern[$meta->getConfiguration()['single_instance']];
             }
 
             $route = new Route(

@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -33,6 +34,11 @@ class ItemFactory implements ItemFactoryInterface
     private $authorizationChecker;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
     private $metadataManager;
@@ -40,15 +46,18 @@ class ItemFactory implements ItemFactoryInterface
     /**
      * @param \Darvin\AdminBundle\Route\AdminRouterInterface                               $adminRouter          Admin router
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Doctrine\ORM\EntityManager                                                  $em                   Entity manager
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface                   $metadataManager      Metadata manager
      */
     public function __construct(
         AdminRouterInterface $adminRouter,
         AuthorizationCheckerInterface $authorizationChecker,
+        EntityManager $em,
         AdminMetadataManagerInterface $metadataManager
     ) {
         $this->adminRouter = $adminRouter;
         $this->authorizationChecker = $authorizationChecker;
+        $this->em = $em;
         $this->metadataManager = $metadataManager;
     }
 
@@ -76,26 +85,41 @@ class ItemFactory implements ItemFactoryInterface
 
         $item = new Item($meta->getEntityName());
         $item
-            ->setIndexTitle($meta->getBaseTranslationPrefix().'action.index.link')
-            ->setNewTitle($meta->getBaseTranslationPrefix().'action.new.link')
-            ->setDescription($meta->getBaseTranslationPrefix().'menu.description')
-            ->setMainColor($config['menu']['colors']['main'])
-            ->setSidebarColor($config['menu']['colors']['sidebar'])
-            ->setMainIcon($config['menu']['icons']['main'])
-            ->setSidebarIcon($config['menu']['icons']['sidebar'])
-            ->setPosition($config['menu']['position'])
             ->setAssociatedObject($entityClass)
-            ->setParentName($config['menu']['group']);
+            ->setParentName($config['menu']['group'])
+            ->setPosition($config['menu']['position']);
 
-        if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
-            && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_INDEX)
-        ) {
-            $item->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+        if (!$config['single_instance']) {
+            if ($this->authorizationChecker->isGranted(Permission::VIEW, $entityClass)
+                && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_INDEX)
+            ) {
+                $item
+                    ->setIndexTitle(sprintf('%saction.index.link', $meta->getBaseTranslationPrefix()))
+                    ->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_INDEX, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+            }
+
+            return $item;
+        }
+
+        $entity = $this->em->getRepository($entityClass)->findOneBy([]);
+
+        if (null !== $entity) {
+            if ($this->authorizationChecker->isGranted(Permission::EDIT, $entityClass)
+                && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_EDIT)
+            ) {
+                $item
+                    ->setIndexTitle(sprintf('%saction.edit.link', $meta->getBaseTranslationPrefix()))
+                    ->setIndexUrl($this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_EDIT, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+            }
+
+            return $item;
         }
         if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entityClass)
             && $this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_NEW)
         ) {
-            $item->setNewUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_NEW, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
+            $item
+                ->setIndexTitle(sprintf('%saction.new.link', $meta->getBaseTranslationPrefix()))
+                ->setIndexUrl($this->adminRouter->generate(null, $entityClass, AdminRouterInterface::TYPE_NEW, [], UrlGeneratorInterface::ABSOLUTE_PATH, false));
         }
 
         return $item;

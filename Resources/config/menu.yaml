@@ -35,6 +35,7 @@ services:
         arguments:
             - '@darvin_admin.router'
             - '@security.authorization_checker'
+            - '@doctrine.orm.entity_manager'
             - '@darvin_admin.metadata.manager'
         tags:
             - { name: darvin_admin.menu_item_factory }

@@ -145,14 +145,6 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                     'post',
                 ],
             ],
-            AdminRouterInterface::TYPE_INDEX => [
-                '%s',
-                '%s/',
-                [],
-                [
-                    'get',
-                ],
-            ],
         ],
     ];
 

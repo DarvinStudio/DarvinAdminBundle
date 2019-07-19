@@ -35,9 +35,15 @@ use Symfony\Component\Templating\EngineInterface;
 abstract class AbstractAction
 {
     private const SUBMIT_BUTTON_REDIRECTS = [
-        AdminFormFactoryInterface::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
-        AdminFormFactoryInterface::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
-        AdminFormFactoryInterface::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
+        [
+            AdminFormFactoryInterface::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
+            AdminFormFactoryInterface::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
+            AdminFormFactoryInterface::SUBMIT_NEW   => AdminRouterInterface::TYPE_NEW,
+        ],
+        [
+            AdminFormFactoryInterface::SUBMIT_EDIT  => AdminRouterInterface::TYPE_EDIT,
+            AdminFormFactoryInterface::SUBMIT_INDEX => AdminRouterInterface::TYPE_INDEX,
+        ],
     ];
 
     /**
@@ -287,7 +293,7 @@ abstract class AbstractAction
     {
         $buttons = [];
 
-        foreach (self::SUBMIT_BUTTON_REDIRECTS as $button => $routeType) {
+        foreach (self::SUBMIT_BUTTON_REDIRECTS[$this->getConfig()['single_instance']] as $button => $routeType) {
             if ($this->adminRouter->exists($this->getEntityClass(), $routeType)) {
                 $buttons[] = $button;
             }
@@ -332,13 +338,15 @@ abstract class AbstractAction
      */
     protected function successRedirect(FormInterface $form, $entity): string
     {
+        $redirects = self::SUBMIT_BUTTON_REDIRECTS[$this->getConfig()['single_instance']];
+
         foreach ($form->all() as $name => $child) {
             if ($child instanceof ClickableInterface
                 && $child->isClicked()
-                && isset(self::SUBMIT_BUTTON_REDIRECTS[$name])
-                && $this->adminRouter->exists($this->getEntityClass(), self::SUBMIT_BUTTON_REDIRECTS[$name])
+                && isset($redirects[$name])
+                && $this->adminRouter->exists($this->getEntityClass(), $redirects[$name])
             ) {
-                return $this->adminRouter->generate($entity, $this->getEntityClass(), self::SUBMIT_BUTTON_REDIRECTS[$name]);
+                return $this->adminRouter->generate($entity, $this->getEntityClass(), $redirects[$name]);
             }
         }
         if ($this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_EDIT)) {

@@ -297,3 +297,5 @@ darvin_admin:
                 Darvin\OrderBundle\Entity\AbstractOrder:            true
                 Darvin\QuestionsBundle\Entity\QuestionInterface:    true
                 Darvin\ReviewBundle\Entity\ReviewInterface:         true
+                
+6.2.1: Support "single instance" entities.

@@ -282,7 +282,8 @@
 {%- endblock darvin_admin_ck_editor_row -%}
 
 {%- block darvin_admin_dropzone_row -%}
-    {%- set compound = false -%}
+    {%- set compound  = false -%}
+    {%- set data_type = 'dropzone' -%}
     {{- block('form_row') -}}
 {%- endblock darvin_admin_dropzone_row -%}
 
@@ -297,10 +298,16 @@
             {%- endfor -%}
         </div>
     {%- endif -%}
-    {%- for child in form -%}
-        {{- form_widget(child) -}}
-        {{- form_errors(child) -}}
-    {%- endfor -%}
+    <div class="custom-dropzone">
+        {%- for name, child in form -%}
+            {%- set attr = child.vars.attr -%}
+            {%- if 'dropzone' == name -%}
+                {%- set attr = attr|merge({'class': (attr.class|default ~ ' custom-dropzone__upload-area')|trim}) -%}
+            {%- endif -%}
+            {{- form_widget(child, {'attr': attr}) -}}
+            {{- form_errors(child) -}}
+        {%- endfor -%}
+    </div>
 {%- endblock darvin_admin_dropzone_widget -%}
 
 {%- block darvin_admin_el_finder_text_widget -%}

@@ -7,12 +7,12 @@
 {# Macros #}
 
 {% macro image(image, disableable, editable) %}
-    <div class="js-image" data-id="{{ image.id }}">
-        <a href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
+    <div class="custom-dropzone__item js-image" data-id="{{ image.id }}">
+        <a class="custom-dropzone__item-img" href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
         </a>
         {% if disableable %}
-            <div>
+            <div class="custom-dropzone__item-toggle">
                 <a class="no-photoswipe js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
                    data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
                    data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
@@ -24,14 +24,14 @@
             </div>
         {% endif %}
         {% if editable %}
-            <div>
+            <div class="custom-dropzone__item-edit">
                 <a class="no-photoswipe js-ajax"
                    href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
                     {{ 'image.action.edit.title'|trans({'%image%': image}) }}
                 </a>
             </div>
         {% endif %}
-        <div>
+        <div class="custom-dropzone__item-delete">
             <a class="no-photoswipe js-image-delete"
                data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
                href="#">
@@ -289,15 +289,6 @@
 
 {%- block darvin_admin_dropzone_widget -%}
     {%- import _self as that -%}
-    {%- if data and data is not empty -%}
-        <div class="js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
-            {%- for image in data -%}
-                {%- if image.id -%}
-                    {{- that.image(image, disableable, editable) -}}
-                {%- endif -%}
-            {%- endfor -%}
-        </div>
-    {%- endif -%}
     <div class="custom-dropzone">
         {%- for name, child in form -%}
             {%- set attr = child.vars.attr -%}
@@ -307,6 +298,15 @@
             {{- form_widget(child, {'attr': attr}) -}}
             {{- form_errors(child) -}}
         {%- endfor -%}
+        {%- if data and data is not empty -%}
+            <div class="custom-dropzone__list js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
+                {%- for image in data -%}
+                    {%- if image.id -%}
+                        {{- that.image(image, disableable, editable) -}}
+                    {%- endif -%}
+                {%- endfor -%}
+            </div>
+        {%- endif -%}
     </div>
 {%- endblock darvin_admin_dropzone_widget -%}
 

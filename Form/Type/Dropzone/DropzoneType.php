@@ -183,19 +183,19 @@ class DropzoneType extends AbstractType
             'editable'    => $options['editable'],
         ]);
 
-        if (!empty($this->imageSizeDescriber) && null === $options['help']) {
-            $options['help'] = $this->imageSizeDescriber->describeSize(
+        if (null !== $this->imageSizeDescriber && null === $view->vars['help']) {
+            $view->vars['help'] = $this->imageSizeDescriber->describeSize(
                 $options['image_filters'],
                 $options['image_width'],
                 $options['image_height'],
                 $options['uploadable_class']
             );
 
-            if (!empty($options['help'])) {
-                $options['help'] .= '<br>';
+            if (null !== $view->vars['help']) {
+                $view->vars['help'] .= '<br>';
             }
 
-            $options['help'] .= $this->translator->trans('form.file.help', [
+            $view->vars['help'] .= $this->translator->trans('form.file.help', [
                 '%size%' => $this->uploadMaxSizeMB,
             ], 'admin');
         }
@@ -204,7 +204,6 @@ class DropzoneType extends AbstractType
             'class'               => 'dropzone',
             'data-accepted-files' => $options['accepted_files'],
             'data-files'          => $view->children['files']->vars['id'],
-            'data-help'           => $options['help'],
             'data-max-filesize'   => $this->uploadMaxSizeMB,
             'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
         ];

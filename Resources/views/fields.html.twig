@@ -51,7 +51,10 @@
 
 {%- block form_row -%}
     {%- import _self as that -%}
-    {%- set row_attr = {'class': 'form-item'} -%}
+    {%- if row_attr is not defined -%}
+        {%- set row_attr = {} -%}
+    {%- endif -%}
+    {%- set row_attr = row_attr|merge({'class': (row_attr.class|default ~ ' form-item')|trim}) -%}
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
@@ -69,7 +72,7 @@
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}
     {%- else -%}
-        <div {% with {attr: row_attr|default({})} %}{{ block('attributes') }}{% endwith %}>
+        <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
             {{- form_label(form) -}}
             <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
                 {{- form_widget(form, widget_attr) -}}
@@ -282,8 +285,10 @@
 {%- endblock darvin_admin_ck_editor_row -%}
 
 {%- block darvin_admin_dropzone_row -%}
-    {%- set compound  = false -%}
-    {%- set data_type = 'dropzone' -%}
+    {%- set compound = false -%}
+    {%- set row_attr = {
+        'data-type': 'dropzone',
+    } -%}
     {{- block('form_row') -}}
 {%- endblock darvin_admin_dropzone_row -%}
 

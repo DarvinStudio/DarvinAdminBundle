@@ -299,3 +299,5 @@ darvin_admin:
                 Darvin\ReviewBundle\Entity\ReviewInterface:         true
                 
 6.2.1: Support "single instance" entities.
+
+6.2.3: Do not blacklist "copy" route.

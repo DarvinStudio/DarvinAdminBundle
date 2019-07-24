@@ -45,9 +45,7 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('searchable_fields')->prototype('scalar')->end()->end()
                 ->booleanNode('single_instance')->defaultFalse()->end()
                 ->arrayNode('sortable_fields')->prototype('scalar')->end()->end()
-                ->arrayNode('route_blacklist')->prototype('scalar')->end()->defaultValue([
-                    AdminRouterInterface::TYPE_COPY,
-                ])->end()
+                ->arrayNode('route_blacklist')->prototype('scalar')->end()->end()
                 ->arrayNode('pagination')->canBeDisabled()
                     ->children()
                         ->integerNode('items')->defaultValue(50)->min(1)->end()

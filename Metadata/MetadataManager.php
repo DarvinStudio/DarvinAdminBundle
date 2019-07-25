@@ -52,7 +52,7 @@ class MetadataManager implements AdminMetadataManagerInterface
     /**
      * @var array
      */
-    private $hasMetadata;
+    private $havingMetadata;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\Metadata[]|null
@@ -70,7 +70,7 @@ class MetadataManager implements AdminMetadataManagerInterface
         $this->eventDispatcher = $eventDispatcher;
         $this->metadataPool = $metadataPool;
 
-        $this->childMetadata = $this->hasMetadata = [];
+        $this->childMetadata = $this->havingMetadata = [];
         $this->metadata = null;
     }
 
@@ -83,15 +83,13 @@ class MetadataManager implements AdminMetadataManagerInterface
     }
 
     /**
-     * @param object|string $entity Entity
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function hasMetadata($entity): bool
     {
-        $class = $this->entityResolver->resolve(is_object($entity) ? ClassUtils::getClass($entity) : $entity);
+        $class = is_object($entity) ? ClassUtils::getClass($entity) : $entity;
 
-        if (!isset($this->hasMetadata[$class])) {
+        if (!isset($this->havingMetadata[$class])) {
             $metadata = null;
 
             try {
@@ -99,16 +97,14 @@ class MetadataManager implements AdminMetadataManagerInterface
             } catch (MetadataException $ex) {
             }
 
-            $this->hasMetadata[$class] = !empty($metadata);
+            $this->havingMetadata[$class] = !empty($metadata);
         }
 
-        return $this->hasMetadata[$class];
+        return $this->havingMetadata[$class];
     }
 
     /**
-     * @param object|string $entity Entity
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getConfiguration($entity): array
     {
@@ -116,10 +112,7 @@ class MetadataManager implements AdminMetadataManagerInterface
     }
 
     /**
-     * @param object|string $entity Entity
-     *
-     * @return \Darvin\AdminBundle\Metadata\Metadata
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
+     * {@inheritDoc}
      */
     public function getMetadata($entity): Metadata
     {
@@ -149,9 +142,7 @@ class MetadataManager implements AdminMetadataManagerInterface
     }
 
     /**
-     * @return \Darvin\AdminBundle\Metadata\Metadata[]
-     *
-     * @throws \Darvin\AdminBundle\Metadata\MetadataException
+     * {@inheritDoc}
      */
     public function getAllMetadata(): array
     {
@@ -162,8 +153,11 @@ class MetadataManager implements AdminMetadataManagerInterface
                 $metadata = $this->cache->get(self::CACHE_KEY);
             }
             if (null === $metadata) {
-                $metadata = $this->metadataPool->getAllMetadata();
+                $metadata = [];
 
+                foreach ($this->metadataPool->getAllMetadata() as $entity => $meta) {
+                    $metadata[$this->entityResolver->resolve($entity)] = $meta;
+                }
                 if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $metadata)) {
                     throw new MetadataException('Unable to cache metadata.');
                 }

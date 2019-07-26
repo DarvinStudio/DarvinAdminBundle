@@ -338,6 +338,49 @@
     </div>
 {%- endblock darvin_admin_position_widget -%}
 
+{%- block darvin_admin_slug_suffix_widget -%}
+    {%- set url_parts = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') -%}
+    {%- set url_prefix = url_parts[0] ~ slug_prefix -%}
+    {%- set url_suffix = url_parts[1] -%}
+    {%- set url_parts = [url_prefix] -%}
+    {%- if not slug -%}
+        {%- set url_parts = url_parts|merge(['___']) -%}
+    {%- endif -%}
+    {%- set url_parts = url_parts|merge([url_suffix]) -%}
+    {%- set url = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') -%}
+    <div class="custom-link">
+        <div class="slug_suffix js-slug{% if not slug %} js-slug-changed{% endif %}"
+             data-default-url="{{ url }}"
+             data-parent-select="{{ parent_select_selector }}"
+             data-url-prefix="{{ url_prefix }}"
+             data-url-suffix="{{ url_suffix }}">
+            <div class="custom-link__value js-slug-link"{% if errors is not empty %} style="display: none;"{% endif %}>
+                <a href="{{ url }}" target="_blank">{{ url }}</a>
+                <button class="edit js-slug-edit" type="button">
+                    {% trans %}slug_suffix.edit{% endtrans %}
+                </button>
+                <button class="reset js-slug-reset" type="button" style="display: none;">
+                    {% trans %}slug_suffix.reset{% endtrans %}
+                </button>
+            </div>
+            <div class="custom-link__form js-slug-form"{% if errors is empty %} style="display: none;"{% endif %}>
+                <span class="url_prefix js-slug-url-prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
+                <div class="input_value">
+                    {%- set attr = {'data-default': data} -%}
+                    {{- block('form_widget') -}}
+                </div>
+                <span class="url_suffix">{{ url_suffix }}</span>
+                <button class="update js-slug-update" type="button">
+                    {% trans %}slug_suffix.update{% endtrans %}
+                </button>
+                <button class="reset js-slug-reset" type="button" style="display: none;">
+                    {% trans %}slug_suffix.reset{% endtrans %}
+                </button>
+            </div>
+        </div>
+    </div>
+{%- endblock darvin_admin_slug_suffix_widget -%}
+
 {%- block darvin_admin_triplebox_row -%}
     {%- set compound = false -%}
     {{- block('form_row') -}}
@@ -374,63 +417,3 @@
     {%- set compound = false -%}
     {{- parent() -}}
 {%- endblock vich_file_row -%}
-
-{#
-{%- block darvin_admin_slug_suffix_widget -%}
-    {% if is_homepage %}
-        {{ form_widget(form) }}
-    {% else %}
-
-        {% set url_parts = (app.request.baseUrl ~ route_path)|replace({'{_locale}': app.request.locale})|split('{' ~ route_param_slug ~ '}') %}
-
-        {% set url_prefix = url_parts[0] ~ slug_prefix %}
-        {% set url_suffix = url_parts[1] %}
-
-        {% set url_parts = [url_prefix] %}
-
-        {% if not slug %}
-
-            {% set url_parts = url_parts|merge(['___']) %}
-
-        {% endif %}
-
-        {% set url_parts = url_parts|merge([url_suffix]) %}
-
-        {% set url = slug ? path(route, {(route_param_slug): slug}) : url_parts|join('') %}
-
-        <div class="input_value">
-            <div class="js-slug{% if not slug %} js-slug-changed{% endif %}"
-                 data-default-url="{{ url }}"
-                 data-parent-select="{{ parent_select_selector }}"
-                 data-url-prefix="{{ url_prefix }}"
-                 data-url-suffix="{{ url_suffix }}">
-                <div class="js-slug-link"{% if errors is not empty %} style="display: none;"{% endif %}>
-                    <a href="{{ url }}" target="_blank">{{ url }}</a>
-                    <button class="js-slug-edit" type="button">
-                        {% trans %}slug_suffix.edit{% endtrans %}
-                    </button>
-
-                    {% block reset_button %}
-                        <button class="js-slug-reset" type="button" style="display: none;">
-                            {% trans %}slug_suffix.reset{% endtrans %}
-                        </button>
-                    {% endblock %}
-
-                </div>
-                <div class="js-slug-form"{% if errors is empty %} style="display: none;"{% endif %}>
-                    <span class="js-slug-url-prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
-                    {{ form_widget(form, {'hide_help': true, 'attr': {'data-default': data}}) }}
-                    <span>{{ url_suffix }}</span>
-                    <button class="js-slug-update" type="button">
-                        {% trans %}slug_suffix.update{% endtrans %}
-                    </button>
-
-                    {{ block('reset_button') }}
-
-                </div>
-            </div>
-        </div>
-        {{ block('help') }}
-    {% endif %}
-{%- endblock darvin_admin_slug_suffix_widget -%}
-#}

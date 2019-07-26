@@ -8,7 +8,6 @@ services:
     darvin_admin.slug_suffix.form_type:
         class: '%darvin_admin.slug_suffix.form_type.class%'
         arguments:
-            - '@darvin_utils.homepage.provider'
             - '@property_accessor'
             - '@darvin_utils.routing.route_manager'
         tags:

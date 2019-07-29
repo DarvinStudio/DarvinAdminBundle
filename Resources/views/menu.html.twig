@@ -25,9 +25,15 @@
     {% endif %}
 
     <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
-        <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
-            {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-        </a>
+        {% if '#' == item.indexUrl %}
+            <span{% if item.newObjectCount %} class="has-count"{% endif %}>
+                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+            </span>
+        {% else %}
+            <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
+                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+            </a>
+        {% endif %}
         {% if item.children is not empty %}
             <div>
                 <ul>

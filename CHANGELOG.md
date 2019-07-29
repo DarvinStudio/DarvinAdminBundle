@@ -301,3 +301,5 @@ darvin_admin:
 6.2.1: Support "single instance" entities.
 
 6.2.3: Do not blacklist "copy" route.
+
+6.2.6: Render span instead of a[href="#"] in menu.

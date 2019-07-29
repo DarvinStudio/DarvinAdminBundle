@@ -78,6 +78,7 @@ class Menu implements MenuInterface
             $skipped    = [];
             $currentUrl = $this->getCurrentUrl();
 
+            // Create items
             foreach ($this->itemFactories as $itemFactory) {
                 foreach ($itemFactory->getItems() as $item) {
                     if (isset($items[$item->getName()])) {
@@ -94,12 +95,6 @@ class Menu implements MenuInterface
                     if (0 === strpos($currentUrl, $indexUrl)) {
                         $item->setActive(true);
                     }
-                    if (null === $item->getNewObjectCount()
-                        && null !== $item->getAssociatedObject()
-                        && $this->newObjectCounter->isCountable($item->getAssociatedObject())
-                    ) {
-                        $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
-                    }
 
                     $items[$item->getName()] = $item;
                 }
@@ -107,6 +102,7 @@ class Menu implements MenuInterface
 
             $items = $this->sortItems($items);
 
+            // Build tree
             foreach ($items as $item) {
                 if (!$item->hasParent()) {
                     continue;
@@ -128,6 +124,16 @@ class Menu implements MenuInterface
                     $parent->setActive(true);
                 }
             }
+            // Count new objects
+            foreach ($items as $item) {
+                if (null === $item->getNewObjectCount()
+                    && null !== $item->getAssociatedObject()
+                    && $this->newObjectCounter->isCountable($item->getAssociatedObject())
+                ) {
+                    $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
+                }
+            }
+            // Fold tree
             foreach ($items as $key => $item) {
                 if ($item->hasParent() && !isset($skipped[$item->getParentName()])) {
                     unset($items[$key]);

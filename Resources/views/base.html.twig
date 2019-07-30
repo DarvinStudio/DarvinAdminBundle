@@ -148,7 +148,6 @@
         {% endblock %}
 
         {% block javascripts %}
-            <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
             <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
             <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
 
@@ -157,6 +156,8 @@
             {% else %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
             {% endif %}
+
+            <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
 
             {% if flashes is not empty %}
                 <script>

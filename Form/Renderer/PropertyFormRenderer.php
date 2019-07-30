@@ -42,9 +42,14 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
     /**
      * {@inheritdoc}
      */
-    public function render(FormInterface $form, $entity, string $entityClass, string $property): string
+    public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): ?string
     {
-        $view  = $form->createView();
+        $view = $form->createView();
+
+        if (!isset($view->children[$property])) {
+            return null;
+        }
+
         $value = null;
 
         if (!$view->children[$property]->vars['compound'] && !is_object($view->children[$property]->vars['value'])) {

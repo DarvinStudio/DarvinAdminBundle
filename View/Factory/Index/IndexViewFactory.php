@@ -143,7 +143,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                     } else {
                         $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);
 
-                        $content = $this->propertyFormRenderer->render($form, $entity, $meta->getEntityClass(), $field);
+                        $content = $this->propertyFormRenderer->renderPropertyForm($form, $entity, $meta->getEntityClass(), $field);
                     }
                 }
 

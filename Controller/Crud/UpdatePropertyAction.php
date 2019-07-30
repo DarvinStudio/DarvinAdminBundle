@@ -108,7 +108,7 @@ class UpdatePropertyAction extends AbstractAction
         }
 
         return new JsonResponse([
-            'html'    => $this->propertyFormRenderer->render($form, $entityBefore, $this->getEntityClass(), $property),
+            'html'    => $this->propertyFormRenderer->renderPropertyForm($form, $entityBefore, $this->getEntityClass(), $property),
             'message' => $message,
             'success' => $success,
         ]);

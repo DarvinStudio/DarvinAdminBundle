@@ -353,7 +353,7 @@ abstract class AbstractAction
             return $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_EDIT);
         }
 
-        return '';
+        return '/';
     }
 
     /**

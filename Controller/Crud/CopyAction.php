@@ -74,7 +74,7 @@ class CopyAction extends AbstractAction
         $form        = $this->adminFormFactory->createCopyForm($entity, $this->getEntityClass())->handleRequest($request);
         $message     = sprintf('%saction.copy.success', $this->getMeta()->getBaseTranslationPrefix());
         $success     = true;
-        $redirectUrl = '';
+        $redirectUrl = '/';
 
         if ($this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
             $redirectUrl = $this->adminRouter->generate($entity, $this->getEntityClass(), AdminRouterInterface::TYPE_INDEX);

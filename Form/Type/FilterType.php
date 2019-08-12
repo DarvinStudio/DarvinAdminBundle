@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
+use Darvin\Utils\Form\Type\TripleboxType;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\ExpressionLanguage\Expression;

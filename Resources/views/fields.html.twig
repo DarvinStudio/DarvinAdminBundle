@@ -381,23 +381,6 @@
     </div>
 {%- endblock darvin_admin_slug_suffix_widget -%}
 
-{%- block darvin_admin_triplebox_row -%}
-    {%- set compound = false -%}
-    {{- block('form_row') -}}
-{%- endblock darvin_admin_triplebox_row -%}
-
-{%- block darvin_admin_triplebox_widget -%}
-    <div class="form-item__сheckbox">
-        <div class="custom-triplebox js-triplebox">
-            {%- for child in form -%}
-                {{- form_widget(child) -}}
-                {{- form_errors(child) -}}
-            {%- endfor -%}
-            <span></span>
-        </div>
-    </div>
-{%- endblock darvin_admin_triplebox_widget -%}
-
 {%- block darvin_image_image_row -%}
     {%- set compound = false -%}
     {{- block('form_row') -}}
@@ -412,6 +395,23 @@
     {%- endif -%}
     {{- block('form_widget') -}}
 {%- endblock darvin_image_image_widget -%}
+
+{%- block darvin_utils_triplebox_row -%}
+    {%- set compound = false -%}
+    {{- block('form_row') -}}
+{%- endblock darvin_utils_triplebox_row -%}
+
+{%- block darvin_utils_triplebox_widget -%}
+    <div class="form-item__сheckbox">
+        <div class="custom-triplebox js-triplebox">
+            {%- for child in form -%}
+                {{- form_widget(child) -}}
+                {{- form_errors(child) -}}
+            {%- endfor -%}
+            <span></span>
+        </div>
+    </div>
+{%- endblock darvin_utils_triplebox_widget -%}
 
 {%- block vich_file_row -%}
     {%- set compound = false -%}

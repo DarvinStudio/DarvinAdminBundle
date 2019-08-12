@@ -10,6 +10,7 @@ collection:
 common:
     actions:          Действия
     back:             Назад
+    confirm:          Подтвердите действие
     empty_list:       Список пуст
     total_item_count: Всего объектов:<span>%count%</span>
 

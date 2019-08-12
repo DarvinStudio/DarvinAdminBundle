@@ -8,6 +8,7 @@ collection:
 common:
     actions: Actions
     back: Back
+    confirm: 'Confirm Action'
     empty_list: 'List is Empty'
     total_item_count: 'Total Items:<span>%count%</span>'
 configuration:

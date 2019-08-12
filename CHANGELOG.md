@@ -309,3 +309,5 @@ darvin_admin:
 - Move triplebox form type to Utils package.
 
 - Set default help for slug suffix form type.
+
+- Require copy action confirmation.

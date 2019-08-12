@@ -8,6 +8,7 @@ collection:
 common:
     actions: الإجراءات
     back: 'مرة أخرى'
+    confirm: 'تأكيد الإجراء'
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود:<span>%count%</span>'
 configuration:

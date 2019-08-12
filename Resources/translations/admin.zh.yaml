@@ -8,6 +8,7 @@ collection:
 common:
     actions: 行动
     back: 回
+    confirm: '确认操作'
     empty_list: 表是空的
     total_item_count: 总项目：<span>%count%</span>
 configuration:

@@ -43,6 +43,11 @@ class ChildLinksWidget extends AbstractWidget
     private $entityOverride;
 
     /**
+     * @var array
+     */
+    private $counts = [];
+
+    /**
      * @param \Darvin\AdminBundle\Route\AdminRouter $adminRouter Admin router
      */
     public function setAdminRouter(AdminRouter $adminRouter)
@@ -115,20 +120,40 @@ class ChildLinksWidget extends AbstractWidget
             $associationParam = sprintf('%s[%s]', $childMeta->getFilterFormTypeName(), $association);
         }
 
+        $count    = null;
         $parentId = $this->identifierAccessor->getValue($entity);
 
-        $childrenCount = (int) $this->em->getRepository($childClass)->createQueryBuilder('o')
-            ->select('COUNT(o)')
-            ->where(sprintf('o.%s = :%1$s', $association))
-            ->setParameter($association, $parentId)
-            ->getQuery()
-            ->getSingleScalarResult();
+        if ($indexLink) {
+            if (!isset($this->counts[$childClass][$association])) {
+                if (!isset($this->counts[$childClass])) {
+                    $this->counts[$childClass] = [];
+                }
+
+                $countQb = $this->em->getRepository($childClass)->createQueryBuilder('o')
+                    ->select(sprintf('%s.%s id', $association, $parentMeta->getIdentifier()))
+                    ->addSelect('COUNT(o) cnt')
+                    ->innerJoin(sprintf('o.%s', $association), $association)
+                    ->groupBy($association);
+
+                $counts = [];
+
+                foreach ($countQb->getQuery()->getScalarResult() as $row) {
+                    $counts[$row['id']] = (int)$row['cnt'];
+                }
+
+                $this->counts[$childClass][$association] = $counts;
+            }
+
+            $counts = $this->counts[$childClass][$association];
+
+            $count = isset($counts[$parentId]) ? $counts[$parentId] : 0;
+        }
 
         return $this->render($options, [
             'association'        => $association,
             'association_param'  => $associationParam,
             'child_class'        => $childClass,
-            'children_count'     => $childrenCount,
+            'children_count'     => $count,
             'index_link'         => $indexLink,
             'new_link'           => $newLink,
             'parent_id'          => $parentId,

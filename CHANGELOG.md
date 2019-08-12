@@ -244,3 +244,5 @@ form:
 5.23.6: Support multiple criteria sorting of paginated results.
 
 5.23.7: Disable table head clone JS on huge tables.
+
+5.23.8: Optimize counting in child links view widget.

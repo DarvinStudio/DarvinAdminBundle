@@ -10,7 +10,10 @@ $('.section_table').each(function(){
 		var interval = tableHeight / countHead;
 		var intervalCurr = 0;
 		var rows = self.find('tbody tr');
-		
+
+		if (rows.length > 100) {
+			return;
+		}
 		for(var i = 0; i < rows.length; i++){
 			intervalCurr += rows.eq(i).height();
 			

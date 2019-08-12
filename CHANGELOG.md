@@ -242,3 +242,5 @@ form:
 5.23.3: Allow to disable Chosen with "data-custom: 0".
 
 5.23.6: Support multiple criteria sorting of paginated results.
+
+5.23.7: Disable table head clone JS on huge tables.

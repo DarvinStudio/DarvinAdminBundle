@@ -62,6 +62,8 @@ form:
         reset: 重置
     simple:
         clear: 清楚的
+    slug_suffix:
+        help: '不要忘记在更改URL后创建重定向。'
 homepage:
     index:
         link: 主页

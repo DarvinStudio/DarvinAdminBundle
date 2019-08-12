@@ -85,6 +85,7 @@ class SlugSuffixType extends AbstractType
     {
         $resolver
             ->setDefaults([
+                'help'                   => 'form.slug_suffix.help',
                 'slug_property'          => 'slug',
                 'route'                  => 'darvin_content_show',
                 'route_param_slug'       => 'slug',

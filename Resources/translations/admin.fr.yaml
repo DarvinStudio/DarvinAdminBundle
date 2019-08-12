@@ -62,6 +62,8 @@ form:
         reset: Réinitialiser
     simple:
         clear: Claire
+    slug_suffix:
+        help: 'N''oubliez pas de créer une redirection après avoir changé L''URL.'
 homepage:
     index:
         link: 'Page d''accueil'

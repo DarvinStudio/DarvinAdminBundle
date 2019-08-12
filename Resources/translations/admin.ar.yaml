@@ -62,6 +62,8 @@ form:
         reset: 'إعادة تعيين'
     simple:
         clear: واضح
+    slug_suffix:
+        help: 'لا تنس إنشاء a بعد تغيير url.'
 homepage:
     index:
         link: 'الصفحة الرئيسية'

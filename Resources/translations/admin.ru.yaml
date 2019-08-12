@@ -73,6 +73,8 @@ form:
         reset: Сбросить
     simple:
         clear: Очистить
+    slug_suffix:
+        help: После смены адреса не забудьте проставить редирект.
 
 homepage:
     index:

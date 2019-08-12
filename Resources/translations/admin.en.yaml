@@ -62,6 +62,8 @@ form:
         reset: Reset
     simple:
         clear: Clear
+    slug_suffix:
+        help: 'Do not forget to create a redirect after changing the URL.'
 homepage:
     index:
         link: Homepage

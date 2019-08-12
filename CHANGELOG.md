@@ -304,4 +304,8 @@ darvin_admin:
 
 6.2.6: Render span instead of a[href="#"] in menu.
 
-6.2.11: Move triplebox form type to Utils package.
+6.2.11:
+ 
+- Move triplebox form type to Utils package.
+
+- Set default help for slug suffix form type.

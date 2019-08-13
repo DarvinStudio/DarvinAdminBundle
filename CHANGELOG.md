@@ -311,3 +311,5 @@ darvin_admin:
 - Set default help for slug suffix form type.
 
 - Require copy action confirmation.
+
+6.2.12: Add CRUD form reload functionality.

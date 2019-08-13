@@ -52,7 +52,7 @@ class EditAction extends AbstractAction
             $this->getSubmitButtons()
         )->handleRequest($request);
 
-        if (!$form->isSubmitted()) {
+        if (!$form->isSubmitted() || $request->query->has('reload')) {
             return new Response($this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest()));
         }
         if (!$form->isValid()) {

@@ -119,7 +119,7 @@ class NewAction extends AbstractAction
             $widget ? [AdminFormFactoryInterface::SUBMIT_INDEX] : $this->getSubmitButtons()
         )->handleRequest($request);
 
-        if (!$form->isSubmitted()) {
+        if (!$form->isSubmitted() || $request->query->has('reload')) {
             return new Response($this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest()));
         }
         if (!$form->isValid()) {

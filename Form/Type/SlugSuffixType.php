@@ -89,7 +89,7 @@ class SlugSuffixType extends AbstractType
                 'slug_property'          => 'slug',
                 'route'                  => 'darvin_content_show',
                 'route_param_slug'       => 'slug',
-                'parent_select_selector' => '.parent',
+                'parent_select_selector' => '.js-parent',
                 'required'               => false,
             ])
             ->setAllowedTypes('slug_property', 'string')

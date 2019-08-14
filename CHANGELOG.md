@@ -313,3 +313,5 @@ darvin_admin:
 - Require copy action confirmation.
 
 6.2.12: Add CRUD form reload functionality.
+
+6.2.13: Clear form errors on CRUD form reload.

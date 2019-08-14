@@ -18,6 +18,7 @@ use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +54,10 @@ class EditAction extends AbstractAction
         )->handleRequest($request);
 
         if (!$form->isSubmitted() || $request->query->has('reload')) {
+            if ($request->query->has('reload') && $form instanceof ClearableErrorsInterface) {
+                $form->clearErrors(true);
+            }
+
             return new Response($this->renderEditTemplate($entity, $form, $parentEntity, $request->isXmlHttpRequest()));
         }
         if (!$form->isValid()) {

@@ -22,6 +22,7 @@ use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -120,6 +121,10 @@ class NewAction extends AbstractAction
         )->handleRequest($request);
 
         if (!$form->isSubmitted() || $request->query->has('reload')) {
+            if ($request->query->has('reload') && $form instanceof ClearableErrorsInterface) {
+                $form->clearErrors(true);
+            }
+
             return new Response($this->renderNewTemplate($form, $parentEntity, $widget, $request->isXmlHttpRequest()));
         }
         if (!$form->isValid()) {

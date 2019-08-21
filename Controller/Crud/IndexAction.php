@@ -18,7 +18,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
 use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\ContentBundle\Filterer\FiltererInterface;
-use Darvin\ContentBundle\Sorting\SortEntityJoinerInterface;
+use Darvin\ContentBundle\ORM\SortEntityJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
@@ -69,7 +69,7 @@ class IndexAction extends AbstractAction
     private $sortCriteriaDetector;
 
     /**
-     * @var \Darvin\ContentBundle\Sorting\SortEntityJoinerInterface
+     * @var \Darvin\ContentBundle\ORM\SortEntityJoinerInterface
      */
     private $sortEntityJoiner;
 
@@ -91,7 +91,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\AdminBundle\Controller\Crud\NewAction                    $newAction                CRUD controller new action
      * @param \Knp\Component\Pager\PaginatorInterface                          $paginator                Paginator
      * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface       $sortCriteriaDetector     Sort criteria detector
-     * @param \Darvin\ContentBundle\Sorting\SortEntityJoinerInterface          $sortEntityJoiner         Sort entity joiner
+     * @param \Darvin\ContentBundle\ORM\SortEntityJoinerInterface              $sortEntityJoiner         Sort entity joiner
      * @param \Darvin\ContentBundle\Translatable\TranslationJoinerInterface    $translationJoiner        Translation joiner
      * @param \Darvin\Utils\User\UserQueryBuilderFiltererInterface             $userQueryBuilderFilterer User query builder filterer
      */

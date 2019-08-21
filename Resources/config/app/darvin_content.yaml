@@ -1,0 +1,5 @@
+darvin_content:
+    sorting:
+        reposition:
+            required_permissions:
+                - admin_edit

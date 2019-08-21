@@ -317,3 +317,5 @@ darvin_admin:
 6.2.13: Clear form errors on CRUD form reload.
 
 6.2.14: Change default parent selector in slug suffix form type.
+
+6.2.15: Integrate content sorting functionality.

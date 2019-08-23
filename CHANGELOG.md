@@ -321,3 +321,5 @@ darvin_admin:
 6.2.15: Integrate content sorting functionality.
 
 6.2.16: Upgrade paginator bundle.
+
+6.2.17: Pass entity IDs instead of objects to batch delete form in order to avoid entity validation.

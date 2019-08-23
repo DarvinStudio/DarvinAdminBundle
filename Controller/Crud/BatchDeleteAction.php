@@ -17,7 +17,6 @@ use Darvin\AdminBundle\Event\Crud\DeletedEvent;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,11 +43,10 @@ class BatchDeleteAction extends AbstractAction
 
         $form = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass())->handleRequest($request);
 
-        $entities = $form->get('entities')->getData();
+        $entities = $this->em->getRepository($this->getEntityClass())->findBy([
+            $this->getMeta()->getIdentifier() => array_unique($form->get('ids')->getData()),
+        ]);
 
-        if ($entities instanceof Collection) {
-            $entities = $entities->toArray();
-        }
         if (empty($entities)) {
             throw new \RuntimeException(
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->getEntityClass())

@@ -94,15 +94,10 @@ class AdminFormFactory
             );
         }
 
-        $options = [
-            'entity_class' => $entityClass,
-        ];
+        $options = [];
 
         if (!empty($entities)) {
-            $options = array_merge($options, [
-                'action'   => $this->adminRouter->generate(reset($entities), $entityClass, AdminRouter::TYPE_BATCH_DELETE),
-                'entities' => $entities,
-            ]);
+            $options['action'] = $this->adminRouter->generate(reset($entities), $entityClass, AdminRouter::TYPE_BATCH_DELETE);
         }
 
         return $this->genericFormFactory->create(BatchDeleteType::class, null, $options);

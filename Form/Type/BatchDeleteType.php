@@ -10,8 +10,9 @@
 
 namespace Darvin\AdminBundle\Form\Type;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,13 +26,10 @@ class BatchDeleteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('entities', EntityType::class, [
-            'label'        => false,
-            'class'        => $options['entity_class'],
-            'choices'      => isset($options['entities']) ? $options['entities'] : null,
-            'multiple'     => true,
-            'expanded'     => true,
-            'choice_label' => false,
+        $builder->add('ids', CollectionType::class, [
+            'label'      => false,
+            'entry_type' => HiddenType::class,
+            'allow_add'  => true,
         ]);
     }
 
@@ -40,14 +38,7 @@ class BatchDeleteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver
-            ->setDefaults([
-                'csrf_token_id' => md5(__FILE__.__METHOD__.$this->getBlockPrefix()),
-            ])
-            ->setRequired('entity_class')
-            ->setDefined('entities')
-            ->setAllowedTypes('entities', 'array')
-            ->setAllowedTypes('entity_class', 'string');
+        $resolver->setDefault('csrf_token_id', md5(__FILE__.__METHOD__.$this->getBlockPrefix()));
     }
 
     /**

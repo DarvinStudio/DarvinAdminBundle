@@ -26,7 +26,6 @@ use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Darvin\Utils\Strings\StringsUtil;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\FormError;
@@ -492,11 +491,10 @@ class CrudController extends Controller
         );
 
         $form = $this->getAdminFormFactory()->createBatchDeleteForm($this->entityClass)->handleRequest($request);
-        $entities = $form->get('entities')->getData();
+        $entities = $this->getEntityManager()->getRepository($this->entityClass)->findBy([
+            $this->meta->getIdentifier() => $form->get('ids')->getData(),
+        ]);
 
-        if ($entities instanceof Collection) {
-            $entities = $entities->toArray();
-        }
         if (empty($entities)) {
             throw new ControllerException(
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->entityClass)

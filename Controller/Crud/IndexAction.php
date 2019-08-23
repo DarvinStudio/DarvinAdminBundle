@@ -190,16 +190,12 @@ class IndexAction extends AbstractAction
             /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
             $pagination = $this->paginator->paginate($qb, $page, $config['pagination']['items'], $paginatorOptions);
 
-            if ($page > 0) {
+            $entities = $pagination->getItems();
+
+            if (empty($entities) && $page > 1) {
+                $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $config['pagination']['items'], $paginatorOptions);
+
                 $entities = $pagination->getItems();
-
-                if (empty($entities) && $page > 1) {
-                    $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $config['pagination']['items'], $paginatorOptions);
-
-                    $entities = $pagination->getItems();
-                }
-            } else {
-                $entities = $qb->getQuery()->getResult();
             }
 
             $entityCount = $pagination->getTotalItemCount();

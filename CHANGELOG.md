@@ -323,3 +323,5 @@ darvin_admin:
 6.2.16: Upgrade paginator bundle.
 
 6.2.17: Pass entity IDs instead of objects to batch delete form in order to avoid entity validation.
+
+6.2.18: Remove pagination zero page hack.

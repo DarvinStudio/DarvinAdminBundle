@@ -327,3 +327,5 @@ darvin_admin:
 6.2.18: Remove pagination zero page hack.
 
 6.2.19: Add imageable entity form type.
+
+6.2.20: Allow to group form fields with "admin_group" option.

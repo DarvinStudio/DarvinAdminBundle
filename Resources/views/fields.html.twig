@@ -51,10 +51,6 @@
 
 {%- block form_row -%}
     {%- import _self as that -%}
-    {%- if row_attr is not defined -%}
-        {%- set row_attr = {} -%}
-    {%- endif -%}
-    {%- set row_attr = row_attr|merge({'class': (row_attr.class|default ~ ' form-item')|trim}) -%}
     {%- set widget_attr = {} -%}
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
@@ -72,16 +68,41 @@
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}
     {%- else -%}
-        <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
-            {{- form_label(form) -}}
-            <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
-                {{- form_widget(form, widget_attr) -}}
-                {{- form_errors(form) -}}
-            </div>
-            {%- if show_help is not defined or show_help -%}
-                {{- form_help(form, {'help_html': true}) -}}
+        {%- if show_help is not defined -%}
+            {%- set show_help = true -%}
+        {%- endif -%}
+        {%- if wrap is not defined -%}
+            {%- set wrap = true -%}
+        {%- endif -%}
+        {%- if wrap -%}
+            {%- set class = 'form-item' -%}
+            {%- if admin_group -%}
+                {%- set class = class ~ ' -double' -%}
             {%- endif -%}
+            {%- if row_attr is not defined -%}
+                {%- set row_attr = {} -%}
+            {%- endif -%}
+            {%- set row_attr = row_attr|merge({'class': (row_attr.class|default ~ ' ' ~ class)|trim}) -%}
+            <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {%- endif -%}
+        {{- form_label(form) -}}
+        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+            {{- form_widget(form, widget_attr) -}}
+            {{- form_errors(form) -}}
         </div>
+        {%- if admin_group and form.parent -%}
+            {%- for row in form.parent -%}
+                {%- if row.vars.admin_group == admin_group -%}
+                    {{- form_row(row, {'show_help': false, 'wrap': false}) -}}
+                {%- endif -%}
+            {%- endfor -%}
+        {%- endif -%}
+        {%- if show_help -%}
+            {{- form_help(form, {'help_html': true}) -}}
+        {%- endif -%}
+        {%- if wrap -%}
+            </div>
+        {%- endif -%}
     {%- endif -%}
 {%- endblock form_row -%}
 

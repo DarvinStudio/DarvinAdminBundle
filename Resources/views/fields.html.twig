@@ -332,7 +332,7 @@
             {{- form_errors(child) -}}
         {%- endfor -%}
         {%- if data and data is not empty -%}
-            <div class="custom-dropzone__list js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
+            <div class="custom-dropzone__list js-image-sortable js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
                 {%- for image in data -%}
                     {%- if image.id -%}
                         {{- that.image(image, disableable, editable, true) -}}

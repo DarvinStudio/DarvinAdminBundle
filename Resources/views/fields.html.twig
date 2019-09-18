@@ -322,7 +322,7 @@
 
 {%- block darvin_admin_dropzone_widget -%}
     {%- import _self as that -%}
-    <div class="custom-dropzone">
+    <div class="custom-dropzone{% if data and data is not empty %} js-images{% endif %}">
         {%- for name, child in form -%}
             {%- set attr = child.vars.attr -%}
             {%- if 'dropzone' == name -%}

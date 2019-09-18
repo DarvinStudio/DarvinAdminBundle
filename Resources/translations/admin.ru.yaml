@@ -101,6 +101,7 @@ image:
             check:   Выбрать для удаления
             confirm: Подтвердите удаление выбранных изображений
             submit:  Удалить выбранные
+            success: Выбранные изображения успешно удалены
 
 layout:
     copyright: © %year%  Darvin CMS build %version%

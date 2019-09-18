@@ -84,6 +84,10 @@ image:
         enable:
             submit: Enable
             success: 'Image Successfully Enabled'
+        exterminate:
+            check: 'Check for Removal'
+            confirm: 'Confirm Checked Images Removal'
+            submit: 'Remove Checked'
 layout:
     copyright: '© %year%  Darvin CMS Build %version%'
     footer:

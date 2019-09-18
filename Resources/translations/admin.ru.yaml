@@ -97,6 +97,10 @@ image:
         enable:
             submit:  Показать
             success: Изображение успешно активировано
+        exterminate:
+            check:   Выбрать для удаления
+            confirm: Подтвердите удаление выбранных изображений
+            submit:  Удалить выбранные
 
 layout:
     copyright: © %year%  Darvin CMS build %version%

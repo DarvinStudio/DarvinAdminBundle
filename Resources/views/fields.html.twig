@@ -6,7 +6,7 @@
 
 {# Macros #}
 
-{% macro image(image, disableable, editable) %}
+{% macro image(image, disableable, editable, exterminatable) %}
     <div class="custom-dropzone__item js-image" data-id="{{ image.id }}">
         <a class="custom-dropzone__item-img" href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
             <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
@@ -38,6 +38,13 @@
                 {% trans %}image.action.delete.submit{% endtrans %}
             </a>
         </div>
+        {% if exterminatable %}
+            <input type="checkbox"
+                   class="js-image-exterminate-check"
+                   data-id="{{ image.id }}"
+                   autocomplete="off"
+                   title="{% trans %}image.action.exterminate.check{% endtrans %}">
+        {% endif %}
     </div>
 {% endmacro %}
 
@@ -328,10 +335,17 @@
             <div class="custom-dropzone__list js-images js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
                 {%- for image in data -%}
                     {%- if image.id -%}
-                        {{- that.image(image, disableable, editable) -}}
+                        {{- that.image(image, disableable, editable, true) -}}
                     {%- endif -%}
                 {%- endfor -%}
             </div>
+            <button type="button"
+                    class="js-image-exterminate-submit"
+                    data-url="{{ path('darvin_image_image_exterminate') }}"
+                    onclick="return confirm('{{ 'image.action.exterminate.confirm'|trans|e('js') }}');"
+                    style="display: none;">
+                {% trans %}image.action.exterminate.submit{% endtrans %}
+            </button>
         {%- endif -%}
     </div>
 {%- endblock darvin_admin_dropzone_widget -%}

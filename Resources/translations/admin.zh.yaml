@@ -8,7 +8,7 @@ collection:
 common:
     actions: 行动
     back: 回
-    confirm: '确认操作'
+    confirm: 确认行动
     empty_list: 表是空的
     total_item_count: 总项目：<span>%count%</span>
 configuration:
@@ -64,7 +64,7 @@ form:
     simple:
         clear: 清楚的
     slug_suffix:
-        help: '不要忘记在更改URL后创建重定向。'
+        help: 不要忘记创建一个向更改后的网址。
 homepage:
     index:
         link: 主页
@@ -84,6 +84,11 @@ image:
         enable:
             submit: 启用
             success: 图像成功启用
+        exterminate:
+            check: 检查拆除
+            confirm: 确认检查的图像切除
+            submit: 除去检查
+            success: 检查的图像，成功地除去
 layout:
     copyright: '© %year% 达文CMS建立 %version%'
     footer:

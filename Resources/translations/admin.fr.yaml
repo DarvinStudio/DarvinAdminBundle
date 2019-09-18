@@ -64,7 +64,7 @@ form:
     simple:
         clear: Claire
     slug_suffix:
-        help: 'N''oubliez pas de créer une redirection après avoir changé L''URL.'
+        help: 'N''oubliez pas de créer une redirection après la modification de l''URL.'
 homepage:
     index:
         link: 'Page d''accueil'
@@ -84,6 +84,11 @@ image:
         enable:
             submit: Activer
             success: 'Image Activée Avec Succès'
+        exterminate:
+            check: 'De vérifier pour la Suppression'
+            confirm: 'Confirmer Vérifié Les Images De L''Enlèvement'
+            submit: 'Supprimer Vérifié'
+            success: 'Vérifié Les Images Supprimé Avec Succès'
 layout:
     copyright: '© %year% Darvin CMS Construire %version%'
     footer:

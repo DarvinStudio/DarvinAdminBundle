@@ -8,7 +8,7 @@ collection:
 common:
     actions: الإجراءات
     back: 'مرة أخرى'
-    confirm: 'تأكيد الإجراء'
+    confirm: 'تأكيد العمل'
     empty_list: 'القائمة فارغة'
     total_item_count: 'مجموع البنود:<span>%count%</span>'
 configuration:
@@ -64,7 +64,7 @@ form:
     simple:
         clear: واضح
     slug_suffix:
-        help: 'لا تنس إنشاء a بعد تغيير url.'
+        help: 'لا ننسى أن إنشاء إعادة توجيه بعد تغيير عنوان URL.'
 homepage:
     index:
         link: 'الصفحة الرئيسية'
@@ -84,6 +84,11 @@ image:
         enable:
             submit: تمكين
             success: 'صورة تمكين بنجاح'
+        exterminate:
+            check: 'تحقق من إزالة'
+            confirm: 'التأكد من فحص الصور إزالة'
+            submit: 'إزالة فحص'
+            success: 'فحص الصور بنجاح إزالة'
 layout:
     copyright: '© %year% دارفين CMS بناء %version%'
     footer:

@@ -331,3 +331,5 @@ darvin_admin:
 6.2.20: Allow to group form fields with "admin_group" option.
 
 6.2.21: Add image exterminate action.
+
+6.2.22: Store sidebar visibility in cookie.

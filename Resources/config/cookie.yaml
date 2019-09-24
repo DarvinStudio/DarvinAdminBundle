@@ -1,0 +1,10 @@
+parameters:
+    darvin_admin.cookie.twig_extension.class: Darvin\AdminBundle\Twig\Extension\CookieExtension
+
+services:
+    darvin_admin.cookie.twig_extension:
+        class: '%darvin_admin.cookie.twig_extension.class%'
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: twig.extension }

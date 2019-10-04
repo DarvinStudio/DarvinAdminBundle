@@ -333,3 +333,5 @@ darvin_admin:
 6.2.21: Add image exterminate action.
 
 6.2.22: Store sidebar visibility in cookie.
+
+6.2.23: Disable autocomplete in property form checkboxes.

@@ -335,3 +335,5 @@ darvin_admin:
 6.2.22: Store sidebar visibility in cookie.
 
 6.2.23: Disable autocomplete in property form checkboxes.
+
+6.2.24: Translate items in "simple_list" view widget.

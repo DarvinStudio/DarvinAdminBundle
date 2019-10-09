@@ -339,3 +339,5 @@ darvin_admin:
 6.2.24: Translate items in "simple_list" view widget.
 
 6.2.25: Cleanup list of options passed to configuration form type.
+
+6.2.26: Recreate config edit form after successful submit.

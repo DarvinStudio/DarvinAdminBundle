@@ -19,7 +19,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Valid;
 
 /**
  * Configurations form type
@@ -61,8 +60,6 @@ class ConfigurationsType extends AbstractType
             $builder->add($configuration->getName(), ConfigurationType::class, [
                 'label'         => sprintf('configuration.%s.title', $configuration->getName()),
                 'configuration' => $configuration,
-                'constraints'   => new Valid(),
-                'data_class'    => get_class($configuration),
             ]);
         }
     }

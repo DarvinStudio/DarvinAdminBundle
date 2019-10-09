@@ -337,3 +337,5 @@ darvin_admin:
 6.2.23: Disable autocomplete in property form checkboxes.
 
 6.2.24: Translate items in "simple_list" view widget.
+
+6.2.25: Cleanup list of options passed to configuration form type.

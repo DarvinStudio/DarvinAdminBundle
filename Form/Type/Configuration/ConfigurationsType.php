@@ -53,6 +53,11 @@ class ConfigurationsType extends AbstractType
         $configurations = $this->configurationPool->getAllConfigurations();
 
         foreach ($configurations as $configuration) {
+            $options = $configuration->getOptions();
+
+            if (isset($options['hidden']) && $options['hidden']) {
+                continue;
+            }
             if ($configuration instanceof SecurableInterface && !$this->accessibilityChecker->isAccessible($configuration)) {
                 continue;
             }

@@ -341,3 +341,5 @@ darvin_admin:
 6.2.25: Cleanup list of options passed to configuration form type.
 
 6.2.26: Recreate config edit form after successful submit.
+
+6.2.27: Allow to hide configurations with "hidden" option.

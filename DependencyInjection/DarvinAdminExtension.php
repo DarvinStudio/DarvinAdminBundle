@@ -62,6 +62,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'breadcrumbs',
             'ckeditor',
             'configuration',
+            'cookie',
             'crud',
             'dashboard',
             'dropzone',

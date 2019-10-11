@@ -1,6 +1,12 @@
 {% extends '@DarvinAdmin/fields_compact.html.twig' %}
 
+{%- block checkbox_widget -%}
+    {%- set attr = attr|merge({'autocomplete': 'off'}) -%}
+    {{- parent() -}}
+{%- endblock checkbox_widget -%}
+
 {%- block form_widget_simple -%}
+    {%- set attr      = attr|merge({'autocomplete': 'off'}) -%}
     {%- set clearable = false -%}
     {{- parent() -}}
 {%- endblock form_widget_simple -%}

@@ -17,6 +17,7 @@ use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,30 +39,24 @@ class ConfigurationController extends AbstractController
             throw $this->createAccessDeniedException();
         }
 
-        $url = $this->generateUrl('darvin_admin_configuration');
-
-        $form = $this->createForm(ConfigurationsType::class, $this->getConfigurationPool(), [
-            'action'             => $url,
-            'translation_domain' => 'admin',
-        ])->handleRequest($request);
-
-        $render = function (AbstractController $controller) use ($form, $request) {
+        $form   = $this->createEditForm()->handleRequest($request);
+        $render = function (AbstractController $controller, FormInterface $form) use ($request) {
             return $controller->renderView(sprintf('@DarvinAdmin/configuration/%sedit.html.twig', $request->isXmlHttpRequest() ? '_' : ''), [
                 'form' => $form->createView(),
             ]);
         };
 
         if (!$form->isSubmitted()) {
-            return new Response($render($this));
+            return new Response($render($this, $form));
         }
         if (!$form->isValid()) {
             if ($request->isXmlHttpRequest()) {
-                return new AjaxResponse($render($this), false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+                return new AjaxResponse($render($this, $form), false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
             }
 
             $this->getFlashNotifier()->formError();
 
-            return new Response($render($this));
+            return new Response($render($this, $form));
         }
 
         $this->getConfigurationPool()->saveAll();
@@ -69,12 +64,23 @@ class ConfigurationController extends AbstractController
         $message = 'configuration.action.edit.success';
 
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($render($this), true, $message);
+            return new AjaxResponse($render($this, $this->createEditForm()), true, $message);
         }
 
         $this->getFlashNotifier()->success($message);
 
-        return new RedirectResponse($url);
+        return new RedirectResponse($this->generateUrl('darvin_admin_configuration'));
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function createEditForm(): FormInterface
+    {
+        return $this->createForm(ConfigurationsType::class, $this->getConfigurationPool(), [
+            'action'             => $this->generateUrl('darvin_admin_configuration'),
+            'translation_domain' => 'admin',
+        ]);
     }
 
     /**

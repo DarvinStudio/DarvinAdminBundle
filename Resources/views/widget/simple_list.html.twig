@@ -1,7 +1,9 @@
+{% trans_default_domain 'admin' %}
+
 {% if items is not empty %}
     <ul>
         {% for item in items %}
-            <li>{{ item }}</li>
+            <li>{{ item|trans }}</li>
         {% endfor %}
     </ul>
 {% endif %}

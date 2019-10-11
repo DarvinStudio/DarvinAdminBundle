@@ -331,3 +331,15 @@ darvin_admin:
 6.2.20: Allow to group form fields with "admin_group" option.
 
 6.2.21: Add image exterminate action.
+
+6.2.22: Store sidebar visibility in cookie.
+
+6.2.23: Disable autocomplete in property form checkboxes.
+
+6.2.24: Translate items in "simple_list" view widget.
+
+6.2.25: Cleanup list of options passed to configuration form type.
+
+6.2.26: Recreate config edit form after successful submit.
+
+6.2.27: Allow to hide configurations with "hidden" option.

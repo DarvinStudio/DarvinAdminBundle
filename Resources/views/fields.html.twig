@@ -402,7 +402,7 @@
             </div>
             <div class="custom-link__form js-slug-form"{% if errors is empty %} style="display: none;"{% endif %}>
                 <span class="url_prefix js-slug-url-prefix">{{ url_prefix ~ (slug ~ '$')|replace({(data ~ '$'): ''}) }}</span>
-                <div class="input_value">
+                <div class="custom-link__form-value">
                     {%- set attr = {'data-default': data} -%}
                     {{- block('form_widget') -}}
                 </div>

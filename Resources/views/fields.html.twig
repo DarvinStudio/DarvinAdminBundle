@@ -352,17 +352,20 @@
 {%- block darvin_admin_el_finder_text_widget -%}
     {%- set margin = 0.1 -%}
     {%- set url    = path('elfinder', {'instance': 'darvin_admin_text', 'field': full_name}) -%}
-    {{- block('form_widget') -}}
-    <button type="button"
-            title="{% trans %}form.el_finder_text.title{% endtrans %}"
-            onclick="window.open('{{ url }}', null, [
-                        'width=' + (window.outerWidth - window.outerWidth * {{ margin }} * 2),
-                        'height=' + (window.outerHeight - window.outerWidth * {{ margin }} * 2),
-                        'left=' + (window.outerWidth * {{ margin }}),
-                        'top=' + (window.outerWidth * {{ margin }})
-                    ].join(','));">
-        &hellip;
-    </button>
+    <div class="file-upload">
+        {{- block('form_widget') -}}
+        <button class="file-upload__btn"
+                type="button"
+                title="{% trans %}form.el_finder_text.title{% endtrans %}"
+                onclick="window.open('{{ url }}', null, [
+                            'width=' + (window.outerWidth - window.outerWidth * {{ margin }} * 2),
+                            'height=' + (window.outerHeight - window.outerWidth * {{ margin }} * 2),
+                            'left=' + (window.outerWidth * {{ margin }}),
+                            'top=' + (window.outerWidth * {{ margin }})
+                        ].join(','));">
+            &nbsp;
+        </button>
+    </div>
 {%- endblock darvin_admin_el_finder_text_widget -%}
 
 {%- block darvin_admin_position_widget -%}

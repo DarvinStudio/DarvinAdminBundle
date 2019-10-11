@@ -343,3 +343,5 @@ darvin_admin:
 6.2.26: Recreate config edit form after successful submit.
 
 6.2.27: Allow to hide configurations with "hidden" option.
+
+6.2.28: Change elFinder text form field HTML.

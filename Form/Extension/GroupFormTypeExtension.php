@@ -26,7 +26,10 @@ class GroupFormTypeExtension extends AbstractTypeExtension
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars['admin_group'] = $options['admin_group'];
+        $view->vars = array_merge($view->vars, [
+            'admin_group'   => $options['admin_group'],
+            'admin_spoiler' => $options['admin_spoiler'],
+        ]);
     }
 
     /**
@@ -35,8 +38,12 @@ class GroupFormTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('admin_group', null)
-            ->setAllowedTypes('admin_group', ['string', 'null']);
+            ->setDefaults([
+                'admin_group'   => null,
+                'admin_spoiler' => null,
+            ])
+            ->setAllowedTypes('admin_group', ['string', 'null'])
+            ->setAllowedTypes('admin_spoiler', ['string', 'null']);
     }
 
     /**

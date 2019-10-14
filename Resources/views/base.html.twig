@@ -2,11 +2,23 @@
 
 {% use '@DarvinAdmin/content.html.twig' %}
 
-{% set flashes   = app.flashes %}
-{% set data_attr = {
+{% set body_classes = [] %}
+{% set flashes      = app.flashes %}
+{% set data_attr    = {
     'locale':        app.request.locale,
     'trans_api_key': darvin_admin.yandexTranslateApiKey,
 } %}
+
+{% for key, class in {
+    'filter':  'is-hidden-filter',
+    'sidebar': 'is-hidden-sidebar',
+} %}
+    {% if not darvin_admin_visible(key) %}
+
+        {% set body_classes = body_classes|merge([class]) %}
+
+    {% endif %}
+{% endfor %}
 
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
@@ -29,7 +41,7 @@
 
         <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
-    <body class="{% block body_class %}inner-page{% endblock %}{% if not darvin_admin_visible('sidebar') %} is-hidden-sidebar{% endif %}"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
+    <body class="{% block body_class %}inner-page{% endblock %}{% if body_classes is not empty %} {{ body_classes|join(' ') }}{% endif %}"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
 
         {% block body %}
             <div class="l-wrapper">

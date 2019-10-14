@@ -349,3 +349,5 @@ darvin_admin:
 - Change elFinder text form field HTML.
 
 - Change slug suffix form field HTML.
+
+6.2.29: Store filter state in cookie.

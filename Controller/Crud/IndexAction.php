@@ -267,16 +267,11 @@ class IndexAction extends AbstractAction
             'non_strict_comparison_fields' => [],
         ];
 
-        $getNonStrictComparisonFields = function (array $fields) use (&$filtererOptions) {
-            foreach ($fields as $field => $attr) {
-                if (!$attr['compare_strict']) {
-                    $filtererOptions['non_strict_comparison_fields'][] = $field;
-                }
+        foreach ($config['form']['filter']['fields'] as $field => $attr) {
+            if (!$attr['compare_strict']) {
+                $filtererOptions['non_strict_comparison_fields'][] = $field;
             }
-        };
-
-        $getNonStrictComparisonFields($config['form']['filter']['fields']);
-        array_map($getNonStrictComparisonFields, $config['form']['filter']['field_groups']);
+        }
 
         $this->filterer->filter($qb, $filterFormData, $filtererOptions);
 

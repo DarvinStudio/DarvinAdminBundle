@@ -82,13 +82,7 @@ class FilterType extends AbstractFormType
     {
         $meta = $this->getMetadata($options);
 
-        $config = $meta->getConfiguration();
-
-        foreach ($config['form']['filter']['field_groups'] as $fields) {
-            $this->addFields($builder, $fields, $meta, $options);
-        }
-
-        $this->addFields($builder, $config['form']['filter']['fields'], $meta, $options);
+        $this->addFields($builder, $meta->getConfiguration()['form']['filter']['fields'], $meta, $options);
 
         if (null !== $options['parent_entity_association_param']
             && (null === $options['fields'] || isset($options['fields'][$options['parent_entity_association_param']]))

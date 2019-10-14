@@ -178,9 +178,6 @@ class NewAction extends AbstractAction
 
         $fields = $config['form']['new']['fields'];
 
-        foreach ($config['form']['new']['field_groups'] as $fieldGroup) {
-            $fields = array_replace($fields, $fieldGroup);
-        }
         foreach ($fields as $field => $options) {
             if ($meta->isAssociation($field) && ClassMetadataInfo::MANY_TO_ONE !== $meta->getMappings()[$field]['type']) {
                 unset($fields[$field]);

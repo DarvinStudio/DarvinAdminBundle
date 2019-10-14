@@ -146,7 +146,6 @@ class Metadata
     public function isFilterFormEnabled(): bool
     {
         return !empty($this->configuration['form']['filter']['type'])
-            || !empty($this->configuration['form']['filter']['field_groups'])
             || !empty($this->configuration['form']['filter']['fields']);
     }
 

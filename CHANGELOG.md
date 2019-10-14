@@ -350,4 +350,8 @@ darvin_admin:
 
 - Change slug suffix form field HTML.
 
-6.2.29: Store filter state in cookie.
+6.2.29: 
+ 
+- Store filter state in cookie.
+
+- Remove field groups from admin section configs.

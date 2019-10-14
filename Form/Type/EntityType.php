@@ -67,17 +67,10 @@ class EntityType extends AbstractFormType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $config = $this->getMetadata($options)->getConfiguration();
-
-        $fields = $config['form'][$options['action_type']]['fields'];
-
-        foreach ($config['form'][$options['action_type']]['field_groups'] as $groupFields) {
-            $fields = array_merge($fields, $groupFields);
-        }
-
+        $config         = $this->getMetadata($options)->getConfiguration();
         $filterProvided = isset($options['field_filter']);
 
-        foreach ($fields as $field => $attr) {
+        foreach ($config['form'][$options['action_type']]['fields'] as $field => $attr) {
             if (($filterProvided && $field !== $options['field_filter'])
                 || (null !== $attr['condition'] && !$this->authorizationChecker->isGranted(new Expression($attr['condition']), $builder->getData()))
             ) {

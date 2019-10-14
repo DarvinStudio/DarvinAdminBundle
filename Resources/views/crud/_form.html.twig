@@ -8,8 +8,6 @@
 
 {% endif %}
 
-{% set field_groups = meta.configuration.form[view_type].field_groups %}
-
 <div class="content-block">
     <div class="content-block__content">
         {% if is_widget %}
@@ -25,15 +23,7 @@
         </div>
         <div class="form-product-show">
             {{ form_errors(form) }}
-            {% for name, fields in field_groups %}
-                <div class="form-heading">{{ (meta.baseTranslationPrefix ~ 'field_group.' ~ name)|trans }}</div>
-                {% for field, attr in fields %}
-                    {% if form[field] is defined %}
-                        {{ form_row(form[field]) }}
-                    {% endif %}
-                {% endfor %}
-            {% endfor %}
-            {{ form_rest(form) }}
+            {{ form_widget(form) }}
         </div>
         {{ form_end(form) }}
         {% if is_widget %}

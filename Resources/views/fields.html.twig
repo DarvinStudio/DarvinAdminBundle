@@ -56,6 +56,26 @@
 
 {# Common #}
 
+{%- block form_rows -%}
+    {%- set children = form|filter(child => not child.rendered) -%}
+    {%- for child in children -%}
+        {%- if not child.vars.admin_spoiler -%}
+            {{- form_row(child) -}}
+        {%- else -%}
+            <div class="form-spoiler js-form-spoiler">
+                <div class="form-spoiler__header js-form-spoiler-toggle">{{- child.vars.admin_spoiler -}}</div>
+                <div class="form-spoiler__content">
+                    {%- for sibling in children -%}
+                        {%- if sibling.vars.admin_spoiler == child.vars.admin_spoiler -%}
+                            {{- form_row(sibling) -}}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+            </div>
+        {%- endif -%}
+    {%- endfor -%}
+{%- endblock form_rows -%}
+
 {%- block form_row -%}
     {%- import _self as that -%}
     {%- set widget_attr = {} -%}

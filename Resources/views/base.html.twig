@@ -10,8 +10,9 @@
 } %}
 
 {% for key, class in {
-    'filter':  'is-hidden-filter',
-    'sidebar': 'is-hidden-sidebar',
+    'filter':      'is-hidden-filter',
+    'formSpoiler': 'is-hidden-form-spoiler',
+    'sidebar':     'is-hidden-sidebar',
 } %}
     {% if not darvin_admin_visible(key) %}
 

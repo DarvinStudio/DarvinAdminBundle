@@ -350,7 +350,7 @@ darvin_admin:
 
 - Change slug suffix form field HTML.
 
-6.2.29: 
+6.3.0: 
  
 - Store filter state in cookie.
 

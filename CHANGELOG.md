@@ -355,3 +355,5 @@ darvin_admin:
 - Store filter state in cookie.
 
 - Remove field groups from admin section configs.
+
+- Add "admin_spoiler" form option.

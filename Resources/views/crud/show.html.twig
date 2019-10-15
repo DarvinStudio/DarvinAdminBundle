@@ -8,4 +8,12 @@
 
 {% block heading %}{{ heading }}{% endblock %}
 
-{% block content %}{% include meta.configuration.view.show.template ?: '@DarvinAdmin/crud/_show.html.twig' %}{% endblock %}
+{% block content %}
+
+    {% embed meta.configuration.view.show.template ?: '@DarvinAdmin/crud/_show.html.twig' %}
+
+        {% block widget_title %}{% endblock %}
+
+    {% endembed %}
+
+{% endblock %}

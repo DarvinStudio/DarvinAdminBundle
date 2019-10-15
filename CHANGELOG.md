@@ -357,3 +357,5 @@ darvin_admin:
 - Remove field groups from admin section configs.
 
 - Add "admin_spoiler" form option.
+
+6.3.1: Update CRUD show HTML.

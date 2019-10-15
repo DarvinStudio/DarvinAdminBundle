@@ -1,8 +1,15 @@
 {% trans_default_domain 'admin' %}
 
 {% block widget_content %}
-    {{ admin_widget('actions', entity, {'view_type': 'show', 'style': 'header'}) }}
-    <div class="table">
+
+    {% block widget_title %}
+        <div class="modal-title">{{ (meta.baseTranslationPrefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) }}</div>
+    {% endblock %}
+
+    <div class="modal-actions">
+        {{ admin_widget('actions', entity, {'view_type': 'show', 'style': 'header'}) }}
+    </div>
+    <div class="table-details">
         <table>
             {% for item in view.items %}
                 <tr>

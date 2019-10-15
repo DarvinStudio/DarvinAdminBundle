@@ -358,4 +358,8 @@ darvin_admin:
 
 - Add "admin_spoiler" form option.
 
-6.3.1: Update CRUD show HTML.
+6.3.1:
+ 
+- Update CRUD show HTML.
+
+- Pass view widget style in request.

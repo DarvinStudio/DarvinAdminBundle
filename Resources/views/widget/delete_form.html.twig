@@ -1,5 +1,6 @@
 {% trans_default_domain 'admin' %}
 
+{% set style   = app.request.request.get('style', style) %}
 {% set title   = (translation_prefix ~ 'action.delete.submit')|trans %}
 {% set classes = {
     'default': 'table-row__btn-remove',
@@ -16,4 +17,5 @@
         onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
     {{ title }}
 </button>
+<input name="style" type="hidden" value="{{ style }}">
 {{ form_end(form) }}

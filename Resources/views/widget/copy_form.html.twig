@@ -1,11 +1,17 @@
 {% trans_default_domain 'admin' %}
 
+{% set title   = (translation_prefix ~ 'action.copy.submit')|trans %}
+{% set classes = {
+    'default': 'table-row__btn-clone',
+    'show':    'modal-actions__btn-copy',
+} %}
+
 {{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
 <button type="submit"
-        class="table-row__btn-clone"
-        title="{{ (translation_prefix ~ 'action.copy.submit')|trans|e('html_attr') }}"
+        class="{{ classes[style]|default(classes.default) }}"
+        title="{{ title|e('html_attr') }}"
         onclick="return confirm('{{ 'common.confirm'|trans|e('js') }}');">
-    &nbsp;
+    {{ title }}
 </button>
 {{ form_end(form) }}

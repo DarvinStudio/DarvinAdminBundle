@@ -1,7 +1,13 @@
 {% trans_default_domain 'admin' %}
 
-{% set title = (translation_prefix ~ 'action.edit.link')|trans %}
+{% set title   = (translation_prefix ~ 'action.edit.link')|trans %}
+{% set classes = {
+    'default': 'table-row__btn-edit',
+    'show':    'modal-actions__btn-edit',
+} %}
 
-<a href="{{ admin_path(entity, entity_class, 'edit') }}" class="table-row__btn-edit" title="{{ title|e('html_attr') }}">
+<a href="{{ admin_path(entity, entity_class, 'edit') }}"
+   class="{{ classes[style]|default(classes.default) }}"
+   title="{{ title|e('html_attr') }}">
     {{ title }}
 </a>

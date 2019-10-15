@@ -1,6 +1,9 @@
-{% trans_default_domain 'admin' %}
+{% if 'show' != style %}
 
-<label class="custom-checkbox" title="{% trans %}crud.action.batch_delete.check{% endtrans %}">
-    <input type="checkbox" class="js-batch-delete-check" data-id="{{ attribute(entity, identifier) }}" autocomplete="off">
-    <span></span>
-</label>
+    {% trans_default_domain 'admin' %}
+
+    <label class="custom-checkbox" title="{% trans %}crud.action.batch_delete.check{% endtrans %}">
+        <input type="checkbox" class="js-batch-delete-check" data-id="{{ attribute(entity, identifier) }}" autocomplete="off">
+        <span></span>
+    </label>
+{% endif %}

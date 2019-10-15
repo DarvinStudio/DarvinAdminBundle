@@ -1,17 +1,19 @@
 {% trans_default_domain 'admin' %}
 
+{% set title   = (translation_prefix ~ 'action.delete.submit')|trans %}
 {% set classes = {
     'default': 'table-row__btn-remove',
     'footer':  'page-footer__btn-remove',
     'header':  'page-header__btn-remove',
+    'show':    'modal-actions__btn-remove',
 } %}
 
 {{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
 {{ form_widget(form) }}
 <button type="submit"
-        class="{{ classes[style]|default }}"
-        title="{{ (translation_prefix ~ 'action.delete.submit')|trans|e('html_attr') }}"
+        class="{{ classes[style]|default(classes.default) }}"
+        title="{{ title|e('html_attr') }}"
         onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
-    &nbsp;
+    {{ title }}
 </button>
 {{ form_end(form) }}

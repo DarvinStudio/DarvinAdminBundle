@@ -1,14 +1,17 @@
-{% trans_default_domain 'admin' %}
+{% if 'show' != style %}
 
-{% set title   = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
-{% set classes = {
-    'default': 'table-row__btn-show',
-    'footer':  'page-footer__btn-hide',
-    'header':  'page-header__btn-hide',
-} %}
+    {% trans_default_domain 'admin' %}
 
-<a href="{{ admin_path(entity, entity_class, 'show') }}"
-   class="js-ajax{% if not text %} {{ classes[style]|default }}{% endif %}"
-   title="{{ title|e('html_attr') }}">
-    {{ text ? entity : title }}
-</a>
+    {% set title   = (translation_prefix ~ 'action.show.title')|trans({'%entity%': entity|trans}) %}
+    {% set classes = {
+        'default': 'table-row__btn-show',
+        'footer':  'page-footer__btn-hide',
+        'header':  'page-header__btn-hide',
+    } %}
+
+    <a href="{{ admin_path(entity, entity_class, 'show') }}"
+       class="js-ajax{% if not text %} {{ classes[style]|default }}{% endif %}"
+       title="{{ title|e('html_attr') }}">
+        {{ text ? entity : title }}
+    </a>
+{% endif %}

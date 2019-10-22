@@ -363,3 +363,5 @@ darvin_admin:
 - Update CRUD show HTML.
 
 - Pass view widget style in request.
+
+6.3.2: Enhance current menu item detecting.

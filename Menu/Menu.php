@@ -74,9 +74,8 @@ class Menu implements MenuInterface
     {
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
-            $items      = [];
-            $skipped    = [];
-            $currentUrl = $this->getCurrentUrl();
+            $items   = [];
+            $skipped = [];
 
             // Create items
             foreach ($this->itemFactories as $itemFactory) {
@@ -92,7 +91,7 @@ class Menu implements MenuInterface
 
                         continue;
                     }
-                    if (0 === strpos($currentUrl, $indexUrl)) {
+                    if ($this->isCurrent($indexUrl)) {
                         $item->setActive(true);
                     }
 
@@ -198,16 +197,29 @@ class Menu implements MenuInterface
     }
 
     /**
-     * @return string
+     * @param string $url URL
+     *
+     * @return bool
      */
-    private function getCurrentUrl(): string
+    private function isCurrent(string $url): bool
     {
         $request = $this->requestStack->getCurrentRequest();
 
         if (null === $request) {
-            return '';
+            return false;
         }
 
-        return $request->getRequestUri();
+        $parts = parse_url($url);
+
+        if (!isset($parts['path']) || 0 !== strpos($request->getPathInfo(), $parts['path'])) {
+            return false;
+        }
+        if (!isset($parts['query'])) {
+            return true;
+        }
+
+        $missing = array_diff(explode('&', $parts['query']), explode('&', (string)$request->getQueryString()));
+
+        return empty($missing);
     }
 }

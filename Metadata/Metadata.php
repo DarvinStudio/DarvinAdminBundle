@@ -51,6 +51,11 @@ class Metadata
     private $entityClass;
 
     /**
+     * @var bool
+     */
+    private $entityAbstract;
+
+    /**
      * @var string
      */
     private $entityName;
@@ -91,6 +96,7 @@ class Metadata
      * @param array       $configuration           Configuration
      * @param string      $controllerId            Controller service ID
      * @param string      $entityClass             Entity class
+     * @param bool        $entityAbstract          Is entity class abstract
      * @param string      $entityName              Entity name
      * @param string      $filterFormTypeName      Filter form type name
      * @param string      $formTypeName            Form type name
@@ -105,6 +111,7 @@ class Metadata
         array $configuration,
         string $controllerId,
         string $entityClass,
+        bool $entityAbstract,
         string $entityName,
         string $filterFormTypeName,
         string $formTypeName,
@@ -118,6 +125,7 @@ class Metadata
         $this->configuration = $configuration;
         $this->controllerId = $controllerId;
         $this->entityClass = $entityClass;
+        $this->entityAbstract = $entityAbstract;
         $this->entityName = $entityName;
         $this->filterFormTypeName = $filterFormTypeName;
         $this->formTypeName = $formTypeName;
@@ -272,6 +280,14 @@ class Metadata
     public function getEntityClass(): string
     {
         return $this->entityClass;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEntityAbstract(): bool
+    {
+        return $this->entityAbstract;
     }
 
     /**

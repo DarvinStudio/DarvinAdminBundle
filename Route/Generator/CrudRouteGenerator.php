@@ -157,7 +157,9 @@ class CrudRouteGenerator implements RouteGeneratorInterface
         $config = $meta->getConfiguration();
 
         foreach (self::MODEL[$config['single_instance']] as $type => list($namePattern, $pathPattern, $requirements, $methods)) {
-            if (in_array($type, $config['route_blacklist'])) {
+            if (in_array($type, $config['route_blacklist'])
+                || (AdminRouterInterface::TYPE_NEW === $type && $meta->isEntityAbstract())
+            ) {
                 continue;
             }
 

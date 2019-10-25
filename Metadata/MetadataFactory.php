@@ -79,6 +79,7 @@ class MetadataFactory
             $this->configLoader->load($configPathname),
             $controllerId,
             $entityClass,
+            $doctrineMeta->getReflectionClass()->isAbstract(),
             $entityName,
             $formTypeName.self::FILTER_FORM_TYPE_NAME_SUFFIX,
             $formTypeName,

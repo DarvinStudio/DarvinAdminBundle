@@ -62,8 +62,9 @@ view: # Конфигурация уровня представления
             edit_link:   {}
             copy_form:   {}
             delete_form: {}
-        template: ~ # Шаблон
-        fields:     # Поля
+        extra_action_widgets: {} # Дополнительные виджеты действий: ключи - алиасы, значения - опции
+        template:              ~ # Шаблон
+        fields:                  # Поля
 
             # Прототип
             some_field_name: # Поле

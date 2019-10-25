@@ -214,7 +214,7 @@ class IndexAction extends AbstractAction
         if (!empty($entities)
             && $this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $this->getEntityClass())
             && $this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_BATCH_DELETE)
-            && isset($config['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS])
+            && (isset($config['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS]) || isset($config['view']['index']['extra_action_widgets'][BatchDeleteWidget::ALIAS]))
         ) {
             $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $entities)->createView();
         }

@@ -367,3 +367,5 @@ darvin_admin:
 6.3.2: Enhance current menu item detecting.
 
 6.3.3: Do not generate "new" route for abstract entities.
+
+6.3.4: Allow to configure extra action widgets.

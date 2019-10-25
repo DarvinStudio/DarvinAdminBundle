@@ -169,6 +169,7 @@ class Configuration implements ConfigurationInterface
                         ->prototype('variable')->end()
                     ->end()
                 ->end()
+                ->arrayNode('extra_action_widgets')->prototype('array')->prototype('variable')->end()->end()->end()
                 ->arrayNode('fields')
                     ->prototype('array')
                         ->validate()

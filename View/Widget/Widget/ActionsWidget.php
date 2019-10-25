@@ -39,7 +39,12 @@ class ActionsWidget extends AbstractWidget
         $actions = [];
         $config  = $this->metadataManager->getConfiguration($entity);
 
-        foreach ($config['view'][$options['view_type']]['action_widgets'] as $widgetAlias => $widgetOptions) {
+        $widgets = array_merge(
+            $config['view'][$options['view_type']]['action_widgets'],
+            $config['view'][$options['view_type']]['extra_action_widgets']
+        );
+
+        foreach ($widgets as $widgetAlias => $widgetOptions) {
             if (!isset($widgetOptions['style'])) {
                 $widgetOptions['style'] = $options['style'];
             }

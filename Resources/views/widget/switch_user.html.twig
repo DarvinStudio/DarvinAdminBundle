@@ -1,7 +1,10 @@
 {% trans_default_domain 'admin' %}
 
 {% if user != app.user %}
-    <a href="{{ path('darvin_admin_homepage', {'_switch_user': user.username}) }}">
-        {% trans %}security.action.switch_user.link{% endtrans %}
+
+    {% set title = 'security.action.switch_user.link'|trans %}
+
+    <a href="{{ path('darvin_admin_homepage', {'_switch_user': user.username}) }}" class="table-row__btn-switch" title="{{ title }}">
+        {{ title }}
     </a>
 {% endif %}

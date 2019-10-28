@@ -111,8 +111,8 @@
                                             <ul>
                                                 {% for title, attr in {
                                                     'profile': {
-                                                        'show': false,
-                                                        'url':  '#',
+                                                        'show': is_granted('admin_edit', app.user),
+                                                        'url':  admin_path(app.user, null, 'edit'),
                                                     },
                                                     'previous_user': {
                                                         'show': is_granted('ROLE_PREVIOUS_ADMIN'),

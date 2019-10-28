@@ -111,8 +111,8 @@
                                             <ul>
                                                 {% for title, attr in {
                                                     'profile': {
-                                                        'show': is_granted('admin_edit', app.user) or is_granted('admin_view', app.user),
-                                                        'url':  is_granted('admin_edit', app.user) ? admin_path(app.user, null, 'edit') : admin_path(app.user),
+                                                        'show': is_granted('admin_edit', app.user),
+                                                        'url':  admin_route_exists(app.user, 'edit') ? admin_path(app.user, null, 'edit') : null,
                                                     },
                                                     'previous_user': {
                                                         'show': is_granted('ROLE_PREVIOUS_ADMIN'),
@@ -123,7 +123,7 @@
                                                         'url':  path('darvin_admin_security_logout'),
                                                     },
                                                 } %}
-                                                    {% if attr.show %}
+                                                    {% if attr.show and attr.url %}
                                                         <li><a href="{{ attr.url }}">{{ ('layout.header.user.' ~ title)|trans }}</a></li>
                                                     {% endif %}
                                                 {% endfor %}

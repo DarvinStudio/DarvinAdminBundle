@@ -56,7 +56,7 @@ form:
     el_finder_text:
         title: 'Choisissez Fichier'
     file:
-        help: 'Taille Maximale De Fichier: %size%MO'
+        help: 'Taille Maximale De Fichier: %size%MO.'
     password:
         show: Montrer
     select:
@@ -96,6 +96,11 @@ layout:
             contacts: Contacts
             for_customers: 'Pour Les Clients'
             support: Soutien
+    header:
+        user:
+            logout: Signe
+            previous_user: 'Ancien Utilisateur'
+            profile: Profil
     main_menu: 'Menu Principal'
     title: 'DarvinCMS Libération %version%'
     toggle_menu: 'Bascule Menu'
@@ -164,10 +169,7 @@ security:
             darvin_auth: 'Darvin Auth'
             submit: 'Signe Dans'
             title: 'Signe Dans'
-        logout:
-            link: Déconnexion
         switch_user:
-            back: 'Changer D''Utilisateur Arrière'
             link: Commutateur
 slug_suffix:
     edit: Modifier

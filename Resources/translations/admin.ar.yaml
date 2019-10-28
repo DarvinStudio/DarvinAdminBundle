@@ -56,7 +56,7 @@ form:
     el_finder_text:
         title: 'اختر ملف'
     file:
-        help: 'ماكس حجم الملف: %size%MB'
+        help: 'ماكس حجم الملف: %size%MB.'
     password:
         show: تظهر
     select:
@@ -96,6 +96,11 @@ layout:
             contacts: الاتصالات
             for_customers: للعملاء
             support: الدعم
+    header:
+        user:
+            logout: 'تسجيل الخروج'
+            previous_user: 'المستخدم السابق'
+            profile: 'الملف الشخصي'
     main_menu: 'القائمة الرئيسية'
     title: 'DarvinCMS الإصدار %version%'
     toggle_menu: 'القائمة تبديل'
@@ -164,10 +169,7 @@ security:
             darvin_auth: 'دارفين المصادقة'
             submit: 'تسجيل الدخول'
             title: 'تسجيل الدخول'
-        logout:
-            link: خروج
         switch_user:
-            back: 'تبديل المستخدم'
             link: التبديل
 slug_suffix:
     edit: تحرير

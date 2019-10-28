@@ -110,6 +110,11 @@ layout:
             contacts:      Контакты
             for_customers: Для клиентов
             support:       Поддержка
+    header:
+        user:
+            logout:        Выход
+            previous_user: Предыдущий пользователь
+            profile:       Профиль
     main_menu:   Главное меню
     title:       DarvinCMS Версия %version%
     toggle_menu: Свернуть/развернуть меню
@@ -191,10 +196,7 @@ security:
             darvin_auth: Darvin Auth
             submit:      Войти
             title:       Вход в систему
-        logout:
-            link: Выйти
         switch_user:
-            back: Вернуть пользователя
             link: Переключиться
 
 slug_suffix:

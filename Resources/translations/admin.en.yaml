@@ -96,6 +96,11 @@ layout:
             contacts: Contacts
             for_customers: 'For Customers'
             support: Support
+    header:
+        user:
+            logout: 'Sign Out'
+            previous_user: 'Previous User'
+            profile: Profile
     main_menu: 'Main Menu'
     title: 'DarvinCMS Release %version%'
     toggle_menu: 'Toggle Menu'
@@ -164,10 +169,7 @@ security:
             darvin_auth: 'Darvin Auth'
             submit: 'Sign In'
             title: 'Sign In'
-        logout:
-            link: Logout
         switch_user:
-            back: 'Switch User Back'
             link: Switch
 slug_suffix:
     edit: Edit

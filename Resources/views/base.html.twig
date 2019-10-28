@@ -78,25 +78,25 @@
 
                             {% for title, attr in {
                                 ('<span>' ~ darvin_admin.projectTitle ~ '</span>'): {
-                                    'accessible': true,
-                                    'class':      'header__site-link',
-                                    'translate':  false,
-                                    'url':        app.request.schemeAndHttpHost ~ app.request.baseUrl,
+                                    'class':     'header__site-link',
+                                    'show':      true,
+                                    'translate': false,
+                                    'url':       app.request.schemeAndHttpHost ~ app.request.baseUrl,
                                 },
                                 'configuration.action.edit.link': {
-                                    'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
-                                    'class':      'header__btn-setting',
-                                    'translate':  true,
-                                    'url':        path('darvin_admin_configuration'),
+                                    'class':     'header__btn-setting',
+                                    'show':      is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
+                                    'translate': true,
+                                    'url':       path('darvin_admin_configuration'),
                                 },
                                 'notifications <span>23</span>': {
-                                    'accessible': false,
-                                    'class':      'header__notifications',
-                                    'translate':  false,
-                                    'url':        '#',
+                                    'class':     'header__notifications',
+                                    'show':      false,
+                                    'translate': false,
+                                    'url':       '#',
                                 },
                             } %}
-                                {% if attr.accessible %}
+                                {% if attr.show %}
                                     <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
                                         {{ attr.translate ? title|trans|raw : title|raw }}
                                     </a>
@@ -105,12 +105,31 @@
 
                             {% if app.user %}
                                 <div class="header__users">
-                                    <a href="{{ path('darvin_admin_security_logout') }}"><span>{{ app.user.username }}</span></a>
-                                    {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
-                                        <a href="{{ path('admin_user', {'_switch_user': '_exit'}) }}">
-                                            <span>{% trans %}security.action.switch_user.back{% endtrans %}</span>
-                                        </a>
-                                    {% endif %}
+                                    <div class="header-user">
+                                        <span class="header-user__curr"><span>{{ app.user.username }}</span></span>
+                                        <div class="header-user__dropdown">
+                                            <ul>
+                                                {% for title, attr in {
+                                                    'profile': {
+                                                        'show': false,
+                                                        'url':  '#',
+                                                    },
+                                                    'previous_user': {
+                                                        'show': is_granted('ROLE_PREVIOUS_ADMIN'),
+                                                        'url':  path('admin_user', {'_switch_user': '_exit'}),
+                                                    },
+                                                    'logout': {
+                                                        'show': true,
+                                                        'url':  path('darvin_admin_security_logout'),
+                                                    },
+                                                } %}
+                                                    {% if attr.show %}
+                                                        <li><a href="{{ attr.url }}">{{ ('layout.header.user.' ~ title)|trans }}</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             {% endif %}
 

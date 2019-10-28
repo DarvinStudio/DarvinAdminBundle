@@ -369,3 +369,5 @@ darvin_admin:
 6.3.3: Do not generate "new" route for abstract entities.
 
 6.3.4: Allow to configure extra action widgets.
+
+6.3.5: Render user menu in layout template.

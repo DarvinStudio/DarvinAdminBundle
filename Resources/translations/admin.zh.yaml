@@ -56,7 +56,7 @@ form:
     el_finder_text:
         title: 选择文件
     file:
-        help: '最大的文件大小： %size%MB'
+        help: '最大的文件大小： %size%MB。'
     password:
         show: 显示
     select:
@@ -96,6 +96,11 @@ layout:
             contacts: 联系人
             for_customers: 为客户
             support: 支持
+    header:
+        user:
+            logout: 登出
+            previous_user: 以前的用户
+            profile: 配置文件
     main_menu: 主菜单
     title: 'DarvinCMS释放 %version%'
     toggle_menu: 切换菜单
@@ -164,10 +169,7 @@ security:
             darvin_auth: 达文Auth
             submit: 登录在
             title: 登录在
-        logout:
-            link: 注销
         switch_user:
-            back: 换用户回来
             link: 开关
 slug_suffix:
     edit: 编辑

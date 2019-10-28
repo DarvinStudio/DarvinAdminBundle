@@ -80,22 +80,25 @@
                                 ('<span>' ~ darvin_admin.projectTitle ~ '</span>'): {
                                     'accessible': true,
                                     'class':      'header__site-link',
+                                    'translate':  false,
                                     'url':        app.request.schemeAndHttpHost ~ app.request.baseUrl,
                                 },
                                 'configuration.action.edit.link': {
                                     'accessible': is_granted('admin_edit', 'Darvin\\ConfigBundle\\Entity\\ParameterEntity'),
                                     'class':      'header__btn-setting',
+                                    'translate':  true,
                                     'url':        path('darvin_admin_configuration'),
                                 },
                                 'notifications <span>23</span>': {
                                     'accessible': false,
                                     'class':      'header__notifications',
+                                    'translate':  false,
                                     'url':        '#',
                                 },
                             } %}
                                 {% if attr.accessible %}
                                     <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
-                                        {{ title|trans|raw }}
+                                        {{ attr.translate ? title|trans|raw : title|raw }}
                                     </a>
                                 {% endif %}
                             {% endfor %}

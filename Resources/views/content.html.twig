@@ -2,9 +2,7 @@
 
     {% block breadcrumbs_wrap %}
         <div class="breadcrumbs">
-            <a class="breadcrumbs__home" href="{{ path('darvin_admin_homepage') }}">
-                {% trans %}homepage.index.link{% endtrans %}
-            </a>
+            <a class="breadcrumbs__home" href="{{ path('darvin_admin_homepage') }}">&nbsp;</a>
 
             {% block breadcrumbs %}<span>{{ block('heading') }}</span>{% endblock %}
 

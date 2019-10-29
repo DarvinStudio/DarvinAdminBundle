@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Security\Authorization\Voter;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\UserBundle\Config\RoleConfigInterface;
+use Darvin\UserBundle\Entity\BaseUser;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\Common\Util\ClassUtils;
 use HWI\Bundle\OAuthBundle\Security\Core\Authentication\Token\OAuthToken;
@@ -35,6 +36,11 @@ class AdminVoter extends Voter
     private $metadataManager;
 
     /**
+     * @var \Darvin\UserBundle\Config\RoleConfigInterface
+     */
+    private $roleConfig;
+
+    /**
      * @var array
      */
     private $permissions;
@@ -55,6 +61,7 @@ class AdminVoter extends Voter
     ) {
         $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
+        $this->roleConfig = $roleConfig;
 
         foreach (array_keys($permissions) as $subject) {
             if (0 === strpos($subject, 'ROLE_') && !$roleConfig->hasRole($subject)) {
@@ -70,6 +77,10 @@ class AdminVoter extends Voter
      */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
+        if ($subject instanceof BaseUser && !$this->isUserAccessible($subject, $attribute, $token)) {
+            return false;
+        }
+
         $subject = $this->resolveSubject($subject);
 
         if ($this->metadataManager->hasMetadata($subject)
@@ -93,6 +104,33 @@ class AdminVoter extends Voter
     protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, Permission::getAllPermissions());
+    }
+
+    /**
+     * @param \Darvin\UserBundle\Entity\BaseUser                                   $user       User
+     * @param string                                                               $permission Permission
+     * @param \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token      Authentication token
+     *
+     * @return bool
+     */
+    private function isUserAccessible(BaseUser $user, string $permission, TokenInterface $token): bool
+    {
+        $grantableRoles = [];
+
+        foreach ($token->getRoleNames() as $role) {
+            if ($this->roleConfig->hasRole($role)) {
+                foreach ($this->roleConfig->getRole($role)->getGrantableRoles() as $grantableRole) {
+                    $grantableRoles[$grantableRole->getName()] = $grantableRole->getName();
+                }
+            }
+        }
+        foreach ($user->getRoles() as $role) {
+            if ($this->roleConfig->hasRole($role) && !isset($grantableRoles[$role])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

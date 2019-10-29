@@ -383,3 +383,5 @@ darvin_admin:
 - Add "phone_link" view widget.
 
 6.3.8: Add extra check for user objects in authorization voter.
+
+6.3.9: Increase "darvin_admin_thumb" thumbnail size.

@@ -56,7 +56,7 @@ form:
     el_finder_text:
         title: 'Choose File'
     file:
-        help: 'Max File Size: %size%MB.'
+        help: 'Max file size: %size%MB.'
     password:
         show: Show
     select:
@@ -182,7 +182,7 @@ submit:
     new: 'Submit and Create'
 textcounter:
     count_down_text: '<p><span>%d</span> Character(s) Remaining</p>'
-    count_overflow_text: '<p>limit Exceeded by <span>%d</span></p>'
+    count_overflow_text: '<p>Limit Exceeded by <span>%d</span></p>'
 translation:
     action:
         index:

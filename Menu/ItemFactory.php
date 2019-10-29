@@ -101,7 +101,7 @@ class ItemFactory implements ItemFactoryInterface
         $entity = $this->em->getRepository($entityClass)->findOneBy([]);
 
         if (null !== $entity) {
-            if (!$this->authorizationChecker->isGranted(Permission::EDIT, $entityClass)
+            if (!$this->authorizationChecker->isGranted(Permission::EDIT, $entity)
                 || !$this->adminRouter->exists($entityClass, AdminRouterInterface::TYPE_EDIT)
             ) {
                 return null;

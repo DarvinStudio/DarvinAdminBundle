@@ -1,0 +1,10 @@
+darvin_user:
+    roles:
+        ROLE_SUPER_ADMIN:
+            grantable_roles:
+                default: true
+        ROLE_COMMON_ADMIN:
+            grantable_roles:
+                default: true
+                list:
+                    ROLE_SUPER_ADMIN: false

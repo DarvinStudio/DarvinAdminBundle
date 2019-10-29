@@ -116,6 +116,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'bazinga_js_translation',
             'darvin_content',
             'darvin_image',
+            'darvin_user',
             'fm_elfinder',
             'hwi_oauth',
             'fos_ck_editor',
@@ -124,12 +125,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'oneup_uploader',
             'twig',
         ]);
-
-        if ($container->hasExtension('darvin_user')) {
-            $container->prependExtensionConfig('darvin_user', [
-                'roles' => array_fill_keys(Roles::getRoles(), null),
-            ]);
-        }
 
         $sections = [
             ParameterEntity::class => [

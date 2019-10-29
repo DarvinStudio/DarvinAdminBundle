@@ -18,15 +18,4 @@ final class Roles
     public const ROLE_ADMIN        = 'ROLE_ADMIN';
     public const ROLE_COMMON_ADMIN = 'ROLE_COMMON_ADMIN';
     public const ROLE_SUPER_ADMIN  = 'ROLE_SUPER_ADMIN';
-
-    /**
-     * @return string[]
-     */
-    public static function getRoles(): array
-    {
-        return [
-            self::ROLE_COMMON_ADMIN,
-            self::ROLE_SUPER_ADMIN,
-        ];
-    }
 }

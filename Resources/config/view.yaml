@@ -21,6 +21,7 @@ parameters:
     darvin_admin.view.widget.image_upload_link.class: Darvin\AdminBundle\View\Widget\Widget\ImageUploadLinkWidget
     darvin_admin.view.widget.log_entry.data.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\DataWidget
     darvin_admin.view.widget.log_entry.entity_name.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\EntityNameWidget
+    darvin_admin.view.widget.phone_link.class: Darvin\AdminBundle\View\Widget\Widget\PhoneLinkWidget
     darvin_admin.view.widget.photo_gallery.class: Darvin\AdminBundle\View\Widget\Widget\PhotoGalleryWidget
     darvin_admin.view.widget.public_link.class: Darvin\AdminBundle\View\Widget\Widget\PublicLinkWidget
     darvin_admin.view.widget.readable_enum.class: Darvin\AdminBundle\View\Widget\Widget\ReadableEnumWidget
@@ -203,6 +204,13 @@ services:
         arguments:
             - '@darvin_utils.object_namer'
             - '@darvin_content.translatable.manager'
+        tags:
+            - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.phone_link:
+        class:  '%darvin_admin.view.widget.phone_link.class%'
+        parent: darvin_admin.view.widget.abstract
+        public: false
         tags:
             - { name: darvin_admin.view_widget }
 

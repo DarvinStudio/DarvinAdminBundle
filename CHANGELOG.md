@@ -381,3 +381,5 @@ darvin_admin:
 - Fix action name passed to CRUD controller event.
 
 - Add "phone_link" view widget.
+
+6.3.8: Add extra check for user objects in authorization voter.

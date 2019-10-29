@@ -39,11 +39,16 @@
             </a>
         </div>
         {% if exterminatable %}
-            <input type="checkbox"
-                   class="js-image-exterminate-check"
-                   data-id="{{ image.id }}"
-                   autocomplete="off"
-                   title="{% trans %}image.action.exterminate.check{% endtrans %}">
+            <div class="custom-dropzone__item-exterminate">
+                <label class="custom-checkbox">
+                    <input type="checkbox"
+                           class="js-image-exterminate-check"
+                           data-id="{{ image.id }}"
+                           autocomplete="off"
+                           title="{% trans %}image.action.exterminate.check{% endtrans %}">
+                    <span></span>
+                </label>
+            </div>
         {% endif %}
     </div>
 {% endmacro %}

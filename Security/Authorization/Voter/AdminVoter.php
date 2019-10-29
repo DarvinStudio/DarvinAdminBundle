@@ -115,6 +115,10 @@ class AdminVoter extends Voter
      */
     private function isUserAccessible(BaseUser $user, string $permission, TokenInterface $token): bool
     {
+        if (Permission::VIEW === $permission) {
+            return true;
+        }
+
         $grantableRoles = [];
 
         foreach ($token->getRoleNames() as $role) {

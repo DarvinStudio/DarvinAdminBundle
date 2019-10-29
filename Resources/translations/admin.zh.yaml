@@ -57,6 +57,7 @@ form:
         title: 选择文件
     file:
         help: '最大的文件大小： %size%MB。'
+        placeholder: 没有文件的选择
     password:
         show: 显示
     select:

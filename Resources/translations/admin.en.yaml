@@ -57,6 +57,7 @@ form:
         title: 'Choose File'
     file:
         help: 'Max file size: %size%MB.'
+        placeholder: 'No File Selected'
     password:
         show: Show
     select:

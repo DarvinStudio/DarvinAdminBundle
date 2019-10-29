@@ -57,6 +57,7 @@ form:
         title: 'اختر ملف'
     file:
         help: 'ماكس حجم الملف: %size%MB.'
+        placeholder: 'لا الملف المحدد'
     password:
         show: تظهر
     select:

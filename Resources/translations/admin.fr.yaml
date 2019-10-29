@@ -56,7 +56,8 @@ form:
     el_finder_text:
         title: 'Choisissez Fichier'
     file:
-        help: 'Taille Maximale De Fichier: %size%MO.'
+        help: 'Taille maximale de fichier: %size%MO.'
+        placeholder: 'Aucun Fichier N''Est Sélectionné'
     password:
         show: Montrer
     select:
@@ -182,7 +183,7 @@ submit:
     new: 'Soumettre et Créer'
 textcounter:
     count_down_text: '<p><span>%d</span> Caractère(s) Restant</p>'
-    count_overflow_text: '<p>limite Dépassée par <span>%d</span></p>'
+    count_overflow_text: '<p>Limite Dépassée par <span>%d</span></p>'
 translation:
     action:
         index:

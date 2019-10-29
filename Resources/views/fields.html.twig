@@ -243,6 +243,14 @@
     {{- parent() -}}
 {%- endblock collection_widget -%}
 
+{%- block file_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-custom-file')|trim}) -%}
+    {%- if attr['data-placeholder'] is not defined -%}
+        {%- set attr = attr|merge({'data-placeholder': 'form.file.placeholder'|trans}) -%}
+    {%- endif -%}
+    {{- block('form_widget') -}}
+{%- endblock file_widget -%}
+
 {# Custom widgets #}
 
 {%- block a2lix_translations_row -%}

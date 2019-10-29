@@ -371,3 +371,5 @@ darvin_admin:
 6.3.4: Allow to configure extra action widgets.
 
 6.3.5: Render user menu in layout template.
+
+6.3.6: Customize file form widget theme.

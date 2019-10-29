@@ -54,7 +54,7 @@ class ShowLinkWidget extends AbstractWidget
                 return null;
             }
         }
-        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_SHOW) && $this->isGranted(Permission::VIEW, $entity)) {
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_SHOW) || !$this->isGranted(Permission::VIEW, $entity)) {
             return null;
         }
 

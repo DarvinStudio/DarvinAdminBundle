@@ -33,8 +33,6 @@ class BatchDeleteAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->checkPermission(Permission::CREATE_DELETE);
-
         $request = $this->requestStack->getCurrentRequest();
 
         $this->getParentEntityDefinition($request);
@@ -51,6 +49,9 @@ class BatchDeleteAction extends AbstractAction
             throw new \RuntimeException(
                 sprintf('Unable to handle batch delete form for entity class "%s": entity array is empty.', $this->getEntityClass())
             );
+        }
+        foreach ($entities as $entity) {
+            $this->checkPermission(Permission::CREATE_DELETE, $entity);
         }
 
         $redirectUrl = '/';

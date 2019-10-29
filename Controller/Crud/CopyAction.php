@@ -62,11 +62,11 @@ class CopyAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->checkPermission(Permission::CREATE_DELETE);
-
         $request = $this->requestStack->getCurrentRequest();
 
         $entity = $this->findEntity($request->attributes->get('id'));
+
+        $this->checkPermission(Permission::CREATE_DELETE, $entity);
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
 

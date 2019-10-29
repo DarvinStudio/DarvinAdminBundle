@@ -223,13 +223,14 @@ abstract class AbstractAction
     }
 
     /**
-     * @param string $permission Permission
+     * @param string      $permission Permission
+     * @param object|null $entity     Entity
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    protected function checkPermission(string $permission): void
+    protected function checkPermission(string $permission, $entity = null): void
     {
-        if (!$this->authorizationChecker->isGranted($permission, $this->getEntityClass())) {
+        if (!$this->authorizationChecker->isGranted($permission, null !== $entity ? $entity : $this->getEntityClass())) {
             throw new AccessDeniedException(
                 sprintf('You do not have "%s" permission on "%s" class objects.', $permission, $this->getEntityClass())
             );

@@ -33,13 +33,13 @@ class EditAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->checkPermission(Permission::EDIT);
-
         $request = $this->requestStack->getCurrentRequest();
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->findEntity($request->attributes->get('id'));
+
+        $this->checkPermission(Permission::EDIT, $entity);
 
         $entityBefore = clone $entity;
 

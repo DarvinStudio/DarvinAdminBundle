@@ -60,12 +60,12 @@ class UpdatePropertyAction extends AbstractAction
             throw new BadRequestHttpException('Only XMLHttpRequests are allowed.');
         }
 
-        $this->checkPermission(Permission::EDIT);
-
         $id       = $request->attributes->get('id');
         $property = $request->attributes->get('property');
 
         $entity = $this->findEntity($id);
+
+        $this->checkPermission(Permission::EDIT, $entity);
 
         $entityBefore = clone $entity;
 

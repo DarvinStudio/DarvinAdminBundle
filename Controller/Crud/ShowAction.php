@@ -48,13 +48,13 @@ class ShowAction extends AbstractAction
      */
     public function __invoke(): Response
     {
-        $this->checkPermission(Permission::VIEW);
-
         $request = $this->requestStack->getCurrentRequest();
 
         list($parentEntity) = $this->getParentEntityDefinition($request);
 
         $entity = $this->findEntity($request->attributes->get('id'));
+
+        $this->checkPermission(Permission::VIEW, $entity);
 
         $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
 

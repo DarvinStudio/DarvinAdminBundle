@@ -69,10 +69,18 @@ class SearchController extends AbstractController
         $batchDeleteForm = null;
 
         if (!empty($entities)
-            && $this->isGranted(Permission::CREATE_DELETE, $meta->getEntityClass())
             && $this->getAdminRouter()->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_BATCH_DELETE)
         ) {
-            $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $entities)->createView();
+            $deletableEntities = [];
+
+            foreach ($entities as $entity) {
+                if ($this->isGranted(Permission::CREATE_DELETE, $entity)) {
+                    $deletableEntities[] = $entity;
+                }
+            }
+            if (!empty($deletableEntities)) {
+                $batchDeleteForm = $this->getAdminFormFactory()->createBatchDeleteForm($meta->getEntityClass(), $deletableEntities)->createView();
+            }
         }
 
         $view = $this->getIndexViewFactory()->createView($entities, $meta);

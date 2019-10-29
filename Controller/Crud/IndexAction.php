@@ -212,11 +212,18 @@ class IndexAction extends AbstractAction
         } catch (CustomObjectException $ex) {
         }
         if (!empty($entities)
-            && $this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $this->getEntityClass())
             && $this->adminRouter->exists($this->getEntityClass(), AdminRouterInterface::TYPE_BATCH_DELETE)
             && (isset($config['view']['index']['action_widgets'][BatchDeleteWidget::ALIAS]) || isset($config['view']['index']['extra_action_widgets'][BatchDeleteWidget::ALIAS]))
         ) {
-            $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $entities)->createView();
+            $deletableEntities = [];
+
+            foreach ($entities as $entity) {
+                if ($this->authorizationChecker->isGranted(Permission::CREATE_DELETE, $entity)) {
+                    $deletableEntities[] = $entity;
+                }
+            }
+
+            $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $deletableEntities)->createView();
         }
         if ($config['index_view_new_form']) {
             $newAction = $this->newAction;

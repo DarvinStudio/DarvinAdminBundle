@@ -56,7 +56,7 @@ class ShowAction extends AbstractAction
 
         $entity = $this->findEntity($request->attributes->get('id'));
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
 
         try {
             $this->customObjectLoader->loadCustomObjects($entity);

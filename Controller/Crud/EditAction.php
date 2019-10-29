@@ -43,7 +43,7 @@ class EditAction extends AbstractAction
 
         $entityBefore = clone $entity;
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
 
         $form = $this->adminFormFactory->createEntityForm(
             $this->getMeta(),

@@ -39,7 +39,7 @@ class BatchDeleteAction extends AbstractAction
 
         $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()));
 
         $form = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass())->handleRequest($request);
 

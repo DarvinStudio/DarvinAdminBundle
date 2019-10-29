@@ -374,4 +374,10 @@ darvin_admin:
 
 6.3.6: Customize file form widget theme.
 
-6.3.7: Reconfigure user roles.
+6.3.7:
+ 
+- Reconfigure user roles.
+
+- Fix action name passed to CRUD controller event.
+
+- Add "phone_link" view widget.

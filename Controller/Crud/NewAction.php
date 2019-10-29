@@ -97,7 +97,7 @@ class NewAction extends AbstractAction
             throw new NotFoundHttpException(sprintf('Single instance entity "%s" already exists.', $entityClass));
         }
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()));
 
         $entity = new $entityClass();
 

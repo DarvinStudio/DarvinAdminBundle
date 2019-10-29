@@ -68,7 +68,7 @@ class CopyAction extends AbstractAction
 
         $entity = $this->findEntity($request->attributes->get('id'));
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), __FUNCTION__, $entity));
+        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
 
         $copy        = null;
         $form        = $this->adminFormFactory->createCopyForm($entity, $this->getEntityClass())->handleRequest($request);

@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\View\Factory\Index;
 use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\PropertyFormRendererInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
+use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\AbstractViewFactory;
 use Darvin\AdminBundle\View\Factory\Index\Body\Body;
 use Darvin\AdminBundle\View\Factory\Index\Body\BodyRow;
@@ -138,7 +139,9 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
                 $content = null;
 
                 if (!$this->isFieldContentHidden($params, $entity)) {
-                    if (!array_key_exists($field, $config['form']['index']['fields'])) {
+                    if (!array_key_exists($field, $config['form']['index']['fields'])
+                        || !$this->authorizationChecker->isGranted(Permission::EDIT, $entity)
+                    ) {
                         $content = $this->getFieldContent($entity, $field, $params, $mappings);
                     } else {
                         $form = $this->adminFormFactory->createPropertyForm($meta, $field, $entity);

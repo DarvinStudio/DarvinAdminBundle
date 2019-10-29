@@ -152,7 +152,7 @@ class Searcher implements SearcherInterface
 
             foreach ($this->metadataManager->getAllMetadata() as $meta) {
                 if (!$this->authorizationChecker->isGranted(Permission::EDIT, $meta->getEntityClass())
-                    && !$this->authorizationChecker->isGranted(Permission::VIEW)
+                    && !$this->authorizationChecker->isGranted(Permission::VIEW, $meta->getEntityClass())
                 ) {
                     continue;
                 }

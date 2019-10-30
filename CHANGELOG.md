@@ -389,3 +389,5 @@ darvin_admin:
 - Increase "darvin_admin_thumb" thumbnail size.
 
 - Update image form theme.
+
+6.3.10: Render separator after compound fields.

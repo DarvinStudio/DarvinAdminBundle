@@ -99,6 +99,9 @@
         {%- endif -%}
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}
+        {%- if label -%}
+            <div class="form-heading">&nbsp;</div>
+        {%- endif -%}
     {%- else -%}
         {%- if show_help is not defined -%}
             {%- set show_help = true -%}

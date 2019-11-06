@@ -34,6 +34,9 @@ fm_elfinder:
                             - application/x-zip-compressed
                             - application/zip
                             - multipart/x-zip
+                            # Video
+                            - video/mp4
+                            - video/webm
         darvin_admin_text:
             editor:          custom
             editor_template: 'DarvinAdminBundle:ElFinder:text.html.twig'
@@ -68,3 +71,6 @@ fm_elfinder:
                             - application/x-zip-compressed
                             - application/zip
                             - multipart/x-zip
+                            # Video
+                            - video/mp4
+                            - video/webm

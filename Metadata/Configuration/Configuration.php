@@ -174,23 +174,28 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->validate()
                             ->ifTrue(function (array $field) {
-                                return count($field) + count($field['widget']) > 5;
+                                return count($field) + count($field['widget']) > 6;
                             })
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
                         ->beforeNormalization()->ifArray()->then(function (array $field) {
-                            if (!isset($field['attr']['data-type']) && isset($field['type']) && null !== $field['type']) {
-                                if (!isset($field['attr'])) {
-                                    $field['attr'] = [];
-                                }
+                            if (!isset($field['attr'])) {
+                                $field['attr'] = [];
+                            }
 
+                            if (!isset($field['attr']['data-type']) && isset($field['type']) && null !== $field['type']) {
                                 $field['attr']['data-type'] = $field['type'];
+                            }
+
+                            if (!isset($field['attr']['data-size']) && isset($field['size']) && null !== $field['size']) {
+                                $field['attr']['data-size'] = $field['size'];
                             }
 
                             return $field;
                         })->end()
                         ->children()
                             ->scalarNode('type')->defaultNull()->end()
+                            ->scalarNode('size')->defaultNull()->end()
                             ->scalarNode('condition')->defaultNull()->end()
                             ->arrayNode('attr')->normalizeKeys(false)->prototype('scalar')->end()->end()
                             ->arrayNode('widget')->useAttributeAsKey('alias')->prototype('array')->prototype('variable')->end()->end()

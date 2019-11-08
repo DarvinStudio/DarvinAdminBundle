@@ -217,12 +217,11 @@
 {%- endblock choice_row -%}
 
 {%- block choice_widget_collapsed -%}
-    <div class="custom-select js-chosen"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+    {% set data_type = data_type is defined ? data_type : null %}
+    <div class="custom-select js-chosen"{% if data_type %} data-type="{{ data_type }}"{% endif %}>
         {{- parent() -}}
-        {%- if not multiple and not required -%}
-            {%- if data_type is defined and data_type != 'small' -%}
-                <button type="button" class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
-            {%- endif -%}
+        {%- if not multiple and not required and data_type != 'small' -%}
+            <button type="button" class="custom-select__btn-reset" data-btn-reset title="{% trans %}form.select.reset{% endtrans %}">&nbsp;</button>
         {%- endif -%}
     </div>
 {%- endblock choice_widget_collapsed -%}

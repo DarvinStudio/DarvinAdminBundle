@@ -29,7 +29,7 @@ class TextWidget extends AbstractWidget
             return null;
         }
 
-        $text = str_replace(["\r\n", "\r", "\n", "\t"], '',  strip_tags($text));
+        $text = trim(preg_replace("/\s{2,}/", ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ',  strip_tags($text))));
 
         if (empty($text)) {
             return null;

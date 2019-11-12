@@ -19,18 +19,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TextWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
         $text = (string)$this->getPropertyValue($entity, $options['property']);
-
         $text = trim(preg_replace('/\s+/', ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ', strip_tags($text))));
 
         if ('' === $text) {
             return null;
         }
-
         if (mb_strlen($text) > $options['length']) {
             $text = sprintf('%s...', mb_substr($text, 0, $options['length'] - 3));
         }
@@ -42,7 +40,7 @@ class TextWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
@@ -58,7 +56,7 @@ class TextWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

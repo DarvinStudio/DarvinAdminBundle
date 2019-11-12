@@ -18,19 +18,18 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 class DatetimeWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
         $datetime = $this->getPropertyValue($entity, $options['property']);
 
         if (!$datetime instanceof \DateTime) {
-            $message = sprintf(
-                'View widget "%s" requires entity to be instance of DateTime class.',
-                $this->getAlias()
-            );
-
-            throw new \InvalidArgumentException($message);
+            throw new \InvalidArgumentException(sprintf(
+                'View widget "%s" requires property value to be instance of \DateTime class, got "%s".',
+                $this->getAlias(),
+                gettype($datetime)
+            ));
         }
 
         return $this->render([
@@ -40,7 +39,7 @@ class DatetimeWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

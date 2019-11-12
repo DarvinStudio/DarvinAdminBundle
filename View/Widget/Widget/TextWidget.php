@@ -23,19 +23,17 @@ class TextWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $text = $this->getPropertyValue($entity, $options['property']);
+        $text = (string)$this->getPropertyValue($entity, $options['property']);
 
-        if (!is_string($text) || empty($text)) {
+        $text = trim(preg_replace('/\s{2,}/', ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ', strip_tags($text))));
+
+        if ('' === $text) {
             return null;
         }
 
-        $text = trim(preg_replace("/\s{2,}/", ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ',  strip_tags($text))));
-
-        if (empty($text)) {
-            return null;
+        if (mb_strlen($text) > $options['length']) {
+            $text = sprintf('%s...', mb_substr($text, 0, $options['length']));
         }
-
-        $text = mb_strlen($text) > $options['length'] ? mb_substr($text, 0, $options['length']). '...' : $text;
 
         return $this->render([
             'text' => $text,

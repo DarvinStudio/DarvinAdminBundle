@@ -25,11 +25,16 @@ class DatetimeWidget extends AbstractWidget
         $datetime = $this->getPropertyValue($entity, $options['property']);
 
         if (!$datetime instanceof \DateTime) {
-            return null;
+            $message = sprintf(
+                'View widget "%s" requires entity to be instance of DateTime class.',
+                $this->getAlias()
+            );
+
+            throw new \InvalidArgumentException($message);
         }
 
         return $this->render([
-            'date' => $datetime->format('d.m.y'),
+            'date' => $datetime->format('d.m.Y'),
             'time' => $datetime->format('H:i'),
         ]);
     }

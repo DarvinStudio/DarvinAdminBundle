@@ -32,7 +32,7 @@ class TextWidget extends AbstractWidget
         }
 
         if (mb_strlen($text) > $options['length']) {
-            $text = sprintf('%s...', mb_substr($text, 0, $options['length']));
+            $text = sprintf('%s...', mb_substr($text, 0, $options['length'] - 3));
         }
 
         return $this->render([

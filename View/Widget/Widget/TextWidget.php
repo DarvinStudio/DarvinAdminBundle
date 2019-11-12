@@ -25,7 +25,7 @@ class TextWidget extends AbstractWidget
     {
         $text = (string)$this->getPropertyValue($entity, $options['property']);
 
-        $text = trim(preg_replace('/\s{2,}/', ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ', strip_tags($text))));
+        $text = trim(preg_replace('/\s+/', ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ', strip_tags($text))));
 
         if ('' === $text) {
             return null;

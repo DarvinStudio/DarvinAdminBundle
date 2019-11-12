@@ -15,7 +15,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 /**
  * Date time view widget
  */
-class DateTimeWidget extends AbstractWidget
+class DatetimeWidget extends AbstractWidget
 {
     /**
      * {@inheritdoc}

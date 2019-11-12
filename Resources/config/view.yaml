@@ -11,7 +11,7 @@ parameters:
     darvin_admin.view.widget.child_links.class: Darvin\AdminBundle\View\Widget\Widget\ChildLinksWidget
     darvin_admin.view.widget.compound_list.class: Darvin\AdminBundle\View\Widget\Widget\CompoundListWidget
     darvin_admin.view.widget.copy_form.class: Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget
-    darvin_admin.view.widget.date_time.class: Darvin\AdminBundle\View\Widget\Widget\DateTimeWidget
+    darvin_admin.view.widget.datetime.class: Darvin\AdminBundle\View\Widget\Widget\DatetimeWidget
     darvin_admin.view.widget.delete_form.class: Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget
     darvin_admin.view.widget.edit_link.class: Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget
     darvin_admin.view.widget.email_link.class: Darvin\AdminBundle\View\Widget\Widget\EmailLinkWidget
@@ -122,8 +122,8 @@ services:
         tags:
             - { name: darvin_admin.view_widget }
 
-    darvin_admin.view.widget.date_time:
-        class:  '%darvin_admin.view.widget.date_time.class%'
+    darvin_admin.view.widget.datetime:
+        class:  '%darvin_admin.view.widget.datetime.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:

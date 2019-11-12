@@ -391,3 +391,13 @@ darvin_admin:
 - Update image form theme.
 
 6.3.10: Render separator after compound fields.
+
+6.3.14: Add "exact_size" option to admin section's view configuration:
+
+```yaml
+view:
+    index:
+        fields:
+            manager:
+                exact_size: 32px
+```

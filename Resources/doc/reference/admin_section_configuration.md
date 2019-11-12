@@ -70,9 +70,11 @@ view: # Конфигурация уровня представления
             some_field_name: # Поле
 
                 # Прототип
-                type:      ~  # Тип поля (см. tables.md)
-                condition: ~  # Условие вывода содержимого поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
-                attr:      {} # HTML атрибуты ячейки таблицы
+                type:       ~  # Тип поля (см. tables.md)
+                size:       ~  # Размер поля
+                exact_size: ~  # Точный размер поля, например "32px"
+                condition:  ~  # Условие вывода содержимого поля (с использованием "Expression language", пример: "is_granted('ROLE_ADMIN')")
+                attr:       {} # HTML атрибуты ячейки таблицы
                 callback:     # Callback
                     class:      # Требуется, класс
                     method:     # Требуется, статический метод

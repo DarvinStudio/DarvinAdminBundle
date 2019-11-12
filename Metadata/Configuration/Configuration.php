@@ -174,7 +174,7 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')
                         ->validate()
                             ->ifTrue(function (array $field) {
-                                return count($field) + count($field['widget']) > 6;
+                                return count($field) + count($field['widget']) > 7;
                             })
                             ->thenInvalid('You must specify callback OR widget OR service but not collection of them.')
                         ->end()
@@ -182,13 +182,12 @@ class Configuration implements ConfigurationInterface
                             if (!isset($field['attr'])) {
                                 $field['attr'] = [];
                             }
+                            foreach (['type', 'size', 'exact_size'] as $name) {
+                                $attr = sprintf('data-%s', str_replace('_', '-', $name));
 
-                            if (!isset($field['attr']['data-type']) && isset($field['type']) && null !== $field['type']) {
-                                $field['attr']['data-type'] = $field['type'];
-                            }
-
-                            if (!isset($field['attr']['data-size']) && isset($field['size']) && null !== $field['size']) {
-                                $field['attr']['data-size'] = $field['size'];
+                                if (!isset($field['attr'][$attr]) && isset($field[$name]) && null !== $field[$name]) {
+                                    $field['attr'][$attr] = $field[$name];
+                                }
                             }
 
                             return $field;
@@ -196,6 +195,7 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->scalarNode('type')->defaultNull()->end()
                             ->scalarNode('size')->defaultNull()->end()
+                            ->scalarNode('exact_size')->defaultNull()->end()
                             ->scalarNode('condition')->defaultNull()->end()
                             ->arrayNode('attr')->normalizeKeys(false)->prototype('scalar')->end()->end()
                             ->arrayNode('widget')->useAttributeAsKey('alias')->prototype('array')->prototype('variable')->end()->end()

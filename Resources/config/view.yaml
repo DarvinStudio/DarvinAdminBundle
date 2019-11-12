@@ -277,17 +277,17 @@ services:
         tags:
             - { name: darvin_admin.view_widget }
 
-    darvin_admin.view.widget.pool:
-        class: '%darvin_admin.view.widget.pool.class%'
-        tags:
-            - { name: darvin_utils.providable }
-
     darvin_admin.view.widget.text:
         class:  '%darvin_admin.view.widget.text.class%'
         parent: darvin_admin.view.widget.abstract
         public: false
         tags:
             - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.pool:
+        class: '%darvin_admin.view.widget.pool.class%'
+        tags:
+            - { name: darvin_utils.providable }
 
     darvin_admin.view.widget.twig_extension:
         class:  '%darvin_admin.view.widget.twig_extension.class%'

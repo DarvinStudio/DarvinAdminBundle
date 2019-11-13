@@ -149,6 +149,7 @@ menu:
 pagination:
     show_all: 'Show All'
 property_forms:
+    confirm: Apply?
     submit: 'Submit Changes'
 range:
     from: From

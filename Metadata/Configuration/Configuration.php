@@ -136,16 +136,21 @@ class Configuration implements ConfigurationInterface
         $root                      = (new TreeBuilder($form))->getRootNode();
         $normalizeFormTypeCallback = $this->createNormalizeFormTypeCallback();
 
-        $root->addDefaultsIfNotSet()
-            ->children()
-                ->scalarNode('type')->defaultNull()->end()
-                ->arrayNode('fields')
-                    ->prototype('array')
-                        ->children()
-                            ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormTypeCallback)->end()->end()
-                            ->scalarNode('condition')->defaultNull()->end()
-                            ->arrayNode('options')->prototype('variable')->end()->end()
-                            ->scalarNode('compare_strict')->defaultTrue();
+        $builder = $root->addDefaultsIfNotSet()->children();
+
+        $builder
+            ->scalarNode('type')->defaultNull()->end()
+            ->arrayNode('fields')
+                ->prototype('array')
+                    ->children()
+                        ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormTypeCallback)->end()->end()
+                        ->scalarNode('condition')->defaultNull()->end()
+                        ->arrayNode('options')->prototype('variable')->end()->end()
+                        ->scalarNode('compare_strict')->defaultTrue();
+
+        if ('filter' === $form) {
+            $builder->scalarNode('heading_field')->defaultNull();
+        }
 
         return $root;
     }

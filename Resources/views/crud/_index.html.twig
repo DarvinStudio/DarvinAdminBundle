@@ -29,7 +29,9 @@
 
 {% block breadcrumbs %}{{ admin_breadcrumbs(meta, parent_entity) }}{% endblock %}
 
-{% block heading %}{{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% endblock %}
+{% block heading %}
+    {{ (meta.baseTranslationPrefix ~ 'action.index.title')|trans }}{% if heading_suffix %} &mdash; {{ heading_suffix|trans }}{% endif %}
+{% endblock %}
 
 {% block header_buttons %}
 

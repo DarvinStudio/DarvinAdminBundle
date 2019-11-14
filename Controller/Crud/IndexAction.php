@@ -26,6 +26,8 @@ use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Form\ChoiceList\View\ChoiceView;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -138,7 +140,7 @@ class IndexAction extends AbstractAction
             $filterForm->handleRequest($request);
         }
 
-        $qb = $this->createQueryBuilder($request->getLocale(), !empty($filterForm) ? $filterForm->getData() : null);
+        $qb = $this->createQueryBuilder($request->getLocale(), null !== $filterForm ? $filterForm->getData() : null);
 
         if ($this->userQueryBuilderFilterer->isFilterable($qb)) {
             $this->userQueryBuilderFilterer->filter($qb);
@@ -147,11 +149,12 @@ class IndexAction extends AbstractAction
             $qb->andWhere(sprintf('o.%s = :%1$s', $association))->setParameter($association, $parentEntityId);
         }
 
-        $batchDeleteForm  = null;
-        $newForm          = null;
-        $sortCriteria     = $this->sortCriteriaDetector->detectSortCriteria($this->getEntityClass());
-        $pagination       = null;
-        $paginatorOptions = [
+        $batchDeleteFormView  = null;
+        $filterFormView       = null !== $filterForm ? $filterForm->createView() : null;
+        $newFormView          = null;
+        $sortCriteria         = $this->sortCriteriaDetector->detectSortCriteria($this->getEntityClass());
+        $pagination           = null;
+        $paginatorOptions     = [
             'allowPageNumberExceed' => true,
             'wrap-queries'          => true,
         ];
@@ -223,21 +226,22 @@ class IndexAction extends AbstractAction
                 }
             }
 
-            $batchDeleteForm = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $deletableEntities)->createView();
+            $batchDeleteFormView = $this->adminFormFactory->createBatchDeleteForm($this->getEntityClass(), $deletableEntities)->createView();
         }
         if ($config['index_view_new_form']) {
             $newAction = $this->newAction;
 
-            $newForm = $newAction(true)->getContent();
+            $newFormView = $newAction(true)->getContent();
         }
 
         return new Response($this->renderTemplate([
             'association_param' => $associationParam,
-            'batch_delete_form' => $batchDeleteForm,
+            'batch_delete_form' => $batchDeleteFormView,
             'entity_count'      => $entityCount,
-            'filter_form'       => !empty($filterForm) ? $filterForm->createView() : null,
+            'filter_form'       => $filterFormView,
+            'heading_suffix'    => $this->getHeadingSuffix($filterFormView),
             'meta'              => $this->getMeta(),
-            'new_form'          => $newForm,
+            'new_form'          => $newFormView,
             'pagination'        => $pagination,
             'parent_entity'     => $parentEntity,
             'parent_entity_id'  => $parentEntityId,
@@ -283,5 +287,36 @@ class IndexAction extends AbstractAction
         $this->filterer->filter($qb, $filterFormData, $filtererOptions);
 
         return $qb;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView|null $filterFormView Filter form view
+     *
+     * @return string|null
+     */
+    private function getHeadingSuffix(?FormView $filterFormView): ?string
+    {
+        if (null === $filterFormView) {
+            return null;
+        }
+
+        $fieldName = $this->getConfig()['form']['filter']['heading_field'];
+
+        if (!isset($filterFormView->children[$fieldName])) {
+            return null;
+        }
+
+        $field = $filterFormView->children[$fieldName];
+
+        if (!isset($field->vars['choices'], $field->vars['value']) || null === $field->vars['value'] || !is_iterable($field->vars['choices'])) {
+            return null;
+        }
+        foreach ($field->vars['choices'] as $choice) {
+            if ($choice instanceof ChoiceView && $choice->value === $field->vars['value']) {
+                return $choice->label;
+            }
+        }
+
+        return null;
     }
 }

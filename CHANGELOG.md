@@ -401,3 +401,5 @@ view:
             manager:
                 exact_size: 32px
 ```
+
+6.3.16: Add "heading_field" parameter to filter form's configuration.

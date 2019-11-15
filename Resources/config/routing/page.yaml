@@ -1,5 +1,5 @@
 darvin_admin_page:
     path:         /{slug}.html
     defaults:     { _controller: darvin_admin.page.controller }
-    requirements: { slug: '((([0-9a-z]+-{1})*[0-9a-z]+)+(/{1}(([0-9a-z]+-{1})*[0-9a-z]+)+)*)+' }
+    requirements: { slug: '(([0-9a-z]+-{1})*[0-9a-z]+)+' }
     methods:      [ get ]

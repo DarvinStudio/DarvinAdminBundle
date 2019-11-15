@@ -405,3 +405,5 @@ view:
 6.3.16: Add "heading_field" parameter to filter form's configuration.
 
 6.3.17: Allow to deselect non-required selects.
+
+6.3.18: Do not allow slashes in page slug.

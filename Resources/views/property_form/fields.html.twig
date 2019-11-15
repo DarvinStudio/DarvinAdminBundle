@@ -5,11 +5,6 @@
     {{- parent() -}}
 {%- endblock checkbox_widget -%}
 
-{%- block choice_widget_collapsed -%}
-    {%- set resettable = false -%}
-    {{- parent() -}}
-{%- endblock choice_widget_collapsed -%}
-
 {%- block form_widget_simple -%}
     {%- set attr      = attr|merge({'autocomplete': 'off'}) -%}
     {%- set clearable = false -%}

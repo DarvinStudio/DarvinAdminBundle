@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\CKEditor;
 
 use Darvin\ContentBundle\Widget\AbstractWidget;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -18,6 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditorWidgetInterface
 {
+    private const ICON = __DIR__.'/../Resources/images/ckeditor_stub.png';
+
     /**
      * @var array|null
      */
@@ -46,10 +49,16 @@ abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditor
     {
         $resolver
             ->setDefaults([
-                'icon'  => __DIR__.'/../Resources/images/ckeditor_stub.png',
-                'title' => sprintf('ckeditor_widget.%s', $this->getName()),
+                'icon'          => self::ICON,
+                'letter_source' => null,
+                'title'         => sprintf('ckeditor_widget.%s', $this->getName()),
+                'show_letter'   => function (Options $options) {
+                    return $options['icon'] === self::ICON;
+                },
             ])
             ->setAllowedTypes('icon', 'string')
+            ->setAllowedTypes('letter_source', ['string', 'null'])
+            ->setAllowedTypes('show_letter', 'boolean')
             ->setAllowedTypes('title', 'string');
     }
 

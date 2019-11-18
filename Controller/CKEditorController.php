@@ -15,6 +15,7 @@ use Darvin\ContentBundle\Widget\Exception\WidgetNotExistsException;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * CKEditor controller
@@ -42,6 +43,7 @@ class CKEditorController extends AbstractController
 
         $response = $this->render('@DarvinAdmin/ck_editor/plugin.js.twig', [
             'icon'   => $this->getWidgetIcon($widget),
+            'letter' => $this->getWidgetLetter($widget),
             'widget' => $widget,
         ]);
         $response->headers->set('Content-Type', 'application/javascript');
@@ -87,6 +89,42 @@ class CKEditorController extends AbstractController
         }
 
         return sprintf('data:%s;base64,%s', $mime, base64_encode($content));
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface $widget Widget
+     *
+     * @return string|null
+     */
+    private function getWidgetLetter(CKEditorWidgetInterface $widget): ?string
+    {
+        $options = $widget->getResolvedOptions();
+
+        if (!$options['show_letter']) {
+            return null;
+        }
+
+        $source = $options['letter_source'];
+
+        if (null === $source) {
+            $source = $this->getTranslator()->trans($options['title'], [], 'admin');
+        }
+
+        $source = preg_replace('/([^\w]|_)+/u', '', $source);
+
+        if ('' === $source) {
+            return null;
+        }
+
+        return mb_strtoupper(mb_substr($source, 0, 1));
+    }
+
+    /**
+     * @return \Symfony\Contracts\Translation\TranslatorInterface
+     */
+    private function getTranslator(): TranslatorInterface
+    {
+        return $this->get('translator');
     }
 
     /**

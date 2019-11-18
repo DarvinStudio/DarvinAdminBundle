@@ -55,6 +55,25 @@
 
                 for (var i = 0; i < icons.length; i++) {
                     icons[i].setAttribute('style', style);
+                    {% if letter is not same as(null) %}
+
+                    if (!icons[i].children.length) {
+                        var letter = document.createElement('span');
+                        letter.innerHTML = '{{ letter }}';
+                        letter.setAttribute('style', [
+                            'position:    absolute',
+                            'right:       2px',
+                            'bottom:      0',
+                            'color:       #fff',
+                            'font-size:   12px',
+                            'font-weight: bold',
+                            'text-shadow: 0px 0px 1px #000;'
+                        ].join(';'));
+
+                        icons[i].appendChild(letter);
+                    }
+                    {% endif %}
+
                 }
             });
             {% endif %}

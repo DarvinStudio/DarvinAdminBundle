@@ -408,4 +408,8 @@ view:
 
 6.3.18: Do not allow slashes in page slug.
 
-6.3.19: Simplify CKEditor routing.
+6.3.19:
+ 
+- Simplify CKEditor routing.
+
+- Allow to add letters to CKEditor widget icons.

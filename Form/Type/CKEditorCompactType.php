@@ -71,6 +71,6 @@ class CKEditorCompactType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'darvin_admin_ck_editor_compact';
+        return 'darvin_admin_ckeditor_compact';
     }
 }

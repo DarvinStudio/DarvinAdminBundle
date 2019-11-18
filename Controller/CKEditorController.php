@@ -41,7 +41,7 @@ class CKEditorController extends AbstractController
             );
         }
 
-        $response = $this->render('@DarvinAdmin/ck_editor/plugin.js.twig', [
+        $response = $this->render('@DarvinAdmin/ckeditor/plugin.js.twig', [
             'icon'   => $this->getWidgetIcon($widget),
             'letter' => $this->getWidgetLetter($widget),
             'widget' => $widget,

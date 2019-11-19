@@ -421,3 +421,5 @@ view:
 - Move some translations to frontend bundle.
 
 6.3.20: Configure compact CKEditor as full one.
+
+6.3.21: Do not render tumblers in expanded choice widgets.

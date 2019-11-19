@@ -196,7 +196,7 @@
 {# Generic widgets #}
 
 {%- block checkbox_widget -%}
-    <label class="custom-tumbler">
+    <label class="{{ label_class|default('custom-tumbler') }}">
         {{- parent() -}}
         {%- if checkbox_show_label is defined and checkbox_show_label -%}
             {%- set label_add_class = false -%}
@@ -228,7 +228,7 @@
 {%- block choice_widget_expanded -%}
     <div class="form-item__сheckbox">
         {%- for child in form -%}
-            {{- form_widget(child, {'checkbox_show_label': true}) -}}
+            {{- form_widget(child, {'checkbox_show_label': true, 'label_class': 'custom-checkbox'}) -}}
             {{- form_errors(child) -}}
         {%- endfor -%}
     </div>

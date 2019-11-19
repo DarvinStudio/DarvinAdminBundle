@@ -419,3 +419,5 @@ view:
 - Simplify submit button translations.
 
 - Move some translations to frontend bundle.
+
+6.3.20: Configure compact CKEditor as full one.

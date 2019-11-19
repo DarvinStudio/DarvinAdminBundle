@@ -208,9 +208,9 @@ slug_suffix:
 
 submit:
     common: Сохранить
-    edit:   Сохранить и редактировать
-    index:  Сохранить и вернуться к списку
-    new:    Сохранить и добавить еще
+    edit:   Сохранить
+    index:  Сохранить и к списку
+    new:    Сохранить и добавить
 
 textcounter:
     count_down_text:     <p><span>%d</span> символов осталось</p>

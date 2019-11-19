@@ -415,3 +415,5 @@ view:
 - Allow to add letters to CKEditor widget icons.
 
 - Render generic checkboxes as tumblers.
+
+- Simplify submit button translations.

@@ -179,9 +179,9 @@ slug_suffix:
     update: 'Mise à jour'
 submit:
     common: Soumettre
-    edit: 'Soumettre et de Modifier'
-    index: 'Soumettre et Allez à la Page d''Index'
-    new: 'Soumettre et Créer'
+    edit: Soumettre
+    index: 'Soumettre et de faire la Liste'
+    new: 'Soumettre et Ajouter'
 textcounter:
     count_down_text: '<p><span>%d</span> Caractère(s) Restant</p>'
     count_overflow_text: '<p>Limite Dépassée par <span>%d</span></p>'

@@ -179,9 +179,9 @@ slug_suffix:
     update: Update
 submit:
     common: Submit
-    edit: 'Submit and Edit'
-    index: 'Submit and Go to Index Page'
-    new: 'Submit and Create'
+    edit: Submit
+    index: 'Submit and to List'
+    new: 'Submit and Add'
 textcounter:
     count_down_text: '<p><span>%d</span> Character(s) Remaining</p>'
     count_overflow_text: '<p>Limit Exceeded by <span>%d</span></p>'

@@ -60,37 +60,33 @@ fos_ck_editor:
                 instance: darvin_admin_ckeditor
             toolbar:
                 - [ Source ]
-                - [ Image ]
+                - [ Image, Flash, Table, SpecialChar ]
+                - [ NumberedList, BulletedList, -, Outdent, Indent, -, JustifyLeft, JustifyCenter, JustifyRight, JustifyBlock ]
+                - [ Link, Unlink, Anchor ]
                 - [ Bold, Italic, Underline, Strike, Subscript, Superscript, -, RemoveFormat ]
+                - [ Format, Font, FontSize ]
+                - [ TextColor, BGColor ]
+                - [ Maximize, ShowBlocks ]
+                - [ Find, Replace ]
             removePlugins: >
                 a11yhelp,
                 about,
                 bidi,
                 blockquote,
-                colorbutton,
                 colordialog,
                 dialogadvtab,
                 div,
                 elementspath,
                 enterkey,
                 entities,
-                find,
-                flash,
                 floatingspace,
-                font,
-                format,
                 forms,
                 horizontalrule,
                 iframe,
                 indentblock,
-                indentlist,
-                justify,
                 language,
-                link,
-                list,
                 liststyle,
                 magicline,
-                maximize,
                 newpage,
                 pagebreak,
                 pastefromword,
@@ -100,10 +96,8 @@ fos_ck_editor:
                 save,
                 scayt,
                 selectall,
-                showblocks,
                 showborders,
                 smiley,
-                specialchar,
                 stylescombo,
                 tab,
                 templates,

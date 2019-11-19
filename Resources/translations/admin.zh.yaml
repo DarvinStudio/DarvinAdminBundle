@@ -2,9 +2,6 @@ boolean:
     indeterminate: 不确定
     'no': 没有
     'yes': 是的
-collection:
-    add: 添加
-    delete: 删除
 common:
     actions: 行动
     back: 回
@@ -27,12 +24,6 @@ crud:
             submit: 删除选择
             success: 选定的项目成功地除去
 download: 下载
-dropzone:
-    default_message: 落在这儿的文件上传
-    file_too_big: '文件太大({{filesize}}MB)。 Max Filesize:{{maxFilesize}}MB。'
-    invalid_file_type: 你不能上传文件的类型。
-    reject_dimensions: '最大的图像大小 %max_width%x%max_height%px超过。'
-    remove_file: 删除文件
 entity_name:
     single:
         configuration: 配置
@@ -182,9 +173,6 @@ submit:
     edit: 提交
     index: 提交，并列表
     new: 提交，并添加
-textcounter:
-    count_down_text: '<p><span>%d</span> Character(s)剩余的</p>'
-    count_overflow_text: '<p>限制超过了 <span>%d</span></p>'
 translation:
     action:
         index:

@@ -3,10 +3,6 @@ boolean:
     no:            Нет
     yes:           Да
 
-collection:
-    add:    Добавить
-    delete: Удалить
-
 common:
     actions:          Действия
     back:             Назад
@@ -32,13 +28,6 @@ crud:
             success:   Выбранные элементы успешно удалены
 
 download: Скачать
-
-dropzone:
-    default_message:   Поместите сюда файлы для загрузки
-    file_too_big:      'Файл слишком большой ({{filesize}}МБ). Максимальный размер: {{maxFilesize}}МБ.'
-    invalid_file_type: Вы не можете загружать файлы подобного типа.
-    reject_dimensions: 'Превышен максимальный размер изображения %max_width%x%max_height%px.'
-    remove_file:       Удалить
 
 entity_name:
     single:
@@ -211,10 +200,6 @@ submit:
     edit:   Сохранить
     index:  Сохранить и к списку
     new:    Сохранить и добавить
-
-textcounter:
-    count_down_text:     <p><span>%d</span> символов осталось</p>
-    count_overflow_text: <p>лимит превышен на <span>%d</span></p>
 
 translation:
     action:

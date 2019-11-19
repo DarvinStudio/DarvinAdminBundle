@@ -2,9 +2,6 @@ boolean:
     indeterminate: Indeterminate
     'no': 'No'
     'yes': 'Yes'
-collection:
-    add: Add
-    delete: Remove
 common:
     actions: Actions
     back: Back
@@ -27,12 +24,6 @@ crud:
             submit: 'Remove Selected'
             success: 'Selected Items Successfully Removed'
 download: Download
-dropzone:
-    default_message: 'Drop Here Files to Upload'
-    file_too_big: 'File is Too Big ({{filesize}}MB). Max Filesize: {{maxFilesize}}MB.'
-    invalid_file_type: 'You Can''t Upload Files of This Type.'
-    reject_dimensions: 'Max Image Size %max_width%x%max_height%px Exceeded.'
-    remove_file: 'Remove File'
 entity_name:
     single:
         configuration: Configuration
@@ -182,9 +173,6 @@ submit:
     edit: Submit
     index: 'Submit and to List'
     new: 'Submit and Add'
-textcounter:
-    count_down_text: '<p><span>%d</span> Character(s) Remaining</p>'
-    count_overflow_text: '<p>Limit Exceeded by <span>%d</span></p>'
 translation:
     action:
         index:

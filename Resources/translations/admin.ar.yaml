@@ -2,9 +2,6 @@ boolean:
     indeterminate: 'غير محدد'
     'no': لا
     'yes': نعم
-collection:
-    add: إضافة
-    delete: إزالة
 common:
     actions: الإجراءات
     back: 'مرة أخرى'
@@ -27,12 +24,6 @@ crud:
             submit: 'إزالة مختارة'
             success: 'العناصر المحددة بنجاح إزالة'
 download: تحميل
-dropzone:
-    default_message: 'قطرة هنا لتحميل الملفات'
-    file_too_big: 'الملف كبير جدا ({{حجم الملف}}MB). ماكس حجم الملف: {{maxFilesize}}ميجا بايت.'
-    invalid_file_type: 'لا يمكنك تحميل الملفات من هذا النوع.'
-    reject_dimensions: 'ماكس حجم الصورة %max_width%x%max_height%px تجاوز.'
-    remove_file: 'إزالة الملف'
 entity_name:
     single:
         configuration: التكوين
@@ -182,9 +173,6 @@ submit:
     edit: تقدم
     index: 'يقدم قائمة'
     new: 'تقديم إضافة'
-textcounter:
-    count_down_text: '<p><span>%d</span> حرف(s) المتبقية</p>'
-    count_overflow_text: '<p>تجاوز حد من <span>%d</span></p>'
 translation:
     action:
         index:

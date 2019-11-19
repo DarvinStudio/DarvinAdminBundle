@@ -2,9 +2,6 @@ boolean:
     indeterminate: Indéterminée
     'no': 'Pas de'
     'yes': Oui
-collection:
-    add: Ajouter
-    delete: Supprimer
 common:
     actions: Actions
     back: 'De retour'
@@ -27,12 +24,6 @@ crud:
             submit: 'Supprimer La Sélection'
             success: 'Les Éléments Sélectionnés Supprimé Avec Succès'
 download: Télécharger
-dropzone:
-    default_message: 'Ici goutte Fichiers à Télécharger'
-    file_too_big: 'Le fichier est Trop Gros ({{taille}}MO). Max Taille du fichier: {{maxFilesize}}MO.'
-    invalid_file_type: 'Vous ne Pouvez pas Télécharger des Fichiers de Ce Type.'
-    reject_dimensions: 'La Taille D''Image Maximale %max_width%x%max_height%px Dépassé.'
-    remove_file: 'Suppression De Fichier'
 entity_name:
     single:
         configuration: Configuration
@@ -182,9 +173,6 @@ submit:
     edit: Soumettre
     index: 'Soumettre et de faire la Liste'
     new: 'Soumettre et Ajouter'
-textcounter:
-    count_down_text: '<p><span>%d</span> Caractère(s) Restant</p>'
-    count_overflow_text: '<p>Limite Dépassée par <span>%d</span></p>'
 translation:
     action:
         index:

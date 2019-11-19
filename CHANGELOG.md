@@ -417,3 +417,5 @@ view:
 - Render generic checkboxes as tumblers.
 
 - Simplify submit button translations.
+
+- Move some translations to frontend bundle.

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu\Factory;
+namespace Darvin\AdminBundle\Menu\Factory\Item;
 
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;

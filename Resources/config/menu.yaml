@@ -3,9 +3,9 @@ parameters:
 
     darvin_admin.menu.factory.group.class: Darvin\AdminBundle\Menu\Factory\GroupFactory
 
-    darvin_admin.menu.factory.item.configuration.class: Darvin\AdminBundle\Menu\Factory\ConfigurationItemFactory
+    darvin_admin.menu.factory.item.configuration.class: Darvin\AdminBundle\Menu\Factory\Item\ConfigurationItemFactory
 
-    darvin_admin.menu.factory.item.section.class: Darvin\AdminBundle\Menu\Factory\SectionItemFactory
+    darvin_admin.menu.factory.item.section.class: Darvin\AdminBundle\Menu\Factory\Item\SectionItemFactory
 
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 

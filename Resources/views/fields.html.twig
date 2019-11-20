@@ -280,7 +280,7 @@
                 </div>
                 <div class="tabs__content">
                     {%- for locale, child in form -%}
-                        <div class="tabs__content-item js-translation-tab {{ child.vars.id }}" data-locale="{{ locale }}">
+                        <div class="tabs__content-item js-translation-tab" data-locale="{{ locale }}">
                             <div class="tabs__content-item-lang">
                                 <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             </div>

@@ -140,7 +140,6 @@ menu:
 pagination:
     show_all: 'عرض كل'
 property_forms:
-    confirm: 'تطبيق ؟ '
     submit: 'إرسال التغييرات'
 range:
     from: من

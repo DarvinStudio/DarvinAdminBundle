@@ -158,8 +158,7 @@ pagination:
     show_all: Показать все
 
 property_forms:
-    confirm: Применить?
-    submit:  Сохранить изменения
+    submit: Сохранить изменения
 
 range:
     from: с

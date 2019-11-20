@@ -140,7 +140,6 @@ menu:
 pagination:
     show_all: 显示所有
 property_forms:
-    confirm: 申请？
     submit: 提出的变化
 range:
     from: 从

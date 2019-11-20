@@ -21,6 +21,7 @@ use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -89,12 +90,10 @@ class UpdatePropertyAction extends AbstractAction
 
             $message = implode('<br>', array_map(function (FormError $error) use ($prefix, $translator) {
                 $message = $error->getMessage();
+                $cause   = $error->getCause();
 
-                /** @var \Symfony\Component\Validator\ConstraintViolation|null $cause */
-                $cause = $error->getCause();
-
-                if (!empty($cause)) {
-                    $translation = preg_replace('/^data\./', $prefix, StringsUtil::toUnderscore($cause->getPropertyPath()));
+                if ($cause instanceof ConstraintViolation) {
+                    $translation = preg_replace('/^data\.(translations\[.+?]\.)?/', $prefix, StringsUtil::toUnderscore($cause->getPropertyPath()));
 
                     $translated = $translator->trans($translation, [], 'admin');
 

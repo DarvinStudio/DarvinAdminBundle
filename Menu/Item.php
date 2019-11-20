@@ -68,7 +68,7 @@ class Item
         $this->name = $name;
 
         $this->children = [];
-        $this->active   = false;
+        $this->active = false;
     }
 
     /**

@@ -84,6 +84,10 @@ class Item
      */
     public function isEmpty(): bool
     {
+        if (null === $this->indexTitle) {
+            return true;
+        }
+
         return null === $this->indexUrl && !$this->hasChildren();
     }
 

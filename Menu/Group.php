@@ -23,6 +23,5 @@ class Group extends Item
         parent::__construct($name);
 
         $this->indexTitle = sprintf('menu.group.%s.title', $name);
-        $this->indexUrl   = '#';
     }
 }

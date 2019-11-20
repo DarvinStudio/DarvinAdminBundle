@@ -67,8 +67,7 @@ class Menu implements MenuInterface
     {
         if (null === $this->items) {
             /** @var \Darvin\AdminBundle\Menu\Item[] $items */
-            $items   = [];
-            $skipped = [];
+            $items = [];
 
             // Create items
             foreach ($this->itemFactories as $itemFactory) {
@@ -76,15 +75,7 @@ class Menu implements MenuInterface
                     if (isset($items[$item->getName()])) {
                         throw new \RuntimeException(sprintf('Menu item "%s" already exists.', $item->getName()));
                     }
-
-                    $indexUrl = (string)$item->getIndexUrl();
-
-                    if ('' === $indexUrl) {
-                        $skipped[$item->getName()] = true;
-
-                        continue;
-                    }
-                    if ($this->isCurrent($indexUrl)) {
+                    if ($this->isCurrent($item)) {
                         $item->setActive(true);
                     }
 
@@ -107,9 +98,6 @@ class Menu implements MenuInterface
 
                     continue;
                 }
-                if (isset($skipped[$parentName])) {
-                    continue;
-                }
 
                 $parent = $items[$parentName];
                 $parent->addChild($item);
@@ -129,7 +117,7 @@ class Menu implements MenuInterface
             }
             // Fold tree
             foreach ($items as $key => $item) {
-                if ($item->hasParent() && !isset($skipped[$item->getParentName()])) {
+                if ($item->hasParent()) {
                     unset($items[$key]);
                 }
             }
@@ -166,12 +154,18 @@ class Menu implements MenuInterface
     }
 
     /**
-     * @param string $url URL
+     * @param \Darvin\AdminBundle\Menu\Item $item Menu item
      *
      * @return bool
      */
-    private function isCurrent(string $url): bool
+    private function isCurrent(Item $item): bool
     {
+        if (null === $item->getIndexUrl()) {
+            return false;
+        }
+
+        $url = $item->getIndexUrl();
+
         $request = $this->requestStack->getCurrentRequest();
 
         if (null === $request) {

@@ -25,7 +25,7 @@
     {% endif %}
 
     <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
-        {% if '#' == item.indexUrl %}
+        {% if not item.indexUrl %}
             <span{% if item.newObjectCount %} class="has-count"{% endif %}>
                 {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
             </span>

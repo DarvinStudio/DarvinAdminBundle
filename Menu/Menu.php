@@ -119,12 +119,34 @@ class Menu implements MenuInterface
                 }
             }
 
+            $items = $this->removeEmpty($items);
             $items = $this->sortItems($items);
 
             $this->items = $items;
         }
 
         return $this->items;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Menu\Item[] $items Menu items
+     *
+     * @return \Darvin\AdminBundle\Menu\Item[]
+     */
+    private function removeEmpty(array $items): array
+    {
+        foreach ($items as $key => $item) {
+            if ($item->isEmpty()) {
+                unset($items[$key]);
+
+                continue;
+            }
+            if ($item->hasChildren()) {
+                $item->setChildren($this->removeEmpty($item->getChildren()));
+            }
+        }
+
+        return $items;
     }
 
     /**

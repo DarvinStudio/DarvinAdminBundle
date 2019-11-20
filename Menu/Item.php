@@ -46,7 +46,7 @@ class Item
     protected $parentName;
 
     /**
-     * @var \Darvin\AdminBundle\Menu\Item[]
+     * @var Item[]
      */
     protected $children;
 
@@ -74,17 +74,25 @@ class Item
     /**
      * @return bool
      */
-    public function hasParent(): bool
+    public function isEmpty(): bool
     {
-        return !empty($this->parentName);
+        return null === $this->indexUrl && !$this->hasChildren();
     }
 
     /**
      * @return bool
      */
-    public function isEmpty(): bool
+    public function hasChildren(): bool
     {
-        return null === $this->indexUrl && empty($this->children);
+        return !empty($this->children);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasParent(): bool
+    {
+        return null !== $this->parentName;
     }
 
     /**
@@ -93,6 +101,14 @@ class Item
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getIndexTitle(): ?string
+    {
+        return $this->indexTitle;
     }
 
     /**
@@ -110,9 +126,9 @@ class Item
     /**
      * @return string|null
      */
-    public function getIndexTitle(): ?string
+    public function getIndexUrl(): ?string
     {
-        return $this->indexTitle;
+        return $this->indexUrl;
     }
 
     /**
@@ -128,11 +144,11 @@ class Item
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getIndexUrl(): ?string
+    public function getPosition(): ?int
     {
-        return $this->indexUrl;
+        return $this->position;
     }
 
     /**
@@ -148,11 +164,11 @@ class Item
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getPosition(): ?int
+    public function getAssociatedObject(): ?string
     {
-        return $this->position;
+        return $this->associatedObject;
     }
 
     /**
@@ -170,9 +186,9 @@ class Item
     /**
      * @return string|null
      */
-    public function getAssociatedObject(): ?string
+    public function getParentName(): ?string
     {
-        return $this->associatedObject;
+        return $this->parentName;
     }
 
     /**
@@ -188,15 +204,27 @@ class Item
     }
 
     /**
-     * @return string|null
+     * @return Item[]
      */
-    public function getParentName(): ?string
+    public function getChildren(): array
     {
-        return $this->parentName;
+        return $this->children;
     }
 
     /**
-     * @param Item $child Child menu item
+     * @param Item[] $children children
+     *
+     * @return Item
+     */
+    public function setChildren(array $children): Item
+    {
+        $this->children = $children;
+
+        return $this;
+    }
+
+    /**
+     * @param Item $child child
      *
      * @return Item
      */
@@ -208,11 +236,11 @@ class Item
     }
 
     /**
-     * @return \Darvin\AdminBundle\Menu\Item[]
+     * @return int|null
      */
-    public function getChildren(): array
+    public function getNewObjectCount(): ?int
     {
-        return $this->children;
+        return $this->newObjectCount;
     }
 
     /**
@@ -228,11 +256,11 @@ class Item
     }
 
     /**
-     * @return int|null
+     * @return bool
      */
-    public function getNewObjectCount(): ?int
+    public function isActive(): bool
     {
-        return $this->newObjectCount;
+        return $this->active;
     }
 
     /**
@@ -245,13 +273,5 @@ class Item
         $this->active = $active;
 
         return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return $this->active;
     }
 }

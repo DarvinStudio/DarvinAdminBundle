@@ -45,7 +45,7 @@
             {% if icon %}
 
             editor.on('instanceReady', function () {
-                var icons = document.getElementsByClassName('cke_button__' + widgetName + '_icon');
+                var icons = editor.container.$.getElementsByClassName('cke_button__' + widgetName + '_icon');
 
                 if (!icons.length) {
                     return;

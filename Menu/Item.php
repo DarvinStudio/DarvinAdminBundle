@@ -80,6 +80,14 @@ class Item
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return null === $this->indexUrl && empty($this->children);
+    }
+
+    /**
      * @return string
      */
     public function getName(): string

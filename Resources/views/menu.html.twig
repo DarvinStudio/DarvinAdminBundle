@@ -3,47 +3,49 @@
 {% import _self as that %}
 
 {% macro item(item, show_icon) %}
+    {% if not item.empty %}
 
-    {% import _self as that %}
+        {% import _self as that %}
 
-    {% set classes = [] %}
+        {% set classes = [] %}
 
-    {% if item.children is not empty %}
-
-        {% set classes = classes|merge(['-has-dropdown']) %}
-
-    {% endif %}
-    {% if show_icon %}
-
-        {% set classes = classes|merge(['icon-' ~ item.name]) %}
-
-    {% endif %}
-    {% if item.active %}
-
-        {% set classes = classes|merge(['is-active']) %}
-
-    {% endif %}
-
-    <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
-        {% if not item.indexUrl %}
-            <span{% if item.newObjectCount %} class="has-count"{% endif %}>
-                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-            </span>
-        {% else %}
-            <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
-                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-            </a>
-        {% endif %}
         {% if item.children is not empty %}
-            <div>
-                <ul>
-                    {% for child in item.children %}
-                        {{ that.item(child) }}
-                    {% endfor %}
-                </ul>
-            </div>
+
+            {% set classes = classes|merge(['-has-dropdown']) %}
+
         {% endif %}
-    </li>
+        {% if show_icon %}
+
+            {% set classes = classes|merge(['icon-' ~ item.name]) %}
+
+        {% endif %}
+        {% if item.active %}
+
+            {% set classes = classes|merge(['is-active']) %}
+
+        {% endif %}
+
+        <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
+            {% if not item.indexUrl %}
+                <span{% if item.newObjectCount %} class="has-count"{% endif %}>
+                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+                </span>
+            {% else %}
+                <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
+                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+                </a>
+            {% endif %}
+            {% if item.children is not empty %}
+                <div>
+                    <ul>
+                        {% for child in item.children %}
+                            {{ that.item(child) }}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </li>
+    {% endif %}
 {% endmacro %}
 
 {% if items is not empty %}

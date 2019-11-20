@@ -29,11 +29,6 @@ class Menu implements MenuInterface
     private $requestStack;
 
     /**
-     * @var array[]
-     */
-    private $groupsConfig;
-
-    /**
      * @var \Darvin\AdminBundle\Menu\ItemFactoryInterface[]
      */
     private $itemFactories;
@@ -46,13 +41,11 @@ class Menu implements MenuInterface
     /**
      * @param \Darvin\Utils\NewObject\NewObjectCounterInterface $newObjectCounter New object counter
      * @param \Symfony\Component\HttpFoundation\RequestStack    $requestStack     Request stack
-     * @param array                                             $groupsConfig     Groups configuration
      */
-    public function __construct(NewObjectCounterInterface $newObjectCounter, RequestStack $requestStack, array $groupsConfig)
+    public function __construct(NewObjectCounterInterface $newObjectCounter, RequestStack $requestStack)
     {
         $this->newObjectCounter = $newObjectCounter;
         $this->requestStack = $requestStack;
-        $this->groupsConfig = $groupsConfig;
 
         $this->itemFactories = [];
 
@@ -109,11 +102,8 @@ class Menu implements MenuInterface
 
                 $parentName = $item->getParentName();
 
-                if (isset($skipped[$parentName])) {
+                if (isset($skipped[$parentName]) || !isset($items[$parentName])) {
                     continue;
-                }
-                if (!isset($items[$parentName])) {
-                    $items[$parentName] = $this->createGroup($parentName, $item->getPosition());
                 }
 
                 $parent = $items[$parentName];
@@ -145,32 +135,6 @@ class Menu implements MenuInterface
         }
 
         return $this->items;
-    }
-
-    /**
-     * @param string   $name            Name
-     * @param int|null $defaultPosition Default position
-     *
-     * @return \Darvin\AdminBundle\Menu\Group
-     */
-    private function createGroup(string $name, ?int $defaultPosition): Group
-    {
-        $group = new Group($name);
-        $group->setPosition($defaultPosition);
-
-        if (!isset($this->groupsConfig[$name])) {
-            return $group;
-        }
-
-        $config = $this->groupsConfig[$name];
-
-        $group->setAssociatedObject($config['associated_object']);
-
-        if (null !== $config['position']) {
-            $group->setPosition($config['position']);
-        }
-
-        return $group;
     }
 
     /**

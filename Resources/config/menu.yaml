@@ -1,9 +1,11 @@
 parameters:
     darvin_admin.menu.class: Darvin\AdminBundle\Menu\Menu
 
-    darvin_admin.menu.item_factory.configuration.class: Darvin\AdminBundle\Menu\Factory\ConfigurationItemFactory
+    darvin_admin.menu.factory.group.class: Darvin\AdminBundle\Menu\Factory\GroupFactory
 
-    darvin_admin.menu.item_factory.section.class: Darvin\AdminBundle\Menu\Factory\SectionItemFactory
+    darvin_admin.menu.factory.item.configuration.class: Darvin\AdminBundle\Menu\Factory\ConfigurationItemFactory
+
+    darvin_admin.menu.factory.item.section.class: Darvin\AdminBundle\Menu\Factory\SectionItemFactory
 
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
@@ -17,10 +19,16 @@ services:
         arguments:
             - '@darvin_utils.new_object.counter'
             - '@request_stack'
-            - '%darvin_admin.menu.groups%'
 
-    darvin_admin.menu.item_factory.configuration:
-        class:  '%darvin_admin.menu.item_factory.configuration.class%'
+    darvin_admin.menu.factory.group:
+        class: '%darvin_admin.menu.factory.group.class%'
+        arguments:
+            - '%darvin_admin.menu.groups%'
+        tags:
+            - { name: darvin_admin.menu_item_factory }
+
+    darvin_admin.menu.factory.item.configuration:
+        class:  '%darvin_admin.menu.factory.item.configuration.class%'
         public: false
         arguments:
             - '@security.authorization_checker'
@@ -28,8 +36,8 @@ services:
         tags:
             - { name: darvin_admin.menu_item_factory }
 
-    darvin_admin.menu.item_factory.section:
-        class:  '%darvin_admin.menu.item_factory.section.class%'
+    darvin_admin.menu.factory.item.section:
+        class:  '%darvin_admin.menu.factory.item.section.class%'
         public: false
         arguments:
             - '@darvin_admin.router'

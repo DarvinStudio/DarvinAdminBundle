@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Menu;
 
 /**
- * Menu item group
+ * Menu group
  */
 class Group extends Item
 {

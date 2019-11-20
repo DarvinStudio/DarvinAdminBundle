@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
+use Darvin\AdminBundle\Menu\Separator;
 
 /**
  * Separator menu item factory
@@ -38,9 +38,7 @@ class SeparatorItemFactory implements ItemFactoryInterface
     {
         foreach ($this->groupsConfig as $groupName => $groupConfig) {
             foreach ($groupConfig['separators'] as $separatorName => $separatorConfig) {
-                yield (new Item(implode('_', [$groupName, $separatorName])))
-                    ->setParentName($groupName)
-                    ->setPosition($separatorConfig['position']);
+                yield new Separator($separatorName, $groupName, $separatorConfig['position']);
             }
         }
     }

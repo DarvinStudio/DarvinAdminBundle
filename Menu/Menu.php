@@ -136,7 +136,7 @@ class Menu implements MenuInterface
     private function removeEmpty(array $items): array
     {
         foreach ($items as $key => $item) {
-            if ($item->isEmpty() && !$item->isSeparator()) {
+            if ($item->isEmpty()) {
                 unset($items[$key]);
 
                 continue;

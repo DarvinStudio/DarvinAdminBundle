@@ -86,14 +86,6 @@ class Item
     /**
      * @return bool
      */
-    public function isSeparator(): bool
-    {
-        return null === $this->indexTitle && !$this->hasChildren();
-    }
-
-    /**
-     * @return bool
-     */
     public function hasChildren(): bool
     {
         return !empty($this->children);

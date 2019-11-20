@@ -8,8 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu;
+namespace Darvin\AdminBundle\Menu\Factory;
 
+use Darvin\AdminBundle\Menu\Item;
+use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
@@ -19,9 +21,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Menu item factory
+ * Section menu item factory
  */
-class ItemFactory implements ItemFactoryInterface
+class SectionItemFactory implements ItemFactoryInterface
 {
     /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface

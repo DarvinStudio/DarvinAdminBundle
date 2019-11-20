@@ -8,8 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu;
+namespace Darvin\AdminBundle\Menu\Factory;
 
+use Darvin\AdminBundle\Menu\Item;
+use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Symfony\Component\Routing\RouterInterface;

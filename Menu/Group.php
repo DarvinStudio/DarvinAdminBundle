@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Menu;
 /**
  * Menu item group
  */
-class ItemGroup extends Item
+class Group extends Item
 {
     /**
      * {@inheritdoc}

@@ -113,7 +113,7 @@ class Menu implements MenuInterface
                     continue;
                 }
                 if (!isset($items[$parentName])) {
-                    $items[$parentName] = $this->createItemGroup($parentName, $item->getPosition());
+                    $items[$parentName] = $this->createGroup($parentName, $item->getPosition());
                 }
 
                 $parent = $items[$parentName];
@@ -151,11 +151,11 @@ class Menu implements MenuInterface
      * @param string   $name            Name
      * @param int|null $defaultPosition Default position
      *
-     * @return \Darvin\AdminBundle\Menu\ItemGroup
+     * @return \Darvin\AdminBundle\Menu\Group
      */
-    private function createItemGroup(string $name, ?int $defaultPosition): ItemGroup
+    private function createGroup(string $name, ?int $defaultPosition): Group
     {
-        $group = new ItemGroup($name);
+        $group = new Group($name);
         $group->setPosition($defaultPosition);
 
         if (!isset($this->groupsConfig[$name])) {

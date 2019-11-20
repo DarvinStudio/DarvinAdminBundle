@@ -215,7 +215,17 @@ class Configuration implements ConfigurationInterface
                             ->arrayNode('separators')->useAttributeAsKey('name')
                                 ->prototype('array')->addDefaultsIfNotSet()
                                     ->children()
-                                        ->integerNode('position')->isRequired();
+                                        ->integerNode('position')->isRequired()->end()
+                                    ->end()
+                                    ->beforeNormalization()->always(function ($separator) {
+                                        if (!is_array($separator)) {
+                                            $separator = [
+                                                'position' => $separator,
+                                            ];
+                                        }
+
+                                        return $separator;
+                                    });
 
         return $root;
     }

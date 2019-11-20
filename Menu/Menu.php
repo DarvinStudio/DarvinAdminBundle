@@ -102,7 +102,12 @@ class Menu implements MenuInterface
 
                 $parentName = $item->getParentName();
 
-                if (isset($skipped[$parentName]) || !isset($items[$parentName])) {
+                if (!isset($items[$parentName])) {
+                    $item->setParentName(null);
+
+                    continue;
+                }
+                if (isset($skipped[$parentName])) {
                     continue;
                 }
 

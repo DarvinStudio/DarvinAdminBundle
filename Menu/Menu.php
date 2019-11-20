@@ -135,7 +135,7 @@ class Menu implements MenuInterface
     private function sortItems(array $items): array
     {
         if (!empty($items)) {
-            $defaultPos = max(array_map(function (Item $item): int {
+            $defaultPos = max(array_map(function (Item $item): ?int {
                 return $item->getPosition();
             }, $items)) + 1;
 

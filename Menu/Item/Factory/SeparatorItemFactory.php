@@ -10,8 +10,8 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
+use Darvin\AdminBundle\Menu\Item\Model\Separator;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
-use Darvin\AdminBundle\Menu\Separator;
 
 /**
  * Separator menu item factory

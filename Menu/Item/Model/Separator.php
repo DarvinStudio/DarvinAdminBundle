@@ -8,7 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu;
+namespace Darvin\AdminBundle\Menu\Item\Model;
+
+use Darvin\AdminBundle\Menu\Item;
 
 /**
  * Menu separator

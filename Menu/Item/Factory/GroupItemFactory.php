@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Menu\Group;
+use Darvin\AdminBundle\Menu\Item\Model\Group;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 
 /**

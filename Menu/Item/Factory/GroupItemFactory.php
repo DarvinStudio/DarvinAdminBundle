@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu\Factory;
+namespace Darvin\AdminBundle\Menu\Item\Factory;
 
 use Darvin\AdminBundle\Menu\Group;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 
 /**
- * Menu group factory
+ * Menu group item factory
  */
-class GroupFactory implements ItemFactoryInterface
+class GroupItemFactory implements ItemFactoryInterface
 {
     /**
      * @var array

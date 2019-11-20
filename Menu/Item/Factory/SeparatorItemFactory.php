@@ -8,15 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Menu\Factory;
+namespace Darvin\AdminBundle\Menu\Item\Factory;
 
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Menu\Separator;
 
 /**
- * Menu separator factory
+ * Menu separator item factory
  */
-class SeparatorFactory implements ItemFactoryInterface
+class SeparatorItemFactory implements ItemFactoryInterface
 {
     /**
      * @var array

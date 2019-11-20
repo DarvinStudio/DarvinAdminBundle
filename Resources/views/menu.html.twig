@@ -23,16 +23,23 @@
         {% set classes = classes|merge(['is-active']) %}
 
     {% endif %}
+    {% if item.separator %}
+
+        {% set classes = classes|merge(['main-menu__separator']) %}
+
+    {% endif %}
 
     <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
-        {% if item.indexUrl %}
-            <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
-                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-            </a>
-        {% else %}
-            <span{% if item.newObjectCount %} class="has-count"{% endif %}>
-                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-            </span>
+        {% if item.indexTitle %}
+            {% if item.indexUrl %}
+                <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
+                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+                </a>
+            {% else %}
+                <span{% if item.newObjectCount %} class="has-count"{% endif %}>
+                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+                </span>
+            {% endif %}
         {% endif %}
         {% if item.children is not empty %}
             <div>

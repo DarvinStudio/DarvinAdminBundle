@@ -211,7 +211,11 @@ class Configuration implements ConfigurationInterface
                     ->prototype('array')->addDefaultsIfNotSet()
                         ->children()
                             ->scalarNode('associated_object')->defaultNull()->end()
-                            ->integerNode('position')->defaultNull();
+                            ->integerNode('position')->defaultNull()->end()
+                            ->arrayNode('separators')->useAttributeAsKey('name')
+                                ->prototype('array')->addDefaultsIfNotSet()
+                                    ->children()
+                                        ->integerNode('position')->isRequired();
 
         return $root;
     }

@@ -78,6 +78,12 @@ class Menu implements MenuInterface
                     if ($this->isCurrent($item)) {
                         $item->setActive(true);
                     }
+                    if (null === $item->getNewObjectCount()
+                        && null !== $item->getAssociatedObject()
+                        && $this->newObjectCounter->isCountable($item->getAssociatedObject())
+                    ) {
+                        $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
+                    }
 
                     $items[$item->getName()] = $item;
                 }
@@ -106,15 +112,6 @@ class Menu implements MenuInterface
                     $parent->setActive(true);
                 }
             }
-            // Count new objects
-            foreach ($items as $item) {
-                if (null === $item->getNewObjectCount()
-                    && null !== $item->getAssociatedObject()
-                    && $this->newObjectCounter->isCountable($item->getAssociatedObject())
-                ) {
-                    $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
-                }
-            }
             // Fold tree
             foreach ($items as $key => $item) {
                 if ($item->hasParent()) {
@@ -138,11 +135,11 @@ class Menu implements MenuInterface
     private function sortItems(array $items): array
     {
         if (!empty($items)) {
-            $defaultPos = max(array_map(function (Item $item) {
+            $defaultPos = max(array_map(function (Item $item): int {
                 return $item->getPosition();
             }, $items)) + 1;
 
-            uasort($items, function (Item $a, Item $b) use ($defaultPos) {
+            uasort($items, function (Item $a, Item $b) use ($defaultPos): int {
                 $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
                 $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
 
@@ -164,15 +161,13 @@ class Menu implements MenuInterface
             return false;
         }
 
-        $url = $item->getIndexUrl();
-
         $request = $this->requestStack->getCurrentRequest();
 
         if (null === $request) {
             return false;
         }
 
-        $parts = parse_url($url);
+        $parts = parse_url($item->getIndexUrl());
 
         if (!isset($parts['path']) || 0 !== strpos($request->getPathInfo(), $parts['path'])) {
             return false;

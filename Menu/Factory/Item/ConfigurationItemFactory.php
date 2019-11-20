@@ -43,7 +43,7 @@ class ConfigurationItemFactory implements ItemFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getItems(): iterable
     {

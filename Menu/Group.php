@@ -16,7 +16,7 @@ namespace Darvin\AdminBundle\Menu;
 class Group extends Item
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(string $name)
     {

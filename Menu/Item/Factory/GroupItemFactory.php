@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Menu\Group;
+use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 
 /**
@@ -37,8 +37,9 @@ class GroupItemFactory implements ItemFactoryInterface
     public function getItems(): iterable
     {
         foreach ($this->config as $name => $attr) {
-            yield (new Group($name))
+            yield (new Item($name))
                 ->setAssociatedObject($attr['associated_object'])
+                ->setIndexTitle(sprintf('menu.group.%s.title', $name))
                 ->setPosition($attr['position']);
         }
     }

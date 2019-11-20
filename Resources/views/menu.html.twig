@@ -23,7 +23,7 @@
         {% set classes = classes|merge(['is-active']) %}
 
     {% endif %}
-    {% if item.separator %}
+    {% if not item.indexTitle and item.children is empty %}
 
         {% set classes = classes|merge(['main-menu__separator']) %}
 

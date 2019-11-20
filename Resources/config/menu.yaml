@@ -7,6 +7,8 @@ parameters:
 
     darvin_admin.menu.factory.item.section.class: Darvin\AdminBundle\Menu\Factory\Item\SectionItemFactory
 
+    darvin_admin.menu.factory.separator.class: Darvin\AdminBundle\Menu\Factory\SeparatorFactory
+
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
 services:
@@ -44,6 +46,13 @@ services:
             - '@security.authorization_checker'
             - '@doctrine.orm.entity_manager'
             - '@darvin_admin.metadata.manager'
+        tags:
+            - { name: darvin_admin.menu_item_factory }
+
+    darvin_admin.menu.factory.separator:
+        class: '%darvin_admin.menu.factory.separator.class%'
+        arguments:
+            - '%darvin_admin.menu.groups%'
         tags:
             - { name: darvin_admin.menu_item_factory }
 

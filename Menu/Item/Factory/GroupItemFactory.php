@@ -14,21 +14,21 @@ use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 
 /**
- * Menu group item factory
+ * Group menu item factory
  */
 class GroupItemFactory implements ItemFactoryInterface
 {
     /**
      * @var array
      */
-    private $config;
+    private $groupsConfig;
 
     /**
-     * @param array $config Configuration
+     * @param array $groupsConfig Menu groups configuration
      */
-    public function __construct(array $config)
+    public function __construct(array $groupsConfig)
     {
-        $this->config = $config;
+        $this->groupsConfig = $groupsConfig;
     }
 
     /**
@@ -36,11 +36,11 @@ class GroupItemFactory implements ItemFactoryInterface
      */
     public function getItems(): iterable
     {
-        foreach ($this->config as $name => $attr) {
+        foreach ($this->groupsConfig as $name => $config) {
             yield (new Item($name))
-                ->setAssociatedObject($attr['associated_object'])
+                ->setAssociatedObject($config['associated_object'])
                 ->setIndexTitle(sprintf('menu.group.%s.title', $name))
-                ->setPosition($attr['position']);
+                ->setPosition($config['position']);
         }
     }
 }

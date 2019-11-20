@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 
 /**
- * Menu separator item factory
+ * Separator menu item factory
  */
 class SeparatorItemFactory implements ItemFactoryInterface
 {

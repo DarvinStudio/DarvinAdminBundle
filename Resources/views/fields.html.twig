@@ -272,7 +272,7 @@
             <div class="form-tabs__container tabs js-tabs">
                 <div class="tabs__nav">
                     {%- for locale, child in form -%}
-                        <div class="tabs__nav-item js-translation-toggle" data-locale="{{ locale }}" data-target=".{{ child.vars.id }}">
+                        <div class="tabs__nav-item js-translation-toggle" data-locale="{{ locale }}">
                             <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             {{- ('locale.' ~ locale)|trans -}}
                         </div>

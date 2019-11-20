@@ -15,6 +15,8 @@ namespace Darvin\AdminBundle\Menu;
  */
 class Separator extends Item
 {
+    private const NAME_SUFFIX = 'separator';
+
     /**
      * @param string $name      Separator name
      * @param string $groupName Group name
@@ -22,7 +24,7 @@ class Separator extends Item
      */
     public function __construct(string $name, string $groupName, int $position)
     {
-        parent::__construct(implode('_', [$groupName, $name]));
+        parent::__construct(implode('_', [$groupName, $name, self::NAME_SUFFIX]));
 
         $this->parentName = $groupName;
         $this->position = $position;

@@ -89,7 +89,7 @@ class Menu implements MenuInterface
                 }
             }
 
-            $items = $this->sortItems($items);
+            $items = $this->sort($items);
 
             // Build tree
             foreach ($items as $item) {
@@ -119,8 +119,8 @@ class Menu implements MenuInterface
                 }
             }
 
-            $items = $this->removeEmpty($items);
-            $items = $this->sortItems($items);
+            $items = $this->cleanup($items);
+            $items = $this->sort($items);
 
             $this->items = $items;
         }
@@ -133,7 +133,7 @@ class Menu implements MenuInterface
      *
      * @return \Darvin\AdminBundle\Menu\Item[]
      */
-    private function removeEmpty(array $items): array
+    private function cleanup(array $items): array
     {
         foreach ($items as $key => $item) {
             if ($item->isEmpty() && !$item->isSeparator()) {
@@ -142,7 +142,7 @@ class Menu implements MenuInterface
                 continue;
             }
             if ($item->hasChildren()) {
-                $item->setChildren($this->removeEmpty($item->getChildren()));
+                $item->setChildren($this->cleanup($item->getChildren()));
             }
         }
 
@@ -154,7 +154,7 @@ class Menu implements MenuInterface
      *
      * @return \Darvin\AdminBundle\Menu\Item[]
      */
-    private function sortItems(array $items): array
+    private function sort(array $items): array
     {
         if (!empty($items)) {
             $defaultPos = max(array_map(function (Item $item): ?int {

@@ -31,12 +31,4 @@ class Separator extends Item
         $this->parentName = $groupName;
         $this->position = $position;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isEmpty(): bool
-    {
-        return false;
-    }
 }

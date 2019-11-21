@@ -78,12 +78,6 @@ class Menu implements MenuInterface
                     if ($this->isCurrent($item)) {
                         $item->setActive(true);
                     }
-                    if (null === $item->getNewObjectCount()
-                        && null !== $item->getAssociatedObject()
-                        && $this->newObjectCounter->isCountable($item->getAssociatedObject())
-                    ) {
-                        $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
-                    }
 
                     $items[$item->getName()] = $item;
                 }
@@ -120,6 +114,7 @@ class Menu implements MenuInterface
             }
 
             $items = $this->cleanup($items);
+            $items = $this->countNewObjects($items);
             $items = $this->sort($items);
 
             $this->items = $items;
@@ -189,16 +184,38 @@ class Menu implements MenuInterface
      *
      * @return \Darvin\AdminBundle\Menu\Item[]
      */
+    private function countNewObjects(array $items): array
+    {
+        foreach ($items as $item) {
+            if (null === $item->getNewObjectCount()
+                && null !== $item->getAssociatedObject()
+                && $this->newObjectCounter->isCountable($item->getAssociatedObject())
+            ) {
+                $item->setNewObjectCount($this->newObjectCounter->count($item->getAssociatedObject()));
+            }
+            if ($item->hasChildren()) {
+                $item->setChildren($this->countNewObjects($item->getChildren()));
+            }
+        }
+
+        return $items;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Menu\Item[] $items Menu items
+     *
+     * @return \Darvin\AdminBundle\Menu\Item[]
+     */
     private function sort(array $items): array
     {
         if (!empty($items)) {
-            $defaultPos = max(array_map(function (Item $item): ?int {
+            $default = max(array_map(function (Item $item): ?int {
                 return $item->getPosition();
             }, $items)) + 1;
 
-            uasort($items, function (Item $a, Item $b) use ($defaultPos): int {
-                $posA = null !== $a->getPosition() ? $a->getPosition() : $defaultPos;
-                $posB = null !== $b->getPosition() ? $b->getPosition() : $defaultPos;
+            uasort($items, function (Item $a, Item $b) use ($default): int {
+                $posA = null !== $a->getPosition() ? $a->getPosition() : $default;
+                $posB = null !== $b->getPosition() ? $b->getPosition() : $default;
 
                 return $posA <=> $posB;
             });

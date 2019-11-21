@@ -135,14 +135,49 @@ class Menu implements MenuInterface
      */
     private function cleanup(array $items): array
     {
-        foreach ($items as $key => $item) {
-            if ($item->isEmpty() && !$item->isSeparator()) {
+        $keys = array_keys($items);
+
+        $last = count($keys) - 1;
+
+        for ($i = 0; $i <= $last; $i++) {
+            $key = $keys[$i];
+
+            $item = $items[$key];
+
+            /** @var \Darvin\AdminBundle\Menu\Item|null $prev */
+            $prev = null;
+
+            for ($k = $i - 1; $k >= 0; $k--) {
+                if (isset($items[$keys[$k]])) {
+                    $prev = $items[$keys[$k]];
+
+                    break;
+                }
+            }
+
+            /** @var \Darvin\AdminBundle\Menu\Item|null $next */
+            $next = $i < $last ? $items[$keys[$i + 1]] : null;
+
+            if ($item->isSeparator()) {
+                if ((null === $prev || $prev->isSeparator()) || (null === $next || $next->isSeparator())) {
+                    unset($items[$key]);
+                }
+
+                continue;
+            }
+            if ($item->isEmpty()) {
                 unset($items[$key]);
 
                 continue;
             }
             if ($item->hasChildren()) {
-                $item->setChildren($this->cleanup($item->getChildren()));
+                $children = $this->cleanup($item->getChildren());
+
+                $item->setChildren($children);
+
+                if (empty($children)) {
+                    unset($items[$key]);
+                }
             }
         }
 

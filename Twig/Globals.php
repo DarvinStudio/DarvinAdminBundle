@@ -26,14 +26,24 @@ class Globals
     private $locales;
 
     /**
+     * @var string|null
+     */
+    private $logo;
+
+    /**
      * @var string
      */
     private $projectTitle;
 
     /**
-     * @var string|null
+     * @var string[]
      */
-    private $logo;
+    private $scripts;
+
+    /**
+     * @var string[]
+     */
+    private $styles;
 
     /**
      * @var string|null
@@ -43,16 +53,27 @@ class Globals
     /**
      * @param string      $frontendPath          Frontend path
      * @param string[]    $locales               Available locales
-     * @param string      $projectTitle          Project title
      * @param string|null $logo                  Custom logo pathname
+     * @param string      $projectTitle          Project title
+     * @param string[]    $scripts               Script file pathnames
+     * @param string[]    $styles                Style file pathnames
      * @param string|null $yandexTranslateApiKey Yandex.Translate API key
      */
-    public function __construct(string $frontendPath, array $locales, string $projectTitle, ?string $logo, ?string $yandexTranslateApiKey)
-    {
+    public function __construct(
+        string $frontendPath,
+        array $locales,
+        ?string $logo,
+        string $projectTitle,
+        array $scripts,
+        array $styles,
+        ?string $yandexTranslateApiKey
+    ) {
         $this->frontendPath = $frontendPath;
         $this->locales = $locales;
-        $this->projectTitle = $projectTitle;
         $this->logo = $logo;
+        $this->projectTitle = $projectTitle;
+        $this->scripts = $scripts;
+        $this->styles = $styles;
         $this->yandexTranslateApiKey = $yandexTranslateApiKey;
     }
 
@@ -73,6 +94,14 @@ class Globals
     }
 
     /**
+     * @return string|null
+     */
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    /**
      * @return string
      */
     public function getProjectTitle(): string
@@ -81,11 +110,19 @@ class Globals
     }
 
     /**
-     * @return string|null
+     * @return string[]
      */
-    public function getLogo(): ?string
+    public function getScripts(): array
     {
-        return $this->logo;
+        return $this->scripts;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getStyles(): array
+    {
+        return $this->styles;
     }
 
     /**

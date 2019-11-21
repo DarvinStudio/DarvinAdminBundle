@@ -11,6 +11,8 @@ services:
         arguments:
             - '%darvin_admin.frontend_path%'
             - '%darvin_admin.locales%'
-            - '%darvin_admin.project_title%'
             - '%darvin_admin.logo%'
+            - '%darvin_admin.project_title%'
+            - '%darvin_admin.assets.scripts%'
+            - '%darvin_admin.assets.styles%'
             - '%darvin_admin.yandex_translate_api_key%'

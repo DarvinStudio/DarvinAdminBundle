@@ -32,6 +32,7 @@ class Configuration implements ConfigurationInterface
         $root = $builder->getRootNode();
         $root
             ->children()
+                ->append($this->createAssetsNode())
                 ->append($this->createCKEditorNode())
                 ->append($this->createFormNode())
                 ->append($this->createMenuNode())
@@ -50,6 +51,20 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();
 
         return $builder;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createAssetsNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('assets'))->getRootNode();
+        $root->addDefaultsIfNotSet()
+            ->children()
+                ->arrayNode('scripts')->prototype('scalar')->cannotBeEmpty()->end()->end()
+                ->arrayNode('styles')->prototype('scalar')->cannotBeEmpty();
+
+        return $root;
     }
 
     /**

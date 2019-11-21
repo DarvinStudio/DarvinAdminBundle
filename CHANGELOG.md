@@ -437,3 +437,14 @@ darvin_admin:
                     discounts:   300000
                     exchange:    400000
 ```
+
+6.3.25: Allow to configure extra assets.
+
+```yaml
+darvin_admin:
+    assets:
+        scripts:
+            assets/scripts/my-super-script.js # Pathname to pass to asset() function
+        styles:
+            assets/styles/my-super-style.css # Pathname to pass to asset() function
+```

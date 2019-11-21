@@ -40,6 +40,10 @@
             {% endif %}
         {% endblock %}
 
+        {% for style in darvin_admin.styles %}
+            <link rel="stylesheet" href="{{ asset(style) }}">
+        {% endfor %}
+
         <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
     <body class="{% block body_class %}inner-page{% endblock %}{% if body_classes is not empty %} {{ body_classes|join(' ') }}{% endif %}"{% for name, value in data_attr %}{% if value %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endif %}{% endfor %}>
@@ -194,6 +198,10 @@
             {% else %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
             {% endif %}
+
+            {% for script in darvin_admin.scripts %}
+                <script src="{{ asset(script) }}"></script>
+            {% endfor %}
 
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
 

@@ -423,3 +423,17 @@ view:
 6.3.20: Configure compact CKEditor as full one.
 
 6.3.21: Do not render tumblers in expanded choice widgets.
+
+6.3.23: Menu separators.
+
+```yaml
+darvin_admin:
+    menu:
+        groups:
+            ecommerce:
+                position: 30
+                separators:
+                    directories: 200000
+                    discounts:   300000
+                    exchange:    400000
+```

@@ -444,7 +444,7 @@ darvin_admin:
 darvin_admin:
     assets:
         scripts:
-            assets/scripts/my-super-script.js # Pathname to pass to asset() function
+            - assets/scripts/my-super-script.js # Pathname to pass to asset() function
         styles:
-            assets/styles/my-super-style.css # Pathname to pass to asset() function
+            - assets/styles/my-super-style.css # Pathname to pass to asset() function
 ```

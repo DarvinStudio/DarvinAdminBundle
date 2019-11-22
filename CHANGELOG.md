@@ -448,3 +448,5 @@ darvin_admin:
         styles:
             - assets/styles/my-super-style.css # Pathname to pass to asset() function
 ```
+
+6.3.26: Load JS translations from "validators" domain.

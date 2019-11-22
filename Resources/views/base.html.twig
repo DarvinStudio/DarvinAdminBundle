@@ -191,7 +191,8 @@
 
         {% block javascripts %}
             <script src="{{ asset('bundles/bazingajstranslation/js/translator.min.js') }}"></script>
-            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en,{{ app.request.locale }}"></script>
+            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'admin'}) }}?locales=en{% if 'en' != app.request.locale %},{{ app.request.locale }}{% endif %}"></script>
+            <script src="{{ path('bazinga_jstranslation_js', {'domain': 'validators'}) }}?locales=en{% if 'en' != app.request.locale %},{{ app.request.locale }}{% endif %}"></script>
 
             {% if app.debug %}
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/app.js') }}"></script>

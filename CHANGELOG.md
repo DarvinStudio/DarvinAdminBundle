@@ -450,3 +450,5 @@ darvin_admin:
 ```
 
 6.3.26: Load JS translations from "validators" domain.
+
+6.3.27: Allow to specify route instead of asset pathname.

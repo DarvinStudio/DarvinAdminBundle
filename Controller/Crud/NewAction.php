@@ -97,7 +97,10 @@ class NewAction extends AbstractAction
             throw new NotFoundHttpException(sprintf('Single instance entity "%s" already exists.', $entityClass));
         }
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()),
+            CrudControllerEvents::STARTED
+        );
 
         $entity = new $entityClass();
 
@@ -144,7 +147,10 @@ class NewAction extends AbstractAction
         $this->em->persist($entity);
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::CREATED, new CreatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity));
+        $this->eventDispatcher->dispatch(
+            new CreatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity),
+            CrudEvents::CREATED
+        );
 
         $message     = sprintf('%saction.new.success', $this->getMeta()->getBaseTranslationPrefix());
         $redirectUrl = $this->successRedirect($form, $entity);

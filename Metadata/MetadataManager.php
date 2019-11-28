@@ -172,7 +172,7 @@ class MetadataManager implements AdminMetadataManagerInterface
             $this->buildTree($metadata, array_keys($metadata));
 
             foreach ($metadata as $meta) {
-                $this->eventDispatcher->dispatch(MetadataEvents::LOADED, new MetadataEvent($meta));
+                $this->eventDispatcher->dispatch(new MetadataEvent($meta), MetadataEvents::LOADED);
             }
 
             $this->metadata = $metadata;

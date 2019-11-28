@@ -43,7 +43,10 @@ class EditAction extends AbstractAction
 
         $entityBefore = clone $entity;
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity),
+            CrudControllerEvents::STARTED
+        );
 
         $form = $this->adminFormFactory->createEntityForm(
             $this->getMeta(),
@@ -76,7 +79,10 @@ class EditAction extends AbstractAction
 
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity));
+        $this->eventDispatcher->dispatch(
+            new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity),
+            CrudEvents::UPDATED
+        );
 
         $message     = sprintf('%saction.edit.success', $this->getMeta()->getBaseTranslationPrefix());
         $redirectUrl = $this->successRedirect($form, $entity);

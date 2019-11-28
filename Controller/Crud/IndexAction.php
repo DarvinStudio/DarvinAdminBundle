@@ -132,7 +132,10 @@ class IndexAction extends AbstractAction
 
         list($parentEntity, $association, $associationParam, $parentEntityId) = $this->getParentEntityDefinition($request);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName()),
+            CrudControllerEvents::STARTED
+        );
 
         $filterForm = $this->adminFormFactory->createFilterForm($this->getMeta(), $associationParam, $parentEntityId);
 

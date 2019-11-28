@@ -56,7 +56,10 @@ class ShowAction extends AbstractAction
 
         $this->checkPermission(Permission::VIEW, $entity);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity),
+            CrudControllerEvents::STARTED
+        );
 
         try {
             $this->customObjectLoader->loadCustomObjects($entity);

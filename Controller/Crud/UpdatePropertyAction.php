@@ -70,7 +70,10 @@ class UpdatePropertyAction extends AbstractAction
 
         $entityBefore = clone $entity;
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity),
+            CrudControllerEvents::STARTED
+        );
 
         $form = $this->adminFormFactory->createPropertyForm($this->getMeta(), $property, $entity)->handleRequest($request);
 
@@ -81,7 +84,10 @@ class UpdatePropertyAction extends AbstractAction
         if ($success) {
             $this->em->flush();
 
-            $this->eventDispatcher->dispatch(CrudEvents::UPDATED, new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity));
+            $this->eventDispatcher->dispatch(
+                new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity),
+                CrudEvents::UPDATED
+            );
 
             $form = $this->adminFormFactory->createPropertyForm($this->getMeta(), $property, $entity);
         } else {

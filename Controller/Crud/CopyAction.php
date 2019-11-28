@@ -68,7 +68,10 @@ class CopyAction extends AbstractAction
 
         $this->checkPermission(Permission::CREATE_DELETE, $entity);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity),
+            CrudControllerEvents::STARTED
+        );
 
         $copy        = null;
         $form        = $this->adminFormFactory->createCopyForm($entity, $this->getEntityClass())->handleRequest($request);
@@ -110,7 +113,10 @@ class CopyAction extends AbstractAction
             $this->em->persist($copy);
             $this->em->flush();
 
-            $this->eventDispatcher->dispatch(CrudEvents::COPIED, new CopiedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity, $copy));
+            $this->eventDispatcher->dispatch(
+                new CopiedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity, $copy),
+                CrudEvents::COPIED
+            );
         }
         if ($request->isXmlHttpRequest()) {
             $html = $success ? null : $this->viewWidgetPool->getWidget(CopyFormWidget::ALIAS)->getContent($entity);

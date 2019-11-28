@@ -55,7 +55,10 @@ class DeleteAction extends AbstractAction
 
         $this->checkPermission(Permission::CREATE_DELETE, $entity);
 
-        $this->eventDispatcher->dispatch(CrudControllerEvents::STARTED, new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity));
+        $this->eventDispatcher->dispatch(
+            new ControllerEvent($this->getMeta(), $this->userManager->getCurrentUser(), $this->getName(), $entity),
+            CrudControllerEvents::STARTED
+        );
 
         $form        = $this->adminFormFactory->createDeleteForm($entity, $this->getEntityClass())->handleRequest($request);
         $redirectUrl = '/';
@@ -83,7 +86,7 @@ class DeleteAction extends AbstractAction
         $this->em->remove($entity);
         $this->em->flush();
 
-        $this->eventDispatcher->dispatch(CrudEvents::DELETED, new DeletedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity));
+        $this->eventDispatcher->dispatch(new DeletedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity), CrudEvents::DELETED);
 
         $message = sprintf('%saction.delete.success', $this->getMeta()->getBaseTranslationPrefix());
 

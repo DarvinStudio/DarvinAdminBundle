@@ -1,0 +1,11 @@
+parameters:
+    darvin_admin.homepage.controller.class: Darvin\AdminBundle\Controller\HomepageController
+
+services:
+    darvin_admin.homepage.controller:
+        class: '%darvin_admin.homepage.controller.class%'
+        arguments:
+            - '@darvin_admin.dashboard'
+            - '@twig'
+        tags:
+            - { name: controller.service_arguments }

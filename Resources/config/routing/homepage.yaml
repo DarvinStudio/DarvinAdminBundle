@@ -1,3 +1,3 @@
 darvin_admin_homepage:
     path:     /
-    defaults: { _controller: Darvin\AdminBundle\Controller\HomepageController::indexAction }
+    defaults: { _controller: darvin_admin.homepage.controller }

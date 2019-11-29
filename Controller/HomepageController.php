@@ -11,29 +11,41 @@
 namespace Darvin\AdminBundle\Controller;
 
 use Darvin\AdminBundle\Dashboard\DashboardInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 /**
  * Homepage controller
  */
-class HomepageController extends AbstractController
+class HomepageController
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @var \Darvin\AdminBundle\Dashboard\DashboardInterface
      */
-    public function indexAction(): Response
+    private $dashboard;
+
+    /**
+     * @var \Twig\Environment
+     */
+    private $twig;
+
+    /**
+     * @param \Darvin\AdminBundle\Dashboard\DashboardInterface $dashboard Dashboard
+     * @param \Twig\Environment                                $twig      Twig
+     */
+    public function __construct(DashboardInterface $dashboard, Environment $twig)
     {
-        return $this->render('@DarvinAdmin/homepage/index.html.twig', [
-            'widgets' => $this->getDashboard()->getWidgets(),
-        ]);
+        $this->dashboard = $dashboard;
+        $this->twig = $twig;
     }
 
     /**
-     * @return \Darvin\AdminBundle\Dashboard\DashboardInterface
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function getDashboard(): DashboardInterface
+    public function __invoke(): Response
     {
-        return $this->get('darvin_admin.dashboard');
+        return new Response($this->twig->render('@DarvinAdmin/homepage/index.html.twig', [
+            'widgets' => $this->dashboard->getWidgets(),
+        ]));
     }
 }

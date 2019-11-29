@@ -8,47 +8,82 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller;
+namespace Darvin\AdminBundle\Controller\CKEditor;
 
 use Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface;
 use Darvin\ContentBundle\Widget\Exception\WidgetNotExistsException;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 /**
- * CKEditor controller
+ * CKEditor plugin controller
  */
-class CKEditorController extends AbstractController
+class PluginController
 {
+    /**
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @var \Twig\Environment
+     */
+    private $twig;
+
+    /**
+     * @var \Darvin\ContentBundle\Widget\WidgetPoolInterface
+     */
+    private $widgetPool;
+
+    /**
+     * @var bool
+     */
+    private $debug;
+
+    /**
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator Translator
+     * @param \Twig\Environment                                  $twig       Twig
+     * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface   $widgetPool Widget pool
+     * @param bool                                               $debug      Is debug
+     */
+    public function __construct(TranslatorInterface $translator, Environment $twig, WidgetPoolInterface $widgetPool, bool $debug)
+    {
+        $this->translator = $translator;
+        $this->twig = $twig;
+        $this->widgetPool = $widgetPool;
+        $this->debug = $debug;
+    }
+
     /**
      * @param string $widgetName Widget name
      *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function pluginAction(string $widgetName): Response
+    public function __invoke(string $widgetName): Response
     {
         try {
-            $widget = $this->getWidgetPool()->getWidget($widgetName);
+            $widget = $this->widgetPool->getWidget($widgetName);
         } catch (WidgetNotExistsException $ex) {
-            throw $this->createNotFoundException($ex->getMessage());
+            throw new NotFoundHttpException($ex->getMessage());
         }
         if (!$widget instanceof CKEditorWidgetInterface) {
-            throw $this->createNotFoundException(
+            throw new NotFoundHttpException(
                 sprintf('Widget class "%s" must be instance of "%s".', get_class($widget), CKEditorWidgetInterface::class)
             );
         }
 
-        $response = $this->render('@DarvinAdmin/ckeditor/plugin.js.twig', [
+        $response = new Response($this->twig->render('@DarvinAdmin/ckeditor/plugin.js.twig', [
             'icon'   => $this->getWidgetIcon($widget),
             'letter' => $this->getWidgetLetter($widget),
             'widget' => $widget,
-        ]);
+        ]));
         $response->headers->set('Content-Type', 'application/javascript');
 
-        if (!$this->container->getParameter('kernel.debug')) {
+        if (!$this->debug) {
             $response->setMaxAge(365 * 24 * 60 * 60);
         }
 
@@ -107,7 +142,7 @@ class CKEditorController extends AbstractController
         $source = $options['letter_source'];
 
         if (null === $source) {
-            $source = $this->getTranslator()->trans($options['title'], [], 'admin');
+            $source = $this->translator->trans($options['title'], [], 'admin');
         }
 
         $source = preg_replace('/([^\w]|_)+/u', '', $source);
@@ -117,21 +152,5 @@ class CKEditorController extends AbstractController
         }
 
         return mb_strtoupper(mb_substr($source, 0, 1));
-    }
-
-    /**
-     * @return \Symfony\Contracts\Translation\TranslatorInterface
-     */
-    private function getTranslator(): TranslatorInterface
-    {
-        return $this->get('translator');
-    }
-
-    /**
-     * @return \Darvin\ContentBundle\Widget\WidgetPoolInterface
-     */
-    private function getWidgetPool(): WidgetPoolInterface
-    {
-        return $this->get('darvin_content.widget.pool');
     }
 }

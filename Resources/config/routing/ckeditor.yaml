@@ -1,6 +1,6 @@
 darvin_admin_ckeditor_plugin:
     path:         /plugins/{widgetName}.js
-    defaults:     { _controller: Darvin\AdminBundle\Controller\CKEditorController::pluginAction }
+    defaults:     { _controller: darvin_admin.ckeditor.controller.plugin }
     requirements: { widgetName: .+ }
     methods:      [ get ]
 

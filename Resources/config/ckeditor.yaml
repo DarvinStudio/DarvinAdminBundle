@@ -1,21 +1,26 @@
 parameters:
-    darvin_admin.ckeditor.compact_form_type.class: Darvin\AdminBundle\Form\Type\CKEditorCompactType
+    darvin_admin.ckeditor.controller.plugin.class: Darvin\AdminBundle\Controller\CKEditor\PluginController
 
-    darvin_admin.ckeditor.form_type.class: Darvin\AdminBundle\Form\Type\CKEditorType
+    darvin_admin.ckeditor.form_type.common.class: Darvin\AdminBundle\Form\Type\CKEditorType
+
+    darvin_admin.ckeditor.form_type.compact.class: Darvin\AdminBundle\Form\Type\CKEditorCompactType
 
 services:
     _defaults:
         public: true
 
-    darvin_admin.ckeditor.compact_form_type:
-        class: '%darvin_admin.ckeditor.compact_form_type.class%'
+    darvin_admin.ckeditor.controller.plugin:
+        class: '%darvin_admin.ckeditor.controller.plugin.class%'
         arguments:
-            - '@darvin_utils.locale.provider'
+            - '@translator'
+            - '@twig'
+            - '@darvin_content.widget.pool'
+            - '%kernel.debug%'
         tags:
-            - { name: form.type }
+            - { name: controller.service_arguments }
 
-    darvin_admin.ckeditor.form_type:
-        class: '%darvin_admin.ckeditor.form_type.class%'
+    darvin_admin.ckeditor.form_type.common:
+        class: '%darvin_admin.ckeditor.form_type.common.class%'
         arguments:
             - '@darvin_utils.locale.provider'
             - '@property_accessor'
@@ -24,5 +29,12 @@ services:
             - '@darvin_content.widget.pool'
             - '%darvin_admin.ckeditor.plugin_filename%'
             - '%darvin_admin.ckeditor.plugins_path%'
+        tags:
+            - { name: form.type }
+
+    darvin_admin.ckeditor.form_type.compact:
+        class: '%darvin_admin.ckeditor.form_type.compact.class%'
+        arguments:
+            - '@darvin_utils.locale.provider'
         tags:
             - { name: form.type }

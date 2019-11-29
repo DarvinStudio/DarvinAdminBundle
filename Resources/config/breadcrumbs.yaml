@@ -2,12 +2,8 @@ parameters:
     darvin_admin.breadcrumbs.twig_extension.class: Darvin\AdminBundle\Twig\Extension\BreadcrumbsExtension
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.breadcrumbs.twig_extension:
-        class:  '%darvin_admin.breadcrumbs.twig_extension.class%'
-        public: false
+        class: '%darvin_admin.breadcrumbs.twig_extension.class%'
         arguments:
             - '@darvin_admin.router'
             - '@darvin_admin.metadata.identifier_accessor'

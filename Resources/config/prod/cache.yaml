@@ -5,16 +5,11 @@ parameters:
     darvin_admin.cache.filesystem.lifetime:  0
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.cache:
-        alias:  darvin_admin.cache.filesystem
-        public: false
+        alias: darvin_admin.cache.filesystem
 
     darvin_admin.cache.filesystem:
-        class:  '%darvin_admin.cache.filesystem.class%'
-        public: false
+        class: '%darvin_admin.cache.filesystem.class%'
         arguments:
             - !service
                 class: '%darvin_admin.cache.filesystem.adapter%'

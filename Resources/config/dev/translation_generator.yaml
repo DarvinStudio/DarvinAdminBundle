@@ -3,9 +3,6 @@ parameters:
     darvin_admin.translation_generator.command.name:  darvin:admin:translations:generate
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.translation_generator.command:
         class: '%darvin_admin.translation_generator.command.class%'
         arguments:

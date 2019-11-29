@@ -2,9 +2,6 @@ parameters:
     darvin_admin.ace_editor.form_type.class: Darvin\AdminBundle\Form\Type\AceEditorType
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.ace_editor.form_type:
         class: '%darvin_admin.ace_editor.form_type.class%'
         arguments:

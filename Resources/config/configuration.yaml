@@ -6,9 +6,6 @@ parameters:
     darvin_admin.configuration.section.class: Darvin\AdminBundle\Configuration\SectionConfiguration
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.configuration.controller.edit:
         class: '%darvin_admin.configuration.controller.edit.class%'
         arguments:
@@ -29,7 +26,8 @@ services:
             - { name: form.type }
 
     darvin_admin.configuration.section:
-        class: '%darvin_admin.configuration.section.class%'
+        class:  '%darvin_admin.configuration.section.class%'
+        public: true
         arguments:
             - '@darvin_utils.orm.entity_resolver'
             - '@darvin_utils.object_namer'

@@ -12,19 +12,14 @@ parameters:
     darvin_admin.menu.twig_extension.class: Darvin\AdminBundle\Twig\Extension\MenuExtension
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.menu:
-        class:  '%darvin_admin.menu.class%'
-        public: false
+        class: '%darvin_admin.menu.class%'
         arguments:
             - '@darvin_utils.new_object.counter'
             - '@request_stack'
 
     darvin_admin.menu.item_factory.configuration:
-        class:  '%darvin_admin.menu.item_factory.configuration.class%'
-        public: false
+        class: '%darvin_admin.menu.item_factory.configuration.class%'
         arguments:
             - '@security.authorization_checker'
             - '@router'
@@ -39,8 +34,7 @@ services:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.item_factory.section:
-        class:  '%darvin_admin.menu.item_factory.section.class%'
-        public: false
+        class: '%darvin_admin.menu.item_factory.section.class%'
         arguments:
             - '@darvin_admin.router'
             - '@security.authorization_checker'
@@ -57,8 +51,7 @@ services:
             - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.twig_extension:
-        class:  '%darvin_admin.menu.twig_extension.class%'
-        public: false
+        class: '%darvin_admin.menu.twig_extension.class%'
         arguments:
             - '@darvin_admin.menu'
         tags:

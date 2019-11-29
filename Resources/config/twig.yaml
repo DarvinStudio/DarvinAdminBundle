@@ -2,12 +2,8 @@ parameters:
     darvin_admin.twig.globals.class: Darvin\AdminBundle\Twig\Globals
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.twig.globals:
-        class:  '%darvin_admin.twig.globals.class%'
-        public: false
+        class: '%darvin_admin.twig.globals.class%'
         arguments:
             - '%darvin_admin.frontend_path%'
             - '%darvin_admin.locales%'

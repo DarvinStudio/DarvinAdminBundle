@@ -15,8 +15,6 @@ parameters:
 
 services:
     darvin_admin.menu.item_factory:
-        class:  '%darvin_admin.menu.item_factory.class%'
-        public: false
-        tags:
-            - { name: darvin_admin.menu_item_factory }
+        class: '%darvin_admin.menu.item_factory.class%'
+        tags:  [ darvin_admin.menu_item_factory ]
 ```

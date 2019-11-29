@@ -453,4 +453,8 @@ darvin_admin:
 
 6.3.27: Allow to specify route instead of asset pathname.
 
-6.3.30: Make controllers services.
+6.4.0: 
+
+- Make controllers services.
+
+- Make most of services private.

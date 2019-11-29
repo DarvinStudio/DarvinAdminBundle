@@ -2,12 +2,8 @@ parameters:
     darvin_admin.translation.clear_cache_subscriber.class: Darvin\AdminBundle\EventListener\ClearTranslationCacheSubscriber
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.translation.clear_cache_subscriber:
-        class:  '%darvin_admin.translation.clear_cache_subscriber.class%'
-        public: false
+        class: '%darvin_admin.translation.clear_cache_subscriber.class%'
         arguments:
             - '@service_container'
         tags:

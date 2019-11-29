@@ -6,12 +6,8 @@ parameters:
     darvin_admin.security.oauth.darvin_auth_user_provider.class: Darvin\AdminBundle\Security\OAuth\DarvinAuthUserProvider
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.security.authorization_voter:
-        class:  '%darvin_admin.security.authorization_voter.class%'
-        public: false
+        class: '%darvin_admin.security.authorization_voter.class%'
         arguments:
             - '@darvin_utils.orm.entity_resolver'
             - '@darvin_admin.metadata.manager'
@@ -33,4 +29,3 @@ services:
     darvin_admin.security.oauth.darvin_auth_user_provider:
         class:  '%darvin_admin.security.oauth.darvin_auth_user_provider.class%'
         parent: darvin_user.security.oauth.darvin_auth_user_provider
-        public: true

@@ -18,9 +18,6 @@ parameters:
     darvin_admin.form.type.translatable.class: Darvin\AdminBundle\Form\Type\TranslatableType
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.form.group_form_type_extension:
         class: '%darvin_admin.form.group_form_type_extension.class%'
         tags:
@@ -45,11 +42,9 @@ services:
     darvin_admin.form.manipulator:
         class:  '%darvin_admin.form.manipulator.class%'
         parent: a2lix_auto_form.form.manipulator.doctrine_orm_manipulator
-        public: false
 
     darvin_admin.form.renderer.property:
-        class:  '%darvin_admin.form.renderer.property.class%'
-        public: false
+        class: '%darvin_admin.form.renderer.property.class%'
         arguments:
             - '@form.property_accessor'
             - '@twig'

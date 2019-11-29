@@ -6,9 +6,6 @@ parameters:
     darvin_admin.ckeditor.form_type.compact.class: Darvin\AdminBundle\Form\Type\CKEditorCompactType
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.ckeditor.controller.plugin:
         class: '%darvin_admin.ckeditor.controller.plugin.class%'
         arguments:

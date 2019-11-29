@@ -2,9 +2,6 @@ parameters:
     darvin_admin.uploader.subscriber.class: Darvin\AdminBundle\EventListener\UploaderSubscriber
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.uploader.subscriber:
         class: '%darvin_admin.uploader.subscriber.class%'
         tags:

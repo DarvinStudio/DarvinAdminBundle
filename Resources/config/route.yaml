@@ -6,20 +6,15 @@ parameters:
     darvin_admin.router.class: Darvin\AdminBundle\Route\AdminRouter
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.route.loader:
-        class:  '%darvin_admin.route.loader.class%'
-        public: false
+        class: '%darvin_admin.route.loader.class%'
         arguments:
             - '@darvin_admin.metadata.manager'
         tags:
             - { name: routing.loader }
 
     darvin_admin.route.twig_extension:
-        class:  '%darvin_admin.route.twig_extension.class%'
-        public: false
+        class: '%darvin_admin.route.twig_extension.class%'
         arguments:
             - '@darvin_admin.router'
         tags:

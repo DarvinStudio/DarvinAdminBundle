@@ -4,9 +4,6 @@ parameters:
     darvin_admin.error.show_error_page_subscriber.homepage_route: darvin_admin_homepage
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.error.show_error_page_subscriber:
         class: '%darvin_admin.error.show_error_page_subscriber.class%'
         arguments:

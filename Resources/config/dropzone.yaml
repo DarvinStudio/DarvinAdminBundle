@@ -2,9 +2,6 @@ parameters:
     darvin_admin.dropzone.form_type.class: Darvin\AdminBundle\Form\Type\Dropzone\DropzoneType
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.dropzone.form_type:
         class: '%darvin_admin.dropzone.form_type.class%'
         arguments:

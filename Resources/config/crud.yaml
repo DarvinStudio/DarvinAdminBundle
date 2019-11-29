@@ -11,9 +11,6 @@ parameters:
     darvin_admin.crud.action.update_property.class: Darvin\AdminBundle\Controller\Crud\UpdatePropertyAction
 
 services:
-    _defaults:
-        public: true
-
     darvin_admin.crud.action.abstract:
         class:    '%darvin_admin.crud.action.abstract.class%'
         abstract: true
@@ -33,33 +30,36 @@ services:
     darvin_admin.crud.action.batch_delete:
         class:  '%darvin_admin.crud.action.batch_delete.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.copy:
         class:  '%darvin_admin.crud.action.copy.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@darvin_utils.cloner'
             - '@validator'
             - '@darvin_admin.view.widget.pool'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.delete:
         class:  '%darvin_admin.crud.action.delete.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@darvin_admin.view.widget.pool'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.edit:
         class:  '%darvin_admin.crud.action.edit.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.index:
         class:  '%darvin_admin.crud.action.index.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@service_container'
             - '@darvin_utils.custom_object.loader'
@@ -71,29 +71,34 @@ services:
             - '@darvin_content.orm.sort_entity_joiner'
             - '@darvin_content.translatable.translation_joiner'
             - '@darvin_utils.user.query_builder_filterer'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.new:
         class:  '%darvin_admin.crud.action.new.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@property_accessor'
             - '@darvin_content.translatable.translation_initializer'
             - '@darvin_content.translatable.translation_joiner'
             - '%darvin_admin.locales%'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.show:
         class:  '%darvin_admin.crud.action.show.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@darvin_utils.custom_object.loader'
             - '@darvin_admin.view.factory.show'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.crud.action.update_property:
         class:  '%darvin_admin.crud.action.update_property.class%'
         parent: darvin_admin.crud.action.abstract
-        public: true
         arguments:
             - '@darvin_admin.form.renderer.property'
             - '@translator'
+        tags:
+            - { name: controller.service_arguments }

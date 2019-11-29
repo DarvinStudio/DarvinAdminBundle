@@ -57,6 +57,8 @@ form:
         clear: واضح
     slug_suffix:
         help: 'لا ننسى أن إنشاء إعادة توجيه بعد تغيير عنوان URL.'
+    tabs:
+        default: الرئيسية
 homepage:
     index:
         link: 'الصفحة الرئيسية'

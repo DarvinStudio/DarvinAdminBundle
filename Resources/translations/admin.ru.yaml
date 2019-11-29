@@ -66,6 +66,8 @@ form:
         clear: Очистить
     slug_suffix:
         help: После смены адреса не забудьте проставить редирект.
+    tabs:
+        default: Основное
 
 homepage:
     index:

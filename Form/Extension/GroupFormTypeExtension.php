@@ -21,15 +21,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class GroupFormTypeExtension extends AbstractTypeExtension
 {
+    private const OPTIONS = [
+        'admin_group',
+        'admin_spoiler',
+        'admin_tab',
+    ];
+
     /**
      * {@inheritDoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
-        $view->vars = array_merge($view->vars, [
-            'admin_group'   => $options['admin_group'],
-            'admin_spoiler' => $options['admin_spoiler'],
-        ]);
+        foreach (self::OPTIONS as $option) {
+            $view->vars[$option] = $options[$option];
+        }
     }
 
     /**
@@ -37,13 +42,11 @@ class GroupFormTypeExtension extends AbstractTypeExtension
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver
-            ->setDefaults([
-                'admin_group'   => null,
-                'admin_spoiler' => null,
-            ])
-            ->setAllowedTypes('admin_group', ['string', 'null'])
-            ->setAllowedTypes('admin_spoiler', ['string', 'null']);
+        foreach (self::OPTIONS as $option) {
+            $resolver
+                ->setDefault($option, null)
+                ->setAllowedTypes($option, ['string', 'null']);
+        }
     }
 
     /**

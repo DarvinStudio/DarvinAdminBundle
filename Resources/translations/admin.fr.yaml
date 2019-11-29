@@ -57,6 +57,8 @@ form:
         clear: Claire
     slug_suffix:
         help: 'N''oubliez pas de créer une redirection après la modification de l''URL.'
+    tabs:
+        default: Principal
 homepage:
     index:
         link: 'Page d''accueil'

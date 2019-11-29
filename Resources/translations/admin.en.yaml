@@ -57,6 +57,8 @@ form:
         clear: Clear
     slug_suffix:
         help: 'Do not forget to create a redirect after changing the URL.'
+    tabs:
+        default: Main
 homepage:
     index:
         link: Homepage

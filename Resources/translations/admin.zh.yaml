@@ -57,6 +57,8 @@ form:
         clear: 清楚的
     slug_suffix:
         help: 不要忘记创建一个向更改后的网址。
+    tabs:
+        default: 主
 homepage:
     index:
         link: 主页

@@ -8,28 +8,74 @@
 
 {% endif %}
 
-<div class="content-block">
-    <div class="content-block__content">
-        {% if is_widget %}
-            <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
-        {% endif %}
-        {{ form_start(form, {'attr': {'class': 'js-form', 'data-target': '.js-form-container', 'data-reload-page': 1}}) }}
-        <div style="display: none;">
-            {% for row in form %}
-                {% if 'submit' == row.vars.block_prefixes[1] %}
-                    {{ form_row(row) }}
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="form-product-show">
-            {{ form_errors(form) }}
-            {{ form_widget(form) }}
-        </div>
-        {{ form_end(form) }}
-        {% if is_widget %}
+{% set default_tab = 'form.tabs.default' %}
+{% set tabs        = [] %}
 
-            {% include '@DarvinAdmin/crud/_buttons.html.twig' with {'style': 'header', 'entity': null} %}
+{% for row in form %}
 
-        {% endif %}
-    </div>
+    {% set tab = row.vars.admin_tab|default(default_tab) %}
+
+    {% if tab not in tabs %}
+
+        {% set tabs = tabs|merge([tab]) %}
+
+    {% endif %}
+{% endfor %}
+
+{{ form_start(form, {'attr': {'class': 'js-form', 'data-target': '.js-form-container', 'data-reload-page': 1}}) }}
+<div style="display: none;">
+    {% for row in form|filter(row => row.vars.block_prefixes[1] == 'submit') %}
+        {{ form_row(row) }}
+    {% endfor %}
 </div>
+
+{% if tabs|length > 1 %}
+    {% if is_widget %}
+        <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
+    {% endif %}
+    {{ form_errors(form) }}
+    <div class="content-tabs">
+        <div class="content-tabs__container tabs js-tabs">
+            <div class="tabs__nav">
+                {% for tab in tabs %}
+                    <div class="tabs__nav-item">{{ tab|trans }}</div>
+                {% endfor %}
+            </div>
+            <div class="tabs__content">
+                {% for tab in tabs %}
+                    <div class="tabs__content-item">
+                        <div class="form-product-show">
+                            {% for row in form|filter(row => row.vars.admin_tab|default(default_tab) == tab) %}
+                                {{ form_row(row) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% if is_widget %}
+
+        {% include '@DarvinAdmin/crud/_buttons.html.twig' with {'style': 'header', 'entity': null} %}
+
+    {% endif %}
+{% else %}
+    <div class="content-block">
+        <div class="content-block__content">
+            {% if is_widget %}
+                <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
+            {% endif %}
+            <div class="form-product-show">
+                {{ form_errors(form) }}
+                {{ form_widget(form) }}
+            </div>
+            {% if is_widget %}
+
+                {% include '@DarvinAdmin/crud/_buttons.html.twig' with {'style': 'header', 'entity': null} %}
+
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+
+{{ form_end(form) }}

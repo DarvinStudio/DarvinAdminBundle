@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Dashboard;
 
 use Darvin\Utils\Strings\StringsUtil;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Dashboard widget abstract implementation
@@ -19,9 +19,9 @@ use Symfony\Component\Templating\EngineInterface;
 abstract class AbstractDashboardWidget implements DashboardWidgetInterface
 {
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \Twig\Environment
      */
-    protected $templating;
+    protected $twig;
 
     /**
      * @var string|null
@@ -29,11 +29,11 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     private $name = null;
 
     /**
-     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
+     * @param \Twig\Environment $twig Twig
      */
-    public function setTemplating(EngineInterface $templating): void
+    public function setTwig(Environment $twig): void
     {
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     /**

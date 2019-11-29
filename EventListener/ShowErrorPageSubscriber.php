@@ -23,8 +23,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\Translator;
+use Twig\Environment;
 
 /**
  * Show error page event subscriber
@@ -52,9 +52,9 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     private $router;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \Twig\Environment
      */
-    private $templating;
+    private $twig;
 
     /**
      * @var \Symfony\Component\Translation\Translator
@@ -86,7 +86,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
      * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap                          $firewallMap          Firewall map
      * @param \Psr\Log\LoggerInterface                                                     $logger               Logger
      * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
-     * @param \Symfony\Component\Templating\EngineInterface                                $templating           Templating
+     * @param \Twig\Environment                                                            $twig                 Twig
      * @param \Symfony\Component\Translation\Translator                                    $translator           Translator
      * @param string                                                                       $firewallName         Firewall name
      * @param string                                                                       $homepageRoute        Homepage route
@@ -98,7 +98,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
         FirewallMap $firewallMap,
         LoggerInterface $logger,
         RouterInterface $router,
-        EngineInterface $templating,
+        Environment $twig,
         Translator $translator,
         string $firewallName,
         string $homepageRoute,
@@ -109,7 +109,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
         $this->firewallMap = $firewallMap;
         $this->logger = $logger;
         $this->router = $router;
-        $this->templating = $templating;
+        $this->twig = $twig;
         $this->translator = $translator;
         $this->firewallName = $firewallName;
         $this->homepageRoute = $homepageRoute;
@@ -155,7 +155,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
 
         $template = sprintf('@DarvinAdmin/error/%d.html.twig', $this->getStatusCode($exception));
 
-        if (!$this->templating->exists($template)) {
+        if (!$this->twig->getLoader()->exists($template)) {
             return;
         }
 
@@ -166,7 +166,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
 
         $this->configureContexts($request);
 
-        $content = $this->templating->render($template, [
+        $content = $this->twig->render($template, [
             'referer' => $request->headers->get('referer'),
         ]);
 

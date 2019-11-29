@@ -72,7 +72,7 @@ services:
             - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
             - [ setMetadataManager,      [ '@darvin_admin.metadata.manager' ] ]
             - [ setPropertyAccessor,     [ '@property_accessor' ] ]
-            - [ setTemplating,           [ '@templating' ] ]
+            - [ setTwig,                 [ '@twig' ] ]
 
     darvin_admin.view.widget.actions:
         class:  '%darvin_admin.view.widget.actions.class%'

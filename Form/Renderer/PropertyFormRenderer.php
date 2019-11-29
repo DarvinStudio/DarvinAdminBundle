@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Form\Renderer;
 
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * Property form renderer
@@ -25,18 +25,18 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
     private $propertyAccessor;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \Twig\Environment
      */
-    private $templating;
+    private $twig;
 
     /**
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
-     * @param \Symfony\Component\Templating\EngineInterface               $templating       Templating
+     * @param \Twig\Environment                                           $twig             Twig
      */
-    public function __construct(PropertyAccessorInterface $propertyAccessor, EngineInterface $templating)
+    public function __construct(PropertyAccessorInterface $propertyAccessor, Environment $twig)
     {
         $this->propertyAccessor = $propertyAccessor;
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     /**
@@ -60,7 +60,7 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
             }
         }
 
-        return $this->templating->render('@DarvinAdmin/property_form/form.html.twig', [
+        return $this->twig->render('@DarvinAdmin/property_form/form.html.twig', [
             'entity'         => $entity,
             'entity_class'   => $entityClass,
             'form'           => $view,

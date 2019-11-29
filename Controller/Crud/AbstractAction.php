@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * CRUD controller action abstract implementation
@@ -92,9 +92,9 @@ abstract class AbstractAction
     protected $routeManager;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \Twig\Environment
      */
-    protected $templating;
+    protected $twig;
 
     /**
      * @var \Darvin\UserBundle\User\UserManagerInterface
@@ -199,11 +199,11 @@ abstract class AbstractAction
     }
 
     /**
-     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
+     * @param \Twig\Environment $twig Twig
      */
-    public function setTemplating(EngineInterface $templating): void
+    public function setTwig(Environment $twig): void
     {
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     /**
@@ -312,7 +312,7 @@ abstract class AbstractAction
     protected function renderTemplate(array $params = [], bool $partial = false): string
     {
         if (null !== $this->actionConfig && null !== $this->actionConfig->getTemplate()) {
-            return $this->templating->render($this->actionConfig->getTemplate(), $params);
+            return $this->twig->render($this->actionConfig->getTemplate(), $params);
         }
 
         $config = $this->getConfig();
@@ -322,13 +322,13 @@ abstract class AbstractAction
 
         if ($partial) {
             if (!empty($template)) {
-                return $this->templating->render($template, $params);
+                return $this->twig->render($template, $params);
             }
 
             $type = sprintf('_%s', $type);
         }
 
-        return $this->templating->render(sprintf('@DarvinAdmin/crud/%s.html.twig', $type), $params);
+        return $this->twig->render(sprintf('@DarvinAdmin/crud/%s.html.twig', $type), $params);
     }
 
     /**

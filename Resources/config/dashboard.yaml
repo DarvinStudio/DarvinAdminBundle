@@ -16,4 +16,4 @@ services:
         class:    '%darvin_admin.dashboard.widget.abstract.class%'
         abstract: true
         calls:
-            - [ setTemplating, [ '@templating' ] ]
+            - [ setTwig, [ '@twig' ] ]

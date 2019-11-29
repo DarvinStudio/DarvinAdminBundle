@@ -14,7 +14,7 @@ services:
             - '@security.firewall.map'
             - '@logger'
             - '@router'
-            - '@templating'
+            - '@twig'
             - '@translator'
             - '%darvin_admin.error.show_error_page_subscriber.firewall_name%'
             - '%darvin_admin.error.show_error_page_subscriber.homepage_route%'

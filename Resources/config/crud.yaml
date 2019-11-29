@@ -27,7 +27,7 @@ services:
             - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]
             - [ setRequestStack,         [ '@request_stack' ] ]
             - [ setRouteManager,         [ '@darvin_utils.routing.route_manager' ] ]
-            - [ setTemplating,           [ '@templating' ] ]
+            - [ setTwig,                 [ '@twig' ] ]
             - [ setUserManager,          [ '@darvin_user.user.manager' ] ]
 
     darvin_admin.crud.action.batch_delete:

@@ -52,7 +52,7 @@ services:
         public: false
         arguments:
             - '@form.property_accessor'
-            - '@templating'
+            - '@twig'
 
     darvin_admin.form.type.entity:
         class: '%darvin_admin.form.type.entity.class%'

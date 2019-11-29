@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\Exception\ExceptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Templating\EngineInterface;
+use Twig\Environment;
 
 /**
  * View widget abstract implementation
@@ -42,9 +42,9 @@ abstract class AbstractWidget implements WidgetInterface
     protected $propertyAccessor;
 
     /**
-     * @var \Symfony\Component\Templating\EngineInterface
+     * @var \Twig\Environment
      */
-    protected $templating;
+    protected $twig;
 
     /**
      * @var string|null
@@ -86,11 +86,11 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * @param \Symfony\Component\Templating\EngineInterface $templating Templating
+     * @param \Twig\Environment $twig Twig
      */
-    public function setTemplating(EngineInterface $templating): void
+    public function setTwig(Environment $twig): void
     {
-        $this->templating = $templating;
+        $this->twig = $twig;
     }
 
     /**
@@ -220,7 +220,7 @@ abstract class AbstractWidget implements WidgetInterface
      */
     final protected function render(array $params = [], ?string $template = null): string
     {
-        return $this->templating->render(!empty($template) ? $template : $this->getTemplate(), array_merge($this->resolvedOptions, $params));
+        return $this->twig->render(!empty($template) ? $template : $this->getTemplate(), array_merge($this->resolvedOptions, $params));
     }
 
     /**

@@ -7,7 +7,7 @@ darvin_admin_security_login_check:
 
 darvin_admin_security_login:
     path:     /login
-    defaults: { _controller: Darvin\AdminBundle\Controller\SecurityController::loginAction }
+    defaults: { _controller: darvin_admin.security.controller.login }
 
 darvin_admin_security_darvin_auth_login:
     path:     /login/{service}

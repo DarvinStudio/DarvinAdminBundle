@@ -1,6 +1,8 @@
 parameters:
     darvin_admin.security.authorization_voter.class: Darvin\AdminBundle\Security\Authorization\Voter\AdminVoter
 
+    darvin_admin.security.controller.login.class: Darvin\AdminBundle\Controller\Security\LoginController
+
     darvin_admin.security.oauth.darvin_auth_user_provider.class: Darvin\AdminBundle\Security\OAuth\DarvinAuthUserProvider
 
 services:
@@ -17,6 +19,16 @@ services:
             - '%darvin_admin.permissions%'
         tags:
             - { name: security.voter }
+
+    darvin_admin.security.controller.login:
+        class: '%darvin_admin.security.controller.login.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@darvin_user.security.form.factory'
+            - '@darvin_user.security.form.renderer'
+            - '@router'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.security.oauth.darvin_auth_user_provider:
         class:  '%darvin_admin.security.oauth.darvin_auth_user_provider.class%'

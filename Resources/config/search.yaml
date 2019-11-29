@@ -1,12 +1,34 @@
 parameters:
-    darvin_admin.searcher.class: Darvin\AdminBundle\Search\Searcher
+    darvin_admin.search.controller.index.class: Darvin\AdminBundle\Controller\Search\IndexController
+
+    darvin_admin.search.controller.results.class: Darvin\AdminBundle\Controller\Search\ResultsController
+
+    darvin_admin.search.searcher.class: Darvin\AdminBundle\Search\Searcher
 
 services:
-    _defaults:
-        public: true
+    darvin_admin.search.controller.index:
+        class: '%darvin_admin.search.controller.index.class%'
+        arguments:
+            - '@darvin_admin.search.searcher'
+            - '@twig'
+            - '%darvin_admin.search_query_min_length%'
+        tags:
+            - { name: controller.service_arguments }
 
-    darvin_admin.searcher:
-        class: '%darvin_admin.searcher.class%'
+    darvin_admin.search.controller.results:
+        class: '%darvin_admin.search.controller.results.class%'
+        arguments:
+            - '@darvin_admin.form.factory'
+            - '@darvin_admin.router'
+            - '@security.authorization_checker'
+            - '@darvin_admin.view.factory.index'
+            - '@darvin_admin.search.searcher'
+            - '@twig'
+        tags:
+            - { name: controller.service_arguments }
+
+    darvin_admin.search.searcher:
+        class: '%darvin_admin.search.searcher.class%'
         arguments:
             - '@security.authorization_checker'
             - '@doctrine.orm.entity_manager'

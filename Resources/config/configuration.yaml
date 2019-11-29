@@ -1,5 +1,7 @@
 parameters:
-    darvin_admin.configuration.configurations_form_type.class: Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType
+    darvin_admin.configuration.controller.edit.class: Darvin\AdminBundle\Controller\Configuration\EditController
+
+    darvin_admin.configuration.form_type.configurations.class: Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType
 
     darvin_admin.configuration.section.class: Darvin\AdminBundle\Configuration\SectionConfiguration
 
@@ -7,8 +9,19 @@ services:
     _defaults:
         public: true
 
-    darvin_admin.configuration.configurations_form_type:
-        class: '%darvin_admin.configuration.configurations_form_type.class%'
+    darvin_admin.configuration.controller.edit:
+        class: '%darvin_admin.configuration.controller.edit.class%'
+        arguments:
+            - '@darvin_config.configuration.pool'
+            - '@darvin_utils.flash.notifier'
+            - '@form.factory'
+            - '@router'
+            - '@twig'
+        tags:
+            - { name: controller.service_arguments }
+
+    darvin_admin.configuration.form_type.configurations:
+        class: '%darvin_admin.configuration.form_type.configurations.class%'
         arguments:
             - '@darvin_utils.security.accessibility_checker'
             - '@darvin_config.configuration.pool'

@@ -4,7 +4,7 @@ darvin_admin_import_ckeditor:
 
 darvin_admin_import_configuration:
     resource: '@DarvinAdminBundle/Resources/config/routing/configuration.yaml'
-    prefix:   /configuration
+    prefix:   /config
 
 darvin_admin_import_image:
     resource: '@DarvinImageBundle/Resources/config/routing.yaml'

@@ -49,9 +49,9 @@ class ActionsWidget extends AbstractWidget
                 $widgetOptions['style'] = $options['style'];
             }
 
-            $action = $this->widgetPool->getWidget($widgetAlias)->getContent($entity, $widgetOptions);
+            $action = (string)$this->widgetPool->getWidget($widgetAlias)->getContent($entity, $widgetOptions);
 
-            if (!empty($action)) {
+            if ('' !== $action) {
                 $actions[] = $action;
             }
         }

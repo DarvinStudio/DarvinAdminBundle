@@ -275,7 +275,7 @@ abstract class AbstractAction
 
         $id = $request->query->get($associationParam);
 
-        if (empty($id)) {
+        if (null === $id) {
             throw new NotFoundHttpException(sprintf('Value of query parameter "%s" must be provided.', $associationParam));
         }
 
@@ -321,7 +321,7 @@ abstract class AbstractAction
         $template = $config['view'][$type]['template'];
 
         if ($partial) {
-            if (!empty($template)) {
+            if (null !== $template) {
                 return $this->twig->render($template, $params);
             }
 

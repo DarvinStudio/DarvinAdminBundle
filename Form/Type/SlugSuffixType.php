@@ -58,7 +58,7 @@ class SlugSuffixType extends AbstractType
         $slug      = $this->propertyAccessor->getValue($form->getParent()->getData(), $options['slug_property']);
 
         $slugSuffix = $form->getData();
-        $slugPrefix = !empty($slug) && !empty($slugSuffix)
+        $slugPrefix = null !== $slug && null !== $slugSuffix
             ? preg_replace(sprintf('/%s$/', $slugSuffix), '', $slug)
             : null;
 

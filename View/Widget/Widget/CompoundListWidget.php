@@ -24,7 +24,7 @@ class CompoundListWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $keysProperty = !empty($options['keys_property']) ? $options['keys_property'] : $options['property'];
+        $keysProperty = null !== $options['keys_property'] ? $options['keys_property'] : $options['property'];
 
         $keys = $this->getPropertyValue($entity, $keysProperty);
 

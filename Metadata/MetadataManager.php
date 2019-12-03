@@ -99,7 +99,7 @@ class MetadataManager implements AdminMetadataManagerInterface
             } catch (MetadataException $ex) {
             }
 
-            $this->hasMetadata[$class] = !empty($metadata);
+            $this->hasMetadata[$class] = null !== $metadata;
         }
 
         return $this->hasMetadata[$class];
@@ -158,13 +158,13 @@ class MetadataManager implements AdminMetadataManagerInterface
         if (null === $this->metadata) {
             $metadata = null;
 
-            if (!empty($this->cache)) {
+            if (null !== $this->cache) {
                 $metadata = $this->cache->get(self::CACHE_KEY);
             }
             if (null === $metadata) {
                 $metadata = $this->metadataPool->getAllMetadata();
 
-                if (!empty($this->cache) && !$this->cache->set(self::CACHE_KEY, $metadata)) {
+                if (null !== $this->cache && !$this->cache->set(self::CACHE_KEY, $metadata)) {
                     throw new MetadataException('Unable to cache metadata.');
                 }
             }

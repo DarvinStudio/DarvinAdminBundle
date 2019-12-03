@@ -34,9 +34,9 @@ class ImageLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        $image = !empty($options['property']) ? $this->getPropertyValue($entity, $options['property']) : $entity;
+        $image = null !== $options['property'] ? $this->getPropertyValue($entity, $options['property']) : $entity;
 
-        if (empty($image)) {
+        if (null === $image) {
             return null;
         }
         if (!is_object($image)) {

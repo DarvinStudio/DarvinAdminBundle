@@ -25,7 +25,7 @@ class SimpleLinkWidget extends AbstractWidget
     {
         $url = $this->getPropertyValue($entity, $options['property']);
 
-        if (empty($url)) {
+        if (null === $url) {
             return null;
         }
 

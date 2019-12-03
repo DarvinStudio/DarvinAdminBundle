@@ -47,10 +47,10 @@ class ShowLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        if (!empty($options['property'])) {
+        if (null !== $options['property']) {
             $entity = $this->getPropertyValue($entity, $options['property']);
 
-            if (empty($entity) || !$this->metadataManager->hasMetadata($entity)) {
+            if (null === $entity || !$this->metadataManager->hasMetadata($entity)) {
                 return null;
             }
         }

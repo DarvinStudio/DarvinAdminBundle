@@ -96,7 +96,7 @@ class HeadItem
      */
     public function setSortablePropertyPath(?string $sortablePropertyPath): void
     {
-        if (!empty($sortablePropertyPath) && false === strpos($sortablePropertyPath, '.')) {
+        if (null !== $sortablePropertyPath && false === strpos($sortablePropertyPath, '.')) {
             $sortablePropertyPath = 'o.'.$sortablePropertyPath;
         }
 

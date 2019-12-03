@@ -131,10 +131,10 @@ class AdminRouter implements AdminRouterInterface
         $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH,
         bool $preserveFilter = true
     ): string {
-        if (empty($entity) && empty($class)) {
+        if (null === $entity && null === $class) {
             throw new \InvalidArgumentException('Entity or entity class must be provided.');
         }
-        if (empty($class)) {
+        if (null === $class) {
             $class = ClassUtils::getClass($entity);
         }
         if (!$this->exists($class, $routeType)) {
@@ -163,7 +163,7 @@ class AdminRouter implements AdminRouterInterface
     {
         $name = $this->getRouteName($this->entityResolver->resolve(is_object($entity) ? ClassUtils::getClass($entity) : $entity), $routeType);
 
-        return !empty($name);
+        return null !== $name;
     }
 
     /**
@@ -214,7 +214,7 @@ class AdminRouter implements AdminRouterInterface
         $meta  = $this->metadataManager->getMetadata($class);
         $extra = [];
 
-        if (!$meta->getConfiguration()['single_instance'] && in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && !empty($entity)) {
+        if (!$meta->getConfiguration()['single_instance'] && in_array($routeType, self::REQUIRE_ID) && !isset($params['id']) && null !== $entity) {
             try {
                 $extra['id'] = $this->identifierAccessor->getId($entity);
             } catch (MetadataException $ex) {
@@ -232,7 +232,7 @@ class AdminRouter implements AdminRouterInterface
         if (isset($params[$associationParam])) {
             return $extra;
         }
-        if (empty($entity)) {
+        if (null === $entity) {
             throw new \InvalidArgumentException(
                 sprintf('Route "%s" for entity "%s" requires parameter "%s".', $routeType, $class, $associationParam)
             );
@@ -254,7 +254,7 @@ class AdminRouter implements AdminRouterInterface
         $filterParams = [];
         $request      = $this->requestStack->getCurrentRequest();
 
-        if (empty($request)) {
+        if (null === $request) {
             return $filterParams;
         }
 
@@ -296,7 +296,7 @@ class AdminRouter implements AdminRouterInterface
 
         $parent = $this->propertyAccessor->getValue($entity, $association);
 
-        if (empty($parent)) {
+        if (null === $parent) {
             return null;
         }
         try {

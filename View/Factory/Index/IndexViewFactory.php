@@ -101,7 +101,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
             $item = new HeadItem($transPrefix.StringsUtil::toUnderscore($field), $params['attr']);
 
             if (array_key_exists($field, $config['sortable_fields'])) {
-                $sortablePropertyPath = !empty($config['sortable_fields'][$field]) ? $config['sortable_fields'][$field] : $field;
+                $sortablePropertyPath = null !== $config['sortable_fields'][$field] ? $config['sortable_fields'][$field] : $field;
 
                 $item->setSortable(true);
                 $item->setSortablePropertyPath($sortablePropertyPath);

@@ -54,7 +54,7 @@ class PublicLinkWidget extends AbstractWidget
         $params = [];
 
         foreach ($options['params'] as $param => $property) {
-            if (empty($property)) {
+            if (null === $property) {
                 $property = $param;
             }
 

@@ -62,9 +62,9 @@ class EntityListWidget extends AbstractWidget
 
         $widgets = [];
 
-        if (empty($options['item_widget_alias'])) {
+        if (null === $options['item_widget_alias']) {
             foreach ($collection as $item) {
-                $widgets[] = !empty($options['item_title_property']) ? $this->getPropertyValue($item, $options['item_title_property']) : $item;
+                $widgets[] = null !== $options['item_title_property'] ? $this->getPropertyValue($item, $options['item_title_property']) : $item;
             }
 
             return $this->render([

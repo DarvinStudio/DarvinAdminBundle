@@ -109,7 +109,7 @@ class CopyAction extends AbstractAction
                 $message = implode(PHP_EOL, $parts);
             }
         }
-        if ($success && !empty($copy)) {
+        if ($success && null !== $copy) {
             $this->em->persist($copy);
             $this->em->flush();
 
@@ -119,9 +119,9 @@ class CopyAction extends AbstractAction
             );
         }
         if ($request->isXmlHttpRequest()) {
-            $html = $success ? null : $this->viewWidgetPool->getWidget(CopyFormWidget::ALIAS)->getContent($entity);
+            $html = $success ? '' : (string)$this->viewWidgetPool->getWidget(CopyFormWidget::ALIAS)->getContent($entity);
 
-            if (!empty($html)) {
+            if ('' !== $html) {
                 $redirectUrl = null;
             }
 

@@ -149,7 +149,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
 
         $config = $this->firewallMap->getFirewallConfig($request);
 
-        if (empty($config) || $config->getName() !== $this->firewallName) {
+        if (null === $config || $config->getName() !== $this->firewallName) {
             return;
         }
 

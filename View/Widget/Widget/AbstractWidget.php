@@ -170,7 +170,7 @@ abstract class AbstractWidget implements WidgetInterface
     {
         $template = $this->resolvedOptions['template'];
 
-        if (empty($template)) {
+        if (null === $template) {
             $template = sprintf('@DarvinAdmin/widget/%s.html.twig', $this->getAlias());
         }
 
@@ -220,7 +220,7 @@ abstract class AbstractWidget implements WidgetInterface
      */
     final protected function render(array $params = [], ?string $template = null): string
     {
-        return $this->twig->render(!empty($template) ? $template : $this->getTemplate(), array_merge($this->resolvedOptions, $params));
+        return $this->twig->render(null !== $template ? $template : $this->getTemplate(), array_merge($this->resolvedOptions, $params));
     }
 
     /**

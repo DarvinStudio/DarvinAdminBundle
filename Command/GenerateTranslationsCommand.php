@@ -253,12 +253,12 @@ class GenerateTranslationsCommand extends Command
                 continue;
             }
 
-            $translation = null;
+            $translation = '';
 
             if ($parseDocComments) {
                 $translation = $this->parseTranslationFromDocComment($meta->getReflectionProperty($property)->getDocComment());
             }
-            if (empty($translation)) {
+            if ('' === $translation) {
                 $translation = strlen($property) > 2 ? StringsUtil::humanize($property) : strtoupper($property);
             }
 
@@ -319,7 +319,7 @@ class GenerateTranslationsCommand extends Command
         if ($parseDocComments) {
             $translation = $this->parseTranslationFromDocComment($classReflection->getDocComment());
 
-            if (!empty($translation)) {
+            if ('' !== $translation) {
                 return $translation;
             }
         }
@@ -407,24 +407,24 @@ class GenerateTranslationsCommand extends Command
     /**
      * @param string $docComment Doc comment
      *
-     * @return string|null
+     * @return string
      */
-    private function parseTranslationFromDocComment(string $docComment): ?string
+    private function parseTranslationFromDocComment(string $docComment): string
     {
-        if (empty($docComment)) {
-            return null;
+        if ('' === $docComment) {
+            return '';
         }
 
         $parts = explode("\n", $docComment);
 
         if (!isset($parts[1])) {
-            return null;
+            return '';
         }
 
         $translation = preg_replace('/\*\s*/', '', trim($parts[1]));
 
         if (0 === strpos($translation, '@')) {
-            return null;
+            return '';
         }
 
         return $translation;

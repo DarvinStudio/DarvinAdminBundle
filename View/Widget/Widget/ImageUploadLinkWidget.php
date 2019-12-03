@@ -39,10 +39,10 @@ class ImageUploadLinkWidget extends AbstractWidget
     {
         $url = $this->uploaderStorage->resolveUri(
             $entity,
-            !empty($options['file_property']) ? $options['file_property'] : sprintf('%sFile', $options['property'])
+            null !== $options['file_property'] ? $options['file_property'] : sprintf('%sFile', $options['property'])
         );
 
-        if (empty($url)) {
+        if (null === $url) {
             return null;
         }
 

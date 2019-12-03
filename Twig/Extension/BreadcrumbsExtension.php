@@ -94,7 +94,7 @@ class BreadcrumbsExtension extends AbstractExtension
 
         $crumbs = array_reverse($crumbs);
 
-        if (!empty($heading)) {
+        if (null !== $heading) {
             $crumbs[] = $this->createCrumb($heading);
         }
 
@@ -117,7 +117,7 @@ class BreadcrumbsExtension extends AbstractExtension
         if (null !== $indexCrumb) {
             $crumbs[] = $indexCrumb;
         }
-        if (empty($parentEntity)) {
+        if (null === $parentEntity) {
             return $crumbs;
         }
 
@@ -153,7 +153,7 @@ class BreadcrumbsExtension extends AbstractExtension
         $url    = null;
         $config = $meta->getConfiguration();
 
-        if (!empty($config['breadcrumbs_route']) && $this->adminRouter->exists($meta->getEntityClass(), $config['breadcrumbs_route'])) {
+        if (null !== $config['breadcrumbs_route'] && $this->adminRouter->exists($meta->getEntityClass(), $config['breadcrumbs_route'])) {
             $url = $this->adminRouter->generate($entity, $meta->getEntityClass(), $config['breadcrumbs_route']);
         }
 
@@ -182,7 +182,7 @@ class BreadcrumbsExtension extends AbstractExtension
 
         $params = [];
 
-        if (empty($entity) && !empty($parentEntity)) {
+        if (null === $entity && null !== $parentEntity) {
             $params[$meta->getParent()->getAssociationParameterName()] = $this->identifierAccessor->getId($parentEntity);
         }
 

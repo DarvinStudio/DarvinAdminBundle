@@ -65,7 +65,7 @@ class ConfigurationLoader
      */
     public function load(string $pathname): array
     {
-        if (empty($pathname)) {
+        if ('' === $pathname) {
             throw new \InvalidArgumentException('Configuration file pathname cannot be empty.');
         }
 

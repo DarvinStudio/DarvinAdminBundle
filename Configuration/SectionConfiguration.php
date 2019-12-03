@@ -94,7 +94,7 @@ class SectionConfiguration
 
                 $alias = $attr['alias'];
 
-                if (empty($alias)) {
+                if (null === $alias) {
                     $alias = $this->objectNamer->name($entity);
                 }
 

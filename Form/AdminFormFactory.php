@@ -113,7 +113,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
 
         $configuration = $meta->getConfiguration();
 
-        $type = !empty($configuration['form'][$actionType]['type']) ? $configuration['form'][$actionType]['type'] : EntityType::class;
+        $type = null !== $configuration['form'][$actionType]['type'] ? $configuration['form'][$actionType]['type'] : EntityType::class;
 
         $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName(), $type, $entity, $options);
 
@@ -139,7 +139,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
         if (!array_key_exists('action', $options)) {
             $actionRouteParams = [];
 
-            if (!empty($parentEntityAssociationParam)) {
+            if (null !== $parentEntityAssociationParam) {
                 $actionRouteParams[$parentEntityAssociationParam] = $parentEntityId;
             }
 
@@ -150,7 +150,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
 
         $type = $configuration['form']['filter']['type'];
 
-        if (empty($type)) {
+        if (null === $type) {
             $type = FilterType::class;
 
             $options = array_merge($options, [
@@ -170,7 +170,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     {
         $dataClass = $meta->getEntityClass();
 
-        if (!empty($entity) && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
+        if (null !== $entity && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
             /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
             $translations = $entity->getTranslations();
 

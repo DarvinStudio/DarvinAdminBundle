@@ -108,7 +108,8 @@ security:
             pattern:  ^/admin/
             # Or if project is multilingual
             #pattern:  ^/((%locale_pattern%)/|)admin/
-            provider: user
+            provider:     user
+            user_checker: darvin_user.security.user_checker
             form_login:
                 check_path:           darvin_admin_security_login_check
                 login_path:           darvin_admin_security_login

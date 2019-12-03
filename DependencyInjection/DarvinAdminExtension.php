@@ -57,7 +57,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
         (new ConfigInjector($container))->inject($this->processConfiguration(new Configuration(), $configs), $this->getAlias());
 
-        (new ConfigLoader($container, __DIR__.'/../Resources/config'))->load([
+        (new ConfigLoader($container, __DIR__.'/../Resources/config/services'))->load([
             'ace_editor',
             'breadcrumbs',
             'ckeditor',

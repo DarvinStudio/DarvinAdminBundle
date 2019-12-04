@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Event\Metadata;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Metadata event

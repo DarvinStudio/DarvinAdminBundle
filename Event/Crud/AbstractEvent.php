@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Event\Crud;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * CRUD event abstract implementation

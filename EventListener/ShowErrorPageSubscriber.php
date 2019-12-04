@@ -139,7 +139,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         if ($exception instanceof AccessDeniedException) {
             return;

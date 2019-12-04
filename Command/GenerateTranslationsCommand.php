@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Command;
 use Darvin\AdminBundle\EntityNamer\EntityNamerInterface;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\Strings\StringsUtil;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Console\Command\Command;
@@ -51,10 +51,10 @@ class GenerateTranslationsCommand extends Command
     ];
 
     private const RANGE_DATA_TYPES = [
-        Type::DATE,
-        Type::DATETIME,
-        Type::INTEGER,
-        Type::SMALLINT,
+        Types::DATE_MUTABLE,
+        Types::DATETIME_MUTABLE,
+        Types::INTEGER,
+        Types::SMALLINT,
     ];
 
     private const RANGE_SUFFIXES = [

@@ -17,7 +17,7 @@ use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\StringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
-use Doctrine\DBAL\Types\Type;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -82,7 +82,7 @@ class DataWidget extends AbstractWidget
             if (isset($mappings[$property])) {
                 $value = $this->stringifier->stringify(
                     $value,
-                    isset($mappings[$property]['targetEntity']) ? Type::SIMPLE_ARRAY : $mappings[$property]['type']
+                    isset($mappings[$property]['targetEntity']) ? Types::SIMPLE_ARRAY : $mappings[$property]['type']
                 );
             }
 

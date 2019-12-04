@@ -191,7 +191,7 @@ class IndexAction extends AbstractAction
                 $this->sortEntityJoiner->joinEntity($qb, $part, $request->getLocale());
             }
 
-            $page = $request->query->get('page', 1);
+            $page = $request->query->getInt('page', 1);
 
             /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
             $pagination = $this->paginator->paginate($qb, $page, $config['pagination']['items'], $paginatorOptions);

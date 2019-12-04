@@ -141,7 +141,7 @@ class CKEditorType extends AbstractType
         $config = $view->vars['config'];
 
         $extraPluginsString = implode(',', $extraPlugins);
-        $config['extraPlugins'] = isset($config['extraPlugins']) && !empty($config['extraPlugins'])
+        $config['extraPlugins'] = isset($config['extraPlugins']) && '' !== (string)$config['extraPlugins']
             ? $config['extraPlugins'].','.$extraPluginsString
             : $extraPluginsString;
 

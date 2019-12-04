@@ -466,3 +466,5 @@ darvin_admin:
 - Replace "empty()" calls with null comparisons.
 
 - Move service configs to "services" dir.
+
+6.4.2: Upgrade vendors.

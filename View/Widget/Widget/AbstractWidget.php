@@ -94,7 +94,7 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getContent($entity, array $options = []): ?string
     {
@@ -112,7 +112,7 @@ abstract class AbstractWidget implements WidgetInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAlias(): string
     {

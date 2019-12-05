@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class SimpleLinkWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -36,7 +36,7 @@ class SimpleLinkWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
@@ -46,7 +46,7 @@ class SimpleLinkWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

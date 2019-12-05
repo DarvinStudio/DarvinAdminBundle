@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ReadableEnumWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -34,7 +34,7 @@ class ReadableEnumWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {

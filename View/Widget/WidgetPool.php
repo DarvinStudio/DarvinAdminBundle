@@ -45,7 +45,7 @@ class WidgetPool implements ViewWidgetPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getWidget(string $alias): WidgetInterface
     {
@@ -57,7 +57,7 @@ class WidgetPool implements ViewWidgetPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getWidgetAliases(): array
     {
@@ -65,7 +65,7 @@ class WidgetPool implements ViewWidgetPoolInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getWidgets(): array
     {

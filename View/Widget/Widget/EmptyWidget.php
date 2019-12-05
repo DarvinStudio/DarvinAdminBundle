@@ -18,7 +18,7 @@ use Darvin\AdminBundle\View\Widget\WidgetInterface;
 class EmptyWidget implements WidgetInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getContent($entity, array $options = []): ?string
     {
@@ -26,7 +26,7 @@ class EmptyWidget implements WidgetInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAlias(): string
     {

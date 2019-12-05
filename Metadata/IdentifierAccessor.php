@@ -39,7 +39,7 @@ class IdentifierAccessor implements IdentifierAccessorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getId($entity)
     {

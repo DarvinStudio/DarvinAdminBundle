@@ -75,7 +75,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createBatchDeleteForm(string $entityClass, ?array $entities = null): FormInterface
     {
@@ -95,7 +95,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createEntityForm(Metadata $meta, $entity, string $actionType, string $formAction, array $submitButtons): FormInterface
     {
@@ -129,7 +129,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createFilterForm(Metadata $meta, ?string $parentEntityAssociationParam = null, $parentEntityId = null, array $options = []): ?FormInterface
     {
@@ -164,7 +164,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createPropertyForm(Metadata $meta, string $property, $entity): FormInterface
     {
@@ -197,7 +197,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createCopyForm($entity, ?string $entityClass = null): FormInterface
     {
@@ -205,7 +205,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createDeleteForm($entity, ?string $entityClass = null): FormInterface
     {

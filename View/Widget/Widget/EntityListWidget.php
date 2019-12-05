@@ -33,7 +33,7 @@ class EntityListWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -84,7 +84,7 @@ class EntityListWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
@@ -106,7 +106,7 @@ class EntityListWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

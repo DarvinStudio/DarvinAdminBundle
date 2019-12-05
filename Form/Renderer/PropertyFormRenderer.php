@@ -40,7 +40,7 @@ class PropertyFormRenderer implements PropertyFormRendererInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): ?string
     {

@@ -53,7 +53,7 @@ class Dashboard implements DashboardInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getWidgets(): iterable
     {

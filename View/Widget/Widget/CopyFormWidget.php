@@ -54,7 +54,7 @@ class CopyFormWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAlias(): string
     {
@@ -62,7 +62,7 @@ class CopyFormWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -83,7 +83,7 @@ class CopyFormWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {
@@ -93,7 +93,7 @@ class CopyFormWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

@@ -55,7 +55,7 @@ class EntityNamer implements EntityNamerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function name($entity): string
     {

@@ -113,7 +113,7 @@ class AdminRouter implements AdminRouterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function generateAbsolute($entity = null, ?string $class = null, string $routeType = AdminRouterInterface::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string
     {
@@ -121,7 +121,7 @@ class AdminRouter implements AdminRouterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function generate(
         $entity = null,
@@ -157,7 +157,7 @@ class AdminRouter implements AdminRouterInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function exists($entity, string $routeType): bool
     {

@@ -18,7 +18,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 class EmailLinkWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -34,7 +34,7 @@ class EmailLinkWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

@@ -27,7 +27,7 @@ abstract class AbstractCKEditorWidget extends AbstractWidget implements CKEditor
     private $resolvedOptions = null;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getResolvedOptions(): array
     {

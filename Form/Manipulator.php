@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormInterface;
 class Manipulator extends DoctrineORMManipulator
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFieldsConfig(FormInterface $form): array
     {

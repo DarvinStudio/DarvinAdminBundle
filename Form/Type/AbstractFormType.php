@@ -21,7 +21,7 @@ use Symfony\Component\Form\FormView;
 abstract class AbstractFormType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {

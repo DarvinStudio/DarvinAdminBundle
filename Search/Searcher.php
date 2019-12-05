@@ -78,7 +78,7 @@ class Searcher implements SearcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function search(string $entityName, string $query): array
     {
@@ -111,7 +111,7 @@ class Searcher implements SearcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSearchableEntityMeta(string $entityName): Metadata
     {
@@ -125,7 +125,7 @@ class Searcher implements SearcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSearchableEntityNames(): array
     {
@@ -133,7 +133,7 @@ class Searcher implements SearcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function isSearchable(string $entityName): bool
     {

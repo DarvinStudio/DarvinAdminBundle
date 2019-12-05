@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class UploaderSubscriber implements EventSubscriberInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public static function getSubscribedEvents(): array
     {

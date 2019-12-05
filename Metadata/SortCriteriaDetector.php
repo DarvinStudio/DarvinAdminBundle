@@ -58,7 +58,7 @@ class SortCriteriaDetector implements SortCriteriaDetectorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function detectSortCriteria(string $entityClass): array
     {

@@ -32,7 +32,7 @@ class ActionsWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -65,7 +65,7 @@ class ActionsWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function configureOptions(OptionsResolver $resolver): void
     {

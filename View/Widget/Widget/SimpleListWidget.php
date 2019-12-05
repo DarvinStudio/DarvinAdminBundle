@@ -19,7 +19,7 @@ use Doctrine\Common\Util\ClassUtils;
 class SimpleListWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -47,7 +47,7 @@ class SimpleListWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

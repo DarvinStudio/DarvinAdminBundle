@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Form\Type\Configuration;
 
 use Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface;
 use Darvin\ConfigBundle\Form\Type\ConfigurationType;
-use Darvin\Utils\Security\Authorization\AccessibilityChecker;
+use Darvin\Utils\Security\Authorization\AccessibilityCheckerInterface;
 use Darvin\Utils\Security\SecurableInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ConfigurationsType extends AbstractType
 {
     /**
-     * @var \Darvin\Utils\Security\Authorization\AccessibilityChecker
+     * @var \Darvin\Utils\Security\Authorization\AccessibilityCheckerInterface
      */
     private $accessibilityChecker;
 
@@ -36,17 +36,17 @@ class ConfigurationsType extends AbstractType
     private $configurationPool;
 
     /**
-     * @param \Darvin\Utils\Security\Authorization\AccessibilityChecker     $accessibilityChecker Accessibility checker
-     * @param \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface $configurationPool    Configuration pool
+     * @param \Darvin\Utils\Security\Authorization\AccessibilityCheckerInterface $accessibilityChecker Accessibility checker
+     * @param \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface      $configurationPool    Configuration pool
      */
-    public function __construct(AccessibilityChecker $accessibilityChecker, ConfigurationPoolInterface $configurationPool)
+    public function __construct(AccessibilityCheckerInterface $accessibilityChecker, ConfigurationPoolInterface $configurationPool)
     {
         $this->accessibilityChecker = $accessibilityChecker;
         $this->configurationPool = $configurationPool;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -82,7 +82,7 @@ class ConfigurationsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -93,7 +93,7 @@ class ConfigurationsType extends AbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getBlockPrefix(): string
     {

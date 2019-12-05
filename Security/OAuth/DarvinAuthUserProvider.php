@@ -21,7 +21,7 @@ use Darvin\UserBundle\Security\OAuth\DarvinAuthUserProvider as BaseDarvinAuthUse
 class DarvinAuthUserProvider extends BaseDarvinAuthUserProvider
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createUser(DarvinAuthResponse $response): BaseUser
     {

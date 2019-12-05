@@ -18,7 +18,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 class PhoneLinkWidget extends AbstractWidget
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
@@ -32,7 +32,7 @@ class PhoneLinkWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getRequiredPermissions(): iterable
     {

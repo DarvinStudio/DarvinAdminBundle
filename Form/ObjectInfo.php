@@ -28,7 +28,7 @@ class ObjectInfo extends DoctrineORMInfo
     private $classMetadataFactory;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __construct(ClassMetadataFactory $classMetadataFactory)
     {
@@ -38,7 +38,7 @@ class ObjectInfo extends DoctrineORMInfo
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFieldsConfig(string $class): array
     {

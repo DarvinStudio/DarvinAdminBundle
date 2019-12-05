@@ -149,7 +149,7 @@ class CrudRouteGenerator implements RouteGeneratorInterface
     ];
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function generate(string $entityClass, Metadata $meta): RouteCollection
     {

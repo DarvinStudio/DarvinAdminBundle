@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
 class AddDashboardWidgetsPass implements CompilerPassInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function process(ContainerBuilder $container): void
     {

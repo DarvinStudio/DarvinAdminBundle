@@ -28,7 +28,7 @@ class DarvinAdminBundle extends Bundle
     public const VERSION = '6.4';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function build(ContainerBuilder $container): void
     {

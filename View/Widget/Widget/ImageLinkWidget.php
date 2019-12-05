@@ -22,7 +22,7 @@ class ImageLinkWidget extends AbstractWidget
     public const ALIAS = 'image_link';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAlias(): string
     {
@@ -30,7 +30,7 @@ class ImageLinkWidget extends AbstractWidget
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {

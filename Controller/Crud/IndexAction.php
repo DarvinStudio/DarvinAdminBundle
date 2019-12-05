@@ -22,6 +22,7 @@ use Darvin\ContentBundle\ORM\SortEntityJoinerInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\CustomObject\CustomObjectException;
 use Darvin\Utils\CustomObject\CustomObjectLoaderInterface;
+use Darvin\Utils\Iterable\IterableUtil;
 use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
@@ -196,12 +197,12 @@ class IndexAction extends AbstractAction
             /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
             $pagination = $this->paginator->paginate($qb, $page, $config['pagination']['items'], $paginatorOptions);
 
-            $entities = $pagination->getItems();
+            $entities = IterableUtil::toArray($pagination->getItems());
 
             if (empty($entities) && $page > 1) {
                 $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $config['pagination']['items'], $paginatorOptions);
 
-                $entities = $pagination->getItems();
+                $entities = IterableUtil::toArray($pagination->getItems());
             }
 
             $entityCount = $pagination->getTotalItemCount();

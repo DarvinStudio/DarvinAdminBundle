@@ -21,5 +21,5 @@ interface IdentifierAccessorInterface
      * @return mixed
      * @throws \Darvin\AdminBundle\Metadata\MetadataException
      */
-    public function getId($entity);
+    public function getId(object $entity);
 }

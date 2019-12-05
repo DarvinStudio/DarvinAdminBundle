@@ -34,7 +34,7 @@ class CopiedEvent extends AbstractEvent
      * @param object                                $entityOriginal Entity original
      * @param object                                $entityCopy     Entity copy
      */
-    public function __construct(Metadata $metadata, BaseUser $user, $entityOriginal, $entityCopy)
+    public function __construct(Metadata $metadata, BaseUser $user, object $entityOriginal, object $entityCopy)
     {
         parent::__construct($metadata, $user);
 
@@ -45,7 +45,7 @@ class CopiedEvent extends AbstractEvent
     /**
      * @return object
      */
-    public function getEntityOriginal()
+    public function getEntityOriginal(): object
     {
         return $this->entityOriginal;
     }
@@ -53,7 +53,7 @@ class CopiedEvent extends AbstractEvent
     /**
      * @return object
      */
-    public function getEntityCopy()
+    public function getEntityCopy(): object
     {
         return $this->entityCopy;
     }

@@ -79,7 +79,7 @@ class LogEntry extends AbstractLogEntry
     /**
      * @return object
      */
-    public function getObject()
+    public function getObject(): ?object
     {
         return $this->object;
     }
@@ -89,7 +89,7 @@ class LogEntry extends AbstractLogEntry
      *
      * @return LogEntry
      */
-    public function setObject($object): LogEntry
+    public function setObject(?object $object): LogEntry
     {
         $this->object = $object;
 

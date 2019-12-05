@@ -167,7 +167,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
      *
      * @return array
      */
-    private function buildBodyRowAttr($entity, Metadata $meta): array
+    private function buildBodyRowAttr(object $entity, Metadata $meta): array
     {
         $attr = [];
 

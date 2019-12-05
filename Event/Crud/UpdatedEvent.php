@@ -34,7 +34,7 @@ class UpdatedEvent extends AbstractEvent
      * @param object                                $entityBefore Entity before
      * @param object                                $entityAfter  Entity after
      */
-    public function __construct(Metadata $metadata, BaseUser $user, $entityBefore, $entityAfter)
+    public function __construct(Metadata $metadata, BaseUser $user, object $entityBefore, object $entityAfter)
     {
         parent::__construct($metadata, $user);
 
@@ -45,7 +45,7 @@ class UpdatedEvent extends AbstractEvent
     /**
      * @return object
      */
-    public function getEntityBefore()
+    public function getEntityBefore(): object
     {
         return $this->entityBefore;
     }
@@ -53,7 +53,7 @@ class UpdatedEvent extends AbstractEvent
     /**
      * @return object
      */
-    public function getEntityAfter()
+    public function getEntityAfter(): object
     {
         return $this->entityAfter;
     }

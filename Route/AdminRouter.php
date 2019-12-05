@@ -115,7 +115,7 @@ class AdminRouter implements AdminRouterInterface
     /**
      * {@inheritDoc}
      */
-    public function generateAbsolute($entity = null, ?string $class = null, string $routeType = AdminRouterInterface::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string
+    public function generateAbsolute(?object $entity = null, ?string $class = null, string $routeType = AdminRouterInterface::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string
     {
         return $this->generate($entity, $class, $routeType, $params, UrlGeneratorInterface::ABSOLUTE_URL, $preserveFilter);
     }
@@ -124,7 +124,7 @@ class AdminRouter implements AdminRouterInterface
      * {@inheritDoc}
      */
     public function generate(
-        $entity = null,
+        ?object $entity = null,
         ?string $class = null,
         string $routeType = AdminRouterInterface::TYPE_SHOW,
         array $params = [],
@@ -200,16 +200,16 @@ class AdminRouter implements AdminRouterInterface
     }
 
     /**
-     * @param array  $params    Parameters
-     * @param string $class     Entity class
-     * @param string $routeType Route type
-     * @param object $entity    Entity
+     * @param array       $params    Parameters
+     * @param string      $class     Entity class
+     * @param string      $routeType Route type
+     * @param object|null $entity    Entity
      *
      * @return array
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    private function getExtraParams(array $params, string $class, string $routeType, $entity = null): array
+    private function getExtraParams(array $params, string $class, string $routeType, ?object $entity = null): array
     {
         $meta  = $this->metadataManager->getMetadata($class);
         $extra = [];
@@ -281,7 +281,7 @@ class AdminRouter implements AdminRouterInterface
      * @return mixed
      * @throws \RuntimeException
      */
-    private function getParentId($entity, string $association, string $routeType)
+    private function getParentId(object $entity, string $association, string $routeType)
     {
         if (!$this->propertyAccessor->isReadable($entity, $association)) {
             $message = sprintf(

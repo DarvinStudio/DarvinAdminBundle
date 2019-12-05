@@ -25,5 +25,5 @@ interface PropertyFormRendererInterface
      *
      * @return string|null
      */
-    public function renderPropertyForm(FormInterface $form, $entity, string $entityClass, string $property): ?string;
+    public function renderPropertyForm(FormInterface $form, object $entity, string $entityClass, string $property): ?string;
 }

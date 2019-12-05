@@ -104,7 +104,7 @@ class EditAction extends AbstractAction
      *
      * @return string
      */
-    private function renderEditTemplate($entity, FormInterface $form, $parentEntity, bool $partial = false): string
+    private function renderEditTemplate(object $entity, FormInterface $form, ?object $parentEntity, bool $partial = false): string
     {
         return $this->renderTemplate([
             'entity'        => $entity,

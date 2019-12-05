@@ -83,7 +83,7 @@ class BreadcrumbsExtension extends AbstractExtension
      *
      * @return string
      */
-    public function renderCrumbs(Environment $environment, Metadata $meta, $parentEntity = null, ?string $heading = null): string
+    public function renderCrumbs(Environment $environment, Metadata $meta, ?object $parentEntity = null, ?string $heading = null): string
     {
         $crumbs = $this->createCrumbs($meta, $parentEntity);
         $config = $meta->getConfiguration();
@@ -109,7 +109,7 @@ class BreadcrumbsExtension extends AbstractExtension
      *
      * @return array
      */
-    private function createCrumbs(Metadata $meta, $parentEntity = null): array
+    private function createCrumbs(Metadata $meta, ?object $parentEntity = null): array
     {
         $crumbs     = [];
         $indexCrumb = $this->createIndexCrumb($meta, $parentEntity);
@@ -148,7 +148,7 @@ class BreadcrumbsExtension extends AbstractExtension
      *
      * @return array
      */
-    private function createEntityCrumbs(Metadata $meta, $entity): array
+    private function createEntityCrumbs(Metadata $meta, object $entity): array
     {
         $url    = null;
         $config = $meta->getConfiguration();
@@ -174,7 +174,7 @@ class BreadcrumbsExtension extends AbstractExtension
      *
      * @return array|null
      */
-    private function createIndexCrumb(Metadata $meta, $parentEntity = null, $entity = null): ?array
+    private function createIndexCrumb(Metadata $meta, ?object $parentEntity = null, ?object $entity = null): ?array
     {
         if (!$this->adminRouter->exists($meta->getEntityClass(), AdminRouterInterface::TYPE_INDEX)) {
             return null;

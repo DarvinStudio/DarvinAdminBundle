@@ -96,7 +96,7 @@ abstract class AbstractViewFactory
      *
      * @return mixed
      */
-    protected function getFieldContent($entity, string $fieldName, array $fieldAttr, array $mappings)
+    protected function getFieldContent(object $entity, string $fieldName, array $fieldAttr, array $mappings)
     {
         if (!empty($fieldAttr['widget'])) {
             $widgetAlias = key($fieldAttr['widget']);
@@ -131,7 +131,7 @@ abstract class AbstractViewFactory
      *
      * @throws \RuntimeException
      */
-    protected function validateConfiguration(Metadata $meta, $entity, string $viewType): void
+    protected function validateConfiguration(Metadata $meta, object $entity, string $viewType): void
     {
         $configuration = $meta->getConfiguration();
 
@@ -165,7 +165,7 @@ abstract class AbstractViewFactory
      *
      * @return bool
      */
-    protected function isFieldContentHidden(array $fieldAttr, $entity): bool
+    protected function isFieldContentHidden(array $fieldAttr, object $entity): bool
     {
         return null !== $fieldAttr['condition']
             && !$this->authorizationChecker->isGranted(new Expression($fieldAttr['condition']), $entity);

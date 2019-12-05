@@ -129,7 +129,7 @@ abstract class AbstractWidget implements WidgetInterface
      *
      * @return string|null
      */
-    abstract protected function createContent($entity, array $options): ?string;
+    abstract protected function createContent(object $entity, array $options): ?string;
 
     /**
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver Options resolver
@@ -184,7 +184,7 @@ abstract class AbstractWidget implements WidgetInterface
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    final protected function getPropertyValue($entity, string $propertyPath)
+    final protected function getPropertyValue(object $entity, string $propertyPath)
     {
         try {
             if (!$this->propertyAccessor->isReadable($entity, $propertyPath)) {
@@ -254,7 +254,7 @@ abstract class AbstractWidget implements WidgetInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function validateEntity($entity): void
+    private function validateEntity(object $entity): void
     {
         $allowedClasses = [];
 

@@ -30,28 +30,28 @@ interface AdminRouterInterface
     public const TYPE_UPDATE_PROPERTY = 'update-property';
 
     /**
-     * @param object $entity         Entity
-     * @param string $class          Entity class
-     * @param string $routeType      Route type
-     * @param array  $params         Parameters
-     * @param bool   $preserveFilter Whether to preserve filter data
+     * @param object|null $entity         Entity
+     * @param string|null $class          Entity class
+     * @param string      $routeType      Route type
+     * @param array       $params         Parameters
+     * @param bool        $preserveFilter Whether to preserve filter data
      *
      * @return string
      */
-    public function generateAbsolute($entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string;
+    public function generateAbsolute(?object $entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = [], bool $preserveFilter = true): string;
 
     /**
-     * @param object $entity         Entity
-     * @param string $class          Entity class
-     * @param string $routeType      Route type
-     * @param array  $params         Parameters
-     * @param mixed  $referenceType  Reference type
-     * @param bool   $preserveFilter Whether to preserve filter data
+     * @param object|null $entity         Entity
+     * @param string|null $class          Entity class
+     * @param string      $routeType      Route type
+     * @param array       $params         Parameters
+     * @param mixed       $referenceType  Reference type
+     * @param bool        $preserveFilter Whether to preserve filter data
      *
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function generate($entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH, bool $preserveFilter = true): string;
+    public function generate(?object $entity = null, ?string $class = null, string $routeType = self::TYPE_SHOW, array $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH, bool $preserveFilter = true): string;
 
     /**
      * @param object|string $entity    Entity

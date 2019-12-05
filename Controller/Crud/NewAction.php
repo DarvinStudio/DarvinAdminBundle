@@ -168,7 +168,7 @@ class NewAction extends AbstractAction
      * @param object                                    $entity  Entity
      * @param \Symfony\Component\HttpFoundation\Request $request Request
      */
-    private function handleFilterForm($entity, Request $request): void
+    private function handleFilterForm(object $entity, Request $request): void
     {
         if (!$request->isMethod('get')) {
             return;
@@ -210,7 +210,7 @@ class NewAction extends AbstractAction
      *
      * @return string
      */
-    private function renderNewTemplate(FormInterface $form, $parentEntity, bool $widget, bool $partial = false): string
+    private function renderNewTemplate(FormInterface $form, ?object $parentEntity, bool $widget, bool $partial = false): string
     {
         if ($widget) {
             $partial = true;

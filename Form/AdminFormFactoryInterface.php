@@ -39,7 +39,7 @@ interface AdminFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createEntityForm(Metadata $meta, $entity, string $actionType, string $formAction, array $submitButtons): FormInterface;
+    public function createEntityForm(Metadata $meta, object $entity, string $actionType, string $formAction, array $submitButtons): FormInterface;
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $meta                         Metadata
@@ -58,7 +58,7 @@ interface AdminFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createPropertyForm(Metadata $meta, string $property, $entity): FormInterface;
+    public function createPropertyForm(Metadata $meta, string $property, object $entity): FormInterface;
 
     /**
      * @param object      $entity      Entity
@@ -66,7 +66,7 @@ interface AdminFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createCopyForm($entity, ?string $entityClass = null): FormInterface;
+    public function createCopyForm(object $entity, ?string $entityClass = null): FormInterface;
 
     /**
      * @param object      $entity      Entity
@@ -74,5 +74,5 @@ interface AdminFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createDeleteForm($entity, ?string $entityClass = null): FormInterface;
+    public function createDeleteForm(object $entity, ?string $entityClass = null): FormInterface;
 }

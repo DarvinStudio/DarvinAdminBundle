@@ -228,7 +228,7 @@ abstract class AbstractAction
      *
      * @throws \Symfony\Component\Security\Core\Exception\AccessDeniedException
      */
-    protected function checkPermission(string $permission, $entity = null): void
+    protected function checkPermission(string $permission, ?object $entity = null): void
     {
         if (!$this->authorizationChecker->isGranted($permission, null !== $entity ? $entity : $this->getEntityClass())) {
             throw new AccessDeniedException(
@@ -244,7 +244,7 @@ abstract class AbstractAction
      * @return object
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    protected function findEntity($id, ?string $class = null)
+    protected function findEntity($id, ?string $class = null): object
     {
         if (null === $class) {
             $class = $this->getEntityClass();
@@ -337,7 +337,7 @@ abstract class AbstractAction
      *
      * @return string
      */
-    protected function successRedirect(FormInterface $form, $entity): string
+    protected function successRedirect(FormInterface $form, object $entity): string
     {
         $redirects = self::SUBMIT_BUTTON_REDIRECTS[$this->getConfig()['single_instance']];
 

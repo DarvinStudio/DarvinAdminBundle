@@ -35,7 +35,7 @@ class ControllerEvent extends AbstractEvent
      * @param string                                $action   CRUD controller action
      * @param object|null                           $entity   Entity
      */
-    public function __construct(Metadata $metadata, BaseUser $user, string $action, $entity = null)
+    public function __construct(Metadata $metadata, BaseUser $user, string $action, ?object $entity = null)
     {
         parent::__construct($metadata, $user);
 
@@ -54,7 +54,7 @@ class ControllerEvent extends AbstractEvent
     /**
      * @return object|null
      */
-    public function getEntity()
+    public function getEntity(): ?object
     {
         return $this->entity;
     }

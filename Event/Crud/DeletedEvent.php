@@ -28,7 +28,7 @@ class DeletedEvent extends AbstractEvent
      * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
      * @param object                                $entity   Entity
      */
-    public function __construct(Metadata $metadata, BaseUser $user, $entity)
+    public function __construct(Metadata $metadata, BaseUser $user, object $entity)
     {
         parent::__construct($metadata, $user);
 
@@ -38,7 +38,7 @@ class DeletedEvent extends AbstractEvent
     /**
      * @return object
      */
-    public function getEntity()
+    public function getEntity(): object
     {
         return $this->entity;
     }

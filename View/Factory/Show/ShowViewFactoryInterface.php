@@ -23,5 +23,5 @@ interface ShowViewFactoryInterface
      *
      * @return \Darvin\AdminBundle\View\Factory\Show\ShowView
      */
-    public function createView($entity, Metadata $meta): ShowView;
+    public function createView(object $entity, Metadata $meta): ShowView;
 }

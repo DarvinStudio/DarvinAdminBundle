@@ -219,7 +219,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function createIdForm($entity, string $namePrefix, string $action): FormInterface
+    private function createIdForm(object $entity, string $namePrefix, string $action): FormInterface
     {
         $id = $this->identifierAccessor->getId($entity);
 

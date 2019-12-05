@@ -21,7 +21,7 @@ interface WidgetInterface
      *
      * @return string|null
      */
-    public function getContent($entity, array $options = []): ?string;
+    public function getContent(object $entity, array $options = []): ?string;
 
     /**
      * @return string

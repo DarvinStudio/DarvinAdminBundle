@@ -34,6 +34,10 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class DarvinAdminExtension extends Extension implements PrependExtensionInterface
 {
+    public const TAG_DASHBOARD_WIDGET  = 'darvin_admin.dashboard_widget';
+    public const TAG_MENU_ITEM_FACTORY = 'darvin_admin.menu_item_factory';
+    public const TAG_VIEW_WIDGET       = 'darvin_admin.view_widget';
+
     private const FIREWALL_NAME = 'admin_area';
 
     /**
@@ -54,9 +58,9 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $container->registerForAutoconfiguration(DashboardWidgetInterface::class)->addTag('darvin_admin.dashboard_widget');
-        $container->registerForAutoconfiguration(ItemFactoryInterface::class)->addTag('darvin_admin.menu_item_factory');
-        $container->registerForAutoconfiguration(WidgetInterface::class)->addTag('darvin_admin.view_widget');
+        $container->registerForAutoconfiguration(DashboardWidgetInterface::class)->addTag(self::TAG_DASHBOARD_WIDGET);
+        $container->registerForAutoconfiguration(ItemFactoryInterface::class)->addTag(self::TAG_MENU_ITEM_FACTORY);
+        $container->registerForAutoconfiguration(WidgetInterface::class)->addTag(self::TAG_VIEW_WIDGET);
 
         $showErrorPages = $this->showErrorPages;
 

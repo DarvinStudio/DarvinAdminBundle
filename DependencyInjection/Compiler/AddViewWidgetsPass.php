@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
+use Darvin\AdminBundle\DependencyInjection\DarvinAdminExtension;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -26,7 +27,7 @@ class AddViewWidgetsPass implements CompilerPassInterface
     {
         $pool = $container->getDefinition('darvin_admin.view.widget.pool');
 
-        foreach (array_keys($container->findTaggedServiceIds('darvin_admin.view_widget')) as $id) {
+        foreach (array_keys($container->findTaggedServiceIds(DarvinAdminExtension::TAG_VIEW_WIDGET)) as $id) {
             $pool->addMethodCall('addWidget', [new Reference($id)]);
         }
     }

@@ -10,8 +10,11 @@
 
 namespace Darvin\AdminBundle\DependencyInjection;
 
+use Darvin\AdminBundle\Dashboard\DashboardWidgetInterface;
 use Darvin\AdminBundle\Entity\LogEntry;
+use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\User\Roles;
+use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Darvin\Utils\DependencyInjection\ConfigLoader;
@@ -51,6 +54,10 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $container->registerForAutoconfiguration(DashboardWidgetInterface::class)->addTag('darvin_admin.dashboard_widget');
+        $container->registerForAutoconfiguration(ItemFactoryInterface::class)->addTag('darvin_admin.menu_item_factory');
+        $container->registerForAutoconfiguration(WidgetInterface::class)->addTag('darvin_admin.view_widget');
+
         $showErrorPages = $this->showErrorPages;
 
         $this->mergeSectionConfigs($configs);

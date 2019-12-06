@@ -470,3 +470,5 @@ darvin_admin:
 6.4.2: Upgrade vendors.
 
 6.4.5: Use "object" type hint.
+
+6.4.6: Register interfaces for autoconfiguration.

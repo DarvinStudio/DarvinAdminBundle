@@ -14,7 +14,7 @@ use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
-use Darvin\Utils\Strings\Stringifier\StringifierInterface;
+use Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\DBAL\Types\Types;
@@ -36,16 +36,16 @@ class DataWidget extends AbstractWidget
     private $objectNamer;
 
     /**
-     * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
+     * @var \Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface
      */
     private $stringifier;
 
     /**
-     * @param \Doctrine\ORM\EntityManager                            $em          Entity manager
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer Object namer
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface $stringifier Stringifier
+     * @param \Doctrine\ORM\EntityManager                                    $em          Entity manager
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface                 $objectNamer Object namer
+     * @param \Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface $stringifier Doctrine stringifier
      */
-    public function __construct(EntityManager $em, ObjectNamerInterface $objectNamer, StringifierInterface $stringifier)
+    public function __construct(EntityManager $em, ObjectNamerInterface $objectNamer, DoctrineStringifierInterface $stringifier)
     {
         $this->em = $em;
         $this->objectNamer = $objectNamer;

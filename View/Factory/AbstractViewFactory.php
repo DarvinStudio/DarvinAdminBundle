@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\View\Factory;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
-use Darvin\Utils\Strings\Stringifier\StringifierInterface;
+use Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -39,7 +39,7 @@ abstract class AbstractViewFactory
     protected $propertyAccessor;
 
     /**
-     * @var \Darvin\Utils\Strings\Stringifier\StringifierInterface
+     * @var \Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface
      */
     protected $stringifier;
 
@@ -73,9 +73,9 @@ abstract class AbstractViewFactory
     }
 
     /**
-     * @param \Darvin\Utils\Strings\Stringifier\StringifierInterface $stringifier Stringifier
+     * @param \Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface $stringifier Doctrine stringifier
      */
-    public function setStringifier(StringifierInterface $stringifier): void
+    public function setStringifier(DoctrineStringifierInterface $stringifier): void
     {
         $this->stringifier = $stringifier;
     }

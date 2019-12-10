@@ -1,18 +1,21 @@
 action:
+    copy:
+        submit: ' 复制@trans_title_accusative@'
+        success: '@反@成功复制的'
     delete:
         confirm: 确认@trans_lower_genitive@除
-        submit: ' 删除@trans_lower_accusative@'
+        submit: ' 删除@trans_title_accusative@'
         success: '@反@成功地除去'
     edit:
-        link: ' 编辑@trans_lower_accusative@'
+        link: ' 编辑@trans_title_accusative@'
         success: '@反@成功地更新'
-        title: ' 编辑@trans_lower_accusative@"%entity%"'
+        title: ' 编辑@trans_title_accusative@ %entity%'
     index:
-        link: ' @trans_multiple@s'
-        title: '@trans_multiple@s'
+        link: ' @trans_title_multiple@s'
+        title: '@trans_title_multiple@s'
     new:
-        link: ' 创建@trans_lower_accusative@'
+        link: ' 创建@trans_title_accusative@'
         success: '@反@成功地创造了'
-        title: ' 新@trans_lower@'
+        title: ' 新@trans_title@'
     show:
-        title: '@反@"%entity%"'
+        title: '@trans_title@ %entity%'

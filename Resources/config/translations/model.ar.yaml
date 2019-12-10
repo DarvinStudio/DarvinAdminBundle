@@ -1,18 +1,21 @@
 action:
+    copy:
+        submit: ' نسخ @trans_title_accusative@'
+        success: '@عبر@ نسخها بنجاح'
     delete:
         confirm: 'تأكيد @trans_lower_genitive@ إزالة'
-        submit: ' إزالة @trans_lower_accusative@'
+        submit: ' إزالة @trans_title_accusative@'
         success: '@عبر@ إزالة بنجاح'
     edit:
-        link: ' تحرير @trans_lower_accusative@'
+        link: ' تحرير @trans_title_accusative@'
         success: '@عبر@ تحديثها بنجاح'
-        title: ' تحرير @trans_lower_accusative@ "%entity%"'
+        title: ' تحرير @trans_title_accusative@ %entity%'
     index:
-        link: ' @trans_multiple@s'
-        title: '@trans_multiple@s'
+        link: ' @trans_title_multiple@s'
+        title: '@trans_title_multiple@s'
     new:
-        link: ' إنشاء @trans_lower_accusative@'
+        link: ' إنشاء @trans_title_accusative@'
         success: '@عبر@ بنجاح إنشاء'
-        title: ' جديد @trans_lower@'
+        title: ' جديد @trans_title@'
     show:
-        title: '@عبر@ "%entity%"'
+        title: '@trans_title@ %entity%'

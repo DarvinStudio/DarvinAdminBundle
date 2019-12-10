@@ -474,3 +474,5 @@ darvin_admin:
 6.4.6: Register interfaces for autoconfiguration.
 
 6.4.7: Change image edit template.
+
+?: Remove redundant title case usages from english translations model.

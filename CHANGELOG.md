@@ -475,4 +475,4 @@ darvin_admin:
 
 6.4.7: Change image edit template.
 
-?: Remove redundant title case usages from english translations model.
+6.?.?: Remove redundant title case usages from english translations model.

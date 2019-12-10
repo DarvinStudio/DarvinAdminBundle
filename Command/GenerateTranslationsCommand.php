@@ -210,10 +210,15 @@ class GenerateTranslationsCommand extends Command
             '@trans@'                  => $entityTranslation,
             '@trans_accusative@'       => $cases['accusative'],
             '@trans_genitive@'         => $cases['genitive'],
+            '@trans_multiple@'         => $cases['multiple'],
             '@trans_lower@'            => $startsWithAcronym ? $entityTranslation : StringsUtil::lowercaseFirst($entityTranslation),
             '@trans_lower_accusative@' => $startsWithAcronym ? $cases['accusative'] : StringsUtil::lowercaseFirst($cases['accusative']),
             '@trans_lower_genitive@'   => $startsWithAcronym ? $cases['genitive'] : StringsUtil::lowercaseFirst($cases['genitive']),
-            '@trans_multiple@'         => $cases['multiple'],
+            '@trans_lower_multiple@'   => $startsWithAcronym ? $cases['multiple'] : StringsUtil::lowercaseFirst($cases['multiple']),
+            '@trans_title@'            => $parseDocComments || $startsWithAcronym ? $entityTranslation : mb_convert_case($entityTranslation, MB_CASE_TITLE),
+            '@trans_title_accusative@' => $parseDocComments || $startsWithAcronym ? $cases['accusative'] : mb_convert_case($cases['accusative'], MB_CASE_TITLE),
+            '@trans_title_genitive@'   => $parseDocComments || $startsWithAcronym ? $cases['genitive'] : mb_convert_case($cases['genitive'], MB_CASE_TITLE),
+            '@trans_title_multiple@'   => $parseDocComments || $startsWithAcronym ? $cases['multiple'] : mb_convert_case($cases['multiple'], MB_CASE_TITLE),
         ], array_keys(self::GENDERS), $gender);
     }
 
@@ -324,7 +329,7 @@ class GenerateTranslationsCommand extends Command
             }
         }
 
-        return ucwords(StringsUtil::humanize($this->entityNamer->name($classReflection->getName())));
+        return StringsUtil::humanize($this->entityNamer->name($classReflection->getName()));
     }
 
     /**

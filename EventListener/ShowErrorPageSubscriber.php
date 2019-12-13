@@ -23,6 +23,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Translation\Translator;
 use Twig\Environment;
 
@@ -132,10 +133,12 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
      */
     public function showErrorPage(ExceptionEvent $event): void
     {
-        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+        try {
+            $isAdmin = $this->authorizationChecker->isGranted(Roles::ROLE_ADMIN);
+        } catch (AuthenticationCredentialsNotFoundException $ex) {
             return;
         }
-        if (!method_exists($this->firewallMap, 'getFirewallConfig')) {
+        if (!$isAdmin || !method_exists($this->firewallMap, 'getFirewallConfig')) {
             return;
         }
 

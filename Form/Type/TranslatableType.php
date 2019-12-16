@@ -13,6 +13,8 @@ namespace Darvin\AdminBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -21,15 +23,22 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TranslatableType extends AbstractType
 {
     /**
+     * @var string
+     */
+    private $defaultLocale;
+
+    /**
      * @var string[]
      */
     private $locales;
 
     /**
-     * @param string[] $locales Locales
+     * @param string   $defaultLocale Default locale
+     * @param string[] $locales       Locales
      */
-    public function __construct(array $locales)
+    public function __construct(string $defaultLocale, array $locales)
     {
+        $this->defaultLocale = $defaultLocale;
         $this->locales = $locales;
     }
 
@@ -41,6 +50,14 @@ class TranslatableType extends AbstractType
         foreach ($this->locales as $locale) {
             $builder->add($locale, $options['type'], $options['options']);
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function finishView(FormView $view, FormInterface $form, array $options): void
+    {
+        $view->vars['default_locale'] = $this->defaultLocale;
     }
 
     /**

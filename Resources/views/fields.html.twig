@@ -454,6 +454,10 @@
     </div>
 {%- endblock darvin_admin_slug_suffix_widget -%}
 
+{%- block darvin_admin_translatable_widget -%}
+    {{- block('a2lix_translations_row') -}}
+{%- endblock darvin_admin_translatable_widget -%}
+
 {%- block darvin_image_image_row -%}
     {%- set compound = false -%}
     {{- block('form_row') -}}

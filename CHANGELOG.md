@@ -475,8 +475,12 @@ darvin_admin:
 
 6.4.7: Change image edit template.
 
-6.?.?:
+6.4.9:
  
 - Remove redundant title case usages from translation models.
 
 - Do not allow empty values in admin section's searchable fields.
+
+6.4.10:
+
+- Customize translatable form theme.

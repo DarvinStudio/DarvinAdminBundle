@@ -48,7 +48,7 @@ class ListViewWidgetsCommand extends Command
     /**
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -56,5 +56,7 @@ class ListViewWidgetsCommand extends Command
         sort($aliases);
 
         $io->listing($aliases);
+
+        return 0;
     }
 }

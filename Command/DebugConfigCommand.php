@@ -54,10 +54,12 @@ class DebugConfigCommand extends Command
     /**
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         (new SymfonyStyle($input, $output))->writeln(
             Yaml::dump($this->metadataManager->getConfiguration($input->getArgument('entity')), 10)
         );
+
+        return 0;
     }
 }

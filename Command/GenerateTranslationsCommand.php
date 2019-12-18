@@ -145,7 +145,7 @@ class GenerateTranslationsCommand extends Command
     /**
      * {@inheritDoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
@@ -160,6 +160,8 @@ class GenerateTranslationsCommand extends Command
         $translations = $this->buildTranslations($this->em->getClassMetadata($entity), $gender, $locale);
 
         $output->writeln(str_replace('\'', '', Yaml::dump($translations, $yamlInline, $yamlIndent)));
+
+        return 0;
     }
 
     /**

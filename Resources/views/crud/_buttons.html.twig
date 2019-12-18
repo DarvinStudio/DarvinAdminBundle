@@ -6,10 +6,6 @@
     'submit_new':   'page-' ~ style ~ '__btn-save-add',
 } %}
 
-{% if entity %}
-    {{ admin_widget('actions', entity, {'view_type': view_type, 'style': style}) }}
-{% endif %}
-
 {% for name, row in form %}
     {% if 'submit' == row.vars.block_prefixes[1] %}
         <a class="{{ classes[name] }}"
@@ -19,3 +15,7 @@
         </a>
     {% endif %}
 {% endfor %}
+
+{% if entity %}
+    {{ admin_widget('actions', entity, {'view_type': view_type, 'style': style}) }}
+{% endif %}

@@ -484,3 +484,5 @@ darvin_admin:
 6.4.10:
 
 - Customize translatable form theme.
+
+6.4.12: remove "Remove" button from Edit form and moved fast show

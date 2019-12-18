@@ -98,7 +98,6 @@ class Configuration implements ConfigurationInterface
                         ->append($this->buildViewNode('new'))
                         ->append($this->buildViewNode('edit', [
                             ShowLinkWidget::ALIAS,
-                            DeleteFormWidget::ALIAS,
                         ]))
                         ->append($this->buildViewNode('show', [
                             EditLinkWidget::ALIAS,

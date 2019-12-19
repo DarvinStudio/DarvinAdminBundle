@@ -6,12 +6,12 @@
 <div class="content-tabs">
     <div class="content-tabs__container tabs js-tabs">
         <div class="tabs__nav">
-            {% for child in form|filter((name, child) => '_token' != name) %}
+            {% for child in form|filter((child, name) => '_token' != name) %}
                 <div class="tabs__nav-item">{{ child.vars.label|trans }}</div>
             {% endfor %}
         </div>
         <div class="tabs__content">
-            {% for child in form|filter((name, child) => '_token' != name) %}
+            {% for child in form|filter((child, name) => '_token' != name) %}
                 <div class="tabs__content-item">
                     <div class="form-settings">
                         {% for row in child %}

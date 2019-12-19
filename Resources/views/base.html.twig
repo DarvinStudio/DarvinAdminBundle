@@ -9,16 +9,14 @@
     'trans_api_key': darvin_admin.yandexTranslateApiKey,
 } %}
 
-{% for key, class in {
+{% for class in {
     'filter':      'is-hidden-filter',
     'formSpoiler': 'is-hidden-form-spoiler',
     'sidebar':     'is-hidden-sidebar',
-} %}
-    {% if not darvin_admin_visible(key) %}
+}|filter((class, key) => not darvin_admin_visible(key)) %}
 
-        {% set body_classes = body_classes|merge([class]) %}
+    {% set body_classes = body_classes|merge([class]) %}
 
-    {% endif %}
 {% endfor %}
 
 <!DOCTYPE html>
@@ -99,12 +97,10 @@
                                     'translate': false,
                                     'url':       '#',
                                 },
-                            } %}
-                                {% if attr.show %}
-                                    <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
-                                        {{ attr.translate ? title|trans|raw : title|raw }}
-                                    </a>
-                                {% endif %}
+                            }|filter(attr => attr.show) %}
+                                <a href="{{ attr.url }}"{% if attr.class is defined %} class="{{ attr.class }}"{% endif %}>
+                                    {{ attr.translate ? title|trans|raw : title|raw }}
+                                </a>
                             {% endfor %}
 
                             {% if app.user %}
@@ -126,10 +122,8 @@
                                                         'show': true,
                                                         'url':  path('darvin_admin_security_logout'),
                                                     },
-                                                } %}
-                                                    {% if attr.show and attr.url %}
-                                                        <li><a href="{{ attr.url }}">{{ ('layout.header.user.' ~ title)|trans }}</a></li>
-                                                    {% endif %}
+                                                }|filter(attr => attr.show and attr.url) %}
+                                                    <li><a href="{{ attr.url }}">{{ ('layout.header.user.' ~ title)|trans }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </div>

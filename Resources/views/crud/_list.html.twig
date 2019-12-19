@@ -43,23 +43,21 @@
                     <thead>
                         <tr>
 
-                            {% for name, item in view.head.items %}
-                                {% if item.width %}
-                                    <th{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
-                                        {% if 'action_widgets' == name and batch_delete_form %}
-                                            <label class="custom-checkbox"
-                                                   title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">
-                                                <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">
-                                                <span></span>
-                                            </label>
-                                        {% endif %}
-                                        {% if pagination is defined and pagination and item.sortable %}
-                                            {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
-                                        {% else %}
-                                            {{ item.content|trans }}
-                                        {% endif %}
-                                    </th>
-                                {% endif %}
+                            {% for name, item in view.head.items|filter(item => item.width) %}
+                                <th{% for attr_name, attr_value in item.attr %} {{ attr_name }}="{{ attr_value|e('html_attr') }}"{% endfor %}>
+                                    {% if 'action_widgets' == name and batch_delete_form %}
+                                        <label class="custom-checkbox"
+                                               title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">
+                                            <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">
+                                            <span></span>
+                                        </label>
+                                    {% endif %}
+                                    {% if pagination is defined and pagination and item.sortable %}
+                                        {{ knp_pagination_sortable(pagination, item.content|trans, item.sortablePropertyPath, [], [], '@DarvinAdmin/sortable.html.twig') }}
+                                    {% else %}
+                                        {{ item.content|trans }}
+                                    {% endif %}
+                                </th>
                             {% endfor %}
 
                         </tr>

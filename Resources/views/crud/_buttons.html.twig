@@ -6,14 +6,12 @@
     'submit_new':   'page-' ~ style ~ '__btn-save-add',
 } %}
 
-{% for name, row in form %}
-    {% if 'submit' == row.vars.block_prefixes[1] %}
-        <a class="{{ classes[name] }}"
-           href="#"
-           onclick="document.getElementById('{{ row.vars.id }}').click(); return false;">
-            {{ row.vars.label|trans }}
-        </a>
-    {% endif %}
+{% for name, row in form|filter(row => 'submit' == row.vars.block_prefixes[1]) %}
+    <a class="{{ classes[name] }}"
+       href="#"
+       onclick="document.getElementById('{{ row.vars.id }}').click(); return false;">
+        {{ row.vars.label|trans }}
+    </a>
 {% endfor %}
 
 {% if entity %}

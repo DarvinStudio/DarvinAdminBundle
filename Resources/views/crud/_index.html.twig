@@ -64,10 +64,8 @@
                 {{ form_start(filter_form, {'attr': {'class': 'js-form'}}) }}
                 <div class="form-filter">
 
-                    {% for name, attr in meta.configuration.form.filter.fields %}
-                        {% if filter_form[name] is defined %}
-                            {{ form_row(filter_form[name]) }}
-                        {% endif %}
+                    {% for name in meta.configuration.form.filter.fields|keys|filter(name => filter_form[name] is defined) %}
+                        {{ form_row(filter_form[name]) }}
                     {% endfor %}
 
                     <div class="form-btns-container">

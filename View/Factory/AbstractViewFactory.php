@@ -120,7 +120,7 @@ abstract class AbstractViewFactory
         $content = $this->propertyAccessor->getValue($entity, $fieldName);
 
         return isset($mappings[$fieldName]['type'])
-            ? $this->stringifier->stringify($content, $mappings[$fieldName]['type'])
+            ? $this->stringifier->stringify($content, (string)$mappings[$fieldName]['type'])
             : $content;
     }
 

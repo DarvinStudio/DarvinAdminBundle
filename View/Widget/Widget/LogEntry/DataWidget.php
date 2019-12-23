@@ -82,7 +82,7 @@ class DataWidget extends AbstractWidget
             if (isset($mappings[$property])) {
                 $value = $this->stringifier->stringify(
                     $value,
-                    isset($mappings[$property]['targetEntity']) ? Types::SIMPLE_ARRAY : $mappings[$property]['type']
+                    isset($mappings[$property]['targetEntity']) ? Types::SIMPLE_ARRAY : (string)$mappings[$property]['type']
                 );
             }
 

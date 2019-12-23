@@ -486,3 +486,5 @@ darvin_admin:
 - Customize translatable form theme.
 
 6.4.12: remove "Remove" button from Edit form and moved fast show
+
+6.4.15: Generate image URL with "vich_uploader_asset()" function instead of "image_original()" filter.

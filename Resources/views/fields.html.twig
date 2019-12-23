@@ -8,9 +8,12 @@
 
 {% macro image(image, disableable, editable, exterminatable) %}
     {% if image.id %}
+
+        {% set url = vich_uploader_asset(image, 'file') %}
+
         <div class="custom-dropzone__item js-image" data-id="{{ image.id }}">
-            <a class="custom-dropzone__item-img" href="{{ image|image_original }}" data-size="{{ image.dimensions }}">
-                <img src="{{ vich_uploader_asset(image, 'file')|imagine_filter('darvin_admin_thumb') }}" alt="">
+            <a class="custom-dropzone__item-img" href="{{ url }}" data-size="{{ image.dimensions }}">
+                <img src="{{ url|imagine_filter('darvin_admin_thumb') }}" alt="">
             </a>
             {% if disableable %}
                 <div class="custom-dropzone__item-toggle">

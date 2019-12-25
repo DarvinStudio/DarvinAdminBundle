@@ -35,20 +35,22 @@ class HelpFileTypeExtension extends AbstractTypeExtension
     /**
      * @param \Symfony\Contracts\Translation\TranslatorInterface $translator    Translator
      * @param mixed                                              $maxUploadSize Max upload size in MB
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(TranslatorInterface $translator, $maxUploadSize)
     {
         $this->translator = $translator;
-        $this->maxUploadSize = (int)$maxUploadSize;
 
-        if ($this->maxUploadSize < 1) {
-            $message = sprintf(
-                'The value %s is too small for parameter "Upload max size mb". Should be greater than or equal to 1',
-                $this->maxUploadSize
+        $maxUploadSize = (int)$maxUploadSize;
+
+        if ($maxUploadSize < 1) {
+            throw new \InvalidArgumentException(
+                sprintf('Max upload size should be greater than or equal to 1, got "%d".', $maxUploadSize)
             );
-
-            throw new \InvalidArgumentException($message);
         }
+
+        $this->maxUploadSize = $maxUploadSize;
     }
 
     /**

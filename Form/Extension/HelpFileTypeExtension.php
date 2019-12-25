@@ -46,7 +46,7 @@ class HelpFileTypeExtension extends AbstractTypeExtension
 
         if ($maxUploadSize < 1) {
             throw new \InvalidArgumentException(
-                sprintf('Max upload size should be greater than or equal to 1, got "%d".', $maxUploadSize)
+                sprintf('Max upload size should be greater than or equal to 1, got %d.', $maxUploadSize)
             );
         }
 

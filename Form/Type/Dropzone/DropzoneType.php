@@ -110,7 +110,7 @@ class DropzoneType extends AbstractType
 
         if ($uploadMaxSizeMB < 1) {
             throw new \InvalidArgumentException(
-                sprintf('Max upload size should be greater than or equal to 1, got "%d".', $uploadMaxSizeMB)
+                sprintf('Max upload size should be greater than or equal to 1, got %d.', $uploadMaxSizeMB)
             );
         }
 

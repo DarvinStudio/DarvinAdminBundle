@@ -44,7 +44,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('project_title')->isRequired()->cannotBeEmpty()->end()
                 ->integerNode('search_query_min_length')->defaultValue(3)->min(1)->end()
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->cannotBeEmpty()->end()
-                ->scalarNode('upload_max_size_mb')->defaultValue(2)->end()
+                ->scalarNode('upload_max_size_mb')->defaultValue(2)->cannotBeEmpty()->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()

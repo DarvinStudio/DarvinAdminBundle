@@ -85,6 +85,8 @@ class DropzoneType extends AbstractType
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
      * @param mixed                                                       $uploadMaxSizeMB            Max upload file size in MB
      * @param \Darvin\ImageBundle\Size\SizeDescriber|null                 $imageSizeDescriber         Image size describer
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(
         UploaderHelper $oneupUploaderHelper,
@@ -102,17 +104,17 @@ class DropzoneType extends AbstractType
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
         $this->constraints = $constraints;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
-        $this->uploadMaxSizeMB = (int)$uploadMaxSizeMB;
         $this->imageSizeDescriber = $imageSizeDescriber;
 
-        if ($this->uploadMaxSizeMB < 1) {
-            $message = sprintf(
-                'The value %s is too small for parameter "Upload max size mb". Should be greater than or equal to 1',
-                $this->uploadMaxSizeMB
-            );
+        $uploadMaxSizeMB = (int)$uploadMaxSizeMB;
 
-            throw new \InvalidArgumentException($message);
+        if ($uploadMaxSizeMB < 1) {
+            throw new \InvalidArgumentException(
+                sprintf('Max upload size should be greater than or equal to 1, got "%d".', $uploadMaxSizeMB)
+            );
         }
+
+        $this->uploadMaxSizeMB = $uploadMaxSizeMB;
     }
 
     /**

@@ -102,7 +102,7 @@ class DropzoneType extends AbstractType
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
         $this->constraints = $constraints;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
-        $this->uploadMaxSizeMB = $uploadMaxSizeMB;
+        $this->uploadMaxSizeMB = (int)$uploadMaxSizeMB;
         $this->imageSizeDescriber = $imageSizeDescriber;
     }
 

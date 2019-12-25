@@ -490,3 +490,5 @@ darvin_admin:
 6.4.15: Generate image URL with "vich_uploader_asset()" function instead of "image_original()" filter.
 
 6.4.16: Cast data type passed to Doctrine stringifier to string.
+
+6.4.17: Changed config "Upload max size MB" to scalar type

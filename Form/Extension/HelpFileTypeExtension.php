@@ -40,6 +40,15 @@ class HelpFileTypeExtension extends AbstractTypeExtension
     {
         $this->translator = $translator;
         $this->maxUploadSize = (int)$maxUploadSize;
+
+        if ($this->maxUploadSize < 1) {
+            $message = sprintf(
+                'The value %s is too small for parameter "Upload max size mb". Should be greater than or equal to 1',
+                $this->maxUploadSize
+            );
+
+            throw new \InvalidArgumentException($message);
+        }
     }
 
     /**

@@ -492,3 +492,5 @@ darvin_admin:
 6.4.16: Cast data type passed to Doctrine stringifier to string.
 
 6.4.17: Changed config "Upload max size MB" to scalar type
+
+6.4.18: Integrate autocomplete functionality from Content bundle.

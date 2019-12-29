@@ -1,5 +1,5 @@
 darvin_admin_autocomplete:
     path:         /{provider}
     defaults:     { _controller: darvin_content.autocomplete.controller }
-    requirements: { provider: .+ }
+    requirements: { provider: '[0-9a-z-]+' }
     methods:      [ get ]

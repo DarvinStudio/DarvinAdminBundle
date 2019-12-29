@@ -494,3 +494,5 @@ darvin_admin:
 6.4.17: Changed config "Upload max size MB" to scalar type
 
 6.4.18: Integrate autocomplete functionality from Content bundle.
+
+6.4.19: Use dashes instead of underscores in autocomplete URLs.

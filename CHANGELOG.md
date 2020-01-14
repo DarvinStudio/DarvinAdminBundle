@@ -496,3 +496,9 @@ darvin_admin:
 6.4.18: Integrate autocomplete functionality from Content bundle.
 
 6.4.19: Use dashes instead of underscores in autocomplete URLs.
+
+6.4.20: 
+
+- Resolve entity in all section configuration's methods.
+
+- Extract section configuration interface.

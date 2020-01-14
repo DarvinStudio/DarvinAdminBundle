@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\EntityNamer;
 
-use Darvin\AdminBundle\Configuration\SectionConfiguration;
+use Darvin\AdminBundle\Configuration\SectionConfigurationInterface;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Doctrine\Common\Util\ClassUtils;
@@ -41,11 +41,11 @@ class EntityNamer implements EntityNamerInterface
     private $names;
 
     /**
-     * @param \Darvin\Utils\ORM\EntityResolverInterface              $entityResolver Entity resolver
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface         $objectNamer    Object namer
-     * @param \Darvin\AdminBundle\Configuration\SectionConfiguration $sectionConfig  Section configuration
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                       $entityResolver Entity resolver
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface                  $objectNamer    Object namer
+     * @param \Darvin\AdminBundle\Configuration\SectionConfigurationInterface $sectionConfig  Section configuration
      */
-    public function __construct(EntityResolverInterface $entityResolver, ObjectNamerInterface $objectNamer, SectionConfiguration $sectionConfig)
+    public function __construct(EntityResolverInterface $entityResolver, ObjectNamerInterface $objectNamer, SectionConfigurationInterface $sectionConfig)
     {
         $this->entityResolver = $entityResolver;
         $this->objectNamer = $objectNamer;

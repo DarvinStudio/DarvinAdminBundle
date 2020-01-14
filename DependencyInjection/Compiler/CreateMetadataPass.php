@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\AdminBundle\Configuration\SectionConfiguration;
+use Darvin\AdminBundle\Configuration\SectionConfigurationInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
@@ -54,9 +54,9 @@ class CreateMetadataPass implements CompilerPassInterface
     /**
      * @param \Psr\Container\ContainerInterface $container DI container
      *
-     * @return \Darvin\AdminBundle\Configuration\SectionConfiguration
+     * @return \Darvin\AdminBundle\Configuration\SectionConfigurationInterface
      */
-    private function getSectionConfiguration(ContainerInterface $container): SectionConfiguration
+    private function getSectionConfiguration(ContainerInterface $container): SectionConfigurationInterface
     {
         return $container->get('darvin_admin.configuration.section');
     }

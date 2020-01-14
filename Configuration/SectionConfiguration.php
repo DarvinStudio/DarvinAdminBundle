@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2016-2019, Darvin Studio
+ * @copyright Copyright (c) 2016-2020, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
@@ -16,7 +16,7 @@ use Darvin\Utils\ORM\EntityResolverInterface;
 /**
  * Section configuration
  */
-class SectionConfiguration
+class SectionConfiguration implements SectionConfigurationInterface
 {
     /**
      * @var \Darvin\Utils\ORM\EntityResolverInterface
@@ -53,13 +53,12 @@ class SectionConfiguration
     }
 
     /**
-     * @param string $entity Entity class
-     *
-     * @return \Darvin\AdminBundle\Configuration\Section
-     * @throws \InvalidArgumentException
+     * {@inheritDoc}
      */
     public function getSection(string $entity): Section
     {
+        $entity = $this->entityResolver->resolve($entity);
+
         if (!$this->hasSection($entity)) {
             throw new \InvalidArgumentException(sprintf('Section for entity "%s" does not exist.', $entity));
         }
@@ -68,19 +67,19 @@ class SectionConfiguration
     }
 
     /**
-     * @param string $entity Entity class
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function hasSection(string $entity): bool
     {
+        $entity = $this->entityResolver->resolve($entity);
+
         $sections = $this->getSections();
 
         return isset($sections[$entity]);
     }
 
     /**
-     * @return \Darvin\AdminBundle\Configuration\Section[]
+     * {@inheritDoc}
      */
     public function getSections(): array
     {

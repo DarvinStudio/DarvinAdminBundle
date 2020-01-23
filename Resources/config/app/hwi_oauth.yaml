@@ -4,8 +4,8 @@ hwi_oauth:
     resource_owners:
         darvin_auth_admin:
             type:                oauth2
-            client_id:           '%env(resolve:DARVIN_AUTH_CLIENT_ID)%'
-            client_secret:       '%env(resolve:DARVIN_AUTH_CLIENT_SECRET)%'
+            client_id:           '%auth_id%'
+            client_secret:       '%auth_secret%'
             access_token_url:    https://auth.darvins.ru/oauth/v2/token
             authorization_url:   https://auth.darvins.ru/oauth/v2/auth
             infos_url:           https://auth.darvins.ru/api/user

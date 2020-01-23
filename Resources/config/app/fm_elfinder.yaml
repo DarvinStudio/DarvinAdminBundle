@@ -8,8 +8,8 @@ fm_elfinder:
                 roots:
                     uploads:
                         driver:          LocalFileSystem
-                        path:            '%env(resolve:UPLOAD_PATH)%'
-                        upload_max_size: '%env(int:resolve:UPLOAD_MAX_SIZE_MB)%M'
+                        path:            '%upload_path%'
+                        upload_max_size: '%upload_limit%M'
                         upload_allow:
                             - image/png
                             - image/jpg
@@ -45,8 +45,8 @@ fm_elfinder:
                 roots:
                     uploads:
                         driver:          LocalFileSystem
-                        path:            '%env(resolve:UPLOAD_PATH)%'
-                        upload_max_size: '%env(int:resolve:UPLOAD_MAX_SIZE_MB)%M'
+                        path:            '%upload_path%'
+                        upload_max_size: '%upload_limit%M'
                         upload_allow:
                             - image/png
                             - image/jpg

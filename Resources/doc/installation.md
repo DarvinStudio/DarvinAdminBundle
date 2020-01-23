@@ -57,21 +57,13 @@ return [
 
 darvin_admin:
     locales:            '%locales%'
-    project_title:      '%env(PROJECT_TITLE)%'
+    project_title:      '%app_title%'
     upload_max_size_mb: 100
     
 # config/packages/darvin_image.yaml
 
 darvin_image:
-    upload_path: '%env(IMAGE_UPLOAD_PATH)%'
-    
-# config/packages/darvin_utils.yaml
-    
-darvin_utils:
-    mailer:
-        from:
-            email: '%env(MAILER_FROM)%'
-            name:  '%env(PROJECT_TITLE)%'
+    upload_path: '%image_path%'
 ```
 
 - настраиваем локали в главном конфиге приложения ("app/config/services.yaml"):

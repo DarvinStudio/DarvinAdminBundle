@@ -11,7 +11,7 @@ darvin_admin_security_login:
 
 darvin_admin_security_darvin_auth_login:
     path:     /login/{service}
-    defaults: { _controller: HWI\Bundle\OAuthBundle\Controller\ConnectController::redirectToServiceAction }
+    defaults: { _controller: HWI\Bundle\OAuthBundle\Controller\RedirectToServiceController::redirectToServiceAction }
 
 darvin_admin_security_logout:
     path: /logout

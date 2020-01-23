@@ -170,7 +170,7 @@ class DropzoneType extends AbstractType
                 foreach ($data['files'] as $fileInfo) {
                     $tmpPathname = $tmpDir.DIRECTORY_SEPARATOR.$fileInfo['filename'];
 
-                    $file = new UploadedFile($tmpPathname, $fileInfo['originalFilename'], null, null, null, true);
+                    $file = new UploadedFile($tmpPathname, $fileInfo['originalFilename'], null, null, true);
 
                     $uploadable = new $uploadableClass();
                     $propertyAccessor->setValue($uploadable, $uploadableField, $file);

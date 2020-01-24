@@ -502,3 +502,5 @@ darvin_admin:
 - Resolve entity in all section configuration's methods.
 
 - Extract section configuration interface.
+
+6.4.24: Require "psr/simple-cache".

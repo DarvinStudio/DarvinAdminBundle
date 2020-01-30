@@ -504,3 +504,5 @@ darvin_admin:
 - Extract section configuration interface.
 
 6.4.24: Require "psr/simple-cache".
+
+6.4.25: Support custom routers in public link view widget. 

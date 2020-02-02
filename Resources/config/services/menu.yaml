@@ -1,6 +1,8 @@
 parameters:
     darvin_admin.menu.class: Darvin\AdminBundle\Menu\Menu
 
+    darvin_admin.menu.item_factory.cache.class: Darvin\AdminBundle\Menu\Item\Factory\CacheItemFactory
+
     darvin_admin.menu.item_factory.configuration.class: Darvin\AdminBundle\Menu\Item\Factory\ConfigurationItemFactory
 
     darvin_admin.menu.item_factory.group.class: Darvin\AdminBundle\Menu\Item\Factory\GroupItemFactory
@@ -17,6 +19,15 @@ services:
         arguments:
             - '@darvin_utils.new_object.counter'
             - '@request_stack'
+
+    darvin_admin.menu.item_factory.cache:
+        class: '%darvin_admin.menu.item_factory.cache.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@router'
+            - "%darvin_admin.cache.list%"
+        tags:
+            - { name: darvin_admin.menu_item_factory }
 
     darvin_admin.menu.item_factory.configuration:
         class: '%darvin_admin.menu.item_factory.configuration.class%'

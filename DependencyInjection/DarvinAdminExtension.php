@@ -71,6 +71,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         (new ConfigLoader($container, __DIR__.'/../Resources/config/services'))->load([
             'ace_editor',
             'breadcrumbs',
+            'cache',
             'ckeditor',
             'configuration',
             'cookie',
@@ -194,6 +195,10 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                     ],
                 ],
             ],
+            'cache' => [
+                'fast' => [],
+                'list' => [],
+            ]
         ]);
     }
 

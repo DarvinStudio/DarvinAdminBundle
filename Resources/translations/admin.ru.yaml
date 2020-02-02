@@ -3,6 +3,28 @@ boolean:
     no:            Нет
     yes:           Да
 
+cache:
+    action:
+        clear:
+            command: Команда
+            confirm: Подтвердите очистку кэша
+            error:   При очистке кэша возникла ошибка. Повторите попытку позднее
+            link:    Кэширование
+            submit:  Очистить выбранные
+            success: Кэш успешно очищен
+            title:   Чистка кэша
+        fast_clear:
+            title:  Чистит только легкий кэш, например запросы к БД
+            submit: Очистить кэш
+    darvin_image:
+        command:     darvin:image:cache:warmup
+        title:       Кэш изображений
+        description: Внимание! Чистить только в случае оптимизации изображенй!
+    doctrine_result:
+        command:     doctrine:cache:clear-result
+        title:       Результаты запросов БД
+        description: "Хранит результаты запросов, которые бандл Doctrine получил из базы данных и преобразовал в сущности. Рекомендуется чистить каждый раз после правок на сайте."
+
 common:
     actions:          Действия
     back:             Назад

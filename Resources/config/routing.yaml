@@ -2,6 +2,10 @@ darvin_admin_import_autocomplete:
     resource: '@DarvinAdminBundle/Resources/config/routing/autocomplete.yaml'
     prefix:   /autocomplete
 
+darvin_admin_import_cache:
+    resource: '@DarvinAdminBundle/Resources/config/routing/cache.yaml'
+    prefix:   /cache
+
 darvin_admin_import_ckeditor:
     resource: '@DarvinAdminBundle/Resources/config/routing/ckeditor.yaml'
     prefix:   /ckeditor

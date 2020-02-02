@@ -46,6 +46,12 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->cannotBeEmpty()->end()
                 ->scalarNode('upload_max_size_mb')->defaultValue(2)->cannotBeEmpty()->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
+                ->arrayNode('cache')->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('fast')->useAttributeAsKey('name')->prototype('scalar')->cannotBeEmpty()->end()->end()
+                        ->arrayNode('list')->useAttributeAsKey('name')->prototype('scalar')->cannotBeEmpty()->end()->end()
+                    ->end()
+                ->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();

@@ -1,0 +1,19 @@
+{% extends '@DarvinAdmin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block heading %}{% trans %}cache.action.clear.title{% endtrans %}{% endblock %}
+
+{% block header_buttons %}
+    <a class="page-header__btn-save" href="#" onclick="document.getElementById('{{ form.vars.id }}_submit').click(); return false;">
+        {% trans %}cache.action.clear.submit{% endtrans %}
+    </a>
+{% endblock %}
+
+{% block content %}{% include '@DarvinAdmin/cache/_clear.html.twig' %}{% endblock %}
+
+{% block footer_buttons %}
+    <a class="page-footer__btn-save" href="#" onclick="document.getElementById('{{ form.vars.id }}_submit').click(); return false;">
+        {% trans %}cache.action.clear.submit{% endtrans %}
+    </a>
+{% endblock %}

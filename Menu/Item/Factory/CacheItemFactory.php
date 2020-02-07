@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
+use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -33,20 +34,20 @@ class CacheItemFactory implements ItemFactoryInterface
     private $router;
 
     /**
-     * @var array
+     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
      */
-    private $caches;
+    private $cacheCleaner;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
-     * @param array                                                                        $caches               Array of caches
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                              $cacheCleaner         Cache cleaner
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RouterInterface $router, array $caches)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RouterInterface $router, CacheCleanerInterface $cacheCleaner)
     {
         $this->authorizationChecker = $authorizationChecker;
         $this->router = $router;
-        $this->caches = $caches;
+        $this->cacheCleaner = $cacheCleaner;
     }
 
     /**
@@ -54,7 +55,7 @@ class CacheItemFactory implements ItemFactoryInterface
      */
     public function getItems(): iterable
     {
-        if ($this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class) && !empty($this->caches)) {
+        if ($this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class) && !empty($this->cacheCleaner->getCacheClearCommands('section'))) {
             yield (new Item('cache'))
                 ->setIndexTitle('cache.action.clear.link')
                 ->setIndexUrl($this->router->generate('darvin_admin_cache_clear'))

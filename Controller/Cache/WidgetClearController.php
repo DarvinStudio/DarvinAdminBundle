@@ -10,34 +10,25 @@
 
 namespace Darvin\AdminBundle\Controller\Cache;
 
+use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Cache Fast Clear controller
+ * Cache Widget Clear controller
  */
-class FastClearController
+class WidgetClearController
 {
     /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
      */
-    private $flashNotifier;
-
-    /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
-     */
-    private $kernel;
+    private $cacheCleaner;
 
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface
@@ -50,32 +41,35 @@ class FastClearController
     private $cacheFormRenderer;
 
     /**
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    private $flashNotifier;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
     /**
-     * @var \Symfony\Component\Console\Command\Command
-     */
-    private $clearCacheCommand;
-
-    /**
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface $flashNotifier Flash notifier
+     * ClearController constructor.
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                    $cacheCleaner      Cache cleaner
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface   $cacheFormFactory  Cache form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRenderer Cache from Render
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                         $flashNotifier     Flash notifier
+     * @param \Symfony\Component\Routing\RouterInterface                         $router            Router
      */
     public function __construct(
+        CacheCleanerInterface $cacheCleaner,
         CacheFormFactoryInterface $cacheFormFactory,
         CacheFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
-        KernelInterface $kernel,
-        RouterInterface $router,
-        Command $clearCacheCommand
+        RouterInterface $router
     ) {
+        $this->cacheCleaner = $cacheCleaner;
         $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
-        $this->kernel = $kernel;
         $this->router = $router;
-        $this->clearCacheCommand = $clearCacheCommand;
     }
 
     /**
@@ -85,18 +79,13 @@ class FastClearController
      */
     public function __invoke(Request $request): Response
     {
-        $form = $this->cacheFormFactory->createFastClearForm()->handleRequest($request);
+        $form = $this->cacheFormFactory->createWidgetClearForm()->handleRequest($request);
 
         if (!$form->isValid()) {
             return $this->renderResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
 
-        $application = new Application($this->kernel);
-        $application->setAutoExit(false);
-
-        $this->clearCacheCommand->setApplication($application);
-
-        if ($this->clearCacheCommand->run(new ArrayInput([]), new NullOutput()) > 0) {
+        if ($this->cacheCleaner->run('fast') > 0) {
             return $this->renderResponse($request, false, 'cache.action.clear.error');
         }
 
@@ -117,7 +106,7 @@ class FastClearController
     private function renderResponse(Request $request, bool $success, string $message): Response
     {
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($this->cacheFormRenderer->renderFastClearForm(), $success, $message);
+            return new AjaxResponse($this->cacheFormRenderer->renderWidgetClearForm(), $success, $message);
         }
 
         if ($success) {

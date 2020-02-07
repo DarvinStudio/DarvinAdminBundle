@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -33,6 +34,7 @@ class Configuration implements ConfigurationInterface
         $root
             ->children()
                 ->append($this->createAssetsNode())
+                ->append($this->createCacheNode())
                 ->append($this->createCKEditorNode())
                 ->append($this->createFormNode())
                 ->append($this->createMenuNode())
@@ -46,12 +48,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->cannotBeEmpty()->end()
                 ->scalarNode('upload_max_size_mb')->defaultValue(2)->cannotBeEmpty()->end()
                 ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
-                ->arrayNode('cache')->addDefaultsIfNotSet()
-                    ->children()
-                        ->arrayNode('fast')->useAttributeAsKey('name')->prototype('scalar')->cannotBeEmpty()->end()->end()
-                        ->arrayNode('list')->useAttributeAsKey('name')->prototype('scalar')->cannotBeEmpty()->end()->end()
-                    ->end()
-                ->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();
@@ -69,6 +65,39 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->arrayNode('scripts')->prototype('scalar')->cannotBeEmpty()->end()->end()
                 ->arrayNode('styles')->prototype('scalar')->cannotBeEmpty();
+
+        return $root;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createCacheNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('cache'))->getRootNode();
+        $root->canBeDisabled()
+            ->children()
+                ->arrayNode('clear')
+                    ->children()
+                        ->append($this->createCacheClearCommandsTypeNode());
+
+        return $root;
+    }
+
+    /**
+     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
+     */
+    private function createCacheClearCommandsTypeNode(): ArrayNodeDefinition
+    {
+        $root = (new TreeBuilder('commands'))->getRootNode();
+        $root->useAttributeAsKey('name')
+            ->prototype('array')->useAttributeAsKey('name')
+                ->prototype('array')
+                    ->children()
+                        ->scalarNode('alias')->isRequired()->end()
+                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
+                    ->end()
+                ->end();
 
         return $root;
     }

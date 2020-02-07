@@ -39,7 +39,7 @@ class CacheExtension extends AbstractExtension
         return [
             new \Twig_SimpleFunction(
                 'admin_cache_fast_clear_form',
-                [$this->cacheFormRender, 'renderFastClearForm'],
+                [$this->cacheFormRender, 'renderWidgetClearForm'],
                 [
                     'is_safe' => ['html'],
                 ]

@@ -10,18 +10,13 @@
 
 namespace Darvin\AdminBundle\Controller\Cache;
 
+use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
@@ -31,14 +26,9 @@ use Twig\Environment;
 class ClearController
 {
     /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
      */
-    private $flashNotifier;
-
-    /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
-     */
-    private $kernel;
+    private $cacheCleaner;
 
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface
@@ -51,6 +41,11 @@ class ClearController
     private $cacheFormRenderer;
 
     /**
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    private $flashNotifier;
+
+    /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
@@ -61,36 +56,28 @@ class ClearController
     private $twig;
 
     /**
-     * @var \Darvin\AdminBundle\Command\ClearCachesCommand
-     */
-    private $clearCacheCommand;
-
-    /**
      * ClearController constructor.
-     * @param CacheFormFactoryInterface $cacheFormFactory
-     * @param CacheFormRendererInterface $cacheFormRenderer
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface $flashNotifier Flash notifier
-     * @param KernelInterface $kernel
-     * @param RouterInterface $router
-     * @param Environment $twig
-     * @param Command $clearCacheCommand
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                    $cacheCleaner      Cache cleaner
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface   $cacheFormFactory  Cache form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRenderer Cache from Render
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                         $flashNotifier     Flash notifier
+     * @param \Symfony\Component\Routing\RouterInterface                         $router            Router
+     * @param \Twig\Environment                                                  $twig              Twig
      */
     public function __construct(
+        CacheCleanerInterface $cacheCleaner,
         CacheFormFactoryInterface $cacheFormFactory,
         CacheFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
-        KernelInterface $kernel,
         RouterInterface $router,
-        Environment $twig,
-        Command $clearCacheCommand
+        Environment $twig
     ) {
-        $this->cacheFormFactory = $cacheFormFactory;
+        $this->cacheCleaner      = $cacheCleaner;
+        $this->cacheFormFactory  = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
-        $this->flashNotifier = $flashNotifier;
-        $this->kernel = $kernel;
-        $this->router = $router;
-        $this->twig = $twig;
-        $this->clearCacheCommand = $clearCacheCommand;
+        $this->flashNotifier     = $flashNotifier;
+        $this->router            = $router;
+        $this->twig              = $twig;
     }
 
     /**
@@ -112,13 +99,7 @@ class ClearController
             return $this->renderResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
 
-        $application = new Application($this->kernel);
-        $application->setAutoExit(false);
-
-        $this->clearCacheCommand->setApplication($application);
-        $this->clearCacheCommand->addCacheIds($form->getData()['ids']);
-
-        if ($this->clearCacheCommand->run(new ArrayInput([]), new NullOutput()) > 0) {
+        if ($this->cacheCleaner->run('list', $form->getData()['ids']) > 0) {
             return $this->renderResponse($request, false, 'cache.action.clear.error');
         }
 

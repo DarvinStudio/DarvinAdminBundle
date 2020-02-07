@@ -1,70 +1,59 @@
 parameters:
-    darvin_admin.cache.clear_command.class:          Darvin\AdminBundle\Command\ClearCachesCommand
-    darvin_admin.cache.controller.fast_clear.class:  Darvin\AdminBundle\Controller\Cache\FastClearController
-    darvin_admin.cache.controller.clear.class: Darvin\AdminBundle\Controller\Cache\ClearController
-    darvin_admin.cache.clear_command.name:  darvin:admin:caches:clear
-    darvin_admin.cache.clear_command.description: >
-        Runs cache clear commands specified in "darvin_admin.cache" parameter.
-    darvin_admin.cache.form_factory.class: Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactory
-    darvin_admin.cache.form_renderer.class: Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRenderer
-    darvin_admin.cache.twig_extension.class:      Darvin\AdminBundle\Twig\Extension\CacheExtension
+    darvin_admin.cache.cleaner.class:               Darvin\AdminBundle\Cache\CacheCleaner
+    darvin_admin.cache.controller.widget_clear.class: Darvin\AdminBundle\Controller\Cache\WidgetClearController
+    darvin_admin.cache.controller.clear.class:      Darvin\AdminBundle\Controller\Cache\ClearController
+    darvin_admin.cache.form_factory.class:          Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactory
+    darvin_admin.cache.form_renderer.class:         Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRenderer
+    darvin_admin.cache.twig_extension.class:        Darvin\AdminBundle\Twig\Extension\CacheExtension
 
 services:
-    darvin_admin.cache.clear_command:
-        class: "%darvin_admin.cache.clear_command.class%"
+    darvin_admin.cache.cleaner:
+        class: '%darvin_admin.cache.cleaner.class%'
         arguments:
-            - "%darvin_admin.cache.clear_command.name%"
-            - "%darvin_admin.cache.clear_command.description%"
-            - "%darvin_admin.cache.fast%"
-            - "%darvin_admin.cache.list%"
-        tags:
-            - { name: console.command }
+            - '@logger'
 
     darvin_admin.cache.controller.clear:
         class: '%darvin_admin.cache.controller.clear.class%'
         arguments:
+            - '@darvin_admin.cache.cleaner'
             - '@darvin_admin.cache.form_factory'
             - '@darvin_admin.cache.form_renderer'
             - '@darvin_utils.flash.notifier'
-            - '@kernel'
-            - "@router"
+            - '@router'
             - '@twig'
-            - '@darvin_admin.cache.clear_command'
         tags:
             - { name: controller.service_arguments }
 
-    darvin_admin.cache.controller.fast_clear:
-        class: '%darvin_admin.cache.controller.fast_clear.class%'
+    darvin_admin.cache.controller.widget_clear:
+        class: '%darvin_admin.cache.controller.widget_clear.class%'
         arguments:
+            - '@darvin_admin.cache.cleaner'
             - '@darvin_admin.cache.form_factory'
             - '@darvin_admin.cache.form_renderer'
             - '@darvin_utils.flash.notifier'
-            - '@kernel'
-            - "@router"
-            - '@darvin_admin.cache.clear_command'
+            - '@router'
         tags:
             - { name: controller.service_arguments }
 
     darvin_admin.cache.form_factory:
-        class: "%darvin_admin.cache.form_factory.class%"
+        class: '%darvin_admin.cache.form_factory.class%'
         arguments:
-            - "@form.factory"
-            - "@router"
-            - "%darvin_admin.cache.list%"
+            - '@darvin_admin.cache.cleaner'
+            - '@form.factory'
+            - '@router'
 
     darvin_admin.cache.form_renderer:
-        class: "%darvin_admin.cache.form_renderer.class%"
+        class: '%darvin_admin.cache.form_renderer.class%'
         arguments:
-            - "@darvin_admin.cache.form_factory"
-            - "@router"
-            - "@twig"
-            - "%darvin_admin.cache.fast%"
-            - "%darvin_admin.cache.list%"
+            - '@darvin_admin.cache.cleaner'
+            - '@darvin_admin.cache.form_factory'
+            - '@router'
+            - '@twig'
 
     darvin_admin.cache.twig.extension:
-        class:  "%darvin_admin.cache.twig_extension.class%"
+        class:  '%darvin_admin.cache.twig_extension.class%'
         public: false
         arguments:
-            - "@darvin_admin.cache.form_renderer"
+            - '@darvin_admin.cache.form_renderer'
         tags:
             - { name: twig.extension }

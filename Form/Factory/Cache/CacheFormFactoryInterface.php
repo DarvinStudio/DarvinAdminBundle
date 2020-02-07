@@ -25,5 +25,5 @@ interface CacheFormFactoryInterface
     /**
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createFastClearForm(): FormInterface;
+    public function createWidgetClearForm(): FormInterface;
 }

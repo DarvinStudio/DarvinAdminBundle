@@ -1,6 +1,6 @@
 darvin_admin_cache_clear:
     path:     /
     defaults: { _controller: darvin_admin.cache.controller.clear }
-darvin_admin_cache_fast_clear:
-    path:     /fast-clear/
-    defaults: { _controller: darvin_admin.cache.controller.fast_clear }
+darvin_admin_cache_widget_clear:
+    path:     /widget-clear/
+    defaults: { _controller: darvin_admin.cache.controller.widget_clear }

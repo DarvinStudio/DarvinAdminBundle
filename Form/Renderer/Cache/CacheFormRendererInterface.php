@@ -23,5 +23,5 @@ interface CacheFormRendererInterface
     /**
      * @return string|null
      */
-    public function renderFastClearForm(): ?string;
+    public function renderWidgetClearForm(): ?string;
 }

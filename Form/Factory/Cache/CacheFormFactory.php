@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Factory\Cache;
 
+use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -22,6 +23,11 @@ use Symfony\Component\Routing\RouterInterface;
 class CacheFormFactory implements CacheFormFactoryInterface
 {
     /**
+     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     */
+    private $cacheCleaner;
+
+    /**
      * @var \Symfony\Component\Form\FormFactoryInterface
      */
     private $genericFormFactory;
@@ -32,19 +38,15 @@ class CacheFormFactory implements CacheFormFactoryInterface
     private $router;
 
     /**
-     * @var array
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface $cacheCleaner       Cache cleaner
+     * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
+     * @param \Symfony\Component\Routing\RouterInterface      $router             Router
      */
-    private $caches;
-
-    /**
-     * @param \Symfony\Component\Form\FormFactoryInterface $genericFormFactory Generic form factory
-     * @param \Symfony\Component\Routing\RouterInterface   $router             Router
-     */
-    public function __construct(FormFactoryInterface $genericFormFactory, RouterInterface $router, array $caches)
+    public function __construct(CacheCleanerInterface $cacheCleaner, FormFactoryInterface $genericFormFactory, RouterInterface $router)
     {
+        $this->cacheCleaner = $cacheCleaner;
         $this->genericFormFactory = $genericFormFactory;
         $this->router = $router;
-        $this->caches = $caches;
     }
 
     /**
@@ -55,12 +57,17 @@ class CacheFormFactory implements CacheFormFactoryInterface
         $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear', FormType::class, null, [
             'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_clear'),
             'action'        => $this->router->generate('darvin_admin_cache_clear'),
+            'attr'          => [
+                'autocomplete' => 'off'
+            ],
         ]);
+
+        $cacheIds = array_keys($this->cacheCleaner->getCacheClearCommands('section'));
 
         $builder->add('ids', ChoiceType::class, [
             'expanded'     => true,
             'multiple'     => true,
-            'choices'      => array_flip($this->caches),
+            'choices'      => array_combine($cacheIds, $cacheIds),
         ]);
 
         return $builder->getForm();
@@ -69,11 +76,11 @@ class CacheFormFactory implements CacheFormFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createFastClearForm(): FormInterface
+    public function createWidgetClearForm(): FormInterface
     {
-        return $this->genericFormFactory->createNamed('darvin_admin_cache_fast_clear', FormType::class, null, [
-            'action'        => $this->router->generate('darvin_admin_cache_fast_clear'),
-            'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_fast_clear'),
+        return $this->genericFormFactory->createNamed('darvin_admin_cache_widget_clear', FormType::class, null, [
+            'action'        => $this->router->generate('darvin_admin_cache_widget_clear'),
+            'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_widget_clear'),
         ]);
     }
 }

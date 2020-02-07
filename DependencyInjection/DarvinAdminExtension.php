@@ -195,10 +195,10 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                     ],
                 ],
             ],
-            'cache' => [
-                'fast' => [],
-                'list' => [],
-            ]
+//            'cache' => [
+//                'fast' => [],
+//                'list' => [],
+//            ]
         ]);
     }
 

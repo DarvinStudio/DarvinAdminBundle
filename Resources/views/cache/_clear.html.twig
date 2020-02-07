@@ -1,6 +1,6 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+{{ form_start(form) }}
 
     <div class="content-block__content">
 
@@ -11,16 +11,9 @@
                 <table>
                     <thead>
                     <tr>
-                        <th>
-{#                            <label class="custom-checkbox" data-type="actions"#}
-{#                                   title="{% trans %}crud.action.batch_delete.check_all{% endtrans %}">#}
-{#                                <input type="checkbox" class="js-batch-delete-check-all" autocomplete="off">#}
-{#                                <span></span>#}
-{#                            </label>#}
-                        </th>
+                        <th></th>
                         <th data-size="xl">Название</th>
                         <th data-exact-size="620">Описание</th>
-                        <th data-size="free">Команда для выполнения чистки</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -41,7 +34,6 @@
                                         {{ ('cache.'~child.vars.value~'.description')|trans }}
                                     </div>
                                 </td>
-                                <td data-size="free">{{ child.vars.label|raw }}</td>
                             </tr>
                         {% endfor %}
                     {% endfor %}

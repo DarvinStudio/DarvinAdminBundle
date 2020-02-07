@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
+use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -20,6 +21,11 @@ use Twig\Environment;
  */
 class CacheFormRenderer implements CacheFormRendererInterface
 {
+    /**
+     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     */
+    private $cacheCleaner;
+
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\ClearFormFactoryInterface
      */
@@ -36,43 +42,31 @@ class CacheFormRenderer implements CacheFormRendererInterface
     private $twig;
 
     /**
-     * @var array
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                  $cacheCleaner Cache cleaner
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface $formFactory  Clear Form factory
+     * @param \Symfony\Component\Routing\RouterInterface                       $router       Router
+     * @param \Twig\Environment                                                $twig         Twig
      */
-    private $fastCaches;
-
-    /**
-     * @var array
-     */
-    private $listCaches;
-
-    /**
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\ClearFormFactoryInterface $formFactory Form factory
-     * @param \Symfony\Component\Routing\RouterInterface                       $router      Router
-     * @param \Twig\Environment                                                $twig        Twig
-     * @param array                                                            $fastCaches  Caches for fast clear
-     * @param array                                                            $listCaches  Full caches list for clear
-     */
-    public function __construct(CacheFormFactoryInterface $formFactory, RouterInterface $router, Environment $twig, array $fastCaches, array $listCaches)
+    public function __construct( CacheCleanerInterface $cacheCleaner,CacheFormFactoryInterface $formFactory, RouterInterface $router, Environment $twig)
     {
-        $this->formFactory = $formFactory;
-        $this->router      = $router;
-        $this->twig        = $twig;
-        $this->fastCaches  = $fastCaches;
-        $this->listCaches  = $listCaches;
+        $this->cacheCleaner = $cacheCleaner;
+        $this->formFactory  = $formFactory;
+        $this->router       = $router;
+        $this->twig         = $twig;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function renderFastClearForm(): ?string
+    public function renderWidgetClearForm(): ?string
     {
-        if (empty($this->fastCaches)) {
+        if (empty($this->cacheCleaner->getCacheClearCommands('widget'))) {
             return null;
         }
 
-        $form = $this->formFactory->createFastClearForm();
+        $form = $this->formFactory->createWidgetClearForm();
 
-        return $this->twig->render('@DarvinAdmin/cache/fast_clear.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/widget_clear.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -82,11 +76,11 @@ class CacheFormRenderer implements CacheFormRendererInterface
      */
     public function renderClearForm(): ?string
     {
-        if (empty($this->listCaches)) {
+        if (empty($this->cacheCleaner->getCacheClearCommands('section'))) {
             return null;
         }
 
-        $form = $this->formFactory->createClearForm($this->listCaches);
+        $form = $this->formFactory->createClearForm();
 
         return $this->twig->render('@DarvinAdmin/cache/_clear.html.twig', [
             'form' => $form->createView(),

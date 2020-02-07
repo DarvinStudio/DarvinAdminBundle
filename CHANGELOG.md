@@ -506,3 +506,5 @@ darvin_admin:
 6.4.24: Require "psr/simple-cache".
 
 6.4.25: Support custom routers in public link view widget. 
+
+6.4.26: Customize VichUploaderBundle's form theme.

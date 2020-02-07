@@ -497,3 +497,34 @@
     {%- set compound = false -%}
     {{- parent() -}}
 {%- endblock vich_file_row -%}
+
+{%- block vich_file_widget -%}
+    {{- form_widget(form.file) -}}
+    {%- if form.delete is defined -%}
+        {{- form_row(form.delete, {'translation_domain': 'VichUploaderBundle'}) -}}
+    {%- endif -%}
+    {%- if download_uri -%}
+        <a href="{{ asset_helper is same as(true) ? asset(download_uri) : download_uri }}">
+            {{ translation_domain is same as(false) ? download_label : download_label|trans({}, translation_domain) }}
+        </a>
+    {%- endif -%}
+{%- endblock vich_file_widget -%}
+
+{%- block vich_image_row -%}
+    {%- set compound = false -%}
+    {{- parent() -}}
+{%- endblock vich_image_row -%}
+
+{%- block vich_image_widget -%}
+    {{- form_widget(form.file) -}}
+    {%- if form.delete is defined -%}
+        {{- form_row(form.delete, {'translation_domain': 'VichUploaderBundle'}) -}}
+    {%- endif -%}
+    {%- if image_uri -%}
+        <div class="custom-dropzone__item">
+            <a class="custom-dropzone__item-img" href="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}">
+                <img src="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}" alt="">
+            </a>
+        </div>
+    {%- endif -%}
+{%- endblock vich_image_widget -%}

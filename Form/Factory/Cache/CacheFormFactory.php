@@ -58,16 +58,16 @@ class CacheFormFactory implements CacheFormFactoryInterface
             'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_clear'),
             'action'        => $this->router->generate('darvin_admin_cache_clear'),
             'attr'          => [
-                'autocomplete' => 'off'
+                'autocomplete' => 'off',
             ],
         ]);
 
         $cacheIds = array_keys($this->cacheCleaner->getCacheClearCommands('section'));
 
         $builder->add('ids', ChoiceType::class, [
-            'expanded'     => true,
-            'multiple'     => true,
-            'choices'      => array_combine($cacheIds, $cacheIds),
+            'expanded' => true,
+            'multiple' => true,
+            'choices'  => array_combine($cacheIds, $cacheIds),
         ]);
 
         return $builder->getForm();

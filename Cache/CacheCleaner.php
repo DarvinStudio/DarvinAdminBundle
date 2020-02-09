@@ -26,19 +26,25 @@ class CacheCleaner implements CacheCleanerInterface
     private $commands;
 
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Psr\Log\LoggerInterface|null
      */
     private $logger;
 
     /**
      * @param \Psr\Log\LoggerInterface $logger Logger
-     *
-     * CacheManager constructor.
      */
     public function __construct(LoggerInterface $logger)
     {
-        $this->logger = $logger;
         $this->commands = [];
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param \Psr\Log\LoggerInterface|null $logger Logger
+     */
+    public function setLogger(?LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -73,9 +79,9 @@ class CacheCleaner implements CacheCleanerInterface
 
             if (null === $commandIds) {
                 /** @var \Symfony\Component\Console\Command\Command $command */
-                foreach ($this->getCacheClearCommand($type) as list($command, $input)) {
+                foreach ($this->getCacheClearCommands($type) as list($command, $input)) {
                     $result = $command->run(new ArrayInput($input), new NullOutput());
-    
+
                     if ($result > 0) {
                         return $result;
                     }
@@ -91,7 +97,7 @@ class CacheCleaner implements CacheCleanerInterface
                     }
                 }
             }
-        } catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $this->logger->error($ex->getMessage());
 
             return 1;

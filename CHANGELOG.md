@@ -504,3 +504,18 @@ darvin_admin:
 - Extract section configuration interface.
 
 6.4.24: Require "psr/simple-cache".
+
+6.4.*: Added ability to control cache, example:
+
+```yaml
+darvin_admin:
+    cache:
+        clear:
+            commands:
+                widget:
+                    doctrine_result:
+                        alias: '@doctrine.cache_clear_result_command'
+                section:
+                    doctrine_result:
+                        alias: '@doctrine.cache_clear_result_command'
+```

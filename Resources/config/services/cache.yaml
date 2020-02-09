@@ -1,17 +1,12 @@
 parameters:
-    darvin_admin.cache.cleaner.class:               Darvin\AdminBundle\Cache\CacheCleaner
+    darvin_admin.cache.cleaner.class:                 Darvin\AdminBundle\Cache\CacheCleaner
     darvin_admin.cache.controller.widget_clear.class: Darvin\AdminBundle\Controller\Cache\WidgetClearController
-    darvin_admin.cache.controller.clear.class:      Darvin\AdminBundle\Controller\Cache\ClearController
-    darvin_admin.cache.form_factory.class:          Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactory
-    darvin_admin.cache.form_renderer.class:         Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRenderer
-    darvin_admin.cache.twig_extension.class:        Darvin\AdminBundle\Twig\Extension\CacheExtension
+    darvin_admin.cache.controller.clear.class:        Darvin\AdminBundle\Controller\Cache\ClearController
+    darvin_admin.cache.form_factory.class:            Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactory
+    darvin_admin.cache.form_renderer.class:           Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRenderer
+    darvin_admin.cache.twig_extension.class:          Darvin\AdminBundle\Twig\Extension\CacheExtension
 
 services:
-    darvin_admin.cache.cleaner:
-        class: '%darvin_admin.cache.cleaner.class%'
-        arguments:
-            - '@logger'
-
     darvin_admin.cache.controller.clear:
         class: '%darvin_admin.cache.controller.clear.class%'
         arguments:
@@ -35,6 +30,11 @@ services:
         tags:
             - { name: controller.service_arguments }
 
+    darvin_admin.cache.cleaner:
+        class: '%darvin_admin.cache.cleaner.class%'
+        arguments:
+            - '@logger'
+
     darvin_admin.cache.form_factory:
         class: '%darvin_admin.cache.form_factory.class%'
         arguments:
@@ -50,7 +50,7 @@ services:
             - '@router'
             - '@twig'
 
-    darvin_admin.cache.twig.extension:
+    darvin_admin.cache.twig_extension:
         class:  '%darvin_admin.cache.twig_extension.class%'
         public: false
         arguments:

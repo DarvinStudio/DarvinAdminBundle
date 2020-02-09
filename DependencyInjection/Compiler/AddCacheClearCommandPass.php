@@ -10,11 +10,8 @@
 
 namespace Darvin\AdminBundle\DependencyInjection\Compiler;
 
-use Darvin\Utils\Strings\StringsUtil;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -43,7 +40,7 @@ class AddCacheClearCommandPass implements CompilerPassInterface
 
         $definitions = [];
 
-        foreach ($clearCommandTypes as $type => $clearCommands ) {
+        foreach ($clearCommandTypes as $type => $clearCommands) {
             foreach ($clearCommands as $name => $clearCommand) {
                 $cacheCleanerDefinition->addMethodCall('addCacheClearCommand', [
                     $type,

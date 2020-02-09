@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Twig\Extension;
 
 use Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * Cache twig extension
@@ -37,13 +38,10 @@ class CacheExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
-                'admin_cache_fast_clear_form',
-                [$this->cacheFormRender, 'renderWidgetClearForm'],
-                [
-                    'is_safe' => ['html'],
-                ]
-            ),
+            new TwigFunction('admin_cache_clear_widget', [$this->cacheFormRender, 'renderWidgetClearForm'], [
+                'needs_environment' => true,
+                'is_safe'           => ['html'],
+            ]),
         ];
     }
 }

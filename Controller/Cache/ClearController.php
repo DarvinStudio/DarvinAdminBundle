@@ -56,7 +56,6 @@ class ClearController
     private $twig;
 
     /**
-     * ClearController constructor.
      * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                    $cacheCleaner      Cache cleaner
      * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRenderer Cache from Render
@@ -107,11 +106,11 @@ class ClearController
     }
 
     /**
-     * @param Request $request
-     * @param bool $success
-     * @param string $message
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param bool                                      $success Success
+     * @param string                                    $message Message
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError

@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
 use Darvin\AdminBundle\Cache\CacheCleanerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
-use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
@@ -27,7 +26,7 @@ class CacheFormRenderer implements CacheFormRendererInterface
     private $cacheCleaner;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\ClearFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface
      */
     private $formFactory;
 
@@ -47,8 +46,12 @@ class CacheFormRenderer implements CacheFormRendererInterface
      * @param \Symfony\Component\Routing\RouterInterface                       $router       Router
      * @param \Twig\Environment                                                $twig         Twig
      */
-    public function __construct( CacheCleanerInterface $cacheCleaner,CacheFormFactoryInterface $formFactory, RouterInterface $router, Environment $twig)
-    {
+    public function __construct(
+        CacheCleanerInterface $cacheCleaner,
+        CacheFormFactoryInterface $formFactory,
+        RouterInterface $router,
+        Environment $twig
+    ) {
         $this->cacheCleaner = $cacheCleaner;
         $this->formFactory  = $formFactory;
         $this->router       = $router;

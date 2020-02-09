@@ -51,7 +51,6 @@ class WidgetClearController
     private $router;
 
     /**
-     * ClearController constructor.
      * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                    $cacheCleaner      Cache cleaner
      * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRenderer Cache from Render
@@ -93,15 +92,11 @@ class WidgetClearController
     }
 
     /**
-     * @param Request $request
-     * @param bool $success
-     * @param string $message
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param bool                                      $success Success
+     * @param string                                    $message Message
      *
-     * @return Response
-     *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     private function renderResponse(Request $request, bool $success, string $message): Response
     {

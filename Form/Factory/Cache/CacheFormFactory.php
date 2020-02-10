@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Validator\Constraints\Count;
 
 /**
  * Cache form factory
@@ -65,9 +66,12 @@ class CacheFormFactory implements CacheFormFactoryInterface
         $cacheIds = array_keys($this->cacheCleaner->getCacheClearCommands('section'));
 
         $builder->add('ids', ChoiceType::class, [
-            'expanded' => true,
-            'multiple' => true,
-            'choices'  => array_combine($cacheIds, $cacheIds),
+            'expanded'    => true,
+            'multiple'    => true,
+            'choices'     => array_combine($cacheIds, $cacheIds),
+            'constraints' => new Count([
+                'min' => 1,
+            ]),
         ]);
 
         return $builder->getForm();

@@ -48,7 +48,10 @@ class CacheCleaner implements CacheCleanerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string                                     $type              Type of caches list
+     * @param string                                     $name              Name cache clear command
+     * @param \Symfony\Component\Console\Command\Command $cacheClearCommand Cache clear command
+     * @param array                                      $input             Input
      */
     public function addCacheClearCommand(string $type, string $name, Command $cacheClearCommand, array $input): void
     {
@@ -72,6 +75,9 @@ class CacheCleaner implements CacheCleanerInterface
      */
     public function run(string $type, array $commandIds = null): int
     {
+        if (null !== $commandIds && !is_array($commandIds)) {
+            $commandIds = [$commandIds];
+        }
         try {
             if (empty($this->commands[$type])) {
                 return 1;

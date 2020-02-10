@@ -122,11 +122,7 @@ class ClearController
             return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);
         }
 
-        if ($success) {
-            $this->flashNotifier->success($message);
-        } else {
-            $this->flashNotifier->error($message);
-        }
+        $this->flashNotifier->done($success, $message);
 
         return new Response($this->twig->render('@DarvinAdmin/cache/clear.html.twig', [
             'form' => $this->cacheFormFactory->createClearForm()->createView(),

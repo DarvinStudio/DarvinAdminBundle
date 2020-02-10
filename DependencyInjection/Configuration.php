@@ -92,12 +92,10 @@ class Configuration implements ConfigurationInterface
         $root = (new TreeBuilder('commands'))->getRootNode();
         $root->useAttributeAsKey('name')
             ->prototype('array')->useAttributeAsKey('name')
-                ->prototype('array')
+                ->prototype('array')->useAttributeAsKey('name')
                     ->children()
-                        ->scalarNode('alias')->isRequired()->end()
-                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
-                    ->end()
-                ->end();
+                        ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
+                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar');
 
         return $root;
     }

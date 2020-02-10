@@ -10,33 +10,23 @@
 
 namespace Darvin\AdminBundle\Cache;
 
-use Symfony\Component\Console\Command\Command;
-
 /**
- * Cache cleaner interface
+ * Cache cleaner
  */
 interface CacheCleanerInterface
 {
     /**
-     * @param string                                     $type              Type of caches list
-     * @param string                                     $name              Name cache clear command
-     * @param \Symfony\Component\Console\Command\Command $cacheClearCommand Cache clear command
-     * @param array                                      $input             Input
-     */
-    public function addCacheClearCommand(string $type, string $name, Command $cacheClearCommand, array $input): void;
-
-    /**
-     * @param string $type
+     * @param string $type Commands type
      *
      * @return array
      */
-    public function getCacheClearCommands(string $type): array;
+    public function getCommands(string $type): array;
 
     /**
-     * @param string     $type       Type of commands
-     * @param null|array $commandIds Array of Ids
+     * @param string            $type    Commands type
+     * @param array|string|null $aliases Command aliases
      *
      * @return int
      */
-    public function run(string $type, array $commandIds = null): int;
+    public function run(string $type, $aliases = null): int;
 }

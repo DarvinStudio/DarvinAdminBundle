@@ -51,8 +51,7 @@ services:
             - '@twig'
 
     darvin_admin.cache.twig_extension:
-        class:  '%darvin_admin.cache.twig_extension.class%'
-        public: false
+        class: '%darvin_admin.cache.twig_extension.class%'
         arguments:
             - '@darvin_admin.cache.form_renderer'
         tags:

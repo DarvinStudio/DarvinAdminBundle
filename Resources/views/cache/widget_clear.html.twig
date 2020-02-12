@@ -1,8 +1,0 @@
-{% trans_default_domain 'admin' %}
-
-{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
-{{ form_widget(form) }}
-<button onclick="return confirm('{{ ('cache.action.clear.confirm')|trans|e('js') }}');" type="submit" title="{% trans %}cache.action.fast_clear.title{% endtrans %}">
-    {% trans %}cache.action.fast_clear.submit{% endtrans %}
-</button>
-{{ form_end(form) }}

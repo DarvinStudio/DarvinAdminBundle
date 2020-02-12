@@ -17,9 +17,9 @@ use Symfony\Component\DependencyInjection\Reference;
 /**
  * Add cache clear command compiler pass
  */
-class AddCacheClearCommandPass implements CompilerPassInterface
+class AddCacheClearCommandsPass implements CompilerPassInterface
 {
-    const CACHE_CLEANER_ID = 'darvin_admin.cache.cleaner';
+    private const CACHE_CLEANER_ID = 'darvin_admin.cache.cleaner';
 
     /**
      * {@inheritdoc}
@@ -30,9 +30,9 @@ class AddCacheClearCommandPass implements CompilerPassInterface
             return;
         }
 
-        $clearCommandTypes = $container->getParameter('darvin_admin.cache.clear.commands');
+        $sets = $container->getParameter('darvin_admin.cache.clear.sets');
 
-        if (empty($clearCommandTypes)) {
+        if (empty($sets)) {
             return;
         }
 
@@ -40,13 +40,14 @@ class AddCacheClearCommandPass implements CompilerPassInterface
 
         $definitions = [];
 
-        foreach ($clearCommandTypes as $type => $clearCommands) {
-            foreach ($clearCommands as $name => $clearCommand) {
-                $cacheCleanerDefinition->addMethodCall('addCacheClearCommand', [
-                    $type,
-                    $name,
-                    new Reference(str_replace('@', '', $clearCommand['alias'])),
-                    $clearCommand['input'],
+        foreach ($sets as $set => $commands) {
+            foreach ($commands as $alias => $command) {
+                $id = strpos($command['id'], '@') === 0 ? substr($command['id'], 1) : $command['id'];
+                $cacheCleanerDefinition->addMethodCall('addCommand', [
+                    $set,
+                    $alias,
+                    new Reference($id),
+                    $command['input'],
                 ]);
             }
         }

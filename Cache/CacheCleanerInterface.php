@@ -16,17 +16,25 @@ namespace Darvin\AdminBundle\Cache;
 interface CacheCleanerInterface
 {
     /**
-     * @param string $type Commands type
+     * @param string $set Commands set
      *
      * @return array
      */
-    public function getCommands(string $type): array;
+    public function getAliases(string $set): array;
 
     /**
-     * @param string            $type    Commands type
+     * @param string            $set     Commands set
+     * @param array|string|null $aliases Command aliases
+     *
+     * @return bool
+     */
+    public function hasCommands(string $set, $aliases = null): bool;
+
+    /**
+     * @param string            $set     Commands set
      * @param array|string|null $aliases Command aliases
      *
      * @return int
      */
-    public function run(string $type, $aliases = null): int;
+    public function runCommands(string $set, $aliases = null): int;
 }

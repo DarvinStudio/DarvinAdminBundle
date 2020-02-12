@@ -28,11 +28,13 @@
                                         </label>
                                     </div>
                                 </td>
-                                <td data-size="xl">{{ ('cache.'~child.vars.value~'.title')|trans }}</td>
+                                <td data-size="xl"><label for="{{ child.vars.id }}">{{ ('cache.'~child.vars.value~'.title')|trans }}</label></td>
                                 <td data-exact-size="620">
-                                    <div class="multiple-rows" data-rows="3">
-                                        {{ ('cache.'~child.vars.value~'.description')|trans }}
-                                    </div>
+                                    <label for="{{ child.vars.id }}">
+                                        <div class="multiple-rows" data-rows="3">
+                                            {{ ('cache.'~child.vars.value~'.description')|trans }}
+                                        </div>
+                                    </label>
                                 </td>
                             </tr>
                         {% endfor %}

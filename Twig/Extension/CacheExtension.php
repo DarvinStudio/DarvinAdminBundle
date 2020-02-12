@@ -10,24 +10,24 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface;
+use Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Cache twig extension
+ * Cache Twig extension
  */
 class CacheExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface
+     * @var \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface|null
      */
     private $cacheFormRender;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRender Cache Clear form render
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface|null $cacheFormRender Cache clear form render
      */
-    public function __construct(CacheFormRendererInterface $cacheFormRender)
+    public function setWidgetFormRenderer(?WidgetFormRendererInterface $cacheFormRender): void
     {
         $this->cacheFormRender = $cacheFormRender;
     }
@@ -35,13 +35,24 @@ class CacheExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new TwigFunction('admin_cache_clear_widget', [$this->cacheFormRender, 'renderWidgetClearForm'], [
-                'needs_environment' => true,
+            new TwigFunction('admin_cache_clear_widget', [$this, 'renderCacheClearWidget'], [
                 'is_safe'           => ['html'],
             ]),
         ];
+    }
+
+    /**
+     * @return string|null
+     */
+    public function renderCacheClearWidget(): ?string
+    {
+        if (null === $this->cacheFormRender) {
+            return null;
+        }
+
+        return $this->cacheFormRender->renderClearForm();
     }
 }

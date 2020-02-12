@@ -511,11 +511,11 @@ darvin_admin:
 darvin_admin:
     cache:
         clear:
-            commands:
+            sets:
                 widget:
                     doctrine_result:
                         alias: '@doctrine.cache_clear_result_command'
-                section:
+                list:
                     doctrine_result:
                         alias: '@doctrine.cache_clear_result_command'
 ```

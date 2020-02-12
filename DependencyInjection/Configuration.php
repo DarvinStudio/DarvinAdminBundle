@@ -14,7 +14,6 @@ use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -77,9 +76,9 @@ class Configuration implements ConfigurationInterface
         $root = (new TreeBuilder('cache'))->getRootNode();
         $root->canBeDisabled()
             ->children()
-                ->arrayNode('clear')
+                ->arrayNode('clear')->canBeDisabled()
                     ->children()
-                        ->append($this->createCacheClearCommandsTypeNode());
+                        ->append($this->createCacheClearSetsTypeNode());
 
         return $root;
     }
@@ -87,12 +86,12 @@ class Configuration implements ConfigurationInterface
     /**
      * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
      */
-    private function createCacheClearCommandsTypeNode(): ArrayNodeDefinition
+    private function createCacheClearSetsTypeNode(): ArrayNodeDefinition
     {
-        $root = (new TreeBuilder('commands'))->getRootNode();
-        $root->useAttributeAsKey('name')
-            ->prototype('array')->useAttributeAsKey('name')
-                ->prototype('array')->useAttributeAsKey('name')
+        $root = (new TreeBuilder('sets'))->getRootNode();
+        $root->useAttributeAsKey('set')
+            ->prototype('array')->useAttributeAsKey('alias')
+                ->prototype('array')->canBeDisabled()
                     ->children()
                         ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
                         ->arrayNode('input')->normalizeKeys(false)->prototype('scalar');

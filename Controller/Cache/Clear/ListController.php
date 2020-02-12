@@ -8,22 +8,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Controller\Cache;
+namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
 use Darvin\AdminBundle\Cache\CacheCleanerInterface;
-use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
-use Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
+use Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
- * Cache Clear controller
+ * Cache clear list controller
  */
-class ClearController
+class ListController
 {
     /**
      * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
@@ -31,12 +32,12 @@ class ClearController
     private $cacheCleaner;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
      */
     private $cacheFormFactory;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface
+     * @var \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface
      */
     private $cacheFormRenderer;
 
@@ -56,17 +57,17 @@ class ClearController
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                    $cacheCleaner      Cache cleaner
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface   $cacheFormFactory  Cache form factory
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\CacheFormRendererInterface $cacheFormRenderer Cache from Render
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                         $flashNotifier     Flash notifier
-     * @param \Symfony\Component\Routing\RouterInterface                         $router            Router
-     * @param \Twig\Environment                                                  $twig              Twig
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                   $cacheCleaner      Cache cleaner
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface $cacheFormRenderer Cache from Render
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                        $flashNotifier     Flash notifier
+     * @param \Symfony\Component\Routing\RouterInterface                        $router            Router
+     * @param \Twig\Environment                                                 $twig              Twig
      */
     public function __construct(
         CacheCleanerInterface $cacheCleaner,
-        CacheFormFactoryInterface $cacheFormFactory,
-        CacheFormRendererInterface $cacheFormRenderer,
+        ListFormFactoryInterface $cacheFormFactory,
+        ListFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
         RouterInterface $router,
         Environment $twig
@@ -89,43 +90,40 @@ class ClearController
         $form = $this->cacheFormFactory->createClearForm()->handleRequest($request);
 
         if (!$form->isSubmitted()) {
-            return new Response($this->twig->render('@DarvinAdmin/cache/clear.html.twig', [
-                'form' => $form->createView(),
-            ]));
+            return $this->renderResponse($request, $form);
         }
 
-        if (!$form->isValid() || empty($form->getData()['ids'])) {
-            return $this->renderResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+        if (!$form->isValid()) {
+            return $this->renderResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
 
-        if ($this->cacheCleaner->run('list', $form->getData()['ids']) > 0) {
-            return $this->renderResponse($request, false, 'cache.action.clear.error');
+        if ($this->cacheCleaner->runCommands('list', $form->get('ids')->getData()) > 0) {
+            return $this->renderResponse($request, $form, false, 'cache.action.clear.error');
         }
 
-        return $this->renderResponse($request, true, 'cache.action.clear.success');
+        return $this->renderResponse($request, $form, true, 'cache.action.clear.success');
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param \Symfony\Component\Form\FormInterface     $form    Form
      * @param bool                                      $success Success
-     * @param string                                    $message Message
+     * @param string|null                               $message Message
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
-    private function renderResponse(Request $request, bool $success, string $message): Response
+    private function renderResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
     {
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);
         }
 
-        $this->flashNotifier->done($success, $message);
+        if (null !== $message) {
+            $this->flashNotifier->done($success, $message);
+        }
 
-        return new Response($this->twig->render('@DarvinAdmin/cache/clear.html.twig', [
-            'form' => $this->cacheFormFactory->createClearForm()->createView(),
+        return new Response($this->twig->render('@DarvinAdmin/cache/clear/list.html.twig', [
+            'form' => $form->createView(),
         ]));
     }
 }

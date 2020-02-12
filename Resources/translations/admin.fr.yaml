@@ -2,6 +2,19 @@ boolean:
     indeterminate: Indéterminée
     'no': 'Pas de'
     'yes': Oui
+cache:
+    action:
+        clear:
+            command: Commande
+            confirm: Confirmer cache clair
+            error:   Une erreur s'est produite lors de la suppression du cache. S'il vous plaît, essayez de nouveau plus tard.
+            link:    Cache
+            submit:  Clair caches
+            success: Le Cache a été effacé avec succès
+            title:   Le nettoyage du Cache
+        fast_clear:
+            title:  Il nettoie uniquement le cache léger, par exemple les requêtes de base de données
+            submit: Vider le cache
 common:
     actions: Actions
     back: 'De retour'

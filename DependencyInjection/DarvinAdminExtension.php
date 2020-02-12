@@ -58,6 +58,8 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $config = $this->processConfiguration(new Configuration(), $configs);
+
         $container->registerForAutoconfiguration(DashboardWidgetInterface::class)->addTag(self::TAG_DASHBOARD_WIDGET);
         $container->registerForAutoconfiguration(ItemFactoryInterface::class)->addTag(self::TAG_MENU_ITEM_FACTORY);
         $container->registerForAutoconfiguration(WidgetInterface::class)->addTag(self::TAG_VIEW_WIDGET);
@@ -71,7 +73,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         (new ConfigLoader($container, __DIR__.'/../Resources/config/services'))->load([
             'ace_editor',
             'breadcrumbs',
-            'cache',
+            'cache_twig',
             'ckeditor',
             'configuration',
             'cookie',
@@ -103,8 +105,22 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
 
             'error'                     => ['callback' => function () use ($showErrorPages) {
                 return $showErrorPages;
-            }],
+            }, ],
+
+            'cache_cleaner' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled'] && !empty($config['cache']['clear']['sets']);
+            }, ],
+
+            'cache_list' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled'] && isset($config['cache']['clear']['sets']['list']);
+            }, ],
+
+            'cache_widget' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled'] && isset($config['cache']['clear']['sets']['widget']);
+            }, ],
         ]);
+
+        (new ConfigInjector($container))->inject($this->processConfiguration(new Configuration(), $configs), $this->getAlias());
     }
 
     /**
@@ -195,10 +211,11 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                     ],
                 ],
             ],
-//            'cache' => [
-//                'fast' => [],
-//                'list' => [],
-//            ]
+            'cache' => [
+                'clear' => [
+                    'sets' => [],
+                ],
+            ],
         ]);
     }
 

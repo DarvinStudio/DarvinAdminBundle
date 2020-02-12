@@ -11,9 +11,11 @@
 namespace Darvin\AdminBundle\Cache;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * Cache cleaner
@@ -21,9 +23,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 class CacheCleaner implements CacheCleanerInterface
 {
     /**
-     * @var array
+     * @var \Symfony\Component\HttpKernel\KernelInterface
      */
-    private $commands;
+    private $kernel;
 
     /**
      * @var \Psr\Log\LoggerInterface|null
@@ -31,12 +33,17 @@ class CacheCleaner implements CacheCleanerInterface
     private $logger;
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger Logger
+     * @var array
      */
-    public function __construct(LoggerInterface $logger)
+    private $commands;
+
+    /**
+     * @param \Symfony\Component\HttpKernel\KernelInterface $kernel Kernel
+     */
+    public function __construct(KernelInterface $kernel)
     {
+        $this->kernel = $kernel;
         $this->commands = [];
-        $this->logger = $logger;
     }
 
     /**
@@ -48,67 +55,96 @@ class CacheCleaner implements CacheCleanerInterface
     }
 
     /**
-     * @param string                                     $type              Type of caches list
-     * @param string                                     $name              Name cache clear command
-     * @param \Symfony\Component\Console\Command\Command $cacheClearCommand Cache clear command
-     * @param array                                      $input             Input
+     * @param string                                     $set     Caches set
+     * @param string                                     $alias   Alias cache clear command
+     * @param \Symfony\Component\Console\Command\Command $command Cache clear command
+     * @param array                                      $input   Input
      */
-    public function addCacheClearCommand(string $type, string $name, Command $cacheClearCommand, array $input): void
+    public function addCommand(string $set, string $alias, Command $command, array $input): void
     {
-        if (!isset($this->commands[$type])) {
-            $this->commands[$type] = [];
+        if (!isset($this->commands[$set])) {
+            $this->commands[$set] = [];
         }
 
-        $this->commands[$type][$name] = [$cacheClearCommand, $input];
+        $this->commands[$set][$alias] = [$command, $input];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getCacheClearCommands(string $type): array
+    public function getAliases(string $set): array
     {
-        return $this->commands[$type] ?? [];
+        return array_keys($this->commands[$set]) ?? [];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function run(string $type, array $commandIds = null): int
+    public function hasCommands(string $set, $aliases = null): bool
     {
-        if (null !== $commandIds && !is_array($commandIds)) {
-            $commandIds = [$commandIds];
+        if (null !== $aliases && !is_array($aliases)) {
+            $aliases = [$aliases];
         }
+
+        return !empty($this->getCommands($set, $aliases));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function runCommands(string $set, $aliases = null): int
+    {
+        if (null !== $aliases && !is_array($aliases)) {
+            $aliases = [$aliases];
+        }
+
         try {
-            if (empty($this->commands[$type])) {
-                return 1;
-            }
+            $application = $this->getApplication();
 
-            if (null === $commandIds) {
-                /** @var \Symfony\Component\Console\Command\Command $command */
-                foreach ($this->getCacheClearCommands($type) as list($command, $input)) {
-                    $result = $command->run(new ArrayInput($input), new NullOutput());
+            /** @var \Symfony\Component\Console\Command\Command $command */
+            foreach ($this->getCommands($set, $aliases) as [$command, $input]) {
+                $command->setApplication($application);
+                $result = $command->run(new ArrayInput($input), new NullOutput());
 
-                    if ($result > 0) {
-                        return $result;
-                    }
-                }
-            } elseif (!empty($commandIds)) {
-                /** @var \Symfony\Component\Console\Command\Command $command */
-                foreach ($commandIds as $commandId) {
-                    list($command, $input) = $this->commands[$type][$commandId];
-                    $result = $command->run(new ArrayInput($input), new NullOutput());
-
-                    if ($result > 0) {
-                        return $result;
-                    }
+                if ($result > 0) {
+                    return $result;
                 }
             }
         } catch (\Exception $ex) {
-            $this->logger->error($ex->getMessage());
+            if (null !== $this->logger) {
+                $this->logger->error($ex->getMessage());
+            }
 
             return 1;
         }
 
         return 0;
+    }
+
+    /**
+     * @return \Symfony\Bundle\FrameworkBundle\Console\Application
+     */
+    private function getApplication(): Application
+    {
+        return new Application($this->kernel);
+    }
+
+    /**
+     * @param string     $set     Caches set
+     * @param array|null $aliases Aliases
+     *
+     * @return array
+     */
+    private function getCommands(string $set, ?array $aliases = null): array
+    {
+        if (empty($this->commands[$set])) {
+            return [];
+        }
+
+        if (null !== $aliases) {
+            return array_intersect_key($this->commands[$set], array_flip($aliases));
+        }
+
+        return $this->commands[$set];
     }
 }

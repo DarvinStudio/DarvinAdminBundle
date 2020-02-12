@@ -2,6 +2,19 @@ boolean:
     indeterminate: 不确定
     'no': 没有
     'yes': 是的
+cache:
+    action:
+        clear:
+            command: 命令
+            confirm: 确认缓存清除
+            error:   清除缓存时出错。 请稍后再试。
+            link:    缓存
+            submit:  清除选定的缓存
+            success: 缓存已成功清除
+            title:   缓存清理
+        fast_clear:
+            title:  它只清除轻缓存，例如数据库查询
+            submit: 清除缓存
 common:
     actions: 行动
     back: 回

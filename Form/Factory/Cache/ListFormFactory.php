@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints\Count;
 /**
  * Cache form factory
  */
-class CacheFormFactory implements CacheFormFactoryInterface
+class ListFormFactory implements ListFormFactoryInterface
 {
     /**
      * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
@@ -53,38 +53,27 @@ class CacheFormFactory implements CacheFormFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createClearForm(): FormInterface
+    public function createClearForm(array $options = []): FormInterface
     {
-        $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear', FormType::class, null, [
+        $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear', FormType::class, null, array_merge([
             'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_clear'),
             'action'        => $this->router->generate('darvin_admin_cache_clear'),
             'attr'          => [
                 'autocomplete' => 'off',
             ],
-        ]);
+        ], $options));
 
-        $cacheIds = array_keys($this->cacheCleaner->getCacheClearCommands('section'));
+        $aliases = $this->cacheCleaner->getAliases('list');
 
         $builder->add('ids', ChoiceType::class, [
             'expanded'    => true,
             'multiple'    => true,
-            'choices'     => array_combine($cacheIds, $cacheIds),
+            'choices'     => array_combine($aliases, $aliases),
             'constraints' => new Count([
                 'min' => 1,
             ]),
         ]);
 
         return $builder->getForm();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function createWidgetClearForm(): FormInterface
-    {
-        return $this->genericFormFactory->createNamed('darvin_admin_cache_widget_clear', FormType::class, null, [
-            'action'        => $this->router->generate('darvin_admin_cache_widget_clear'),
-            'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_widget_clear'),
-        ]);
     }
 }

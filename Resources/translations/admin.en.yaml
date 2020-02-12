@@ -2,6 +2,19 @@ boolean:
     indeterminate: Indeterminate
     'no': 'No'
     'yes': 'Yes'
+cache:
+    action:
+        clear:
+            command: Command
+            confirm: Confirm cache clear
+            error:   An error occurred while clearing cache. Please, try again later.
+            link:    Caching
+            submit:  Clear selected caches
+            success: Cache was successfully cleared
+            title:   Cache cleaning
+        fast_clear:
+            title:  It cleans only light cache, for example database queries
+            submit: Clear cache
 common:
     actions: Actions
     back: Back

@@ -13,15 +13,10 @@ namespace Darvin\AdminBundle\Form\Renderer\Cache;
 /**
  * Cache form renderer interface
  */
-interface CacheFormRendererInterface
+interface ListFormRendererInterface
 {
     /**
      * @return string|null
      */
     public function renderClearForm(): ?string;
-
-    /**
-     * @return string|null
-     */
-    public function renderWidgetClearForm(): ?string;
 }

@@ -1,6 +1,6 @@
-darvin_admin_cache_clear:
-    path:     /
-    defaults: { _controller: darvin_admin.cache.controller.clear }
 darvin_admin_cache_widget_clear:
-    path:     /widget-clear/
-    defaults: { _controller: darvin_admin.cache.controller.widget_clear }
+    path:     /clear/widget/
+    defaults: { _controller: darvin_admin.cache.controller.clear.widget }
+darvin_admin_cache_clear:
+    path:     /clear/
+    defaults: { _controller: darvin_admin.cache.controller.clear.list }

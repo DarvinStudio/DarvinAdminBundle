@@ -11,14 +11,14 @@
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
 use Darvin\AdminBundle\Cache\CacheCleanerInterface;
-use Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
  * Clear form renderer
  */
-class CacheFormRenderer implements CacheFormRendererInterface
+class ListFormRenderer implements ListFormRendererInterface
 {
     /**
      * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
@@ -26,7 +26,7 @@ class CacheFormRenderer implements CacheFormRendererInterface
     private $cacheCleaner;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface
      */
     private $formFactory;
 
@@ -41,14 +41,14 @@ class CacheFormRenderer implements CacheFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                  $cacheCleaner Cache cleaner
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\CacheFormFactoryInterface $formFactory  Clear Form factory
-     * @param \Symfony\Component\Routing\RouterInterface                       $router       Router
-     * @param \Twig\Environment                                                $twig         Twig
+     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                 $cacheCleaner Cache cleaner
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface $formFactory  Clear Form factory
+     * @param \Symfony\Component\Routing\RouterInterface                      $router       Router
+     * @param \Twig\Environment                                               $twig         Twig
      */
     public function __construct(
         CacheCleanerInterface $cacheCleaner,
-        CacheFormFactoryInterface $formFactory,
+        ListFormFactoryInterface $formFactory,
         RouterInterface $router,
         Environment $twig
     ) {
@@ -61,31 +61,15 @@ class CacheFormRenderer implements CacheFormRendererInterface
     /**
      * {@inheritDoc}
      */
-    public function renderWidgetClearForm(): ?string
-    {
-        if (empty($this->cacheCleaner->getCacheClearCommands('widget'))) {
-            return null;
-        }
-
-        $form = $this->formFactory->createWidgetClearForm();
-
-        return $this->twig->render('@DarvinAdmin/cache/widget_clear.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function renderClearForm(): ?string
     {
-        if (empty($this->cacheCleaner->getCacheClearCommands('section'))) {
+        if (!$this->cacheCleaner->hasCommands('list')) {
             return null;
         }
 
         $form = $this->formFactory->createClearForm();
 
-        return $this->twig->render('@DarvinAdmin/cache/_clear.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [
             'form' => $form->createView(),
         ]);
     }

@@ -25,7 +25,8 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@router'
-            - '@darvin_admin.cache.cleaner'
+        calls:
+            - [ setCacheCleaner, [ '@?darvin_admin.cache.cleaner' ] ]
         tags:
             - { name: darvin_admin.menu_item_factory }
 

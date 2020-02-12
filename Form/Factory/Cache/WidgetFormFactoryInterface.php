@@ -15,15 +15,12 @@ use Symfony\Component\Form\FormInterface;
 /**
  * Cache form factory interface
  */
-interface CacheFormFactoryInterface
+interface WidgetFormFactoryInterface
 {
     /**
+     * @param array $options Options
+     *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createClearForm(): FormInterface;
-
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createWidgetClearForm(): FormInterface;
+    public function createClearForm(array $options = []): FormInterface;
 }

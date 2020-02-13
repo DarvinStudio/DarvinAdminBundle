@@ -63,7 +63,7 @@ class ListFormFactory implements ListFormFactoryInterface
             ],
         ], $options));
 
-        $aliases = $this->cacheCleaner->getAliases('list');
+        $aliases = $this->cacheCleaner->getCommandAliases('list');
 
         $builder->add('ids', ChoiceType::class, [
             'expanded'    => true,

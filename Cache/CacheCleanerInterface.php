@@ -16,25 +16,28 @@ namespace Darvin\AdminBundle\Cache;
 interface CacheCleanerInterface
 {
     /**
-     * @param string $set Commands set
+     * @param string $set Command set
      *
-     * @return array
+     * @return string[]
+     * @throws \InvalidArgumentException
      */
-    public function getAliases(string $set): array;
+    public function getCommandAliases(string $set): array;
 
     /**
-     * @param string            $set     Commands set
+     * @param string            $set     Command set
      * @param array|string|null $aliases Command aliases
      *
      * @return bool
+     * @throws \InvalidArgumentException
      */
     public function hasCommands(string $set, $aliases = null): bool;
 
     /**
-     * @param string            $set     Commands set
+     * @param string            $set     Command set
      * @param array|string|null $aliases Command aliases
      *
      * @return int
+     * @throws \InvalidArgumentException
      */
     public function runCommands(string $set, $aliases = null): int;
 }

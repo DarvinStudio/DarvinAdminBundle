@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Cache;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -43,24 +43,25 @@ class CacheCleaner implements CacheCleanerInterface
     public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
+
         $this->commands = [];
     }
 
     /**
      * @param \Psr\Log\LoggerInterface|null $logger Logger
      */
-    public function setLogger(?LoggerInterface $logger)
+    public function setLogger(?LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }
 
     /**
-     * @param string                                     $set     Caches set
-     * @param string                                     $alias   Alias cache clear command
-     * @param \Symfony\Component\Console\Command\Command $command Cache clear command
+     * @param string                                     $set     Command set
+     * @param string                                     $alias   Command alias
+     * @param \Symfony\Component\Console\Command\Command $command Command
      * @param array                                      $input   Input
      */
-    public function addCommand(string $set, string $alias, Command $command, array $input): void
+    public function addCommand(string $set, string $alias, Command $command, array $input = []): void
     {
         if (!isset($this->commands[$set])) {
             $this->commands[$set] = [];
@@ -72,9 +73,9 @@ class CacheCleaner implements CacheCleanerInterface
     /**
      * {@inheritDoc}
      */
-    public function getAliases(string $set): array
+    public function getCommandAliases(string $set): array
     {
-        return array_keys($this->commands[$set]) ?? [];
+        return array_keys($this->getCommands($set));
     }
 
     /**
@@ -82,10 +83,6 @@ class CacheCleaner implements CacheCleanerInterface
      */
     public function hasCommands(string $set, $aliases = null): bool
     {
-        if (null !== $aliases && !is_array($aliases)) {
-            $aliases = [$aliases];
-        }
-
         return !empty($this->getCommands($set, $aliases));
     }
 
@@ -94,57 +91,66 @@ class CacheCleaner implements CacheCleanerInterface
      */
     public function runCommands(string $set, $aliases = null): int
     {
-        if (null !== $aliases && !is_array($aliases)) {
-            $aliases = [$aliases];
-        }
+        $application = $this->createApplication();
 
-        try {
-            $application = $this->getApplication();
+        /** @var \Symfony\Component\Console\Command\Command $command */
+        foreach ($this->getCommands($set, $aliases) as [$command, $input]) {
+            $command->setApplication($application);
 
-            /** @var \Symfony\Component\Console\Command\Command $command */
-            foreach ($this->getCommands($set, $aliases) as [$command, $input]) {
-                $command->setApplication($application);
+            try {
                 $result = $command->run(new ArrayInput($input), new NullOutput());
-
-                if ($result > 0) {
-                    return $result;
+            } catch (\Exception $ex) {
+                if (null !== $this->logger) {
+                    $this->logger->error(implode(' ', [__METHOD__, $ex->getMessage()]));
                 }
-            }
-        } catch (\Exception $ex) {
-            if (null !== $this->logger) {
-                $this->logger->error($ex->getMessage());
-            }
 
-            return 1;
+                return 1;
+            }
+            if ($result > 0) {
+                return $result;
+            }
         }
 
         return 0;
     }
 
     /**
-     * @return \Symfony\Bundle\FrameworkBundle\Console\Application
+     * @param string            $set     Command set
+     * @param array|string|null $aliases Command aliases
+     *
+     * @return array
+     * @throws \InvalidArgumentException
      */
-    private function getApplication(): Application
+    private function getCommands(string $set, $aliases = null): array
     {
-        return new Application($this->kernel);
+        if (!isset($this->commands[$set])) {
+            throw new \InvalidArgumentException(sprintf('Cache command set "%s" does not exist.', $set));
+        }
+        if (null === $aliases) {
+            return $this->commands[$set];
+        }
+        if (!is_array($aliases)) {
+            $aliases = [$aliases];
+        }
+
+        $commands = [];
+
+        foreach ($aliases as $alias) {
+            if (!isset($this->commands[$set][$alias])) {
+                throw new \InvalidArgumentException(sprintf('Cache command "%s" does not exist in set "%s".', $alias, $set));
+            }
+
+            $commands[$alias] = $this->commands[$set][$alias];
+        }
+
+        return $commands;
     }
 
     /**
-     * @param string     $set     Caches set
-     * @param array|null $aliases Aliases
-     *
-     * @return array
+     * @return \Symfony\Component\Console\Application
      */
-    private function getCommands(string $set, ?array $aliases = null): array
+    private function createApplication(): Application
     {
-        if (empty($this->commands[$set])) {
-            return [];
-        }
-
-        if (null !== $aliases) {
-            return array_intersect_key($this->commands[$set], array_flip($aliases));
-        }
-
-        return $this->commands[$set];
+        return new \Symfony\Bundle\FrameworkBundle\Console\Application($this->kernel);
     }
 }

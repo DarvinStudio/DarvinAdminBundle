@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -26,9 +26,9 @@ use Symfony\Component\Routing\RouterInterface;
 class WidgetController
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
@@ -51,20 +51,20 @@ class WidgetController
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                     $cacheCleaner      Cache cleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                     $cacheClearer      Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface $cacheFormRenderer Cache from Render
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                          $flashNotifier     Flash notifier
      * @param \Symfony\Component\Routing\RouterInterface                          $router            Router
      */
     public function __construct(
-        CacheCleanerInterface $cacheCleaner,
+        CacheClearerInterface $cacheClearer,
         WidgetFormFactoryInterface $cacheFormFactory,
         WidgetFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
         RouterInterface $router
     ) {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
         $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
@@ -83,7 +83,7 @@ class WidgetController
         if (!$form->isValid()) {
             return $this->createResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
-        if ($this->cacheCleaner->runCommands('widget') > 0) {
+        if ($this->cacheClearer->runCommands('widget') > 0) {
             return $this->createResponse($request, false, 'cache.action.clear.error');
         }
 

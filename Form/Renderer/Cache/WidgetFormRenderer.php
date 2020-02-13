@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
@@ -21,9 +21,9 @@ use Twig\Environment;
 class WidgetFormRenderer implements WidgetFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
@@ -41,18 +41,18 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                   $cacheCleaner Cache cleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                   $cacheClearer Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface $formFactory  Clear Form factory
      * @param \Symfony\Component\Routing\RouterInterface                        $router       Router
      * @param \Twig\Environment                                                 $twig         Twig
      */
     public function __construct(
-        CacheCleanerInterface $cacheCleaner,
+        CacheClearerInterface $cacheClearer,
         WidgetFormFactoryInterface $formFactory,
         RouterInterface $router,
         Environment $twig
     ) {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
         $this->formFactory  = $formFactory;
         $this->router       = $router;
         $this->twig         = $twig;
@@ -63,7 +63,7 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
      */
     public function renderClearForm(): ?string
     {
-        if (!$this->cacheCleaner->hasCommands('widget')) {
+        if (!$this->cacheClearer->hasCommands('widget')) {
             return null;
         }
 

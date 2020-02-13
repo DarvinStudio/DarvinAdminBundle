@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -27,9 +27,9 @@ use Twig\Environment;
 class ListController
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
@@ -57,7 +57,7 @@ class ListController
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface                   $cacheCleaner      Cache cleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                   $cacheClearer      Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface $cacheFormRenderer Cache from Render
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                        $flashNotifier     Flash notifier
@@ -65,14 +65,14 @@ class ListController
      * @param \Twig\Environment                                                 $twig              Twig
      */
     public function __construct(
-        CacheCleanerInterface $cacheCleaner,
+        CacheClearerInterface $cacheClearer,
         ListFormFactoryInterface $cacheFormFactory,
         ListFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
         RouterInterface $router,
         Environment $twig
     ) {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
         $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
@@ -95,7 +95,7 @@ class ListController
         if (!$form->isValid()) {
             return $this->createResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
-        if ($this->cacheCleaner->runCommands('list', $form->get('ids')->getData()) > 0) {
+        if ($this->cacheClearer->runCommands('list', $form->get('ids')->getData()) > 0) {
             return $this->createResponse($request, $form, false, 'cache.action.clear.error');
         }
 

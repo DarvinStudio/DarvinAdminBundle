@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddCacheClearCommandsPass implements CompilerPassInterface
 {
-    private const CACHE_CLEANER_ID = 'darvin_admin.cache.cleaner';
+    private const CACHE_CLEANER_ID = 'darvin_admin.cache.clearer';
 
     /**
      * {@inheritdoc}
@@ -36,14 +36,14 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
             return;
         }
 
-        $cacheCleanerDefinition = $container->getDefinition(self::CACHE_CLEANER_ID);
+        $cacheClearerDefinition = $container->getDefinition(self::CACHE_CLEANER_ID);
 
         $definitions = [];
 
         foreach ($sets as $set => $commands) {
             foreach ($commands as $alias => $command) {
                 $id = strpos($command['id'], '@') === 0 ? substr($command['id'], 1) : $command['id'];
-                $cacheCleanerDefinition->addMethodCall('addCommand', [
+                $cacheClearerDefinition->addMethodCall('addCommand', [
                     $set,
                     $alias,
                     new Reference($id),

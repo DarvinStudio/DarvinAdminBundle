@@ -1,0 +1,10 @@
+parameters:
+    darvin_admin.cache.clearer.class: Darvin\AdminBundle\Cache\CacheClearer
+
+services:
+    darvin_admin.cache.clearer:
+        class: '%darvin_admin.cache.clearer.class%'
+        arguments:
+            - '@kernel'
+        calls:
+            - [ setLogger, [ '@?logger' ] ]

@@ -7,7 +7,7 @@ services:
     darvin_admin.cache.controller.clear.list:
         class: '%darvin_admin.cache.controller.clear.list.class%'
         arguments:
-            - '@darvin_admin.cache.cleaner'
+            - '@darvin_admin.cache.clearer'
             - '@darvin_admin.cache.form.factory.list'
             - '@darvin_admin.cache.form.renderer.list'
             - '@darvin_utils.flash.notifier'
@@ -19,14 +19,14 @@ services:
     darvin_admin.cache.form.factory.list:
         class: '%darvin_admin.cache.form.factory.list.class%'
         arguments:
-            - '@darvin_admin.cache.cleaner'
+            - '@darvin_admin.cache.clearer'
             - '@form.factory'
             - '@router'
 
     darvin_admin.cache.form.renderer.list:
         class: '%darvin_admin.cache.form.renderer.list.class%'
         arguments:
-            - '@darvin_admin.cache.cleaner'
+            - '@darvin_admin.cache.clearer'
             - '@darvin_admin.cache.form.factory.list'
             - '@router'
             - '@twig'

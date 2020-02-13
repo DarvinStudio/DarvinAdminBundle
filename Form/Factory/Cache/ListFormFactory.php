@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Factory\Cache;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -24,9 +24,9 @@ use Symfony\Component\Validator\Constraints\Count;
 class ListFormFactory implements ListFormFactoryInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @var \Symfony\Component\Form\FormFactoryInterface
@@ -39,13 +39,13 @@ class ListFormFactory implements ListFormFactoryInterface
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface $cacheCleaner       Cache cleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface $cacheClearer       Cache clearer
      * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
      * @param \Symfony\Component\Routing\RouterInterface      $router             Router
      */
-    public function __construct(CacheCleanerInterface $cacheCleaner, FormFactoryInterface $genericFormFactory, RouterInterface $router)
+    public function __construct(CacheClearerInterface $cacheClearer, FormFactoryInterface $genericFormFactory, RouterInterface $router)
     {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
         $this->genericFormFactory = $genericFormFactory;
         $this->router = $router;
     }
@@ -63,7 +63,7 @@ class ListFormFactory implements ListFormFactoryInterface
             ],
         ], $options));
 
-        $aliases = $this->cacheCleaner->getCommandAliases('list');
+        $aliases = $this->cacheClearer->getCommandAliases('list');
 
         $builder->add('ids', ChoiceType::class, [
             'expanded'    => true,

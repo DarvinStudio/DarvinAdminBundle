@@ -18,9 +18,9 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * Cache cleaner
+ * Cache clearer
  */
-class CacheCleaner implements CacheCleanerInterface
+class CacheClearer implements CacheClearerInterface
 {
     /**
      * @var \Symfony\Component\HttpKernel\KernelInterface

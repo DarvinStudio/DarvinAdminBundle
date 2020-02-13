@@ -107,7 +107,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                 return $showErrorPages;
             }, ],
 
-            'cache_cleaner' => ['callback' => function () use ($config): bool {
+            'cache_clearer' => ['callback' => function () use ($config): bool {
                 return $config['cache']['clear']['enabled'] && !empty($config['cache']['clear']['sets']);
             }, ],
 

@@ -11,9 +11,9 @@
 namespace Darvin\AdminBundle\Cache;
 
 /**
- * Cache cleaner
+ * Cache clearer
  */
-interface CacheCleanerInterface
+interface CacheClearerInterface
 {
     /**
      * @param string $set Command set

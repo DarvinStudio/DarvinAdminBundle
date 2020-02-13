@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Factory\Cache;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -22,9 +22,9 @@ use Symfony\Component\Routing\RouterInterface;
 class WidgetFormFactory implements WidgetFormFactoryInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @var \Symfony\Component\Form\FormFactoryInterface
@@ -37,13 +37,13 @@ class WidgetFormFactory implements WidgetFormFactoryInterface
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface $cacheCleaner       Cache cleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface $cacheClearer       Cache clearer
      * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
      * @param \Symfony\Component\Routing\RouterInterface      $router             Router
      */
-    public function __construct(CacheCleanerInterface $cacheCleaner, FormFactoryInterface $genericFormFactory, RouterInterface $router)
+    public function __construct(CacheClearerInterface $cacheClearer, FormFactoryInterface $genericFormFactory, RouterInterface $router)
     {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
         $this->genericFormFactory = $genericFormFactory;
         $this->router = $router;
     }

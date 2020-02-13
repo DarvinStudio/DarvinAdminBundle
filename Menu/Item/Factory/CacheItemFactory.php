@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Cache\CacheCleanerInterface;
+use Darvin\AdminBundle\Cache\CacheClearerInterface;
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -34,9 +34,9 @@ class CacheItemFactory implements ItemFactoryInterface
     private $router;
 
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheCleanerInterface|null
+     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface|null
      */
-    private $cacheCleaner;
+    private $cacheClearer;
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
@@ -49,11 +49,11 @@ class CacheItemFactory implements ItemFactoryInterface
     }
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheCleanerInterface $cacheCleaner
+     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface $cacheClearer
      */
-    public function setCacheCleaner(?CacheCleanerInterface $cacheCleaner): void
+    public function setCacheClearer(?CacheClearerInterface $cacheClearer): void
     {
-        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheClearer = $cacheClearer;
     }
 
     /**
@@ -62,7 +62,7 @@ class CacheItemFactory implements ItemFactoryInterface
     public function getItems(): iterable
     {
         if ($this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)
-            && null !== $this->cacheCleaner && $this->cacheCleaner->hasCommands('list')) {
+            && null !== $this->cacheClearer && $this->cacheClearer->hasCommands('list')) {
             yield (new Item('cache'))
                 ->setIndexTitle('cache.action.clear.link')
                 ->setIndexUrl($this->router->generate('darvin_admin_cache_clear'))

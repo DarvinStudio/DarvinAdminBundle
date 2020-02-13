@@ -27,7 +27,6 @@ interface CacheCleanerInterface
      * @param string $set Command set
      *
      * @return bool
-     * @throws \InvalidArgumentException
      */
     public function hasCommands(string $set): bool;
 

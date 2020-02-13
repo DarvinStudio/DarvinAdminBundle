@@ -83,7 +83,7 @@ class CacheCleaner implements CacheCleanerInterface
      */
     public function hasCommands(string $set): bool
     {
-        return isset($this->commands[$set]);
+        return isset($this->commands[$set]) && !empty($this->commands[$set]);
     }
 
     /**

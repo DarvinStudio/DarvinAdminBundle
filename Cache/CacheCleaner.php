@@ -81,9 +81,9 @@ class CacheCleaner implements CacheCleanerInterface
     /**
      * {@inheritDoc}
      */
-    public function hasCommands(string $set, $aliases = null): bool
+    public function hasCommands(string $set): bool
     {
-        return !empty($this->getCommands($set, $aliases));
+        return isset($this->commands[$set]);
     }
 
     /**

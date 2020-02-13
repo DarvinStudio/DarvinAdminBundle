@@ -24,13 +24,12 @@ interface CacheCleanerInterface
     public function getCommandAliases(string $set): array;
 
     /**
-     * @param string            $set     Command set
-     * @param array|string|null $aliases Command aliases
+     * @param string $set Command set
      *
      * @return bool
      * @throws \InvalidArgumentException
      */
-    public function hasCommands(string $set, $aliases = null): bool;
+    public function hasCommands(string $set): bool;
 
     /**
      * @param string            $set     Command set

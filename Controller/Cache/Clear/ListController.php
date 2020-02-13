@@ -72,12 +72,12 @@ class ListController
         RouterInterface $router,
         Environment $twig
     ) {
-        $this->cacheCleaner      = $cacheCleaner;
-        $this->cacheFormFactory  = $cacheFormFactory;
+        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
-        $this->flashNotifier     = $flashNotifier;
-        $this->router            = $router;
-        $this->twig              = $twig;
+        $this->flashNotifier = $flashNotifier;
+        $this->router = $router;
+        $this->twig = $twig;
     }
 
     /**
@@ -90,18 +90,16 @@ class ListController
         $form = $this->cacheFormFactory->createClearForm()->handleRequest($request);
 
         if (!$form->isSubmitted()) {
-            return $this->renderResponse($request, $form);
+            return $this->createResponse($request, $form);
         }
-
         if (!$form->isValid()) {
-            return $this->renderResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            return $this->createResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
-
         if ($this->cacheCleaner->runCommands('list', $form->get('ids')->getData()) > 0) {
-            return $this->renderResponse($request, $form, false, 'cache.action.clear.error');
+            return $this->createResponse($request, $form, false, 'cache.action.clear.error');
         }
 
-        return $this->renderResponse($request, $form, true, 'cache.action.clear.success');
+        return $this->createResponse($request, $form, true, 'cache.action.clear.success');
     }
 
     /**
@@ -112,12 +110,11 @@ class ListController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
+    private function createResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
     {
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);
         }
-
         if (null !== $message) {
             $this->flashNotifier->done($success, $message);
         }

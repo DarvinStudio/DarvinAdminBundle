@@ -64,11 +64,11 @@ class WidgetController
         FlashNotifierInterface $flashNotifier,
         RouterInterface $router
     ) {
-        $this->cacheCleaner      = $cacheCleaner;
-        $this->cacheFormFactory  = $cacheFormFactory;
+        $this->cacheCleaner = $cacheCleaner;
+        $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
-        $this->flashNotifier     = $flashNotifier;
-        $this->router            = $router;
+        $this->flashNotifier = $flashNotifier;
+        $this->router = $router;
     }
 
     /**
@@ -81,14 +81,13 @@ class WidgetController
         $form = $this->cacheFormFactory->createClearForm()->handleRequest($request);
 
         if (!$form->isValid()) {
-            return $this->renderResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            return $this->createResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
-
         if ($this->cacheCleaner->runCommands('widget') > 0) {
-            return $this->renderResponse($request, false, 'cache.action.clear.error');
+            return $this->createResponse($request, false, 'cache.action.clear.error');
         }
 
-        return $this->renderResponse($request, true, 'cache.action.clear.success');
+        return $this->createResponse($request, true, 'cache.action.clear.success');
     }
 
     /**
@@ -98,7 +97,7 @@ class WidgetController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function renderResponse(Request $request, bool $success, string $message): Response
+    private function createResponse(Request $request, bool $success, string $message): Response
     {
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);

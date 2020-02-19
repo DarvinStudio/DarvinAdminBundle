@@ -4,9 +4,9 @@
     {{ form_start(form, {'attr': {'class': 'js-form'}}) }}
         {{ form_widget(form) }}
         <button type="submit"
-                onclick="return confirm('{{ ('cache.clear.widget.form.confirm')|trans|e('js') }}');"
-                title="{% trans %}cache.clear.widget.form.help{% endtrans %}">
-            <span>{% trans %}cache.clear.widget.form.submit{% endtrans %}</span>
+                onclick="return confirm('{{ ('widget_cache.action.clear.confirm')|trans|e('js') }}');"
+                title="{% trans %}widget_cache.action.clear.help{% endtrans %}">
+            <span>{% trans %}widget_cache.action.clear.submit{% endtrans %}</span>
         </button>
     {{ form_end(form) }}
 </div>

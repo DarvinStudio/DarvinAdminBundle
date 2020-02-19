@@ -2,23 +2,6 @@ boolean:
     indeterminate: Indeterminate
     'no': 'No'
     'yes': 'Yes'
-cache:
-    clear:
-        list:
-            done:
-                error: 'An error occurred while clearing cache. Please, try again later.'
-                success: 'Cache successfully cleared'
-            form:
-                link: 'Clear Cache'
-                submit: 'Clear Selected Caches'
-                title: 'Clear Cache'
-        widget:
-            done:
-                error: 'An error occurred while clearing cache. Please, try again later.'
-                success: 'Cache successfully cleared'
-            form:
-                help: 'Clear database query cache'
-                submit: 'Clear Cache'
 common:
     actions: Actions
     back: Back
@@ -115,6 +98,14 @@ layout:
     main_menu: 'Main Menu'
     title: 'DarvinCMS Release %version%'
     toggle_menu: 'Toggle Menu'
+list_cache:
+    action:
+        clear:
+            error: 'An error occurred while clearing cache. Please, try again later.'
+            link: 'Clear Cache'
+            submit: 'Clear Selected Caches'
+            success: 'Cache successfully cleared'
+            title: 'Clear Cache'
 locale:
     ar: Arabic
     en: English
@@ -204,3 +195,10 @@ translation:
         updated_at: 'Updated At'
         updated_at_from: 'Updated At (From)'
         updated_at_to: 'Updated At (To)'
+widget_cache:
+    action:
+        clear:
+            error: 'An error occurred while clearing cache. Please, try again later.'
+            help: 'Clear database query cache'
+            submit: 'Clear Cache'
+            success: 'Cache successfully cleared'

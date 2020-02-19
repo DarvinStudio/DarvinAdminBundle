@@ -102,10 +102,10 @@ class ListController
             return $this->createResponse($request, $form, false, $message);
         }
         if ($this->cacheClearer->runCommands('list', $form->get('commands')->getData()) > 0) {
-            return $this->createResponse($request, $form, false, 'cache.clear.list.done.error');
+            return $this->createResponse($request, $form, false, 'list_cache.action.clear.error');
         }
 
-        return $this->createResponse($request, $form, true, 'cache.clear.list.done.success');
+        return $this->createResponse($request, $form, true, 'list_cache.action.clear.success');
     }
 
     /**

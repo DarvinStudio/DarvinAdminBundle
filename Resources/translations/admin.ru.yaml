@@ -4,26 +4,11 @@ boolean:
     yes:           Да
 
 cache:
-    action:
-        clear:
-            command: Команда
-            confirm: Подтвердите очистку кэша
-            error:   При очистке кэша возникла ошибка. Повторите попытку позднее
-            link:    Кэширование
-            submit:  Очистить выбранные
-            success: Кэш успешно очищен
-            title:   Чистка кэша
-        fast_clear:
-            title:  Чистит только легкий кэш, например запросы к БД
-            submit: Очистить кэш
-    darvin_image:
-        command:     darvin:image:cache:warmup
-        title:       Кэш изображений
-        description: Внимание! Чистить только в случае оптимизации изображенй!
-    doctrine_result:
-        command:     doctrine:cache:clear-result
-        title:       Результаты запросов БД
-        description: "Хранит результаты запросов, которые бандл Doctrine получил из базы данных и преобразовал в сущности. Рекомендуется чистить каждый раз после правок на сайте."
+    clear:
+        commands:
+            list:
+                doctrine_result:
+                    title: Результаты запросов данных
 
 common:
     actions:          Действия
@@ -133,6 +118,20 @@ layout:
     title:       DarvinCMS Версия %version%
     toggle_menu: Свернуть/развернуть меню
 
+list_cache:
+    action:
+        clear:
+            error:   При очистке кэша произошла ошибка. Пожалуйста, повторите попытку позднее.
+            link:    Очистить кэш
+            submit:  Очистить выбранные кэши
+            success: Выбранные кэши успешно очищены
+            table:
+                check: Выбрать
+                heading:
+                    description: Описание
+                    title:       Название
+            title: Очистить кэш
+
 locale:
     ar: Арабский
     en: Английский
@@ -237,3 +236,12 @@ translation:
         updated_at:      Обновлен
         updated_at_from: Обновлен (с)
         updated_at_to:   Обновлен (по)
+
+widget_cache:
+    action:
+        clear:
+            confirm: Очистить кэш?
+            error:   При очистке кэша произошла ошибка. Пожалуйста, повторите попытку позднее.
+            help:    Быстрая очистка кэша
+            submit:  Очистить кэш
+            success: Кэш успешно очищен

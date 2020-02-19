@@ -110,7 +110,7 @@ list_cache:
             error: 'An error occurred while clearing cache. Please, try again later.'
             link: 'Clear Cache'
             submit: 'Clear Selected Caches'
-            success: 'Cache successfully cleared'
+            success: 'Selected caches successfully cleared'
             table:
                 check: Select
                 heading:
@@ -211,6 +211,6 @@ widget_cache:
         clear:
             confirm: 'Clear cache?'
             error: 'An error occurred while clearing cache. Please, try again later.'
-            help: 'Clear database query cache'
+            help: 'Quick cache clear'
             submit: 'Clear Cache'
             success: 'Cache successfully cleared'

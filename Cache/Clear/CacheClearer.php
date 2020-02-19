@@ -86,7 +86,7 @@ class CacheClearer implements CacheClearerInterface
         $application = $this->createApplication();
 
         /** @var \Symfony\Component\Console\Command\Command $command */
-        foreach ($this->getCommands($set, $aliases) as [$command, $input]) {
+        foreach ($this->getCommands($set, $aliases) as list($command, $input)) {
             $command->setApplication($application);
 
             try {

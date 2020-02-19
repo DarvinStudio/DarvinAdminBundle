@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * @author    Alexander Volodin <mr-stanlik@yandex.ru>
  * @copyright Copyright (c) 2020, Darvin Studio
@@ -15,43 +15,39 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Add cache clear command compiler pass
+ * Add commands to cache clearer compiler pass
  */
 class AddCacheClearCommandsPass implements CompilerPassInterface
 {
-    private const CACHE_CLEANER_ID = 'darvin_admin.cache.clearer';
+    private const CLEARER = 'darvin_admin.cache.clearer';
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
-        if (!$container->hasDefinition(self::CACHE_CLEANER_ID)) {
+        if (!$container->hasDefinition(self::CLEARER)) {
             return;
         }
 
-        $sets = $container->getParameter('darvin_admin.cache.clear.sets');
+        $clearer = $container->getDefinition(self::CLEARER);
 
-        if (empty($sets)) {
-            return;
-        }
+        foreach ($container->getParameter('darvin_admin.cache.clear.sets') as $setName => $setAttr) {
+            if (!$setAttr['enabled']) {
+                continue;
+            }
+            foreach ($setAttr['commands'] as $commandAlias => $commandAttr) {
+                if (!$commandAttr['enabled']) {
+                    continue;
+                }
 
-        $cacheClearerDefinition = $container->getDefinition(self::CACHE_CLEANER_ID);
-
-        $definitions = [];
-
-        foreach ($sets as $set => $commands) {
-            foreach ($commands as $alias => $command) {
-                $id = strpos($command['id'], '@') === 0 ? substr($command['id'], 1) : $command['id'];
-                $cacheClearerDefinition->addMethodCall('addCommand', [
-                    $set,
-                    $alias,
-                    new Reference($id),
-                    $command['input'],
+                $clearer->addMethodCall('addCommand', [
+                    $setName,
+                    $commandAlias,
+                    new Reference($commandAttr['id']),
+                    $commandAttr['input'],
                 ]);
             }
         }
-
-        $container->addDefinitions($definitions);
     }
 }

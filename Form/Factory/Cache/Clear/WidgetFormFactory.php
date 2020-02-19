@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Cache form factory
+ * Widget cache clear form factory
  */
 class WidgetFormFactory implements WidgetFormFactoryInterface
 {

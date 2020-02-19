@@ -17,7 +17,7 @@
                     <tbody>
                         {% for child in form %}
 
-                            {% set description_id = 'cache_clear_command.' ~ child.vars.value ~ '.description' %}
+                            {% set description_id = 'cache.clear.commands.list.' ~ child.vars.value ~ '.description' %}
 
                             {% set description = description_id|trans %}
 
@@ -38,7 +38,7 @@
                                 </td>
                                 <td data-size="xl">
                                     <label for="{{ child.vars.id }}">
-                                        {{ ('cache_clear_command.' ~ child.vars.value ~ '.title')|trans }}
+                                        {{ ('cache.clear.commands.list.' ~ child.vars.value ~ '.title')|trans }}
                                     </label>
                                 </td>
                                 <td data-exact-size="620">

@@ -2,6 +2,12 @@ boolean:
     indeterminate: Indeterminate
     'no': 'No'
     'yes': 'Yes'
+cache:
+    clear:
+        commands:
+            list:
+                doctrine_result:
+                    title: 'Database Query Results'
 common:
     actions: Actions
     back: Back

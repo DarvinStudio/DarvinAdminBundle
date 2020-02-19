@@ -48,7 +48,7 @@ class ListFormRenderer implements ListFormRendererInterface
             $form = $this->formFactory->createForm();
         }
 
-        return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/clear/list/_form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

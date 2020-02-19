@@ -128,7 +128,7 @@ class ListController
             return new RedirectResponse($this->router->generate('darvin_admin_cache_clear_list'));
         }
 
-        return new Response($this->twig->render('@DarvinAdmin/cache/clear/list.html.twig', [
+        return new Response($this->twig->render('@DarvinAdmin/cache/clear/list/form.html.twig', [
             'form' => $form->createView(),
         ]));
     }

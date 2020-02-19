@@ -48,7 +48,7 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
             $form = $this->formFactory->createForm();
         }
 
-        return $this->twig->render('@DarvinAdmin/cache/clear/widget.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/clear/widget/form.html.twig', [
             'form' => $form->createView(),
         ]);
     }

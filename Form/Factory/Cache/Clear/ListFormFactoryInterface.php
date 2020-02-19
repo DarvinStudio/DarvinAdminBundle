@@ -22,5 +22,5 @@ interface ListFormFactoryInterface
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createClearForm(array $options = []): FormInterface;
+    public function createForm(array $options = []): FormInterface;
 }

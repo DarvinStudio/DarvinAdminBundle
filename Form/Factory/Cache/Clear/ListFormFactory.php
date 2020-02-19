@@ -53,7 +53,7 @@ class ListFormFactory implements ListFormFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function createClearForm(array $options = []): FormInterface
+    public function createForm(array $options = []): FormInterface
     {
         $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear', FormType::class, null, array_merge([
             'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_clear'),

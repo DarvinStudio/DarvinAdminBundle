@@ -87,7 +87,7 @@ class ListController
      */
     public function __invoke(Request $request): Response
     {
-        $form = $this->cacheFormFactory->createClearForm()->handleRequest($request);
+        $form = $this->cacheFormFactory->createForm()->handleRequest($request);
 
         if (!$form->isSubmitted()) {
             return $this->createResponse($request, $form);

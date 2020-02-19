@@ -78,7 +78,7 @@ class WidgetController
      */
     public function __invoke(Request $request): Response
     {
-        $form = $this->cacheFormFactory->createClearForm()->handleRequest($request);
+        $form = $this->cacheFormFactory->createForm()->handleRequest($request);
 
         if (!$form->isValid()) {
             return $this->createResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);

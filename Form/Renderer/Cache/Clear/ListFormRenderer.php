@@ -45,7 +45,7 @@ class ListFormRenderer implements ListFormRendererInterface
     public function renderForm(?FormInterface $form = null): string
     {
         if (null === $form) {
-            $form = $this->formFactory->createClearForm();
+            $form = $this->formFactory->createForm();
         }
 
         return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [

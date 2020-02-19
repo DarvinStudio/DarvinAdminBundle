@@ -3,18 +3,11 @@ boolean:
     'no': 'Pas de'
     'yes': Oui
 cache:
-    action:
-        clear:
-            command: Commande
-            confirm: Confirmer cache clair
-            error:   Une erreur s'est produite lors de la suppression du cache. S'il vous plaît, essayez de nouveau plus tard.
-            link:    Cache
-            submit:  Clair caches
-            success: Le Cache a été effacé avec succès
-            title:   Le nettoyage du Cache
-        fast_clear:
-            title:  Il nettoie uniquement le cache léger, par exemple les requêtes de base de données
-            submit: Vider le cache
+    clear:
+        commands:
+            list:
+                doctrine_result:
+                    title: 'La Base De Données De Résultats De La Requête'
 common:
     actions: Actions
     back: 'De retour'
@@ -111,6 +104,19 @@ layout:
     main_menu: 'Menu Principal'
     title: 'DarvinCMS Libération %version%'
     toggle_menu: 'Bascule Menu'
+list_cache:
+    action:
+        clear:
+            error: 'Une erreur s''est produite lors de la compensation de cache. S''il vous plaît, essayez de nouveau plus tard.'
+            link: 'Vider Le Cache'
+            submit: 'Clair Caches'
+            success: 'Sélectionné caches accepté'
+            table:
+                check: Sélectionnez
+                heading:
+                    description: Description
+                    title: Titre
+            title: 'Vider Le Cache'
 locale:
     ar: Arabe
     en: Anglais
@@ -200,3 +206,11 @@ translation:
         updated_at: 'Mis À Jour Au'
         updated_at_from: 'Mis À Jour (À Partir De)'
         updated_at_to: 'Mis À Jour (À)'
+widget_cache:
+    action:
+        clear:
+            confirm: 'Vider le cache?'
+            error: 'Une erreur s''est produite lors de la compensation de cache. S''il vous plaît, essayez de nouveau plus tard.'
+            help: 'Rapide de vider le cache'
+            submit: 'Vider Le Cache'
+            success: 'Cache effacé avec succès'

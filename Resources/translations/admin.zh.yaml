@@ -3,18 +3,11 @@ boolean:
     'no': 没有
     'yes': 是的
 cache:
-    action:
-        clear:
-            command: 命令
-            confirm: 确认缓存清除
-            error:   清除缓存时出错。 请稍后再试。
-            link:    缓存
-            submit:  清除选定的缓存
-            success: 缓存已成功清除
-            title:   缓存清理
-        fast_clear:
-            title:  它只清除轻缓存，例如数据库查询
-            submit: 清除缓存
+    clear:
+        commands:
+            list:
+                doctrine_result:
+                    title: 数据库查询结果
 common:
     actions: 行动
     back: 回
@@ -111,6 +104,19 @@ layout:
     main_menu: 主菜单
     title: 'DarvinCMS释放 %version%'
     toggle_menu: 切换菜单
+list_cache:
+    action:
+        clear:
+            error: '错误发生，同时清除高速缓存。 请稍后再试一次。'
+            link: 清除缓存
+            submit: 明确的选择缓存
+            success: 选择成功地清除缓存
+            table:
+                check: 选择
+                heading:
+                    description: 描述
+                    title: 标题
+            title: 清除缓存
 locale:
     ar: 阿拉伯文
     en: 英语
@@ -200,3 +206,11 @@ translation:
         updated_at: 更新
         updated_at_from: 更新在(自)
         updated_at_to: 更新在(向)
+widget_cache:
+    action:
+        clear:
+            confirm: 清除缓存？
+            error: '错误发生，同时清除高速缓存。 请稍后再试一次。'
+            help: 快速缓存清
+            submit: 清除缓存
+            success: 缓成功地清除

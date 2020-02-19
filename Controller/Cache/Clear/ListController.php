@@ -86,7 +86,7 @@ class ListController
         if (!$form->isValid()) {
             return $this->createResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
         }
-        if ($this->cacheClearer->runCommands('list', $form->get('ids')->getData()) > 0) {
+        if ($this->cacheClearer->runCommands('list', $form->get('commands')->getData()) > 0) {
             return $this->createResponse($request, $form, false, 'cache.action.clear.error');
         }
 

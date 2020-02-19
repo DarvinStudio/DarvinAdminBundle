@@ -19,7 +19,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Constraints\Count;
 
 /**
- * Cache form factory
+ * List cache clear form factory
  */
 class ListFormFactory implements ListFormFactoryInterface
 {
@@ -55,22 +55,19 @@ class ListFormFactory implements ListFormFactoryInterface
      */
     public function createForm(array $options = []): FormInterface
     {
-        $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear_list', FormType::class, null, array_merge([
+        $commands = $this->cacheClearer->getCommandAliases('list');
+        $builder  = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear_list', FormType::class, null, array_merge([
             'action' => $this->router->generate('darvin_admin_cache_clear_list'),
             'attr'   => [
                 'autocomplete' => 'off',
             ],
         ], $options));
 
-        $aliases = $this->cacheClearer->getCommandAliases('list');
-
-        $builder->add('ids', ChoiceType::class, [
+        $builder->add('commands', ChoiceType::class, [
+            'choices'     => array_combine($commands, $commands),
             'expanded'    => true,
             'multiple'    => true,
-            'choices'     => array_combine($aliases, $aliases),
-            'constraints' => new Count([
-                'min' => 1,
-            ]),
+            'constraints' => new Count(['min' => 1]),
         ]);
 
         return $builder->getForm();

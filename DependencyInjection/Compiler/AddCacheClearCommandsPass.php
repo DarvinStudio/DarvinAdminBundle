@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class AddCacheClearCommandsPass implements CompilerPassInterface
 {
-    private const CLEARER = 'darvin_admin.cache.clearer';
+    private const CLEARER = 'darvin_admin.cache.clear.clearer';
 
     /**
      * {@inheritDoc}

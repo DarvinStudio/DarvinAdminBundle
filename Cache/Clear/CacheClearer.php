@@ -116,7 +116,7 @@ class CacheClearer implements CacheClearerInterface
     private function getCommands(string $set, $aliases = null): array
     {
         if (!isset($this->commands[$set])) {
-            throw new \InvalidArgumentException(sprintf('Cache command set "%s" does not exist.', $set));
+            throw new \InvalidArgumentException(sprintf('Cache clear command set "%s" does not exist.', $set));
         }
         if (null === $aliases) {
             return $this->commands[$set];
@@ -129,7 +129,7 @@ class CacheClearer implements CacheClearerInterface
 
         foreach ($aliases as $alias) {
             if (!isset($this->commands[$set][$alias])) {
-                throw new \InvalidArgumentException(sprintf('Cache command "%s" does not exist in set "%s".', $alias, $set));
+                throw new \InvalidArgumentException(sprintf('Cache clear command "%s" does not exist in set "%s".', $alias, $set));
             }
 
             $commands[$alias] = $this->commands[$set][$alias];

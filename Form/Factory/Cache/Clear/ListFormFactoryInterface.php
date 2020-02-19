@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Form\Factory\Cache\Clear;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Cache form factory interface
+ * List cache clear form factory
  */
 interface ListFormFactoryInterface
 {

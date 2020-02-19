@@ -38,7 +38,7 @@ class ListCacheClearItemFactory implements ItemFactoryInterface
     public function getItems(): iterable
     {
         yield (new Item('cache_clear'))
-            ->setIndexTitle('cache.action.clear.link')
+            ->setIndexTitle('cache.clear.list.form.link')
             ->setIndexUrl($this->router->generate('darvin_admin_cache_clear_list'))
             ->setPosition(1100);
     }

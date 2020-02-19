@@ -102,10 +102,10 @@ class ListController
             return $this->createResponse($request, $form, false, $message);
         }
         if ($this->cacheClearer->runCommands('list', $form->get('commands')->getData()) > 0) {
-            return $this->createResponse($request, $form, false, 'cache.action.clear.error');
+            return $this->createResponse($request, $form, false, 'cache.clear.list.done.error');
         }
 
-        return $this->createResponse($request, $form, true, 'cache.action.clear.success');
+        return $this->createResponse($request, $form, true, 'cache.clear.list.done.success');
     }
 
     /**
@@ -116,7 +116,7 @@ class ListController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function createResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
+    private function createResponse(Request $request, FormInterface $form, bool $success = false, ?string $message = null): Response
     {
         if ($request->isXmlHttpRequest()) {
             return new AjaxResponse($this->formRenderer->renderForm($success ? null : $form), $success, $message);

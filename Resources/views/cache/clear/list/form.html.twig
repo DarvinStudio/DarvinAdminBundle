@@ -2,11 +2,11 @@
 
 {% trans_default_domain 'admin' %}
 
-{% block heading %}{% trans %}cache.action.clear.title{% endtrans %}{% endblock %}
+{% block heading %}{% trans %}cache.clear.list.form.title{% endtrans %}{% endblock %}
 
 {% block header_buttons %}
     <a class="page-header__btn-save" href="#" onclick="document.getElementById('{{ form.vars.id }}_submit').click(); return false;">
-        {% trans %}cache.action.clear.submit{% endtrans %}
+        {% trans %}cache.clear.list.form.submit{% endtrans %}
     </a>
 {% endblock %}
 
@@ -14,6 +14,6 @@
 
 {% block footer_buttons %}
     <a class="page-footer__btn-save" href="#" onclick="document.getElementById('{{ form.vars.id }}_submit').click(); return false;">
-        {% trans %}cache.action.clear.submit{% endtrans %}
+        {% trans %}cache.clear.list.form.submit{% endtrans %}
     </a>
 {% endblock %}

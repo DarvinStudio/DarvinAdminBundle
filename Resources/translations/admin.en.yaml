@@ -3,18 +3,22 @@ boolean:
     'no': 'No'
     'yes': 'Yes'
 cache:
-    action:
-        clear:
-            command: Command
-            confirm: Confirm cache clear
-            error:   An error occurred while clearing cache. Please, try again later.
-            link:    Caching
-            submit:  Clear selected caches
-            success: Cache was successfully cleared
-            title:   Cache cleaning
-        fast_clear:
-            title:  It cleans only light cache, for example database queries
-            submit: Clear cache
+    clear:
+        list:
+            done:
+                error: 'An error occurred while clearing cache. Please, try again later.'
+                success: 'Cache successfully cleared'
+            form:
+                link: 'Clear Cache'
+                submit: 'Clear Selected Caches'
+                title: 'Clear Cache'
+        widget:
+            done:
+                error: 'An error occurred while clearing cache. Please, try again later.'
+                success: 'Cache successfully cleared'
+            form:
+                help: 'Clear database query cache'
+                submit: 'Clear Cache'
 common:
     actions: Actions
     back: Back

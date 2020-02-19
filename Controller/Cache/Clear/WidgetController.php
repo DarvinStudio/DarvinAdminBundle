@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
 use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface;
-use Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface;
+use Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -36,7 +36,7 @@ class WidgetController
     private $cacheFormFactory;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface
+     * @var \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface
      */
     private $cacheFormRenderer;
 
@@ -51,11 +51,11 @@ class WidgetController
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                   $cacheClearer      Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface $cacheFormFactory  Cache form factory
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface     $cacheFormRenderer Cache from Render
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                              $flashNotifier     Flash notifier
-     * @param \Symfony\Component\Routing\RouterInterface                              $router            Router
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                     $cacheClearer      Cache clearer
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface   $cacheFormFactory  Cache form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface $cacheFormRenderer Cache from Render
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                                $flashNotifier     Flash notifier
+     * @param \Symfony\Component\Routing\RouterInterface                                $router            Router
      */
     public function __construct(
         CacheClearerInterface $cacheClearer,

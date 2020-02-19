@@ -8,19 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Renderer\Cache;
+namespace Darvin\AdminBundle\Form\Renderer\Cache\Clear;
 
-use Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
 /**
- * List cache clear form renderer
+ * Widget cache clear form renderer
  */
-class ListFormRenderer implements ListFormRendererInterface
+class WidgetFormRenderer implements WidgetFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
     private $formFactory;
 
@@ -30,10 +30,10 @@ class ListFormRenderer implements ListFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface $formFactory List cache clear form factory
-     * @param \Twig\Environment                                                     $twig        Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface $formFactory Widget cache clear form factory
+     * @param \Twig\Environment                                                       $twig        Twig
      */
-    public function __construct(ListFormFactoryInterface $formFactory, Environment $twig)
+    public function __construct(WidgetFormFactoryInterface $formFactory, Environment $twig)
     {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
@@ -48,7 +48,7 @@ class ListFormRenderer implements ListFormRendererInterface
             $form = $this->formFactory->createClearForm();
         }
 
-        return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/clear/widget.html.twig', [
             'form' => $form->createView(),
         ]);
     }

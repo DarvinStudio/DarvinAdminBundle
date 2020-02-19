@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface;
+use Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,12 +20,12 @@ use Twig\TwigFunction;
 class CacheExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface|null
+     * @var \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface|null
      */
     private $cacheFormRender;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface|null $cacheFormRender Cache clear form render
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface|null $cacheFormRender Cache clear form render
      */
     public function setWidgetFormRenderer(?WidgetFormRendererInterface $cacheFormRender): void
     {

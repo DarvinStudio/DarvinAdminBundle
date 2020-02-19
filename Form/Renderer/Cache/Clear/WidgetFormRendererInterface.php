@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Renderer\Cache;
+namespace Darvin\AdminBundle\Form\Renderer\Cache\Clear;
 
 use Symfony\Component\Form\FormInterface;
 
 /**
  * Cache form renderer interface
  */
-interface ListFormRendererInterface
+interface WidgetFormRendererInterface
 {
     /**
      * @param \Symfony\Component\Form\FormInterface|null $form Form

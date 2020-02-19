@@ -8,19 +8,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Renderer\Cache;
+namespace Darvin\AdminBundle\Form\Renderer\Cache\Clear;
 
-use Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
 /**
- * Widget cache clear form renderer
+ * List cache clear form renderer
  */
-class WidgetFormRenderer implements WidgetFormRendererInterface
+class ListFormRenderer implements ListFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface
      */
     private $formFactory;
 
@@ -30,10 +30,10 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface $formFactory Widget cache clear form factory
-     * @param \Twig\Environment                                                       $twig        Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface $formFactory List cache clear form factory
+     * @param \Twig\Environment                                                     $twig        Twig
      */
-    public function __construct(WidgetFormFactoryInterface $formFactory, Environment $twig)
+    public function __construct(ListFormFactoryInterface $formFactory, Environment $twig)
     {
         $this->formFactory = $formFactory;
         $this->twig = $twig;
@@ -48,7 +48,7 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
             $form = $this->formFactory->createClearForm();
         }
 
-        return $this->twig->render('@DarvinAdmin/cache/clear/widget.html.twig', [
+        return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [
             'form' => $form->createView(),
         ]);
     }

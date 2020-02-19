@@ -1,7 +1,7 @@
 parameters:
     darvin_admin.cache.controller.clear.list.class: Darvin\AdminBundle\Controller\Cache\Clear\ListController
     darvin_admin.cache.form.factory.list.class:     Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactory
-    darvin_admin.cache.form.renderer.list.class:    Darvin\AdminBundle\Form\Renderer\Cache\ListFormRenderer
+    darvin_admin.cache.form.renderer.list.class:    Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRenderer
 
     darvin_admin.menu.item_factory.cache.class: Darvin\AdminBundle\Menu\Item\Factory\CacheItemFactory
 

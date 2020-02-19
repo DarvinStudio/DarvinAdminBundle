@@ -15,13 +15,16 @@ use Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
- * Cache clear list controller
+ * List cache clear controller
  */
 class ListController
 {
@@ -31,19 +34,24 @@ class ListController
     private $cacheClearer;
 
     /**
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    private $flashNotifier;
+
+    /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
-    private $cacheFormFactory;
+    private $formFactory;
 
     /**
      * @var \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface
      */
-    private $cacheFormRenderer;
+    private $formRenderer;
 
     /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     * @var \Symfony\Component\Routing\RouterInterface
      */
-    private $flashNotifier;
+    private $router;
 
     /**
      * @var \Twig\Environment
@@ -51,23 +59,26 @@ class ListController
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                   $cacheClearer      Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRendererInterface $cacheFormRenderer Cache from Render
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                              $flashNotifier     Flash notifier
-     * @param \Twig\Environment                                                       $twig              Twig
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                   $cacheClearer  Cache clearer
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                              $flashNotifier Flash notifier
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface   $formFactory   List cache clear form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRendererInterface $formRenderer  List cache clear form renderer
+     * @param \Symfony\Component\Routing\RouterInterface                              $router        Router
+     * @param \Twig\Environment                                                       $twig          Twig
      */
     public function __construct(
         CacheClearerInterface $cacheClearer,
-        ListFormFactoryInterface $cacheFormFactory,
-        ListFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
+        ListFormFactoryInterface $formFactory,
+        ListFormRendererInterface $formRenderer,
+        RouterInterface $router,
         Environment $twig
     ) {
         $this->cacheClearer = $cacheClearer;
-        $this->cacheFormFactory = $cacheFormFactory;
-        $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
+        $this->formFactory = $formFactory;
+        $this->formRenderer = $formRenderer;
+        $this->router = $router;
         $this->twig = $twig;
     }
 
@@ -78,13 +89,17 @@ class ListController
      */
     public function __invoke(Request $request): Response
     {
-        $form = $this->cacheFormFactory->createForm()->handleRequest($request);
+        $form = $this->formFactory->createForm()->handleRequest($request);
 
         if (!$form->isSubmitted()) {
             return $this->createResponse($request, $form);
         }
         if (!$form->isValid()) {
-            return $this->createResponse($request, $form, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            $message = implode(PHP_EOL, array_map(function (FormError $error): string {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
+
+            return $this->createResponse($request, $form, false, $message);
         }
         if ($this->cacheClearer->runCommands('list', $form->get('commands')->getData()) > 0) {
             return $this->createResponse($request, $form, false, 'cache.action.clear.error');
@@ -104,10 +119,13 @@ class ListController
     private function createResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
     {
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($this->cacheFormRenderer->renderForm(), $success, $message);
+            return new AjaxResponse($this->formRenderer->renderForm($success ? null : $form), $success, $message);
         }
         if (null !== $message) {
             $this->flashNotifier->done($success, $message);
+        }
+        if ($success) {
+            return new RedirectResponse($this->router->generate('darvin_admin_cache_clear_list'));
         }
 
         return new Response($this->twig->render('@DarvinAdmin/cache/clear/list.html.twig', [

@@ -1,0 +1,10 @@
+darvin_admin:
+    cache:
+        clear:
+            sets:
+                widget:
+                    doctrine_result:
+                        id: '@doctrine.cache_clear_result_command'
+                list:
+                    doctrine_result:
+                        id: '@doctrine.cache_clear_result_command'

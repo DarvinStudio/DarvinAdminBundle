@@ -13,7 +13,7 @@ namespace Darvin\AdminBundle\Form\Renderer\Cache\Clear;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * Cache form renderer interface
+ * Widget cache clear form renderer
  */
 interface WidgetFormRendererInterface
 {

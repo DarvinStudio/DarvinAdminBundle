@@ -4,7 +4,7 @@ darvin_admin:
             sets:
                 widget:
                     commands:
-                        doctrine_result: '@doctrine.cache_clear_result_command'
+#                        doctrine_result: '@doctrine.cache_clear_result_command'
                 list:
                     commands:
-                        doctrine_result: '@doctrine.cache_clear_result_command'
+#                        doctrine_result: '@doctrine.cache_clear_result_command'

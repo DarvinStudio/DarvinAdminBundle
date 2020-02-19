@@ -1,30 +1,32 @@
 parameters:
-    darvin_admin.cache.controller.clear.widget.class: Darvin\AdminBundle\Controller\Cache\Clear\WidgetController
-    darvin_admin.cache.form.factory.widget.class:     Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactory
-    darvin_admin.cache.form.renderer.widget.class:    Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRenderer
+    darvin_admin.cache.clear.widget.controller.class: Darvin\AdminBundle\Controller\Cache\Clear\WidgetController
+
+    darvin_admin.cache.clear.widget.form.factory.class: Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactory
+
+    darvin_admin.cache.clear.widget.form.renderer.class: Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRenderer
 
 services:
-    darvin_admin.cache.controller.clear.widget:
-        class: '%darvin_admin.cache.controller.clear.widget.class%'
+    darvin_admin.cache.clear.widget.controller:
+        class: '%darvin_admin.cache.clear.widget.controller.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
-            - '@darvin_admin.cache.form.factory.widget'
-            - '@darvin_admin.cache.form.renderer.widget'
+            - '@darvin_admin.cache.clear.clearer'
+            - '@darvin_admin.cache.clear.widget.form.factory'
+            - '@darvin_admin.cache.clear.widget.form.renderer'
             - '@darvin_utils.flash.notifier'
             - '@router'
             - '@twig'
         tags:
             - { name: controller.service_arguments }
 
-    darvin_admin.cache.form.factory.widget:
-        class: '%darvin_admin.cache.form.factory.widget.class%'
+    darvin_admin.cache.clear.widget.form.factory:
+        class: '%darvin_admin.cache.clear.widget.form.factory.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
+            - '@darvin_admin.cache.clear.clearer'
             - '@form.factory'
             - '@router'
 
-    darvin_admin.cache.form.renderer.widget:
-        class: '%darvin_admin.cache.form.renderer.widget.class%'
+    darvin_admin.cache.clear.widget.form.renderer:
+        class: '%darvin_admin.cache.clear.widget.form.renderer.class%'
         arguments:
-            - '@darvin_admin.cache.form.factory.widget'
+            - '@darvin_admin.cache.clear.widget.form.factory'
             - '@twig'

@@ -1,38 +1,40 @@
 parameters:
-    darvin_admin.cache.controller.clear.list.class: Darvin\AdminBundle\Controller\Cache\Clear\ListController
-    darvin_admin.cache.form.factory.list.class:     Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactory
-    darvin_admin.cache.form.renderer.list.class:    Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRenderer
+    darvin_admin.cache.clear.list.controller.class: Darvin\AdminBundle\Controller\Cache\Clear\ListController
 
-    darvin_admin.menu.item_factory.cache.class: Darvin\AdminBundle\Menu\Item\Factory\ListCacheClearItemFactory
+    darvin_admin.cache.clear.list.form.factory.class: Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactory
+
+    darvin_admin.cache.clear.list.form.renderer.class: Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRenderer
+
+    darvin_admin.cache.clear.list.menu_item_factory.class: Darvin\AdminBundle\Menu\Item\Factory\ListCacheClearItemFactory
 
 services:
-    darvin_admin.cache.controller.clear.list:
-        class: '%darvin_admin.cache.controller.clear.list.class%'
+    darvin_admin.cache.clear.list.controller:
+        class: '%darvin_admin.cache.clear.list.controller.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
-            - '@darvin_admin.cache.form.factory.list'
-            - '@darvin_admin.cache.form.renderer.list'
+            - '@darvin_admin.cache.clear.clearer'
+            - '@darvin_admin.cache.clear.list.form.factory'
+            - '@darvin_admin.cache.clear.list.form.renderer'
             - '@darvin_utils.flash.notifier'
             - '@router'
             - '@twig'
         tags:
             - { name: controller.service_arguments }
 
-    darvin_admin.cache.form.factory.list:
-        class: '%darvin_admin.cache.form.factory.list.class%'
+    darvin_admin.cache.clear.list.form.factory:
+        class: '%darvin_admin.cache.clear.list.form.factory.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
+            - '@darvin_admin.cache.clear.clearer'
             - '@form.factory'
             - '@router'
 
-    darvin_admin.cache.form.renderer.list:
-        class: '%darvin_admin.cache.form.renderer.list.class%'
+    darvin_admin.cache.clear.list.form.renderer:
+        class: '%darvin_admin.cache.clear.list.form.renderer.class%'
         arguments:
-            - '@darvin_admin.cache.form.factory.list'
+            - '@darvin_admin.cache.clear.list.form.factory'
             - '@twig'
 
-    darvin_admin.menu.item_factory.cache:
-        class: '%darvin_admin.menu.item_factory.cache.class%'
+    darvin_admin.cache.clear.list.menu_item_factory:
+        class: '%darvin_admin.cache.clear.list.menu_item_factory.class%'
         arguments:
             - '@router'
         tags:

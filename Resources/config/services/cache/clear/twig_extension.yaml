@@ -1,10 +1,10 @@
 parameters:
-    darvin_admin.cache.twig.extension.class: Darvin\AdminBundle\Twig\Extension\Cache\ClearExtension
+    darvin_admin.cache.clear.twig_extension.class: Darvin\AdminBundle\Twig\Extension\Cache\ClearExtension
 
 services:
-    darvin_admin.cache.twig.extension:
-        class: '%darvin_admin.cache.twig.extension.class%'
+    darvin_admin.cache.clear.twig_extension:
+        class: '%darvin_admin.cache.clear.twig_extension.class%'
         arguments:
-            - '@?darvin_admin.cache.form.renderer.widget'
+            - '@?darvin_admin.cache.clear.widget.form.renderer'
         tags:
             - { name: twig.extension }

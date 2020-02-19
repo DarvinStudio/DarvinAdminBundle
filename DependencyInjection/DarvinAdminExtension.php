@@ -96,17 +96,48 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'view',
 
             'cache/clear/clearer' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled'] && !empty($config['cache']['clear']['sets']);
+                if (!$config['cache']['clear']['enabled']) {
+                    return false;
+                }
+                foreach ($config['cache']['clear']['sets'] as $setAttr) {
+                    if ($setAttr['enabled']) {
+                        foreach ($setAttr['commands'] as $commandAttr) {
+                            if ($commandAttr['enabled']) {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                return false;
             }],
             'cache/clear/list' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled']
-                    && isset($config['cache']['clear']['sets']['list'])
-                    && $config['cache']['clear']['sets']['list']['enabled'];
+                if (!$config['cache']['clear']['enabled']
+                    || !$config['cache']['clear']['sets']['list']['enabled']
+                ) {
+                    return false;
+                }
+                foreach ($config['cache']['clear']['sets']['list']['commands'] as $commandAttr) {
+                    if ($commandAttr['enabled']) {
+                        return true;
+                    }
+                }
+
+                return false;
             }],
             'cache/clear/widget' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled']
-                    && isset($config['cache']['clear']['sets']['widget'])
-                    && $config['cache']['clear']['sets']['widget']['enabled'];
+                if (!$config['cache']['clear']['enabled']
+                    || !$config['cache']['clear']['sets']['widget']['enabled']
+                ) {
+                    return false;
+                }
+                foreach ($config['cache']['clear']['sets']['widget']['commands'] as $commandAttr) {
+                    if ($commandAttr['enabled']) {
+                        return true;
+                    }
+                }
+
+                return false;
             }],
 
             'dev/metadata'              => ['env' => 'dev'],

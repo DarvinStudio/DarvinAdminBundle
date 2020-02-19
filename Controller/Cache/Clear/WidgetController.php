@@ -15,6 +15,8 @@ use Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,19 +33,19 @@ class WidgetController
     private $cacheClearer;
 
     /**
+     * @var \Darvin\Utils\Flash\FlashNotifierInterface
+     */
+    private $flashNotifier;
+
+    /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
-    private $cacheFormFactory;
+    private $formFactory;
 
     /**
      * @var \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface
      */
-    private $cacheFormRenderer;
-
-    /**
-     * @var \Darvin\Utils\Flash\FlashNotifierInterface
-     */
-    private $flashNotifier;
+    private $formRenderer;
 
     /**
      * @var \Symfony\Component\Routing\RouterInterface
@@ -51,23 +53,23 @@ class WidgetController
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                     $cacheClearer      Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface   $cacheFormFactory  Cache form factory
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface $cacheFormRenderer Cache from Render
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                                $flashNotifier     Flash notifier
-     * @param \Symfony\Component\Routing\RouterInterface                                $router            Router
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                     $cacheClearer  Cache clearer
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                                $flashNotifier Flash notifier
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface   $formFactory   Widget cache clear form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface $formRenderer  Widget cache clear form renderer
+     * @param \Symfony\Component\Routing\RouterInterface                                $router        Router
      */
     public function __construct(
         CacheClearerInterface $cacheClearer,
-        WidgetFormFactoryInterface $cacheFormFactory,
-        WidgetFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
+        WidgetFormFactoryInterface $formFactory,
+        WidgetFormRendererInterface $formRenderer,
         RouterInterface $router
     ) {
         $this->cacheClearer = $cacheClearer;
-        $this->cacheFormFactory = $cacheFormFactory;
-        $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
+        $this->formFactory = $formFactory;
+        $this->formRenderer = $formRenderer;
         $this->router = $router;
     }
 
@@ -78,29 +80,34 @@ class WidgetController
      */
     public function __invoke(Request $request): Response
     {
-        $form = $this->cacheFormFactory->createForm()->handleRequest($request);
+        $form = $this->formFactory->createForm()->handleRequest($request);
 
         if (!$form->isValid()) {
-            return $this->createResponse($request, false, FlashNotifierInterface::MESSAGE_FORM_ERROR);
+            $message = implode(PHP_EOL, array_map(function (FormError $error): string {
+                return $error->getMessage();
+            }, iterator_to_array($form->getErrors(true))));
+
+            return $this->createResponse($request, $form, false, $message);
         }
         if ($this->cacheClearer->runCommands('widget') > 0) {
-            return $this->createResponse($request, false, 'cache.action.clear.error');
+            return $this->createResponse($request, $form, false, 'cache.action.clear.error');
         }
 
-        return $this->createResponse($request, true, 'cache.action.clear.success');
+        return $this->createResponse($request, $form, true, 'cache.action.clear.success');
     }
 
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request Request
+     * @param \Symfony\Component\Form\FormInterface     $form    Form
      * @param bool                                      $success Success
      * @param string                                    $message Message
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    private function createResponse(Request $request, bool $success, string $message): Response
+    private function createResponse(Request $request, FormInterface $form, bool $success, string $message): Response
     {
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($this->cacheFormRenderer->renderForm(), $success, $message);
+            return new AjaxResponse($this->formRenderer->renderForm($success ? null : $form), $success, $message);
         }
 
         $this->flashNotifier->done($success, $message);

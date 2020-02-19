@@ -10,11 +10,10 @@ services:
         class: '%darvin_admin.cache.clear.widget.controller.class%'
         arguments:
             - '@darvin_admin.cache.clear.clearer'
+            - '@darvin_utils.flash.notifier'
             - '@darvin_admin.cache.clear.widget.form.factory'
             - '@darvin_admin.cache.clear.widget.form.renderer'
-            - '@darvin_utils.flash.notifier'
             - '@router'
-            - '@twig'
         tags:
             - { name: controller.service_arguments }
 

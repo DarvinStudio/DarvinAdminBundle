@@ -519,9 +519,9 @@ darvin_admin:
         clear:
             sets:
                 widget:
-                    doctrine_result:
-                        alias: '@doctrine.cache_clear_result_command'
+                    commands:
+                        doctrine_result: '@doctrine.cache_clear_result_command'
                 list:
-                    doctrine_result:
-                        alias: '@doctrine.cache_clear_result_command'
+                    commands:
+                        doctrine_result: '@doctrine.cache_clear_result_command'
 ```

@@ -511,7 +511,7 @@ darvin_admin:
 
 6.4.27: Upgrade "willdurand/js-translation-bundle".
 
-6.4.*: Added ability to control cache, example:
+6.4.28: Added ability to control cache, example:
 
 ```yaml
 darvin_admin:

@@ -10,7 +10,11 @@
     </a>
 {% endblock %}
 
-{% block content %}{% include '@DarvinAdmin/cache/clear/list/_form.html.twig' %}{% endblock %}
+{% block content %}
+    <div class="content-block">
+        {% include '@DarvinAdmin/cache/clear/list/_form.html.twig' %}
+    </div>
+{% endblock %}
 
 {% block footer_buttons %}
     <a class="page-footer__btn-save" href="#" onclick="document.getElementById('{{ form.vars.id }}_submit').click(); return false;">

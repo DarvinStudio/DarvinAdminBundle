@@ -17,7 +17,7 @@ use Symfony\Component\Routing\RouterInterface;
 /**
  * List cache clear menu item factory
  */
-class CacheItemFactory implements ItemFactoryInterface
+class ListCacheClearItemFactory implements ItemFactoryInterface
 {
     /**
      * @var \Symfony\Component\Routing\RouterInterface

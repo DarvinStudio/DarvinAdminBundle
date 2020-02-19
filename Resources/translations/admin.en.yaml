@@ -105,6 +105,11 @@ list_cache:
             link: 'Clear Cache'
             submit: 'Clear Selected Caches'
             success: 'Cache successfully cleared'
+            table:
+                check: Select
+                heading:
+                    description: Description
+                    title: Title
             title: 'Clear Cache'
 locale:
     ar: Arabic

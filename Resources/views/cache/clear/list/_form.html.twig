@@ -1,50 +1,63 @@
+{% form_theme form _self %}
+
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form) }}
-
-    <div class="content-block__content">
-
-        {% if form is empty %}
-            <p class="h2">{% trans %}common.empty_list{% endtrans %}</p>
-        {% else %}
+{% block _darvin_admin_cache_clear_list_commands_row %}
+    {% if form.parent %}
+        <div class="content-block__content">
             <div class="table" data-simplebar data-simplebar-auto-hide="false">
                 <table>
                     <thead>
-                    <tr>
-                        <th></th>
-                        <th data-size="xl">Название</th>
-                        <th data-exact-size="620">Описание</th>
-                    </tr>
+                        <tr>
+                            <th></th>
+                            <th data-size="xl">{% trans %}list_cache.action.clear.table.heading.title{% endtrans %}</th>
+                            <th data-exact-size="620">{% trans %}list_cache.action.clear.table.heading.description{% endtrans %}</th>
+                        </tr>
                     </thead>
                     <tbody>
-                    {% for name, row in form if name != '_token' %}
-                        {% for child in row %}
+                        {% for child in form %}
+
+                            {% set description_id = 'cache_clear_command.' ~ child.vars.value ~ '.description' %}
+
+                            {% set description = description_id|trans %}
+
+                            {% if description == description_id %}
+
+                                {% set description = null %}
+
+                            {% endif %}
+
                             <tr>
                                 <td>
                                     <div class="table-row__actions">
-                                        <label class="custom-checkbox" title="{% trans %}crud.action.batch_delete.check{% endtrans %}">
+                                        <label class="custom-checkbox" title="{% trans %}list_cache.action.clear.table.check{% endtrans %}">
                                             {{ form_widget(child) }}
                                             <span></span>
                                         </label>
                                     </div>
                                 </td>
-                                <td data-size="xl"><label for="{{ child.vars.id }}">{{ ('cache.'~child.vars.value~'.title')|trans }}</label></td>
-                                <td data-exact-size="620">
+                                <td data-size="xl">
                                     <label for="{{ child.vars.id }}">
-                                        <div class="multiple-rows" data-rows="3">
-                                            {{ ('cache.'~child.vars.value~'.description')|trans }}
-                                        </div>
+                                        {{ ('cache_clear_command.' ~ child.vars.value ~ '.title')|trans }}
                                     </label>
+                                </td>
+                                <td data-exact-size="620">
+                                    {% if description is not same as(null) %}
+                                        <div class="multiple-rows" data-rows="3">
+                                            <label for="{{ child.vars.id }}">{{ description|raw }}</label>
+                                        </div>
+                                    {% endif %}
                                 </td>
                             </tr>
                         {% endfor %}
-                    {% endfor %}
-
                     </tbody>
                 </table>
             </div>
-        {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
 
-    </div>
-    <button id="{{ form.vars.id }}_submit" type="submit" style="display: none;"></button>
+{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+{{ form_widget(form) }}
+<button id="{{ form.vars.id }}_submit" type="submit" style="display: none;"></button>
 {{ form_end(form) }}

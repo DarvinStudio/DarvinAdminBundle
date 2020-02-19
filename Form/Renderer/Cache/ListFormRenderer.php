@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
@@ -20,7 +20,7 @@ use Twig\Environment;
 class ListFormRenderer implements ListFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface
      */
     private $formFactory;
 
@@ -30,8 +30,8 @@ class ListFormRenderer implements ListFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface $formFactory List cache clear form factory
-     * @param \Twig\Environment                                               $twig        Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface $formFactory List cache clear form factory
+     * @param \Twig\Environment                                                     $twig        Twig
      */
     public function __construct(ListFormFactoryInterface $formFactory, Environment $twig)
     {

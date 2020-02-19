@@ -1,6 +1,6 @@
 parameters:
     darvin_admin.cache.controller.clear.widget.class: Darvin\AdminBundle\Controller\Cache\Clear\WidgetController
-    darvin_admin.cache.form.factory.widget.class:     Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactory
+    darvin_admin.cache.form.factory.widget.class:     Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactory
     darvin_admin.cache.form.renderer.widget.class:    Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRenderer
 
 services:

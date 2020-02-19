@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
@@ -20,7 +20,7 @@ use Twig\Environment;
 class WidgetFormRenderer implements WidgetFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
     private $formFactory;
 
@@ -30,8 +30,8 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface $formFactory Widget cache clear form factory
-     * @param \Twig\Environment                                                 $twig        Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface $formFactory Widget cache clear form factory
+     * @param \Twig\Environment                                                       $twig        Twig
      */
     public function __construct(WidgetFormFactoryInterface $formFactory, Environment $twig)
     {

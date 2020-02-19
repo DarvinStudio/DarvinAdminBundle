@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
 use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
-use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
+use Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
@@ -32,7 +32,7 @@ class ListController
     private $cacheClearer;
 
     /**
-     * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
+     * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
     private $cacheFormFactory;
 
@@ -57,12 +57,12 @@ class ListController
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface             $cacheClearer      Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface $cacheFormRenderer Cache from Render
-     * @param \Darvin\Utils\Flash\FlashNotifierInterface                        $flashNotifier     Flash notifier
-     * @param \Symfony\Component\Routing\RouterInterface                        $router            Router
-     * @param \Twig\Environment                                                 $twig              Twig
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface                 $cacheClearer      Cache clearer
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface $cacheFormFactory  Cache form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface     $cacheFormRenderer Cache from Render
+     * @param \Darvin\Utils\Flash\FlashNotifierInterface                            $flashNotifier     Flash notifier
+     * @param \Symfony\Component\Routing\RouterInterface                            $router            Router
+     * @param \Twig\Environment                                                     $twig              Twig
      */
     public function __construct(
         CacheClearerInterface $cacheClearer,

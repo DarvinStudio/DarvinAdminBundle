@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Factory\Cache;
+namespace Darvin\AdminBundle\Form\Factory\Cache\Clear;
 
 use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

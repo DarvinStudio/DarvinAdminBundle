@@ -31,8 +31,8 @@ interface CacheClearerInterface
     public function hasCommands(string $set): bool;
 
     /**
-     * @param string            $set     Command set
-     * @param array|string|null $aliases Command aliases
+     * @param string               $set     Command set
+     * @param string[]|string|null $aliases Command aliases
      *
      * @return int
      * @throws \InvalidArgumentException

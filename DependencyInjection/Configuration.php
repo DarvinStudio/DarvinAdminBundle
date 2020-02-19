@@ -74,27 +74,22 @@ class Configuration implements ConfigurationInterface
     private function createCacheNode(): ArrayNodeDefinition
     {
         $root = (new TreeBuilder('cache'))->getRootNode();
-        $root->canBeDisabled()
+        $root
             ->children()
                 ->arrayNode('clear')->canBeDisabled()
                     ->children()
-                        ->append($this->createCacheClearSetsTypeNode());
-
-        return $root;
-    }
-
-    /**
-     * @return \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition
-     */
-    private function createCacheClearSetsTypeNode(): ArrayNodeDefinition
-    {
-        $root = (new TreeBuilder('sets'))->getRootNode();
-        $root->useAttributeAsKey('set')
-            ->prototype('array')->useAttributeAsKey('alias')
-                ->prototype('array')->canBeDisabled()
-                    ->children()
-                        ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
-                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar');
+                        ->arrayNode('sets')->useAttributeAsKey('name')
+                            ->prototype('array')->useAttributeAsKey('alias')
+                                ->prototype('array')->canBeDisabled()
+                                    ->children()
+                                        ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
+                                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
+                                    ->end()
+                                    ->beforeNormalization()->ifString()->then(function (string $id): array {
+                                        return [
+                                            'id' => $id,
+                                        ];
+                                    });
 
         return $root;
     }

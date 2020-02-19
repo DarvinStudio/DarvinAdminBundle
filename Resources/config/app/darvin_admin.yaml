@@ -3,8 +3,6 @@ darvin_admin:
         clear:
             sets:
                 widget:
-                    doctrine_result:
-                        id: '@doctrine.cache_clear_result_command'
+                    doctrine_result: '@doctrine.cache_clear_result_command'
                 list:
-                    doctrine_result:
-                        id: '@doctrine.cache_clear_result_command'
+                    doctrine_result: '@doctrine.cache_clear_result_command'

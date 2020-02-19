@@ -89,9 +89,7 @@ class Configuration implements ConfigurationInterface
                                                         return ltrim($id, '@');
                                                     })->end()
                                                 ->end()
-                                                ->arrayNode('input')->useAttributeAsKey('name')->normalizeKeys(false)
-                                                    ->prototype('scalar')->end()
-                                                ->end()
+                                                ->arrayNode('input')->useAttributeAsKey('key')->normalizeKeys(false)->prototype('scalar')->end()->end()
                                             ->end()
                                             ->beforeNormalization()->ifString()->then(function (string $id): array {
                                                 return [

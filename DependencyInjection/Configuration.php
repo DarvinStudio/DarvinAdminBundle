@@ -79,17 +79,25 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('clear')->canBeDisabled()
                     ->children()
                         ->arrayNode('sets')->useAttributeAsKey('name')
-                            ->prototype('array')->useAttributeAsKey('alias')
-                                ->prototype('array')->canBeDisabled()
-                                    ->children()
-                                        ->scalarNode('id')->isRequired()->cannotBeEmpty()->end()
-                                        ->arrayNode('input')->normalizeKeys(false)->prototype('scalar')->end()->end()
-                                    ->end()
-                                    ->beforeNormalization()->ifString()->then(function (string $id): array {
-                                        return [
-                                            'id' => $id,
-                                        ];
-                                    });
+                            ->prototype('array')->canBeDisabled()
+                                ->children()
+                                    ->arrayNode('commands')->useAttributeAsKey('alias')
+                                        ->prototype('array')->canBeDisabled()
+                                            ->children()
+                                                ->scalarNode('id')->isRequired()->cannotBeEmpty()
+                                                    ->beforeNormalization()->ifString()->then(function (string $id): string {
+                                                        return ltrim($id, '@');
+                                                    })->end()
+                                                ->end()
+                                                ->arrayNode('input')->useAttributeAsKey('name')->normalizeKeys(false)
+                                                    ->prototype('scalar')->end()
+                                                ->end()
+                                            ->end()
+                                            ->beforeNormalization()->ifString()->then(function (string $id): array {
+                                                return [
+                                                    'id' => $id,
+                                                ];
+                                            });
 
         return $root;
     }

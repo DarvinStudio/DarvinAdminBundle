@@ -3,6 +3,8 @@ parameters:
     darvin_admin.cache.form.factory.list.class:     Darvin\AdminBundle\Form\Factory\Cache\ListFormFactory
     darvin_admin.cache.form.renderer.list.class:    Darvin\AdminBundle\Form\Renderer\Cache\ListFormRenderer
 
+    darvin_admin.menu.item_factory.cache.class: Darvin\AdminBundle\Menu\Item\Factory\CacheItemFactory
+
 services:
     darvin_admin.cache.controller.clear.list:
         class: '%darvin_admin.cache.controller.clear.list.class%'
@@ -26,7 +28,12 @@ services:
     darvin_admin.cache.form.renderer.list:
         class: '%darvin_admin.cache.form.renderer.list.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
             - '@darvin_admin.cache.form.factory.list'
-            - '@router'
             - '@twig'
+
+    darvin_admin.menu.item_factory.cache:
+        class: '%darvin_admin.menu.item_factory.cache.class%'
+        arguments:
+            - '@router'
+        tags:
+            - { name: darvin_admin.menu_item_factory }

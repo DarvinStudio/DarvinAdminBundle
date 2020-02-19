@@ -10,30 +10,19 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
 /**
- * Clear form renderer
+ * List cache clear form renderer
  */
 class ListFormRenderer implements ListFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
-     */
-    private $cacheClearer;
-
-    /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface
      */
     private $formFactory;
-
-    /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $router;
 
     /**
      * @var \Twig\Environment
@@ -41,33 +30,23 @@ class ListFormRenderer implements ListFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface           $cacheClearer Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface $formFactory  Clear Form factory
-     * @param \Symfony\Component\Routing\RouterInterface                      $router       Router
-     * @param \Twig\Environment                                               $twig         Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface $formFactory List cache clear form factory
+     * @param \Twig\Environment                                               $twig        Twig
      */
-    public function __construct(
-        CacheClearerInterface $cacheClearer,
-        ListFormFactoryInterface $formFactory,
-        RouterInterface $router,
-        Environment $twig
-    ) {
-        $this->cacheClearer = $cacheClearer;
-        $this->formFactory  = $formFactory;
-        $this->router       = $router;
-        $this->twig         = $twig;
+    public function __construct(ListFormFactoryInterface $formFactory, Environment $twig)
+    {
+        $this->formFactory = $formFactory;
+        $this->twig = $twig;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function renderClearForm(): ?string
+    public function renderClearForm(?FormInterface $form = null): string
     {
-        if (!$this->cacheClearer->hasCommands('list')) {
-            return null;
+        if (null === $form) {
+            $form = $this->formFactory->createClearForm();
         }
-
-        $form = $this->formFactory->createClearForm();
 
         return $this->twig->render('@DarvinAdmin/cache/clear/_list.html.twig', [
             'form' => $form->createView(),

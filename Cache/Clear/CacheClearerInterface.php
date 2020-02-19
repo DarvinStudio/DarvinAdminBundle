@@ -24,13 +24,6 @@ interface CacheClearerInterface
     public function getCommandAliases(string $set): array;
 
     /**
-     * @param string $set Command set
-     *
-     * @return bool
-     */
-    public function hasCommands(string $set): bool;
-
-    /**
      * @param string               $set     Command set
      * @param string[]|string|null $aliases Command aliases
      *

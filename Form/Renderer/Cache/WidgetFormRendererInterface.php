@@ -10,13 +10,17 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
+use Symfony\Component\Form\FormInterface;
+
 /**
  * Cache form renderer interface
  */
 interface WidgetFormRendererInterface
 {
     /**
-     * @return string|null
+     * @param \Symfony\Component\Form\FormInterface|null $form Form
+     *
+     * @return string
      */
-    public function renderClearForm(): ?string;
+    public function renderClearForm(?FormInterface $form = null): string;
 }

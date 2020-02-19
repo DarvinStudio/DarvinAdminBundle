@@ -26,7 +26,5 @@ services:
     darvin_admin.cache.form.renderer.widget:
         class: '%darvin_admin.cache.form.renderer.widget.class%'
         arguments:
-            - '@darvin_admin.cache.clearer'
             - '@darvin_admin.cache.form.factory.widget'
-            - '@router'
             - '@twig'

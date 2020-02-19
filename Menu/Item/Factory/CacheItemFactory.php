@@ -10,50 +10,26 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
-use Darvin\AdminBundle\Security\Permissions\Permission;
-use Darvin\ConfigBundle\Entity\ParameterEntity;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
- * Cache menu item factory
+ * List cache clear menu item factory
  */
 class CacheItemFactory implements ItemFactoryInterface
 {
-    /**
-     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
-     */
-    private $authorizationChecker;
-
     /**
      * @var \Symfony\Component\Routing\RouterInterface
      */
     private $router;
 
     /**
-     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null
+     * @param \Symfony\Component\Routing\RouterInterface $router Router
      */
-    private $cacheClearer;
-
-    /**
-     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
-     */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker, RouterInterface $router)
+    public function __construct(RouterInterface $router)
     {
-        $this->authorizationChecker = $authorizationChecker;
         $this->router = $router;
-    }
-
-    /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface $cacheClearer
-     */
-    public function setCacheClearer(?CacheClearerInterface $cacheClearer): void
-    {
-        $this->cacheClearer = $cacheClearer;
     }
 
     /**
@@ -61,12 +37,9 @@ class CacheItemFactory implements ItemFactoryInterface
      */
     public function getItems(): iterable
     {
-        if ($this->authorizationChecker->isGranted(Permission::EDIT, ParameterEntity::class)
-            && null !== $this->cacheClearer && $this->cacheClearer->hasCommands('list')) {
-            yield (new Item('cache'))
-                ->setIndexTitle('cache.action.clear.link')
-                ->setIndexUrl($this->router->generate('darvin_admin_cache_clear'))
-                ->setPosition(1100);
-        }
+        yield (new Item('cache'))
+            ->setIndexTitle('cache.action.clear.link')
+            ->setIndexUrl($this->router->generate('darvin_admin_cache_clear'))
+            ->setPosition(1100);
     }
 }

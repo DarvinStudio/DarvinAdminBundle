@@ -10,30 +10,19 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
 /**
- * Clear form renderer
+ * Widget cache clear form renderer
  */
 class WidgetFormRenderer implements WidgetFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
-     */
-    private $cacheClearer;
-
-    /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface
      */
     private $formFactory;
-
-    /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $router;
 
     /**
      * @var \Twig\Environment
@@ -41,33 +30,23 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface             $cacheClearer Cache clearer
-     * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface $formFactory  Clear Form factory
-     * @param \Symfony\Component\Routing\RouterInterface                        $router       Router
-     * @param \Twig\Environment                                                 $twig         Twig
+     * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface $formFactory Widget cache clear form factory
+     * @param \Twig\Environment                                                 $twig        Twig
      */
-    public function __construct(
-        CacheClearerInterface $cacheClearer,
-        WidgetFormFactoryInterface $formFactory,
-        RouterInterface $router,
-        Environment $twig
-    ) {
-        $this->cacheClearer = $cacheClearer;
-        $this->formFactory  = $formFactory;
-        $this->router       = $router;
-        $this->twig         = $twig;
+    public function __construct(WidgetFormFactoryInterface $formFactory, Environment $twig)
+    {
+        $this->formFactory = $formFactory;
+        $this->twig = $twig;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function renderClearForm(): ?string
+    public function renderClearForm(?FormInterface $form = null): string
     {
-        if (!$this->cacheClearer->hasCommands('widget')) {
-            return null;
+        if (null === $form) {
+            $form = $this->formFactory->createClearForm();
         }
-
-        $form = $this->formFactory->createClearForm();
 
         return $this->twig->render('@DarvinAdmin/cache/clear/widget.html.twig', [
             'form' => $form->createView(),

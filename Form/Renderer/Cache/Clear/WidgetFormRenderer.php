@@ -42,7 +42,7 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     /**
      * {@inheritDoc}
      */
-    public function renderClearForm(?FormInterface $form = null): string
+    public function renderForm(?FormInterface $form = null): string
     {
         if (null === $form) {
             $form = $this->formFactory->createClearForm();

@@ -100,7 +100,7 @@ class WidgetController
     private function createResponse(Request $request, bool $success, string $message): Response
     {
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);
+            return new AjaxResponse($this->cacheFormRenderer->renderForm(), $success, $message);
         }
 
         $this->flashNotifier->done($success, $message);

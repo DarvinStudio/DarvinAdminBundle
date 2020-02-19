@@ -113,7 +113,7 @@ class ListController
     private function createResponse(Request $request, FormInterface $form, bool $success = true, ?string $message = null): Response
     {
         if ($request->isXmlHttpRequest()) {
-            return new AjaxResponse($this->cacheFormRenderer->renderClearForm(), $success, $message);
+            return new AjaxResponse($this->cacheFormRenderer->renderForm(), $success, $message);
         }
         if (null !== $message) {
             $this->flashNotifier->done($success, $message);

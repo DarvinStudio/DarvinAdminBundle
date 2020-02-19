@@ -8,38 +8,38 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Twig\Extension;
+namespace Darvin\AdminBundle\Twig\Extension\Cache;
 
 use Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Cache Twig extension
+ * Cache clear Twig extension
  */
-class CacheExtension extends AbstractExtension
+class ClearExtension extends AbstractExtension
 {
     /**
      * @var \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface|null
      */
-    private $cacheFormRender;
+    private $formRenderer;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface|null $cacheFormRender Cache clear form render
+     * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\WidgetFormRendererInterface|null $formRenderer Widget cache clear form renderer
      */
-    public function setWidgetFormRenderer(?WidgetFormRendererInterface $cacheFormRender): void
+    public function __construct(?WidgetFormRendererInterface $formRenderer)
     {
-        $this->cacheFormRender = $cacheFormRender;
+        $this->formRenderer = $formRenderer;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('admin_cache_clear_widget', [$this, 'renderCacheClearWidget'], [
-                'is_safe'           => ['html'],
+            new TwigFunction('admin_cache_clear_form', [$this, 'renderForm'], [
+                'is_safe' => ['html'],
             ]),
         ];
     }
@@ -47,12 +47,12 @@ class CacheExtension extends AbstractExtension
     /**
      * @return string|null
      */
-    public function renderCacheClearWidget(): ?string
+    public function renderForm(): ?string
     {
-        if (null === $this->cacheFormRender) {
+        if (null === $this->formRenderer) {
             return null;
         }
 
-        return $this->cacheFormRender->renderClearForm();
+        return $this->formRenderer->renderForm();
     }
 }

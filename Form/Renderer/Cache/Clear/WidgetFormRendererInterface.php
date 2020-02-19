@@ -22,5 +22,5 @@ interface WidgetFormRendererInterface
      *
      * @return string
      */
-    public function renderClearForm(?FormInterface $form = null): string;
+    public function renderForm(?FormInterface $form = null): string;
 }

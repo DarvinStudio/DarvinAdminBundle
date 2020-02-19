@@ -3,7 +3,7 @@ darvin_admin_import_autocomplete:
     prefix:   /autocomplete
 
 darvin_admin_import_cache:
-    resource: '@DarvinAdminBundle/Resources/config/routing/cache.yaml'
+    resource: '@DarvinAdminBundle/Resources/config/routing/cache/routing.yaml'
     prefix:   /cache
 
 darvin_admin_import_ckeditor:

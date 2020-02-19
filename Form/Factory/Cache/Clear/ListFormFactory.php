@@ -55,10 +55,9 @@ class ListFormFactory implements ListFormFactoryInterface
      */
     public function createForm(array $options = []): FormInterface
     {
-        $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear', FormType::class, null, array_merge([
-            'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_clear'),
-            'action'        => $this->router->generate('darvin_admin_cache_clear'),
-            'attr'          => [
+        $builder = $this->genericFormFactory->createNamedBuilder('darvin_admin_cache_clear_list', FormType::class, null, array_merge([
+            'action' => $this->router->generate('darvin_admin_cache_clear_list'),
+            'attr'   => [
                 'autocomplete' => 'off',
             ],
         ], $options));

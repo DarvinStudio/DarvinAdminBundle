@@ -1,0 +1,3 @@
+darvin_admin_cache_import_clear:
+    resource: '@DarvinAdminBundle/Resources/config/routing/cache/clear.yaml'
+    prefix:   /clear

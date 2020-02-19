@@ -45,9 +45,8 @@ class WidgetFormFactory implements WidgetFormFactoryInterface
      */
     public function createForm(array $options = []): FormInterface
     {
-        return $this->genericFormFactory->createNamed('darvin_admin_cache_widget_clear', FormType::class, null, array_merge([
-            'action'        => $this->router->generate('darvin_admin_cache_widget_clear'),
-            'csrf_token_id' => md5(__FILE__.__METHOD__.'darvin_admin_cache_widget_clear'),
+        return $this->genericFormFactory->createNamed('darvin_admin_cache_clear_widget', FormType::class, null, array_merge([
+            'action' => $this->router->generate('darvin_admin_cache_clear_widget'),
         ], $options));
     }
 }

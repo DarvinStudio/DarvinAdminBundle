@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Factory\Cache;
 
-use Darvin\AdminBundle\Cache\CacheClearerInterface;
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints\Count;
 class ListFormFactory implements ListFormFactoryInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
      */
     private $cacheClearer;
 
@@ -39,9 +39,9 @@ class ListFormFactory implements ListFormFactoryInterface
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface $cacheClearer       Cache clearer
-     * @param \Symfony\Component\Form\FormFactoryInterface    $genericFormFactory Generic form factory
-     * @param \Symfony\Component\Routing\RouterInterface      $router             Router
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface $cacheClearer       Cache clearer
+     * @param \Symfony\Component\Form\FormFactoryInterface          $genericFormFactory Generic form factory
+     * @param \Symfony\Component\Routing\RouterInterface            $router             Router
      */
     public function __construct(CacheClearerInterface $cacheClearer, FormFactoryInterface $genericFormFactory, RouterInterface $router)
     {

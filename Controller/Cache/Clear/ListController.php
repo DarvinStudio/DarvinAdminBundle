@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
-use Darvin\AdminBundle\Cache\CacheClearerInterface;
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -27,7 +27,7 @@ use Twig\Environment;
 class ListController
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
      */
     private $cacheClearer;
 
@@ -57,7 +57,7 @@ class ListController
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                   $cacheClearer      Cache clearer
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface             $cacheClearer      Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\ListFormRendererInterface $cacheFormRenderer Cache from Render
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                        $flashNotifier     Flash notifier

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Renderer\Cache;
 
-use Darvin\AdminBundle\Cache\CacheClearerInterface;
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
@@ -21,7 +21,7 @@ use Twig\Environment;
 class WidgetFormRenderer implements WidgetFormRendererInterface
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
      */
     private $cacheClearer;
 
@@ -41,7 +41,7 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     private $twig;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                   $cacheClearer Cache clearer
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface             $cacheClearer Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface $formFactory  Clear Form factory
      * @param \Symfony\Component\Routing\RouterInterface                        $router       Router
      * @param \Twig\Environment                                                 $twig         Twig

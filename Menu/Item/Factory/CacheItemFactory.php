@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Menu\Item\Factory;
 
-use Darvin\AdminBundle\Cache\CacheClearerInterface;
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Menu\Item;
 use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
@@ -34,7 +34,7 @@ class CacheItemFactory implements ItemFactoryInterface
     private $router;
 
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface|null
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null
      */
     private $cacheClearer;
 
@@ -49,7 +49,7 @@ class CacheItemFactory implements ItemFactoryInterface
     }
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface $cacheClearer
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface $cacheClearer
      */
     public function setCacheClearer(?CacheClearerInterface $cacheClearer): void
     {

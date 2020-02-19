@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Cache;
+namespace Darvin\AdminBundle\Cache\Clear;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Application;

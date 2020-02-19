@@ -1,5 +1,5 @@
 parameters:
-    darvin_admin.cache.clearer.class: Darvin\AdminBundle\Cache\CacheClearer
+    darvin_admin.cache.clearer.class: Darvin\AdminBundle\Cache\Clear\CacheClearer
 
 services:
     darvin_admin.cache.clearer:

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Cache\Clear;
 
-use Darvin\AdminBundle\Cache\CacheClearerInterface;
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface;
 use Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -26,7 +26,7 @@ use Symfony\Component\Routing\RouterInterface;
 class WidgetController
 {
     /**
-     * @var \Darvin\AdminBundle\Cache\CacheClearerInterface
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface
      */
     private $cacheClearer;
 
@@ -51,7 +51,7 @@ class WidgetController
     private $router;
 
     /**
-     * @param \Darvin\AdminBundle\Cache\CacheClearerInterface                     $cacheClearer      Cache clearer
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface               $cacheClearer      Cache clearer
      * @param \Darvin\AdminBundle\Form\Factory\Cache\WidgetFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\WidgetFormRendererInterface $cacheFormRenderer Cache from Render
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                          $flashNotifier     Flash notifier

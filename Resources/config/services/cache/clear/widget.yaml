@@ -21,7 +21,6 @@ services:
     darvin_admin.cache.clear.widget.form.factory:
         class: '%darvin_admin.cache.clear.widget.form.factory.class%'
         arguments:
-            - '@darvin_admin.cache.clear.clearer'
             - '@form.factory'
             - '@router'
 

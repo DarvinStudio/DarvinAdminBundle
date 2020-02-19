@@ -18,7 +18,6 @@ use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
 use Twig\Environment;
 
 /**
@@ -47,11 +46,6 @@ class ListController
     private $flashNotifier;
 
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    private $router;
-
-    /**
      * @var \Twig\Environment
      */
     private $twig;
@@ -61,7 +55,6 @@ class ListController
      * @param \Darvin\AdminBundle\Form\Factory\Cache\Clear\ListFormFactoryInterface   $cacheFormFactory  Cache form factory
      * @param \Darvin\AdminBundle\Form\Renderer\Cache\Clear\ListFormRendererInterface $cacheFormRenderer Cache from Render
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                              $flashNotifier     Flash notifier
-     * @param \Symfony\Component\Routing\RouterInterface                              $router            Router
      * @param \Twig\Environment                                                       $twig              Twig
      */
     public function __construct(
@@ -69,14 +62,12 @@ class ListController
         ListFormFactoryInterface $cacheFormFactory,
         ListFormRendererInterface $cacheFormRenderer,
         FlashNotifierInterface $flashNotifier,
-        RouterInterface $router,
         Environment $twig
     ) {
         $this->cacheClearer = $cacheClearer;
         $this->cacheFormFactory = $cacheFormFactory;
         $this->cacheFormRenderer = $cacheFormRenderer;
         $this->flashNotifier = $flashNotifier;
-        $this->router = $router;
         $this->twig = $twig;
     }
 

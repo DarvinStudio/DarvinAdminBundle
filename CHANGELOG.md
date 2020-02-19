@@ -505,6 +505,12 @@ darvin_admin:
 
 6.4.24: Require "psr/simple-cache".
 
+6.4.25: Support custom routers in public link view widget. 
+
+6.4.26: Customize VichUploaderBundle's form theme.
+
+6.4.27: Upgrade "willdurand/js-translation-bundle".
+
 6.4.*: Added ability to control cache, example:
 
 ```yaml

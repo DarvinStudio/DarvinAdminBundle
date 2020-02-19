@@ -73,7 +73,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         (new ConfigLoader($container, __DIR__.'/../Resources/config/services'))->load([
             'ace_editor',
             'breadcrumbs',
-            'cache_twig',
+            'cache/clear/twig_extension',
             'ckeditor',
             'configuration',
             'cookie',
@@ -95,29 +95,31 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'uploader',
             'view',
 
+            'cache/clear/clearer' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled'] && !empty($config['cache']['clear']['sets']);
+            }],
+            'cache/clear/list' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled']
+                    && isset($config['cache']['clear']['sets']['list'])
+                    && $config['cache']['clear']['sets']['list']['enabled'];
+            }],
+            'cache/clear/widget' => ['callback' => function () use ($config): bool {
+                return $config['cache']['clear']['enabled']
+                    && isset($config['cache']['clear']['sets']['widget'])
+                    && $config['cache']['clear']['sets']['widget']['enabled'];
+            }],
+
             'dev/metadata'              => ['env' => 'dev'],
             'dev/translation_generator' => ['env' => 'dev'],
             'dev/view'                  => ['env' => 'dev'],
 
-            'prod/cache'                => ['env' => 'prod'],
-
-            'translation'               => ['bundle' => 'LexikTranslationBundle'],
-
-            'error'                     => ['callback' => function () use ($showErrorPages) {
+            'error' => ['callback' => function () use ($showErrorPages): bool {
                 return $showErrorPages;
-            }, ],
+            }],
 
-            'cache_clearer' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled'] && !empty($config['cache']['clear']['sets']);
-            }, ],
+            'prod/cache' => ['env' => 'prod'],
 
-            'cache_list' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled'] && isset($config['cache']['clear']['sets']['list']);
-            }, ],
-
-            'cache_widget' => ['callback' => function () use ($config): bool {
-                return $config['cache']['clear']['enabled'] && isset($config['cache']['clear']['sets']['widget']);
-            }, ],
+            'translation' => ['bundle' => 'LexikTranslationBundle'],
         ]);
 
         (new ConfigInjector($container))->inject($this->processConfiguration(new Configuration(), $configs), $this->getAlias());

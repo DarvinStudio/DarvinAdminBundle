@@ -531,3 +531,5 @@ darvin_admin:
 - Added switcher for Dark Theme. 
 
 - Removed time limit for cache cleaner.
+
+6.4.30: Added separate js-script for dark theme

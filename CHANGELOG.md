@@ -525,3 +525,9 @@ darvin_admin:
                     commands:
                         doctrine_result: '@doctrine.cache_clear_result_command'
 ```
+
+6.4.29: 
+
+- Added switcher for Dark Theme. 
+
+- Removed time limit for cache cleaner.

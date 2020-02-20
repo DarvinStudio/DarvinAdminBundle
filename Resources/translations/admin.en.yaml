@@ -91,6 +91,7 @@ image:
             success: 'Checked Images Successfully Removed'
 layout:
     copyright: '© %year%  Darvin CMS Build %version%'
+    dark_theme: Dark theme
     footer:
         menu:
             contacts: Contacts

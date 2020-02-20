@@ -104,6 +104,7 @@ image:
 
 layout:
     copyright: © %year%  Darvin CMS build %version%
+    dark_theme: Тёмная тема
     footer:
         menu:
             contacts:      Контакты

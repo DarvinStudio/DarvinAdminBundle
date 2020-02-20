@@ -91,6 +91,7 @@ image:
             success: 'فحص الصور بنجاح إزالة'
 layout:
     copyright: '© %year% دارفين CMS بناء %version%'
+    dark_theme: 'سمة مظلمة'
     footer:
         menu:
             contacts: الاتصالات

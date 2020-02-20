@@ -91,6 +91,7 @@ image:
             success: 'Vérifié Les Images Supprimé Avec Succès'
 layout:
     copyright: '© %year% Darvin CMS Construire %version%'
+    dark_theme: Thème sombre
     footer:
         menu:
             contacts: Contacts

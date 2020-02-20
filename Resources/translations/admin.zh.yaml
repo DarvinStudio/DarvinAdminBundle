@@ -91,6 +91,7 @@ image:
             success: 检查的图像，成功地除去
 layout:
     copyright: '© %year% 达文CMS建立 %version%'
+    dark_theme: 黑暗主题
     footer:
         menu:
             contacts: 联系人

@@ -4,7 +4,6 @@
 <div class="header__btn-cache">
     {{ form_widget(form) }}
     <button type="submit"
-            onclick="return confirm('{{ ('widget_cache.action.clear.confirm')|trans|e('js') }}');"
             title="{% trans %}widget_cache.action.clear.help{% endtrans %}">
         <span>{% trans %}widget_cache.action.clear.submit{% endtrans %}</span>
     </button>

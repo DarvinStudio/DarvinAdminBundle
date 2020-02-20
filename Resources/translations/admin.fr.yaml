@@ -210,7 +210,6 @@ translation:
 widget_cache:
     action:
         clear:
-            confirm: 'Vider le cache?'
             error: 'Une erreur s''est produite lors de la compensation de cache. S''il vous plaît, essayez de nouveau plus tard.'
             help: 'Rapide de vider le cache'
             submit: 'Vider Le Cache'

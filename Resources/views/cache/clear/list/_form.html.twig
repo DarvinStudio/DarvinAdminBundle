@@ -11,7 +11,7 @@
                         <tr>
                             <th></th>
                             <th data-size="xl">{% trans %}list_cache.action.clear.table.heading.title{% endtrans %}</th>
-                            <th data-exact-size="620">{% trans %}list_cache.action.clear.table.heading.description{% endtrans %}</th>
+                            <th data-size="free">{% trans %}list_cache.action.clear.table.heading.description{% endtrans %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,9 +41,9 @@
                                         {{ ('cache.clear.commands.list.' ~ child.vars.value ~ '.title')|trans }}
                                     </label>
                                 </td>
-                                <td data-exact-size="620">
+                                <td data-size="free">
                                     {% if description is not same as(null) %}
-                                        <div class="multiple-rows" data-rows="3">
+                                        <div>
                                             <label for="{{ child.vars.id }}">{{ description|raw }}</label>
                                         </div>
                                     {% endif %}

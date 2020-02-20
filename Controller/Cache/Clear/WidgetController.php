@@ -89,6 +89,9 @@ class WidgetController
 
             return $this->createResponse($request, $form, false, $message);
         }
+
+        set_time_limit(0);
+
         if ($this->cacheClearer->runCommands('widget') > 0) {
             return $this->createResponse($request, $form, false, 'widget_cache.action.clear.error');
         }

@@ -101,6 +101,9 @@ class ListController
 
             return $this->createResponse($request, $form, false, $message);
         }
+
+        set_time_limit(0);
+
         if ($this->cacheClearer->runCommands('list', $form->get('commands')->getData()) > 0) {
             return $this->createResponse($request, $form, false, 'list_cache.action.clear.error');
         }

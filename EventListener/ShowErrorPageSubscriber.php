@@ -218,11 +218,11 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param \Exception $exception Exception
+     * @param \Error $exception Exception
      *
      * @return int
      */
-    private function getStatusCode(\Exception $exception): int
+    private function getStatusCode(\Error $exception): int
     {
         if ($exception instanceof HttpExceptionInterface) {
             return $exception->getStatusCode();

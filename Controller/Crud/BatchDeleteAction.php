@@ -87,7 +87,7 @@ class BatchDeleteAction extends AbstractAction
         $user = $this->userManager->getCurrentUser();
 
         foreach ($entities as $entity) {
-            $this->eventDispatcher->dispatch(new DeletedEvent($this->getMeta(), $user, $entity), CrudEvents::DELETED);
+            $this->eventDispatcher->dispatch(new DeletedEvent($this->getMeta(), $user, $form, $entity), CrudEvents::DELETED);
         }
 
         $message = 'crud.action.batch_delete.success';

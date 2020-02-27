@@ -533,3 +533,5 @@ darvin_admin:
 - Removed time limit for cache cleaner.
 
 6.4.30: Added separate js-script for dark theme
+
+6.4.32: Pass form to CRUD events.

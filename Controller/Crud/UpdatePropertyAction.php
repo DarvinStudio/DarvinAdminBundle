@@ -62,7 +62,7 @@ class UpdatePropertyAction extends AbstractAction
         }
 
         $id       = $request->attributes->get('id');
-        $property = $request->attributes->get('property');
+        $property = (string)$request->attributes->get('property');
 
         $entity = $this->findEntity($id);
 
@@ -85,7 +85,7 @@ class UpdatePropertyAction extends AbstractAction
             $this->em->flush();
 
             $this->eventDispatcher->dispatch(
-                new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entityBefore, $entity),
+                new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entityBefore, $entity),
                 CrudEvents::UPDATED
             );
 

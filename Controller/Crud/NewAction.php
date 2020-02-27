@@ -148,7 +148,7 @@ class NewAction extends AbstractAction
         $this->em->flush();
 
         $this->eventDispatcher->dispatch(
-            new CreatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $entity),
+            new CreatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entity),
             CrudEvents::CREATED
         );
 

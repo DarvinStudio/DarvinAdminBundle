@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Event\Crud;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * CRUD updated event
@@ -31,12 +32,13 @@ class UpdatedEvent extends AbstractEvent
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata     Metadata
      * @param \Darvin\UserBundle\Entity\BaseUser    $user         User
+     * @param \Symfony\Component\Form\FormInterface $form         Form
      * @param object                                $entityBefore Entity before
      * @param object                                $entityAfter  Entity after
      */
-    public function __construct(Metadata $metadata, BaseUser $user, object $entityBefore, object $entityAfter)
+    public function __construct(Metadata $metadata, BaseUser $user, FormInterface $form, object $entityBefore, object $entityAfter)
     {
-        parent::__construct($metadata, $user);
+        parent::__construct($metadata, $user, $form);
 
         $this->entityBefore = $entityBefore;
         $this->entityAfter = $entityAfter;

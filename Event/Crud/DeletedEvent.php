@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Event\Crud;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
+use Symfony\Component\Form\FormInterface;
 
 /**
  * CRUD deleted event
@@ -26,11 +27,12 @@ class DeletedEvent extends AbstractEvent
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
      * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
+     * @param \Symfony\Component\Form\FormInterface $form     Form
      * @param object                                $entity   Entity
      */
-    public function __construct(Metadata $metadata, BaseUser $user, object $entity)
+    public function __construct(Metadata $metadata, BaseUser $user, FormInterface $form, object $entity)
     {
-        parent::__construct($metadata, $user);
+        parent::__construct($metadata, $user, $form);
 
         $this->entity = $entity;
     }

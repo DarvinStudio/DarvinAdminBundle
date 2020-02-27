@@ -1,12 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 /**
  * @author    Igor Nikolaev <igor.sv.n@gmail.com>
- * @copyright Copyright (c) 2017, Darvin Studio
+ * @copyright Copyright (c) 2020, Darvin Studio
  * @link      https://www.darvin-studio.ru
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Darvin\AdminBundle\Event\Crud;
 
@@ -15,33 +17,32 @@ use Darvin\UserBundle\Entity\BaseUser;
 use Symfony\Component\Form\FormInterface;
 
 /**
- * CRUD created event
+ * CRUD form event abstract implementation
  */
-class CreatedEvent extends AbstractFormEvent
+abstract class AbstractFormEvent extends AbstractEvent
 {
     /**
-     * @var object
+     * @var \Symfony\Component\Form\FormInterface
      */
-    private $entity;
+    protected $form;
 
     /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
      * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
      * @param \Symfony\Component\Form\FormInterface $form     Form
-     * @param object                                $entity   Entity
      */
-    public function __construct(Metadata $metadata, BaseUser $user, FormInterface $form, object $entity)
+    public function __construct(Metadata $metadata, BaseUser $user, FormInterface $form)
     {
-        parent::__construct($metadata, $user, $form);
+        parent::__construct($metadata, $user);
 
-        $this->entity = $entity;
+        $this->form = $form;
     }
 
     /**
-     * @return object
+     * @return \Symfony\Component\Form\FormInterface
      */
-    public function getEntity(): object
+    public function getForm(): FormInterface
     {
-        return $this->entity;
+        return $this->form;
     }
 }

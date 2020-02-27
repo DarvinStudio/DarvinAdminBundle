@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * CRUD copied event
  */
-class CopiedEvent extends AbstractEvent
+class CopiedEvent extends AbstractFormEvent
 {
     /**
      * @var object

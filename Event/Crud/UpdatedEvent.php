@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * CRUD updated event
  */
-class UpdatedEvent extends AbstractEvent
+class UpdatedEvent extends AbstractFormEvent
 {
     /**
      * @var object

@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormInterface;
 /**
  * CRUD deleted event
  */
-class DeletedEvent extends AbstractEvent
+class DeletedEvent extends AbstractFormEvent
 {
     /**
      * @var object

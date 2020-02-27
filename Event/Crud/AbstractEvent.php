@@ -12,7 +12,6 @@ namespace Darvin\AdminBundle\Event\Crud;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\UserBundle\Entity\BaseUser;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 
 /**
@@ -31,20 +30,13 @@ abstract class AbstractEvent extends Event
     protected $user;
 
     /**
-     * @var \Symfony\Component\Form\FormInterface
-     */
-    protected $form;
-
-    /**
      * @param \Darvin\AdminBundle\Metadata\Metadata $metadata Metadata
      * @param \Darvin\UserBundle\Entity\BaseUser    $user     User
-     * @param \Symfony\Component\Form\FormInterface $form     Form
      */
-    public function __construct(Metadata $metadata, BaseUser $user, FormInterface $form)
+    public function __construct(Metadata $metadata, BaseUser $user)
     {
         $this->metadata = $metadata;
         $this->user = $user;
-        $this->form = $form;
     }
 
     /**
@@ -61,13 +53,5 @@ abstract class AbstractEvent extends Event
     public function getUser(): BaseUser
     {
         return $this->user;
-    }
-
-    /**
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function getForm(): FormInterface
-    {
-        return $this->form;
     }
 }

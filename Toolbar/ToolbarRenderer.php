@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Darvin\AdminBundle\Toolbar;
 
+use Darvin\AdminBundle\Security\User\Roles;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
 
 /**
@@ -20,15 +22,22 @@ use Twig\Environment;
 class ToolbarRenderer implements ToolbarRendererInterface
 {
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var \Twig\Environment
      */
     private $twig;
 
     /**
-     * @param \Twig\Environment $twig Twig
+     * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Twig\Environment                                                            $twig                 Twig
      */
-    public function __construct(Environment $twig)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, Environment $twig)
     {
+        $this->authorizationChecker = $authorizationChecker;
         $this->twig = $twig;
     }
 
@@ -37,6 +46,10 @@ class ToolbarRenderer implements ToolbarRendererInterface
      */
     public function renderToolbar(): ?string
     {
+        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+            return null;
+        }
+
         return $this->twig->render('@DarvinAdmin/toolbar.html.twig');
     }
 }

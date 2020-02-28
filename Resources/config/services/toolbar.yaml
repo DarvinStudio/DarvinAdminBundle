@@ -7,6 +7,7 @@ services:
     darvin_admin.toolbar.renderer:
         class: '%darvin_admin.toolbar.renderer.class%'
         arguments:
+            - '@security.authorization_checker'
             - '@twig'
 
     darvin_admin.toolbar.twig_extension:

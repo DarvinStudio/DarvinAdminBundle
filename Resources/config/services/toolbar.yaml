@@ -8,6 +8,8 @@ services:
         class: '%darvin_admin.toolbar.renderer.class%'
         arguments:
             - '@security.authorization_checker'
+            - '@doctrine.orm.entity_manager'
+            - '@request_stack'
             - '@twig'
 
     darvin_admin.toolbar.twig_extension:

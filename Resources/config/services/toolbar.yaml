@@ -1,0 +1,6 @@
+parameters:
+    darvin_admin.toolbar.renderer.class: Darvin\AdminBundle\Toolbar\ToolbarRenderer
+
+services:
+    darvin_admin.toolbar.renderer:
+        class: '%darvin_admin.toolbar.renderer.class%'

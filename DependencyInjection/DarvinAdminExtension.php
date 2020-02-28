@@ -91,6 +91,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'search',
             'security',
             'slug_suffix',
+            'toolbar',
             'twig',
             'uploader',
             'view',

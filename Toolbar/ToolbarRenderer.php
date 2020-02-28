@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Darvin\AdminBundle\Toolbar;
 
 use Darvin\AdminBundle\Security\User\Roles;
+use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Entity\SlugMapItem;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -33,6 +34,11 @@ class ToolbarRenderer implements ToolbarRendererInterface
     private $authorizationChecker;
 
     /**
+     * @var \Darvin\AdminBundle\View\Widget\WidgetInterface
+     */
+    private $editLinkWidget;
+
+    /**
      * @var \Doctrine\ORM\EntityManagerInterface
      */
     private $em;
@@ -49,17 +55,20 @@ class ToolbarRenderer implements ToolbarRendererInterface
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
+     * @param \Darvin\AdminBundle\View\Widget\WidgetInterface                              $editLinkWidget       Edit link view widget
      * @param \Doctrine\ORM\EntityManagerInterface                                         $em                   Entity manager
      * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
      * @param \Twig\Environment                                                            $twig                 Twig
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
+        WidgetInterface $editLinkWidget,
         EntityManagerInterface $em,
         RequestStack $requestStack,
         Environment $twig
     ) {
         $this->authorizationChecker = $authorizationChecker;
+        $this->editLinkWidget = $editLinkWidget;
         $this->em = $em;
         $this->requestStack = $requestStack;
         $this->twig = $twig;
@@ -95,8 +104,16 @@ class ToolbarRenderer implements ToolbarRendererInterface
             return null;
         }
 
+        $entity = $this->em->getRepository($slug->getObjectClass())->find($slug->getObjectId());
+
+        if (null === $entity) {
+            return null;
+        }
+
+        $editLink = $this->editLinkWidget->getContent($entity);
+
         return $this->twig->render('@DarvinAdmin/toolbar.html.twig', [
-            'slug' => $slug,
+            'edit_link' => $editLink,
         ]);
     }
 

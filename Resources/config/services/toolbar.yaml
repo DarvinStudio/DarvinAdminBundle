@@ -6,6 +6,8 @@ parameters:
 services:
     darvin_admin.toolbar.renderer:
         class: '%darvin_admin.toolbar.renderer.class%'
+        arguments:
+            - '@twig'
 
     darvin_admin.toolbar.twig_extension:
         class: '%darvin_admin.toolbar.twig_extension.class%'

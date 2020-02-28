@@ -12,16 +12,31 @@ declare(strict_types=1);
 
 namespace Darvin\AdminBundle\Toolbar;
 
+use Twig\Environment;
+
 /**
  * Toolbar renderer
  */
 class ToolbarRenderer implements ToolbarRendererInterface
 {
     /**
+     * @var \Twig\Environment
+     */
+    private $twig;
+
+    /**
+     * @param \Twig\Environment $twig Twig
+     */
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function renderToolbar(): ?string
     {
-        return null;
+        return $this->twig->render('@DarvinAdmin/toolbar.html.twig');
     }
 }

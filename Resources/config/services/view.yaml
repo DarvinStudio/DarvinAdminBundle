@@ -24,6 +24,7 @@ parameters:
     darvin_admin.view.widget.log_entry.entity_name.class: Darvin\AdminBundle\View\Widget\Widget\LogEntry\EntityNameWidget
     darvin_admin.view.widget.phone_link.class: Darvin\AdminBundle\View\Widget\Widget\PhoneLinkWidget
     darvin_admin.view.widget.photo_gallery.class: Darvin\AdminBundle\View\Widget\Widget\PhotoGalleryWidget
+    darvin_admin.view.widget.preview_link.class: Darvin\AdminBundle\View\Widget\Widget\PreviewLinkWidget
     darvin_admin.view.widget.public_link.class: Darvin\AdminBundle\View\Widget\Widget\PublicLinkWidget
     darvin_admin.view.widget.readable_enum.class: Darvin\AdminBundle\View\Widget\Widget\ReadableEnumWidget
     darvin_admin.view.widget.show_link.class: Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget
@@ -203,6 +204,12 @@ services:
     darvin_admin.view.widget.photo_gallery:
         class:  '%darvin_admin.view.widget.photo_gallery.class%'
         parent: darvin_admin.view.widget.entity_list
+        tags:
+            - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.preview_link:
+        class:  '%darvin_admin.view.widget.preview_link.class%'
+        parent: darvin_admin.view.widget.public_link
         tags:
             - { name: darvin_admin.view_widget }
 

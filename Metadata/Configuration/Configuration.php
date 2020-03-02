@@ -15,6 +15,7 @@ use Darvin\AdminBundle\View\Widget\Widget\BatchDeleteWidget;
 use Darvin\AdminBundle\View\Widget\Widget\CopyFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\DeleteFormWidget;
 use Darvin\AdminBundle\View\Widget\Widget\EditLinkWidget;
+use Darvin\AdminBundle\View\Widget\Widget\PreviewLinkWidget;
 use Darvin\AdminBundle\View\Widget\Widget\ShowLinkWidget;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -91,6 +92,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->buildViewNode('index', [
                             BatchDeleteWidget::ALIAS,
                             ShowLinkWidget::ALIAS,
+                            PreviewLinkWidget::ALIAS,
                             EditLinkWidget::ALIAS,
                             CopyFormWidget::ALIAS,
                             DeleteFormWidget::ALIAS,
@@ -98,6 +100,7 @@ class Configuration implements ConfigurationInterface
                         ->append($this->buildViewNode('new'))
                         ->append($this->buildViewNode('edit', [
                             ShowLinkWidget::ALIAS,
+                            PreviewLinkWidget::ALIAS,
                         ]))
                         ->append($this->buildViewNode('show', [
                             EditLinkWidget::ALIAS,

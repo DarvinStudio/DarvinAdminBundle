@@ -1,1 +1,7 @@
-<a href="{{ url }}" class="js-ajax" data-type="iframe">{{ url }}</a>
+{% set classes = {
+    'default': 'table-row__btn-show',
+    'footer':  'page-footer__btn-hide',
+    'header':  'page-header__btn-hide',
+} %}
+
+<a href="{{ url }}" target="_blank" class="js-ajax {{ classes[style]|default }}" data-type="iframe">{{ url }}</a>

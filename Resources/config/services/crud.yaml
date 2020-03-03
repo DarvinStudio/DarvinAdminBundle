@@ -89,6 +89,8 @@ services:
     darvin_admin.crud.action.preview:
         class:  '%darvin_admin.crud.action.preview.class%'
         parent: darvin_admin.crud.action.abstract
+        arguments:
+            - '@darvin_content.controller_pool'
         tags:
             - { name: controller.service_arguments }
 

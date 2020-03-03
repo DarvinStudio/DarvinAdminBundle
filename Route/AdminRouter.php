@@ -41,7 +41,6 @@ class AdminRouter implements AdminRouterInterface
         AdminRouterInterface::TYPE_EDIT,
         AdminRouterInterface::TYPE_INDEX,
         AdminRouterInterface::TYPE_NEW,
-        AdminRouterInterface::TYPE_PREVIEW,
         AdminRouterInterface::TYPE_SHOW,
     ];
 

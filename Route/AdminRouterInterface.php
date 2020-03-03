@@ -26,6 +26,7 @@ interface AdminRouterInterface
     public const TYPE_EDIT            = 'edit';
     public const TYPE_INDEX           = 'index';
     public const TYPE_NEW             = 'new';
+    public const TYPE_PREVIEW         = 'preview';
     public const TYPE_SHOW            = 'show';
     public const TYPE_UPDATE_PROPERTY = 'update-property';
 

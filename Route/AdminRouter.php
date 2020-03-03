@@ -30,6 +30,7 @@ class AdminRouter implements AdminRouterInterface
         AdminRouterInterface::TYPE_COPY,
         AdminRouterInterface::TYPE_DELETE,
         AdminRouterInterface::TYPE_EDIT,
+        AdminRouterInterface::TYPE_PREVIEW,
         AdminRouterInterface::TYPE_SHOW,
         AdminRouterInterface::TYPE_UPDATE_PROPERTY,
     ];
@@ -40,6 +41,7 @@ class AdminRouter implements AdminRouterInterface
         AdminRouterInterface::TYPE_EDIT,
         AdminRouterInterface::TYPE_INDEX,
         AdminRouterInterface::TYPE_NEW,
+        AdminRouterInterface::TYPE_PREVIEW,
         AdminRouterInterface::TYPE_SHOW,
     ];
 

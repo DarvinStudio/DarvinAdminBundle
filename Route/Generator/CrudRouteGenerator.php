@@ -64,6 +64,16 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                     'post',
                 ],
             ],
+            AdminRouterInterface::TYPE_PREVIEW => [
+                '%s_preview',
+                '%s/{id}/preview',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'get',
+                ],
+            ],
             AdminRouterInterface::TYPE_SHOW => [
                 '%s_show',
                 '%s/{id}/show',
@@ -126,6 +136,14 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                 [
                     'get',
                     'post',
+                ],
+            ],
+            AdminRouterInterface::TYPE_PREVIEW => [
+                '%s_preview',
+                '%s/preview',
+                [],
+                [
+                    'get',
                 ],
             ],
             AdminRouterInterface::TYPE_SHOW => [

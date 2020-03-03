@@ -12,12 +12,28 @@ declare(strict_types=1);
 
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
+use Darvin\AdminBundle\Route\AdminRouterInterface;
+use Darvin\AdminBundle\Security\Permissions\Permission;
+
 /**
  * Preview link view widget
  */
 class PreviewLinkWidget extends AbstractWidget
 {
     public const ALIAS = 'preview_link';
+
+    /**
+     * @var \Darvin\AdminBundle\Route\AdminRouterInterface
+     */
+    private $adminRouter;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
+     */
+    public function __construct(AdminRouterInterface $adminRouter)
+    {
+        $this->adminRouter = $adminRouter;
+    }
 
     /**
      * {@inheritDoc}
@@ -32,6 +48,20 @@ class PreviewLinkWidget extends AbstractWidget
      */
     protected function createContent(object $entity, array $options): ?string
     {
-        return null;
+        if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_PREVIEW)) {
+            return null;
+        }
+
+        return $this->render([
+            'entity' => $entity,
+        ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function getRequiredPermissions(): iterable
+    {
+        yield Permission::VIEW;
     }
 }

@@ -210,6 +210,8 @@ services:
     darvin_admin.view.widget.preview_link:
         class:  '%darvin_admin.view.widget.preview_link.class%'
         parent: darvin_admin.view.widget.abstract
+        arguments:
+            - '@darvin_admin.router'
         tags:
             - { name: darvin_admin.view_widget }
 

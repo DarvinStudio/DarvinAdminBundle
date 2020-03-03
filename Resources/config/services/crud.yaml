@@ -7,6 +7,7 @@ parameters:
     darvin_admin.crud.action.edit.class:            Darvin\AdminBundle\Controller\Crud\EditAction
     darvin_admin.crud.action.index.class:           Darvin\AdminBundle\Controller\Crud\IndexAction
     darvin_admin.crud.action.new.class:             Darvin\AdminBundle\Controller\Crud\NewAction
+    darvin_admin.crud.action.preview.class:         Darvin\AdminBundle\Controller\Crud\PreviewAction
     darvin_admin.crud.action.show.class:            Darvin\AdminBundle\Controller\Crud\ShowAction
     darvin_admin.crud.action.update_property.class: Darvin\AdminBundle\Controller\Crud\UpdatePropertyAction
 
@@ -82,6 +83,12 @@ services:
             - '@darvin_content.translatable.translation_initializer'
             - '@darvin_content.translatable.translation_joiner'
             - '%darvin_admin.locales%'
+        tags:
+            - { name: controller.service_arguments }
+
+    darvin_admin.crud.action.preview:
+        class:  '%darvin_admin.crud.action.preview.class%'
+        parent: darvin_admin.crud.action.abstract
         tags:
             - { name: controller.service_arguments }
 

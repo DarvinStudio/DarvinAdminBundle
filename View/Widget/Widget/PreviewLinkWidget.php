@@ -14,6 +14,9 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\ContentBundle\Controller\ContentControllerPoolInterface;
+use Darvin\ContentBundle\Controller\ControllerNotExistsException;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * Preview link view widget
@@ -28,11 +31,18 @@ class PreviewLinkWidget extends AbstractWidget
     private $adminRouter;
 
     /**
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface $adminRouter Admin router
+     * @var \Darvin\ContentBundle\Controller\ContentControllerPoolInterface
      */
-    public function __construct(AdminRouterInterface $adminRouter)
+    private $contentControllerPool;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface                  $adminRouter           Admin router
+     * @param \Darvin\ContentBundle\Controller\ContentControllerPoolInterface $contentControllerPool Content controller pool
+     */
+    public function __construct(AdminRouterInterface $adminRouter, ContentControllerPoolInterface $contentControllerPool)
     {
         $this->adminRouter = $adminRouter;
+        $this->contentControllerPool = $contentControllerPool;
     }
 
     /**
@@ -49,6 +59,11 @@ class PreviewLinkWidget extends AbstractWidget
     protected function createContent(object $entity, array $options): ?string
     {
         if (!$this->adminRouter->exists($entity, AdminRouterInterface::TYPE_PREVIEW)) {
+            return null;
+        }
+        try {
+            $this->contentControllerPool->getController(ClassUtils::getClass($entity));
+        } catch (ControllerNotExistsException $ex) {
             return null;
         }
 

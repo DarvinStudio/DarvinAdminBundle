@@ -212,6 +212,7 @@ services:
         parent: darvin_admin.view.widget.abstract
         arguments:
             - '@darvin_admin.router'
+            - '@darvin_content.controller_pool'
         tags:
             - { name: darvin_admin.view_widget }
 

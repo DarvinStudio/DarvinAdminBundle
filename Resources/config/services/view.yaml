@@ -209,7 +209,7 @@ services:
 
     darvin_admin.view.widget.preview_link:
         class:  '%darvin_admin.view.widget.preview_link.class%'
-        parent: darvin_admin.view.widget.public_link
+        parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }
 

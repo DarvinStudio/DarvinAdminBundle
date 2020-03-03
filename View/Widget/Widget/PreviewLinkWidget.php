@@ -15,7 +15,7 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 /**
  * Preview link view widget
  */
-class PreviewLinkWidget extends PublicLinkWidget
+class PreviewLinkWidget extends AbstractWidget
 {
     public const ALIAS = 'preview_link';
 
@@ -25,5 +25,13 @@ class PreviewLinkWidget extends PublicLinkWidget
     public function getAlias(): string
     {
         return self::ALIAS;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function createContent(object $entity, array $options): ?string
+    {
+        return null;
     }
 }

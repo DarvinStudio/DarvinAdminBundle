@@ -62,6 +62,6 @@ class PreviewAction extends AbstractAction
             CrudControllerEvents::STARTED
         );
 
-        return $contentController->__invoke($request, $entity);
+        return $contentController->__invoke($request, $entity, false);
     }
 }

@@ -535,3 +535,5 @@ darvin_admin:
 6.4.30: Added separate js-script for dark theme
 
 6.4.32: Pass form to CRUD events.
+
+6.4.34: Ensure that cloner returned non-null value.

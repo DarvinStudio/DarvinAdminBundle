@@ -94,19 +94,21 @@ class CopyAction extends AbstractAction
         } else {
             $copy = $this->cloner->createClone($entity);
 
-            $violations = $this->validator->validate($copy);
+            if (null !== $copy) {
+                $violations = $this->validator->validate($copy);
 
-            if ($violations->count() > 0) {
-                $success = false;
+                if ($violations->count() > 0) {
+                    $success = false;
 
-                $parts = [];
+                    $parts = [];
 
-                /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
-                foreach ($violations as $violation) {
-                    $parts[] = sprintf('%s: %s', $violation->getPropertyPath(), $violation->getMessage());
+                    /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
+                    foreach ($violations as $violation) {
+                        $parts[] = sprintf('%s: %s', $violation->getPropertyPath(), $violation->getMessage());
+                    }
+
+                    $message = implode(PHP_EOL, $parts);
                 }
-
-                $message = implode(PHP_EOL, $parts);
             }
         }
         if ($success && null !== $copy) {

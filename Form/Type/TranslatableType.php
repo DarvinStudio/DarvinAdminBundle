@@ -47,6 +47,8 @@ class TranslatableType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $options['options']['label'] = false;
+
         foreach ($this->locales as $locale) {
             $builder->add($locale, $options['type'], $options['options']);
         }

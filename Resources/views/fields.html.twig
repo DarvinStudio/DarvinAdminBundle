@@ -289,8 +289,12 @@
                             <div class="tabs__content-item-lang">
                                 <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/lang-' ~ locale ~ '.svg') }}" alt="">
                             </div>
-                            {{- form_widget(child) -}}
-                            {{- form_errors(child) -}}
+                            {%- if child.vars.compound -%}
+                                {{- form_widget(child) -}}
+                                {{- form_errors(child) -}}
+                            {%- else -%}
+                                {{- form_row(child) -}}
+                            {%- endif -%}
                         </div>
                     {%- endfor -%}
                 </div>

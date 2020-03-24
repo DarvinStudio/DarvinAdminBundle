@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Text view widget
@@ -19,11 +20,29 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class TextWidget extends AbstractWidget
 {
     /**
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
+     */
+    protected $translator;
+
+    /**
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator Translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function createContent($entity, array $options): ?string
     {
         $text = (string)$this->getPropertyValue($entity, $options['property']);
+
+        if ($options['trans']) {
+            $text = $this->translator->trans($text, [], 'admin');
+        }
+
         $text = trim(preg_replace('/\s+/', ' ', str_replace(["\r\n", "\r", "\n", "\t"], ' ', strip_tags($text))));
 
         if ('' === $text) {
@@ -50,9 +69,11 @@ class TextWidget extends AbstractWidget
             ->setDefaults([
                 'length' => 80,
                 'rows'   => 1,
+                'trans'  => false,
             ])
             ->setAllowedTypes('length', 'integer')
-            ->setAllowedTypes('rows', 'integer');
+            ->setAllowedTypes('rows', 'integer')
+            ->setAllowedTypes('trans', 'boolean');
     }
 
     /**

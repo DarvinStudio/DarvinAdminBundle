@@ -539,3 +539,5 @@ darvin_admin:
 6.4.34: Ensure that cloner returned non-null value.
 
 6.4.36: Replace non-maintained "stof/doctrine-extensions-bundle" with "antishov/doctrine-extensions-bundle".
+
+6.4.37: Fixed translations for EN and Added translator for text widget

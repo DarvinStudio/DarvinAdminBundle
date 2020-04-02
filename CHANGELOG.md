@@ -537,3 +537,5 @@ darvin_admin:
 6.4.32: Pass form to CRUD events.
 
 6.4.34: Ensure that cloner returned non-null value.
+
+6.4.35: Fixed translations for EN and Added translator for text widget

@@ -67,7 +67,7 @@
 {# Common #}
 
 {%- block form_rows -%}
-    {%- set children = form|filter(child => not child.rendered) -%}
+    {%- set children = form.children|filter(child => not child.rendered) -%}
     {%- for child in children -%}
         {%- if not child.vars.admin_spoiler -%}
             {{- form_row(child) -}}

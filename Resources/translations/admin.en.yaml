@@ -18,7 +18,7 @@ configuration:
     action:
         edit:
             link: Configuration
-            submit: 'Submit Changes'
+            submit: 'Save Changes'
             success: 'Configuration Successfully Updated'
             title: Configuration
 crud:
@@ -79,7 +79,7 @@ image:
             submit: Disable
             success: 'Image Successfully Disabled'
         edit:
-            submit: Submit
+            submit: Save
             title: 'Edit Image %image%'
         enable:
             submit: Enable
@@ -162,7 +162,7 @@ menu:
 pagination:
     show_all: 'Show All'
 property_forms:
-    submit: 'Submit Changes'
+    submit: 'Save Changes'
 range:
     from: From
     to: To
@@ -190,10 +190,10 @@ slug_suffix:
     reset: Reset
     update: Update
 submit:
-    common: Submit
-    edit: Submit
-    index: 'Submit and to List'
-    new: 'Submit and Add'
+    common: Save
+    edit: Save
+    index: 'Save and Back'
+    new: 'Save and Add'
 translation:
     action:
         index:

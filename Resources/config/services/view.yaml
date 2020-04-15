@@ -261,6 +261,8 @@ services:
     darvin_admin.view.widget.text:
         class:  '%darvin_admin.view.widget.text.class%'
         parent: darvin_admin.view.widget.abstract
+        arguments:
+            - "@translator"
         tags:
             - { name: darvin_admin.view_widget }
 

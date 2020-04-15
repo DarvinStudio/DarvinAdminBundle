@@ -212,6 +212,7 @@ translation:
 widget_cache:
     action:
         clear:
+            confirm: 'Confirm cache clearing.'
             error: 'An error occurred while clearing cache. Please, try again later.'
             help: 'Quick cache clear'
             submit: 'Clear Cache'

@@ -212,6 +212,7 @@ translation:
 widget_cache:
     action:
         clear:
+            confirm: 确认高速缓存结算。
             error: '错误发生，同时清除高速缓存。 请稍后再试一次。'
             help: 快速缓存清
             submit: 清除缓存

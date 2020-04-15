@@ -18,7 +18,7 @@ configuration:
     action:
         edit:
             link: Configuration
-            submit: 'Soumettre Les Modifications'
+            submit: 'Enregistrer Les Modifications'
             success: 'Configuration De La Mise À Jour Avec Succès'
             title: Configuration
 crud:
@@ -79,7 +79,7 @@ image:
             submit: Désactiver
             success: 'Image Désactivé Correctement'
         edit:
-            submit: Soumettre
+            submit: Enregistrer
             title: 'Modifier L''Image %image%'
         enable:
             submit: Activer
@@ -91,7 +91,7 @@ image:
             success: 'Vérifié Les Images Supprimé Avec Succès'
 layout:
     copyright: '© %year% Darvin CMS Construire %version%'
-    dark_theme: Thème sombre
+    dark_theme: 'Thème sombre'
     footer:
         menu:
             contacts: Contacts
@@ -162,7 +162,7 @@ menu:
 pagination:
     show_all: 'Afficher Tous Les'
 property_forms:
-    submit: 'Soumettre Les Modifications'
+    submit: 'Enregistrer Les Modifications'
 range:
     from: 'À partir de'
     to: Pour
@@ -190,10 +190,12 @@ slug_suffix:
     reset: Réinitialiser
     update: 'Mise à jour'
 submit:
-    common: Soumettre
-    edit: Soumettre
-    index: 'Soumettre et de faire la Liste'
-    new: 'Soumettre et Ajouter'
+    common: Enregistrer
+    edit: Enregistrer
+    index: 'Enregistrer et Retour'
+    new: 'Enregistrer et Ajouter'
+toolbar:
+    homepage: 'Retour à Panneau'
 translation:
     action:
         index:

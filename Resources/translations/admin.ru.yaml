@@ -224,6 +224,9 @@ submit:
     index:  Сохранить и к списку
     new:    Сохранить и добавить
 
+toolbar:
+    homepage: Назад в панель
+
 translation:
     action:
         index:

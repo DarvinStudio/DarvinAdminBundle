@@ -1,3 +1,8 @@
-{{ edit_link|raw }}
-{{ admin_cache_clear_form() }}
-<a href="{{ path('darvin_admin_homepage') }}">{{ path('darvin_admin_homepage') }}</a>
+{% trans_default_domain 'admin' %}
+
+<link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/ds-toolbar.css') }}">
+<div class="ds-toolbar">
+    {{ edit_link|raw }}
+    {{ admin_cache_clear_form() }}
+    <a class="ds-toolbar__btn-admin" href="{{ path('darvin_admin_homepage') }}">{% trans %}toolbar.homepage{% endtrans %}</a>
+</div>

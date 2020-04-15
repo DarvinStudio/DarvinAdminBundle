@@ -18,7 +18,7 @@ configuration:
     action:
         edit:
             link: 配置
-            submit: 提出的变化
+            submit: 保存变化
             success: 构成功地更新
             title: 配置
 crud:
@@ -79,7 +79,7 @@ image:
             submit: 禁用
             success: 图像成功的障碍
         edit:
-            submit: 提交
+            submit: 保存
             title: '编辑的图像 %image%'
         enable:
             submit: 启用
@@ -91,7 +91,7 @@ image:
             success: 检查的图像，成功地除去
 layout:
     copyright: '© %year% 达文CMS建立 %version%'
-    dark_theme: 黑暗主题
+    dark_theme: 黑暗的主题
     footer:
         menu:
             contacts: 联系人
@@ -162,7 +162,7 @@ menu:
 pagination:
     show_all: 显示所有
 property_forms:
-    submit: 提出的变化
+    submit: 保存变化
 range:
     from: 从
     to: 要
@@ -190,10 +190,12 @@ slug_suffix:
     reset: 重置
     update: 更新
 submit:
-    common: 提交
-    edit: 提交
-    index: 提交，并列表
-    new: 提交，并添加
+    common: 保存
+    edit: 保存
+    index: 保存和回
+    new: 保存和加
+toolbar:
+    homepage: 回到板
 translation:
     action:
         index:

@@ -194,6 +194,8 @@ submit:
     edit: Save
     index: 'Save and Back'
     new: 'Save and Add'
+toolbar:
+    homepage: 'Back to Panel'
 translation:
     action:
         index:

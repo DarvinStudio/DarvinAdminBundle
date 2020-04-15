@@ -110,7 +110,9 @@ class ToolbarRenderer implements ToolbarRendererInterface
             return null;
         }
 
-        $editLink = $this->editLinkWidget->getContent($entity);
+        $editLink = $this->editLinkWidget->getContent($entity, [
+            'style' => 'toolbar',
+        ]);
 
         return $this->twig->render('@DarvinAdmin/toolbar.html.twig', [
             'edit_link' => $editLink,

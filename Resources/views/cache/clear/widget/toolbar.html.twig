@@ -1,10 +1,11 @@
 {% trans_default_domain 'admin' %}
 
-{{ form_start(form, {'attr': {'class': 'js-form'}}) }}
+{{ form_start(form) }}
 {{ form_widget(form) }}
 <button class="ds-toolbar__btn-cache"
         type="submit"
-        title="{% trans %}widget_cache.action.clear.help{% endtrans %}">
+        title="{% trans %}widget_cache.action.clear.help{% endtrans %}"
+        onclick="return confirm('{% trans %}common.confirm{% endtrans %}');">
     {% trans %}widget_cache.action.clear.submit{% endtrans %}
 </button>
 {{ form_end(form) }}

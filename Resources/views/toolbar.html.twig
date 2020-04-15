@@ -3,6 +3,6 @@
 <link rel="stylesheet" href="{{ asset(darvin_admin.frontendPath ~ '/ds-toolbar.css') }}">
 <div class="ds-toolbar">
     {{ edit_link|raw }}
-    {{ admin_cache_clear_form() }}
+    {{ admin_cache_clear_form('@DarvinAdmin/cache/clear/widget/toolbar.html.twig') }}
     <a class="ds-toolbar__btn-admin" href="{{ path('darvin_admin_homepage') }}">{% trans %}toolbar.homepage{% endtrans %}</a>
 </div>

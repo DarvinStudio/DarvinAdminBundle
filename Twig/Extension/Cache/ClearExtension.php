@@ -45,14 +45,16 @@ class ClearExtension extends AbstractExtension
     }
 
     /**
+     * @param string|null $template Template
+     *
      * @return string|null
      */
-    public function renderForm(): ?string
+    public function renderForm(?string $template = null): ?string
     {
         if (null === $this->formRenderer) {
             return null;
         }
 
-        return $this->formRenderer->renderForm();
+        return $this->formRenderer->renderForm(null, $template);
     }
 }

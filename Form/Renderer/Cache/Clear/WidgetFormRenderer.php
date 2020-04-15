@@ -19,6 +19,8 @@ use Twig\Environment;
  */
 class WidgetFormRenderer implements WidgetFormRendererInterface
 {
+    private const DEFAULT_TEMPLATE = '@DarvinAdmin/cache/clear/widget/form.html.twig';
+
     /**
      * @var \Darvin\AdminBundle\Form\Factory\Cache\Clear\WidgetFormFactoryInterface
      */
@@ -42,13 +44,16 @@ class WidgetFormRenderer implements WidgetFormRendererInterface
     /**
      * {@inheritDoc}
      */
-    public function renderForm(?FormInterface $form = null): string
+    public function renderForm(?FormInterface $form = null, ?string $template = null): string
     {
         if (null === $form) {
             $form = $this->formFactory->createForm();
         }
+        if (null === $template) {
+            $template = self::DEFAULT_TEMPLATE;
+        }
 
-        return $this->twig->render('@DarvinAdmin/cache/clear/widget/form.html.twig', [
+        return $this->twig->render($template, [
             'form' => $form->createView(),
         ]);
     }

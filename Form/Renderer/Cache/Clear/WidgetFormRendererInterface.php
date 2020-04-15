@@ -18,9 +18,10 @@ use Symfony\Component\Form\FormInterface;
 interface WidgetFormRendererInterface
 {
     /**
-     * @param \Symfony\Component\Form\FormInterface|null $form Form
+     * @param \Symfony\Component\Form\FormInterface|null $form     Form
+     * @param string|null                                $template Template
      *
      * @return string
      */
-    public function renderForm(?FormInterface $form = null): string;
+    public function renderForm(?FormInterface $form = null, ?string $template = null): string;
 }

@@ -10,6 +10,8 @@ services:
             - '@security.authorization_checker'
             - '@darvin_admin.view.widget.edit_link'
             - '@doctrine.orm.entity_manager'
+            - '@darvin_utils.homepage.provider'
+            - '@darvin_utils.homepage.router'
             - '@request_stack'
             - '@twig'
 

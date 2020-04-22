@@ -547,3 +547,5 @@ darvin_admin:
 ```twig
 {{ admin_toolbar() }}
 ```
+
+6.5.1: Add homepage support to toolbar.

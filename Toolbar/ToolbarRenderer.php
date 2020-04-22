@@ -15,7 +15,10 @@ namespace Darvin\AdminBundle\Toolbar;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Entity\SlugMapItem;
+use Darvin\Utils\Homepage\HomepageProviderInterface;
+use Darvin\Utils\Homepage\HomepageRouterInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Twig\Environment;
@@ -44,6 +47,16 @@ class ToolbarRenderer implements ToolbarRendererInterface
     private $em;
 
     /**
+     * @var \Darvin\Utils\Homepage\HomepageProviderInterface
+     */
+    private $homepageProvider;
+
+    /**
+     * @var \Darvin\Utils\Homepage\HomepageRouterInterface
+     */
+    private $homepageRouter;
+
+    /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
      */
     private $requestStack;
@@ -57,6 +70,8 @@ class ToolbarRenderer implements ToolbarRendererInterface
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\View\Widget\WidgetInterface                              $editLinkWidget       Edit link view widget
      * @param \Doctrine\ORM\EntityManagerInterface                                         $em                   Entity manager
+     * @param \Darvin\Utils\Homepage\HomepageProviderInterface                             $homepageProvider     Homepage provider
+     * @param \Darvin\Utils\Homepage\HomepageRouterInterface                               $homepageRouter       Homepage router
      * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
      * @param \Twig\Environment                                                            $twig                 Twig
      */
@@ -64,12 +79,16 @@ class ToolbarRenderer implements ToolbarRendererInterface
         AuthorizationCheckerInterface $authorizationChecker,
         WidgetInterface $editLinkWidget,
         EntityManagerInterface $em,
+        HomepageProviderInterface $homepageProvider,
+        HomepageRouterInterface $homepageRouter,
         RequestStack $requestStack,
         Environment $twig
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->editLinkWidget = $editLinkWidget;
         $this->em = $em;
+        $this->homepageProvider = $homepageProvider;
+        $this->homepageRouter = $homepageRouter;
         $this->requestStack = $requestStack;
         $this->twig = $twig;
     }
@@ -85,10 +104,40 @@ class ToolbarRenderer implements ToolbarRendererInterface
 
         $request = $this->requestStack->getCurrentRequest();
 
-        if (null === $request
-            || self::ROUTE !== $request->attributes->get('_route')
-            || !$request->attributes->has('_route_params')
-        ) {
+        if (null === $request) {
+            return null;
+        }
+
+        $entity = $this->findEntity($request);
+
+        if (null === $entity) {
+            return null;
+        }
+
+        $editLink = $this->editLinkWidget->getContent($entity, [
+            'style' => 'toolbar',
+        ]);
+
+        return $this->twig->render('@DarvinAdmin/toolbar.html.twig', [
+            'edit_link' => $editLink,
+        ]);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request Request
+     *
+     * @return object|null
+     */
+    private function findEntity(Request $request): ?object
+    {
+        if (self::ROUTE !== $request->attributes->get('_route')) {
+            if ($request->getBaseUrl().$request->getPathInfo() === $this->homepageRouter->generate()) {
+                return $this->homepageProvider->getHomepage();
+            }
+
+            return null;
+        }
+        if (!$request->attributes->has('_route_params')) {
             return null;
         }
 
@@ -104,19 +153,7 @@ class ToolbarRenderer implements ToolbarRendererInterface
             return null;
         }
 
-        $entity = $this->em->getRepository($slug->getObjectClass())->find($slug->getObjectId());
-
-        if (null === $entity) {
-            return null;
-        }
-
-        $editLink = $this->editLinkWidget->getContent($entity, [
-            'style' => 'toolbar',
-        ]);
-
-        return $this->twig->render('@DarvinAdmin/toolbar.html.twig', [
-            'edit_link' => $editLink,
-        ]);
+        return $this->em->getRepository($slug->getObjectClass())->find($slug->getObjectId());
     }
 
     /**

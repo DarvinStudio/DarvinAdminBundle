@@ -1,6 +1,5 @@
 parameters:
     darvin_admin.error.show_error_page_subscriber.class:          Darvin\AdminBundle\EventListener\ShowErrorPageSubscriber
-    darvin_admin.error.show_error_page_subscriber.firewall_name:  admin_area
     darvin_admin.error.show_error_page_subscriber.homepage_route: darvin_admin_homepage
 
 services:
@@ -8,12 +7,10 @@ services:
         class: '%darvin_admin.error.show_error_page_subscriber.class%'
         arguments:
             - '@security.authorization_checker'
-            - '@security.firewall.map'
             - '@logger'
             - '@router'
             - '@twig'
             - '@translator'
-            - '%darvin_admin.error.show_error_page_subscriber.firewall_name%'
             - '%darvin_admin.error.show_error_page_subscriber.homepage_route%'
             - '%locales%'
             - '%locale%'

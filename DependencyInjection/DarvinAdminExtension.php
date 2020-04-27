@@ -38,21 +38,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     public const TAG_MENU_ITEM_FACTORY = 'darvin_admin.menu_item_factory';
     public const TAG_VIEW_WIDGET       = 'darvin_admin.view_widget';
 
-    private const FIREWALL_NAME = 'admin_area';
-
-    /**
-     * @var bool
-     */
-    private $showErrorPages;
-
-    /**
-     * Extension constructor.
-     */
-    public function __construct()
-    {
-        $this->showErrorPages = false;
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -63,8 +48,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
         $container->registerForAutoconfiguration(DashboardWidgetInterface::class)->addTag(self::TAG_DASHBOARD_WIDGET);
         $container->registerForAutoconfiguration(ItemFactoryInterface::class)->addTag(self::TAG_MENU_ITEM_FACTORY);
         $container->registerForAutoconfiguration(WidgetInterface::class)->addTag(self::TAG_VIEW_WIDGET);
-
-        $showErrorPages = $this->showErrorPages;
 
         $this->mergeSectionConfigs($configs);
 
@@ -145,9 +128,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'dev/translation_generator' => ['env' => 'dev'],
             'dev/view'                  => ['env' => 'dev'],
 
-            'error' => ['callback' => function () use ($showErrorPages): bool {
-                return $showErrorPages;
-            }],
+            'error' => ['env' => 'prod'],
 
             'prod/cache' => ['env' => 'prod'],
 
@@ -163,16 +144,6 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container): void
     {
         $container->setParameter('darvin_admin.tmp_dir', sprintf('%s/darvin/admin', sys_get_temp_dir()));
-
-        if (!$container->getParameter('kernel.debug')) {
-            foreach ($container->getExtensionConfig('security') as $config) {
-                if (isset($config['firewalls'][self::FIREWALL_NAME])) {
-                    $firewallConfig = $config['firewalls'][self::FIREWALL_NAME];
-
-                    $this->showErrorPages = isset($firewallConfig['pattern']) && '^/' !== $firewallConfig['pattern'];
-                }
-            }
-        }
 
         (new ExtensionConfigurator($container, __DIR__.'/../Resources/config/app'))->configure([
             'a2lix_translation_form',

@@ -13,7 +13,6 @@ namespace Darvin\AdminBundle\EventListener;
 use Darvin\AdminBundle\Security\User\Roles;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Symfony\Bundle\SecurityBundle\Security\FirewallMap;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,11 +37,6 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     private $authorizationChecker;
 
     /**
-     * @var \Symfony\Bundle\SecurityBundle\Security\FirewallMap
-     */
-    private $firewallMap;
-
-    /**
      * @var \Psr\Log\LoggerInterface
      */
     private $logger;
@@ -65,11 +59,6 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
     /**
      * @var string
      */
-    private $firewallName;
-
-    /**
-     * @var string
-     */
     private $homepageRoute;
 
     /**
@@ -84,35 +73,29 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
 
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
-     * @param \Symfony\Bundle\SecurityBundle\Security\FirewallMap                          $firewallMap          Firewall map
      * @param \Psr\Log\LoggerInterface                                                     $logger               Logger
      * @param \Symfony\Component\Routing\RouterInterface                                   $router               Router
      * @param \Twig\Environment                                                            $twig                 Twig
      * @param \Symfony\Component\Translation\Translator                                    $translator           Translator
-     * @param string                                                                       $firewallName         Firewall name
      * @param string                                                                       $homepageRoute        Homepage route
      * @param string[]                                                                     $locales              Locales
      * @param string                                                                       $defaultLocale        Default locale
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
-        FirewallMap $firewallMap,
         LoggerInterface $logger,
         RouterInterface $router,
         Environment $twig,
         Translator $translator,
-        string $firewallName,
         string $homepageRoute,
         array $locales,
         string $defaultLocale
     ) {
         $this->authorizationChecker = $authorizationChecker;
-        $this->firewallMap = $firewallMap;
         $this->logger = $logger;
         $this->router = $router;
         $this->twig = $twig;
         $this->translator = $translator;
-        $this->firewallName = $firewallName;
         $this->homepageRoute = $homepageRoute;
         $this->locales = $locales;
         $this->defaultLocale = $defaultLocale;
@@ -138,7 +121,7 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
         } catch (AuthenticationCredentialsNotFoundException $ex) {
             return;
         }
-        if (!$isAdmin || !method_exists($this->firewallMap, 'getFirewallConfig')) {
+        if (!$isAdmin) {
             return;
         }
 
@@ -150,9 +133,9 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
 
         $request = $event->getRequest();
 
-        $config = $this->firewallMap->getFirewallConfig($request);
+        $this->configureContexts($request);
 
-        if (null === $config || $config->getName() !== $this->firewallName) {
+        if (0 !== strpos($request->getRequestUri(), $this->router->generate($this->homepageRoute))) {
             return;
         }
 
@@ -166,8 +149,6 @@ class ShowErrorPageSubscriber implements EventSubscriberInterface
             $exception instanceof HttpExceptionInterface ? LogLevel::ERROR : LogLevel::CRITICAL,
             $exception->getMessage()
         );
-
-        $this->configureContexts($request);
 
         $content = $this->twig->render($template, [
             'referer' => $request->headers->get('referer'),

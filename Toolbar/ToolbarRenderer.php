@@ -21,6 +21,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Twig\Environment;
 
 /**
@@ -98,7 +99,11 @@ class ToolbarRenderer implements ToolbarRendererInterface
      */
     public function renderToolbar(): ?string
     {
-        if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+        try {
+            if (!$this->authorizationChecker->isGranted(Roles::ROLE_ADMIN)) {
+                return null;
+            }
+        } catch (AuthenticationCredentialsNotFoundException $ex) {
             return null;
         }
 

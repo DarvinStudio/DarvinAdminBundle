@@ -549,3 +549,5 @@ darvin_admin:
 ```
 
 6.5.1: Add homepage support to toolbar.
+
+6.5.4: Change temporary files directory from "/tmp" to "%kernel.project_dir%/var/tmp".

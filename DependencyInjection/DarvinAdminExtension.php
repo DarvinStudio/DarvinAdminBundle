@@ -143,7 +143,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container): void
     {
-        $container->setParameter('darvin_admin.tmp_dir', sprintf('%s/darvin/admin', sys_get_temp_dir()));
+        $container->setParameter('darvin_admin.tmp_dir', '%kernel.project_dir%/var/tmp/darvin/admin');
 
         (new ExtensionConfigurator($container, __DIR__.'/../Resources/config/app'))->configure([
             'a2lix_translation_form',

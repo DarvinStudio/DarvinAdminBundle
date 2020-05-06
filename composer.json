@@ -17,7 +17,7 @@
         "a2lix/translation-form-bundle":       "^3.0",
         "antishov/doctrine-extensions-bundle": "^1.4",
         "friendsofsymfony/ckeditor-bundle":    "^2.1",
-        "helios-ag/fm-elfinder-bundle":        "^9.3",
+        "helios-ag/fm-elfinder-bundle":        "^10.0",
         "knplabs/knp-paginator-bundle":        "^5.0",
         "oneup/uploader-bundle":               "^2.1",
         "psr/simple-cache":                    "^1.0",

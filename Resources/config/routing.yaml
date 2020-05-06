@@ -23,7 +23,7 @@ darvin_admin_import_search:
     prefix:   /search
 
 darvin_admin_import_fm_elfinder:
-    resource: '@FMElfinderBundle/Resources/config/routing.yml'
+    resource: '@FMElfinderBundle/Resources/config/routing.yaml'
 
 darvin_admin_import_loader:
     resource: .

@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Crud;
 
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Darvin\AdminBundle\Metadata\Metadata;
@@ -65,6 +66,11 @@ abstract class AbstractAction
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
      */
     protected $authorizationChecker;
+
+    /**
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null
+     */
+    protected $cacheClearer;
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -156,6 +162,14 @@ abstract class AbstractAction
     public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker): void
     {
         $this->authorizationChecker = $authorizationChecker;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null $cacheClearer Cache clearer
+     */
+    public function setCacheClearer(?CacheClearerInterface $cacheClearer): void
+    {
+        $this->cacheClearer = $cacheClearer;
     }
 
     /**
@@ -409,5 +423,12 @@ abstract class AbstractAction
         }
 
         return $this->name;
+    }
+
+    protected function clearCache(): void
+    {
+        if (null !== $this->cacheClearer) {
+            $this->cacheClearer->clearOnCrud();
+        }
     }
 }

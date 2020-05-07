@@ -81,6 +81,7 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('sets')->useAttributeAsKey('name')
                             ->prototype('array')->canBeDisabled()
                                 ->children()
+                                    ->booleanNode('clear_on_crud')->defaultFalse()->end()
                                     ->arrayNode('commands')->useAttributeAsKey('alias')
                                         ->prototype('array')->canBeDisabled()
                                             ->children()

@@ -84,6 +84,8 @@ class BatchDeleteAction extends AbstractAction
 
         $this->em->flush();
 
+        $this->clearCache();
+
         $user = $this->userManager->getCurrentUser();
 
         foreach ($entities as $entity) {

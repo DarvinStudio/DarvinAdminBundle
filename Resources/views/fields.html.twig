@@ -93,6 +93,9 @@
     {%- if help is not empty -%}
         {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
     {%- endif -%}
+    {%- if show_help is not defined -%}
+        {%- set show_help = true -%}
+    {%- endif -%}
     {%- if that.is_collection(form.parent) -%}
         <div class="multiple-field__item">
             {{- form_widget(form, widget_attr) -}}
@@ -103,15 +106,15 @@
         {%- if label -%}
             <div class="form-heading">{{- label|raw -}}</div>
         {%- endif -%}
+        {%- if show_help -%}
+            {{- form_help(form, {'help_html': true}) -}}
+        {%- endif -%}
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}
         {%- if label -%}
             <div class="form-heading">&nbsp;</div>
         {%- endif -%}
     {%- else -%}
-        {%- if show_help is not defined -%}
-            {%- set show_help = true -%}
-        {%- endif -%}
         {%- if wrap is not defined -%}
             {%- set wrap = true -%}
         {%- endif -%}

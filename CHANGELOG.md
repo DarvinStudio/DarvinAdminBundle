@@ -553,3 +553,5 @@ darvin_admin:
 6.5.4: Change temporary files directory from "/tmp" to "%kernel.project_dir%/var/tmp".
 
 6.5.5: Upgrade elFinder bundle to 10.0.
+
+6.5.7: Render compound form field help.

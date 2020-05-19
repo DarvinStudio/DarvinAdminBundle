@@ -555,3 +555,5 @@ darvin_admin:
 6.5.5: Upgrade elFinder bundle to 10.0.
 
 6.5.7: Render compound form field help.
+
+6.5.8: Clear cache on crud

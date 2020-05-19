@@ -86,6 +86,8 @@ class DeleteAction extends AbstractAction
         $this->em->remove($entity);
         $this->em->flush();
 
+        $this->clearCache();
+
         $this->eventDispatcher->dispatch(new DeletedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entity), CrudEvents::DELETED);
 
         $message = sprintf('%saction.delete.success', $this->getMeta()->getBaseTranslationPrefix());

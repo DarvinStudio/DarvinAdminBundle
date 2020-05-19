@@ -79,6 +79,8 @@ class EditAction extends AbstractAction
 
         $this->em->flush();
 
+        $this->clearCache();
+
         $this->eventDispatcher->dispatch(
             new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entityBefore, $entity),
             CrudEvents::UPDATED

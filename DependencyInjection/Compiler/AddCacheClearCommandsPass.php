@@ -46,6 +46,7 @@ class AddCacheClearCommandsPass implements CompilerPassInterface
                     $commandAlias,
                     new Reference($commandAttr['id']),
                     $commandAttr['input'],
+                    $setAttr['clear_on_crud']
                 ]);
             }
         }

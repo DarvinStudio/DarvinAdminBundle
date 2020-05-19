@@ -84,6 +84,8 @@ class UpdatePropertyAction extends AbstractAction
         if ($success) {
             $this->em->flush();
 
+            $this->clearCache();
+
             $this->eventDispatcher->dispatch(
                 new UpdatedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entityBefore, $entity),
                 CrudEvents::UPDATED

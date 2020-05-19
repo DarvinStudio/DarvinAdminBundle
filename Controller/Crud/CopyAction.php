@@ -115,6 +115,8 @@ class CopyAction extends AbstractAction
             $this->em->persist($copy);
             $this->em->flush();
 
+            $this->clearCache();
+
             $this->eventDispatcher->dispatch(
                 new CopiedEvent($this->getMeta(), $this->userManager->getCurrentUser(), $form, $entity, $copy),
                 CrudEvents::COPIED

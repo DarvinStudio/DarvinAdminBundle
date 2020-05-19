@@ -20,6 +20,7 @@ services:
             - [ setAdminMetadataManager, [ '@darvin_admin.metadata.manager' ] ]
             - [ setAdminRouter,          [ '@darvin_admin.router' ] ]
             - [ setAuthorizationChecker, [ '@security.authorization_checker' ] ]
+            - [ setCacheClearer,         [ '@?darvin_admin.cache.clear.clearer' ] ]
             - [ setEntityManager,        [ '@doctrine.orm.entity_manager' ] ]
             - [ setEventDispatcher,      [ '@event_dispatcher' ] ]
             - [ setFlashNotifier,        [ '@darvin_utils.flash.notifier' ] ]

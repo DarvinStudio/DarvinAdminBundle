@@ -31,4 +31,9 @@ interface CacheClearerInterface
      * @throws \InvalidArgumentException
      */
     public function runCommands(string $set, $aliases = null): int;
+
+    /**
+     * @return int
+     */
+    public function clearOnCrud(): int;
 }

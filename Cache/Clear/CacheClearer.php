@@ -38,6 +38,11 @@ class CacheClearer implements CacheClearerInterface
     private $commands;
 
     /**
+     * @var array
+     */
+    private $clearOnCrudSets;
+
+    /**
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel Kernel
      */
     public function __construct(KernelInterface $kernel)
@@ -45,6 +50,7 @@ class CacheClearer implements CacheClearerInterface
         $this->kernel = $kernel;
 
         $this->commands = [];
+        $this->clearOnCrudSets = [];
     }
 
     /**
@@ -56,18 +62,23 @@ class CacheClearer implements CacheClearerInterface
     }
 
     /**
-     * @param string                                     $set     Command set
-     * @param string                                     $alias   Command alias
-     * @param \Symfony\Component\Console\Command\Command $command Command
-     * @param array                                      $input   Input
+     * @param string                                     $set         Command set
+     * @param string                                     $alias       Command alias
+     * @param \Symfony\Component\Console\Command\Command $command     Command
+     * @param array                                      $input       Input
+     * @param bool                                       $clearOnCrud Whether to clear cache on CRUD
      */
-    public function addCommand(string $set, string $alias, Command $command, array $input = []): void
+    public function addCommand(string $set, string $alias, Command $command, array $input, bool $clearOnCrud): void
     {
         if (!isset($this->commands[$set])) {
             $this->commands[$set] = [];
         }
 
         $this->commands[$set][$alias] = [$command, $input];
+
+        if ($clearOnCrud) {
+            $this->clearOnCrudSets[$set] = $set;
+        }
     }
 
     /**
@@ -98,6 +109,22 @@ class CacheClearer implements CacheClearerInterface
 
                 return 1;
             }
+            if ($result > 0) {
+                return $result;
+            }
+        }
+
+        return 0;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function clearOnCrud(): int
+    {
+        foreach ($this->clearOnCrudSets as $set) {
+            $result = $this->runCommands($set);
+
             if ($result > 0) {
                 return $result;
             }

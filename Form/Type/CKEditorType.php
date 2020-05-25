@@ -100,61 +100,38 @@ class CKEditorType extends AbstractType
 
         $view->vars['locale'] = $this->getLocale($form);
 
+        if (!isset($view->vars['config']['extraPlugins'])) {
+            $view->vars['config']['extraPlugins'] = '';
+        }
         if (!isset($view->vars['config']['language'])) {
             $view->vars['config']['language'] = $this->localeProvider->getCurrentLocale();
         }
-        if (!$options['enable_widgets']) {
-            return;
+        if (!isset($view->vars['config']['toolbar'])) {
+            $view->vars['config']['toolbar'] = [];
         }
+        if ($options['enable_widgets']) {
+            $extraPlugins = [];
 
-        $plugins      = [];
-        $extraPlugins = [];
+            foreach ($this->widgetPool->getAllWidgets() as $widget) {
+                if ($widget instanceof AbstractCKEditorWidget) {
+                    $extraPlugins[] = $widget->getName();
+                }
+            }
+            if (!empty($extraPlugins)) {
+                $view->vars['plugins'][implode(',', $extraPlugins)] = [
+                    'path'     => $this->router->generate('darvin_admin_ckeditor_plugin_path'),
+                    'filename' => 'plugin.js',
+                ];
 
-        foreach ($this->widgetPool->getAllWidgets() as $widget) {
-            if ($widget instanceof AbstractCKEditorWidget) {
-                $extraPlugins[] = $widget->getName();
+                if ('' !== $view->vars['config']['extraPlugins']) {
+                    $view->vars['config']['extraPlugins'] .= ',';
+                }
+
+                $view->vars['config']['extraPlugins'] .= implode(',', $extraPlugins);
+
+                $view->vars['config']['toolbar'] = array_merge($view->vars['config']['toolbar'], [$extraPlugins]);
             }
         }
-        if (!empty($extraPlugins)) {
-            $plugins[implode(',', $extraPlugins)] = [
-                'path'     => $this->router->generate('darvin_admin_ckeditor_plugin_path'),
-                'filename' => 'plugin.js',
-            ];
-        }
-
-        $plugins = array_merge($plugins, [
-            'lineutils' => [
-                'path'     => $this->pluginsPath.'/lineutils/',
-                'filename' => 'plugin.js',
-            ],
-            'widget' => [
-                'path'     => $this->pluginsPath.'/widget/',
-                'filename' => 'plugin.js',
-            ],
-        ]);
-        $extraPlugins = array_merge($extraPlugins, [
-            'lineutils',
-            'widget',
-        ]);
-
-        // Config
-        $config = $view->vars['config'];
-
-        $extraPluginsString = implode(',', $extraPlugins);
-        $config['extraPlugins'] = isset($config['extraPlugins']) && '' !== (string)$config['extraPlugins']
-            ? $config['extraPlugins'].','.$extraPluginsString
-            : $extraPluginsString;
-
-        if (isset($config['toolbar'])) {
-            $config['toolbar'] = array_merge($config['toolbar'], [$extraPlugins]);
-        }
-
-        $view->vars['config'] = $config;
-
-        // Plugins
-        $view->vars['plugins'] = isset($view->vars['plugins'])
-            ? array_merge($view->vars['plugins'], $plugins)
-            : $plugins;
     }
 
     /**

@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller;
 
-use Darvin\ContentBundle\Widget\WidgetException;
+use Darvin\AdminBundle\CKEditor\AbstractCKEditorWidget;
 use Darvin\ContentBundle\Widget\WidgetInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -20,22 +20,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class CKEditorController extends Controller
 {
     /**
-     * @param string $widgetName Widget name
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function pluginAction($widgetName)
+    public function pluginAction()
     {
-        try {
-            $widget = $this->getWidgetPool()->getWidget($widgetName);
-        } catch (WidgetException $ex) {
-            throw $this->createNotFoundException($ex->getMessage());
+        $widgets = [];
+        $icons   = [];
+
+        foreach ($this->getWidgetPool()->getAllWidgets() as $widget) {
+            if ($widget instanceof AbstractCKEditorWidget) {
+                $widgets[$widget->getName()] = $widget;
+                $icons[$widget->getName()]   = $this->getWidgetIcon($widget);
+            }
+        }
+        if (empty($widgets)) {
+            throw $this->createNotFoundException('No CKEditor widgets found.');
         }
 
         $response = $this->render('DarvinAdminBundle:CKEditor:plugin.js.twig', [
-            'icon'   => $this->getWidgetIcon($widget),
-            'widget' => $widget,
+            'widgets' => $widgets,
+            'icons'   => $icons,
         ]);
         $response->headers->set('Content-Type', 'application/javascript');
 

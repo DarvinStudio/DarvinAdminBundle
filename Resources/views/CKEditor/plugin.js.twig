@@ -1,76 +1,81 @@
 {% trans_default_domain 'admin' %}
 
-(function () {
-    var widgetName        = '{{ widget.name }}';
-    var widgetPlaceholder = '{{ widget.placeholder|raw }}';
-    {% if icon %}
+{% for widget in widgets %}
 
-    var widgetIcon        = '{{ icon|raw }}';
-    {% endif %}
+    {% set icon = icons[widget.name] %}
 
-    CKEDITOR.plugins.add(widgetName, {
-        requires: 'widget',
-        init:     function (editor) {
-            var widgetTitle = '{{ widget.resolvedOptions.title|trans }}';
+    (function () {
+        var widgetName        = '{{ widget.name }}';
+        var widgetPlaceholder = '{{ widget.placeholder|raw }}';
+        {% if icon %}
 
-            editor.widgets.add(widgetName, {
-                template:        '<div class="' + widgetName + '">' + widgetPlaceholder + '</div>',
-                allowedContent:  'div(!' + widgetName + ')',
-                requiredContent: 'div(' + widgetName + ')',
-                upcast:          function (element) {
-                    return 'div' === element.name
-                        && element.hasClass(widgetName)
-                        && 1 === element.children.length
-                        && widgetPlaceholder === element.children[0].value;
-                },
-                init: function () {
-                    this.element.setHtml('');
-                    this.element.setAttribute('title', widgetTitle);
-                },
-                downcast: function (element) {
-                    delete element.attributes.title;
-                    element.setHtml(widgetPlaceholder);
-                }
-            });
+        var widgetIcon        = '{{ icon|raw }}';
+        {% endif %}
 
-            editor.ui.addButton(widgetName, {
-                label:   widgetTitle,
-                command: widgetName{% if icon %},{% endif %}
-                {% if icon %}
+        CKEDITOR.plugins.add(widgetName, {
+            requires: 'widget',
+            init:     function (editor) {
+                var widgetTitle = '{{ widget.resolvedOptions.title|trans }}';
 
-                icon:    widgetName
-                {% endif %}
+                editor.widgets.add(widgetName, {
+                    template:        '<div class="' + widgetName + '">' + widgetPlaceholder + '</div>',
+                    allowedContent:  'div(!' + widgetName + ')',
+                    requiredContent: 'div(' + widgetName + ')',
+                    upcast:          function (element) {
+                        return 'div' === element.name
+                            && element.hasClass(widgetName)
+                            && 1 === element.children.length
+                            && widgetPlaceholder === element.children[0].value;
+                    },
+                    init: function () {
+                        this.element.setHtml('');
+                        this.element.setAttribute('title', widgetTitle);
+                    },
+                    downcast: function (element) {
+                        delete element.attributes.title;
+                        element.setHtml(widgetPlaceholder);
+                    }
+                });
 
-            });
-            {% if icon %}
-
-            editor.on('instanceReady', function () {
-                var icons = document.getElementsByClassName('cke_button__' + widgetName + '_icon');
-
-                if (!icons.length) {
-                    return;
-                }
-
-                var style = 'background: url("' + widgetIcon + '"); background-size: 16px 16px;';
-
-                for (var i = 0; i < icons.length; i++) {
-                    icons[i].setAttribute('style', style);
-                }
-            });
-            {% endif %}
-
-            CKEDITOR.addCss(
-                '.' + widgetName + ' {' +
+                editor.ui.addButton(widgetName, {
+                    label:   widgetTitle,
+                    command: widgetName{% if icon %},{% endif %}
                     {% if icon %}
 
-                    'background:      url("' + widgetIcon + '") no-repeat center;' +
-                    'background-size: 64px 64px;' +
+                    icon:    widgetName
                     {% endif %}
 
-                    'box-shadow:      grey 0 0 16px;' +
-                    'height:          84px;' +
-                '}'
-            );
-        }
-    });
-})();
+                });
+                {% if icon %}
+
+                editor.on('instanceReady', function () {
+                    var icons = document.getElementsByClassName('cke_button__' + widgetName + '_icon');
+
+                    if (!icons.length) {
+                        return;
+                    }
+
+                    var style = 'background: url("' + widgetIcon + '"); background-size: 16px 16px;';
+
+                    for (var i = 0; i < icons.length; i++) {
+                        icons[i].setAttribute('style', style);
+                    }
+                });
+                {% endif %}
+
+                CKEDITOR.addCss(
+                    '.' + widgetName + ' {' +
+                        {% if icon %}
+
+                        'background:      url("' + widgetIcon + '") no-repeat center;' +
+                        'background-size: 64px 64px;' +
+                        {% endif %}
+
+                        'box-shadow:      grey 0 0 16px;' +
+                        'height:          84px;' +
+                    '}'
+                );
+            }
+        });
+    })();
+{% endfor %}

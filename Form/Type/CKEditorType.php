@@ -118,7 +118,9 @@ class CKEditorType extends AbstractType
                 }
             }
             if (!empty($extraPlugins)) {
-                $view->vars['plugins'][implode(',', $extraPlugins)] = [
+                $extraPluginList = implode(',', $extraPlugins);
+
+                $view->vars['plugins'][$extraPluginList] = [
                     'path'     => $this->router->generate('darvin_admin_ckeditor_plugin_path'),
                     'filename' => 'plugin.js',
                 ];
@@ -127,9 +129,9 @@ class CKEditorType extends AbstractType
                     $view->vars['config']['extraPlugins'] .= ',';
                 }
 
-                $view->vars['config']['extraPlugins'] .= implode(',', $extraPlugins);
+                $view->vars['config']['extraPlugins'] .= $extraPluginList;
 
-                $view->vars['config']['toolbar'] = array_merge($view->vars['config']['toolbar'], [$extraPlugins]);
+                $view->vars['config']['toolbar'][] = $extraPlugins;
             }
         }
     }

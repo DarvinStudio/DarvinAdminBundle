@@ -19,11 +19,14 @@ services:
     darvin_admin.ckeditor.form_type.common:
         class: '%darvin_admin.ckeditor.form_type.common.class%'
         arguments:
+            - '@assets.packages'
             - '@darvin_utils.locale.provider'
             - '@property_accessor'
             - '@router'
             - '@darvin_content.translatable.manager'
             - '@darvin_content.widget.pool'
+            - '%darvin_admin.ckeditor.apply_contents_css%'
+            - '@=parameter("kernel.debug") ? "assets/build-dev" : "assets/build"'
             - '%darvin_admin.ckeditor.plugin_filename%'
             - '%darvin_admin.ckeditor.plugins_path%'
         tags:

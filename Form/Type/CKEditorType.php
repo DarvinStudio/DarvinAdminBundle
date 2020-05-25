@@ -15,6 +15,7 @@ use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Darvin\Utils\Locale\LocaleProviderInterface;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -28,6 +29,11 @@ use Symfony\Component\Routing\RouterInterface;
 class CKEditorType extends AbstractType
 {
     private const CONFIG_NAME = 'darvin_admin';
+
+    /**
+     * @var \Symfony\Component\Asset\Packages
+     */
+    private $assetPackages;
 
     /**
      * @var \Darvin\Utils\Locale\LocaleProviderInterface
@@ -55,6 +61,16 @@ class CKEditorType extends AbstractType
     private $widgetPool;
 
     /**
+     * @var bool
+     */
+    private $applyContentsCss;
+
+    /**
+     * @var string
+     */
+    private $contentsCssDir;
+
+    /**
      * @var string
      */
     private $pluginFilename;
@@ -65,28 +81,37 @@ class CKEditorType extends AbstractType
     private $pluginsPath;
 
     /**
+     * @param \Symfony\Component\Asset\Packages                               $assetPackages       Asset packages
      * @param \Darvin\Utils\Locale\LocaleProviderInterface                    $localeProvider      Locale provider
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface     $propertyAccessor    Property accessor
      * @param \Symfony\Component\Routing\RouterInterface                      $router              Router
      * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
      * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface                $widgetPool          Widget pool
+     * @param bool                                                            $applyContentsCss    Whether to apply contents CSS
+     * @param string                                                          $contentsCssDir      Contents CSS directory
      * @param string                                                          $pluginFilename      Plugin filename
      * @param string                                                          $pluginsPath         Plugins path
      */
     public function __construct(
+        Packages $assetPackages,
         LocaleProviderInterface $localeProvider,
         PropertyAccessorInterface $propertyAccessor,
         RouterInterface $router,
         TranslatableManagerInterface $translatableManager,
         WidgetPoolInterface $widgetPool,
+        bool $applyContentsCss,
+        string $contentsCssDir,
         string $pluginFilename,
         string $pluginsPath
     ) {
+        $this->assetPackages = $assetPackages;
         $this->localeProvider = $localeProvider;
         $this->propertyAccessor = $propertyAccessor;
         $this->router = $router;
         $this->translatableManager = $translatableManager;
         $this->widgetPool = $widgetPool;
+        $this->applyContentsCss = $applyContentsCss;
+        $this->contentsCssDir = $contentsCssDir;
         $this->pluginFilename = $pluginFilename;
         $this->pluginsPath = $pluginsPath;
     }
@@ -96,6 +121,10 @@ class CKEditorType extends AbstractType
      */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
+        if ($this->applyContentsCss) {
+            $this->applyContentsCss($view, $options);
+        }
+        
         $this->removeExtraPluginsFromBlacklist($view);
 
         $view->vars['locale'] = $this->getLocale($form);
@@ -143,10 +172,14 @@ class CKEditorType extends AbstractType
     {
         $resolver
             ->setDefaults([
-                'config_name'    => self::CONFIG_NAME,
-                'enable_widgets' => false,
+                'config_name'      => self::CONFIG_NAME,
+                'contents_css'     => null,
+                'contents_css_dir' => $this->contentsCssDir,
+                'enable_widgets'   => false,
             ])
             ->setAllowedTypes('config_name', 'string')
+            ->setAllowedTypes('contents_css', ['string', 'string[]', 'null'])
+            ->setAllowedTypes('contents_css_dir', 'string')
             ->setAllowedTypes('enable_widgets', 'boolean');
     }
 
@@ -164,6 +197,41 @@ class CKEditorType extends AbstractType
     public function getBlockPrefix(): string
     {
         return 'darvin_admin_ckeditor';
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormView $view    Form view
+     * @param array                            $options Options
+     */
+    private function applyContentsCss(FormView $view, array $options): void
+    {
+        $paths = $options['contents_css'];
+
+        if (null === $paths) {
+            return;
+        }
+        if (!is_array($paths)) {
+            $paths = [$paths];
+        }
+        if (empty($paths)) {
+            return;
+        }
+        if (!isset($view->vars['config']['contentsCss'])) {
+            $view->vars['config']['contentsCss'] = [];
+        }
+        if (!is_array($view->vars['config']['contentsCss'])) {
+            $view->vars['config']['contentsCss'] = [$view->vars['config']['contentsCss']];
+        }
+        foreach ($paths as $path) {
+            if (false === strpos($path, '.')) {
+                $path .= '.css';
+            }
+            if (0 !== strpos($path, '/')) {
+                $path = implode(DIRECTORY_SEPARATOR, [$options['contents_css_dir'], $path]);
+            }
+
+            $view->vars['config']['contentsCss'][] = $this->assetPackages->getUrl($path);
+        }
     }
 
     /**

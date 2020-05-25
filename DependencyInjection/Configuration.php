@@ -109,6 +109,7 @@ class Configuration implements ConfigurationInterface
         $root = (new TreeBuilder('ckeditor'))->getRootNode();
         $root->addDefaultsIfNotSet()
             ->children()
+                ->booleanNode('apply_contents_css')->defaultFalse()->end()
                 ->scalarNode('plugin_filename')->defaultValue('plugin.js')->cannotBeEmpty()->end()
                 ->scalarNode('plugins_path')->defaultValue('/bundles/darvinadmin/scripts/ckeditor/plugins')->cannotBeEmpty();
 

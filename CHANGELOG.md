@@ -559,3 +559,5 @@ darvin_admin:
 6.5.8: Clear cache on crud
 
 6.5.9: Load CKEditor plugins from single file.
+
+6.5.11: Allow to apply contents CSS in CKEditor.

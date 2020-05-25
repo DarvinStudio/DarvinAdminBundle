@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Controller\CKEditor;
 
 use Darvin\AdminBundle\CKEditor\CKEditorWidgetInterface;
-use Darvin\ContentBundle\Widget\Exception\WidgetNotExistsException;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -58,28 +57,30 @@ class PluginController
     }
 
     /**
-     * @param string $widgetName Widget name
-     *
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function __invoke(string $widgetName): Response
+    public function __invoke(): Response
     {
-        try {
-            $widget = $this->widgetPool->getWidget($widgetName);
-        } catch (WidgetNotExistsException $ex) {
-            throw new NotFoundHttpException($ex->getMessage());
+        $widgets = [];
+        $icons   = [];
+        $letters = [];
+
+        foreach ($this->widgetPool->getAllWidgets() as $widget) {
+            if ($widget instanceof CKEditorWidgetInterface) {
+                $widgets[$widget->getName()] = $widget;
+                $icons[$widget->getName()]   = $this->getWidgetIcon($widget);
+                $letters[$widget->getName()] = $this->getWidgetLetter($widget);
+            }
         }
-        if (!$widget instanceof CKEditorWidgetInterface) {
-            throw new NotFoundHttpException(
-                sprintf('Widget class "%s" must be instance of "%s".', get_class($widget), CKEditorWidgetInterface::class)
-            );
+        if (empty($widgets)) {
+            throw new NotFoundHttpException('No CKEditor widgets found.');
         }
 
         $response = new Response($this->twig->render('@DarvinAdmin/ckeditor/plugin.js.twig', [
-            'icon'   => $this->getWidgetIcon($widget),
-            'letter' => $this->getWidgetLetter($widget),
-            'widget' => $widget,
+            'widgets' => $widgets,
+            'icons'   => $icons,
+            'letters' => $letters,
         ]));
         $response->headers->set('Content-Type', 'application/javascript');
 

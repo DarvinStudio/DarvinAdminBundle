@@ -107,7 +107,6 @@ class CKEditorType extends AbstractType
             return;
         }
 
-        $path    = $this->router->generate('darvin_admin_ckeditor_plugin_path');
         $plugins = [
             'lineutils' => [
                 'path'     => $this->pluginsPath.'/lineutils/',
@@ -122,19 +121,21 @@ class CKEditorType extends AbstractType
             'lineutils',
             'widget',
         ];
+        $widgetNames = [];
 
         foreach ($this->widgetPool->getAllWidgets() as $widget) {
-            if (!$widget instanceof AbstractCKEditorWidget) {
-                continue;
+            if ($widget instanceof AbstractCKEditorWidget) {
+                $widgetName = $widget->getName();
+
+                $extraPlugins[] = $widgetName;
+                $widgetNames[]  = $widgetName;
             }
-
-            $widgetName = $widget->getName();
-
-            $plugins[$widgetName] = [
-                'path'     => $path,
-                'filename' => sprintf('%s.js', $widgetName),
+        }
+        if (!empty($widgetNames)) {
+            $plugins[implode(',', $widgetNames)] = [
+                'path'     => $this->router->generate('darvin_admin_ckeditor_plugin_path'),
+                'filename' => 'plugin.js',
             ];
-            $extraPlugins[] = $widgetName;
         }
 
         // Config

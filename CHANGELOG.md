@@ -557,3 +557,5 @@ darvin_admin:
 6.5.7: Render compound form field help.
 
 6.5.8: Clear cache on crud
+
+6.5.9: Load CKEditor plugins from single file.

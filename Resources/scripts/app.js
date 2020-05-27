@@ -176,6 +176,8 @@ function initSly( container, options ) {
         var $self = $(this);
         var $frame = $self.find('.sly-frame');
 
+        options.scrollBar =  $self.find('.scrollbar');
+        
         var sly = new Sly( $frame, options, {
             move: function () {
                 scrollSync();
@@ -201,7 +203,9 @@ function initSly( container, options ) {
     });
 }
 setTimeout(initSly, 1, $('.sly-container'), slyOptions);
-
+$(document).on('searchComplete', function(e, arg) {
+    setTimeout(initSly, 100, arg, slyOptions);
+});
 /**************************************************************/
 (function () {
     var selector = '.btn_toggle[data-cookie][data-id][data-text-open][data-text-close]';

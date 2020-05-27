@@ -567,3 +567,5 @@ darvin_admin:
 - Change CSS class in preview link widget.
 
 - Replace "Редактировать" with "Изменить" in russian translations model.
+
+- Change help CSS class in compound forms.

@@ -107,7 +107,7 @@
             <div class="form-heading">{{- label|raw -}}</div>
         {%- endif -%}
         {%- if show_help -%}
-            {{- form_help(form, {'help_html': true}) -}}
+            {{- form_help(form, {'help_class': 'form-info', 'help_html': true}) -}}
         {%- endif -%}
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}
@@ -182,7 +182,10 @@
 {%- endblock form_errors -%}
 
 {%- block form_help -%}
-    <div class="form-item__description">
+    {%- if help_class is not defined -%}
+        {%- set help_class = 'form-item__description' -%}
+    {%- endif -%}
+    <div class="{{ help_class }}">
         {%- if help is not empty -%}
             {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' help-text')|trim}) -%}
             {%- if translation_domain is same as(false) -%}

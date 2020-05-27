@@ -107,7 +107,7 @@
             <div class="form-heading">{{- label|raw -}}</div>
         {%- endif -%}
         {%- if show_help -%}
-            {{- form_help(form, {'help_class': 'form-info', 'help_html': true}) -}}
+            {{- form_help(form, {'help_class': 'form-help', 'help_html': true}) -}}
         {%- endif -%}
         {{- form_widget(form, widget_attr) -}}
         {{- form_errors(form) -}}

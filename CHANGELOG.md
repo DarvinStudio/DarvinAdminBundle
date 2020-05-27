@@ -561,3 +561,9 @@ darvin_admin:
 6.5.9: Load CKEditor plugins from single file.
 
 6.5.11: Allow to apply contents CSS in CKEditor.
+
+6.5.12:
+ 
+- Change CSS class in preview link widget.
+
+- Replace "Редактировать" with "Изменить" in russian translations model.

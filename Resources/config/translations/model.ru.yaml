@@ -13,7 +13,7 @@ action:
             m: '@trans@ успешно удален'
             n: '@trans@ успешно удалено'
     edit:
-        link: '   Редактировать @trans_lower_accusative@'
+        link: '   Изменить @trans_lower_accusative@'
         success:
             f: '@trans@ успешно изменена'
             m: '@trans@ успешно изменен'

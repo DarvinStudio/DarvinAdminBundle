@@ -106,7 +106,7 @@
         {%- if label -%}
             <div class="form-heading">{{- label|raw -}}</div>
         {%- endif -%}
-        {%- if show_help -%}
+        {%- if show_help and help is not empty -%}
             {{- form_help(form, {'help_class': 'form-help', 'help_html': true}) -}}
         {%- endif -%}
         {{- form_widget(form, widget_attr) -}}

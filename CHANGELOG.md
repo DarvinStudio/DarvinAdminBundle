@@ -569,3 +569,5 @@ darvin_admin:
 - Replace "Редактировать" with "Изменить" in russian translations model.
 
 - Change help CSS class in compound forms.
+
+6.5.16: Upgrade oneup/uploader-bundle.

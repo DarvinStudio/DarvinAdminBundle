@@ -207,10 +207,12 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
                     DateType::class => [
                         'widget' => 'single_text',
                         'format' => 'dd.MM.yyyy',
+                        'html5'  => false,
                     ],
                     DateTimeType::class => [
                         'widget' => 'single_text',
                         'format' => 'dd.MM.yyyy HH:mm',
+                        'html5'  => false,
                     ],
                     TimeType::class => [
                         'widget' => 'single_text',

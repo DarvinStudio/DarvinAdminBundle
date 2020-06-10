@@ -193,7 +193,7 @@ class NewAction extends AbstractAction
         }
 
         $filterForm = $this->adminFormFactory->createFilterForm($meta, null, null, [
-            'action'     => null,
+            'action'     => '',
             'data'       => $entity,
             'data_class' => $meta->getEntityClass(),
             'fields'     => $fields,

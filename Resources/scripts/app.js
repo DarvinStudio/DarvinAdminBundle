@@ -149,12 +149,12 @@ var slyOptions = {
 };
 
 // скрывает/показывает скрол бар, если он не нужен
-function switchScrollBar() {
-	var scrollbar = $('.js-scrollbar');
+function switchScrollBar($container) {
+	var scrollbar = $container.find('.js-scrollbar');
 	var handle = scrollbar.find('.handle');
     var scrollbar_width = scrollbar.eq(0).width();
     var handle_width = scrollbar.eq(0).find('.handle').width();
-    var content_width = $('.sly-container .section_table > table').width();
+    var content_width = $container.find('.section_table > table').width();
 
     if(content_width > scrollbar_width){
         if(scrollbar_width <= handle_width + 5 ){ // 5 - магическое число, чтобы нивелировать разницу ширин при ресайзе
@@ -174,6 +174,9 @@ function initSly( container, options ) {
     // для каждого контенера
     $(container).each(function(){
         var $self = $(this);
+        if ($self.hasClass('is-init')) return;
+        $self.addClass('is-init');
+
         var $frame = $self.find('.sly-frame');
 
         options.scrollBar =  $self.find('.scrollbar');
@@ -185,13 +188,13 @@ function initSly( container, options ) {
         });
 
         sly.init();
-        $('.sly-container .scrollbar').clone(true).appendTo('.sly-container');
+        $self.find('.scrollbar').clone(true).appendTo($self);
 
         scrollSync();
-        switchScrollBar();
+        switchScrollBar($self);
         $(window).resize(function() {
             scrollSync();
-            switchScrollBar();
+            switchScrollBar($self);
             sly.reload();
         });
 

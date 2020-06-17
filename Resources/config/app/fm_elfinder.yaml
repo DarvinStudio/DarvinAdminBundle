@@ -14,6 +14,7 @@ fm_elfinder:
                             - image/png
                             - image/jpg
                             - image/jpeg
+                            - image/webp
                             # MSO
                             - application/vnd.ms-office
                             # *.doc
@@ -51,6 +52,7 @@ fm_elfinder:
                             - image/png
                             - image/jpg
                             - image/jpeg
+                            - image/webp
                             # MSO
                             - application/vnd.ms-office
                             # *.doc

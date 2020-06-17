@@ -571,3 +571,5 @@ darvin_admin:
 - Change help CSS class in compound forms.
 
 6.5.16: Upgrade oneup/uploader-bundle.
+
+6.5.18: Allow WebP in elFinder.

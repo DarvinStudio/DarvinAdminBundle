@@ -1,5 +1,5 @@
 <div class="table-row__image">
     <a href="{{ url }}" class="js-ajax" title="{{ entity }}">
-        <img src="{{ url|imagine_filter('darvin_admin_thumb') }}" alt="">
+        <img src="{{ (url|lower) ends with '.svg' ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
     </a>
 </div>

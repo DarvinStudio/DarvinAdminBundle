@@ -2,6 +2,6 @@
 
 <div class="table-row__image js-photoswipe-gallery">
     <a href="{{ url }}" data-size="{{ image.dimensions }}">
-        <img src="{{ url|imagine_filter('darvin_admin_thumb') }}" alt="">
+        <img src="{{ image.vector ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
     </a>
 </div>

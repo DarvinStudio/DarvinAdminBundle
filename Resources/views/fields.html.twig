@@ -13,7 +13,7 @@
 
         <div class="custom-dropzone__item js-image" data-id="{{ image.id }}">
             <a class="custom-dropzone__item-img" href="{{ url }}" data-size="{{ image.dimensions }}">
-                <img src="{{ url|imagine_filter('darvin_admin_thumb') }}" alt="">
+                <img src="{{ image.vector ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
             </a>
             {% if disableable %}
                 <div class="custom-dropzone__item-toggle">

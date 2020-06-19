@@ -11,9 +11,11 @@ fm_elfinder:
                         path:            '%upload_path%'
                         upload_max_size: '%upload_limit%M'
                         upload_allow:
-                            - image/png
-                            - image/jpg
                             - image/jpeg
+                            - image/jpg
+                            - image/png
+                            - image/svg
+                            - image/svg+xml
                             - image/webp
                             # MSO
                             - application/vnd.ms-office
@@ -49,9 +51,11 @@ fm_elfinder:
                         path:            '%upload_path%'
                         upload_max_size: '%upload_limit%M'
                         upload_allow:
-                            - image/png
-                            - image/jpg
                             - image/jpeg
+                            - image/jpg
+                            - image/png
+                            - image/svg
+                            - image/svg+xml
                             - image/webp
                             # MSO
                             - application/vnd.ms-office

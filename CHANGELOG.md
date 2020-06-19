@@ -573,3 +573,5 @@ darvin_admin:
 6.5.16: Upgrade oneup/uploader-bundle.
 
 6.5.18: Allow WebP in elFinder.
+
+6.5.19: Support SVG images.

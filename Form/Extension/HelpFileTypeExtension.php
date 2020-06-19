@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -30,27 +31,16 @@ class HelpFileTypeExtension extends AbstractTypeExtension
     /**
      * @var int
      */
-    private $maxUploadSize;
+    private $uploadMaxSizeMb;
 
     /**
-     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator    Translator
-     * @param mixed                                              $maxUploadSize Max upload size in MB
-     *
-     * @throws \InvalidArgumentException
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator      Translator
+     * @param int                                                $uploadMaxSizeMb Max upload size in MB
      */
-    public function __construct(TranslatorInterface $translator, $maxUploadSize)
+    public function __construct(TranslatorInterface $translator, int $uploadMaxSizeMb)
     {
         $this->translator = $translator;
-
-        $maxUploadSize = (int)$maxUploadSize;
-
-        if ($maxUploadSize < 1) {
-            throw new \InvalidArgumentException(
-                sprintf('Max upload size should be greater than or equal to 1, got %d.', $maxUploadSize)
-            );
-        }
-
-        $this->maxUploadSize = $maxUploadSize;
+        $this->uploadMaxSizeMb = $uploadMaxSizeMb;
     }
 
     /**
@@ -67,7 +57,7 @@ class HelpFileTypeExtension extends AbstractTypeExtension
         while ($parent = $f->getParent()) {
             if ($parent->getConfig()->getType()->getInnerType() instanceof EntityType) {
                 $view->vars['help'] = $this->translator->trans('form.file.help', [
-                    '%size%' => $this->maxUploadSize,
+                    '%size%' => $options['upload_max_size_mb'],
                 ], 'admin');
 
                 return;
@@ -75,6 +65,16 @@ class HelpFileTypeExtension extends AbstractTypeExtension
 
             $f = $parent;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver
+            ->setDefault('upload_max_size_mb', $this->uploadMaxSizeMb)
+            ->setAllowedTypes('upload_max_size_mb', 'integer');
     }
 
     /**

@@ -9,7 +9,7 @@ darvin_admin:
     project_title:            ~                             # Название проекта
     search_query_min_length:  3                             # Минимальная длина поискового запроса
     translations_model_dir:   Resources/config/translations # Путь до каталога с моделями переводов
-    upload_max_size_mb:       2                             # Максимальный размер загружаемого файла
+    upload_max_size_mb:       100                           # Максимальный размер загружаемого файла
     yandex_translate_api_key: ~                             # API-ключ сервиса "Яндекс.Переводчик"
     ckeditor: # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина

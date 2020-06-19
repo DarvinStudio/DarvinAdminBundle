@@ -11,7 +11,7 @@ services:
             - '@vich_uploader.metadata_reader'
             - '%darvin_image.constraints%'
             - '%oneup_uploader.config%'
-            - '%darvin_admin.upload_max_size_mb%'
+            - '%darvin_image.upload_max_size_mb%'
             - '@darvin_image.size.describer'
         tags:
             - { name: form.type }

@@ -45,7 +45,7 @@
                 {% for tab in tabs %}
                     <div class="tabs__content-item">
                         <div class="form-product-show">
-                            {% for row in form|filter(row => row.vars.admin_tab|default(default_tab) == tab) %}
+                            {% for row in form|filter(row => not row.rendered and row.vars.admin_tab|default(default_tab) == tab) %}
                                 {{ form_row(row) }}
                             {% endfor %}
                         </div>

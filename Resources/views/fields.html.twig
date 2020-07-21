@@ -210,7 +210,7 @@
 {%- block checkbox_widget -%}
     <label class="{{ label_class|default('custom-tumbler') }}">
         {{- parent() -}}
-        {%- if checkbox_show_label is defined and checkbox_show_label -%}
+        {%- if choice_show_label is defined and choice_show_label -%}
             {%- set label_add_class = false -%}
             {{- block('form_label') -}}
         {%- else -%}
@@ -240,7 +240,7 @@
 {%- block choice_widget_expanded -%}
     <div class="form-item__сheckbox">
         {%- for child in form -%}
-            {{- form_widget(child, {'checkbox_show_label': true, 'label_class': 'custom-checkbox'}) -}}
+            {{- form_widget(child, {'choice_show_label': true, 'label_class': (multiple ? 'custom-checkbox' : 'custom-radio')}) -}}
             {{- form_errors(child) -}}
         {%- endfor -%}
     </div>
@@ -270,6 +270,18 @@
     {%- endif -%}
     {{- block('form_widget') -}}
 {%- endblock file_widget -%}
+
+{%- block radio_widget -%}
+    <label class="{{ label_class|default('custom-tumbler') }}">
+        {{- parent() -}}
+        {%- if choice_show_label is defined and choice_show_label -%}
+            {%- set label_add_class = false -%}
+            {{- block('form_label') -}}
+        {%- else -%}
+            <span></span>
+        {%- endif -%}
+    </label>
+{%- endblock radio_widget -%}
 
 {# Custom widgets #}
 

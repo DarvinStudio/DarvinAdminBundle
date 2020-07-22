@@ -240,7 +240,7 @@
 {%- block choice_widget_expanded -%}
     <div class="form-item__сheckbox">
         {%- for child in form -%}
-            {{- form_widget(child, {'choice_show_label': true, 'label_class': (multiple ? 'custom-checkbox' : 'custom-radio')}) -}}
+            {{- form_widget(child, {'choice_show_label': true, 'label_class': (multiple is defined and multiple ? 'custom-checkbox' : 'custom-radio')}) -}}
             {{- form_errors(child) -}}
         {%- endfor -%}
     </div>

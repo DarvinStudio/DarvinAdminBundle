@@ -263,6 +263,21 @@
     {{- parent() -}}
 {%- endblock collection_widget -%}
 
+{%- block date_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-datepicker')|trim}) -%}
+    {{- parent() -}}
+{%- endblock date_widget -%}
+
+{%- block datetime_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-datetimepicker')|trim}) -%}
+    {{- parent() -}}
+{%- endblock datetime_widget -%}
+
+{%- block time_widget -%}
+    {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-timepicker')|trim}) -%}
+    {{- parent() -}}
+{%- endblock time_widget -%}
+
 {%- block file_widget -%}
     {%- set attr = attr|merge({'class': (attr.class|default ~ ' js-custom-file')|trim}) -%}
     {%- if attr['data-placeholder'] is not defined -%}

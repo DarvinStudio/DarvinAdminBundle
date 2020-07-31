@@ -575,3 +575,5 @@ darvin_admin:
 6.5.18: Allow WebP in elFinder.
 
 6.5.19: Support SVG images.
+
+6.5.23: Add specific CSS classes to date, time and datetime form fields.

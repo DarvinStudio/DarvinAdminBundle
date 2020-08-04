@@ -32,7 +32,7 @@ parameters:
     darvin_admin.view.widget.simple_list.class: Darvin\AdminBundle\View\Widget\Widget\SimpleListWidget
     darvin_admin.view.widget.switch_user.class: Darvin\AdminBundle\View\Widget\Widget\SwitchUserWidget
     darvin_admin.view.widget.text.class: Darvin\AdminBundle\View\Widget\Widget\TextWidget
-    darvin_admin.view.widget.url_query_params.class: Darvin\AdminBundle\View\Widget\Widget\UrlQueryParamsWidget
+    darvin_admin.view.widget.url_params.class: Darvin\AdminBundle\View\Widget\Widget\UrlParamsWidget
 
     darvin_admin.view.widget.pool.class: Darvin\AdminBundle\View\Widget\WidgetPool
 
@@ -267,8 +267,8 @@ services:
         tags:
             - { name: darvin_admin.view_widget }
 
-    darvin_admin.view.widget.url_query_params:
-        class:  '%darvin_admin.view.widget.url_query_params.class%'
+    darvin_admin.view.widget.url_params:
+        class:  '%darvin_admin.view.widget.url_params.class%'
         parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }

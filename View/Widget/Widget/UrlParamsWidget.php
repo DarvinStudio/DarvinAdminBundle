@@ -13,18 +13,41 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 
 /**
- * URL query params view widget
+ * URL params view widget
  */
-class UrlQueryParamsWidget extends AbstractWidget
+class UrlParamsWidget extends AbstractWidget
 {
     /**
      * {@inheritDoc}
      */
     protected function createContent(object $entity, array $options): ?string
     {
-        $url = (string)$this->getPropertyValue($entity, $options['property']);
+        $url = trim((string)$this->getPropertyValue($entity, $options['property']));
 
-        return $url;
+        if ('' === $url) {
+            return null;
+        }
+
+        $query = parse_url($url, PHP_URL_QUERY);
+
+        if (null === $query) {
+            return null;
+        }
+
+        $params = [];
+
+        foreach (explode('&', $query) as $expr) {
+            $parts = explode('=', $expr);
+
+            $params[$parts[0]] = $parts[1] ?? null;
+        }
+        if (empty($params)) {
+            return null;
+        }
+
+        return $this->render([
+            'params' => $params,
+        ]);
     }
 
     /**

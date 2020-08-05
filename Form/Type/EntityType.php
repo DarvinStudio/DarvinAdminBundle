@@ -103,7 +103,7 @@ class EntityType extends AbstractFormType
     {
         $resolver
             ->setDefaults([
-                'csrf_token_id'      => md5(__FILE__),
+                'csrf_protection'    => false,
                 'translation_domain' => 'admin',
             ])
             ->remove('data_class')

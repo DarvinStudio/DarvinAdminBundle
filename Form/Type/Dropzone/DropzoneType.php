@@ -260,7 +260,7 @@ class DropzoneType extends AbstractType
         $resolver
             ->setDefaults([
                 'accepted_files'         => implode(',', $this->constraints['mime_types']),
-                'csrf_token_id'          => md5(__FILE__.$this->getBlockPrefix()),
+                'csrf_protection'        => false,
                 'error_bubbling'         => false,
                 'image_filters'          => [],
                 'image_width'            => 0,

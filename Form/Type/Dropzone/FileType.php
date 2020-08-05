@@ -45,9 +45,7 @@ class FileType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-        ]);
+        $resolver->setDefault('csrf_protection', false);
     }
 
     /**

@@ -579,3 +579,5 @@ darvin_admin:
 6.5.23: Add specific CSS classes to date, time and datetime form fields.
 
 6.5.24: Add "url_params" view widget.
+
+6.6.0: Disable CSRF protection.

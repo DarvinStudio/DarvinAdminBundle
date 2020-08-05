@@ -38,7 +38,7 @@ class BatchDeleteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('csrf_token_id', md5(__FILE__.__METHOD__.$this->getBlockPrefix()));
+        $resolver->setDefault('csrf_protection', false);
     }
 
     /**

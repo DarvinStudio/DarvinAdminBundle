@@ -75,7 +75,7 @@ class ConfigurationsType extends AbstractType
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         foreach ($view->children as $name => $child) {
-            if ('_token' !== $name && empty($child->children)) {
+            if (empty($child->children)) {
                 unset($view->children[$name]);
             }
         }
@@ -87,8 +87,8 @@ class ConfigurationsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'csrf_token_id' => md5(__FILE__.$this->getBlockPrefix()),
-            'data_class'    => get_class($this->configurationPool),
+            'csrf_protection' => false,
+            'data_class'      => get_class($this->configurationPool),
         ]);
     }
 

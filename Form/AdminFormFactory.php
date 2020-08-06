@@ -182,7 +182,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
             }
         }
 
-        return $this->genericFormFactory->createNamed($meta->getFormTypeName().'_property', EntityType::class, $entity, [
+        $builder = $this->genericFormFactory->createNamedBuilder($meta->getFormTypeName().'_property', EntityType::class, $entity, [
             'action_type'       => 'index',
             'data_class'        => $dataClass,
             'field_filter'      => $property,
@@ -193,6 +193,12 @@ class AdminFormFactory implements AdminFormFactoryInterface
                 'AdminUpdateProperty',
             ],
         ]);
+
+        $builder->add('_', HiddenType::class, [
+            'mapped' => false,
+        ]);
+
+        return $builder->getForm();
     }
 
     /**

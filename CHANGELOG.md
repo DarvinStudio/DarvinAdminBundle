@@ -581,3 +581,5 @@ darvin_admin:
 6.5.24: Add "url_params" view widget.
 
 6.6.0: Disable CSRF protection.
+
+6.6.1: Fix property forms submitting (add not mapped field named "_").

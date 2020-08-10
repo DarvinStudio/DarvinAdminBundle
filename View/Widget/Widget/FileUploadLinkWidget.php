@@ -48,10 +48,7 @@ class FileUploadLinkWidget extends AbstractWidget
             return null;
         }
 
-        return $this->render([
-            'filename' => $this->getPropertyValue($entity, $property),
-            'url'      => $url,
-        ]);
+        return sprintf('<a href="%s">%s</a>', $url, $this->getPropertyValue($entity, $property));
     }
 
     /**

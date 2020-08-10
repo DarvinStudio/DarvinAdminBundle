@@ -29,10 +29,10 @@ class SimpleLinkWidget extends AbstractWidget
             return null;
         }
 
-        return $this->render([
-            'title' => $url,
-            'url'   => $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? sprintf('http://%s', $url) : $url,
-        ]);
+        $title       = $url;
+        $preparedUrl = $options['add_http_prefix'] && !preg_match('/^https*:\/\//', $url) ? sprintf('http://%s', $url) : $url;
+
+        return sprintf('<a href="%s" target="_blank">%s</a>', $preparedUrl, $title);
     }
 
     /**

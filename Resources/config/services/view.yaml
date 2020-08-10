@@ -250,6 +250,8 @@ services:
     darvin_admin.view.widget.simple_list:
         class:  '%darvin_admin.view.widget.simple_list.class%'
         parent: darvin_admin.view.widget.abstract
+        arguments:
+            - '@translator'
         tags:
             - { name: darvin_admin.view_widget }
 

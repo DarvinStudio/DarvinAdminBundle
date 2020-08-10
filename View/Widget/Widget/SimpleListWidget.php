@@ -12,12 +12,26 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Simple list view widget
  */
 class SimpleListWidget extends AbstractWidget
 {
+    /**
+     * @var \Symfony\Contracts\Translation\TranslatorInterface
+     */
+    private $translator;
+
+    /**
+     * @param \Symfony\Contracts\Translation\TranslatorInterface $translator Translator
+     */
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -40,10 +54,18 @@ class SimpleListWidget extends AbstractWidget
 
             throw new \InvalidArgumentException($message);
         }
+        if (!is_array($items)) {
+            $items = iterator_to_array($items);
+        }
+        if (empty($items)) {
+            return null;
+        }
 
-        return $this->render([
-            'items' => $items,
-        ]);
+        $translator = $this->translator;
+
+        return sprintf('<ul><li>%s</li></ul>', implode('</li><li>', array_map(function ($item) use ($translator): string {
+            return $translator->trans((string)$item, [], 'admin');
+        }, $items)));
     }
 
     /**

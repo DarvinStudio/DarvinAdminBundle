@@ -28,9 +28,7 @@ class EmailLinkWidget extends AbstractWidget
             return null;
         }
 
-        return $this->render([
-            'email' => $email,
-        ]);
+        return sprintf('<a href="mailto:%s">%1$s</a>', $email);
     }
 
     /**

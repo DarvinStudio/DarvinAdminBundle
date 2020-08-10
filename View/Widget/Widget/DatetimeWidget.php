@@ -32,10 +32,7 @@ class DatetimeWidget extends AbstractWidget
             ));
         }
 
-        return $this->render([
-            'date' => $datetime->format('d.m.Y'),
-            'time' => $datetime->format('H:i'),
-        ]);
+        return sprintf('%s<br><span>%s</span>', $datetime->format('d.m.Y'), $datetime->format('H:i'));
     }
 
     /**

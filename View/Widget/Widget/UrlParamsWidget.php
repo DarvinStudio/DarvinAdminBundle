@@ -45,9 +45,15 @@ class UrlParamsWidget extends AbstractWidget
             return null;
         }
 
-        return $this->render([
-            'params' => $params,
-        ]);
+        $content = '<table>';
+
+        foreach ($params as $name => $value) {
+            $content .= sprintf('<tr><th>%s</th><td>%s</td></tr>', $name, $value);
+        }
+
+        $content .= '</table>';
+
+        return $content;
     }
 
     /**

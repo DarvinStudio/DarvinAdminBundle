@@ -25,10 +25,11 @@ class PhoneLinkWidget extends AbstractWidget
         $phone = (string)$this->getPropertyValue($entity, $options['property']);
         $url   = preg_replace('/[^\+\d]+/', '', $phone);
 
-        return $this->render([
-            'phone' => $phone,
-            'url'   => $url,
-        ]);
+        if ('' !== $url) {
+            return sprintf('<a href="tel:%s">%s</a>', $url, $phone);
+        }
+
+        return $phone;
     }
 
     /**

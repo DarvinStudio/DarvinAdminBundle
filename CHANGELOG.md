@@ -589,3 +589,5 @@ darvin_admin:
 - Do not use form types in copy form and delete form view widgets.
 
 - Do not use templates in some view widgets.
+
+6.6.3: Decode values in URL params view widget.

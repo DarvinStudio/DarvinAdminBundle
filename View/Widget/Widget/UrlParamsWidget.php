@@ -39,7 +39,7 @@ class UrlParamsWidget extends AbstractWidget
         foreach (explode('&', $query) as $expr) {
             $parts = explode('=', $expr);
 
-            $params[$parts[0]] = $parts[1] ?? null;
+            $params[$parts[0]] = isset($parts[1]) ? urldecode($parts[1]) : null;
         }
         if (empty($params)) {
             return null;

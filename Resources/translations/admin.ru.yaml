@@ -34,8 +34,6 @@ crud:
             submit:    Удалить выбранные
             success:   Выбранные элементы успешно удалены
 
-download: Скачать
-
 entity_name:
     single:
         configuration: Настройки
@@ -240,6 +238,10 @@ translation:
         updated_at:      Обновлен
         updated_at_from: Обновлен (с)
         updated_at_to:   Обновлен (по)
+
+vich_uploader:
+    link:
+        download: Скачать
 
 widget_cache:
     action:

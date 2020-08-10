@@ -29,7 +29,6 @@ crud:
             confirm: 'Confirmer La Suppression Des Éléments Sélectionnés'
             submit: 'Supprimer La Sélection'
             success: 'Les Éléments Sélectionnés Supprimé Avec Succès'
-download: Télécharger
 entity_name:
     single:
         configuration: Configuration
@@ -209,6 +208,9 @@ translation:
         updated_at: 'Mis À Jour Au'
         updated_at_from: 'Mis À Jour (À Partir De)'
         updated_at_to: 'Mis À Jour (À)'
+vich_uploader:
+    link:
+        download: Télécharger
 widget_cache:
     action:
         clear:

@@ -59,9 +59,7 @@ class ActionsWidget extends AbstractWidget
             return null;
         }
 
-        return $this->render([
-            'actions' => $actions,
-        ]);
+        return sprintf('<div class="table-row__actions">%s</div>', implode('', $actions));
     }
 
     /**

@@ -588,4 +588,4 @@ darvin_admin:
  
 - Do not use form types in copy form and delete form view widgets.
 
-- Do not use template in actions widget.
+- Do not use template in actions view widget.

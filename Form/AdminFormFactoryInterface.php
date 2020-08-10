@@ -18,6 +18,7 @@ use Symfony\Component\Form\FormInterface;
  */
 interface AdminFormFactoryInterface
 {
+    public const NAME_PREFIX_COPY   = 'copy_';
     public const NAME_PREFIX_DELETE = 'delete_';
 
     public const SUBMIT_EDIT  = 'submit_edit';

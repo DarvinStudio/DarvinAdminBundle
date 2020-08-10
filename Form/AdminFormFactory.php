@@ -206,7 +206,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
      */
     public function createCopyForm($entity, ?string $entityClass = null): FormInterface
     {
-        return $this->createIdForm($entity, 'copy_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_COPY));
+        return $this->createIdForm($entity, AdminFormFactoryInterface::NAME_PREFIX_COPY, $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_COPY));
     }
 
     /**

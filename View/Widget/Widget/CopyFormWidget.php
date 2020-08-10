@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\Utils\Mapping\MetadataFactoryInterface;
@@ -24,11 +25,6 @@ class CopyFormWidget extends AbstractWidget
     public const ALIAS = 'copy_form';
 
     /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
-     */
-    private $adminFormFactory;
-
-    /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
@@ -39,18 +35,23 @@ class CopyFormWidget extends AbstractWidget
     private $extendedMetadataFactory;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface $adminFormFactory        Admin form factory
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface     $adminRouter             Admin router
-     * @param \Darvin\Utils\Mapping\MetadataFactoryInterface     $extendedMetadataFactory Extended metadata factory
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
+     */
+    private $identifierAccessor;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface           $adminRouter             Admin router
+     * @param \Darvin\Utils\Mapping\MetadataFactoryInterface           $extendedMetadataFactory Extended metadata factory
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface $identifierAccessor      Identifier accessor
      */
     public function __construct(
-        AdminFormFactoryInterface $adminFormFactory,
         AdminRouterInterface $adminRouter,
-        MetadataFactoryInterface $extendedMetadataFactory
+        MetadataFactoryInterface $extendedMetadataFactory,
+        IdentifierAccessorInterface $identifierAccessor
     ) {
-        $this->adminFormFactory = $adminFormFactory;
         $this->adminRouter = $adminRouter;
         $this->extendedMetadataFactory = $extendedMetadataFactory;
+        $this->identifierAccessor = $identifierAccessor;
     }
 
     /**
@@ -76,8 +77,12 @@ class CopyFormWidget extends AbstractWidget
             return null;
         }
 
+        $id = $this->identifierAccessor->getId($entity);
+
         return $this->render([
-            'form'               => $this->adminFormFactory->createCopyForm($entity, $options['entity_class'])->createView(),
+            'entity'             => $entity,
+            'id'                 => $id,
+            'name'               => AdminFormFactoryInterface::NAME_PREFIX_COPY.$id,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ]);
     }

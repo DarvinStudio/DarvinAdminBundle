@@ -584,4 +584,4 @@ darvin_admin:
 
 6.6.1: Fix property forms submitting (add not mapped field named "_").
 
-6.6.2: Do not use form type in delete form view widget.
+6.6.2: Do not use form types in copy form and delete form view widgets.

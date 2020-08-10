@@ -7,13 +7,17 @@
     'show':    'modal-actions__btn-copy',
 } %}
 
-{{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
-{{ form_widget(form) }}
-<button type="submit"
-        class="{{ classes[style]|default(classes.default) }}"
-        title="{{ title|e('html_attr') }}"
-        onclick="return confirm('{{ 'common.confirm'|trans|e('js') }}');">
-    {{ title }}
-</button>
-<input name="style" type="hidden" value="{{ style }}">
-{{ form_end(form) }}
+<form name="{{ name }}" action="{{ admin_path(entity, entity_class, 'copy') }}" method="post" class="js-form" data-reload-page="1">
+    {% for input_name, input_value in {
+        (name ~ '[id]'): id,
+        'style':         style,
+    } %}
+        <input name="{{ input_name }}" type="hidden" value="{{ input_value }}">
+    {% endfor %}
+    <button type="submit"
+            class="{{ classes[style]|default(classes.default) }}"
+            title="{{ title|e('html_attr') }}"
+            onclick="return confirm('{{ 'common.confirm'|trans|e('js') }}');">
+        {{ title }}
+    </button>
+</form>

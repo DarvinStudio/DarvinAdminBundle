@@ -10,16 +10,16 @@
 } %}
 
 <form name="{{ name }}" action="{{ admin_path(entity, entity_class, 'delete') }}" method="post" class="js-form" data-reload-page="1">
+    {% for input_name, input_value in {
+        (name ~ '[id]'): id,
+        'style':         style,
+    } %}
+        <input name="{{ input_name }}" type="hidden" value="{{ input_value }}">
+    {% endfor %}
     <button type="submit"
             class="{{ classes[style]|default(classes.default) }}"
             title="{{ title|e('html_attr') }}"
             onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
         {{ title }}
     </button>
-    {% for name, value in {
-        (name ~ '[id]'): id,
-        'style':         style,
-    } %}
-        <input name="{{ name }}" type="hidden" value="{{ value }}">
-    {% endfor %}
 </form>

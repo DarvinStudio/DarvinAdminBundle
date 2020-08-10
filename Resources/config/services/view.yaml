@@ -107,9 +107,9 @@ services:
         class:  '%darvin_admin.view.widget.copy_form.class%'
         parent: darvin_admin.view.widget.abstract
         arguments:
-            - '@darvin_admin.form.factory'
             - '@darvin_admin.router'
             - '@darvin_utils.mapping.metadata_factory'
+            - '@darvin_admin.metadata.identifier_accessor'
         tags:
             - { name: darvin_admin.view_widget }
 

@@ -53,21 +53,21 @@ class PublicLinkWidget extends AbstractWidget
      */
     protected function createContent($entity, array $options): ?string
     {
-        if ($this->homepageRouter->isHomepage($entity)) {
-            return $this->render([
-                'url' => $this->homepageRouter->generate(),
-            ]);
-        }
-        if (null !== $options['router_service']) {
-            $url = $this->callbackRunner->runCallback($options['router_service'], $options['router_method'], $entity);
+        $render = function ($url): ?string {
+            $url = trim((string)$url);
 
-            if (null === $url) {
+            if ('' === $url) {
                 return null;
             }
 
-            return $this->render([
-                'url' => $url,
-            ]);
+            return sprintf('<a href="%s" target="_blank">%1$s</a>', $url);
+        };
+
+        if ($this->homepageRouter->isHomepage($entity)) {
+            return $render($this->homepageRouter->generate());
+        }
+        if (null !== $options['router_service']) {
+            return $render($this->callbackRunner->runCallback($options['router_service'], $options['router_method'], $entity));
         }
 
         $params = [];
@@ -80,9 +80,7 @@ class PublicLinkWidget extends AbstractWidget
             $params[$param] = $this->getPropertyValue($entity, $property);
         }
 
-        return $this->render([
-            'url' => $this->router->generate($options['route'], $params),
-        ]);
+        return $render($this->router->generate($options['route'], $params));
     }
 
     /**

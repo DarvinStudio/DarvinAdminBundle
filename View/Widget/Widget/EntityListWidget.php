@@ -61,15 +61,20 @@ class EntityListWidget extends AbstractWidget
         }
 
         $widgets = [];
+        $render  = function (array $widgets): ?string {
+            if (empty($widgets)) {
+                return null;
+            }
+
+            return sprintf('<ul><li>%s</li></ul>', implode('</li><li>', $widgets));
+        };
 
         if (null === $options['item_widget_alias']) {
             foreach ($collection as $item) {
                 $widgets[] = null !== $options['item_title_property'] ? $this->getPropertyValue($item, $options['item_title_property']) : $item;
             }
 
-            return $this->render([
-                'widgets' => $widgets,
-            ]);
+            return $render($widgets);
         }
 
         $widgetObject = $this->widgetPool->getWidget($options['item_widget_alias']);
@@ -78,9 +83,7 @@ class EntityListWidget extends AbstractWidget
             $widgets[] = $widgetObject->getContent($item, $options['item_widget_options']);
         }
 
-        return $this->render([
-            'widgets' => $widgets,
-        ]);
+        return $render($widgets);
     }
 
     /**

@@ -214,7 +214,7 @@ class AdminFormFactory implements AdminFormFactoryInterface
      */
     public function createDeleteForm($entity, ?string $entityClass = null): FormInterface
     {
-        return $this->createIdForm($entity, 'delete_', $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_DELETE));
+        return $this->createIdForm($entity, AdminFormFactoryInterface::NAME_PREFIX_DELETE, $this->adminRouter->generate($entity, $entityClass, AdminRouterInterface::TYPE_DELETE));
     }
 
     /**

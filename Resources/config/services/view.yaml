@@ -125,6 +125,7 @@ services:
         arguments:
             - '@darvin_admin.form.factory'
             - '@darvin_admin.router'
+            - '@darvin_admin.metadata.identifier_accessor'
         tags:
             - { name: darvin_admin.view_widget }
 

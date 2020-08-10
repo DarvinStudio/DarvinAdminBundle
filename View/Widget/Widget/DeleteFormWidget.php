@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Form\AdminFormFactoryInterface;
+use Darvin\AdminBundle\Metadata\IdentifierAccessorInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,23 +24,23 @@ class DeleteFormWidget extends AbstractWidget
     public const ALIAS = 'delete_form';
 
     /**
-     * @var \Darvin\AdminBundle\Form\AdminFormFactoryInterface
-     */
-    private $adminFormFactory;
-
-    /**
      * @var \Darvin\AdminBundle\Route\AdminRouterInterface
      */
     private $adminRouter;
 
     /**
-     * @param \Darvin\AdminBundle\Form\AdminFormFactoryInterface $adminFormFactory Admin form factory
-     * @param \Darvin\AdminBundle\Route\AdminRouterInterface     $adminRouter      Admin router
+     * @var \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface
      */
-    public function __construct(AdminFormFactoryInterface $adminFormFactory, AdminRouterInterface $adminRouter)
+    private $identifierAccessor;
+
+    /**
+     * @param \Darvin\AdminBundle\Route\AdminRouterInterface           $adminRouter        Admin router
+     * @param \Darvin\AdminBundle\Metadata\IdentifierAccessorInterface $identifierAccessor Identifier accessor
+     */
+    public function __construct(AdminRouterInterface $adminRouter, IdentifierAccessorInterface $identifierAccessor)
     {
-        $this->adminFormFactory = $adminFormFactory;
         $this->adminRouter = $adminRouter;
+        $this->identifierAccessor = $identifierAccessor;
     }
 
     /**
@@ -59,8 +60,12 @@ class DeleteFormWidget extends AbstractWidget
             return null;
         }
 
+        $id = $this->identifierAccessor->getId($entity);
+
         return $this->render([
-            'form'               => $this->adminFormFactory->createDeleteForm($entity, $options['entity_class'])->createView(),
+            'entity'             => $entity,
+            'id'                 => $id,
+            'name'               => AdminFormFactoryInterface::NAME_PREFIX_DELETE.$id,
             'translation_prefix' => $this->metadataManager->getMetadata($entity)->getBaseTranslationPrefix(),
         ]);
     }

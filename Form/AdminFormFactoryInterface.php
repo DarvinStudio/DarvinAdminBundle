@@ -18,6 +18,8 @@ use Symfony\Component\Form\FormInterface;
  */
 interface AdminFormFactoryInterface
 {
+    public const NAME_PREFIX_DELETE = 'delete_';
+
     public const SUBMIT_EDIT  = 'submit_edit';
     public const SUBMIT_INDEX = 'submit_index';
     public const SUBMIT_NEW   = 'submit_new';

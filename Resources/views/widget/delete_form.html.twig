@@ -9,13 +9,17 @@
     'show':    'modal-actions__btn-remove',
 } %}
 
-{{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1}}) }}
-{{ form_widget(form) }}
-<button type="submit"
-        class="{{ classes[style]|default(classes.default) }}"
-        title="{{ title|e('html_attr') }}"
-        onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
-    {{ title }}
-</button>
-<input name="style" type="hidden" value="{{ style }}">
-{{ form_end(form) }}
+<form name="{{ name }}" action="{{ admin_path(entity, entity_class, 'delete') }}" method="post" class="js-form" data-reload-page="1">
+    <button type="submit"
+            class="{{ classes[style]|default(classes.default) }}"
+            title="{{ title|e('html_attr') }}"
+            onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
+        {{ title }}
+    </button>
+    {% for name, value in {
+        (name ~ '[id]'): id,
+        'style':         style,
+    } %}
+        <input name="{{ name }}" type="hidden" value="{{ value }}">
+    {% endfor %}
+</form>

@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Controller\Configuration;
 
+use Darvin\AdminBundle\Cache\Clear\CacheClearerInterface;
 use Darvin\AdminBundle\Form\Type\Configuration\ConfigurationsType;
 use Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
@@ -56,6 +57,11 @@ class EditController
     private $twig;
 
     /**
+     * @var \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null
+     */
+    private $cacheClearer;
+
+    /**
      * @param \Darvin\ConfigBundle\Configuration\ConfigurationPoolInterface $configPool    Configuration pool
      * @param \Darvin\Utils\Flash\FlashNotifierInterface                    $flashNotifier Flash notifier
      * @param \Symfony\Component\Form\FormFactoryInterface                  $formFactory   Form factory
@@ -74,6 +80,14 @@ class EditController
         $this->formFactory = $formFactory;
         $this->router = $router;
         $this->twig = $twig;
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Cache\Clear\CacheClearerInterface|null $cacheClearer Cache clearer
+     */
+    public function setCacheClearer(?CacheClearerInterface $cacheClearer): void
+    {
+        $this->cacheClearer = $cacheClearer;
     }
 
     /**
@@ -107,6 +121,8 @@ class EditController
 
         $this->configPool->saveAll();
 
+        $this->clearCache();
+
         $message = 'configuration.action.edit.success';
 
         if ($request->isXmlHttpRequest()) {
@@ -127,5 +143,12 @@ class EditController
             'action'             => $this->router->generate('darvin_admin_configuration'),
             'translation_domain' => 'admin',
         ]);
+    }
+
+    private function clearCache(): void
+    {
+        if (null !== $this->cacheClearer) {
+            $this->cacheClearer->clearOnCrud();
+        }
     }
 }

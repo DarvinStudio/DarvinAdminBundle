@@ -591,3 +591,5 @@ darvin_admin:
 - Do not use templates in some view widgets.
 
 6.6.3: Decode values in URL params view widget.
+
+6.6.4: Clear cache after saving in configuration edit controller.

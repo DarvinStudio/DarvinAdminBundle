@@ -15,7 +15,7 @@ services:
             - '@router'
             - '@twig'
         calls:
-            - [ setCacheClearer, [ '@darvin_admin.cache.clear.clearer' ] ]
+            - [ setCacheClearer, [ '@?darvin_admin.cache.clear.clearer' ] ]
         tags:
             - { name: controller.service_arguments }
 

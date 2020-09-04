@@ -593,3 +593,5 @@ darvin_admin:
 6.6.3: Decode values in URL params view widget.
 
 6.6.4: Clear cache after saving in configuration edit controller.
+
+6.6.7: Remove integration with yandex translate API.

@@ -46,18 +46,12 @@ class Globals
     private $styles;
 
     /**
-     * @var string|null
-     */
-    private $yandexTranslateApiKey;
-
-    /**
-     * @param string      $frontendPath          Frontend path
-     * @param string[]    $locales               Available locales
-     * @param string|null $logo                  Custom logo pathname
-     * @param string      $projectTitle          Project title
-     * @param string[]    $scripts               Script file pathnames
-     * @param string[]    $styles                Style file pathnames
-     * @param string|null $yandexTranslateApiKey Yandex.Translate API key
+     * @param string      $frontendPath Frontend path
+     * @param string[]    $locales      Available locales
+     * @param string|null $logo         Custom logo pathname
+     * @param string      $projectTitle Project title
+     * @param string[]    $scripts      Script file pathnames
+     * @param string[]    $styles       Style file pathnames
      */
     public function __construct(
         string $frontendPath,
@@ -65,8 +59,7 @@ class Globals
         ?string $logo,
         string $projectTitle,
         array $scripts,
-        array $styles,
-        ?string $yandexTranslateApiKey
+        array $styles
     ) {
         $this->frontendPath = $frontendPath;
         $this->locales = $locales;
@@ -74,7 +67,6 @@ class Globals
         $this->projectTitle = $projectTitle;
         $this->scripts = $scripts;
         $this->styles = $styles;
-        $this->yandexTranslateApiKey = $yandexTranslateApiKey;
     }
 
     /**
@@ -123,13 +115,5 @@ class Globals
     public function getStyles(): array
     {
         return $this->styles;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getYandexTranslateApiKey(): ?string
-    {
-        return $this->yandexTranslateApiKey;
     }
 }

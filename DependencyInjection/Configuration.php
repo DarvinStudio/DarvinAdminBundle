@@ -46,7 +46,6 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('search_query_min_length')->defaultValue(3)->min(1)->end()
                 ->scalarNode('translations_model_dir')->defaultValue('Resources/config/translations')->cannotBeEmpty()->end()
                 ->integerNode('upload_max_size_mb')->defaultValue(100)->min(1)->end()
-                ->scalarNode('yandex_translate_api_key')->defaultNull()->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();

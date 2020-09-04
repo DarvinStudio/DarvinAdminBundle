@@ -5,8 +5,7 @@
 {% set body_classes = [] %}
 {% set flashes      = app.flashes %}
 {% set data_attr    = {
-    'locale':        app.request.locale,
-    'trans_api_key': darvin_admin.yandexTranslateApiKey,
+    'locale': app.request.locale,
 } %}
 
 {% for class in {

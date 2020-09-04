@@ -3,14 +3,13 @@
 
 ```yaml
 darvin_admin:
-    frontend_path:            bundles/darvinadmin           # Путь до каталога с "визуальными" ресурсами (стили, изображения и т. д.)
+    frontend_path:           bundles/darvinadmin           # Путь до каталога с "визуальными" ресурсами (стили, изображения и т. д.)
     locales:                                                # Локали (обязательно)
-    logo:                     ~                             # Путь до кастомного логотипа (будет передан в Twig-функцию "asset()")
-    project_title:            ~                             # Название проекта
-    search_query_min_length:  3                             # Минимальная длина поискового запроса
-    translations_model_dir:   Resources/config/translations # Путь до каталога с моделями переводов
-    upload_max_size_mb:       100                           # Максимальный размер загружаемого файла
-    yandex_translate_api_key: ~                             # API-ключ сервиса "Яндекс.Переводчик"
+    logo:                    ~                             # Путь до кастомного логотипа (будет передан в Twig-функцию "asset()")
+    project_title:           ~                             # Название проекта
+    search_query_min_length: 3                             # Минимальная длина поискового запроса
+    translations_model_dir:  Resources/config/translations # Путь до каталога с моделями переводов
+    upload_max_size_mb:      100                           # Максимальный размер загружаемого файла
     ckeditor: # Конфигурация CKEditor
         plugin_filename: plugin.js                                     # Название файла плагина
         plugins_path:    /bundles/darvinadmin/scripts/ckeditor/plugins # Путь до каталога с плагинами

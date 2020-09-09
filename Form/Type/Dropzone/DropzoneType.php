@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
 use Darvin\ImageBundle\Size\SizeDescriber;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Form\AbstractType;
@@ -22,6 +23,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -35,6 +37,11 @@ class DropzoneType extends AbstractType
 {
     private const DEFAULT_ONEUP_UPLOADER_MAPPING = 'darvin_admin';
     private const OPTION_UPLOADABLE_FIELD        = 'uploadable_field';
+
+    /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    private $entityResolver;
 
     /**
      * @var \Oneup\UploaderBundle\Templating\Helper\UploaderHelper
@@ -77,6 +84,7 @@ class DropzoneType extends AbstractType
     private $imageSizeDescriber;
 
     /**
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                   $entityResolver             Entity resolver
      * @param \Oneup\UploaderBundle\Templating\Helper\UploaderHelper      $oneupUploaderHelper        1-up uploader helper
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Symfony\Contracts\Translation\TranslatorInterface          $translator                 Translator
@@ -89,6 +97,7 @@ class DropzoneType extends AbstractType
      * @throws \InvalidArgumentException
      */
     public function __construct(
+        EntityResolverInterface $entityResolver,
         UploaderHelper $oneupUploaderHelper,
         PropertyAccessorInterface $propertyAccessor,
         TranslatorInterface $translator,
@@ -98,6 +107,7 @@ class DropzoneType extends AbstractType
         $uploadMaxSizeMB,
         SizeDescriber $imageSizeDescriber = null
     ) {
+        $this->entityResolver = $entityResolver;
         $this->oneupUploaderHelper = $oneupUploaderHelper;
         $this->propertyAccessor = $propertyAccessor;
         $this->translator = $translator;
@@ -257,6 +267,8 @@ class DropzoneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $entityResolver = $this->entityResolver;
+
         $resolver
             ->setDefaults([
                 'accepted_files'         => implode(',', $this->constraints['mime_types']),
@@ -274,9 +286,7 @@ class DropzoneType extends AbstractType
                 'accepted_files',
                 self::OPTION_UPLOADABLE_FIELD,
             ])
-            ->setRequired([
-                'uploadable_class',
-            ])
+            ->setRequired('uploadable_class')
             ->setAllowedTypes('disableable', 'boolean')
             ->setAllowedTypes('editable', 'boolean')
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
@@ -287,7 +297,10 @@ class DropzoneType extends AbstractType
                 'string',
             ])
             ->setAllowedTypes('image_width', 'integer')
-            ->setAllowedTypes('image_height', 'integer');
+            ->setAllowedTypes('image_height', 'integer')
+            ->setNormalizer('uploadable_class', function (Options $options, string $class) use ($entityResolver): string {
+                return $entityResolver->resolve($class);
+            });
     }
 
     /**

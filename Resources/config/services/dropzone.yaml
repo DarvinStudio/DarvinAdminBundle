@@ -5,6 +5,7 @@ services:
     darvin_admin.dropzone.form_type:
         class: '%darvin_admin.dropzone.form_type.class%'
         arguments:
+            - '@darvin_utils.orm.entity_resolver'
             - '@oneup_uploader.templating.uploader_helper'
             - '@property_accessor'
             - '@translator'

@@ -37,9 +37,11 @@
             {% endif %}
         {% endblock %}
 
-        {% for style in darvin_admin.styles %}
-            <link rel="stylesheet" href="{{ '/' in style ? asset(style) : path(style) }}">
-        {% endfor %}
+        {% block extra_stylesheets %}
+            {% for style in darvin_admin.styles %}
+                <link rel="stylesheet" href="{{ '/' in style ? asset(style) : path(style) }}">
+            {% endfor %}
+        {% endblock %}
 
         <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
     </head>
@@ -206,10 +208,6 @@
                 <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build/app.js') }}"></script>
             {% endif %}
 
-            {% for script in darvin_admin.scripts %}
-                <script src="{{ '/' in script ? asset(script) : path(script) }}"></script>
-            {% endfor %}
-
             <script src="{{ asset('bundles/fosckeditor/ckeditor.js') }}"></script>
 
             {% if flashes is not empty %}
@@ -221,6 +219,12 @@
                     {% endfor %}
                 </script>
             {% endif %}
+        {% endblock %}
+
+        {% block extra_javascripts %}
+            {% for script in darvin_admin.scripts %}
+                <script src="{{ '/' in script ? asset(script) : path(script) }}"></script>
+            {% endfor %}
         {% endblock %}
 
     </body>

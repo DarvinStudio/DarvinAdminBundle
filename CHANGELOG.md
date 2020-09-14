@@ -597,3 +597,5 @@ darvin_admin:
 6.6.7: Remove integration with yandex translate API.
 
 6.6.8: Resolve uploadable class in Dropzone form type.
+
+6.6.9: Remove extra assets from login page.

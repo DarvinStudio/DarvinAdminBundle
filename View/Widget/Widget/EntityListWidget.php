@@ -65,6 +65,9 @@ class EntityListWidget extends AbstractWidget
             if (empty($widgets)) {
                 return null;
             }
+            if (1 === count($widgets)) {
+                return reset($widgets);
+            }
 
             return sprintf('<ul><li>%s</li></ul>', implode('</li><li>', $widgets));
         };

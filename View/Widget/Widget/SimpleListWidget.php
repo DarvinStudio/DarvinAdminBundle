@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Doctrine\Common\Util\ClassUtils;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -63,9 +64,21 @@ class SimpleListWidget extends AbstractWidget
 
         $translator = $this->translator;
 
-        return sprintf('<ul><li>%s</li></ul>', implode('</li><li>', array_map(function ($item) use ($translator): string {
-            return $translator->trans((string)$item, [], 'admin');
+        return sprintf('<ul><li>%s</li></ul>', implode('</li><li>', array_map(function ($item) use ($options, $translator): string {
+            return $translator->trans($options['trans_prefix'].(string)$item, [], 'admin');
         }, $items)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function configureOptions(OptionsResolver $resolver): void
+    {
+        parent::configureOptions($resolver);
+
+        $resolver
+            ->setDefault('trans_prefix', '')
+            ->setAllowedTypes('trans_prefix', 'string');
     }
 
     /**

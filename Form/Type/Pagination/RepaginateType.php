@@ -55,6 +55,7 @@ class RepaginateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
+            ->setDefault('csrf_protection', false)
             ->setRequired('entity_class')
             ->setAllowedTypes('entity_class', 'string');
     }

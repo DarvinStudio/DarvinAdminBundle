@@ -1,3 +1,5 @@
 {{ form_start(form) }}
-{{ form_widget(form) }}
+{{ form_errors(form) }}
+{{ form_widget(form.itemsPerPage, {'attr': {'onchange': 'this.form.submit();'}}) }}
+{{ form_errors(form.itemsPerPage) }}
 {{ form_end(form) }}

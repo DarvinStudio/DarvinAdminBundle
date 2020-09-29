@@ -74,6 +74,16 @@ class CrudRouteGenerator implements RouteGeneratorInterface
                     'get',
                 ],
             ],
+            AdminRouterInterface::TYPE_REPAGINATE => [
+                '%s_repaginate',
+                '%s/{id}/repaginate',
+                [
+                    'id' => '\d+',
+                ],
+                [
+                    'post',
+                ]
+            ],
             AdminRouterInterface::TYPE_SHOW => [
                 '%s_show',
                 '%s/{id}/show',

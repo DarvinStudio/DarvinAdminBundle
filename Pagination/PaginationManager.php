@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 /**
  * Pagination manager
  */
-class PaginationManager
+class PaginationManager implements PaginationManagerInterface
 {
     private const SESSION_KEY_ITEMS_PER_PAGE = 'darvin_admin.pagination.items_per_page';
 
@@ -41,9 +41,7 @@ class PaginationManager
     }
 
     /**
-     * @param string $entity Entity class
-     *
-     * @return int
+     * {@inheritDoc}
      */
     public function getItemsPerPage(string $entity): int
     {
@@ -61,8 +59,7 @@ class PaginationManager
     }
 
     /**
-     * @param string $entity       Entity class
-     * @param int    $itemsPerPage Items per page
+     * {@inheritDoc}
      */
     public function setItemsPerPage(string $entity, int $itemsPerPage): void
     {

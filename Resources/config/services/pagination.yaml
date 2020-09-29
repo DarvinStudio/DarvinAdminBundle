@@ -5,5 +5,5 @@ services:
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'
         arguments:
-            - '@darvin_admin.configuration.section'
+            - '@darvin_admin.metadata.manager'
             - '@session'

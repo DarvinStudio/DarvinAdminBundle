@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Pagination;
 
-use Darvin\AdminBundle\Configuration\SectionConfigurationInterface;
+use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -21,9 +21,9 @@ class PaginationManager implements PaginationManagerInterface
     private const SESSION_KEY_ITEMS_PER_PAGE = 'darvin_admin.pagination.items_per_page';
 
     /**
-     * @var \Darvin\AdminBundle\Configuration\SectionConfigurationInterface
+     * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
      */
-    private $sectionConfig;
+    private $metadataManager;
 
     /**
      * @var \Symfony\Component\HttpFoundation\Session\SessionInterface
@@ -31,12 +31,12 @@ class PaginationManager implements PaginationManagerInterface
     private $session;
 
     /**
-     * @param \Darvin\AdminBundle\Configuration\SectionConfigurationInterface $sectionConfig Section configuration
-     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface      $session       Session
+     * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Admin metadata manager
+     * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session         Session
      */
-    public function __construct(SectionConfigurationInterface $sectionConfig, SessionInterface $session)
+    public function __construct(AdminMetadataManagerInterface $metadataManager, SessionInterface $session)
     {
-        $this->sectionConfig = $sectionConfig;
+        $this->metadataManager = $metadataManager;
         $this->session = $session;
     }
 
@@ -57,7 +57,7 @@ class PaginationManager implements PaginationManagerInterface
             }
         }
 
-        return $this->sectionConfig->getSection($entity)->getConfig()['pagination']['items'];
+        return $this->metadataManager->getMetadata($entity)->getConfiguration()['pagination']['items'];
     }
 
     /**
@@ -117,7 +117,7 @@ class PaginationManager implements PaginationManagerInterface
      */
     private function validate(string $entity): void
     {
-        if (!$this->sectionConfig->getSection($entity)->getConfig()['pagination']['enabled']) {
+        if (!$this->metadataManager->getMetadata($entity)->getConfiguration()['pagination']['enabled']) {
             throw new \InvalidArgumentException(sprintf('Pagination is disabled for entity "%s".', $entity));
         }
     }

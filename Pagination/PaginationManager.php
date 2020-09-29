@@ -45,6 +45,8 @@ class PaginationManager implements PaginationManagerInterface
      */
     public function getItemsPerPage(string $entity): int
     {
+        $this->validate($entity);
+
         $collection = $this->getItemsPerPageCollection();
 
         if (isset($collection[$entity])) {
@@ -63,6 +65,8 @@ class PaginationManager implements PaginationManagerInterface
      */
     public function setItemsPerPage(string $entity, int $itemsPerPage): void
     {
+        $this->validate($entity);
+
         if (!$this->isValid($itemsPerPage)) {
             throw new \InvalidArgumentException(sprintf('Items per page "%d" is invalid.', $itemsPerPage));
         }
@@ -104,5 +108,17 @@ class PaginationManager implements PaginationManagerInterface
     private function isValid($itemsPerPage): bool
     {
         return is_int($itemsPerPage) && $itemsPerPage > 0;
+    }
+
+    /**
+     * @param string $entity Entity class
+     *
+     * @throws \InvalidArgumentException
+     */
+    private function validate(string $entity): void
+    {
+        if (!$this->sectionConfig->getSection($entity)->getConfig()['pagination']['enabled']) {
+            throw new \InvalidArgumentException(sprintf('Pagination is disabled for entity "%s".', $entity));
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace Darvin\AdminBundle\Controller\Crud;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface;
+use Darvin\AdminBundle\Pagination\PaginationManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface;
@@ -62,6 +63,11 @@ class IndexAction extends AbstractAction
     private $newAction;
 
     /**
+     * @var \Darvin\AdminBundle\Pagination\PaginationManagerInterface
+     */
+    private $paginationManager;
+
+    /**
      * @var \Knp\Component\Pager\PaginatorInterface
      */
     private $paginator;
@@ -92,6 +98,7 @@ class IndexAction extends AbstractAction
      * @param \Darvin\ContentBundle\Filterer\FiltererInterface                 $filterer                 Filterer
      * @param \Darvin\AdminBundle\View\Factory\Index\IndexViewFactoryInterface $indexViewFactory         Index view factory
      * @param \Darvin\AdminBundle\Controller\Crud\NewAction                    $newAction                CRUD controller new action
+     * @param \Darvin\AdminBundle\Pagination\PaginationManagerInterface        $paginationManager        Pagination manager
      * @param \Knp\Component\Pager\PaginatorInterface                          $paginator                Paginator
      * @param \Darvin\AdminBundle\Metadata\SortCriteriaDetectorInterface       $sortCriteriaDetector     Sort criteria detector
      * @param \Darvin\ContentBundle\ORM\SortEntityJoinerInterface              $sortEntityJoiner         Sort entity joiner
@@ -104,6 +111,7 @@ class IndexAction extends AbstractAction
         FiltererInterface $filterer,
         IndexViewFactoryInterface $indexViewFactory,
         NewAction $newAction,
+        PaginationManagerInterface $paginationManager,
         PaginatorInterface $paginator,
         SortCriteriaDetectorInterface $sortCriteriaDetector,
         SortEntityJoinerInterface $sortEntityJoiner,
@@ -115,6 +123,7 @@ class IndexAction extends AbstractAction
         $this->filterer = $filterer;
         $this->indexViewFactory = $indexViewFactory;
         $this->newAction = $newAction;
+        $this->paginationManager = $paginationManager;
         $this->paginator = $paginator;
         $this->sortCriteriaDetector = $sortCriteriaDetector;
         $this->sortEntityJoiner = $sortEntityJoiner;
@@ -195,12 +204,22 @@ class IndexAction extends AbstractAction
             $page = $request->query->getInt('page', 1);
 
             /** @var \Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination $pagination */
-            $pagination = $this->paginator->paginate($qb, $page, $config['pagination']['items'], $paginatorOptions);
+            $pagination = $this->paginator->paginate(
+                $qb,
+                $page,
+                $this->paginationManager->getItemsPerPage($this->getEntityClass()),
+                $paginatorOptions
+            );
 
             $entities = IterableUtil::toArray($pagination->getItems());
 
             if (empty($entities) && $page > 1) {
-                $pagination = $this->paginator->paginate($qb, $pagination->getPageCount(), $config['pagination']['items'], $paginatorOptions);
+                $pagination = $this->paginator->paginate(
+                    $qb,
+                    $pagination->getPageCount(),
+                    $this->paginationManager->getItemsPerPage($this->getEntityClass()),
+                    $paginatorOptions
+                );
 
                 $entities = IterableUtil::toArray($pagination->getItems());
             }

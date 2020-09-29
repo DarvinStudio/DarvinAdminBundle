@@ -68,6 +68,7 @@ services:
             - '@darvin_content.filterer'
             - '@darvin_admin.view.factory.index'
             - '@darvin_admin.crud.action.new'
+            - '@darvin_admin.pagination.manager'
             - '@knp_paginator'
             - '@darvin_admin.metadata.sort_criteria_detector'
             - '@darvin_content.orm.sort_entity_joiner'

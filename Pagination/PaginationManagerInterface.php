@@ -19,12 +19,15 @@ interface PaginationManagerInterface
      * @param string $entity Entity class
      *
      * @return int
+     * @throws \InvalidArgumentException
      */
     public function getItemsPerPage(string $entity): int;
 
     /**
      * @param string $entity       Entity class
      * @param int    $itemsPerPage Items per page
+     *
+     * @throws \InvalidArgumentException
      */
     public function setItemsPerPage(string $entity, int $itemsPerPage): void;
 }

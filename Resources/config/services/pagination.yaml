@@ -1,0 +1,9 @@
+parameters:
+    darvin_admin.pagination.manager.class: Darvin\AdminBundle\Pagination\PaginationManager
+
+services:
+    darvin_admin.pagination.manager:
+        class: '%darvin_admin.pagination.manager.class%'
+        arguments:
+            - '@darvin_admin.configuration.section'
+            - '@session'

@@ -29,6 +29,9 @@
                         {% trans with {'%count%': entity_count} %}common.total_item_count{% endtrans %}
                     </div>
                 {% endif %}
+                {% if meta.configuration.pagination.enabled and admin_route_exists(meta.entityClass, 'repaginate') %}
+                    {{ admin_repaginate_form(meta.entityClass) }}
+                {% endif %}
             {% endblock %}
 
         </div>

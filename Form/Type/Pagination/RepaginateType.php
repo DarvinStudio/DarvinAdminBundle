@@ -41,8 +41,11 @@ class RepaginateType extends AbstractType
     {
         $config = $this->metadataManager->getConfiguration($options['entity_class'])['pagination'];
 
+        $range = range($config['min'], $config['max'], $config['step']);
+
         $builder->add('itemsPerPage', ChoiceType::class, [
-            'choices' => range($config['min'], $config['max'], $config['step']),
+            'label'   => false,
+            'choices' => array_combine($range, $range),
         ]);
     }
 

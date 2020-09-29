@@ -1,9 +1,18 @@
 parameters:
+    darvin_admin.pagination.form.factory.class: Darvin\AdminBundle\Form\Factory\Pagination\PaginationFormFactory
+
     darvin_admin.pagination.manager.class: Darvin\AdminBundle\Pagination\PaginationManager
 
     darvin_admin.pagination.repaginate.form.type.class: Darvin\AdminBundle\Form\Type\Pagination\RepaginateType
 
 services:
+    darvin_admin.pagination.form.factory:
+        class: '%darvin_admin.pagination.form.factory.class%'
+        arguments:
+            - '@darvin_admin.router'
+            - '@form.factory'
+            - '@darvin_admin.pagination.manager'
+
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'
         arguments:

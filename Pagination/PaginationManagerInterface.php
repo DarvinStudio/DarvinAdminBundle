@@ -16,18 +16,18 @@ namespace Darvin\AdminBundle\Pagination;
 interface PaginationManagerInterface
 {
     /**
-     * @param string $entity Entity class
+     * @param string $entityClass Entity class
      *
      * @return int
      * @throws \InvalidArgumentException
      */
-    public function getItemsPerPage(string $entity): int;
+    public function getItemsPerPage(string $entityClass): int;
 
     /**
-     * @param string $entity       Entity class
+     * @param string $entityClass  Entity class
      * @param int    $itemsPerPage Items per page
      *
      * @throws \InvalidArgumentException
      */
-    public function setItemsPerPage(string $entity, int $itemsPerPage): void;
+    public function setItemsPerPage(string $entityClass, int $itemsPerPage): void;
 }

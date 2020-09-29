@@ -39,7 +39,7 @@ class RepaginateType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $config = $this->metadataManager->getConfiguration($options['entity'])['pagination'];
+        $config = $this->metadataManager->getConfiguration($options['entity_class'])['pagination'];
 
         $builder->add('itemsPerPage', ChoiceType::class, [
             'choices' => range($config['min'], $config['max'], $config['step']),
@@ -52,8 +52,8 @@ class RepaginateType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setRequired('entity')
-            ->setAllowedTypes('entity', 'string');
+            ->setRequired('entity_class')
+            ->setAllowedTypes('entity_class', 'string');
     }
 
     /**

@@ -43,29 +43,29 @@ class PaginationManager implements PaginationManagerInterface
     /**
      * {@inheritDoc}
      */
-    public function getItemsPerPage(string $entity): int
+    public function getItemsPerPage(string $entityClass): int
     {
-        $this->validate($entity);
+        $this->validate($entityClass);
 
         $collection = $this->getItemsPerPageCollection();
 
-        if (isset($collection[$entity])) {
-            $itemsPerPage = $collection[$entity];
+        if (isset($collection[$entityClass])) {
+            $itemsPerPage = $collection[$entityClass];
 
             if ($this->isValid($itemsPerPage)) {
                 return $itemsPerPage;
             }
         }
 
-        return $this->metadataManager->getConfiguration($entity)['pagination']['items'];
+        return $this->metadataManager->getConfiguration($entityClass)['pagination']['items'];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setItemsPerPage(string $entity, int $itemsPerPage): void
+    public function setItemsPerPage(string $entityClass, int $itemsPerPage): void
     {
-        $this->validate($entity);
+        $this->validate($entityClass);
 
         if (!$this->isValid($itemsPerPage)) {
             throw new \InvalidArgumentException(sprintf('Items per page "%d" is invalid.', $itemsPerPage));
@@ -73,7 +73,7 @@ class PaginationManager implements PaginationManagerInterface
 
         $collection = $this->getItemsPerPageCollection();
 
-        $collection[$entity] = $itemsPerPage;
+        $collection[$entityClass] = $itemsPerPage;
 
         $this->setItemsPerPageCollection($collection);
     }
@@ -111,14 +111,14 @@ class PaginationManager implements PaginationManagerInterface
     }
 
     /**
-     * @param string $entity Entity class
+     * @param string $entityClass Entity class
      *
      * @throws \InvalidArgumentException
      */
-    private function validate(string $entity): void
+    private function validate(string $entityClass): void
     {
-        if (!$this->metadataManager->getConfiguration($entity)['pagination']['enabled']) {
-            throw new \InvalidArgumentException(sprintf('Pagination is disabled for entity "%s".', $entity));
+        if (!$this->metadataManager->getConfiguration($entityClass)['pagination']['enabled']) {
+            throw new \InvalidArgumentException(sprintf('Pagination is disabled for entity class "%s".', $entityClass));
         }
     }
 }

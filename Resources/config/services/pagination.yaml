@@ -1,9 +1,18 @@
 parameters:
     darvin_admin.pagination.manager.class: Darvin\AdminBundle\Pagination\PaginationManager
 
+    darvin_admin.pagination.repaginate.form.type.class: Darvin\AdminBundle\Form\Type\Pagination\RepaginateType
+
 services:
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'
         arguments:
             - '@darvin_admin.metadata.manager'
             - '@session'
+
+    darvin_admin.pagination.repaginate.form.type:
+        class: '%darvin_admin.pagination.repaginate.form.type.class%'
+        arguments:
+            - '@darvin_admin.metadata.manager'
+        tags:
+            - { name: form.type }

@@ -57,7 +57,7 @@ class PaginationManager implements PaginationManagerInterface
             }
         }
 
-        return $this->metadataManager->getMetadata($entity)->getConfiguration()['pagination']['items'];
+        return $this->metadataManager->getConfiguration($entity)['pagination']['items'];
     }
 
     /**
@@ -117,7 +117,7 @@ class PaginationManager implements PaginationManagerInterface
      */
     private function validate(string $entity): void
     {
-        if (!$this->metadataManager->getMetadata($entity)->getConfiguration()['pagination']['enabled']) {
+        if (!$this->metadataManager->getConfiguration($entity)['pagination']['enabled']) {
             throw new \InvalidArgumentException(sprintf('Pagination is disabled for entity "%s".', $entity));
         }
     }

@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Factory\Pagination;
+namespace Darvin\AdminBundle\Form\Factory;
 
 use Darvin\AdminBundle\Form\Type\Pagination\RepaginateType;
 use Darvin\AdminBundle\Pagination\PaginationManagerInterface;

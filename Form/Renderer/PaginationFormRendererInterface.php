@@ -8,19 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Darvin\AdminBundle\Form\Factory\Pagination;
-
-use Symfony\Component\Form\FormInterface;
+namespace Darvin\AdminBundle\Form\Renderer;
 
 /**
- * Pagination form factory
+ * Pagination form renderer
  */
-interface PaginationFormFactoryInterface
+interface PaginationFormRendererInterface
 {
     /**
      * @param string $entityClass Entity class
      *
-     * @return \Symfony\Component\Form\FormInterface
+     * @return string
      */
-    public function createRepaginateForm(string $entityClass): FormInterface;
+    public function renderRepaginateForm(string $entityClass): string;
 }

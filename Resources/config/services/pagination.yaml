@@ -1,5 +1,7 @@
 parameters:
-    darvin_admin.pagination.form.factory.class: Darvin\AdminBundle\Form\Factory\Pagination\PaginationFormFactory
+    darvin_admin.pagination.form.factory.class: Darvin\AdminBundle\Form\Factory\PaginationFormFactory
+
+    darvin_admin.pagination.form.renderer.class: Darvin\AdminBundle\Form\Renderer\PaginationFormRenderer
 
     darvin_admin.pagination.manager.class: Darvin\AdminBundle\Pagination\PaginationManager
 
@@ -12,6 +14,12 @@ services:
             - '@darvin_admin.router'
             - '@form.factory'
             - '@darvin_admin.pagination.manager'
+
+    darvin_admin.pagination.form.renderer:
+        class: '%darvin_admin.pagination.form.renderer.class%'
+        arguments:
+            - '@darvin_admin.pagination.form.factory'
+            - '@twig'
 
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'

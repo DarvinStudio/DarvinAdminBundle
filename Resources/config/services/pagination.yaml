@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.pagination.form.renderer.class: Darvin\AdminBundle\Form\Renderer\PaginationFormRenderer
 
+    darvin_admin.pagination.form.twig.extension.class: Darvin\AdminBundle\Twig\Extension\Pagination\FormExtension
+
     darvin_admin.pagination.manager.class: Darvin\AdminBundle\Pagination\PaginationManager
 
     darvin_admin.pagination.repaginate.form.type.class: Darvin\AdminBundle\Form\Type\Pagination\RepaginateType
@@ -20,6 +22,13 @@ services:
         arguments:
             - '@darvin_admin.pagination.form.factory'
             - '@twig'
+
+    darvin_admin.pagination.form.twig.extension:
+        class: '%darvin_admin.pagination.form.twig.extension.class%'
+        arguments:
+            - '@darvin_admin.pagination.form.renderer'
+        tags:
+            - { name: twig.extension }
 
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'

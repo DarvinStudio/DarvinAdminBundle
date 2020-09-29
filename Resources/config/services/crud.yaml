@@ -100,6 +100,9 @@ services:
     darvin_admin.crud.action.repaginate:
         class:  '%darvin_admin.crud.action.repaginate.class%'
         parent: darvin_admin.crud.action.abstract
+        arguments:
+            - '@darvin_admin.pagination.form.factory'
+            - '@darvin_admin.pagination.manager'
         tags:
             - { name: controller.service_arguments }
 

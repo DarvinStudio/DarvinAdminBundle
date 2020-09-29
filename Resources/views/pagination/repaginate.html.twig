@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'autocomplete': 'off'}}) }}
 {{ form_errors(form) }}
 {{ form_widget(form.itemsPerPage, {'attr': {'onchange': 'this.form.submit();'}}) }}
 {{ form_errors(form.itemsPerPage) }}

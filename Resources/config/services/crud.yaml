@@ -8,6 +8,7 @@ parameters:
     darvin_admin.crud.action.index.class:           Darvin\AdminBundle\Controller\Crud\IndexAction
     darvin_admin.crud.action.new.class:             Darvin\AdminBundle\Controller\Crud\NewAction
     darvin_admin.crud.action.preview.class:         Darvin\AdminBundle\Controller\Crud\PreviewAction
+    darvin_admin.crud.action.repaginate.class:      Darvin\AdminBundle\Controller\Crud\RepaginateAction
     darvin_admin.crud.action.show.class:            Darvin\AdminBundle\Controller\Crud\ShowAction
     darvin_admin.crud.action.update_property.class: Darvin\AdminBundle\Controller\Crud\UpdatePropertyAction
 
@@ -93,6 +94,12 @@ services:
         parent: darvin_admin.crud.action.abstract
         arguments:
             - '@darvin_content.controller_pool'
+        tags:
+            - { name: controller.service_arguments }
+
+    darvin_admin.crud.action.repaginate:
+        class:  '%darvin_admin.crud.action.repaginate.class%'
+        parent: darvin_admin.crud.action.abstract
         tags:
             - { name: controller.service_arguments }
 

@@ -197,6 +197,7 @@ textcounter:
     count_down_text: '<p><span>%d</span> حرف(s) المتبقية</p>'
     count_overflow_text: '<p>تجاوز حد من <span>%d</span></p>'
 toolbar:
+    edit: 'تحرير'
     homepage: 'العودة إلى الفريق'
 translation:
     action:

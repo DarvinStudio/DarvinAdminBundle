@@ -10,10 +10,10 @@
 
 namespace Darvin\AdminBundle\Toolbar;
 
-use AppBundle\Configuration\PageConfiguration;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ContentBundle\Entity\SlugMapItem;
+use Darvin\Utils\Homepage\HomepageProviderInterface;
 use Darvin\Utils\Homepage\HomepageRouterInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,14 +53,14 @@ class ToolbarRenderer implements ToolbarRendererInterface
     private $em;
 
     /**
+     * @var \Darvin\Utils\Homepage\HomepageProviderInterface
+     */
+    private $homepageProvider;
+
+    /**
      * @var \Darvin\Utils\Homepage\HomepageRouterInterface
      */
     private $homepageRouter;
-
-    /**
-     * @var \AppBundle\Configuration\PageConfiguration
-     */
-    private $pageConfig;
 
     /**
      * @var \Symfony\Component\HttpFoundation\RequestStack
@@ -76,8 +76,8 @@ class ToolbarRenderer implements ToolbarRendererInterface
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      * @param \Darvin\AdminBundle\View\Widget\WidgetInterface                              $editLinkWidget       Edit link view widget
      * @param \Doctrine\ORM\EntityManagerInterface                                         $em                   Entity manager
+     * @param \Darvin\Utils\Homepage\HomepageProviderInterface                             $homepageProvider     Homepage provider
      * @param \Darvin\Utils\Homepage\HomepageRouterInterface                               $homepageRouter       Homepage router
-     * @param \AppBundle\Configuration\PageConfiguration                                   $pageConfig           Page configuration
      * @param \Symfony\Component\HttpFoundation\RequestStack                               $requestStack         Request stack
      * @param \Twig\Environment                                                            $twig                 Twig
      */
@@ -85,16 +85,16 @@ class ToolbarRenderer implements ToolbarRendererInterface
         AuthorizationCheckerInterface $authorizationChecker,
         WidgetInterface $editLinkWidget,
         EntityManagerInterface $em,
+        HomepageProviderInterface $homepageProvider,
         HomepageRouterInterface $homepageRouter,
-        PageConfiguration $pageConfig,
         RequestStack $requestStack,
         Environment $twig
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->editLinkWidget = $editLinkWidget;
         $this->em = $em;
+        $this->homepageProvider = $homepageProvider;
         $this->homepageRouter = $homepageRouter;
-        $this->pageConfig = $pageConfig;
         $this->requestStack = $requestStack;
         $this->twig = $twig;
     }
@@ -142,7 +142,7 @@ class ToolbarRenderer implements ToolbarRendererInterface
     {
         if (!in_array($request->attributes->get('_route'), self::$routes)) {
             if ($request->getBaseUrl().$request->getPathInfo() === $this->homepageRouter->generate()) {
-                return $this->pageConfig->getHomepage();
+                return $this->homepageProvider->getHomepage();
             }
 
             return null;

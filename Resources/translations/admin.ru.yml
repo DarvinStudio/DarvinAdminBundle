@@ -239,6 +239,7 @@ textcounter:
     count_overflow_text: <p>лимит превышен на <span>%d</span></p>
 
 toolbar:
+    edit:     Изменить
     homepage: Назад в панель
 
 translation:

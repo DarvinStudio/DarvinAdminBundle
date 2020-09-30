@@ -4,7 +4,11 @@
     'default': 'edit_element edit',
     'toolbar': 'ds-toolbar__btn-edit',
 } %}
+{% set titles = {
+    'default': translation_prefix ~ 'action.edit.link',
+    'toolbar': 'toolbar.edit',
+} %}
 
 <a href="{{ admin_path(entity, entity_class, 'edit') }}" class="{{ classes[style]|default(classes.default) }}">
-    <span>{{ (translation_prefix ~ 'action.edit.link')|trans }}</span>
+    <span>{{ titles[style]|default(titles.default)|trans }}</span>
 </a>

@@ -13,9 +13,11 @@ namespace Darvin\AdminBundle\Controller\Crud;
 use Darvin\AdminBundle\Event\Crud\Controller\ControllerEvent;
 use Darvin\AdminBundle\Event\Crud\Controller\CrudControllerEvents;
 use Darvin\AdminBundle\Form\Factory\PaginationFormFactoryInterface;
+use Darvin\AdminBundle\Form\Renderer\PaginationFormRendererInterface;
 use Darvin\AdminBundle\Pagination\PaginationManagerInterface;
 use Darvin\AdminBundle\Route\AdminRouterInterface;
 use Darvin\AdminBundle\Security\Permissions\Permission;
+use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,17 +35,27 @@ class RepaginateAction extends AbstractAction
     private $paginationFormFactory;
 
     /**
+     * @var \Darvin\AdminBundle\Form\Renderer\PaginationFormRendererInterface
+     */
+    private $paginationFormRenderer;
+
+    /**
      * @var \Darvin\AdminBundle\Pagination\PaginationManagerInterface
      */
     private $paginationManager;
 
     /**
-     * @param \Darvin\AdminBundle\Form\Factory\PaginationFormFactoryInterface $paginationFormFactory Pagination form factory
-     * @param \Darvin\AdminBundle\Pagination\PaginationManagerInterface       $paginationManager     Pagination manager
+     * @param \Darvin\AdminBundle\Form\Factory\PaginationFormFactoryInterface   $paginationFormFactory  Pagination form factory
+     * @param \Darvin\AdminBundle\Form\Renderer\PaginationFormRendererInterface $paginationFormRenderer Pagination form renderer
+     * @param \Darvin\AdminBundle\Pagination\PaginationManagerInterface         $paginationManager      Pagination manager
      */
-    public function __construct(PaginationFormFactoryInterface $paginationFormFactory, PaginationManagerInterface $paginationManager)
-    {
+    public function __construct(
+        PaginationFormFactoryInterface $paginationFormFactory,
+        PaginationFormRendererInterface $paginationFormRenderer,
+        PaginationManagerInterface $paginationManager
+    ) {
         $this->paginationFormFactory = $paginationFormFactory;
+        $this->paginationFormRenderer = $paginationFormRenderer;
         $this->paginationManager = $paginationManager;
     }
 
@@ -79,12 +91,20 @@ class RepaginateAction extends AbstractAction
                 return $error->getMessage();
             }, iterator_to_array($form->getErrors(true))));
 
+            if ($request->isXmlHttpRequest()) {
+                return new AjaxResponse($this->paginationFormRenderer->renderRepaginateForm($this->getEntityClass(), $form), false, $message);
+            }
+
             $this->flashNotifier->error($message);
 
             return new RedirectResponse($referer);
         }
 
         $this->paginationManager->setItemsPerPage($this->getEntityClass(), $form->get('itemsPerPage')->getData());
+
+        if ($request->isXmlHttpRequest()) {
+            return new AjaxResponse(null, true, null, [], $referer);
+        }
 
         return new RedirectResponse($referer);
     }

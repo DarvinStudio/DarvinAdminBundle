@@ -10,15 +10,18 @@
 
 namespace Darvin\AdminBundle\Form\Renderer;
 
+use Symfony\Component\Form\FormInterface;
+
 /**
  * Pagination form renderer
  */
 interface PaginationFormRendererInterface
 {
     /**
-     * @param string $entityClass Entity class
+     * @param string                                     $entityClass Entity class
+     * @param \Symfony\Component\Form\FormInterface|null $form        Repaginate form
      *
      * @return string
      */
-    public function renderRepaginateForm(string $entityClass): string;
+    public function renderRepaginateForm(string $entityClass, ?FormInterface $form = null): string;
 }

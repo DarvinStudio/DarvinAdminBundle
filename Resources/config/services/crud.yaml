@@ -102,6 +102,7 @@ services:
         parent: darvin_admin.crud.action.abstract
         arguments:
             - '@darvin_admin.pagination.form.factory'
+            - '@darvin_admin.pagination.form.renderer'
             - '@darvin_admin.pagination.manager'
         tags:
             - { name: controller.service_arguments }

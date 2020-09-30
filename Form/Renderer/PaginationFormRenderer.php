@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Form\Renderer;
 
 use Darvin\AdminBundle\Form\Factory\PaginationFormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Twig\Environment;
 
 /**
@@ -41,10 +42,14 @@ class PaginationFormRenderer implements PaginationFormRendererInterface
     /**
      * {@inheritDoc}
      */
-    public function renderRepaginateForm(string $entityClass): string
+    public function renderRepaginateForm(string $entityClass, ?FormInterface $form = null): string
     {
+        if (null === $form) {
+            $form = $this->formFactory->createRepaginateForm($entityClass);
+        }
+
         return $this->twig->render('@DarvinAdmin/pagination/repaginate.html.twig', [
-            'form' => $this->formFactory->createRepaginateForm($entityClass)->createView(),
+            'form' => $form->createView(),
         ]);
     }
 }

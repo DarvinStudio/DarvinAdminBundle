@@ -1,4 +1,5 @@
 {{ form_start(form, {'attr': {'class': 'js-form', 'data-reload-page': 1, 'autocomplete': 'off'}}) }}
-{{ form_widget(form.itemsPerPage, {'attr': {'onchange': '$(this.form).submit();'}}) }}
-{{ form_errors(form.itemsPerPage) }}
+<div class="custom-select js-chosen">
+    {{ form_widget(form.itemsPerPage, {'attr': {'onchange': '$(this.form).submit();'}}) }}
+</div>
 {{ form_end(form) }}

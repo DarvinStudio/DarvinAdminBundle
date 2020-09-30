@@ -1,5 +1,10 @@
 {% trans_default_domain 'admin' %}
 
-<a href="{{ admin_path(entity, entity_class, 'edit') }}" class="edit_element edit">
+{% set classes = {
+    'default': 'edit_element edit',
+    'toolbar': 'ds-toolbar__btn-edit',
+} %}
+
+<a href="{{ admin_path(entity, entity_class, 'edit') }}" class="{{ classes[style]|default(classes.default) }}">
     <span>{{ (translation_prefix ~ 'action.edit.link')|trans }}</span>
 </a>

@@ -196,6 +196,8 @@ submit:
 textcounter:
     count_down_text: '<p><span>%d</span> character(s)剩余的</p>'
     count_overflow_text: '<p>限制超过了 <span>%d</span></p>'
+toolbar:
+    homepage: 回到板
 translation:
     action:
         index:

@@ -1,0 +1,23 @@
+parameters:
+    darvin_admin.toolbar.renderer.class: Darvin\AdminBundle\Toolbar\ToolbarRenderer
+
+    darvin_admin.toolbar.twig_extension.class: Darvin\AdminBundle\Twig\Extension\ToolbarExtension
+
+services:
+    darvin_admin.toolbar.renderer:
+        class: '%darvin_admin.toolbar.renderer.class%'
+        arguments:
+            - '@security.authorization_checker'
+            - '@darvin_admin.view.widget.edit_link'
+            - '@doctrine.orm.entity_manager'
+            - '@darvin_utils.homepage.router'
+            - '@darvin_page.configuration'
+            - '@request_stack'
+            - '@twig'
+
+    darvin_admin.toolbar.twig_extension:
+        class: '%darvin_admin.toolbar.twig_extension.class%'
+        arguments:
+            - '@darvin_admin.toolbar.renderer'
+        tags:
+            - { name: twig.extension }

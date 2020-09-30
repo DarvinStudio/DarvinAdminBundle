@@ -128,7 +128,7 @@ layout:
             label: Technical support
             email: support@darvin-studio.ru
     locale_switcher:
-        title: Current language:
+        title: 'Current language:'
     logo: Content management system
     menu:
         collapse: Collapse menu
@@ -237,6 +237,9 @@ submit:
 textcounter:
     count_down_text:     <p><span>%d</span> character(s) remaining</p>
     count_overflow_text: <p>limit exceeded by <span>%d</span></p>
+
+toolbar:
+    homepage: 'Back to Panel'
 
 translation:
     action:

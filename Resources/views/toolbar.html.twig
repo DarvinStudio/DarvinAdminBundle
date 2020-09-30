@@ -1,0 +1,7 @@
+{% trans_default_domain 'admin' %}
+
+<link rel="stylesheet" href="{{ asset(darvin_admin_visual_assets_path ~ '/ds-toolbar.css') }}">
+<div class="ds-toolbar">
+    {{ edit_link|raw }}
+    <a class="ds-toolbar__btn-admin" href="{{ path('darvin_admin_homepage') }}">{% trans %}toolbar.homepage{% endtrans %}</a>
+</div>

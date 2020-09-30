@@ -196,6 +196,8 @@ submit:
 textcounter:
     count_down_text: '<p><span>%d</span> caractère(s) restant</p>'
     count_overflow_text: '<p>limite dépassée par <span>%d</span></p>'
+toolbar:
+    homepage: 'Retour à Panneau'
 translation:
     action:
         index:

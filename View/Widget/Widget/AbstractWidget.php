@@ -123,6 +123,9 @@ abstract class AbstractWidget implements WidgetInterface
      */
     protected function configureOptions(OptionsResolver $resolver)
     {
+        $resolver
+            ->setDefault('style', 'default')
+            ->setAllowedTypes('style', 'string');
     }
 
     /**

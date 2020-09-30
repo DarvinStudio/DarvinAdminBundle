@@ -128,7 +128,7 @@ layout:
             label: Техническая поддержка
             email: support@darvin-studio.ru
     locale_switcher:
-        title: Текущий язык:
+        title: 'Текущий язык:'
     logo: Система управления контентом
     menu:
         collapse: Свернуть меню
@@ -237,6 +237,9 @@ submit:
 textcounter:
     count_down_text:     <p><span>%d</span> символов осталось</p>
     count_overflow_text: <p>лимит превышен на <span>%d</span></p>
+
+toolbar:
+    homepage: Назад в панель
 
 translation:
     action:

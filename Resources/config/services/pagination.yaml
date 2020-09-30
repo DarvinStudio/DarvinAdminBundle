@@ -33,6 +33,7 @@ services:
     darvin_admin.pagination.manager:
         class: '%darvin_admin.pagination.manager.class%'
         arguments:
+            - '@darvin_utils.orm.entity_resolver'
             - '@darvin_admin.metadata.manager'
             - '@session'
 

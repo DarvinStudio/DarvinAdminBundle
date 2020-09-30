@@ -11,6 +11,7 @@
 namespace Darvin\AdminBundle\Pagination;
 
 use Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface;
+use Darvin\Utils\ORM\EntityResolverInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -19,6 +20,11 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 class PaginationManager implements PaginationManagerInterface
 {
     private const SESSION_KEY_ITEMS_PER_PAGE = 'darvin_admin.pagination.items_per_page';
+
+    /**
+     * @var \Darvin\Utils\ORM\EntityResolverInterface
+     */
+    private $entityResolver;
 
     /**
      * @var \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface
@@ -31,11 +37,16 @@ class PaginationManager implements PaginationManagerInterface
     private $session;
 
     /**
+     * @param \Darvin\Utils\ORM\EntityResolverInterface                  $entityResolver  Entity resolver
      * @param \Darvin\AdminBundle\Metadata\AdminMetadataManagerInterface $metadataManager Admin metadata manager
      * @param \Symfony\Component\HttpFoundation\Session\SessionInterface $session         Session
      */
-    public function __construct(AdminMetadataManagerInterface $metadataManager, SessionInterface $session)
-    {
+    public function __construct(
+        EntityResolverInterface $entityResolver,
+        AdminMetadataManagerInterface $metadataManager,
+        SessionInterface $session
+    ) {
+        $this->entityResolver = $entityResolver;
         $this->metadataManager = $metadataManager;
         $this->session = $session;
     }
@@ -48,7 +59,11 @@ class PaginationManager implements PaginationManagerInterface
         $this->validate($entityClass);
 
         $collection = $this->getItemsPerPageCollection();
+        $baseClass  = $this->entityResolver->reverseResolve($entityClass);
 
+        if (isset($collection[$baseClass])) {
+            $entityClass = $baseClass;
+        }
         if (isset($collection[$entityClass])) {
             $itemsPerPage = $collection[$entityClass];
 
@@ -72,6 +87,11 @@ class PaginationManager implements PaginationManagerInterface
         }
 
         $collection = $this->getItemsPerPageCollection();
+        $baseClass  = $this->entityResolver->reverseResolve($entityClass);
+
+        if (isset($collection[$baseClass])) {
+            $entityClass = $baseClass;
+        }
 
         $collection[$entityClass] = $itemsPerPage;
 

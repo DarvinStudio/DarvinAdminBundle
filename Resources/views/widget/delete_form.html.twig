@@ -1,12 +1,16 @@
 {% trans_default_domain 'admin' %}
 
 {% set style   = app.request.request.get('style', style) %}
-{% set title   = (translation_prefix ~ 'action.delete.submit')|trans %}
 {% set classes = {
     'default': 'table-row__btn-remove',
     'footer':  'page-footer__btn-remove',
     'header':  'page-header__btn-remove',
+    'index':   'actions-popup__btn-remove',
     'show':    'modal-actions__btn-remove',
+} %}
+{% set titles = {
+    'default': translation_prefix ~ 'action.delete.submit',
+    'index':   'view_widget.delete_form.title',
 } %}
 
 <form name="{{ name }}" action="{{ admin_path(entity, entity_class, 'delete') }}" method="post" class="js-form" data-reload-page="1">
@@ -18,8 +22,8 @@
     {% endfor %}
     <button type="submit"
             class="{{ classes[style]|default(classes.default) }}"
-            title="{{ title|e('html_attr') }}"
+            title="{% block title %}{{ titles[style]|default(titles.default)|trans }}{% endblock %}"
             onclick="return confirm('{{ (translation_prefix ~ 'action.delete.confirm')|trans|e('js') }}');">
-        {{ title }}
+        {{ block('title') }}
     </button>
 </form>

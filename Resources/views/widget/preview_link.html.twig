@@ -1,8 +1,17 @@
+{% trans_default_domain 'admin' %}
+
 {% set url     = admin_path(entity, null, 'preview') %}
 {% set classes = {
     'default': 'table-row__btn-preview',
     'footer':  'page-footer__btn-hide',
     'header':  'page-header__btn-hide',
+    'index':   'actions-popup__btn-show',
 } %}
 
-<a href="{{ url }}" target="_blank" class="js-ajax {{ classes[style]|default }}" data-type="iframe">{{ url }}</a>
+<a href="{{ url }}"
+   target="_blank"
+   class="js-ajax {{ classes[style]|default }}"
+   data-type="iframe"
+   title="{% block title %}{% trans %}view_widget.preview_link.title{% endtrans %}{% endblock %}">
+    {{ block('title') }}
+</a>

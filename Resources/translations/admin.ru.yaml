@@ -243,6 +243,14 @@ vich_uploader:
     link:
         download: Скачать
 
+view_widget:
+    copy_form:
+        title: Клонировать
+    delete_form:
+        title: Удалить
+    preview_link:
+        title: Предпросмотр
+
 widget_cache:
     action:
         clear:

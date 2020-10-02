@@ -1,10 +1,14 @@
 {% trans_default_domain 'admin' %}
 
 {% set style   = app.request.request.get('style', style) %}
-{% set title   = (translation_prefix ~ 'action.copy.submit')|trans %}
 {% set classes = {
     'default': 'table-row__btn-clone',
+    'index':   'actions-popup__btn-clone',
     'show':    'modal-actions__btn-copy',
+} %}
+{% set titles = {
+    'default': translation_prefix ~ 'action.copy.submit',
+    'index':   'view_widget.copy_form.title',
 } %}
 
 <form name="{{ name }}" action="{{ admin_path(entity, entity_class, 'copy') }}" method="post" class="js-form" data-reload-page="1">
@@ -16,8 +20,8 @@
     {% endfor %}
     <button type="submit"
             class="{{ classes[style]|default(classes.default) }}"
-            title="{{ title|e('html_attr') }}"
+            title="{% block title %}{{ titles[style]|default(titles.default)|trans }}{% endblock %}"
             onclick="return confirm('{{ 'common.confirm'|trans|e('js') }}');">
-        {{ title }}
+        {{ block('title') }}
     </button>
 </form>

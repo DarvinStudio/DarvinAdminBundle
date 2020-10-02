@@ -129,6 +129,7 @@ class IndexViewFactory extends AbstractViewFactory implements IndexViewFactoryIn
             $row     = new BodyRow($this->buildBodyRowAttr($entity, $meta));
             $actions = $this->actionsWidget->getContent($entity, [
                 'view_type' => 'index',
+                'style'     => 'index',
             ]);
 
             $row->addItem('action_widgets', new BodyRowItem($actions, [

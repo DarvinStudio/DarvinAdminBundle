@@ -211,6 +211,13 @@ translation:
 vich_uploader:
     link:
         download: Download
+view_widget:
+    copy_form:
+        title: Clone
+    delete_form:
+        title: Remove
+    preview_link:
+        title: Preview
 widget_cache:
     action:
         clear:

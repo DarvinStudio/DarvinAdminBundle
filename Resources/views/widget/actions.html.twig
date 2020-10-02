@@ -1,0 +1,22 @@
+{% set standalone_widgets = ['batch_delete', 'edit_link'] %}
+
+{% set standalone_actions = actions|filter((action, widget) => widget in standalone_widgets) %}
+{% set popup_actions      = actions|filter((action, widget) => widget not in standalone_widgets) %}
+
+<div class="table-row__actions">
+    {% for action in standalone_actions %}
+        {{ action|raw }}
+    {% endfor %}
+    {% if popup_actions is not empty %}
+        <div class="actions-popup js-actions-popup">
+            <i class="actions-popup__icon" data-popup-content-btn></i>
+            <div class="actions-popup__dropdown">
+                <div class="actions-popup__dropdown-list" data-popup-content-html>
+                    {% for action in popup_actions %}
+                        <div class="actions-popup__dropdown-item">{{ action|raw }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

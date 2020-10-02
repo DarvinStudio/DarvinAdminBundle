@@ -208,7 +208,7 @@
 {# Generic widgets #}
 
 {%- block checkbox_widget -%}
-    <label class="{{ label_class|default('custom-tumbler') }}">
+    <label class="{{ label_class|default('custom-checkbox') }}">
         {{- parent() -}}
         {%- if choice_show_label is defined and choice_show_label -%}
             {%- set label_add_class = false -%}

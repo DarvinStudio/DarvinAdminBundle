@@ -213,11 +213,14 @@ vich_uploader:
         download: Download
 view_widget:
     copy_form:
-        title: Clone
+        title:
+            index: Clone
     delete_form:
-        title: Remove
+        title:
+            index: Remove
     preview_link:
-        title: Preview
+        title:
+            default: Preview
 widget_cache:
     action:
         clear:

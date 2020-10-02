@@ -245,11 +245,14 @@ vich_uploader:
 
 view_widget:
     copy_form:
-        title: Клонировать
+        title:
+            index: Клонировать
     delete_form:
-        title: Удалить
+        title:
+            index: Удалить
     preview_link:
-        title: Предпросмотр
+        title:
+            default: Предпросмотр
 
 widget_cache:
     action:

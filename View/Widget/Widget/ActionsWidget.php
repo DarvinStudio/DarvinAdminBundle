@@ -59,7 +59,20 @@ class ActionsWidget extends AbstractWidget
             return null;
         }
 
-        return sprintf('<div class="table-row__actions">%s</div>', implode('', $actions));
+        $content = implode('', array_map(function (string $action): string {
+            return sprintf('<div class="actions-popup__dropdown-item">%s</div>', $action);
+        }, $actions));
+
+        return <<<CONTENT
+<div class="actions-popup js-actions-popup">
+    <i class="actions-popup__icon" data-popup-content-btn></i>
+    <div class="actions-popup__dropdown">
+        <div class="actions-popup__dropdown-list" data-popup-content-html>
+            $content
+        </div>
+    </div>
+</div>
+CONTENT;
     }
 
     /**

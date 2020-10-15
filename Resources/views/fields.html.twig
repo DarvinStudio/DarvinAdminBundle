@@ -59,7 +59,7 @@
 {% endmacro %}
 
 {% macro is_collection(form) %}
-    {%- if 'collection' == form.vars.block_prefixes[1] and (form.vars.allow_add|default or form.vars.allow_delete|default) -%}
+    {%- if 'collection' in form.vars.block_prefixes and (form.vars.allow_add|default or form.vars.allow_delete|default) -%}
         {{ true }}
     {%- endif -%}
 {% endmacro %}

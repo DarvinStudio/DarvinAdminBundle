@@ -10,7 +10,7 @@
 
 namespace Darvin\AdminBundle\Twig\Extension;
 
-use Darvin\AdminBundle\Toolbar\ToolbarRendererInterface;
+use Darvin\Utils\Service\ServiceProviderInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,16 +20,16 @@ use Twig\TwigFunction;
 class ToolbarExtension extends AbstractExtension
 {
     /**
-     * @var \Darvin\AdminBundle\Toolbar\ToolbarRendererInterface
+     * @var \Darvin\Utils\Service\ServiceProviderInterface
      */
-    private $toolbarRenderer;
+    private $toolbarRendererProvider;
 
     /**
-     * @param \Darvin\AdminBundle\Toolbar\ToolbarRendererInterface $toolbarRenderer Toolbar renderer
+     * @param \Darvin\Utils\Service\ServiceProviderInterface $toolbarRendererProvider Toolbar renderer service provider
      */
-    public function __construct(ToolbarRendererInterface $toolbarRenderer)
+    public function __construct(ServiceProviderInterface $toolbarRendererProvider)
     {
-        $this->toolbarRenderer = $toolbarRenderer;
+        $this->toolbarRendererProvider = $toolbarRendererProvider;
     }
 
     /**
@@ -38,9 +38,17 @@ class ToolbarExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('admin_toolbar', [$this->toolbarRenderer, 'renderToolbar'], [
+            new TwigFunction('admin_toolbar', [$this->getToolbarRenderer(), 'renderToolbar'], [
                 'is_safe' => ['html'],
             ]),
         ];
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Toolbar\ToolbarRendererInterface
+     */
+    private function getToolbarRenderer()
+    {
+        return $this->toolbarRendererProvider->getService();
     }
 }

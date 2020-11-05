@@ -14,10 +14,12 @@ services:
             - '@darvin_utils.homepage.router'
             - '@request_stack'
             - '@twig'
+        tags:
+            - { name: darvin_utils.providable }
 
     darvin_admin.toolbar.twig_extension:
         class: '%darvin_admin.toolbar.twig_extension.class%'
         arguments:
-            - '@darvin_admin.toolbar.renderer'
+            - '@darvin_admin.toolbar.renderer.provider'
         tags:
             - { name: twig.extension }

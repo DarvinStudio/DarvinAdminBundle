@@ -46,6 +46,12 @@ exception:
     404: Не найдено
     500: Внутренняя ошибка сервера
 
+file:
+    action:
+        edit:
+            submit: Сохранить
+            title:  Изменить файл «%file%»
+
 filter:
     reset:  Сбросить
     submit: Применить

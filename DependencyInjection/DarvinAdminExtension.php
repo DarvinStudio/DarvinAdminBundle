@@ -16,6 +16,7 @@ use Darvin\AdminBundle\Menu\ItemFactoryInterface;
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
 use Darvin\ConfigBundle\Entity\ParameterEntity;
+use Darvin\ImageBundle\DarvinImageBundle;
 use Darvin\Utils\DependencyInjection\ConfigInjector;
 use Darvin\Utils\DependencyInjection\ConfigLoader;
 use Darvin\Utils\DependencyInjection\ExtensionConfigurator;
@@ -151,7 +152,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'bazinga_js_translation',
             'darvin_admin',
             'darvin_content',
-            'darvin_image',
+            DarvinImageBundle::MAJOR_VERSION >= 8 ? 'darvin_file' : 'darvin_image',
             'darvin_user',
             'fm_elfinder',
             'hwi_oauth',

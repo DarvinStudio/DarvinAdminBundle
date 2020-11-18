@@ -1,0 +1,5 @@
+darvin_file:
+    action:
+        edit:
+            template:           '@DarvinAdmin/file/edit.html.twig'
+            translation_domain: admin

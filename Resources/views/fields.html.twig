@@ -19,9 +19,9 @@
                 <div class="custom-dropzone__item-toggle">
                     <a class="no-photoswipe js-image-toggle js-image-{{ image.enabled ? 'disable' : 'enable' }}"
                        data-disable-title="{% trans %}image.action.disable.submit{% endtrans %}"
-                       data-disable-url="{{ path('darvin_image_image_disable', {'id': image.id}) }}"
+                       data-disable-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_disable' : 'darvin_image_image_disable', {'id': image.id}) }}"
                        data-enable-title="{% trans %}image.action.enable.submit{% endtrans %}"
-                       data-enable-url="{{ path('darvin_image_image_enable', {'id': image.id}) }}"
+                       data-enable-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_enable' : 'darvin_image_image_enable', {'id': image.id}) }}"
                        href="#">
                         {{ ('image.action.' ~ (image.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}
                     </a>
@@ -30,14 +30,14 @@
             {% if editable %}
                 <div class="custom-dropzone__item-edit">
                     <a class="no-photoswipe js-ajax"
-                       href="{{ path('darvin_image_image_edit', {'id': image.id}) }}">
+                       href="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_edit' : 'darvin_image_image_edit', {'id': image.id}) }}">
                         {{ 'image.action.edit.title'|trans({'%image%': image}) }}
                     </a>
                 </div>
             {% endif %}
             <div class="custom-dropzone__item-delete">
                 <a class="no-photoswipe js-image-delete"
-                   data-url="{{ path('darvin_image_image_delete', {'id': image.id}) }}"
+                   data-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_delete' : 'darvin_image_image_delete', {'id': image.id}) }}"
                    href="#">
                     {% trans %}image.action.delete.submit{% endtrans %}
                 </a>
@@ -415,14 +415,14 @@
             {{- form_errors(child) -}}
         {%- endfor -%}
         {%- if data and data is not empty -%}
-            <div class="custom-dropzone__list js-image-sortable js-photoswipe-gallery" data-sort-url="{{ path('darvin_image_image_sort') }}">
+            <div class="custom-dropzone__list js-image-sortable js-photoswipe-gallery" data-sort-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_sort' : 'darvin_image_image_sort') }}">
                 {%- for image in data -%}
                     {{- that.image(image, disableable, editable, true) -}}
                 {%- endfor -%}
             </div>
             <button type="button"
                     class="js-image-exterminate-submit"
-                    data-url="{{ path('darvin_image_image_exterminate') }}"
+                    data-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_exterminate' : 'darvin_image_image_exterminate') }}"
                     style="display: none;">
                 {% trans %}image.action.exterminate.submit{% endtrans %}
             </button>

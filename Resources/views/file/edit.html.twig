@@ -1,0 +1,7 @@
+{% extends '@DarvinAdmin/layout.html.twig' %}
+
+{% trans_default_domain 'admin' %}
+
+{% block heading %}{% trans with {'%file%': file} %}file.action.edit.title{% endtrans %}{% endblock %}
+
+{% block content %}{% include '@DarvinAdmin/file/_edit.html.twig' %}{% endblock %}

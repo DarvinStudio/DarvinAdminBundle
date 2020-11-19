@@ -41,9 +41,24 @@ exception:
     500: 'Internal Server Error'
 file:
     action:
+        delete:
+            confirm: 'Confirm file removal'
+            submit: Remove
+            success: 'File successfully removed'
+        disable:
+            submit: Disable
+            success: 'File successfully disabled'
         edit:
             submit: Save
             title: 'Edit File %file%'
+        enable:
+            submit: Enable
+            success: 'File successfully enabled'
+        exterminate:
+            check: 'Check for Removal'
+            confirm: 'Confirm checked files removal'
+            submit: 'Remove Checked'
+            success: 'Checked files successfully removed'
 filter:
     reset: Reset
     submit: Apply

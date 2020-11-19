@@ -48,9 +48,24 @@ exception:
 
 file:
     action:
+        delete:
+            confirm: Подтвердите удаление файла
+            submit:  Удалить
+            success: Файл успешно удален
+        disable:
+            submit:  Скрыть
+            success: Файл успешно скрыт
         edit:
             submit: Сохранить
             title:  Изменить файл «%file%»
+        enable:
+            submit:  Показать
+            success: Файл успешно активирован
+        exterminate:
+            check:   Выбрать для удаления
+            confirm: Подтвердите удаление выбранных файлов
+            submit:  Удалить выбранные
+            success: Выбранные файлы успешно удалены
 
 filter:
     reset:  Сбросить

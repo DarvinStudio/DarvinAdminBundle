@@ -234,13 +234,15 @@ class DropzoneType extends AbstractType
         ], 'admin');
 
         $attr = [
-            'class'               => 'dropzone',
-            'data-accepted-files' => $options['accepted_files'],
-            'data-files'          => $view->children['files']->vars['id'],
-            'data-max-filesize'   => $uploadMaxSizeMb,
-            'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
+            'class'             => 'dropzone',
+            'data-files'        => $view->children['files']->vars['id'],
+            'data-max-filesize' => $uploadMaxSizeMb,
+            'data-url'          => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
         ];
 
+        if ('' !== $options['accepted_files']) {
+            $attr['data-accepted-files'] = $options['accepted_files'];
+        }
         foreach (($options['is_image'] ? $this->imageConstraints : $this->commonConstraints) as $name => $value) {
             if (is_scalar($value)) {
                 $attr[sprintf('data-constraint-%s', str_replace('_', '-', $name))] = $value;
@@ -303,11 +305,9 @@ class DropzoneType extends AbstractType
                     return implode(',', $constraints['mime_types'] ?? []);
                 },
             ])
-            ->setDefined([
-                'accepted_files',
-                self::OPTION_UPLOADABLE_FIELD,
-            ])
+            ->setDefined(self::OPTION_UPLOADABLE_FIELD)
             ->setRequired('uploadable_class')
+            ->setAllowedTypes('accepted_files', 'string')
             ->setAllowedTypes('disableable', 'boolean')
             ->setAllowedTypes('editable', 'boolean')
             ->setAllowedTypes('is_image', 'boolean')

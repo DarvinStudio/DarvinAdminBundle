@@ -184,7 +184,7 @@ class DropzoneType extends AbstractType
                 $uploadables = $propertyAccessor->getValue($object, $uploadablesField);
 
                 foreach ($data['files'] as $fileInfo) {
-                    $tmpPathname = $tmpDir.DIRECTORY_SEPARATOR.$fileInfo['filename'];
+                    $tmpPathname = implode(DIRECTORY_SEPARATOR, [$tmpDir, $fileInfo['filename']]);
 
                     $file = new UploadedFile($tmpPathname, $fileInfo['originalFilename'], null, null, true);
 
@@ -194,7 +194,7 @@ class DropzoneType extends AbstractType
                     $uploadables->add($uploadable);
                 }
 
-                $setter = 'set'.StringsUtil::toCamelCase($uploadablesField);
+                $setter = sprintf('set%s', StringsUtil::toCamelCase($uploadablesField));
 
                 $object->$setter($uploadables);
             });

@@ -67,17 +67,27 @@ class DropzoneType extends AbstractType
     /**
      * @var array
      */
-    private $constraints;
+    private $commonConstraints;
+
+    /**
+     * @var int
+     */
+    private $commonUploadMaxSizeMb;
+
+    /**
+     * @var array
+     */
+    private $imageConstraints;
+
+    /**
+     * @var int
+     */
+    private $imageUploadMaxSizeMB;
 
     /**
      * @var array
      */
     private $oneupUploaderConfig;
-
-    /**
-     * @var int
-     */
-    private $uploadMaxSizeMB;
 
     /**
      * @var \Darvin\ImageBundle\Size\SizeDescriber|null
@@ -90,12 +100,12 @@ class DropzoneType extends AbstractType
      * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor           Property accessor
      * @param \Symfony\Contracts\Translation\TranslatorInterface          $translator                 Translator
      * @param \Vich\UploaderBundle\Metadata\MetadataReader                $vichUploaderMetadataReader Vich uploader metadata reader
-     * @param array                                                       $constraints                Constraints
+     * @param array                                                       $commonConstraints          Common file constraints
+     * @param int                                                         $commonUploadMaxSizeMb      Common max upload file size in MB
+     * @param array                                                       $imageConstraints           Image constraints
+     * @param int                                                         $imageUploadMaxSizeMB       Image max upload file size in MB
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
-     * @param mixed                                                       $uploadMaxSizeMB            Max upload file size in MB
      * @param \Darvin\ImageBundle\Size\SizeDescriber|null                 $imageSizeDescriber         Image size describer
-     *
-     * @throws \InvalidArgumentException
      */
     public function __construct(
         EntityResolverInterface $entityResolver,
@@ -103,9 +113,11 @@ class DropzoneType extends AbstractType
         PropertyAccessorInterface $propertyAccessor,
         TranslatorInterface $translator,
         MetadataReader $vichUploaderMetadataReader,
-        array $constraints,
+        array $commonConstraints,
+        int $commonUploadMaxSizeMb,
+        array $imageConstraints,
+        int $imageUploadMaxSizeMB,
         array $oneupUploaderConfig,
-        $uploadMaxSizeMB,
         SizeDescriber $imageSizeDescriber = null
     ) {
         $this->entityResolver = $entityResolver;
@@ -113,19 +125,12 @@ class DropzoneType extends AbstractType
         $this->propertyAccessor = $propertyAccessor;
         $this->translator = $translator;
         $this->vichUploaderMetadataReader = $vichUploaderMetadataReader;
-        $this->constraints = $constraints;
+        $this->commonConstraints = $commonConstraints;
+        $this->commonUploadMaxSizeMb = $commonUploadMaxSizeMb;
+        $this->imageConstraints = $imageConstraints;
+        $this->imageUploadMaxSizeMB = $imageUploadMaxSizeMB;
         $this->oneupUploaderConfig = $oneupUploaderConfig;
         $this->imageSizeDescriber = $imageSizeDescriber;
-
-        $uploadMaxSizeMB = (int)$uploadMaxSizeMB;
-
-        if ($uploadMaxSizeMB < 1) {
-            throw new \InvalidArgumentException(
-                sprintf('Max upload size should be greater than or equal to 1, got %d.', $uploadMaxSizeMB)
-            );
-        }
-
-        $this->uploadMaxSizeMB = $uploadMaxSizeMB;
     }
 
     /**
@@ -203,10 +208,10 @@ class DropzoneType extends AbstractType
         $view->vars = array_merge($view->vars, [
             'disableable' => $options['disableable'],
             'editable'    => $options['editable'],
-            'is_image'    => in_array(AbstractImage::class, class_parents($options['uploadable_class'])),
+            'is_image'    => $options['is_image'],
         ]);
 
-        if (null !== $this->imageSizeDescriber && null === $view->vars['help']) {
+        if ($options['is_image'] && null !== $this->imageSizeDescriber && null === $view->vars['help']) {
             $view->vars['help'] = $this->imageSizeDescriber->describeSize(
                 $options['image_filters'],
                 $options['image_width'],
@@ -217,21 +222,26 @@ class DropzoneType extends AbstractType
             if (null !== $view->vars['help']) {
                 $view->vars['help'] .= '<br>';
             }
-
-            $view->vars['help'] .= $this->translator->trans('form.file.help', [
-                '%size%' => $this->uploadMaxSizeMB,
-            ], 'admin');
         }
+        if (null === $view->vars['help']) {
+            $view->vars['help'] = '';
+        }
+
+        $uploadMaxSizeMb = $options['is_image'] ? $this->imageUploadMaxSizeMB : $this->commonUploadMaxSizeMb;
+
+        $view->vars['help'] .= $this->translator->trans('form.file.help', [
+            '%size%' => $uploadMaxSizeMb,
+        ], 'admin');
 
         $attr = [
             'class'               => 'dropzone',
             'data-accepted-files' => $options['accepted_files'],
             'data-files'          => $view->children['files']->vars['id'],
-            'data-max-filesize'   => $this->uploadMaxSizeMB,
+            'data-max-filesize'   => $uploadMaxSizeMb,
             'data-url'            => $this->oneupUploaderHelper->endpoint($options['oneup_uploader_mapping']),
         ];
 
-        foreach ($this->constraints as $name => $value) {
+        foreach (($options['is_image'] ? $this->imageConstraints : $this->commonConstraints) as $name => $value) {
             if (is_scalar($value)) {
                 $attr[sprintf('data-constraint-%s', str_replace('_', '-', $name))] = $value;
             }
@@ -269,11 +279,12 @@ class DropzoneType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $entityResolver = $this->entityResolver;
+        $commonConstraints = $this->commonConstraints;
+        $imageConstraints  = $this->imageConstraints;
+        $entityResolver    = $this->entityResolver;
 
         $resolver
             ->setDefaults([
-                'accepted_files'         => implode(',', $this->constraints['mime_types']),
                 'csrf_protection'        => false,
                 'error_bubbling'         => false,
                 'image_filters'          => [],
@@ -283,6 +294,14 @@ class DropzoneType extends AbstractType
                 'disableable'            => true,
                 'editable'               => true,
                 'oneup_uploader_mapping' => self::DEFAULT_ONEUP_UPLOADER_MAPPING,
+                'is_image'               => function (Options $options): bool {
+                    return in_array(AbstractImage::class, class_parents($options['uploadable_class']));
+                },
+                'accepted_files' => function (Options $options) use ($commonConstraints, $imageConstraints): string {
+                    $constraints = $options['is_image'] ? $imageConstraints : $commonConstraints;
+
+                    return implode(',', $constraints['mime_types'] ?? []);
+                },
             ])
             ->setDefined([
                 'accepted_files',
@@ -291,6 +310,7 @@ class DropzoneType extends AbstractType
             ->setRequired('uploadable_class')
             ->setAllowedTypes('disableable', 'boolean')
             ->setAllowedTypes('editable', 'boolean')
+            ->setAllowedTypes('is_image', 'boolean')
             ->setAllowedTypes('oneup_uploader_mapping', 'string')
             ->setAllowedTypes('uploadable_class', 'string')
             ->setAllowedTypes('image_filters', [

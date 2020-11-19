@@ -10,9 +10,11 @@ services:
             - '@property_accessor'
             - '@translator'
             - '@vich_uploader.metadata_reader'
+            - '@=container.hasParameter("darvin_file.constraints") ? parameter("darvin_file.constraints") : []'
+            - '%darvin_admin.upload_max_size_mb%'
             - '%darvin_image.constraints%'
-            - '%oneup_uploader.config%'
             - '%darvin_image.upload_max_size_mb%'
+            - '%oneup_uploader.config%'
             - '@darvin_image.size.describer'
         tags:
             - { name: form.type }

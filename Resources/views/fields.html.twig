@@ -421,7 +421,7 @@
         {%- if data and data is not empty -%}
             <div class="custom-dropzone__list js-file-sortable js-photoswipe-gallery" data-sort-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_sort' : 'darvin_image_image_sort') }}">
                 {%- for image in data -%}
-                    {{- that.file(image, disableable, editable, true, true) -}}
+                    {{- that.file(image, disableable, editable, true, is_image) -}}
                 {%- endfor -%}
             </div>
             <button type="button"

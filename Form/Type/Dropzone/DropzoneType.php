@@ -10,6 +10,7 @@
 
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
+use Darvin\ImageBundle\Entity\Image\AbstractImage;
 use Darvin\ImageBundle\Size\SizeDescriber;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Strings\StringsUtil;
@@ -202,6 +203,7 @@ class DropzoneType extends AbstractType
         $view->vars = array_merge($view->vars, [
             'disableable' => $options['disableable'],
             'editable'    => $options['editable'],
+            'is_image'    => in_array(AbstractImage::class, class_parents($options['uploadable_class'])),
         ]);
 
         if (null !== $this->imageSizeDescriber && null === $view->vars['help']) {

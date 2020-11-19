@@ -68,26 +68,6 @@ homepage:
     index:
         link: 主页
         title: 主页
-image:
-    action:
-        delete:
-            confirm: 确认图像切除
-            submit: 删除
-            success: 图像成功地除去
-        disable:
-            submit: 禁用
-            success: 图像成功的障碍
-        edit:
-            submit: 保存
-            title: '编辑的图像 %image%'
-        enable:
-            submit: 启用
-            success: 图像成功启用
-        exterminate:
-            check: 检查拆除
-            confirm: 确认检查的图像切除
-            submit: 除去检查
-            success: 检查的图像，成功地除去
 layout:
     copyright: '© %year% 达文CMS建立 %version%'
     dark_theme: 黑暗的主题

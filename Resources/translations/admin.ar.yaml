@@ -68,26 +68,6 @@ homepage:
     index:
         link: 'الصفحة الرئيسية'
         title: 'الصفحة الرئيسية'
-image:
-    action:
-        delete:
-            confirm: 'التأكد من إزالة الصورة'
-            submit: إزالة
-            success: 'صورة إزالة بنجاح'
-        disable:
-            submit: تعطيل
-            success: 'الصورة بنجاح المعوقين'
-        edit:
-            submit: حفظ
-            title: 'تحرير صورة %image%'
-        enable:
-            submit: تمكين
-            success: 'صورة تمكين بنجاح'
-        exterminate:
-            check: 'تحقق من إزالة'
-            confirm: 'التأكد من فحص الصور إزالة'
-            submit: 'إزالة فحص'
-            success: 'فحص الصور بنجاح إزالة'
 layout:
     copyright: '© %year% دارفين CMS بناء %version%'
     dark_theme: 'موضوع الظلام'

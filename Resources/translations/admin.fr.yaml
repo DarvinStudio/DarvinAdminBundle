@@ -68,26 +68,6 @@ homepage:
     index:
         link: 'Page d''accueil'
         title: 'Page d''accueil'
-image:
-    action:
-        delete:
-            confirm: 'Confirmer La Suppression De L''Image'
-            submit: Supprimer
-            success: 'Image Supprimé Avec Succès'
-        disable:
-            submit: Désactiver
-            success: 'Image Désactivé Correctement'
-        edit:
-            submit: Enregistrer
-            title: 'Modifier L''Image %image%'
-        enable:
-            submit: Activer
-            success: 'Image Activée Avec Succès'
-        exterminate:
-            check: 'De vérifier pour la Suppression'
-            confirm: 'Confirmer Vérifié Les Images De L''Enlèvement'
-            submit: 'Supprimer Vérifié'
-            success: 'Vérifié Les Images Supprimé Avec Succès'
 layout:
     copyright: '© %year% Darvin CMS Construire %version%'
     dark_theme: 'Thème sombre'

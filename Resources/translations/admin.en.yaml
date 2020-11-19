@@ -88,26 +88,6 @@ homepage:
     index:
         link: Homepage
         title: Homepage
-image:
-    action:
-        delete:
-            confirm: 'Confirm Image Removal'
-            submit: Remove
-            success: 'Image Successfully Removed'
-        disable:
-            submit: Disable
-            success: 'Image Successfully Disabled'
-        edit:
-            submit: Save
-            title: 'Edit Image %image%'
-        enable:
-            submit: Enable
-            success: 'Image Successfully Enabled'
-        exterminate:
-            check: 'Check for Removal'
-            confirm: 'Confirm Checked Images Removal'
-            submit: 'Remove Checked'
-            success: 'Checked Images Successfully Removed'
 layout:
     copyright: '© %year%  Darvin CMS Build %version%'
     dark_theme: Dark theme

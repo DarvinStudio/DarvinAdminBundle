@@ -100,27 +100,6 @@ homepage:
         link:  Главная
         title: Главная страница
 
-image:
-    action:
-        delete:
-            confirm: Подтвердите удаление изображения
-            submit:  Удалить
-            success: Изображение успешно удалено
-        disable:
-            submit:  Скрыть
-            success: Изображение успешно скрыто
-        edit:
-            submit: Сохранить
-            title:  Изменить изображение «%image%»
-        enable:
-            submit:  Показать
-            success: Изображение успешно активировано
-        exterminate:
-            check:   Выбрать для удаления
-            confirm: Подтвердите удаление выбранных изображений
-            submit:  Удалить выбранные
-            success: Выбранные изображения успешно удалены
-
 layout:
     copyright: © %year%  Darvin CMS build %version%
     dark_theme: Тёмная тема

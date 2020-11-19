@@ -11,7 +11,7 @@
 
         {% set url = vich_uploader_asset(file, 'file') %}
 
-        <div class="custom-dropzone__item js-image" data-id="{{ file.id }}">
+        <div class="custom-dropzone__item js-file" data-id="{{ file.id }}">
             {% if is_image %}
                 <a class="custom-dropzone__item-img" href="{{ url }}" data-size="{{ file.dimensions }}">
                     <img src="{{ file.vector ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
@@ -21,7 +21,7 @@
             {% endif %}
             {% if disableable %}
                 <div class="custom-dropzone__item-toggle">
-                    <a class="no-photoswipe js-image-toggle js-image-{{ file.enabled ? 'disable' : 'enable' }}"
+                    <a class="no-photoswipe js-file-toggle js-file-{{ file.enabled ? 'disable' : 'enable' }}"
                        data-disable-title="{% trans %}file.action.disable.submit{% endtrans %}"
                        data-disable-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_disable' : 'darvin_image_image_disable', {'id': file.id}) }}"
                        data-enable-title="{% trans %}file.action.enable.submit{% endtrans %}"
@@ -40,7 +40,7 @@
                 </div>
             {% endif %}
             <div class="custom-dropzone__item-delete">
-                <a class="no-photoswipe js-image-delete"
+                <a class="no-photoswipe js-file-delete"
                    data-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_delete' : 'darvin_image_image_delete', {'id': file.id}) }}"
                    href="#">
                     {% trans %}file.action.delete.submit{% endtrans %}
@@ -50,7 +50,7 @@
                 <div class="custom-dropzone__item-exterminate">
                     <label class="custom-checkbox">
                         <input type="checkbox"
-                               class="js-image-exterminate-check"
+                               class="js-file-exterminate-check"
                                data-id="{{ file.id }}"
                                autocomplete="off"
                                title="{% trans %}file.action.exterminate.check{% endtrans %}">
@@ -409,7 +409,7 @@
 
 {%- block darvin_admin_dropzone_widget -%}
     {%- import _self as that -%}
-    <div class="custom-dropzone{% if data and data is not empty %} js-images{% endif %}">
+    <div class="custom-dropzone{% if data and data is not empty %} js-files{% endif %}">
         {%- for name, child in form -%}
             {%- set attr = child.vars.attr -%}
             {%- if 'dropzone' == name -%}
@@ -419,13 +419,13 @@
             {{- form_errors(child) -}}
         {%- endfor -%}
         {%- if data and data is not empty -%}
-            <div class="custom-dropzone__list js-image-sortable js-photoswipe-gallery" data-sort-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_sort' : 'darvin_image_image_sort') }}">
+            <div class="custom-dropzone__list js-file-sortable js-photoswipe-gallery" data-sort-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_sort' : 'darvin_image_image_sort') }}">
                 {%- for image in data -%}
                     {{- that.file(image, disableable, editable, true, true) -}}
                 {%- endfor -%}
             </div>
             <button type="button"
-                    class="js-image-exterminate-submit"
+                    class="js-file-exterminate-submit"
                     data-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_exterminate' : 'darvin_image_image_exterminate') }}"
                     style="display: none;">
                 {% trans %}image.action.exterminate.submit{% endtrans %}

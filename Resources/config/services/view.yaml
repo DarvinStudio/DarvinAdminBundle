@@ -17,6 +17,7 @@ parameters:
     darvin_admin.view.widget.email_link.class: Darvin\AdminBundle\View\Widget\Widget\EmailLinkWidget
     darvin_admin.view.widget.empty_widget.class: Darvin\AdminBundle\View\Widget\Widget\EmptyWidget
     darvin_admin.view.widget.entity_list.class: Darvin\AdminBundle\View\Widget\Widget\EntityListWidget
+    darvin_admin.view.widget.file_link.class: Darvin\AdminBundle\View\Widget\Widget\FileLinkWidget
     darvin_admin.view.widget.file_upload_link.class: Darvin\AdminBundle\View\Widget\Widget\FileUploadLinkWidget
     darvin_admin.view.widget.image_link.class: Darvin\AdminBundle\View\Widget\Widget\ImageLinkWidget
     darvin_admin.view.widget.image_upload_link.class: Darvin\AdminBundle\View\Widget\Widget\ImageUploadLinkWidget
@@ -152,6 +153,12 @@ services:
         parent: darvin_admin.view.widget.abstract
         arguments:
             - '@darvin_admin.view.widget.pool'
+        tags:
+            - { name: darvin_admin.view_widget }
+
+    darvin_admin.view.widget.file_link:
+        class:  '%darvin_admin.view.widget.file_link.class%'
+        parent: darvin_admin.view.widget.abstract
         tags:
             - { name: darvin_admin.view_widget }
 

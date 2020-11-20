@@ -11,7 +11,7 @@
 namespace Darvin\AdminBundle\Form\Type\Dropzone;
 
 use Darvin\ImageBundle\Entity\Image\AbstractImage;
-use Darvin\ImageBundle\Size\SizeDescriber;
+use Darvin\ImageBundle\Size\ImageSizeDescriberInterface;
 use Darvin\Utils\ORM\EntityResolverInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Oneup\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -90,7 +90,7 @@ class DropzoneType extends AbstractType
     private $oneupUploaderConfig;
 
     /**
-     * @var \Darvin\ImageBundle\Size\SizeDescriber|null
+     * @var \Darvin\ImageBundle\Size\ImageSizeDescriberInterface|null
      */
     private $imageSizeDescriber;
 
@@ -105,7 +105,7 @@ class DropzoneType extends AbstractType
      * @param array                                                       $imageConstraints           Image constraints
      * @param int                                                         $imageUploadMaxSizeMB       Image max upload file size in MB
      * @param array                                                       $oneupUploaderConfig        1-up uploader configuration
-     * @param \Darvin\ImageBundle\Size\SizeDescriber|null                 $imageSizeDescriber         Image size describer
+     * @param \Darvin\ImageBundle\Size\ImageSizeDescriberInterface|null   $imageSizeDescriber         Image size describer
      */
     public function __construct(
         EntityResolverInterface $entityResolver,
@@ -118,7 +118,7 @@ class DropzoneType extends AbstractType
         array $imageConstraints,
         int $imageUploadMaxSizeMB,
         array $oneupUploaderConfig,
-        SizeDescriber $imageSizeDescriber = null
+        ImageSizeDescriberInterface $imageSizeDescriber = null
     ) {
         $this->entityResolver = $entityResolver;
         $this->oneupUploaderHelper = $oneupUploaderHelper;

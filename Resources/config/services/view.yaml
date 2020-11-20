@@ -159,6 +159,8 @@ services:
     darvin_admin.view.widget.file_link:
         class:  '%darvin_admin.view.widget.file_link.class%'
         parent: darvin_admin.view.widget.abstract
+        arguments:
+            - '@vich_uploader.storage'
         tags:
             - { name: darvin_admin.view_widget }
 

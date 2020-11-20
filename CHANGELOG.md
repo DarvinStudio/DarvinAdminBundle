@@ -603,3 +603,5 @@ darvin_admin:
 6.6.11: Add "trans_prefix" option to simple list view widget.
 
 6.7.0: Add support for File bundle.
+
+6.7.2: Add "file_link" view widget.

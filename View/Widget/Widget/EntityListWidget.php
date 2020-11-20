@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\View\Widget\Widget;
 
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\ViewWidgetPoolInterface;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -101,9 +102,15 @@ class EntityListWidget extends AbstractWidget
                 'first_item_only'     => false,
                 'item_title_property' => null,
                 'item_widget_alias'   => ShowLinkWidget::ALIAS,
-                'item_widget_options' => [
-                    'text' => true,
-                ],
+                'item_widget_options' => function (Options $options): array {
+                    $widgetOptions = [];
+
+                    if (ShowLinkWidget::ALIAS === $options['item_widget_alias']) {
+                        $widgetOptions['text'] = true;
+                    }
+
+                    return $widgetOptions;
+                },
             ])
             ->setAllowedTypes('first_item_only', 'boolean')
             ->setAllowedTypes('item_title_property', ['string', 'null'])

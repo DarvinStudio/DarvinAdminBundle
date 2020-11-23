@@ -17,7 +17,7 @@
                     <img src="{{ file.vector ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
                 </a>
             {% else %}
-                <a class="custom-dropzone__item-img" href="{{ url }}">{{ url }}</a>
+                <a class="custom-dropzone__item-img" href="{{ url }}">{{ url }} ({{ file.convertedSize }})</a>
             {% endif %}
             {% if disableable %}
                 <div class="custom-dropzone__item-toggle">

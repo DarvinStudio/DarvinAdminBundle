@@ -57,6 +57,6 @@ class FileLinkWidget extends AbstractWidget
             return null;
         }
 
-        return sprintf('<a href="%1$s" target="_blank">%1$s</a>', $url);
+        return sprintf('<a href="%1$s" target="_blank">%1$s (%2$s)</a>', $url, $file->getConvertedSize());
     }
 }

@@ -12,6 +12,7 @@ namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormRegistryInterface;
@@ -143,7 +144,7 @@ class EntityType extends AbstractFormType
      */
     private function guessFieldType(string $field, string $entityClass): ?TypeGuess
     {
-        if (!$this->translatableManager->isTranslatable($entityClass)) {
+        if (!is_a($entityClass, TranslatableInterface::class, true)) {
             return null;
         }
 

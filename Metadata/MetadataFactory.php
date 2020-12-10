@@ -15,6 +15,7 @@ use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 
 /**
  * Metadata factory
@@ -86,7 +87,7 @@ class MetadataFactory
             $doctrineMeta->getIdentifier()[0],
             $this->getMappings($doctrineMeta),
             $this->generateRoutingPrefix($entityName),
-            $this->translatableManager->isTranslatable($entityClass) ? $this->translatableManager->getTranslationClass($entityClass) : null
+            is_a($entityClass, TranslatableInterface::class, true) ? $this->translatableManager->getTranslationClass($entityClass) : null
         );
     }
 
@@ -140,7 +141,7 @@ class MetadataFactory
     {
         $mappings = array_merge($doctrineMeta->associationMappings, $doctrineMeta->fieldMappings);
 
-        if (!$this->translatableManager->isTranslatable($doctrineMeta->getName())) {
+        if (!is_a($doctrineMeta->getName(), TranslatableInterface::class, true)) {
             return $mappings;
         }
 

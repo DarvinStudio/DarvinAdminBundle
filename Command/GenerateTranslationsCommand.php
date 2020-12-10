@@ -16,6 +16,7 @@ use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -175,7 +176,7 @@ class GenerateTranslationsCommand extends Command
     {
         $entityName = $this->entityNamer->name($meta->getName());
 
-        $entityTranslatable = $this->translatableManager->isTranslatable($meta->getName());
+        $entityTranslatable = is_a($meta->getName(), TranslatableInterface::class, true);
 
         $parseDocComments = !in_array($locale, self::IGNORE_DOC_COMMENT_LOCALES);
 

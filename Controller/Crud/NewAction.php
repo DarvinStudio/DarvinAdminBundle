@@ -22,6 +22,7 @@ use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\Flash\FlashNotifierInterface;
 use Darvin\Utils\HttpFoundation\AjaxResponse;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Component\Form\ClearableErrorsInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -107,7 +108,7 @@ class NewAction extends AbstractAction
         if ($this->getMeta()->hasParent()) {
             $this->propertyAccessor->setValue($entity, $association, $parentEntity);
         }
-        if ($this->translationJoiner->isTranslatable($entityClass)) {
+        if ($entity instanceof TranslatableInterface) {
             $this->translationInitializer->initializeTranslations($entity, $this->locales);
         }
 

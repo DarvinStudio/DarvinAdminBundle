@@ -27,6 +27,7 @@ use Darvin\Utils\Iterable\IterableUtil;
 use Darvin\Utils\User\UserQueryBuilderFiltererInterface;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Form\ChoiceList\View\ChoiceView;
 use Symfony\Component\Form\FormView;
@@ -290,7 +291,7 @@ class IndexAction extends AbstractAction
 
             $qb->addSelect($alias)->leftJoin($join, $alias);
         }
-        if ($this->translationJoiner->isTranslatable($this->getEntityClass())) {
+        if (is_a($this->getEntityClass(), TranslatableInterface::class, true)) {
             $this->translationJoiner->joinTranslation($qb, true, $locale);
         }
         if (empty($filterFormData)) {

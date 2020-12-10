@@ -14,6 +14,7 @@ use Darvin\AdminBundle\Metadata\Metadata;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Darvin\Utils\Form\Type\TripleboxType;
 use Doctrine\ORM\EntityRepository;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -227,7 +228,7 @@ class FilterType extends AbstractFormType
                 $options['query_builder'] = function (EntityRepository $er) use ($translationJoiner) {
                     $qb = $er->createQueryBuilder('o');
 
-                    if ($translationJoiner->isTranslatable($er->getClassName())) {
+                    if (is_a($er->getClassName(), TranslatableInterface::class, true)) {
                         $translationJoiner->joinTranslation($qb, true);
                     }
 

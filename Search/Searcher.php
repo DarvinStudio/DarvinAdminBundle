@@ -17,6 +17,7 @@ use Darvin\ContentBundle\Filterer\FiltererInterface;
 use Darvin\ContentBundle\Translatable\TranslationJoinerInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\QueryException;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -86,7 +87,7 @@ class Searcher implements SearcherInterface
 
         $qb = $this->em->getRepository($meta->getEntityClass())->createQueryBuilder('o');
 
-        if ($this->translationJoiner->isTranslatable($meta->getEntityClass())) {
+        if (is_a($meta->getEntityClass(), TranslatableInterface::class, true)) {
             $this->translationJoiner->joinTranslation($qb, true, null, null, true);
         }
 

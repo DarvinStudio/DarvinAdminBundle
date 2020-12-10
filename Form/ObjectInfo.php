@@ -12,8 +12,8 @@ namespace Darvin\AdminBundle\Form;
 
 use A2lix\AutoFormBundle\Form\Type\AutoFormType;
 use A2lix\AutoFormBundle\ObjectInfo\DoctrineORMInfo;
-use Doctrine\Common\Persistence\Mapping\ClassMetadata;
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\Mapping\ClassMetadata;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -23,7 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 class ObjectInfo extends DoctrineORMInfo
 {
     /**
-     * @var \Doctrine\Common\Persistence\Mapping\ClassMetadataFactory
+     * @var \Doctrine\Persistence\Mapping\ClassMetadataFactory
      */
     private $classMetadataFactory;
 
@@ -57,8 +57,8 @@ class ObjectInfo extends DoctrineORMInfo
     }
 
     /**
-     * @param \Doctrine\Common\Persistence\Mapping\ClassMetadata $metadata   Metadata
-     * @param string[]                                           $assocNames Association names
+     * @param \Doctrine\Persistence\Mapping\ClassMetadata $metadata   Metadata
+     * @param string[]                                    $assocNames Association names
      *
      * @return array
      */

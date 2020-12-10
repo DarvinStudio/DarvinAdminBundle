@@ -170,10 +170,10 @@ class AdminFormFactory implements AdminFormFactoryInterface
         $dataClass = $meta->getEntityClass();
 
         if (null !== $entity && !$this->propertyAccessor->isWritable($entity, $property) && null !== $meta->getTranslationClass()) {
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translatable $entity */
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $entity */
             $translations = $entity->getTranslations();
 
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $translation */
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface $translation */
             foreach ($translations as $translation) {
                 if ($translation->getLocale() === $entity->getCurrentLocale()) {
                     $dataClass = $meta->getTranslationClass();

@@ -87,7 +87,7 @@ class EntityNameWidget extends AbstractWidget
             return $this->metadataManager->getMetadata($entityClass)->getEntityName();
         }
         if ($this->translatableManager->isTranslation($entityClass)) {
-            /** @var \Knp\DoctrineBehaviors\Model\Translatable\Translation $entityClass */
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface $entityClass */
             $translatableClass = $entityClass::getTranslatableEntityClass();
 
             if ($this->metadataManager->hasMetadata($translatableClass)) {

@@ -12,7 +12,7 @@ namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 

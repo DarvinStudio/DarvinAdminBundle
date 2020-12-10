@@ -16,7 +16,7 @@ use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
 use Darvin\Utils\Strings\Stringifier\DoctrineStringifierInterface;
 use Darvin\Utils\Strings\StringsUtil;
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
 

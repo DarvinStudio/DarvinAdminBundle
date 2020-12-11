@@ -22,7 +22,7 @@
         "oneup/uploader-bundle":            "^3.0",
         "psr/simple-cache":                 "^1.0",
         "vich/uploader-bundle":             "^1.16",
-        "willdurand/js-translation-bundle": "^3.0",
+        "willdurand/js-translation-bundle": "^4.0",
 
         "darvinstudio/darvin-config-bundle":  "*",
         "darvinstudio/darvin-content-bundle": "*",

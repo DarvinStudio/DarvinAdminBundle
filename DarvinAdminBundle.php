@@ -17,6 +17,7 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceAutoFormListenerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceJsTranslationControllerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\SwitchFormManipulatorPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -43,6 +44,7 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new CreateMetadataPass())
             ->addCompilerPass(new ReplaceAutoFormListenerPass())
             ->addCompilerPass(new ReplaceFormObjectInfoPass())
+            ->addCompilerPass(new ReplaceJsTranslationControllerPass())
             ->addCompilerPass(new SwitchFormManipulatorPass());
     }
 }

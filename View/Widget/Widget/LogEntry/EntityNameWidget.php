@@ -13,8 +13,8 @@ namespace Darvin\AdminBundle\View\Widget\Widget\LogEntry;
 use Darvin\AdminBundle\Entity\LogEntry;
 use Darvin\AdminBundle\Security\Permissions\Permission;
 use Darvin\AdminBundle\View\Widget\Widget\AbstractWidget;
-use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\ObjectNamer\ObjectNamerInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 
 /**
  * Log entry entity name view widget
@@ -27,18 +27,11 @@ class EntityNameWidget extends AbstractWidget
     private $objectNamer;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
+     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface $objectNamer Object namer
      */
-    private $translatableManager;
-
-    /**
-     * @param \Darvin\Utils\ObjectNamer\ObjectNamerInterface                  $objectNamer         Object namer
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
-     */
-    public function __construct(ObjectNamerInterface $objectNamer, TranslatableManagerInterface $translatableManager)
+    public function __construct(ObjectNamerInterface $objectNamer)
     {
         $this->objectNamer = $objectNamer;
-        $this->translatableManager = $translatableManager;
     }
 
     /**
@@ -86,7 +79,7 @@ class EntityNameWidget extends AbstractWidget
         if ($this->metadataManager->hasMetadata($entityClass)) {
             return $this->metadataManager->getMetadata($entityClass)->getEntityName();
         }
-        if ($this->translatableManager->isTranslation($entityClass)) {
+        if (is_a($entityClass, TranslationInterface::class, true)) {
             /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface $entityClass */
             $translatableClass = $entityClass::getTranslatableEntityClass();
 

@@ -14,7 +14,7 @@ use Darvin\AdminBundle\CKEditor\AbstractCKEditorWidget;
 use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\ContentBundle\Widget\WidgetPoolInterface;
 use Darvin\Utils\Locale\LocaleProviderInterface;
-use Doctrine\Common\Util\ClassUtils;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
@@ -247,13 +247,7 @@ class CKEditorType extends AbstractType
 
         $entity = $form->getParent()->getData();
 
-        if (!is_object($entity)) {
-            return null;
-        }
-
-        $class = ClassUtils::getClass($entity);
-
-        if (!$this->translatableManager->isTranslation($class)) {
+        if (!$entity instanceof TranslationInterface) {
             return null;
         }
 

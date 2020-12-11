@@ -9,7 +9,6 @@ services:
             - '%darvin_admin.translation_generator.command.name%'
             - '@doctrine.orm.entity_manager'
             - '@darvin_admin.entity_namer'
-            - '@darvin_content.translatable.manager'
             - '@translator'
             - '%locale%'
             - '%locales%'

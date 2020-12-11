@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Form\Type;
 
 use Darvin\AdminBundle\Metadata\Metadata;
-use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,11 +35,6 @@ class EntityType extends AbstractFormType
     private $formRegistry;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
-     */
-    private $translatableManager;
-
-    /**
      * @var array
      */
     private $defaultFieldOptions;
@@ -48,18 +42,15 @@ class EntityType extends AbstractFormType
     /**
      * @param \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker  Authorization checker
      * @param \Symfony\Component\Form\FormRegistryInterface                                $formRegistry          Form registry
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface              $translatableManager   Translatable manager
      * @param array                                                                        $defaultFieldOptions   Default field options
      */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         FormRegistryInterface $formRegistry,
-        TranslatableManagerInterface $translatableManager,
         array $defaultFieldOptions
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->formRegistry = $formRegistry;
-        $this->translatableManager = $translatableManager;
         $this->defaultFieldOptions = $defaultFieldOptions;
     }
 
@@ -150,9 +141,12 @@ class EntityType extends AbstractFormType
 
         $guess = $this->formRegistry->getTypeGuesser()->guessType($entityClass, $field);
 
+        /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $entityClass */
+        $translationClass = $entityClass::getTranslationEntityClass();
+
         return $guess->getConfidence() > 0
             ? $guess
-            : $this->formRegistry->getTypeGuesser()->guessType($this->translatableManager->getTranslationClass($entityClass), $field);
+            : $this->formRegistry->getTypeGuesser()->guessType($translationClass, $field);
     }
 
     /**

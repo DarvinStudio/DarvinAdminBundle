@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Metadata;
 
 use Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader;
-use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
@@ -37,20 +36,13 @@ class MetadataFactory
     private $em;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
+     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader $configLoader Configuration loader
+     * @param \Doctrine\ORM\EntityManager                                    $em           Entity manager
      */
-    private $translatableManager;
-
-    /**
-     * @param \Darvin\AdminBundle\Metadata\Configuration\ConfigurationLoader  $configLoader        Configuration loader
-     * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
-     */
-    public function __construct(ConfigurationLoader $configLoader, EntityManager $em, TranslatableManagerInterface $translatableManager)
+    public function __construct(ConfigurationLoader $configLoader, EntityManager $em)
     {
         $this->configLoader = $configLoader;
         $this->em = $em;
-        $this->translatableManager = $translatableManager;
     }
 
     /**
@@ -74,6 +66,13 @@ class MetadataFactory
 
         $formTypeName = $this->generateFormTypeName($entityName);
 
+        $translationClass = null;
+
+        if (is_a($entityClass, TranslatableInterface::class, true)) {
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $entityClass */
+            $translationClass = $entityClass::getTranslationEntityClass();
+        }
+
         return new Metadata(
             $baseTranslationPrefix,
             $this->generateEntityTranslationPrefix($baseTranslationPrefix),
@@ -87,7 +86,7 @@ class MetadataFactory
             $doctrineMeta->getIdentifier()[0],
             $this->getMappings($doctrineMeta),
             $this->generateRoutingPrefix($entityName),
-            is_a($entityClass, TranslatableInterface::class, true) ? $this->translatableManager->getTranslationClass($entityClass) : null
+            $translationClass
         );
     }
 
@@ -145,7 +144,10 @@ class MetadataFactory
             return $mappings;
         }
 
-        $translationClass = $this->translatableManager->getTranslationClass($doctrineMeta->getName());
+        /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $translatableClass */
+        $translatableClass = $doctrineMeta->getName();
+
+        $translationClass = $translatableClass::getTranslationEntityClass();
 
         try {
             $translationDoctrineMeta = $this->em->getClassMetadata($translationClass);

@@ -54,7 +54,6 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@form.registry'
-            - '@darvin_content.translatable.manager'
             - '%darvin_admin.form.default_field_options%'
         tags:
             - { name: form.type }

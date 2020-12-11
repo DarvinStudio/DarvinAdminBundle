@@ -32,7 +32,6 @@ services:
         arguments:
             - '@darvin_admin.metadata.configuration.loader'
             - '@doctrine.orm.entity_manager'
-            - '@darvin_content.translatable.manager'
 
     darvin_admin.metadata.identifier_accessor:
         class: '%darvin_admin.metadata.identifier_accessor.class%'

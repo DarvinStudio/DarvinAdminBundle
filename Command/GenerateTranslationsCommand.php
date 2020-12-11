@@ -11,7 +11,6 @@
 namespace Darvin\AdminBundle\Command;
 
 use Darvin\AdminBundle\EntityNamer\EntityNamerInterface;
-use Darvin\ContentBundle\Translatable\TranslatableManagerInterface;
 use Darvin\Utils\Strings\StringsUtil;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityManager;
@@ -74,11 +73,6 @@ class GenerateTranslationsCommand extends Command
     private $entityNamer;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
-     */
-    private $translatableManager;
-
-    /**
      * @var \Symfony\Contracts\Translation\TranslatorInterface
      */
     private $translator;
@@ -99,20 +93,18 @@ class GenerateTranslationsCommand extends Command
     private $modelDir;
 
     /**
-     * @param string                                                          $name                Command name
-     * @param \Doctrine\ORM\EntityManager                                     $em                  Entity manager
-     * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface            $entityNamer         Entity namer
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
-     * @param \Symfony\Contracts\Translation\TranslatorInterface              $translator          Translator
-     * @param string                                                          $defaultLocale       Default locale
-     * @param string[]                                                        $locales             Locales
-     * @param string                                                          $modelDir            Translations model directory
+     * @param string                                               $name          Command name
+     * @param \Doctrine\ORM\EntityManager                          $em            Entity manager
+     * @param \Darvin\AdminBundle\EntityNamer\EntityNamerInterface $entityNamer   Entity namer
+     * @param \Symfony\Contracts\Translation\TranslatorInterface   $translator    Translator
+     * @param string                                               $defaultLocale Default locale
+     * @param string[]                                             $locales       Locales
+     * @param string                                               $modelDir      Translations model directory
      */
     public function __construct(
         string $name,
         EntityManager $em,
         EntityNamerInterface $entityNamer,
-        TranslatableManagerInterface $translatableManager,
         TranslatorInterface $translator,
         string $defaultLocale,
         array $locales,
@@ -122,7 +114,6 @@ class GenerateTranslationsCommand extends Command
 
         $this->em = $em;
         $this->entityNamer = $entityNamer;
-        $this->translatableManager = $translatableManager;
         $this->translator = $translator;
         $this->defaultLocale = $defaultLocale;
         $this->locales = $locales;
@@ -191,8 +182,11 @@ class GenerateTranslationsCommand extends Command
         );
 
         if ($entityTranslatable) {
+            /** @var \Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface $translatableClass */
+            $translatableClass = $meta->getName();
+
             $translations[$entityName]['entity'] = array_merge($translations[$entityName]['entity'], $this->getPropertyTranslations(
-                $this->em->getClassMetadata($this->translatableManager->getTranslationClass($meta->getName())),
+                $this->em->getClassMetadata($translatableClass::getTranslationEntityClass()),
                 $parseDocComments,
                 $locale,
                 [

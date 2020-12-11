@@ -51,11 +51,6 @@ class CKEditorType extends AbstractType
     private $router;
 
     /**
-     * @var \Darvin\ContentBundle\Translatable\TranslatableManagerInterface
-     */
-    private $translatableManager;
-
-    /**
      * @var \Darvin\ContentBundle\Widget\WidgetPoolInterface
      */
     private $widgetPool;
@@ -81,23 +76,21 @@ class CKEditorType extends AbstractType
     private $pluginsPath;
 
     /**
-     * @param \Symfony\Component\Asset\Packages                               $assetPackages       Asset packages
-     * @param \Darvin\Utils\Locale\LocaleProviderInterface                    $localeProvider      Locale provider
-     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface     $propertyAccessor    Property accessor
-     * @param \Symfony\Component\Routing\RouterInterface                      $router              Router
-     * @param \Darvin\ContentBundle\Translatable\TranslatableManagerInterface $translatableManager Translatable manager
-     * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface                $widgetPool          Widget pool
-     * @param bool                                                            $applyContentsCss    Whether to apply contents CSS
-     * @param string                                                          $contentsCssDir      Contents CSS directory
-     * @param string                                                          $pluginFilename      Plugin filename
-     * @param string                                                          $pluginsPath         Plugins path
+     * @param \Symfony\Component\Asset\Packages                           $assetPackages    Asset packages
+     * @param \Darvin\Utils\Locale\LocaleProviderInterface                $localeProvider   Locale provider
+     * @param \Symfony\Component\PropertyAccess\PropertyAccessorInterface $propertyAccessor Property accessor
+     * @param \Symfony\Component\Routing\RouterInterface                  $router           Router
+     * @param \Darvin\ContentBundle\Widget\WidgetPoolInterface            $widgetPool       Widget pool
+     * @param bool                                                        $applyContentsCss Whether to apply contents CSS
+     * @param string                                                      $contentsCssDir   Contents CSS directory
+     * @param string                                                      $pluginFilename   Plugin filename
+     * @param string                                                      $pluginsPath      Plugins path
      */
     public function __construct(
         Packages $assetPackages,
         LocaleProviderInterface $localeProvider,
         PropertyAccessorInterface $propertyAccessor,
         RouterInterface $router,
-        TranslatableManagerInterface $translatableManager,
         WidgetPoolInterface $widgetPool,
         bool $applyContentsCss,
         string $contentsCssDir,
@@ -108,7 +101,6 @@ class CKEditorType extends AbstractType
         $this->localeProvider = $localeProvider;
         $this->propertyAccessor = $propertyAccessor;
         $this->router = $router;
-        $this->translatableManager = $translatableManager;
         $this->widgetPool = $widgetPool;
         $this->applyContentsCss = $applyContentsCss;
         $this->contentsCssDir = $contentsCssDir;
@@ -251,7 +243,7 @@ class CKEditorType extends AbstractType
             return null;
         }
 
-        return $this->propertyAccessor->getValue($entity, $this->translatableManager->getTranslationLocaleProperty());
+        return $this->propertyAccessor->getValue($entity, TranslatableManagerInterface::TRANSLATION_LOCALE_PROPERTY);
     }
 
     /**

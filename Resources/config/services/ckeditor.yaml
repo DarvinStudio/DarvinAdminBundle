@@ -23,7 +23,6 @@ services:
             - '@darvin_utils.locale.provider'
             - '@property_accessor'
             - '@router'
-            - '@darvin_content.translatable.manager'
             - '@darvin_content.widget.pool'
             - '%darvin_admin.ckeditor.apply_contents_css%'
             - '@=parameter("kernel.debug") ? "assets/build-dev" : "assets/build"'

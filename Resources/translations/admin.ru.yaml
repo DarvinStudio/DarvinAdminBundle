@@ -84,6 +84,8 @@ form:
     file:
         help: 'Максимальный размер файла: %size%МБ.'
         placeholder: Файл не выбран
+    image:
+        help: '%size_help%<br>%file_help%'
     password:
         show: Показать
     select:

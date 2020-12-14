@@ -54,6 +54,8 @@ form:
     file:
         help: 'ماكس حجم الملف: %size%MB.'
         placeholder: 'لا الملف المحدد'
+    image:
+        help: '%size_help%<br>%file_help%'
     password:
         show: تظهر
     select:

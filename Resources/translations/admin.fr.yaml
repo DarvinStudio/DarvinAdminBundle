@@ -54,6 +54,8 @@ form:
     file:
         help: 'Taille maximale de fichier: %size%MO.'
         placeholder: 'Aucun Fichier N''Est Sélectionné'
+    image:
+        help: '%size_help%<br>%file_help%'
     password:
         show: Montrer
     select:

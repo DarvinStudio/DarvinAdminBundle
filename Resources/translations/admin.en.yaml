@@ -74,6 +74,8 @@ form:
     file:
         help: 'Max file size: %size%MB.'
         placeholder: 'No File Selected'
+    image:
+        help: '%size_help%<br>%file_help%'
     password:
         show: Show
     select:

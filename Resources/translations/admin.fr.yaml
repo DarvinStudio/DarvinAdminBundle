@@ -52,6 +52,8 @@ form:
     el_finder_text:
         title: 'Choisissez Fichier'
     file:
+        help: '%file_help%'
+    generic_file:
         help: 'Taille maximale de fichier: %size%MO.'
         placeholder: 'Aucun Fichier N''Est Sélectionné'
     image:

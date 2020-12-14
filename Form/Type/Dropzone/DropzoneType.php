@@ -229,7 +229,7 @@ class DropzoneType extends AbstractType
 
         $uploadMaxSizeMb = $options['is_image'] ? $this->imageUploadMaxSizeMB : $this->commonUploadMaxSizeMb;
 
-        $view->vars['help'] .= $this->translator->trans('form.file.help', [
+        $view->vars['help'] .= $this->translator->trans('form.generic_file.help', [
             '%size%' => $uploadMaxSizeMb,
         ], 'admin');
 

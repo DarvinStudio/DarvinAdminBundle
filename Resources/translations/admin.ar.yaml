@@ -52,6 +52,8 @@ form:
     el_finder_text:
         title: 'اختر ملف'
     file:
+        help: '%file_help%'
+    generic_file:
         help: 'ماكس حجم الملف: %size%MB.'
         placeholder: 'لا الملف المحدد'
     image:

@@ -82,6 +82,8 @@ form:
     el_finder_text:
         title: Выбрать файл
     file:
+        help: '%file_help%'
+    generic_file:
         help: 'Максимальный размер файла: %size%МБ.'
         placeholder: Файл не выбран
     image:

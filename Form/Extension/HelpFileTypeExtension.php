@@ -56,7 +56,7 @@ class HelpFileTypeExtension extends AbstractTypeExtension
 
         while ($parent = $f->getParent()) {
             if ($parent->getConfig()->getType()->getInnerType() instanceof EntityType) {
-                $view->vars['help'] = $this->translator->trans('form.file.help', [
+                $view->vars['help'] = $this->translator->trans('form.generic_file.help', [
                     '%size%' => $options['upload_max_size_mb'],
                 ], 'admin');
 

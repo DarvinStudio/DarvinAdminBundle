@@ -18,7 +18,7 @@
         "stof/doctrine-extensions-bundle":  "^1.5",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
         "helios-ag/fm-elfinder-bundle":     "^10.0",
-        "knplabs/knp-paginator-bundle":     "^5.4",
+        "knplabs/knp-paginator-bundle":     "^5.3",
         "oneup/uploader-bundle":            "^3.0",
         "psr/simple-cache":                 "^1.0",
         "vich/uploader-bundle":             "^1.16",

@@ -467,11 +467,7 @@
 
 {%- block darvin_file_widget -%}
     {%- import '@DarvinAdmin/macros/file.html.twig' as darvin_admin_file -%}
-    {%- if data -%}
-        <div class="js-photoswipe-gallery">
-            {{- darvin_admin_file.file(data, disableable, editable) -}}
-        </div>
-    {%- endif -%}
+    {{- darvin_admin_file.file(data, disableable, editable) -}}
     {{- block('form_widget') -}}
 {%- endblock darvin_file_widget -%}
 

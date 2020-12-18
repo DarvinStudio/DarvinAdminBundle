@@ -607,3 +607,5 @@ darvin_admin:
 6.7.2: Add "file_link" view widget.
 
 6.7.3: Show size of uploaded file.
+
+6.7.10: Enable CKEditor's "codemirror" plugin.

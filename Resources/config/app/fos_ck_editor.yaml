@@ -1,9 +1,14 @@
 fos_ck_editor:
     autoload: false
     jquery:   true
+    plugins:
+        codemirror:
+            path:     /bundles/darvinadmin/ckeditor/plugins/codemirror/
+            filename: plugin.js
     configs:
         darvin_admin:
             allowedContent:         true
+            extraPlugins:           codemirror
             height:                 300
             filebrowserBrowseRoute: elfinder
             filebrowserBrowseRouteParameters:
@@ -54,6 +59,7 @@ fos_ck_editor:
                 wsc
         darvin_admin_compact:
             allowedContent:         true
+            extraPlugins:           codemirror
             height:                 100
             filebrowserBrowseRoute: elfinder
             filebrowserBrowseRouteParameters:

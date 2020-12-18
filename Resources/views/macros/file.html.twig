@@ -1,0 +1,136 @@
+{% trans_default_domain 'admin' %}
+
+{% macro file(file, disableable = false, editable = false, exterminatable = false) %}
+
+    {% import _self as that %}
+
+    {% if file.id %}
+
+        {% set url = vich_uploader_asset(file, 'file') %}
+
+        <div class="file-item js-file" data-id="{{ file.id }}">
+            <a class="file-item__title" href="{{ url }}">
+                <span class="file-item__title-path">{{ url|replace({(file.filename): ''}) }}</span>
+                <span class="file-item__title-name">{{ file.filename }}</span>
+                <span class="file-item__title-size">({{ file.convertedSize }})</span>
+            </a>
+            <div class="file-item__actions">
+
+                {% if disableable %}
+                    <div class="file-item__action-toggle">
+
+                        {{ that.toggle(file) }}
+
+                    </div>
+                {% endif %}
+
+                {% if editable %}
+                    <div class="file-item__action-edit">
+
+                        {{ that.edit(file) }}
+
+                    </div>
+                {% endif %}
+
+                <div class="file-item__action-delete">
+
+                    {{ that.delete(file) }}
+
+                </div>
+
+                {% if exterminatable %}
+                    <div class="file-item__action-exterminate">
+
+                        {{ that.exterminate(file) }}
+
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro image(file, disableable = false, editable = false, exterminatable = false) %}
+
+    {% import _self as that %}
+
+    {% if file.id %}
+
+        {% set url = vich_uploader_asset(file, 'file') %}
+
+        <div class="custom-dropzone__item js-file" data-id="{{ file.id }}">
+            <a class="custom-dropzone__item-img" href="{{ url }}" data-size="{{ file.dimensions }}">
+                <img src="{{ file.vector ? url : url|imagine_filter('darvin_admin_thumb') }}" alt="">
+            </a>
+
+            {% if disableable %}
+                <div class="custom-dropzone__item-toggle">
+
+                    {{ that.toggle(file) }}
+
+                </div>
+            {% endif %}
+
+            {% if editable %}
+                <div class="custom-dropzone__item-edit">
+
+                    {{ that.edit(file) }}
+
+                </div>
+            {% endif %}
+
+            <div class="custom-dropzone__item-delete">
+
+                {{ that.delete(file) }}
+
+            </div>
+
+            {% if exterminatable %}
+                <div class="custom-dropzone__item-exterminate">
+
+                    {{ that.exterminate(file) }}
+
+                </div>
+            {% endif %}
+
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro toggle(file) %}
+    <a class="no-photoswipe js-file-toggle js-file-{{ file.enabled ? 'disable' : 'enable' }}"
+       data-disable-title="{% trans %}file.action.disable.submit{% endtrans %}"
+       data-disable-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_disable' : 'darvin_image_image_disable', {'id': file.id}) }}"
+       data-enable-title="{% trans %}file.action.enable.submit{% endtrans %}"
+       data-enable-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_enable' : 'darvin_image_image_enable', {'id': file.id}) }}"
+       href="#">
+        {{ ('file.action.' ~ (file.enabled ? 'disable' : 'enable') ~ '.submit')|trans }}
+    </a>
+{% endmacro %}
+
+{% macro edit(file) %}
+    <a class="no-photoswipe js-ajax"
+       href="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_edit' : 'darvin_image_image_edit', {'id': file.id}) }}">
+        {{ 'file.action.edit.title'|trans({'%image%': file}) }}
+    </a>
+{% endmacro %}
+
+{% macro delete(file) %}
+    <a class="no-photoswipe js-file-delete"
+       data-url="{{ path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_delete' : 'darvin_image_image_delete', {'id': file.id}) }}"
+       href="#">
+        {% trans %}file.action.delete.submit{% endtrans %}
+    </a>
+{% endmacro %}
+
+{% macro exterminate(file) %}
+    <label class="custom-checkbox">
+        <input type="checkbox"
+               class="js-file-exterminate-check"
+               data-id="{{ file.id }}"
+               autocomplete="off"
+               title="{% trans %}file.action.exterminate.check{% endtrans %}">
+        <span></span>
+    </label>
+{% endmacro %}

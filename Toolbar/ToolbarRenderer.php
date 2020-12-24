@@ -14,6 +14,7 @@ namespace Darvin\AdminBundle\Toolbar;
 
 use Darvin\AdminBundle\Security\User\Roles;
 use Darvin\AdminBundle\View\Widget\WidgetInterface;
+use Darvin\ContentBundle\Entity\ContentReference;
 use Darvin\ContentBundle\Entity\SlugMapItem;
 use Darvin\Utils\Homepage\HomepageProviderInterface;
 use Darvin\Utils\Homepage\HomepageRouterInterface;
@@ -151,14 +152,35 @@ class ToolbarRenderer implements ToolbarRendererInterface
         if (!is_array($routeParams) || !isset($routeParams[self::ROUTE_PARAM_SLUG])) {
             return null;
         }
+        if (class_exists(SlugMapItem::class)) {
+            $slug = $this->findSlugMapItem($routeParams[self::ROUTE_PARAM_SLUG]);
 
-        $slug = $this->findSlugMapItem($routeParams[self::ROUTE_PARAM_SLUG]);
+            if (null === $slug) {
+                return null;
+            }
 
-        if (null === $slug) {
+            return $this->em->getRepository($slug->getObjectClass())->find($slug->getObjectId());
+        }
+
+        $contentReference = $this->findContentReference($routeParams[self::ROUTE_PARAM_SLUG]);
+
+        if (null === $contentReference) {
             return null;
         }
 
-        return $this->em->getRepository($slug->getObjectClass())->find($slug->getObjectId());
+        return $this->em->getRepository($contentReference->getObjectClass())->find($contentReference->getObjectId());
+    }
+
+    /**
+     * @param string $slug Slug
+     *
+     * @return \Darvin\ContentBundle\Entity\ContentReference|null
+     */
+    private function findContentReference(string $slug): ?ContentReference
+    {
+        return $this->em->getRepository(ContentReference::class)->findOneBy([
+            'slug' => $slug,
+        ]);
     }
 
     /**

@@ -609,3 +609,5 @@ darvin_admin:
 6.7.3: Show size of uploaded file.
 
 6.7.10: Enable CKEditor's "codemirror" plugin.
+
+6.7.11: Support Content bundle 9.

@@ -34,6 +34,11 @@ crud:
             submit:    Удалить выбранные
             success:   Выбранные элементы успешно удалены
 
+elfinder:
+    action:
+        index:
+            link: Файловый менеджер
+
 entity_name:
     single:
         configuration: Настройки

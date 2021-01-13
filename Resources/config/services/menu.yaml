@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.menu.item_factory.configuration.class: Darvin\AdminBundle\Menu\Item\Factory\ConfigurationItemFactory
 
+    darvin_admin.menu.item_factory.elfinder.class: Darvin\AdminBundle\Menu\Item\Factory\ElFinderItemFactory
+
     darvin_admin.menu.item_factory.group.class: Darvin\AdminBundle\Menu\Item\Factory\GroupItemFactory
 
     darvin_admin.menu.item_factory.section.class: Darvin\AdminBundle\Menu\Item\Factory\SectionItemFactory
@@ -22,6 +24,13 @@ services:
         class: '%darvin_admin.menu.item_factory.configuration.class%'
         arguments:
             - '@security.authorization_checker'
+            - '@router'
+        tags:
+            - { name: darvin_admin.menu_item_factory }
+
+    darvin_admin.menu.item_factory.elfinder:
+        class: '%darvin_admin.menu.item_factory.elfinder.class%'
+        arguments:
             - '@router'
         tags:
             - { name: darvin_admin.menu_item_factory }

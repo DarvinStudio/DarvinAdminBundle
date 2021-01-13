@@ -61,6 +61,11 @@ class Item
     protected $active;
 
     /**
+     * @var array
+     */
+    protected $attr;
+
+    /**
      * @param string $name Name
      */
     public function __construct(string $name)
@@ -69,6 +74,7 @@ class Item
 
         $this->children = [];
         $this->active = false;
+        $this->attr = [];
     }
 
     /**
@@ -283,6 +289,26 @@ class Item
     public function setActive(bool $active): Item
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttr(): array
+    {
+        return $this->attr;
+    }
+
+    /**
+     * @param array $attr attr
+     *
+     * @return Item
+     */
+    public function setAttr(array $attr): Item
+    {
+        $this->attr = $attr;
 
         return $this;
     }

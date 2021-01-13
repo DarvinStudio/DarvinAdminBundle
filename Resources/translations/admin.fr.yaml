@@ -29,6 +29,10 @@ crud:
             confirm: 'Confirmer La Suppression Des Éléments Sélectionnés'
             submit: 'Supprimer La Sélection'
             success: 'Les Éléments Sélectionnés Supprimé Avec Succès'
+elfinder:
+    action:
+        index:
+            link: 'Gestionnaire De Fichiers'
 entity_name:
     single:
         configuration: Configuration

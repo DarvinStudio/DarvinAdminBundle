@@ -31,15 +31,25 @@
 
     <li{% if classes is not empty %} class="{{ classes|join(' ') }}"{% endif %}>
         {% if item.indexTitle %}
-            {% if item.indexUrl %}
-                <a href="{{ item.indexUrl }}"{% if item.newObjectCount %} class="has-count"{% endif %}>
-                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-                </a>
-            {% else %}
-                <span{% if item.newObjectCount %} class="has-count"{% endif %}>
-                    {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
-                </span>
+
+            {% set element = item.indexUrl ? 'a' : 'span' %}
+            {% set attr    = item.attr %}
+
+            {% if item.indexUrl and attr.href is not defined %}
+
+                {% set attr = attr|merge({'href': item.indexUrl}) %}
+
             {% endif %}
+
+            {% if item.newObjectCount %}
+
+                {% set attr = attr|merge({'class': (attr.class|default ~ ' has-count')|trim}) %}
+
+            {% endif %}
+
+            <{{ element }}{% for name, value in attr %} {{ name }}="{{ value }}"{% endfor %}>
+                {{ item.indexTitle|trans }}{% if item.newObjectCount %} <span>{{ item.newObjectCount }}</span>{% endif %}
+            </{{ element }}>
         {% endif %}
         {% if item.children is not empty %}
             <div>

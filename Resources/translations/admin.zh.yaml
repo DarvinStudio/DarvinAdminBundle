@@ -29,6 +29,10 @@ crud:
             confirm: 确认选定项目拆除
             submit: 删除选择
             success: 选定的项目成功地除去
+elfinder:
+    action:
+        index:
+            link: '文件管理器'
 entity_name:
     single:
         configuration: 配置

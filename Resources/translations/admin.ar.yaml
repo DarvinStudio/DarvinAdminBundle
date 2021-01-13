@@ -29,6 +29,10 @@ crud:
             confirm: 'التأكد من إزالة العناصر المحددة'
             submit: 'إزالة مختارة'
             success: 'العناصر المحددة بنجاح إزالة'
+elfinder:
+    action:
+        index:
+            link: 'مدير الملفات'
 entity_name:
     single:
         configuration: التكوين

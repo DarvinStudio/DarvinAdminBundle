@@ -29,6 +29,10 @@ crud:
             confirm: 'Confirm Selected Items Removal'
             submit: 'Remove Selected'
             success: 'Selected Items Successfully Removed'
+elfinder:
+    action:
+        index:
+            link: 'File Manager'
 entity_name:
     single:
         configuration: Configuration

@@ -141,9 +141,9 @@ class Configuration implements ConfigurationInterface
         $root                      = (new TreeBuilder($form))->getRootNode();
         $normalizeFormTypeCallback = $this->createNormalizeFormTypeCallback();
 
-        $builder = $root->addDefaultsIfNotSet()->children();
+        $rootBuilder = $root->addDefaultsIfNotSet()->children();
 
-        $builder
+        $fieldBuilder = $rootBuilder
             ->scalarNode('type')->defaultNull()->end()
             ->arrayNode('fields')
                 ->prototype('array')
@@ -151,10 +151,12 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('type')->defaultNull()->beforeNormalization()->ifString()->then($normalizeFormTypeCallback)->end()->end()
                         ->scalarNode('condition')->defaultNull()->end()
                         ->arrayNode('options')->prototype('variable')->end()->end()
-                        ->scalarNode('compare_strict')->defaultTrue();
+                        ->scalarNode('compare_strict')->defaultTrue()->end();
 
         if ('filter' === $form) {
-            $builder->scalarNode('heading_field')->defaultNull();
+            $rootBuilder->scalarNode('heading_field')->defaultNull();
+
+            $fieldBuilder->booleanNode('hidden')->defaultFalse();
         }
 
         return $root;

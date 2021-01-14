@@ -65,7 +65,19 @@
                 <div class="form-filter">
 
                     {% for name in meta.configuration.form.filter.fields|keys|filter(name => filter_form[name] is defined) %}
+
+                        {% set hidden = meta.configuration.form.filter.fields[name].hidden %}
+
+                        {% if hidden %}
+                            <div style="display: none;">
+                        {% endif %}
+
                         {{ form_row(filter_form[name]) }}
+
+                        {% if hidden %}
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
 
                     <div class="form-btns-container">

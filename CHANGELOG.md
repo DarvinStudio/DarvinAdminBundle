@@ -612,4 +612,8 @@ darvin_admin:
 
 6.7.11: Support Content bundle 9.
 
-6.7.12: Add elFinder item to menu.
+6.7.12:
+
+- Add elFinder item to menu.
+
+- Add support for hidden fields in filter forms.

@@ -40,6 +40,7 @@ class Configuration implements ConfigurationInterface
                 ->append($this->createPermissionsNode())
                 ->append($this->createSectionsNode())
                 ->scalarNode('frontend_path')->defaultValue('bundles/darvinadmin')->cannotBeEmpty()->end()
+                ->scalarNode('default_locale')->defaultValue('%locale%')->cannotBeEmpty()->end()
                 ->arrayNode('locales')->prototype('scalar')->cannotBeEmpty()->end()->isRequired()->requiresAtLeastOneElement()->end()
                 ->scalarNode('logo')->defaultNull()->end()
                 ->scalarNode('project_title')->isRequired()->cannotBeEmpty()->end()

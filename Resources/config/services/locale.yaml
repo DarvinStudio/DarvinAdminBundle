@@ -5,6 +5,6 @@ services:
     darvin_admin.locale.form_type:
         class: '%darvin_admin.locale.form_type.class%'
         arguments:
-            - '%locales%'
+            - '%darvin_admin.locales%'
         tags:
             - { name: form.type }

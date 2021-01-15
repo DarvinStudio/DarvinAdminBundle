@@ -80,7 +80,7 @@ services:
     darvin_admin.form.type.translatable:
         class: '%darvin_admin.form.type.translatable.class%'
         arguments:
-            - '%locale%'
-            - '%locales%'
+            - '%darvin_admin.default_locale%'
+            - '%darvin_admin.locales%'
         tags:
             - { name: form.type }

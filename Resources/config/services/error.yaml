@@ -12,7 +12,7 @@ services:
             - '@twig'
             - '@translator'
             - '%darvin_admin.error.show_error_page_subscriber.homepage_route%'
-            - '%locales%'
-            - '%locale%'
+            - '%darvin_admin.locales%'
+            - '%darvin_admin.default_locale%'
         tags:
             - { name: kernel.event_subscriber }

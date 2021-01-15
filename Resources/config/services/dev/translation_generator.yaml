@@ -10,8 +10,8 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@darvin_admin.entity_namer'
             - '@translator'
-            - '%locale%'
-            - '%locales%'
+            - '%darvin_admin.default_locale%'
+            - '%darvin_admin.locales%'
             - '%darvin_admin.translations_model_dir%'
         tags:
             - { name: console.command }

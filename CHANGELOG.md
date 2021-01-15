@@ -617,3 +617,9 @@ darvin_admin:
 - Add elFinder item to menu.
 
 - Add support for hidden fields in filter forms.
+
+6.7.13:
+
+- Add "default_locale" param to bundle's configuration.
+
+- Use locale params from "admin_admin" namespace instead of global ones.

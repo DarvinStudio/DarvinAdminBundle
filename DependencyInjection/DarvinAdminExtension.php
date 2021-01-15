@@ -145,6 +145,13 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container): void
     {
+        $config = $container->getParameterBag()->resolveValue($this->processConfiguration(
+            new Configuration(),
+            $container->getParameterBag()->resolveValue($container->getExtensionConfig($this->getAlias()))
+        ));
+
+        $container->setParameter('darvin_admin.default_locale', $config['default_locale']);
+        $container->setParameter('darvin_admin.locales', $config['locales']);
         $container->setParameter('darvin_admin.tmp_dir', '%kernel.project_dir%/var/tmp/darvin/admin');
 
         (new ExtensionConfigurator($container, __DIR__.'/../Resources/config/app'))->configure([

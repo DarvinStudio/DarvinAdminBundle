@@ -84,7 +84,7 @@
         </div>
         {%- if admin_group and form.parent -%}
             {%- for row in form.parent -%}
-                {%- if row.vars.admin_group == admin_group and not row.rendered -%}
+                {%- if row.vars.admin_group is defined and row.vars.admin_group == admin_group and not row.rendered -%}
                     {{- form_row(row, {'show_help': false, 'wrap': false}) -}}
                 {%- endif -%}
             {%- endfor -%}

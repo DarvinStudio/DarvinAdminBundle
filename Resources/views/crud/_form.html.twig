@@ -61,12 +61,14 @@
     {% endif %}
 {% else %}
     <div class="content-block">
+
+        {% if is_widget %}
+            <div class="content-block__header">
+                <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
+            </div>
+        {% endif %}
+
         <div class="content-block__content">
-            {% if is_widget %}
-                <div class="content-block__header">
-                    <p class="h2">{{ (meta.baseTranslationPrefix ~ 'action.new.title')|trans }}</p>
-                </div>
-            {% endif %}
             <div class="form-product-show">
                 {{ form_errors(form) }}
                 {{ form_widget(form) }}

@@ -121,10 +121,10 @@
 
 {%- block form_help -%}
     {%- import _self as that -%}
-    {%- if help_class is not defined -%}
-        {%- set help_class = 'form-item__description' -%}
-    {%- endif -%}
     {%- if help is not empty or not that.is_collection(form) -%}
+        {%- if help_class is not defined -%}
+            {%- set help_class = 'form-item__description' -%}
+        {%- endif -%}
         <div class="{{ help_class }}">
     {%- endif -%}
     {%- if help is not empty -%}

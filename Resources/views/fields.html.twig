@@ -120,27 +120,32 @@
 {%- endblock form_errors -%}
 
 {%- block form_help -%}
+    {%- import _self as that -%}
     {%- if help_class is not defined -%}
         {%- set help_class = 'form-item__description' -%}
     {%- endif -%}
-    <div class="{{ help_class }}">
-        {%- if help is not empty -%}
-            {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' help-text')|trim}) -%}
-            {%- if translation_domain is same as(false) -%}
-                {%- if help_html is same as(false) -%}
-                    {{- help -}}
-                {%- else -%}
-                    {{- help|raw -}}
-                {%- endif -%}
+    {%- if help is not empty or not that.is_collection(form) -%}
+        <div class="{{ help_class }}">
+    {%- endif -%}
+    {%- if help is not empty -%}
+        {%- set help_attr = help_attr|merge({class: (help_attr.class|default('') ~ ' help-text')|trim}) -%}
+        {%- if translation_domain is same as(false) -%}
+            {%- if help_html is same as(false) -%}
+                {{- help -}}
             {%- else -%}
-                {%- if help_html is same as(false) -%}
-                    {{- help|trans(help_translation_parameters, translation_domain) -}}
-                {%- else -%}
-                    {{- help|trans(help_translation_parameters, translation_domain)|raw -}}
-                {%- endif -%}
+                {{- help|raw -}}
+            {%- endif -%}
+        {%- else -%}
+            {%- if help_html is same as(false) -%}
+                {{- help|trans(help_translation_parameters, translation_domain) -}}
+            {%- else -%}
+                {{- help|trans(help_translation_parameters, translation_domain)|raw -}}
             {%- endif -%}
         {%- endif -%}
-    </div>
+    {%- endif -%}
+    {%- if help is not empty or not that.is_collection(form) -%}
+        </div>
+    {%- endif -%}
 {%- endblock form_help -%}
 
 {# Generic widgets #}

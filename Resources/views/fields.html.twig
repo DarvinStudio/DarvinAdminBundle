@@ -17,9 +17,15 @@
 {%- block form_rows -%}
     {%- for child in form.children -%}
         {%- if not child.rendered -%}
-            {%- if not child.vars.admin_spoiler -%}
-                {{- form_row(child) -}}
-            {%- else -%}
+            {%- if child.vars.admin_group -%}
+                <div class="form-item -column">
+                    {%- for sibling in form.children -%}
+                        {%- if not sibling.rendered and sibling.vars.admin_group == child.vars.admin_group -%}
+                            {{- form_row(sibling) -}}
+                        {%- endif -%}
+                    {%- endfor -%}
+                </div>
+            {%- elseif child.vars.admin_spoiler -%}
                 <div class="form-spoiler js-form-spoiler">
                     <div class="form-spoiler__header js-form-spoiler-toggle">{{- child.vars.admin_spoiler|trans -}}</div>
                     <div class="form-spoiler__content">
@@ -30,6 +36,8 @@
                         {%- endfor -%}
                     </div>
                 </div>
+            {%- else -%}
+                {{- form_row(child) -}}
             {%- endif -%}
         {%- endif -%}
     {%- endfor -%}
@@ -63,38 +71,20 @@
             <div class="form-heading">&nbsp;</div>
         {%- endif -%}
     {%- else -%}
-        {%- if wrap is not defined -%}
-            {%- set wrap = true -%}
+        {%- if row_attr is not defined -%}
+            {%- set row_attr = {} -%}
         {%- endif -%}
-        {%- if wrap -%}
-            {%- set class = 'form-item' -%}
-            {%- if admin_group -%}
-                {%- set class = class ~ ' -column' -%}
-            {%- endif -%}
-            {%- if row_attr is not defined -%}
-                {%- set row_attr = {} -%}
-            {%- endif -%}
-            {%- set row_attr = row_attr|merge({'class': (row_attr.class|default ~ ' ' ~ class)|trim}) -%}
-            <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
-        {%- endif -%}
-        {{- form_label(form) -}}
-        <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
-            {{- form_widget(form, widget_attr) -}}
-            {{- form_errors(form) -}}
-        </div>
-        {%- if admin_group and form.parent -%}
-            {%- for row in form.parent -%}
-                {%- if row.vars.admin_group is defined and row.vars.admin_group == admin_group and not row.rendered -%}
-                    {{- form_row(row, {'show_help': false, 'wrap': false}) -}}
-                {%- endif -%}
-            {%- endfor -%}
-        {%- endif -%}
-        {%- if show_help -%}
-            {{- form_help(form, {'help_html': true}) -}}
-        {%- endif -%}
-        {%- if wrap -%}
+        {%- set row_attr = row_attr|merge({'class': (row_attr.class|default ~ ' form-item')|trim}) -%}
+        <div {% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+            {{- form_label(form) -}}
+            <div class="form-item__field"{% if data_type is defined %} data-type="{{ data_type }}"{% endif %}>
+                {{- form_widget(form, widget_attr) -}}
+                {{- form_errors(form) -}}
             </div>
-        {%- endif -%}
+            {%- if show_help -%}
+                {{- form_help(form, {'help_html': true}) -}}
+            {%- endif -%}
+        </div>
     {%- endif -%}
 {%- endblock form_row -%}
 

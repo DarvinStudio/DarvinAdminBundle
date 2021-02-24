@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class DarvinAdminBundle extends Bundle
 {
-    public const VERSION = '6.7';
+    public const VERSION = '6.8';
 
     /**
      * {@inheritDoc}

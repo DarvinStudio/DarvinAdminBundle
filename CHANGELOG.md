@@ -623,3 +623,5 @@ darvin_admin:
 - Add "default_locale" param to bundle's configuration.
 
 - Use locale params from "admin_admin" namespace instead of global ones.
+
+6.8.0: Add Yandex.Metrika counter.

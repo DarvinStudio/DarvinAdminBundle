@@ -53,7 +53,7 @@
         {%- set show_help = true -%}
     {%- endif -%}
     {%- if that.is_collection(form.parent) -%}
-        <div class="multiple-field__item">
+        <div class="multiple-field__item"{% if name matches '/^\\d+$/' %} data-num="#{{ name + 1 }}"{% endif %}>
             {{- form_widget(form, widget_attr) -}}
             {{- form_errors(form) -}}
         </div>

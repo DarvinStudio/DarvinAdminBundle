@@ -49,7 +49,14 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('upload_max_size_mb')->defaultValue(100)->min(1)->end()
                 ->arrayNode('dashboard')->addDefaultsIfNotSet()
                     ->children()
-                        ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty();
+                        ->arrayNode('blacklist')->prototype('scalar')->cannotBeEmpty()->end()->end()
+                    ->end()
+                ->end()
+                ->arrayNode('yandex')->addDefaultsIfNotSet()
+                    ->children()
+                        ->arrayNode('metrika')->addDefaultsIfNotSet()
+                            ->children()
+                                ->scalarNode('id')->defaultNull();
 
         return $builder;
     }

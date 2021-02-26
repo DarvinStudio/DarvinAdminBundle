@@ -625,3 +625,5 @@ darvin_admin:
 - Use locale params from "admin_admin" namespace instead of global ones.
 
 6.8.0: Add Yandex.Metrika counter.
+
+6.8.1: Add support chat.

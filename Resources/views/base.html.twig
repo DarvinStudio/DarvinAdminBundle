@@ -45,6 +45,14 @@
 
         <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
 
+        {% if darvin_admin.supportChatId is not same as(null) %}
+            <a class="btn-support-chat js-btn-support-chat" href="javascript:jivo_api.open()">
+                <img src="assets/images/icons/chat.svg" alt="support">
+                <span data-counter>0</span>
+            </a>
+            <script src="//code-ya.jivosite.com/widget/{{ darvin_admin.supportChatId }}" async></script>
+        {% endif %}
+
         {% if darvin_admin.yandexMetrikaId is not same as(null) %}
             <!-- Yandex.Metrika counter -->
             <script type="text/javascript" >

@@ -48,6 +48,11 @@ class Globals
     /**
      * @var string|null
      */
+    private $supportChatId;
+
+    /**
+     * @var string|null
+     */
     private $yandexMetrikaId;
 
     /**
@@ -57,6 +62,7 @@ class Globals
      * @param string      $projectTitle    Project title
      * @param string[]    $scripts         Script file pathnames
      * @param string[]    $styles          Style file pathnames
+     * @param string|null $supportChatId   Support chat ID
      * @param string|null $yandexMetrikaId Yandex.Metrika ID
      */
     public function __construct(
@@ -66,6 +72,7 @@ class Globals
         string $projectTitle,
         array $scripts,
         array $styles,
+        ?string $supportChatId,
         ?string $yandexMetrikaId
     ) {
         $this->frontendPath = $frontendPath;
@@ -74,6 +81,7 @@ class Globals
         $this->projectTitle = $projectTitle;
         $this->scripts = $scripts;
         $this->styles = $styles;
+        $this->supportChatId = $supportChatId;
         $this->yandexMetrikaId = $yandexMetrikaId;
     }
 
@@ -123,6 +131,14 @@ class Globals
     public function getStyles(): array
     {
         return $this->styles;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSupportChatId(): ?string
+    {
+        return $this->supportChatId;
     }
 
     /**

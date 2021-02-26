@@ -73,7 +73,7 @@
 
         {% if darvin_admin.supportChatId is not same as(null) %}
             <a class="btn-support-chat js-btn-support-chat" href="javascript:jivo_api.open()">
-                <img src="assets/images/icons/chat.svg" alt="support">
+                <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/chat.svg') }}" alt="support">
                 <span data-counter>0</span>
             </a>
         {% endif %}

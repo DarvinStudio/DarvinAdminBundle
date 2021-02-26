@@ -521,15 +521,18 @@
 {%- endblock vich_image_row -%}
 
 {%- block vich_image_widget -%}
-    {{- form_widget(form.file) -}}
-    {%- if form.delete is defined -%}
-        {{- form_row(form.delete, {'translation_domain': 'messages'}) -}}
-    {%- endif -%}
-    {%- if image_uri -%}
-        <div class="custom-dropzone__item">
-            <a class="custom-dropzone__item-img" href="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}">
-                <img src="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}" alt="">
-            </a>
-        </div>
-    {%- endif -%}
+    <div class="form-item-img">
+        {{- form_widget(form.file) -}}
+        {%- if image_uri -%}
+            <div class="custom-dropzone__item">
+                <a class="custom-dropzone__item-img" href="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}">
+                    <img src="{{ asset_helper is same as(true) ? asset(image_uri) : image_uri }}" alt="">
+                </a>
+            </div>
+        {%- endif -%}
+        {%- if form.delete is defined -%}
+            {{- form_widget(form.delete, {'choice_show_label': true, 'translation_domain': 'messages'}) -}}
+            {{- form_errors(form.delete) -}}
+        {%- endif -%}
+    </div>
 {%- endblock vich_image_widget -%}

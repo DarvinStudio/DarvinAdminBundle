@@ -46,10 +46,6 @@
         <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/node_modules/jquery/dist/jquery.min.js') }}"></script>
 
         {% if darvin_admin.supportChatId is not same as(null) %}
-            <a class="btn-support-chat js-btn-support-chat" href="javascript:jivo_api.open()">
-                <img src="assets/images/icons/chat.svg" alt="support">
-                <span data-counter>0</span>
-            </a>
             <script src="//code-ya.jivosite.com/widget/{{ darvin_admin.supportChatId }}" async></script>
         {% endif %}
 
@@ -74,6 +70,14 @@
 
     </head>
     <body class="{% block body_class %}inner-page{% endblock %}{% if body_classes is not empty %} {{ body_classes|join(' ') }}{% endif %}"{% for name, value in data_attr|filter(value => value) %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endfor %}>
+
+        {% if darvin_admin.supportChatId is not same as(null) %}
+            <a class="btn-support-chat js-btn-support-chat" href="javascript:jivo_api.open()">
+                <img src="assets/images/icons/chat.svg" alt="support">
+                <span data-counter>0</span>
+            </a>
+        {% endif %}
+
         {% if app.debug %}
             <script src="{{ asset(darvin_admin.frontendPath ~ '/assets/build-dev/theme.js') }}"></script>
         {% else %}

@@ -72,10 +72,10 @@
     <body class="{% block body_class %}inner-page{% endblock %}{% if body_classes is not empty %} {{ body_classes|join(' ') }}{% endif %}"{% for name, value in data_attr|filter(value => value) %} {{ 'data-' ~ name|replace({'_': '-'}) }}="{{ value }}"{% endfor %}>
 
         {% if darvin_admin.supportChatId is not same as(null) %}
-            <a class="btn-support-chat js-btn-support-chat" href="javascript:jivo_api.open()">
+            <buttton class="btn-support-chat js-btn-support-chat">
                 <img src="{{ asset(darvin_admin.frontendPath ~ '/assets/images/icons/chat.svg') }}" alt="support">
                 <span data-counter>0</span>
-            </a>
+            </buttton>
         {% endif %}
 
         {% if app.debug %}

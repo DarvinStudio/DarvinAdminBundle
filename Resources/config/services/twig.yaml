@@ -11,3 +11,5 @@ services:
             - '%darvin_admin.project_title%'
             - '%darvin_admin.assets.scripts%'
             - '%darvin_admin.assets.styles%'
+            - '%darvin_admin.support.chat.id%'
+            - '%darvin_admin.yandex.metrika.id%'

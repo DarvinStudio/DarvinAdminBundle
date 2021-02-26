@@ -46,12 +46,24 @@ class Globals
     private $styles;
 
     /**
-     * @param string      $frontendPath Frontend path
-     * @param string[]    $locales      Available locales
-     * @param string|null $logo         Custom logo pathname
-     * @param string      $projectTitle Project title
-     * @param string[]    $scripts      Script file pathnames
-     * @param string[]    $styles       Style file pathnames
+     * @var string|null
+     */
+    private $supportChatId;
+
+    /**
+     * @var string|null
+     */
+    private $yandexMetrikaId;
+
+    /**
+     * @param string      $frontendPath    Frontend path
+     * @param string[]    $locales         Available locales
+     * @param string|null $logo            Custom logo pathname
+     * @param string      $projectTitle    Project title
+     * @param string[]    $scripts         Script file pathnames
+     * @param string[]    $styles          Style file pathnames
+     * @param string|null $supportChatId   Support chat ID
+     * @param string|null $yandexMetrikaId Yandex.Metrika ID
      */
     public function __construct(
         string $frontendPath,
@@ -59,7 +71,9 @@ class Globals
         ?string $logo,
         string $projectTitle,
         array $scripts,
-        array $styles
+        array $styles,
+        ?string $supportChatId,
+        ?string $yandexMetrikaId
     ) {
         $this->frontendPath = $frontendPath;
         $this->locales = $locales;
@@ -67,6 +81,8 @@ class Globals
         $this->projectTitle = $projectTitle;
         $this->scripts = $scripts;
         $this->styles = $styles;
+        $this->supportChatId = $supportChatId;
+        $this->yandexMetrikaId = $yandexMetrikaId;
     }
 
     /**
@@ -115,5 +131,21 @@ class Globals
     public function getStyles(): array
     {
         return $this->styles;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSupportChatId(): ?string
+    {
+        return $this->supportChatId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getYandexMetrikaId(): ?string
+    {
+        return $this->yandexMetrikaId;
     }
 }

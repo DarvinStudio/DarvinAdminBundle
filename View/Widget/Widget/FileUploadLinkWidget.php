@@ -44,7 +44,7 @@ class FileUploadLinkWidget extends AbstractWidget
 
         return $url
             ? $this->render($options, [
-                'filename' => $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property),
+                'filename' => $this->getPropertyValue($entity, null !== $options['property'] ? $options['property'] : $property),
                 'url'      => $url,
             ])
             : null;
@@ -58,10 +58,17 @@ class FileUploadLinkWidget extends AbstractWidget
         parent::configureOptions($resolver);
 
         $resolver
-            ->setDefault('file_property', null)
+            ->setDefaults([
+                'file_property' => null,
+                'property'      => null,
+            ])
             ->setAllowedTypes('file_property', [
                 'string',
                 'null',
+            ])
+            ->setAllowedTypes('property', [
+                'string',
+                'null'
             ]);
     }
 

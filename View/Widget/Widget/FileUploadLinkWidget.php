@@ -44,7 +44,7 @@ class FileUploadLinkWidget extends AbstractWidget
 
         return $url
             ? $this->render($options, [
-                'filename' => $this->getPropertyValue($entity, $property),
+                'filename' => $this->getPropertyValue($entity, isset($options['property']) ? $options['property'] : $property),
                 'url'      => $url,
             ])
             : null;

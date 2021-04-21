@@ -629,3 +629,5 @@ darvin_admin:
 - Add Yandex.Metrika counter.
 
 - Add support chat.
+
+- Split dashboard to rows.

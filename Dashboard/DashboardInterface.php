@@ -16,6 +16,15 @@ namespace Darvin\AdminBundle\Dashboard;
 interface DashboardInterface
 {
     /**
+     * @param int $rowSize Row size
+     *
+     * @return array
+     */
+    public function getRows(int $rowSize = 3): array;
+
+    /**
+     * @deprecated
+     *
      * @return iterable|\Darvin\AdminBundle\Dashboard\DashboardWidgetInterface[]
      */
     public function getWidgets(): iterable;

@@ -55,6 +55,46 @@ class Dashboard implements DashboardInterface
     /**
      * {@inheritDoc}
      */
+    public function getRows(int $rowSize = 3): array
+    {
+        $rows        = [];
+        $current     = [];
+        $currentSize = 0;
+
+        foreach ($this->getWidgets() as $widget) {
+            $content = trim((string)$widget->getContent());
+
+            if ('' === $content) {
+                continue;
+            }
+            if (($currentSize + $widget->getSize()) >= $rowSize) {
+                for ($i = 0; $i < $rowSize - $currentSize; $i++) {
+                    $current[] = '';
+                }
+
+                $rows[] = $current;
+
+                $current     = [];
+                $currentSize = 0;
+            }
+
+            $current[] = $content;
+            $currentSize += $widget->getSize();
+        }
+        if (!empty($current)) {
+            for ($i = 0; $i < $rowSize - $currentSize; $i++) {
+                $current[] = '';
+            }
+
+            $rows[] = $current;
+        }
+
+        return $rows;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getWidgets(): iterable
     {
         if (!$this->filtered) {

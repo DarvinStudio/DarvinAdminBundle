@@ -7,7 +7,21 @@
 {% block heading %}{% trans %}homepage.index.title{% endtrans %}{% endblock %}
 
 {% block content %}
-    {% for widget in widgets %}
-        {{ widget.content|raw }}
+
+    {% for row in rows %}
+
+        {% if 1 == row|length %}
+            {{ row|first|raw }}
+        {% else %}
+            <div class="blocks-grid">
+
+                {% for widget in row %}
+                    <div class="blocks-grid__item">{{ widget|raw }}</div>
+                {% endfor %}
+
+            </div>
+        {% endif %}
+
     {% endfor %}
+
 {% endblock %}

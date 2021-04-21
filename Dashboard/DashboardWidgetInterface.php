@@ -26,6 +26,11 @@ interface DashboardWidgetInterface
     public function getRequiredPermissions(): iterable;
 
     /**
+     * @return int
+     */
+    public function getSize(): int;
+
+    /**
      * @return string
      */
     public function getName(): string;

@@ -47,6 +47,14 @@ abstract class AbstractDashboardWidget implements DashboardWidgetInterface
     /**
      * {@inheritDoc}
      */
+    public function getSize(): int
+    {
+        return 3;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getName(): string
     {
         if (null === $this->name) {

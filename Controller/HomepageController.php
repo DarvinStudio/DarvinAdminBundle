@@ -45,6 +45,7 @@ class HomepageController
     public function __invoke(): Response
     {
         return new Response($this->twig->render('@DarvinAdmin/homepage/index.html.twig', [
+            'rows'    => $this->dashboard->getRows(),
             'widgets' => $this->dashboard->getWidgets(),
         ]));
     }

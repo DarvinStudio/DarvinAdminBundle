@@ -67,7 +67,7 @@ class Dashboard implements DashboardInterface
             if ('' === $content) {
                 continue;
             }
-            if (($currentSize + $widget->getSize()) >= $rowSize) {
+            if ($currentSize + $widget->getSize() > $rowSize) {
                 for ($i = 0; $i < $rowSize - $currentSize; $i++) {
                     $current[] = '';
                 }

@@ -170,6 +170,11 @@ pagination:
     show_all: 'Show All'
 property_forms:
     submit: 'Save Changes'
+push:
+    widget:
+        subscribe: Subscribe
+        title: 'Do you want to receive push notifications about leads?'
+        warning: 'After selecting this setting, you can only change it in the browser settings'
 range:
     from: From
     to: To

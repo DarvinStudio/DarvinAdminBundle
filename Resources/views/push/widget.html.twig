@@ -1,0 +1,11 @@
+{% trans_default_domain 'admin' %}
+
+<div class="push-widget js-push" data-href="{{ path('darvin_admin_push_latest') }}">
+    <div class="push-widget__container">
+        <p>
+            {% trans %}push.widget.title{% endtrans %}
+            <span>{% trans %}push.widget.warning{% endtrans %}</span>
+        </p>
+        <button class="push-widget__btn js-push-btn-subscribe">{% trans %}push.widget.subscribe{% endtrans %}</button>
+    </div>
+</div>

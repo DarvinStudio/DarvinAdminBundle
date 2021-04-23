@@ -3,6 +3,8 @@ parameters:
 
     darvin_admin.push.provider_registry.class: Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistry
 
+    darvin_admin.push.widget.twig.extension.class: Darvin\AdminBundle\Twig\Extension\Push\WidgetExtension
+
 services:
     Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistryInterface: '@darvin_admin.push.provider_registry'
 
@@ -17,3 +19,10 @@ services:
         class: '%darvin_admin.push.provider_registry.class%'
         arguments:
             - '@security.authorization_checker'
+
+    darvin_admin.push.widget.twig.extension:
+        class: '%darvin_admin.push.widget.twig.extension.class%'
+        arguments:
+            - '@darvin_admin.push.provider_registry'
+        tags:
+            - { name: twig.extension }

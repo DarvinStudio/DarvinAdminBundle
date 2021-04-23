@@ -191,6 +191,12 @@ pagination:
 property_forms:
     submit: Сохранить изменения
 
+push:
+    widget:
+        subscribe: Подписаться
+        title:     Хотите получать push-уведомления о заказах?
+        warning:   Внимание, после выбора эту настройку можно изменить только в настройках браузера
+
 range:
     from: с
     to:   по

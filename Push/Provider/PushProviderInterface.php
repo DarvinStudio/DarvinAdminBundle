@@ -19,4 +19,9 @@ interface PushProviderInterface
      * @return \Darvin\AdminBundle\Push\Model\Push[]|iterable
      */
     public function providePushes(): iterable;
+
+    /**
+     * @return iterable Key - subject, value - attribute
+     */
+    public function getRequiredPermissions(): iterable;
 }

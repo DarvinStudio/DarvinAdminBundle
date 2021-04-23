@@ -6,3 +6,5 @@ services:
 
     darvin_admin.push.provider_registry:
         class: '%darvin_admin.push.provider_registry.class%'
+        arguments:
+            - '@security.authorization_checker'

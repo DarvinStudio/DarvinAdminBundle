@@ -12,6 +12,8 @@ namespace Darvin\AdminBundle\Push\Provider\Registry;
 
 use Darvin\AdminBundle\Push\Model\Push;
 use Darvin\AdminBundle\Push\Provider\PushProviderInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 /**
  * Push provider registry
@@ -19,15 +21,22 @@ use Darvin\AdminBundle\Push\Provider\PushProviderInterface;
 class PushProviderRegistry implements PushProviderRegistryInterface
 {
     /**
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
+
+    /**
      * @var \Darvin\AdminBundle\Push\Provider\PushProviderInterface[]
      */
     private $providers;
 
     /**
-     * Push provider registry constructor.
+     * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      */
-    public function __construct()
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
     {
+        $this->authorizationChecker = $authorizationChecker;
+
         $this->providers = [];
     }
 
@@ -48,6 +57,9 @@ class PushProviderRegistry implements PushProviderRegistryInterface
         $latest = null;
 
         foreach ($this->providers as $provider) {
+            if (!$this->isAllowed($provider)) {
+                continue;
+            }
             foreach ($provider->providePushes() as $push) {
                 if (null === $latest || $push->getDate() > $latest->getDate()) {
                     $latest = $push;
@@ -64,5 +76,25 @@ class PushProviderRegistry implements PushProviderRegistryInterface
     public function isEmpty(): bool
     {
         return empty($this->providers);
+    }
+
+    /**
+     * @param \Darvin\AdminBundle\Push\Provider\PushProviderInterface $provider Push provider
+     *
+     * @return bool
+     */
+    private function isAllowed(PushProviderInterface $provider): bool
+    {
+        foreach ($provider->getRequiredPermissions() as $subject => $attribute) {
+            try {
+                if (!$this->authorizationChecker->isGranted($attribute, $subject)) {
+                    return false;
+                }
+            } catch (AuthenticationCredentialsNotFoundException $ex) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

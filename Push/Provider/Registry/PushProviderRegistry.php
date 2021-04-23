@@ -31,6 +31,11 @@ class PushProviderRegistry implements PushProviderRegistryInterface
     private $providers;
 
     /**
+     * @var \Darvin\AdminBundle\Push\Provider\PushProviderInterface[]|null
+     */
+    private $allowedProviders;
+
+    /**
      * @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface $authorizationChecker Authorization checker
      */
     public function __construct(AuthorizationCheckerInterface $authorizationChecker)
@@ -38,6 +43,7 @@ class PushProviderRegistry implements PushProviderRegistryInterface
         $this->authorizationChecker = $authorizationChecker;
 
         $this->providers = [];
+        $this->allowedProviders = null;
     }
 
     /**
@@ -56,7 +62,7 @@ class PushProviderRegistry implements PushProviderRegistryInterface
         /** @var \Darvin\AdminBundle\Push\Model\Push|null $latest */
         $latest = null;
 
-        foreach ($this->providers as $provider) {
+        foreach ($this->getAllowedProviders() as $provider) {
             if (!$this->isAllowed($provider)) {
                 continue;
             }
@@ -75,7 +81,27 @@ class PushProviderRegistry implements PushProviderRegistryInterface
      */
     public function isEmpty(): bool
     {
-        return empty($this->providers);
+        return empty($this->getAllowedProviders());
+    }
+
+    /**
+     * @return \Darvin\AdminBundle\Push\Provider\PushProviderInterface[]
+     */
+    private function getAllowedProviders(): array
+    {
+        if (null === $this->allowedProviders) {
+            $allowedProviders = [];
+
+            foreach ($this->providers as $provider) {
+                if ($this->isAllowed($provider)) {
+                    $allowedProviders[] = $provider;
+                }
+            }
+
+            $this->allowedProviders = $allowedProviders;
+        }
+
+        return $this->allowedProviders;
     }
 
     /**

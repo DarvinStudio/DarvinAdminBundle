@@ -1,8 +1,17 @@
 parameters:
+    darvin_admin.push.latest.controller.class: Darvin\AdminBundle\Controller\Push\LatestController
+
     darvin_admin.push.provider_registry.class: Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistry
 
 services:
     Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistryInterface: '@darvin_admin.push.provider_registry'
+
+    darvin_admin.push.latest.controller:
+        class: '%darvin_admin.push.latest.controller.class%'
+        arguments:
+            - '@darvin_admin.push.provider_registry'
+        tags:
+            - { name: controller.service_arguments }
 
     darvin_admin.push.provider_registry:
         class: '%darvin_admin.push.provider_registry.class%'

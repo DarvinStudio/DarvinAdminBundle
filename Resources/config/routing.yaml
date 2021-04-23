@@ -18,6 +18,10 @@ darvin_admin_import_image:
     resource: '@DarvinImageBundle/Resources/config/routing.yaml'
     prefix:   /image
 
+darvin_admin_import_push:
+    resource: '@DarvinAdminBundle/Resources/config/routing/push.yaml'
+    prefix:   /push
+
 darvin_admin_import_search:
     resource: '@DarvinAdminBundle/Resources/config/routing/search.yaml'
     prefix:   /search

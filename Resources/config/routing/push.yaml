@@ -1,0 +1,5 @@
+darvin_admin_push_latest:
+    path:      /latest/
+    defaults:  { _controller: darvin_admin.push.latest.controller }
+    methods:   [ get ]
+    condition: request.isXmlHttpRequest()

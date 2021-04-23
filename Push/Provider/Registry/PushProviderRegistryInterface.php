@@ -21,4 +21,9 @@ interface PushProviderRegistryInterface
      * @return \Darvin\AdminBundle\Push\Model\Push|null
      */
     public function getLatestPush(): ?Push;
+
+    /**
+     * @return bool
+     */
+    public function isEmpty(): bool;
 }

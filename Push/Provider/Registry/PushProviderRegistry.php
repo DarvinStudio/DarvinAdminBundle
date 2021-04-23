@@ -57,4 +57,12 @@ class PushProviderRegistry implements PushProviderRegistryInterface
 
         return $latest;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->providers);
+    }
 }

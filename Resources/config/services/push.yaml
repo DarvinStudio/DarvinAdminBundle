@@ -1,0 +1,8 @@
+parameters:
+    darvin_admin.push.provider_registry.class: Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistry
+
+services:
+    Darvin\AdminBundle\Push\Provider\Registry\PushProviderRegistryInterface: '@darvin_admin.push.provider_registry'
+
+    darvin_admin.push.provider_registry:
+        class: '%darvin_admin.push.provider_registry.class%'

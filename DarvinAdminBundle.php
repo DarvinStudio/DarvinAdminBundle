@@ -15,6 +15,7 @@ use Darvin\AdminBundle\DependencyInjection\Compiler\AddDashboardWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddMenuItemFactoriesPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\AddViewWidgetsPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\CreateMetadataPass;
+use Darvin\AdminBundle\DependencyInjection\Compiler\RegisterPushProvidersPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceAutoFormListenerPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceFormObjectInfoPass;
 use Darvin\AdminBundle\DependencyInjection\Compiler\ReplaceJsTranslationControllerPass;
@@ -42,6 +43,7 @@ class DarvinAdminBundle extends Bundle
             ->addCompilerPass(new AddMenuItemFactoriesPass())
             ->addCompilerPass(new AddViewWidgetsPass())
             ->addCompilerPass(new CreateMetadataPass())
+            ->addCompilerPass(new RegisterPushProvidersPass())
             ->addCompilerPass(new ReplaceAutoFormListenerPass())
             ->addCompilerPass(new ReplaceFormObjectInfoPass())
             ->addCompilerPass(new ReplaceJsTranslationControllerPass())

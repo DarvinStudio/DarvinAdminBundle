@@ -72,6 +72,7 @@ class DarvinAdminExtension extends Extension implements PrependExtensionInterfac
             'metadata',
             'page',
             'pagination',
+            'push',
             'route',
             'search',
             'security',

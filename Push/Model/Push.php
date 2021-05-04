@@ -36,17 +36,24 @@ class Push implements \JsonSerializable
     private $date;
 
     /**
-     * @param string    $id   ID
-     * @param string    $type Type
-     * @param string    $text Text
-     * @param \DateTime $date Date
+     * @var string|null
      */
-    public function __construct(string $id, string $type, string $text, \DateTime $date)
+    private $url;
+
+    /**
+     * @param string      $id   ID
+     * @param string      $type Type
+     * @param string      $text Text
+     * @param \DateTime   $date Date
+     * @param string|null $url  URL
+     */
+    public function __construct(string $id, string $type, string $text, \DateTime $date, ?string $url = null)
     {
         $this->id = $id;
         $this->type = $type;
         $this->text = $text;
         $this->date = $date;
+        $this->url = $url;
     }
 
     /**
@@ -58,6 +65,7 @@ class Push implements \JsonSerializable
             'id'   => $this->id,
             'type' => $this->type,
             'text' => $this->text,
+            'url'  => $this->url,
         ];
     }
 

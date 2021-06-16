@@ -351,14 +351,6 @@
 {%- block darvin_admin_dropzone_widget -%}
     {%- import '@DarvinAdmin/macros/file.html.twig' as darvin_admin_file -%}
     <div class="custom-dropzone{% if data and data is not empty %} js-files{% endif %}">
-        {%- for name, child in form -%}
-            {%- set attr = child.vars.attr -%}
-            {%- if 'dropzone' == name -%}
-                {%- set attr = attr|merge({'class': (attr.class|default ~ ' custom-dropzone__upload-area')|trim}) -%}
-            {%- endif -%}
-            {{- form_widget(child, {'attr': attr}) -}}
-            {{- form_errors(child) -}}
-        {%- endfor -%}
         {%- if data and data is not empty -%}
             {%- set sort_url = path(constant('Darvin\\ImageBundle\\DarvinImageBundle::MAJOR_VERSION') >= 8 ? 'darvin_file_sort' : 'darvin_image_image_sort') -%}
             {%- if is_image -%}
@@ -381,6 +373,14 @@
                 {% trans %}file.action.exterminate.submit{% endtrans %}
             </button>
         {%- endif -%}
+        {%- for name, child in form -%}
+            {%- set attr = child.vars.attr -%}
+            {%- if 'dropzone' == name -%}
+                {%- set attr = attr|merge({'class': (attr.class|default ~ ' custom-dropzone__upload-area')|trim}) -%}
+            {%- endif -%}
+            {{- form_widget(child, {'attr': attr}) -}}
+            {{- form_errors(child) -}}
+        {%- endfor -%}
     </div>
 {%- endblock darvin_admin_dropzone_widget -%}
 

@@ -631,3 +631,5 @@ darvin_admin:
 - Add support chat.
 
 - Split dashboard to rows.
+
+6.8.4: Move images to the top of Dropzone widget.

@@ -73,20 +73,6 @@
 
                             {% set attr = {} %}
 
-                            {% if 'collection' == child.vars.block_prefixes[1]|default %}
-
-                                {% set attr = attr|merge({
-                                    'data-allow-add':    +child.vars.allow_add,
-                                    'data-allow-delete': +child.vars.allow_delete,
-                                    'data-name':         child.vars.name,
-                                }) %}
-
-                                {% if child.vars.allow_add %}
-
-                                    {% set attr = attr|merge({'data-index': child.children is not empty ? max(child.children|keys) + 1 : 0}) %}
-
-                                {% endif %}
-                            {% endif %}
                             {% if 'darvin_admin_ace_editor' == child.vars.block_prefixes[3]|default %}
                                 {% form_theme child 'DarvinAdminBundle:Form:fields.html.twig' %}
                                 {{ form_widget(child, {'attr': attr, 'style': {'position': 'relative'}}) }}
@@ -110,6 +96,35 @@
     {% endif %}
     {{ this.form_row_end() }}
 {% endmacro %}
+
+{%- block collection_widget -%}
+
+    {% if form.parent %}
+
+        {% set attr = attr|merge({
+            'data-allow-add':    +allow_add,
+            'data-allow-delete': +allow_delete,
+            'data-name':         name,
+            'class':             (attr.class|default ~ ' collection')|trim,
+        }) %}
+
+        {% if allow_add %}
+
+            {% set attr = attr|merge({'data-index': form.children is not empty ? max(form.children|keys) + 1 : 0}) %}
+
+        {% endif %}
+
+        {% if prototype is defined and not prototype.rendered %}
+
+            {% set attr = attr|merge({'data-prototype': form_row(prototype) }) %}
+
+        {% endif %}
+
+        {{ form_widget(form, {'attr': attr}) }}
+
+    {% endif %}
+
+{%- endblock collection_widget -%}
 
 {%- block form_label -%}
     {% if label is not same as(false) -%}

@@ -246,3 +246,5 @@ form:
 5.23.7: Disable table head clone JS on huge tables.
 
 5.23.8: Optimize counting in child links view widget.
+
+5.24.0: Support embedded collections in config edit form.

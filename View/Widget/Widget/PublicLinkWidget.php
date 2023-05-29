@@ -60,7 +60,7 @@ class PublicLinkWidget extends AbstractWidget
                 return null;
             }
 
-            return sprintf('<a href="%s" target="_blank" class="js-ajax actions-popup__btn-show">%1$s</a>', $url);
+            return sprintf('<a href="%s" target="_blank" class="actions-popup__btn-link">%1$s</a>', $url);
         };
 
         if ($this->homepageRouter->isHomepage($entity)) {

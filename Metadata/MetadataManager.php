@@ -135,7 +135,7 @@ class MetadataManager implements AdminMetadataManagerInterface
 
         $child = $class;
 
-        while ($parent = get_parent_class($child)) {
+        while (class_exists($child) && ($parent = get_parent_class($child))) {
             if (isset($metadata[$parent])) {
                 $this->childMetadata[$class] = $metadata[$parent];
 

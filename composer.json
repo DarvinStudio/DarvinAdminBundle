@@ -30,6 +30,9 @@
         "darvinstudio/darvin-user-bundle":    "*",
         "darvinstudio/darvin-utils-bundle":   "*"
     },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^5.4"
+    },
     "suggest": {
         "lexik/translation-bundle": "Allows to manage translations"
     },

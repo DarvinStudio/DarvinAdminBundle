@@ -54,7 +54,7 @@ class IndexController
      */
     public function __invoke(Request $request): Response
     {
-        $query = htmlspecialchars($request->query->get('q', ''));
+        $query = htmlspecialchars($request->query->get('q', ''), ENT_COMPAT | ENT_HTML401);
 
         $queryTooShort = mb_strlen($query) < $this->queryMinLength;
 

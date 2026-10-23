@@ -118,7 +118,7 @@ class DropzoneType extends AbstractType
         array $imageConstraints,
         int $imageUploadMaxSizeMB,
         array $oneupUploaderConfig,
-        ImageSizeDescriberInterface $imageSizeDescriber = null
+        ?ImageSizeDescriberInterface $imageSizeDescriber = null
     ) {
         $this->entityResolver = $entityResolver;
         $this->oneupUploaderHelper = $oneupUploaderHelper;
